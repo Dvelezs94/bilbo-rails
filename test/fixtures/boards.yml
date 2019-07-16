@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  latitude: 1.5
+  longitude: 1.5
+  avg_daily_views: 1
+  width: 1.5
+  height: 1.5
+  duration: 1
+  status: 1
+
+two:
+  user: two
+  latitude: 1.5
+  longitude: 1.5
+  avg_daily_views: 1
+  width: 1.5
+  height: 1.5
+  duration: 1
+  status: 1
