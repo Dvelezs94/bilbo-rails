@@ -27,6 +27,10 @@ function start() {
   docker-compose up -d
 }
 
+function status() {
+  docker-compose ps
+}
+
 function stop() {
   docker-compose down
 }
@@ -61,6 +65,9 @@ case $1 in
   ;;
   start)
     start
+  ;;
+  status)
+    status
   ;;
   stop)
     stop
@@ -99,6 +106,7 @@ case $1 in
     Usage:
     $0 path                Export cli to your shell
     $0 build               You will need this if you want to build from scratch
+    $0 status              check containers status
     $0 start/stop          Start the project by using docker-compose
     $0 restart             restart
     $0 restart-mac         restart and reindex

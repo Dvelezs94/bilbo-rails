@@ -1,33 +1,25 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  authentication:
+    reset_password: "Reset your password"
+    reset_password_banner: "Enter your email address and we will send you a link to reset your password"
+    reset_password_hint: "Enter your Email"
+    reset_password_submit: "Send me reset password instructions"
+    sign_up: "Create New Account"
+    sign_up_banner: "It's free to signup and only takes a minute."
+    already_have_account: "Already have an account?"
+    sign_in: "Sign In"
+    sign_in_banner: "Welcome back! Please signin to continue."
+    create_account: "Create Account"
+    email_address: "Email address"
+    email_address_sample: "yourname@gmail.com"
+    password: "Password"
+    password_hint: "Enter your password"
+    password_confirmation: "Repeat password"
+    password_confirmation_hint: "Enter your password"
+    forgot_password_question: Forgot password?
+    terms_of_service_agreement: "By signing up, you agree to our terms of service and privacy statement."
+  name:
+    first_name: "Firstname"
+    first_name_hint: "Enter your firstname"
+    last_name: "Lastname"
+    last_name_hint: "Enter your lastname"
