@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  status: 1
+  campaign: one
+  prints: 1
+  total: 1.5
+  paid_at: 2019-07-16 01:28:53
+
+two:
+  status: 1
+  campaign: two
+  prints: 1
+  total: 1.5
+  paid_at: 2019-07-16 01:28:53
