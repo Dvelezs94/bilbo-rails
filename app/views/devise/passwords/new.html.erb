@@ -1,16 +1,19 @@
-<h2>Forgot your password?</h2>
+<%= render "devise/shared/header" %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="content content-fixed content-auth-alt">
+  <div class="container d-flex justify-content-center ht-100p">
+    <div class="mx-wd-300 wd-sm-450 ht-100p d-flex flex-column align-items-center justify-content-center">
+      <div class="wd-80p wd-sm-300 mg-b-15"><img src="https://via.placeholder.com/2083x1466" class="img-fluid" alt=""></div>
+      <h4 class="tx-20 tx-sm-24"><%= t('authentication.reset_password') %></h4>
+      <p class="tx-color-03 mg-b-30 tx-center"><%= t('authentication.reset_password_banner') %></p>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control wd-sm-250 flex-fill", placeholder: t('authentication.reset_password_hint') %>
+        <%= f.submit t('authentication.reset_password_submit'), class: "btn btn-brand-02 mg-sm-l-10 mg-t-10 mg-sm-t-0" %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
+<!-- container -->
+</div>
+<!-- content -->

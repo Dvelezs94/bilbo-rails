@@ -1,0 +1,25 @@
+es:
+  authentication:
+    reset_password: "Recuperar tu contraseña"
+    reset_password_banner: "Introduce tu Email y nosotros te enviaremos un link para que recuperes tu contraseña"
+    reset_password_hint: "Introduce tu Email"
+    reset_password_submit: "Enviar instrucciones de restauracion"
+    sign_up: "Crear Nueva Cuenta"
+    sign_up_banner: "El regisro es gratis y solo te tomara 1 minuto."
+    already_have_account: "Ya tienes una cuenta?"
+    sign_in: "Iniciar Sesion"
+    sign_in_banner: "Bienvenido de nuevo! Por favor inicia sesion para continuar"
+    create_account: "Crear Cuenta"
+    email_address: "Direccion Email"
+    email_address_sample: "tunombre@gmail.com"
+    password: "Contraseña"
+    password_hint: "Introduce tu contraseña"
+    password_confirmation: "Repite tu contraseña"
+    password_confirmation_hint: "Introduce tu contraseña"
+    forgot_password_question: Olvide mi contraseña
+    terms_of_service_agreement: "al registrarte estas de acuerdo con nuestros terminos y condiciones al igual que nuestra politica de privacidad."
+  name:
+    first_name: "Nombre"
+    first_name_hint: "Ingresa tu nombre"
+    last_name: "Apellido"
+    last_name_hint: "Ingresa tu apellido"
