@@ -15,6 +15,6 @@ module Bilbo
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-    config.i18n.default_locale = :es
+    config.i18n.default_locale = :en
   end
 end
