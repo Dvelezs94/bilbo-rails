@@ -1,0 +1,112 @@
+#!/bin/bash
+
+function build() {
+  set -e
+  read -p "Delete DB folder to start from scratch? (y/n): " DBDEL
+  read -p "Create DB and migrations on startup? (y/n): " DBCREATE
+  read -p "Want to run the seeds after the creation? (y/n): " DBSEED
+  if [ "$DBDEL" == "y" ]
+  then
+    echo "Deleting DB folder..."
+    sudo rm -rf tmp/db/
+    echo "done."
+  fi
+  docker-compose down
+  docker-compose up -d --build --force-recreate
+  if [ "$DBCREATE" == "y" ]
+  then
+    sleep 10
+    bash $0 create-db
+  fi
+  if [  "$DBSEED" == "y" ]; then
+    bash $0 seed
+  fi
+}
+
+function start() {
+  docker-compose up -d
+}
+
+function stop() {
+  docker-compose down
+}
+
+function create_db() {
+  docker-compose exec app rails db:create
+  docker-compose exec app rails db:migrate
+}
+
+function path {
+  echo "exporting path"
+  export PATH=$PATH:$(pwd)
+  echo "You can now use bilbo as a native command"
+  exec $(which bash)
+}
+function logs() {
+  docker-compose logs -f
+}
+
+function seed() {
+  bash $0 run rails db:seed
+  bash $0 reindex
+}
+
+function expose() {
+  ngrok http 80
+}
+
+case $1 in
+  build)
+    build
+  ;;
+  start)
+    start
+  ;;
+  stop)
+    stop
+  ;;
+  create-db)
+    create_db
+  ;;
+  run)
+    shift
+    docker-compose exec app $@
+  ;;
+  restart)
+    stop
+    start
+  ;;
+  logs)
+    logs
+  ;;
+  fix-perms)
+    sudo chown -R $USER:$USER app/ db/ public/ config/ lib/
+  ;;
+  path)
+    path
+  ;;
+  seed)
+    seed
+  ;;
+  expose)
+    expose
+  ;;
+  restart-mac)
+    $0 restart && sleep 15 && $0 reindex
+  ;;
+  *)
+    echo "
+    Usage:
+    $0 path                Export cli to your shell
+    $0 build               You will need this if you want to build from scratch
+    $0 start/stop          Start the project by using docker-compose
+    $0 restart             restart
+    $0 restart-mac         restart and reindex
+    $0 logs                Tail logs
+    $0 create-db           Run db create and migrations
+    $0 run command here    Run any command inside the container
+    $0 fix-perms           Experimental - fix code permission issues
+    $0 seed                Seed DB
+    $0 expose              expose with ngrok on port 80"
+  ;;
+esac
