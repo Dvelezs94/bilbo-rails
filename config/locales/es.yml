@@ -1,5 +1,9 @@
 es:
   authentication:
+    name: "Nombre"
+    name_hint: "Introduce tu Nombre"
+    company: "Compañía"
+    company_hint: "Introduce el nombre de tu compañía"
     reset_password: "Recuperar tu contraseña"
     reset_password_banner: "Introduce tu Email y nosotros te enviaremos un link para que recuperes tu contraseña"
     reset_password_hint: "Introduce tu Email"
@@ -18,8 +22,11 @@ es:
     password_confirmation_hint: "Introduce tu contraseña"
     forgot_password_question: Olvide mi contraseña
     terms_of_service_agreement: "al registrarte estas de acuerdo con nuestros terminos y condiciones al igual que nuestra politica de privacidad."
-  name:
-    first_name: "Nombre"
-    first_name_hint: "Ingresa tu nombre"
-    last_name: "Apellido"
-    last_name_hint: "Ingresa tu apellido"
+  header:
+    account_settings: "Ajustes de cuenta"
+    invoices: "Facturas"
+    view_profile: "Ver perfil"
+    logout: "Cerrar sesion"
+    dashboard: "Inicio"
+    campaigns: "Campañas"
+    help_center: "Centro de ayuda"

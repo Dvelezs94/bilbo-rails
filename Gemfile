@@ -65,3 +65,15 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise', '~> 4.6', '>= 4.6.2'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
+gem 'feathericon-sass', '~> 1.0'
+gem 'petergate', '~> 2.0', '>= 2.0.1'
+gem 'omniauth', '~> 1.9'
+#Facebook login
+gem 'omniauth-facebook', '~> 5.0'
+# Google omniauth
+gem 'omniauth-google-oauth2', '~> 0.6.1'
+gem 'gravatar_image_tag', github: 'mdeering/gravatar_image_tag'
+#Handle images
+gem 'mini_magick', '~> 4.9', '>= 4.9.2'
+# AWS sdk to support role based auth and s3 files
+gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
