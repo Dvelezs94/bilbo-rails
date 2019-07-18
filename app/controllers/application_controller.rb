@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
   before_action :set_locale
+  before_action :configure_permitted_parameters, if: :devise_controller?
   # Override devise methods so there are no routes conflict with devise being at /
   def after_sign_in_path_for(resource_or_scope)
-    dashboard_path
+    dashboards_path
   end
 
   def after_sign_out_path_for(resource_or_scope)
@@ -10,12 +11,16 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+  # add extra registration fields for devise
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :company_name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :company_name, :avatar])
+  end
 
   def set_locale
-    # Remove inappropriate/unnecessary ones
     I18n.locale = params[:locale] ||
       extract_locale_from_accept_language_header ||          # Language header - browser config
-      I18n.default_locale               # Set in your config files, english by super-default
+      I18n.default_locale               # Set in your config files, english by default
   end
 
   # Extract language from request header

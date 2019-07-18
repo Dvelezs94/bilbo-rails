@@ -1,5 +1,9 @@
 en:
   authentication:
+    name: "Name"
+    name_hint: "Enter your name"
+    company: "Company"
+    company_hint: "enter your company name"
     reset_password: "Reset your password"
     reset_password_banner: "Enter your email address and we will send you a link to reset your password"
     reset_password_hint: "Enter your Email"
@@ -18,8 +22,8 @@ en:
     password_confirmation_hint: "Enter your password"
     forgot_password_question: Forgot password?
     terms_of_service_agreement: "By signing up, you agree to our terms of service and privacy statement."
-  name:
-    first_name: "Firstname"
-    first_name_hint: "Enter your firstname"
-    last_name: "Lastname"
-    last_name_hint: "Enter your lastname"
+  header:
+    account_settings: "Account Settings"
+    invoices: "Invoices"
+    view_profile: "View Profile"
+    logout: "Log Out"

@@ -2,6 +2,7 @@
 
 <div class="content content-fixed content-auth">
   <div class="container">
+    <%= render "devise/shared/error_messages", resource: resource %>
     <div class="media align-items-stretch justify-content-center ht-100p">
       <div class="sign-wrapper mg-lg-r-50 mg-xl-r-60">
         <div class="pd-t-20 wd-100p">
@@ -24,6 +25,18 @@
             </div>
             <%= f.password_field :password_confirmation, autocomplete: "current-password", class: "form-control", placeholder: t('authentication.password_confirmation_hint') %>
           </div>
+          <div class="form-group">
+            <div class="d-flex justify-content-between mg-b-5">
+              <label class="mg-b-0-f"><%= t('authentication.name') %></label>
+            </div>
+            <%= f.text_field :name, class: "form-control", placeholder: t('authentication.name_hint') %>
+          </div>
+          <div class="form-group">
+            <div class="d-flex justify-content-between mg-b-5">
+              <label class="mg-b-0-f"><%= t('authentication.company') %></label>
+            </div>
+            <%= f.text_field :company_name, class: "form-control", placeholder: t('authentication.company_hint') %>
+          </div>
           <!-- <div class="form-group"> <label><%= t('name.first_name') %></label> <input type="text" class="form-control" placeholder="<%= t('name.first_name_hint') %>"> </div> <div class="form-group"> <label><%= t('name.last_name') %></label> <input
           type="text" class="form-control" placeholder="<%= t('name.last_name_hint') %>"> </div> -->
           <div class="form-group tx-12">
@@ -33,11 +46,11 @@
 
           <button class="btn btn-brand-02 btn-block"><%= t('authentication.create_account') %></button>
         <% end %>
-        <div class="divider-text"><%= t('devise.generic.or') %></div>
-        <button class="btn btn-outline-facebook btn-block"><%= t('devise.generic.connect_with') %>
+        <!-- <div class="divider-text"><%= t('devise.generic.or') %></div>
+        <button onclick="window.location.href = '<%= user_facebook_omniauth_authorize_path %>';" class="btn btn-outline-facebook btn-block"><%= t('devise.generic.connect_with') %>
           Facebook</button>
-        <button class="btn btn-outline-google btn-block"><%= t('devise.generic.connect_with') %>
-          Google</button>
+        <button onclick="window.location.href = '<%= user_google_oauth2_omniauth_authorize_path %>';" class="btn btn-outline-google btn-block"><%= t('devise.generic.connect_with') %>
+          Google</button> -->
         <div class="tx-13 mg-t-20 tx-center"><%= t('authentication.already_have_account') %>
           <%= link_to t('authentication.sign_in'), root_path %></div>
       </div>
