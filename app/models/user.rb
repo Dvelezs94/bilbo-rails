@@ -7,4 +7,5 @@ class User < ApplicationRecord
   has_many :bilbos
   has_many :campaigns
   has_one_attached :avatar
+  attr_readonly :email
 end
