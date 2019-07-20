@@ -27,3 +27,8 @@ en:
     invoices: "Invoices"
     view_profile: "View Profile"
     logout: "Log Out"
+    dashboard: "Dashboard"
+    campaigns: "Campaigns"
+    help_center: "Help Center"
+    payment_methods: "Payment Methods"
+    ads: "Ads"
