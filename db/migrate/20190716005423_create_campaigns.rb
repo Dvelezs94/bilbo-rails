@@ -4,7 +4,6 @@ class CreateCampaigns < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true
       t.string :name
       t.string :description
-      t.string :artwork
       t.float :budget
       t.integer :status
       t.datetime :starts_at
