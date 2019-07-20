@@ -32,3 +32,23 @@ es:
     help_center: "Centro de ayuda"
     payment_methods: "Metodos de pago"
     ads: "Anuncios"
+  nav_headers:
+    users: "Usuarios"
+    configuration: "Configuración"
+  account_settings:
+    general_information_divider: "Informacion General"
+    name: "Nombre Completo"
+    company_name: "Nombre de Compañía"
+    password_divider: "Contraseña"
+    password_hint: "Contraseña (Dejar en blanco si no quieres cambiarla)"
+    password_confirmation: "Confirmacion de contraseña"
+    current_password: "Contraseña actual (necesitamos comprobar que eres tu)"
+    minimum_characters: "caracteres minimos"
+    update: "Actualizar"
+  general_inputs:
+    browse: "Buscar"
+    choose_a_file: "Elige un archivo"
+  dashboard:
+    dashboard: "Panel de inicio"
+    home: "Inicio"
+    new_campaign: "Nueva campaña"

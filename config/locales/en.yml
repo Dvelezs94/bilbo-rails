@@ -32,3 +32,23 @@ en:
     help_center: "Help Center"
     payment_methods: "Payment Methods"
     ads: "Ads"
+  nav_headers:
+    users: "Users"
+    configuration: "Configuration"
+  account_settings:
+    general_information_divider: "General Information"
+    name: "Full Name"
+    company_name: "Company Name"
+    password_divider: "Password"
+    password_hint: "Password (leave blank if you don't want to change it)"
+    password_confirmation: "Password confirmation"
+    current_password: "Current password (we need your current password to confirm your changes)"
+    minimum_characters: "minimum characters"
+    update: "Update"
+  general_inputs:
+    browse: "Browse"
+    choose_a_file: "choose a file"
+  dashboard:
+    dashboard: "Dashboard"
+    home: "Home"
+    new_campaign: "New Campaign"
