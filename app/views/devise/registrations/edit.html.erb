@@ -53,18 +53,20 @@
                   <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
                 <% end %>
 
-                <div class="form-group">
+              <div class="form-row">
+                <div class="form-group col-md-6">
                   <%= f.label t("account_settings.password_hint") %><br />
-                  <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+                  <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder:  t('account_settings.password_divider') %>
                   <% if @minimum_password_length %>
                     <br />
                     <em><%= "#{@minimum_password_length} #{t('account_settings.minimum_characters')}" %></em>
                   <% end %>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                   <%= f.label t("account_settings.password_confirmation") %><br />
-                  <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+                  <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder:  t('account_settings.password_divider') %>
+                </div>
                 </div>
 
                 <div class="form-group">
