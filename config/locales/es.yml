@@ -1,4 +1,8 @@
 es:
+  input:
+    search: "Buscar"
+    submit: "Enviar"
+  home: "Inicio"
   authentication:
     name: "Nombre"
     name_hint: "Introduce tu Nombre"
@@ -48,7 +52,7 @@ es:
   general_inputs:
     browse: "Buscar"
     choose_a_file: "Elige un archivo"
-  dashboard:
-    dashboard: "Panel de inicio"
+  campaign:
+    campaign: "Campañas"
     home: "Inicio"
-    new_campaign: "Nueva campaña"
+    new_campaign: "Nueva Campaña"

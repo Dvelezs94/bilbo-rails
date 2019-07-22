@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
-  has_many :bilbos
+  has_many :boards
   has_many :campaigns
   has_one_attached :avatar
   attr_readonly :email

@@ -78,3 +78,4 @@ gem 'mini_magick', '~> 4.9', '>= 4.9.2'
 # AWS sdk to support role based auth and s3 files
 gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
 gem 'feathericon-rails', '~> 1.0'
+gem 'friendly_id', '~> 5.2.4'
