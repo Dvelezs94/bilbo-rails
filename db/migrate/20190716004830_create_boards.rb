@@ -1,6 +1,6 @@
-class CreateBilbos < ActiveRecord::Migration[5.2]
+class CreateBoards < ActiveRecord::Migration[5.2]
   def change
-    create_table :bilbos do |t|
+    create_table :boards do |t|
       t.references :user, foreign_key: true
       t.float :latitude
       t.float :longitude
@@ -9,9 +9,8 @@ class CreateBilbos < ActiveRecord::Migration[5.2]
       t.float :height
       t.integer :duration
       t.integer :status
-      # north face, shout, etc
+      # north face, south, etc
       t.integer :face
-      t.string :uuid
 
       t.timestamps
     end

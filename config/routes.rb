@@ -4,5 +4,6 @@ Rails.application.routes.draw do
     root :to => 'devise/sessions#new'
   end
   resource :dashboards, only: :show
+  resource :boards, only: :show
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

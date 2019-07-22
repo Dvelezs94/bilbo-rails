@@ -1,4 +1,8 @@
 en:
+  input:
+    search: "Search"
+    submit: "Submit"
+  home: "Home"
   authentication:
     name: "Name"
     name_hint: "Enter your name"
@@ -48,7 +52,8 @@ en:
   general_inputs:
     browse: "Browse"
     choose_a_file: "choose a file"
-  dashboard:
-    dashboard: "Dashboard"
+  campaign:
+    campaign: "Dashboard"
     home: "Home"
     new_campaign: "New Campaign"
+  bilbos:

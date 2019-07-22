@@ -1,0 +1,35 @@
+$(document).on('turbolinks:load', function() {
+function initializeMap() {
+  var bilbos = <%= Board.enabled.pluck(:latitude, :longitude).to_json %>
+  // center of mexico
+  var center = new google.maps.LatLng(23.959124, -102.482976);
+
+  var map = new google.maps.Map(document.getElementById('bilbomap'), {
+    zoom: 5,
+    center: center,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  var markers = [];
+
+  bilbos.forEach(function(bilbo) {
+    var latLng = new google.maps.LatLng(bilbo[0], bilbo[1]);
+    var marker = new google.maps.Marker({'position': latLng});
+    markers.push(marker);
+  });
+  // var marker = new google.maps.Marker({
+  //   position: new google.maps.LatLng(23.959124, -102.482976)
+  // });
+  // markers.push(marker);
+
+  var options = {
+    imagePath: "<%= asset_path('assets/markercluster/m') %>"
+  };
+
+  var markerCluster = new MarkerClusterer(map, markers, options);
+}
+
+  if ($("#bilbomap").length > 0){
+    google.maps.event.addDomListener(window, 'turbolinks:load', initializeMap);
+  }
+});

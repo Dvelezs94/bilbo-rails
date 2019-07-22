@@ -1,3 +1,3 @@
 class Print < ApplicationRecord
-  belongs_to :bilbo
+  belongs_to :board
 end
