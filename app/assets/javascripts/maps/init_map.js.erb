@@ -13,21 +13,20 @@ function initializeMap() {
   // build markers from the available bilbos
   var markers = bilbos.map(function(bilbo) {
     var marker = new google.maps.Marker({
-      position: bilbo
+      position: bilbo,
+      id: bilbo.id
     });
 
     if ($("#bilbomap").length > 0){
       google.maps.event.addListener(marker, 'click', function() {
-        alert('marker ' + marker.getPosition() + ' clicked');
+        // alert('marker ' + marker.getPosition().lat() + ' clicked');
         $.ajax({
-           url:  "/users/select_users",
-           dataType: "json",
-           data: {
-              prezzario: ui.item.value
-           },
-           success: function(data) {
-              var r = $.parseJSON(data);
-              console.log(r.users)//This is where Your users are
+           url:  "/boards/get_info",
+           dataType: "script",
+           data: {id: marker.id},
+           success: function(data) {}
+           error: function(data) {
+             alert("parece que no estás conectado a internet.");
            }
         });
       });

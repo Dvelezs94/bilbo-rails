@@ -27,7 +27,7 @@ if ENV.fetch("RAILS_ENV") != "production"
       board.duration = Faker::Number.within(7..10)
       board.status = Faker::Number.between(0, 2)
       board.face = Faker::Number.between(0, 3)
-      board.description = Faker::Lorem.paragraphs
+      board.description = Faker::Lorem.paragraphs.join(". ")
     end
   end
 end

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   end
   resource :dashboards, only: :show
   resource :boards, only: :show do
-    get 'get/:lat/:lng' => 'boards#get', as: 'get'
+    get 'get_info' => 'boards#get_info'
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
