@@ -24,7 +24,7 @@ function initializeMap() {
            url:  "/boards/get_info",
            dataType: "script",
            data: {id: marker.id},
-           success: function(data) {}
+           success: function(data) {},
            error: function(data) {
              alert("parece que no estás conectado a internet.");
            }
@@ -40,8 +40,6 @@ function initializeMap() {
   };
 
   var markerCluster = new MarkerClusterer(map, markers, options);
-
-  console.log(bilbos);
 
 }
 
