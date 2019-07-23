@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function() {
 function initializeMap() {
-  var bilbos = <%= Board.enabled.pluck(:latitude, :longitude).to_json %>
+  var bilbos = <%= Board.enabled.select(:id, :lat, :lng).to_json %>
   // center of mexico
   var center = new google.maps.LatLng(23.959124, -102.482976);
 
@@ -10,23 +10,40 @@ function initializeMap() {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
-  var markers = [];
+  // build markers from the available bilbos
+  var markers = bilbos.map(function(bilbo) {
+    var marker = new google.maps.Marker({
+      position: bilbo
+    });
 
-  bilbos.forEach(function(bilbo) {
-    var latLng = new google.maps.LatLng(bilbo[0], bilbo[1]);
-    var marker = new google.maps.Marker({'position': latLng});
-    markers.push(marker);
+    if ($("#bilbomap").length > 0){
+      google.maps.event.addListener(marker, 'click', function() {
+        alert('marker ' + marker.getPosition() + ' clicked');
+        $.ajax({
+           url:  "/users/select_users",
+           dataType: "json",
+           data: {
+              prezzario: ui.item.value
+           },
+           success: function(data) {
+              var r = $.parseJSON(data);
+              console.log(r.users)//This is where Your users are
+           }
+        });
+      });
+    }
+
+    return marker;
   });
-  // var marker = new google.maps.Marker({
-  //   position: new google.maps.LatLng(23.959124, -102.482976)
-  // });
-  // markers.push(marker);
 
   var options = {
-    imagePath: "<%= asset_path('assets/markercluster/m') %>"
+    imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
   };
 
   var markerCluster = new MarkerClusterer(map, markers, options);
+
+  console.log(bilbos);
+
 }
 
   if ($("#bilbomap").length > 0){
