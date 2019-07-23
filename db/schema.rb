@@ -55,8 +55,8 @@ ActiveRecord::Schema.define(version: 2019_07_18_231031) do
 
   create_table "boards", force: :cascade do |t|
     t.bigint "user_id"
-    t.float "latitude"
-    t.float "longitude"
+    t.float "lat"
+    t.float "lng"
     t.integer "avg_daily_views"
     t.float "width"
     t.float "height"
