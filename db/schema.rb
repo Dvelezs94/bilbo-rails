@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_231031) do
     t.float "height"
     t.integer "duration"
     t.integer "status"
+    t.string "description"
     t.integer "face"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

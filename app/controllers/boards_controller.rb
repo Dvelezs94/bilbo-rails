@@ -5,13 +5,13 @@ class BoardsController < ApplicationController
   def show
   end
 
-  def get
-    @board = Board.where(lat: (latitude - 0.00001)..(latitude + 0.00001), lon: (longitude - 0.00001)..(longitude + 0.00001))
-    respond_to do |format|
-      msg = { status: "ok", description: @board.description, avg_daily_views: @board.avg_daily_views, width: @board.width, height: @board.height,
-      duration: @board.duration, face: @board.face }
-      format.json  { render :json => msg } # don't do msg.to_json
-    end
+  def get_info
+    @board = Board.find(params[:id])
+    # respond_to do |format|
+    #   msg = { status: "ok", description: @board.description, avg_daily_views: @board.avg_daily_views, width: @board.width, height: @board.height,
+    #   duration: @board.duration, face: @board.face }
+    #   format.json  { render :json => msg } # don't do msg.to_json
+    # end
   end
 
   private
