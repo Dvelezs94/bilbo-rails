@@ -16,18 +16,22 @@ if ENV.fetch("RAILS_ENV") != "production"
     end
   end
 
-  100.times do |x|
-    Board.create! do |board|
-      board.user_id = Faker::Number.between(1, 19)
-      board.lat = Faker::Address.latitude
-      board.lng = Faker::Address.longitude
-      board.avg_daily_views = Faker::Number.number(6)
-      board.width = "#{Faker::Number.between(10, 14)}.#{Faker::Number.between(30, 90)}".to_f
-      board.height = "#{Faker::Number.between(7, 9)}.#{Faker::Number.between(30, 90)}".to_f
-      board.duration = Faker::Number.within(7..10)
-      board.status = Faker::Number.between(0, 2)
-      board.face = Faker::Number.between(0, 3)
-      board.description = Faker::Lorem.paragraphs.join(". ")
+  50.times do |x|
+    lat = Faker::Address.latitude
+    lng = Faker::Address.longitude
+    4.times do |b|
+      Board.create! do |board|
+        board.user_id = Faker::Number.between(1, 19)
+        board.lat = lat
+        board.lng = lng
+        board.avg_daily_views = Faker::Number.number(6)
+        board.width = "#{Faker::Number.between(10, 14)}.#{Faker::Number.between(30, 90)}".to_f
+        board.height = "#{Faker::Number.between(7, 9)}.#{Faker::Number.between(30, 90)}".to_f
+        board.duration = Faker::Number.within(7..10)
+        board.status = Faker::Number.between(0, 1)
+        board.face = b
+        board.address = Faker::Address.full_address
+      end
     end
   end
 end

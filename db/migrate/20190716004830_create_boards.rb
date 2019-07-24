@@ -9,7 +9,8 @@ class CreateBoards < ActiveRecord::Migration[5.2]
       t.float :height
       t.integer :duration
       t.integer :status
-      t.string :description
+      t.string :address
+      t.string :images
       # north face, south, etc
       t.integer :face
 

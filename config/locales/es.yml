@@ -1,4 +1,6 @@
 es:
+  error:
+    error_ocurrred: "Parece que hemos tenido un error, favor de intentar mas tarde"
   input:
     search: "Buscar"
     submit: "Enviar"
@@ -56,3 +58,16 @@ es:
     campaign: "Campañas"
     home: "Inicio"
     new_campaign: "Nueva Campaña"
+  bilbos:
+    avg_views: "Vistas Promedio"
+    day: "Dia"
+    duration: "Duracion"
+    seconds: "segundos"
+    price_per_print: "Precio/Impresion"
+    dimensions: "Dimensiones"
+    north: "Norte"
+    south: "Sur"
+    east: "Este"
+    west: "Oeste"
+    face: "Cara"
+    address: "Direccion"

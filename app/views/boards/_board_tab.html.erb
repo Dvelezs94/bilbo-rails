@@ -1,0 +1,3 @@
+<li class="nav-item">
+  <a class="nav-link <%= "active" if board_iteration.first? %>" id="<%= board.face %>-tab" data-toggle="tab" href="#<%= board.face %>" role="tab" aria-controls="home" aria-selected="<%= board_iteration.first? ? "true" : "false" %>"><%= t("bilbos.#{board.face}")[0] %></a>
+</li>

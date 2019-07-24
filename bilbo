@@ -46,6 +46,10 @@ function path {
   echo "You can now use bilbo as a native command"
   exec $(which bash)
 }
+
+function clear-tmp {
+  $0 run rails tmp:cache:clear
+}
 function logs() {
   docker-compose logs -f
 }
@@ -101,6 +105,9 @@ case $1 in
   restart-mac)
     $0 restart && sleep 15 && $0 reindex
   ;;
+  clear-tmp)
+    clear-tmp
+  ;;
   *)
     echo "
     Usage:
@@ -110,6 +117,7 @@ case $1 in
     $0 start/stop          Start the project by using docker-compose
     $0 restart             restart
     $0 restart-mac         restart and reindex
+    $0 clear-tmp           Clear tmp files like js and assets
     $0 logs                Tail logs
     $0 create-db           Run db create and migrations
     $0 run command here    Run any command inside the container
