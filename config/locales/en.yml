@@ -1,4 +1,6 @@
 en:
+  error:
+    error_ocurrred: "It seems an error has occurred, please try again later"
   input:
     search: "Search"
     submit: "Submit"
@@ -57,3 +59,15 @@ en:
     home: "Home"
     new_campaign: "New Campaign"
   bilbos:
+    avg_views: "Average Views"
+    day: "Day"
+    duration: "Duration"
+    seconds: "seconds"
+    price_per_print: "Price/Print"
+    dimensions: "Dimensions"
+    north: "North"
+    south: "South"
+    east: "East"
+    west: "West"
+    face: "Face"
+    address: "Address"

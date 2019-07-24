@@ -6,12 +6,11 @@ class BoardsController < ApplicationController
   end
 
   def get_info
-    @board = Board.find(params[:id])
-    # respond_to do |format|
-    #   msg = { status: "ok", description: @board.description, avg_daily_views: @board.avg_daily_views, width: @board.width, height: @board.height,
-    #   duration: @board.duration, face: @board.face }
-    #   format.json  { render :json => msg } # don't do msg.to_json
-    # end
+    lat = params[:lat].to_f
+    lng = params[:lng].to_f
+    # @board = Board.find(params[:id])
+    @boards = Board.where(status: "enabled", lat: (lat - 0.00001)..(lat + 0.00001), lng: (lng - 0.00001)..(lng + 0.00001))
+    p @boards
   end
 
   private
