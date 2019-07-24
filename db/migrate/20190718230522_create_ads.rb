@@ -5,6 +5,7 @@ class CreateAds < ActiveRecord::Migration[5.2]
       t.integer :status, default: 0
       t.string :decline_comment
       t.references :user, foreign_key: true
+      t.string :multimedia
 
       t.timestamps
     end
