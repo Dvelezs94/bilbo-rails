@@ -10,4 +10,10 @@ class Board < ApplicationRecord
     east: 2,
     west: 3
   }
+
+  # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
+  # and the user is not able to click the marker because it is a cluster
+  def self.get_map_markers
+    self.enabled.select(:lat, :lng).as_json(:except => :id).uniq
+  end
 end

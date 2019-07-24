@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function() {
 function initializeMap() {
-  var bilbos = <%= Board.enabled.select(:id, :lat, :lng).to_json %>
+  var bilbos = <%= Board.get_map_markers.to_json %>
   // center of mexico
   var center = new google.maps.LatLng(23.959124, -102.482976);
 
@@ -13,8 +13,8 @@ function initializeMap() {
   // build markers from the available bilbos
   var markers = bilbos.map(function(bilbo) {
     var marker = new google.maps.Marker({
-      position: bilbo,
-      id: bilbo.id
+      position: bilbo
+      // id: bilbo.id
     });
 
     if ($("#bilbomap").length > 0){
