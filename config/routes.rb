@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   resource :ads
   resource :boards, only: :show do
     get 'get_info' => 'boards#get_info'
+    member do
+      get :owned
+    end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

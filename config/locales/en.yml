@@ -52,6 +52,7 @@ en:
     minimum_characters: "minimum characters"
     update: "Update"
   general_inputs:
+    search: "Search"
     browse: "Browse"
     choose_a_file: "choose a file"
   campaign:
