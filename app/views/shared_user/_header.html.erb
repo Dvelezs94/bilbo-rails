@@ -1,20 +1,26 @@
 <header class="navbar navbar-header navbar-header-fixed">
-  <a href="" id="mainMenuOpen" class="burger-menu"><i data-feather="menu"></i></a>
+  <a href="" id="mainMenuOpen" class="burger-menu"><i class=" fe fe-bar fnt-md"></i></a>
   <div class="navbar-brand">
     <a href="/" class="df-logo">Bilbo</a>
   </div><!-- navbar-brand -->
   <div id="navbarMenu" class="navbar-menu-wrapper">
     <div class="navbar-menu-header">
       <a href="/" class="df-logo">Bilbo</a>
-      <a id="mainMenuClose" href=""><i data-feather="x"></i></a>
+      <a id="mainMenuClose" href=""><i class="fe fe-close fnt-md"></i></a>
     </div><!-- navbar-menu-header -->
     <ul class="nav navbar-menu">
       <li class="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
+    <% if current_user.role == :user %>
       <li class="nav-item"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.campaigns') %></a></li>
       <li class="nav-item"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.ads') %></a></li>
       <li class="nav-item"><a href="<%= boards_path %>" class="nav-link"><i class="fe fe-box"></i>Bilbos</a></li>
       <li class="nav-item"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.help_center') %></a></li>
-    </ul>
+    <% elsif current_user.role == :provider%>
+      <li class="nav-item"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.dashboard') %></a></li>
+      <li class="nav-item"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.statistics') %></a></li>
+      <li class="nav-item"><a href="<%= owned_boards_path %>" class="nav-link"><i class="fe fe-box"></i><%= t("header.my_bilbos") %></a></li>
+    <% end %>
+  </ul>
   </div><!-- navbar-menu-wrapper -->
   <div class="navbar-right">
     <div class="dropdown dropdown-profile">
