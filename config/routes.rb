@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     root :to => 'devise/sessions#new'
   end
   resource :dashboards, only: :show
+  resource :ads
   resource :boards, only: :show do
     get 'get_info' => 'boards#get_info'
   end

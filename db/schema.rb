@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_231031) do
     t.integer "status", default: 0
     t.string "decline_comment"
     t.bigint "user_id"
+    t.string "multimedia"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_ads_on_user_id"

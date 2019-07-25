@@ -12,6 +12,7 @@
             <li class="breadcrumb-item active" aria-current="page"><%= t("campaign.campaign") %></li>
           </ol>
         </nav>
+
         <h4 class="mg-b-0 tx-spacing--1"><%= t("campaign.campaign") %></h4>
       </div>
       <div class="d-none d-md-block">
@@ -21,6 +22,48 @@
       </div>
     </div>
 
+    <%= form_with(model: Ad, url: ads_path, method: :post, :html => { :id => "new_ad" }, local: false) do |form| %>
+      <%= form.text_field :name, placeholder: "Nombre del anuncio", value: "" %>
+      <%= form.file_field :multimedia, multiple: true, id: "files", accept: ".png, .jpg, .jpeg, .gif, .mp4, .webm" %>
+      <%= form.submit("enviar", id: "send-new-ad") %>
+    <% end %>
+
+
+  </div>
+  <div class="row">
+    <% current_user.ads.each_with_index do |ad, n| %>
+    <div class="col-lg-2 col-md-3 col-6 col-sm-6">
+      <%= ad.name %>
+      <div id="carouselExampleIndicators<%= "#{n}" %>" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <% ad.multimedia.each_with_index do |m, n2| %>
+          <li data-target="#carouselExampleIndicators<%= n %>" data-slide-to="<%= n2 %>" class="<%= "active" if n2 == 0 %>"></li>
+          <% end %>
+        </ol>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators<%= "#{n}" %>" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"><i class="fe fe-arrow-left"></i></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators<%= "#{n}" %>" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"><i class="fe fe-arrow-right"></i></span>
+          <span class="sr-only">Next</span>
+        </a>
+
+        <div class="carousel-inner">
+          <% ad.multimedia.each_with_index do |m, n2| %>
+            <div class="carousel-item <%= "active" if n2 == 0  %> ">
+              <% if m.blob.content_type.include?("video") %>
+              <%= video_tag rails_blob_path(m), controls: true %>
+              <% else %>
+                <%= image_tag m, class: "d-block w-100" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% end %>
   </div>
   <!-- container -->
 </div>
