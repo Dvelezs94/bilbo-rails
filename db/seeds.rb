@@ -9,9 +9,20 @@ if ENV.fetch("RAILS_ENV") != "production"
   20.times do |x|
     User.create! do |user|
       user.name = Faker::Name.first_name
-      user.email = Faker::Internet.email + "#{x}"
+      user.email = "user." + Faker::Internet.email + "#{x}"
       user.company_name = Faker::Company.name
       user.password = "1234aA"
+      puts "#{user.email}"
+    end
+  end
+
+  20.times do |x|
+    User.create! do |user|
+      user.name = Faker::Name.first_name
+      user.email = "provider." + Faker::Internet.email + "#{x}"
+      user.company_name = Faker::Company.name
+      user.password = "1234aA"
+      user.role = :provider
       puts "#{user.email}"
     end
   end
@@ -21,7 +32,8 @@ if ENV.fetch("RAILS_ENV") != "production"
     lng = Faker::Address.longitude
     4.times do |b|
       Board.create! do |board|
-        board.user_id = Faker::Number.between(1, 19)
+        # Assign the board to the providers available
+        board.user_id = Faker::Number.between(20, 40)
         board.lat = lat
         board.lng = lng
         board.avg_daily_views = Faker::Number.number(6)

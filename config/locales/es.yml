@@ -38,6 +38,9 @@ es:
     help_center: "Centro de ayuda"
     payment_methods: "Metodos de pago"
     ads: "Anuncios"
+    statistics: "Estadisticas"
+    my_bilbos: "Mis Bilbos"
+
   nav_headers:
     users: "Usuarios"
     configuration: "Configuración"
@@ -52,6 +55,7 @@ es:
     minimum_characters: "caracteres minimos"
     update: "Actualizar"
   general_inputs:
+    search: "Buscar"
     browse: "Buscar"
     choose_a_file: "Elige un archivo"
   campaign:
