@@ -1,13 +1,12 @@
 class DashboardsController < ApplicationController
-  access user: [:show]
+  access user: [:index]
 
-  def show
+  def index
     if current_user.role == :user
-      render "show"
+      render "index"
     elsif current_user.role == :provider
-      render "provider_home"
+      render "provider_index"
     end
-
   end
 
 end

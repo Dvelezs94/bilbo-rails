@@ -72,3 +72,6 @@ en:
     west: "West"
     face: "Face"
     address: "Address"
+  ads:
+    ads: "Ads"
+    new_ad: "New Ad"

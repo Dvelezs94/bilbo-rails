@@ -75,3 +75,6 @@ es:
     west: "Oeste"
     face: "Cara"
     address: "Direccion"
+  ads:
+    ads: "Anuncios"
+    new_ad: "Nuevo Anuncio"
