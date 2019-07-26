@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   devise_scope :user do
     root :to => 'devise/sessions#new'
   end
-  resource :dashboards, only: :show
-  resource :ads
+  resources :dashboards, only: [:index]
+  resources :ads
   resource :boards, only: :show do
     get 'get_info' => 'boards#get_info'
     member do

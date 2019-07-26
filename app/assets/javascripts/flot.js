@@ -1,4 +1,5 @@
   $(function(){
+    if ($('#flotChart').length > 0) {
     'use strict'
 
     var plot = $.plot('#flotChart', [{
@@ -227,5 +228,5 @@
         }
       }
     });
-
+}
   })

@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2019_07_24_152626) do
 
   create_table "ads", force: :cascade do |t|
     t.string "name"
+    t.string "description"
     t.integer "status", default: 0
     t.string "decline_comment"
     t.bigint "user_id"
