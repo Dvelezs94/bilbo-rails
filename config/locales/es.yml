@@ -58,6 +58,10 @@ es:
     search: "Buscar"
     browse: "Buscar"
     choose_a_file: "Elige un archivo"
+    submit: "Enviar"
+    create: "Crear"
+    name: "Nombre"
+    description: "Descripcion"
   campaign:
     campaign: "Campañas"
     home: "Inicio"

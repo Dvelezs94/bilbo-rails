@@ -55,6 +55,10 @@ en:
     search: "Search"
     browse: "Browse"
     choose_a_file: "choose a file"
+    submit: "Submit"
+    create: "Create"
+    name: "Name"
+    description: "Description"
   campaign:
     campaign: "Dashboard"
     home: "Home"
