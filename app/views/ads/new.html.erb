@@ -22,26 +22,26 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12 col-lg-10">
+      <div class="col-sm-12 col-lg-8 m-auto">
         <div class="pd-20">
           <%= form_with(model: Ad, url: ads_path, method: :post, :html => { :id => "new_ad" }, local: false) do |f| %>
 
           <div class="form-group">
-            <%= f.label "Nombre de Anuncio" %><br/>
+            <%= f.label t("general_inputs.name") %><br/>
             <%= f.text_field :name, class: "form-control", value: "" %>
           </div>
 
           <div class="form-group">
-            <%= f.label "Descripcion" %><br/>
-            <%= f.text_field :description, class: "form-control", value: "" %>
+            <%= f.label t("general_inputs.description") %><br/>
+            <%= f.text_area :description, class: "form-control", value: "" %>
           </div>
 
           <div class="form-group col-12">
             <%= f.file_field :multimedia, multiple: true, id: "files", accept: ".png, .jpg, .jpeg, .gif, .mp4, .webm" %>
           </div>
 
-          <div class="actions">
-            <%= f.submit t("account_settings.update"), class: "btn btn-primary btn-block" %>
+          <div class="actions col-sm-12 col-md-6 m-auto">
+            <%= f.submit t("general_inputs.submit"), class: "btn btn-primary btn-block" %>
           </div>
         <% end %>
       </div>
