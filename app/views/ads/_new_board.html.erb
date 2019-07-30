@@ -1,0 +1,44 @@
+<div class="modal fade effect-scale" id="modalNewAd" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body pd-20 pd-sm-30">
+        <button type="button" class="close pos-absolute t-15 r-20" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <h5 class="tx-18 tx-sm-20 mg-b-30"><%= t("ads.new_ad") %></h5>
+
+        <div class="row">
+          <div class="col-12 m-auto">
+            <div class="pd-20">
+              <%= form_with(model: Ad, url: ads_path, method: :post, :html => { :id => "new_ad" }, local: false) do |f| %>
+
+              <div class="form-group">
+                <%= f.label t("general_inputs.name") %><br/>
+                <%= f.text_field :name, class: "form-control", value: "" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label t("general_inputs.description") %><br/>
+                <%= f.text_area :description, class: "form-control", value: "" %>
+              </div>
+
+              <div class="form-group col-12">
+                <%= f.file_field :multimedia, multiple: true, id: "files", accept: ".png, .jpg, .jpeg, .gif" %>
+              </div>
+
+              <div class="actions col-sm-12 col-md-6 m-auto">
+                <%= f.submit t("general_inputs.create"), class: "btn btn-primary btn-block" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary mg-sm-l-5" data-dismiss="modal">Close</button>
+      </div><!-- modal-footer -->
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div><!-- modal -->
