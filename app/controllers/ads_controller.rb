@@ -1,11 +1,24 @@
 class AdsController < ApplicationController
   access user: :all, provider: {except: [:new]}
-  before_action :get_ads, on: [:index]
+  before_action :get_ads, only: [:index]
+  before_action :get_ad, only: [:show]
+  before_action :verify_identity, only: [:show]
 
   def index
   end
 
   def new
+  end
+
+  def show
+  end
+
+  def edit
+
+  end
+
+  def update
+
   end
 
   def create
@@ -15,7 +28,15 @@ class AdsController < ApplicationController
     else
       flash[:error] = "Could not save ad"
     end
-    redirect_to ads_path
+    redirect_to ad_path(@ad)
+  end
+
+  def destroy
+
+  end
+
+  def destroy_multimedia
+
   end
   private
   def ad_params
@@ -23,6 +44,14 @@ class AdsController < ApplicationController
   end
 
   def get_ads
-    @ads = current_user.ads
+    @ads = current_user.ads.with_attached_multimedia
+  end
+
+  def get_ad
+    @ad = Ad.with_attached_multimedia.find(params[:id])
+  end
+
+  def verify_identity
+    redirect_to ads_path if @ad.user != current_user
   end
 end

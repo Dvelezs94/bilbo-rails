@@ -62,10 +62,14 @@ es:
     create: "Crear"
     name: "Nombre"
     description: "Descripcion"
+    created_at: "Creado hace"
+    dimensions: "Dimensiones"
+    size: "Tamaño"
   campaign:
     campaign: "Campañas"
     home: "Inicio"
     new_campaign: "Nueva Campaña"
+    active_campaigns: "Campañas activas"
   bilbos:
     avg_views: "Vistas Promedio"
     day: "Dia"
@@ -82,3 +86,5 @@ es:
   ads:
     ads: "Anuncios"
     new_ad: "Nuevo Anuncio"
+    upload_multimedia: "Subir Archivos"
+    all_multimedia_files: "Todos los Archivos Multimedia"

@@ -1,0 +1,26 @@
+<%= render 'shared_user/header' %>
+
+<div class="filemgr-wrapper">
+  <%= render "ads/show_sidebar" %>
+
+  <div class="filemgr-content">
+    <div class="filemgr-content-header">
+      <i class="fe fe-search pd-r-5 fnt-md"></i>
+      <div class="search-form">
+        <input type="search" class="form-control" placeholder="Search for files and folders">
+      </div><!-- search-form -->
+    </div><!-- filemgr-content-header -->
+    <div class="filemgr-content-body">
+      <div class="pd-20 pd-lg-25 pd-xl-30">
+        <h4 class="mg-b-15 mg-lg-b-25"><%= t("ads.all_multimedia_files") %></h4>
+
+        <div class="row row-xs">
+          <%= render partial: "ads/show_single_multimedia", collection: @ad.multimedia, as: :multimedia %>
+        </div><!-- row -->
+      </div>
+    </div><!-- filemgr-content-body -->
+  </div><!-- filemgr-content -->
+
+</div><!-- filemgr-wrapper -->
+<!-- content -->
+<%= render partial: "ads/upload_multimedia" %>

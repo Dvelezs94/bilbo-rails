@@ -1,0 +1,19 @@
+<a href="<%= ad_path(ad) %>" class="link-02">
+  <div class="col-12">
+  <div class="card card-file">
+    <div class="card-file-thumb tx-danger">
+      <div id="carouselExample3" class="carousel slide card-file-thumb" data-ride="carousel">
+
+  <div class="carousel-inner w-100 h-100">
+    <%= render partial: "ads/overview_card_image", collection: ad.multimedia, as: :multimedia %>
+  </div>
+</div>
+    </div>
+    <div class="card-body">
+      <h6><%= ad.name %></h6>
+      <span><%= ad.description %></span>
+    </div>
+    <div class="card-footer"><span class="d-none d-sm-inline"><%= t("campaign.active_campaigns") %>: </span>2</div>
+  </div>
+</div>
+</a>
