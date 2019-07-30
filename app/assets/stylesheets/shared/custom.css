@@ -32,3 +32,7 @@
 .card-body h6 {
   word-break: break-all;
 }
+
+.fm-content-grey {
+  background-color: #f8f9fc;
+}
