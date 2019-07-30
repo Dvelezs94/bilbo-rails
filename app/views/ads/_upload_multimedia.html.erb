@@ -10,11 +10,16 @@
         <!-- row -->
         <div id="drag-drop-area"></div>
         <script>
-          var uppy = Uppy.Core().use(Uppy.Dashboard, {
+          var uppy = Uppy.Core({
+            restrictions: {
+              maxFileSize: 10000000,
+              allowedFileTypes: ["image/png", "image/jpeg", "image/gif"]
+            }
+          }).use(Uppy.Dashboard, {
             inline: true,
             target: '#drag-drop-area',
           }).use(Uppy.XHRUpload, {
-            endpoint: (window.location.href + "/add_multimedia")
+            endpoint: (window.location.href + "/attachments")
           })
 
           uppy.on('complete', (result) => {

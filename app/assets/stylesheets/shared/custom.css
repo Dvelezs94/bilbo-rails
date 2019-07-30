@@ -17,9 +17,18 @@
   font-size: 20px !important;
 }
 .img-inherit {
-  width: inherit;
-  height: inherit;
+  width: 170px;
+  height: 100%;
+  object-fit: cover;
 }
 .bg-white {
   background: white !important;
+}
+
+.flex-0-f {
+  flex: 0 !important
+}
+
+.card-body h6 {
+  word-break: break-all;
 }

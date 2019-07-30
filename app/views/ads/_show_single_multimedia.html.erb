@@ -1,4 +1,4 @@
-<div class="col-6 col-sm-4 col-md-3 col-xl">
+<div class="col-6 col-sm-4 col-md-3 col-xl pd-b-5 flex-0-f">
   <div class="card card-file">
     <div class="card-file-thumb bg-white">
         <%= image_tag multimedia, class: "img-inherit", :data => {lity: true} %>
@@ -7,6 +7,6 @@
       <h6><%= multimedia.filename %></h6>
       <span><%= "#{multimedia.metadata[:width]} x #{multimedia.metadata[:height]}" %> </span>
     </div>
-    <div class="card-footer"><span class="d-none d-sm-inline"><%= t("general_inputs.size") %>: </span><%= number_to_human_size(multimedia.byte_size, precision: 2) %><a href="#" class="float-right"><i class="fe fe-trash fnt-md tx-danger a-right"></i></a></div>
+    <div class="card-footer"><span class="d-none d-sm-inline"><%= t("general_inputs.size") %>: </span><%= number_to_human_size(multimedia.byte_size, precision: 2) %><%= link_to raw("<i class='fe fe-trash fnt-md tx-danger a-right'></i>"), ad_attachment_path(multimedia.record, multimedia), class: "float-right", method: :delete, data: { confirm: t("general_inputs.delete_confirmation") } %></div>
   </div>
 </div><!-- col -->

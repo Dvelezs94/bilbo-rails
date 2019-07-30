@@ -6,15 +6,15 @@
   <div class="filemgr-content">
     <div class="filemgr-content-header">
       <i class="fe fe-search pd-r-5 fnt-md"></i>
-      <div class="search-form">
-        <input type="search" class="form-control" placeholder="Search for files and folders">
+      <div class="search-form w-100">
+        <input type="search" id="searchMultimedia" class="form-control" placeholder="<%= t("general_inputs.search") %>">
       </div><!-- search-form -->
     </div><!-- filemgr-content-header -->
     <div class="filemgr-content-body">
       <div class="pd-20 pd-lg-25 pd-xl-30">
         <h4 class="mg-b-15 mg-lg-b-25"><%= t("ads.all_multimedia_files") %></h4>
 
-        <div class="row row-xs">
+        <div class="row row-xs" id="multimediaElements">
           <%= render partial: "ads/show_single_multimedia", collection: @ad.multimedia, as: :multimedia %>
         </div><!-- row -->
       </div>

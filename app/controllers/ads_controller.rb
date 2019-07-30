@@ -1,7 +1,7 @@
 class AdsController < ApplicationController
   access user: :all, provider: {except: [:new]}
   before_action :get_ads, only: [:index]
-  before_action :get_ad, only: [:show, :add_multimedia]
+  before_action :get_ad, only: [:show, :add_multimedia, :destroy_multimedia]
   before_action :verify_identity, only: [:show, :add_multimedia]
   skip_before_action :verify_authenticity_token, only: [:add_multimedia]
 
@@ -39,8 +39,13 @@ class AdsController < ApplicationController
   end
 
   def destroy_multimedia
-
+    @ad.multimedia.find_by_id(params[:attachment_id]).purge
+    respond_to do |format|
+      format.html { redirect_to ad_path(@ad) }
+      format.json { head :no_content }
+    end
   end
+
   private
   def ad_params
     params.require(:ad).permit(:name, :description).merge(:user_id => current_user.id)

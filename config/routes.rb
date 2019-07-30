@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     member do
       post "add_multimedia"
     end
+    resources :attachments, only:  [:create, :destroy]
   end
   resource :boards, only: :show do
     get 'get_info' => 'boards#get_info'

@@ -65,6 +65,7 @@ es:
     created_at: "Creado hace"
     dimensions: "Dimensiones"
     size: "Tamaño"
+    delete_confirmation: "Seguro que quieres borrar este elemento?"
   campaign:
     campaign: "Campañas"
     home: "Inicio"
