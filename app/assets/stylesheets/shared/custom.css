@@ -14,5 +14,12 @@
   color: #10b759 !important
 }
 .fnt-md {
-  font-size: 20px !important;  
+  font-size: 20px !important;
+}
+.img-inherit {
+  width: inherit;
+  height: inherit;
+}
+.bg-white {
+  background: white !important;
 }

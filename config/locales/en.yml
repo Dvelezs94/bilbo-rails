@@ -59,10 +59,14 @@ en:
     create: "Create"
     name: "Name"
     description: "Description"
+    created_at: "Created at:"
+    dimensions: "Dimensions:"
+    size: "Size"
   campaign:
     campaign: "Dashboard"
     home: "Home"
     new_campaign: "New Campaign"
+    active_campaigns: "Active Campaigns"
   bilbos:
     avg_views: "Average Views"
     day: "Day"
@@ -79,3 +83,5 @@ en:
   ads:
     ads: "Ads"
     new_ad: "New Ad"
+    upload_multimedia: "Upload Multimedia"
+    all_multimedia_files: "All Multimedia Files"
