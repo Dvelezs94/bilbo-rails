@@ -60,6 +60,7 @@ es:
     choose_a_file: "Elige un archivo"
     submit: "Enviar"
     create: "Crear"
+    update: "Actualizar"
     name: "Nombre"
     description: "Descripcion"
     created_at: "Creado hace"
@@ -89,3 +90,4 @@ es:
     new_ad: "Nuevo Anuncio"
     upload_multimedia: "Subir Archivos"
     all_multimedia_files: "Todos los Archivos Multimedia"
+    delete_ad: "Borrar Anuncio"

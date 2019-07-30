@@ -57,6 +57,7 @@ en:
     choose_a_file: "choose a file"
     submit: "Submit"
     create: "Create"
+    update: "Update"
     name: "Name"
     description: "Description"
     created_at: "Created at:"
@@ -86,3 +87,4 @@ en:
     new_ad: "New Ad"
     upload_multimedia: "Upload Multimedia"
     all_multimedia_files: "All Multimedia Files"
+    delete_ad: "Delete Ad"

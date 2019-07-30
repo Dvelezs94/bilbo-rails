@@ -1,7 +1,7 @@
 class AdsController < ApplicationController
   access user: :all, provider: {except: [:new]}
   before_action :get_ads, only: [:index]
-  before_action :get_ad, only: [:show, :add_multimedia, :destroy_multimedia]
+  before_action :get_ad, only: [:show, :destroy, :update]
   before_action :verify_identity, only: [:show, :add_multimedia]
   skip_before_action :verify_authenticity_token, only: [:add_multimedia]
 
@@ -17,7 +17,15 @@ class AdsController < ApplicationController
   end
 
   def update
-
+    respond_to do |format|
+      if @ad.update_attributes(ad_params)
+        format.html { redirect_to @ad, notice: 'Ad was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "show" }
+        format.json { render json: @ad.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def create
@@ -31,7 +39,12 @@ class AdsController < ApplicationController
   end
 
   def destroy
+    @ad.destroy
 
+    respond_to do |format|
+      format.html { redirect_to ads_path }
+      format.json { head :no_content }
+    end
   end
 
   def add_multimedia
