@@ -1,12 +1,14 @@
 class AdsController < ApplicationController
   access user: :all, provider: {except: [:new]}
   before_action :get_ads, only: [:index]
-  before_action :get_ad, only: [:show]
-  before_action :verify_identity, only: [:show]
+  before_action :get_ad, only: [:show, :add_multimedia]
+  before_action :verify_identity, only: [:show, :add_multimedia]
+  skip_before_action :verify_authenticity_token, only: [:add_multimedia]
+
 
   def index
   end
-  
+
   def show
   end
 
@@ -32,12 +34,16 @@ class AdsController < ApplicationController
 
   end
 
+  def add_multimedia
+    @ad.multimedia.attach(params[:files])
+  end
+
   def destroy_multimedia
 
   end
   private
   def ad_params
-    params.require(:ad).permit(:name, :description, multimedia: []).merge(:user_id => current_user.id)
+    params.require(:ad).permit(:name, :description).merge(:user_id => current_user.id)
   end
 
   def get_ads

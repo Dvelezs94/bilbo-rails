@@ -6,43 +6,30 @@
           <span aria-hidden="true">&times;</span>
         </button>
 
-        <h5 class="tx-18 tx-sm-20 mg-b-30">View Details</h5>
+        <h5 class="tx-18 tx-sm-20 mg-b-30">Subir Archivos</h5>
+        <!-- row -->
+        <div id="drag-drop-area"></div>
+        <script>
+          var uppy = Uppy.Core().use(Uppy.Dashboard, {
+            inline: true,
+            target: '#drag-drop-area',
+          }).use(Uppy.XHRUpload, {
+            endpoint: (window.location.href + "/add_multimedia")
+          })
 
-        <div class="row mg-b-10">
-          <div class="col-4">Filename:</div>
-          <div class="col-8">Medical Certificate.pdf</div>
-        </div><!-- row -->
-        <div class="row mg-b-10">
-          <div class="col-4">File ype:</div>
-          <div class="col-8">PDF File</div>
-        </div><!-- row -->
-        <div class="row mg-b-10">
-          <div class="col-4">File Size:</div>
-          <div class="col-8">10.45 KB</div>
-        </div><!-- row -->
-        <div class="row mg-b-10">
-          <div class="col-4">Created:</div>
-          <div class="col-8">Monday, July 02, 2018 9:34am</div>
-        </div><!-- row -->
-        <div class="row mg-b-10">
-          <div class="col-4">Modified:</div>
-          <div class="col-8">Monday, July 02, 2018 9:34am</div>
-        </div><!-- row -->
-        <div class="row mg-b-10">
-          <div class="col-4">Accessed:</div>
-          <div class="col-8">Monday, July 02, 2018 9:34am</div>
-        </div><!-- row -->
-        <div class="row mg-b-10">
-          <div class="col-4">Description:</div>
-          <div class="col-8">
-            <textarea class="form-control mg-t-5" rows="2" placeholder="Add description"></textarea>
-          </div>
-        </div><!-- row -->
+          uppy.on('complete', (result) => {
+            location.reload();
+          })
+        </script>
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary mg-sm-l-5" data-dismiss="modal">Close</button>
-      </div><!-- modal-footer -->
-    </div><!-- modal-content -->
-  </div><!-- modal-dialog -->
-</div><!-- modal -->
+      </div>
+      <!-- modal-footer -->
+    </div>
+    <!-- modal-content -->
+  </div>
+  <!-- modal-dialog -->
+</div>
+<!-- modal -->
