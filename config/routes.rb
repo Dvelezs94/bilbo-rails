@@ -4,7 +4,11 @@ Rails.application.routes.draw do
     root :to => 'devise/sessions#new'
   end
   resources :dashboards, only: [:index]
-  resources :ads
+  resources :ads do
+    member do
+      post "add_multimedia"
+    end
+  end
   resource :boards, only: :show do
     get 'get_info' => 'boards#get_info'
     member do
