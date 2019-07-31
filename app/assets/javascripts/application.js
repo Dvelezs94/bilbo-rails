@@ -5,6 +5,6 @@
 //= require jquery3
 //= require popper
 //= require bootstrap
-//= require uppy_on_rails
+//= require gritter
 
 //= require_tree .

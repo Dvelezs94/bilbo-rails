@@ -3,8 +3,6 @@ class AdsController < ApplicationController
   before_action :get_ads, only: [:index]
   before_action :get_ad, only: [:show, :destroy, :update]
   before_action :verify_identity, only: [:show, :add_multimedia]
-  skip_before_action :verify_authenticity_token, only: [:add_multimedia]
-
 
   def index
   end
@@ -43,18 +41,6 @@ class AdsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to ads_path }
-      format.json { head :no_content }
-    end
-  end
-
-  def add_multimedia
-    @ad.multimedia.attach(params[:files])
-  end
-
-  def destroy_multimedia
-    @ad.multimedia.find_by_id(params[:attachment_id]).purge
-    respond_to do |format|
-      format.html { redirect_to ad_path(@ad) }
       format.json { head :no_content }
     end
   end

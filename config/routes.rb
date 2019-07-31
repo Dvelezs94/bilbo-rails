@@ -5,9 +5,6 @@ Rails.application.routes.draw do
   end
   resources :dashboards, only: [:index]
   resources :ads do
-    member do
-      post "add_multimedia"
-    end
     resources :attachments, only:  [:create, :destroy]
   end
   resource :boards, only: :show do

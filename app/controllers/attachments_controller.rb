@@ -4,13 +4,13 @@ class AttachmentsController < ApplicationController
   before_action :verify_identity, only: [:create, :destroy]
   skip_before_action :verify_authenticity_token, only: [:create]
 
+
   def create
     if @ad.multimedia.attach(params[:files])
       flash[:success] = "Attachment saved"
     else
       flash[:error] = "Could not save atttachment"
     end
-    redirect_to ad_path(@ad)
   end
 
   def destroy
