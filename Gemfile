@@ -81,5 +81,5 @@ gem 'feathericon-rails', '~> 1.0'
 gem 'friendly_id', '~> 5.2.4'
 gem 'petergate', '~> 2.0', '>= 2.0.1'
 gem 'active_storage_validations', '~> 0.7.1'
-#image uploader
-gem 'uppy_on_rails', '~> 0.29.2'
+#notifications
+gem 'gritter', '~> 1.2'

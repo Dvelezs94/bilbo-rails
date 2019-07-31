@@ -1,9 +1,9 @@
 /*
  *= require_self
- *= require_tree ./shared
  *= require feathericon
+ *= require gritter
  *= require_tree ./devise
- *= require uppy_on_rails
+ *= require_tree ./shared
  */
  @import 'bootstrap';
  @import "feathericon";
