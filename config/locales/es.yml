@@ -55,6 +55,7 @@ es:
     minimum_characters: "caracteres minimos"
     update: "Actualizar"
   general_inputs:
+    close: "Cerrar"
     search: "Buscar"
     browse: "Buscar"
     choose_a_file: "Elige un archivo"
@@ -67,11 +68,20 @@ es:
     dimensions: "Dimensiones"
     size: "Tamaño"
     delete_confirmation: "Seguro que quieres borrar este elemento?"
+    items_page: "elementos/pagina"
   campaign:
     campaign: "Campañas"
     home: "Inicio"
     new_campaign: "Nueva Campaña"
     active_campaigns: "Campañas activas"
+    campaign_name: "Nombre de Campaña"
+    bilbos_in_use: "Bilbos en uso"
+    ad_name: "Nombre de anuncio"
+    start_date: "Fecha de inicio"
+    end_date: "Fecha de fin"
+    prints: "Impresiones"
+    daily_budget: "Presupuesto Diario"
+    total_invested: "Total Invertido"
   bilbos:
     avg_views: "Vistas Promedio"
     day: "Dia"
@@ -91,3 +101,4 @@ es:
     upload_multimedia: "Subir Archivos"
     all_multimedia_files: "Todos los Archivos Multimedia"
     delete_ad: "Borrar Anuncio"
+    no_ad: "Sin anuncio"

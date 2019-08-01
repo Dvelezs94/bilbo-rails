@@ -1,0 +1,54 @@
+<%= render 'shared_user/header' %>
+
+<div class="content content-fixed">
+  <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+    <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-30">
+      <div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+            <li class="breadcrumb-item">
+              <a href="#"><%= t("campaign.home") %></a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page"><%= t("campaign.campaign") %></li>
+          </ol>
+        </nav>
+
+        <h4 class="mg-b-0 tx-spacing--1"><%= t("campaign.campaign") %></h4>
+      </div>
+      <div class="d-none d-md-block">
+        <a href="#modalNewCampaign" data-toggle="modal">
+          <button class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5">
+            <i class="wd-10 mg-r-5 fe fe-plus"></i>
+            <%= t("campaign.new_campaign") %></button>
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="table-responsive">
+
+        <table class="table" id="campaignsTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th><%= t("campaign.campaign_name") %></th>
+              <th><%= t("campaign.bilbos_in_use") %></th>
+              <th><%= t("campaign.ad_name") %></th>
+              <th><%= t("campaign.start_date") %></th>
+              <th><%= t("campaign.end_date") %></th>
+              <th><%= t("campaign.prints") %></th>
+              <th><%= t("campaign.daily_budget") %></th>
+              <th><%= t("campaign.total_invested") %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "campaigns/campaign_row", collection: @campaigns, as: :campaign %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- container -->
+</div>
+<!-- content -->
+<%= render partial: "campaigns/new" %>

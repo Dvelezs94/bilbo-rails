@@ -14,12 +14,14 @@ $(document).on('turbolinks:load', function() {
     .use(Uppy.XHRUpload, {
       endpoint: create_attachment_url
     })
-    uppy.use(Uppy.Dropbox, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
-    uppy.use(Uppy.GoogleDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
-    uppy.use(Uppy.Webcam, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
+    // uppy.use(Uppy.Dropbox, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
+    // uppy.use(Uppy.GoogleDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
+    // uppy.use(Uppy.Webcam, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
 
     uppy.on('complete', (result) => {
-      location.reload();
+      setTimeout(function(){
+        location.reload();
+      }, 2000);
     })
   }
 });
