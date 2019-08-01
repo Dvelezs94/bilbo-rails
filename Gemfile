@@ -83,3 +83,4 @@ gem 'petergate', '~> 2.0', '>= 2.0.1'
 gem 'active_storage_validations', '~> 0.7.1'
 #notifications
 gem 'gritter', '~> 1.2'
+gem 'ionicons-rails'

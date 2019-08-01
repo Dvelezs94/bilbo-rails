@@ -2,7 +2,7 @@ class AdsController < ApplicationController
   access user: :all, provider: {except: [:new]}
   before_action :get_ads, only: [:index]
   before_action :get_ad, only: [:show, :destroy, :update]
-  before_action :verify_identity, only: [:show, :add_multimedia]
+  before_action :verify_identity, only: [:show, :destroy, :update]
 
   def index
   end

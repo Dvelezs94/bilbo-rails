@@ -19,8 +19,11 @@
 .img-inherit {
   width: 170px;
   height: 100%;
-  object-fit: cover;
-}
+  object-fit: cover; }
+  @media (max-width: 420px) {
+    .img-inherit {
+      width: 150px; } }
+
 .bg-white {
   background: white !important;
 }

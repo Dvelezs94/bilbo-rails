@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations" }
-  devise_scope :user do
-    root :to => 'devise/sessions#new'
-  end
+  root :to => 'dashboards#index'
   resources :dashboards, only: [:index]
   resources :ads do
     resources :attachments, only:  [:create, :destroy]
   end
+  resources :campaigns
   resource :boards, only: :show do
     get 'get_info' => 'boards#get_info'
     member do

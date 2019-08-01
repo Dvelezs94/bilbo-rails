@@ -1,4 +1,4 @@
-<div class="modal fade effect-slide-in-top" id="modalNewAd" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade effect-slide-in-top" id="modalNewCampaign" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body pd-20 pd-sm-30">
@@ -6,12 +6,12 @@
           <span aria-hidden="true">&times;</span>
         </button>
 
-        <h5 class="tx-18 tx-sm-20 mg-b-30"><%= t("ads.new_ad") %></h5>
+        <h5 class="tx-18 tx-sm-20 mg-b-30"><%= t("campaign.new_campaign") %></h5>
 
         <div class="row">
           <div class="col-12 m-auto">
             <div class="pd-20">
-              <%= form_with(model: Ad, url: ads_path, method: :post, :html => { :id => "new_ad", data: { parsley_validate: true } }, local: false) do |f| %>
+              <%= form_with(model: Campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, local: false) do |f| %>
 
               <div class="form-group">
                 <%= f.label t("general_inputs.name") %><br/>

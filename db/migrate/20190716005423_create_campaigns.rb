@@ -4,8 +4,12 @@ class CreateCampaigns < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true
       t.string :name
       t.string :description
-      t.float :budget
-      t.integer :status
+      t.float :budget, default: 0.0
+      # status is for internal status, like in review, accepted or denied
+      t.integer :status, default: 0
+      # state is for user desired state of the campaign, enabled or disabled
+      t.boolean :state, defalt: true
+      t.string :decline_comment
       t.datetime :starts_at
       t.datetime :ends_at
 

@@ -1,17 +1,17 @@
 <header class="navbar navbar-header navbar-header-fixed">
   <a href="" id="mainMenuOpen" class="burger-menu"><i class=" fe fe-bar fnt-md"></i></a>
   <div class="navbar-brand">
-    <a href="/" class="df-logo">Bilbo</a>
+    <a href="/" class="df-logo"><%= image_tag("https://s3.us-east-2.amazonaws.com/cdn.mybilbo.com/Logotipo-azul.png", class: "wd-80") %></a>
   </div><!-- navbar-brand -->
   <div id="navbarMenu" class="navbar-menu-wrapper">
-    <div class="navbar-menu-header">
-      <a href="/" class="df-logo">Bilbo</a>
+    <!-- <div class="navbar-menu-header">
+      <a href="/" class="df-logo"><%= image_tag("https://s3.us-east-2.amazonaws.com/cdn.mybilbo.com/Logotipo-azul.png", class: "wd-80") %></a>
       <a id="mainMenuClose" href=""><i class="fe fe-close fnt-md"></i></a>
-    </div><!-- navbar-menu-header -->
+    </div>< navbar-menu-header --> 
     <ul class="nav navbar-menu">
       <li class="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
     <% if current_user.role == :user %>
-      <li class="nav-item"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.campaigns') %></a></li>
+      <li class="nav-item"><a href="<%= dashboards_path %>" class="nav-link"><i class="fe fe-box"></i><%= t('header.campaigns') %></a></li>
       <li class="nav-item"><a href="<%= ads_path %>" class="nav-link"><i class="fe fe-box"></i><%= t('header.ads') %></a></li>
       <li class="nav-item"><a href="<%= boards_path %>" class="nav-link"><i class="fe fe-box"></i>Bilbos</a></li>
       <li class="nav-item"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.help_center') %></a></li>

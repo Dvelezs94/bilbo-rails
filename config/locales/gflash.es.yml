@@ -1,0 +1,11 @@
+es:
+  gflash:
+    #
+    # These are the translations for the different titles.
+    #
+    titles:
+      notice: "Noticia"
+      success: "Exito"
+      warning: "Aviso"
+      error: "Error"
+      progress: "Progress"

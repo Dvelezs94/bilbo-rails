@@ -3,7 +3,8 @@ class DashboardsController < ApplicationController
 
   def index
     if current_user.role == :user
-      render "index"
+      @campaigns = current_user.campaigns
+      render "campaigns_index"
     elsif current_user.role == :provider
       render "provider_index"
     end

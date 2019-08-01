@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_24_152626) do
+ActiveRecord::Schema.define(version: 2019_07_31_231744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,8 +39,6 @@ ActiveRecord::Schema.define(version: 2019_07_24_152626) do
   create_table "ads", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.integer "status", default: 0
-    t.string "decline_comment"
     t.bigint "user_id"
     t.string "multimedia"
     t.datetime "created_at", null: false
@@ -83,15 +81,30 @@ ActiveRecord::Schema.define(version: 2019_07_24_152626) do
     t.bigint "user_id"
     t.string "name"
     t.string "description"
-    t.float "budget"
-    t.integer "status"
+    t.float "budget", default: 0.0
+    t.integer "status", default: 0
+    t.boolean "state"
+    t.string "decline_comment"
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "ad_id"
+    t.string "slug"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
+    t.index ["slug"], name: "index_campaigns_on_slug", unique: true
     t.index ["user_id"], name: "index_campaigns_on_user_id"
+  end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
   create_table "orders", force: :cascade do |t|
