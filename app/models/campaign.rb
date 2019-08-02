@@ -1,7 +1,7 @@
 class Campaign < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
-  
+
   belongs_to :user
   has_many :prints
   has_and_belongs_to_many :ads
@@ -12,5 +12,10 @@ class Campaign < ApplicationRecord
 
   def total_invested
     self.orders.sum(:total)
+  end
+
+  def ongoing?
+    # validates if both fields are complete
+    !(self.starts_at? && self.ends_at?)
   end
 end

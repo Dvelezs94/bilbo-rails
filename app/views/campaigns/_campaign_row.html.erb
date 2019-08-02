@@ -5,12 +5,14 @@
       <label class="custom-control-label" for="customSwitch<%= campaign.id %>"></label>
     </div>
   </th>
-  <td data-toggle="tooltip" data-placement="top" title="<%= campaign.description %>"><%= campaign.name %> <a href="<%= edit_campaign_path(campaign) %>"><i class="fe fe-edit float-right"></i></a></td>
-  <td><%= campaign.boards.length %></td>
-  <td><%= campaign.ads.first.name rescue t("ads.no_ad") %></td>
-  <td><%= campaign.starts_at || "-" %></td>
-  <td><%= campaign.ends_at || "-" %></td>
-  <td><%= campaign.prints.length %></td>
-  <td><%= number_to_currency(campaign.budget, precision: 2, :unit => "$") %></td>
-  <td><%= number_to_currency(campaign.total_invested, precision: 2, :unit => "$") %></td>
+  <td data-toggle="tooltip" data-placement="top" title="<%= campaign.description %>" class="tx-medium truncate"><%= campaign.name %></td>
+  <td class="text-right"><%= campaign.boards.length %></td>
+  <td class="text-right"><%= link_to(campaign.ads.first.name, ad_path(campaign.ads.first)) rescue t("ads.no_ad") %></td>
+  <td class="text-right"><%= campaign.starts_at || "-" %></td>
+  <td class="text-right"><%= campaign.ends_at || "-" %></td>
+  <td class="text-right tx-medium"><%= campaign.prints.length %></td>
+  <td class="text-right"><%= number_to_currency(campaign.budget, precision: 2, :unit => "$") %></td>
+  <td class="text-right"><%= number_to_currency(campaign.total_invested, precision: 2, :unit => "$") %></td>
+  <td><div class="d-flex"><a href="<%= edit_campaign_path(campaign) %>" data-toggle="tooltip" data-placement="top" title="<%= t("general_inputs.edit") %>" class="tx-20"><i class="fe fe-edit"></i></a>
+  <a href="<%= analytics_campaign_path(campaign) %>" data-toggle="tooltip" data-placement="top" title="<%= t("campaign.metrics") %>" class="pd-l-5 tx-20"><i class="fe fe-activity"></i></a></div></td>
 </tr>

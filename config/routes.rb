@@ -5,10 +5,14 @@ Rails.application.routes.draw do
   resources :ads do
     resources :attachments, only:  [:create, :destroy]
   end
-  resources :campaigns
-  resource :boards, only: :show do
-    get 'get_info' => 'boards#get_info'
+  resources :campaigns do
     member do
+      get :analytics
+    end
+  end
+  resources :boards, only: :index do
+    collection do
+      get :get_info
       get :owned
     end
   end

@@ -69,6 +69,7 @@ es:
     size: "Tamaño"
     delete_confirmation: "Seguro que quieres borrar este elemento?"
     items_page: "elementos/pagina"
+    edit: "editar"
   campaign:
     campaign: "Campañas"
     home: "Inicio"
@@ -82,6 +83,19 @@ es:
     prints: "Impresiones"
     daily_budget: "Presupuesto Diario"
     total_invested: "Total Invertido"
+    metrics: "Metricas"
+    wizard:
+      choose_bilbos: "Escoge tus Bilbos"
+      pick_ad: "Elige tu Anuncio"
+      date_and_budget: "Fecha y Presupuesto"
+      payment_details: "Detalles de Pago"
+      budget: "Presupuesto"
+      daily_budget_description: "El presupuesto es diario, asi que las impresiones se adaptaran a el durante todo el dia"
+      campaign_duration: "Duracion de la campaña"
+      ongoing_campaign: "Campaña continua"
+      pick_date: "Elegir Fecha"
+      start_date: "Fecha de Inicio"
+      end_date: "Fecha de Fin"
   bilbos:
     avg_views: "Vistas Promedio"
     day: "Dia"
