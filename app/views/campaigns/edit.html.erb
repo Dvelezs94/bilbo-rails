@@ -1,1 +1,92 @@
-<%= render 'shared_user/header' %>
+<%= render 'shared_user/header', menu: "dashboard" %>
+<div class="content content-fixed">
+  <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+    <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-30">
+      <div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+            <li class="breadcrumb-item">
+              <a href="#"><%= t("campaign.home") %></a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="/"><%= t("campaign.campaign") %></a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page"><%= @campaign.name %></li>
+          </ol>
+        </nav>
+        <h4 class="mg-b-0 tx-spacing--1"><%= @campaign.name %></h4>
+      </div>
+    </div>
+
+    <div id="dashboardWizard">
+      <h3><%= t("campaign.wizard.choose_bilbos") %></h3>
+      <section>
+        <hr>
+        <div class="row row-xs">
+          <div id="boardInfo" class="col-md-12 col-xl-3 mg-t-10 order-1 d-none">
+            <!-- card -->
+            <ul class="nav nav-tabs nav-justified" id="boardTab" role="tablist">
+              <!-- content filled with js -->
+            </ul>
+            <div id="boardTabContent" class="tab-content bd bd-gray-300 bd-t-0 pd-5 rounded-bottom">
+              <!-- content filled with js -->
+            </div>
+          </div>
+
+          <!-- end card -->
+
+          <!-- map start -->
+          <%= render partial: 'boards/board_map' %>
+          <!-- map end -->
+        </div>
+      </section>
+      <h3><%= t("campaign.wizard.pick_ad") %></h3>
+      <section>
+        <hr>
+        <div class="card-columns">
+          <%= render partial: 'ads/overview_card', collection: @ads, as: :ad %>
+        </div>
+      </section>
+      <h3><%= t("campaign.wizard.date_and_budget") %></h3>
+      <section>
+        <form>
+          <div class="divider-text"><%= t("campaign.wizard.budget") %></div>
+
+          <label for="formGroupExampleInput" class="d-block"><%= t("campaign.wizard.daily_budget_description") %></label>
+          <div class="input-group col-sm-6">
+            <div class="input-group-prepend">
+              <span class="input-group-text">$</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+            <div class="input-group-append">
+              <span class="input-group-text">.00</span>
+            </div>
+          </div>
+          <div class="divider-text"><%= t("campaign.wizard.campaign_duration") %></div>
+          <div class="form-row">
+            <div class="col-12">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="ongoing_campaign" name="customRadio" class="custom-control-input" <%= "checked" if @campaign.ongoing? %>>
+                <label class="custom-control-label" for="ongoing_campaign"><%= t("campaign.wizard.ongoing_campaign") %></label>
+              </div>
+
+              <div class="custom-control custom-radio">
+                <input type="radio" id="date_campaign" name="customRadio" class="custom-control-input" <%= "checked" if !@campaign.ongoing? %>>
+                <label class="custom-control-label" for="date_campaign"><%= t("campaign.wizard.pick_date") %></label>
+              </div>
+            </div>
+            <div class="col-12 form-row">
+              <div class="col-6"><input type="text" class="form-control" id="starts_at" placeholder="<%= t("campaign.wizard.start_date") %>"></div>
+              <div class="col-6"><input type="text" class="form-control" id="ends_at" placeholder="<%= t("campaign.wizard.end_date") %>"></div>
+            </div>
+          </div>
+        </form>
+      </section>
+      <h3><%= t("campaign.wizard.payment_details") %></h3>
+      <section>
+        <p class="mg-b-20">The next and previous buttons help you to navigate through your content.</p>
+        ...
+      </section>
+    </div>
+  </div>
+</div>

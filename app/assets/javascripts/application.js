@@ -6,5 +6,7 @@
 //= require popper
 //= require bootstrap
 //= require gritter
+//= require jquery.steps
+//= require jquery-ui
 
 //= require_tree .

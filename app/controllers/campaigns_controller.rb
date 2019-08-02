@@ -1,14 +1,21 @@
 class CampaignsController < ApplicationController
   access user: :all, provider: {except: [:new]}
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update]
-  before_action :verify_identity, only: [:edit, :destroy, :update]
+  before_action :get_campaign, only: [:analytics, :edit, :destroy, :update, :toggle_state]
+  before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
 
   def index
   end
 
-  def edit
+  def analytics
+  end
 
+  def edit
+    @ads = current_user.ads
+  end
+
+  def toggle_state
+    @campaign.toggle(:state).save
   end
 
   def update

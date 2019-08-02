@@ -83,4 +83,6 @@ gem 'petergate', '~> 2.0', '>= 2.0.1'
 gem 'active_storage_validations', '~> 0.7.1'
 #notifications
 gem 'gritter', '~> 1.2'
-gem 'ionicons-rails'
+gem 'ionicons-rails', '~> 2.0'
+gem 'rails-jquery-steps', '~> 1.0'
+gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'

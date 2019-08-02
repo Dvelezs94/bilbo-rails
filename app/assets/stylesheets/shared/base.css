@@ -8191,7 +8191,7 @@ strong {
   content: '\f3d1'; }
 
 .breadcrumb-style3 .breadcrumb-item + .breadcrumb-item::before {
-  content: '\f287'; }
+  content: '\f125'; }
 
 .btn, .ui-datepicker-buttonpane button, .sp-container button {
   font-size: inherit; }
@@ -10902,7 +10902,7 @@ textarea.form-control {
       .step-item + .step-item {
         margin-left: 36px; } }
     .step-item + .step-item::before {
-      content: '\f287';
+      content: '\f125';
       font-family: 'Ionicons';
       font-size: 16px;
       font-weight: 400;
@@ -11616,7 +11616,7 @@ table.dataTable {
             .wizard > .steps > ul li + li {
               margin-left: 40px; } }
           .wizard > .steps > ul li + li::before {
-            content: '\f287';
+            content: '\f125';
             font-family: 'Ionicons';
             font-size: 16px;
             font-weight: 400;

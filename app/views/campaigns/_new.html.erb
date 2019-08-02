@@ -15,12 +15,12 @@
 
               <div class="form-group">
                 <%= f.label t("general_inputs.name") %><br/>
-                <%= f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true %>
+                <%= f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name") %>
               </div>
 
               <div class="form-group">
                 <%= f.label t("general_inputs.description") %><br/>
-                <%= f.text_area :description, class: "form-control", value: "", autocomplete: "off" %>
+                <%= f.text_area :description, class: "form-control", value: "", autocomplete: "off", placeholder: t("general_inputs.description") %>
               </div>
 
               <div class="actions col-sm-12 col-md-6 m-auto">

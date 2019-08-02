@@ -1,8 +1,8 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:get_info, :show], provider: [:owned]
+  access [:provider, :admin, :user] => [:get_info, :show, :index], provider: [:owned]
   # before_action :get_all_boards, only: :show
 
-  def show
+  def index
   end
 
   # provider boards
