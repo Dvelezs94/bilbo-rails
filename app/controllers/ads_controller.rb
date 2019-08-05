@@ -51,7 +51,7 @@ class AdsController < ApplicationController
   end
 
   def get_ads
-    @ads = current_user.ads.with_attached_multimedia
+    @ads = current_user.ads.order(updated_at: :desc).with_attached_multimedia
   end
 
   def get_ad

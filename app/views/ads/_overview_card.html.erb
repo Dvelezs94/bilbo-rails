@@ -1,16 +1,15 @@
 <a href="<%= ad_path(ad) %>" class="link-02">
-<div class="col-6 col-sm-4 col-md-3 col-xl pd-b-5 flex-0-f">
+<div class="col-6 col-sm-4 col-md-3 col-xl pd-b-5 flex-0-f" data-toggle="tooltip" data-placement="top" title="<%= ad.description %>">
   <div class="card card-file">
     <div class="card-file-thumb bg-white">
         <% if ad.multimedia.first %>
           <%= image_tag ad.multimedia.first, class: "img-inherit" %>
         <% else %>
-          <%= image_tag image_path("board_placeholder"), class: "img-inherit" %>
+          <%= image_tag image_path("placeholder_sm"), class: "img-inherit" %>
         <% end %>
     </div>
     <div class="card-body">
       <h6><%= ad.name %></h6>
-      <span><%= ad.description %> </span>
     </div>
     <div class="card-footer"><span class="d-sm-inline"><%= t("campaign.active_campaigns") %>: </span><%= ad.campaigns.length %></div>
   </div>
