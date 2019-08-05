@@ -109,6 +109,8 @@ es:
     west: "Oeste"
     face: "Cara"
     address: "Direccion"
+    add_bilbo: "Agregar Bilbo"
+    remove_bilbo: "Eliminar Bilbo" 
   ads:
     ads: "Anuncios"
     new_ad: "Nuevo Anuncio"
