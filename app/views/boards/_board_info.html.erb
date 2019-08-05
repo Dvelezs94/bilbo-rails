@@ -64,4 +64,10 @@
         </div>
       </div>
     </div>
+    <% if URI(request.referer).path != "/boards" %>
+      <div class="info-board">
+      <button type="button" class="btn btn-success mg-t-5 btn-block add-bilbo" id="<%= board.id %>"><%= t("bilbos.add_bilbo") %></button>
+      <button type="button" class=" d-none btn btn-secondary mg-t-5 btn-block remove-bilbo" id="d-<%= board.id %>"><%= t("bilbos.remove_bilbo") %></button>
+      </div>
+    <% end %>
   </div>

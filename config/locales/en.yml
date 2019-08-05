@@ -106,6 +106,8 @@ en:
     west: "West"
     face: "Face"
     address: "Address"
+    add_bilbo: "Add Bilbo"
+    remove_bilbo: "Remove Bilbo" 
   ads:
     ads: "Ads"
     new_ad: "New Ad"
