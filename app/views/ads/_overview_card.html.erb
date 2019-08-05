@@ -1,19 +1,18 @@
 <a href="<%= ad_path(ad) %>" class="link-02">
-  <div class="col-12">
+<div class="col-6 col-sm-4 col-md-3 col-xl pd-b-5 flex-0-f">
   <div class="card card-file">
-    <div class="card-file-thumb tx-danger">
-      <div id="carouselExample3" class="carousel slide card-file-thumb" data-ride="carousel">
-
-  <div class="carousel-inner w-100 h-100">
-    <%= render partial: "ads/overview_card_image", collection: ad.multimedia, as: :multimedia %>
-  </div>
-</div>
+    <div class="card-file-thumb bg-white">
+        <% if ad.multimedia.first %>
+          <%= image_tag ad.multimedia.first, class: "img-inherit" %>
+        <% else %>
+          <%= image_tag image_path("board_placeholder"), class: "img-inherit" %>
+        <% end %>
     </div>
     <div class="card-body">
       <h6><%= ad.name %></h6>
-      <span><%= ad.description %></span>
+      <span><%= ad.description %> </span>
     </div>
-    <div class="card-footer"><span class="d-none d-sm-inline"><%= t("campaign.active_campaigns") %>: </span>2</div>
+    <div class="card-footer"><span class="d-sm-inline"><%= t("campaign.active_campaigns") %>: </span><%= ad.campaigns.length %></div>
   </div>
 </div>
 </a>

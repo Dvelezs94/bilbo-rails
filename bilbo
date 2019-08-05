@@ -63,6 +63,10 @@ function expose() {
   ngrok http 80
 }
 
+function console() {
+  bash $0 run rails c
+}
+
 case $1 in
   build)
     build
@@ -108,6 +112,9 @@ case $1 in
   clear-tmp)
     clear-tmp
   ;;
+  console)
+    console
+  ;;
   *)
     echo "
     Usage:
@@ -117,6 +124,7 @@ case $1 in
     $0 start/stop          Start the project by using docker-compose
     $0 restart             restart
     $0 restart-mac         restart and reindex
+    $0 console             run rails console
     $0 clear-tmp           Clear tmp files like js and assets
     $0 logs                Tail logs
     $0 create-db           Run db create and migrations
