@@ -29,4 +29,8 @@ end
   def notification_generator_helper msg, flash_type
      js add_gritter(msg, :image => flash_type, :title=>"Bilbo", :sticky => false, :time => 5000 )
   end
+
+  def number_to_currency_mxn(number)
+    number_to_currency(number, precision: 2, :unit => "$", separator: ".", delimiter: ",", format: "%u %n") + " MXN"
+  end
 end

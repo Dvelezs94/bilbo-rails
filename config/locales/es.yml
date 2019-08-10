@@ -37,6 +37,7 @@ es:
     campaigns: "Campañas"
     help_center: "Centro de ayuda"
     payment_methods: "Metodos de pago"
+    purchase_credits: "Comprar Creditos"
     ads: "Anuncios"
     statistics: "Estadisticas"
     my_bilbos: "Mis Bilbos"
@@ -96,6 +97,7 @@ es:
       pick_date: "Elegir Fecha"
       start_date: "Fecha de Inicio"
       end_date: "Fecha de Fin"
+      summary: "Resumen"
   bilbos:
     avg_views: "Vistas Promedio"
     day: "Dia"
@@ -110,7 +112,7 @@ es:
     face: "Cara"
     address: "Direccion"
     add_bilbo: "Agregar Bilbo"
-    remove_bilbo: "Eliminar Bilbo" 
+    remove_bilbo: "Eliminar Bilbo"
   ads:
     ads: "Anuncios"
     new_ad: "Nuevo Anuncio"
@@ -118,3 +120,4 @@ es:
     all_multimedia_files: "Todos los Archivos Multimedia"
     delete_ad: "Borrar Anuncio"
     no_ad: "Sin anuncio"
+    new_ad_description: "Crea un nuevo anuncio para tus campañas publicitarias"

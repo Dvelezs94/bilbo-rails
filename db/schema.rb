@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 2019_07_31_231744) do
     t.string "company_name"
     t.string "provider"
     t.string "avatar"
+    t.float "balance", default: 0.0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "roles"

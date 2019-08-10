@@ -44,6 +44,7 @@
       <section>
         <hr>
         <div class="card-columns">
+          <%= render partial: "ads/new_ad_card" %>
           <%= render partial: 'ads/overview_card', collection: @ads, as: :ad %>
         </div>
       </section>
@@ -82,11 +83,25 @@
           </div>
         </form>
       </section>
-      <h3><%= t("campaign.wizard.payment_details") %></h3>
+      <h3><%= t("campaign.wizard.summary") %></h3>
       <section>
-        <p class="mg-b-20">The next and previous buttons help you to navigate through your content.</p>
-        ...
+        <hr>
+        <div>
+          <details open="open">
+            <summary><strong>Bilbos (4)</strong></summary>
+            <ul style="list-style: none;">
+              <li>Apt. 189 5460 Harris Plaza, North Doris, VT 49761</li>
+              <li>Apt. 189 5460 Harris Plaza, North Doris, VT 49761</li>
+              <li>Apt. 189 5460 Harris Plaza, North Doris, VT 49761</li>
+              <li>Apt. 189 5460 Harris Plaza, North Doris, VT 49761</li>
+            </ul>
+          </details>
+          <p><strong>Anuncio: </strong> Anuncio Doritos <a href="/" target="_blank"><i class="fe fe-link-external tx-20"></i></a></p>
+          <p><strong>Presupuesto Diario:</strong> $100.00 MXN</p>
+          <p><strong>Duracion de la campaña:</strong> 01/02/1999 - 04/05/2019</p>
+        </div>
       </section>
     </div>
   </div>
 </div>
+<%= render partial: "ads/new" %>
