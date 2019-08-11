@@ -1,7 +1,6 @@
 // wizard pick board
 $(document).on('turbolinks:load', function() {
   $(document).on('click',"#selected_boards",function(){
-    console.log(1);
     var id = this.value
     $.ajax({
        url:  "/boards/get_info",
