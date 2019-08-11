@@ -1,4 +1,4 @@
-<div class="tab-pane fade show <%= "active" if board_iteration.first? %>" id="<%= board.face %>" role="tabpanel" aria-labelledby="<%= board.face %>-tab">
+<div class="tab-pane fade show <%= "active" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id] %>" id="<%= board.face %>" role="tabpanel" aria-labelledby="<%= board.face %>-tab">
     <table class="table-dashboard-two">
       <tbody>
         <tr>

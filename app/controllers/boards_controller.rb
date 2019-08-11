@@ -14,7 +14,7 @@ class BoardsController < ApplicationController
       lat = params[:lat].to_f
       lng = params[:lng].to_f
     else #using select
-      @board = Board.find(params[:id])
+      @board = Board.find(params[:selected_id])
       lat = @board.lat
       lng = @board.lng
     end

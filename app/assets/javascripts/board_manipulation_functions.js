@@ -2,19 +2,21 @@
 $(document).on('turbolinks:load', function() {
   $(document).on('click',"#selected_boards",function(){
     var id = this.value
-    $.ajax({
-       url:  "/boards/get_info",
-       dataType: "script",
-       data: {id: id, selected_boards: $("#campaign_boards").val()},
-       success: function(data) {
-         $("#map-layout").removeClass("col-xl-12");
-         $("#map-layout").addClass("col-xl-9");
-         $("#boardInfo").removeClass("d-none");
-       },
-       error: function(data) {
-         alert("parece que no estás conectado a internet.");
-       }
-    });
+    if (id != "") {
+      $.ajax({
+        url:  "/boards/get_info",
+        dataType: "script",
+        data: {selected_id: id, selected_boards: $("#campaign_boards").val()},
+        success: function(data) {
+          $("#map-layout").removeClass("col-xl-12");
+          $("#map-layout").addClass("col-xl-9");
+          $("#boardInfo").removeClass("d-none");
+        },
+        error: function(data) {
+          alert("parece que no estás conectado a internet.");
+        }
+      });
+    }
   });
 });
 function addBilbo(el) {
@@ -41,7 +43,6 @@ function removeBilbo(el) {
 
 function update_hidden_input(selected_boards) {
   selected_boards_hidden = $("#campaign_boards");
-  selected_boards_hidden.val(""); //erase all data for update
   var ids_list = []
   $.each(selected_boards.find("option"), function(index, elem) {
     ids_list.push( $(elem).attr("value") )
