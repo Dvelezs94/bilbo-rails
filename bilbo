@@ -20,6 +20,7 @@ function build() {
   fi
   if [  "$DBSEED" == "y" ]; then
     bash $0 seed
+    bash $0 clear-tmp
   fi
 }
 
