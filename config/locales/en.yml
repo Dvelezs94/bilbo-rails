@@ -104,6 +104,7 @@ en:
     duration: "Duration"
     seconds: "seconds"
     price_per_print: "Price/Print"
+    credits_pet_print: "Credits/Print"
     dimensions: "Dimensions"
     north: "North"
     south: "South"
@@ -113,6 +114,7 @@ en:
     address: "Address"
     add_bilbo: "Add Bilbo"
     remove_bilbo: "Remove Bilbo"
+    credits: "Credits"
   ads:
     ads: "Ads"
     new_ad: "New Ad"
@@ -123,4 +125,4 @@ en:
     new_ad_description: "Create a new ad for your campaigns"
   payments:
     buy_credits: "Buy Credits"
-    credits_text: "Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date."
+    credits_text: "Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 Credit = 1 USD"

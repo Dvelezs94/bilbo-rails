@@ -57,14 +57,11 @@
           <div class="divider-text"><%= t("campaign.wizard.budget") %></div>
 
           <label for="formGroupExampleInput" class="d-block"><%= t("campaign.wizard.daily_budget_description") %></label>
-          <div class="input-group col-sm-12 col-md-6">
+          <div class="input-group col-sm-12 col-md-6 col-xl-3">
             <div class="input-group-prepend">
-              <span class="input-group-text">$</span>
+              <span class="input-group-text"><i class="fe fe-wallet"></i></span>
             </div>
             <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-            <div class="input-group-append">
-              <span class="input-group-text">.00</span>
-            </div>
           </div>
           <div class="divider-text"><%= t("campaign.wizard.campaign_duration") %></div>
           <div class="form-row">
@@ -111,7 +108,7 @@
           </p>
           <p>
             <strong>Presupuesto Diario:</strong>
-            $100.00 MXN</p>
+            $100.00 <i class="fe fe-wallet"></i></p>
           <p>
             <strong>Duracion de la campaña:</strong>
             01/02/1999 - 04/05/2019</p>

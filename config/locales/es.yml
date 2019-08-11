@@ -104,6 +104,7 @@ es:
     duration: "Duracion"
     seconds: "segundos"
     price_per_print: "Precio/Impresion"
+    credits_per_print: "Creditos/Impresion"
     dimensions: "Dimensiones"
     north: "Norte"
     south: "Sur"
@@ -113,6 +114,7 @@ es:
     address: "Direccion"
     add_bilbo: "Agregar Bilbo"
     remove_bilbo: "Eliminar Bilbo"
+    credits: "Creditos"
   ads:
     ads: "Anuncios"
     new_ad: "Nuevo Anuncio"
@@ -123,4 +125,4 @@ es:
     new_ad_description: "Crea un nuevo anuncio para tus campañas publicitarias"
   payments:
     buy_credits: "Comprar Creditos"
-    credits_text: "Los creditos son la forma en la cual tu pagas tus campañas de publicidad. Estos creditos son acumulables y puedes comprar cuantos necesites. Los creditos no cuentan con una fecha de expiracion."
+    credits_text: "Los creditos son la forma en la cual tu pagas tus campañas de publicidad. Estos creditos son acumulables y puedes comprar cuantos necesites. Los creditos no cuentan con una fecha de expiracion. 1 Credito = 1 USD"
