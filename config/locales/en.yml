@@ -41,7 +41,7 @@ en:
     ads: "Ads"
     statistics: "Statistics"
     my_bilbos: "My Bilbos"
-    
+
   nav_headers:
     users: "Users"
     configuration: "Configuration"
@@ -121,3 +121,6 @@ en:
     delete_ad: "Delete Ad"
     no_ad: "No ad attached"
     new_ad_description: "Create a new ad for your campaigns"
+  payments:
+    buy_credits: "Buy Credits"
+    credits_text: "Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date."

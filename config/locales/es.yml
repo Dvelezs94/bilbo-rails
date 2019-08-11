@@ -121,3 +121,6 @@ es:
     delete_ad: "Borrar Anuncio"
     no_ad: "Sin anuncio"
     new_ad_description: "Crea un nuevo anuncio para tus campañas publicitarias"
+  payments:
+    buy_credits: "Comprar Creditos"
+    credits_text: "Los creditos son la forma en la cual tu pagas tus campañas de publicidad. Estos creditos son acumulables y puedes comprar cuantos necesites. Los creditos no cuentan con una fecha de expiracion."

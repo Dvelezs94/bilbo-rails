@@ -15,6 +15,8 @@ class User < ApplicationRecord
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
   has_many :boards
   has_many :campaigns
+  has_many :payments
+  has_many :invoices
   has_one_attached :avatar
   attr_readonly :email
   has_many :ads
