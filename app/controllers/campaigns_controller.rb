@@ -51,7 +51,7 @@ class CampaignsController < ApplicationController
 
   private
   def campaign_params
-    params.require(:campaign).permit(:name, :description).merge(:user_id => current_user.id)
+    params.require(:campaign).permit(:name, :description, :boards).merge(:user_id => current_user.id)
   end
 
   def get_campaigns

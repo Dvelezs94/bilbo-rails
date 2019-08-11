@@ -46,12 +46,7 @@
       </tbody>
     </table>
     <hr>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-      </ol>
+    <div id="carouselBoardInfo" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
           <img class="d-block w-100" src="<%= image_path("board_placeholder") %>" alt="First slide">
@@ -63,11 +58,19 @@
           <img class="d-block w-100" src="<%= image_path("board_placeholder") %>" alt="Third slide">
         </div>
       </div>
+      <a class="carousel-control-prev" href="#carouselBoardInfo" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"><i class="fe fe-arrow-left tx-30"></i></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselBoardInfo" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"><i class="fe fe-arrow-right tx-30"></i></span>
+    <span class="sr-only">Next</span>
+  </a>
     </div>
     <% if URI(request.referer).path != "/boards" %>
       <div class="info-board">
-      <button type="button" class="btn btn-success mg-t-5 btn-block add-bilbo" id="<%= board.id %>"><%= t("bilbos.add_bilbo") %></button>
-      <button type="button" class=" d-none btn btn-secondary mg-t-5 btn-block remove-bilbo" id="d-<%= board.id %>"><%= t("bilbos.remove_bilbo") %></button>
+      <button type="button" onclick="addBilbo(this)" class="btn btn-success mg-t-5 btn-block add-bilbo" data-id="<%= board.id %>" data-address="<%= "#{board.address} #{t('bilbos.face')} #{board.face}" %>"><%= t("bilbos.add_bilbo") %></button>
+      <button type="button" onclick="removeBilbo(this)" class=" d-none btn btn-secondary mg-t-5 btn-block remove-bilbo" data-id="d-<%= board.id %>"><%= t("bilbos.remove_bilbo") %></button>
       </div>
     <% end %>
   </div>
