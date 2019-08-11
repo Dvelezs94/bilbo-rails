@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  total: 1.5
+  user: one
+  paid_with: MyString
+
+two:
+  total: 1.5
+  user: two
+  paid_with: MyString
