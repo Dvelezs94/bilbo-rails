@@ -5,13 +5,41 @@ $(document).on('turbolinks:load', function() {
       headerTag: 'h3',
       bodyTag: 'section',
       autoFocus: true,
-      titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>'
-    });
+      titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+      onFinished: function (event, currentIndex) {
+        $(".edit_campaign").submit();
+      }
+    //   onStepChanging: function (event, currentIndex, newIndex) {
+    //   if(currentIndex < newIndex) {
+    //     // Step 1 form validation
+    //     if(currentIndex === 0) {
+    //       var fname = $('#firstname').parsley();
+    //       var lname = $('#lastname').parsley();
+    //
+    //       if(fname.isValid() && lname.isValid()) {
+    //         return true;
+    //       } else {
+    //         fname.validate();
+    //         lname.validate();
+    //       }
+    //     }
+    //
+    //     // Step 2 form validation
+    //     if(currentIndex === 1) {
+    //       var email = $('#email').parsley();
+    //       if(email.isValid()) {
+    //         return true;
+    //       } else { email.validate(); }
+    //     }
+    //   // Always allow step back to the previous step even if the current step is not valid.
+    //   } else { return true; }
+    // }
+  });
     // End Jquery steps
 
     // Enable DatePick
     var dateFormat = 'dd/mm/yy',
-      from = $('#starts_at')
+      from = $('#campaign_starts_at')
       .datepicker({
         defaultDate: '+1w',
         numberOfMonths: 2
@@ -19,7 +47,7 @@ $(document).on('turbolinks:load', function() {
       .on('change', function() {
         to.datepicker('option', 'minDate', getDate(this));
       }),
-      to = $('#ends_at').datepicker({
+      to = $('#campaign_ends_at').datepicker({
         defaultDate: '+1w',
         numberOfMonths: 2
       })
@@ -40,21 +68,29 @@ $(document).on('turbolinks:load', function() {
     // End Datepick
 
     // Toggle Datepick radio buttons
-     $("#starts_at").prop('disabled', true);
-     $("#ends_at").prop('disabled', true);
+     $("#campaign_starts_at").prop('disabled', true);
+     $("#campaign_ends_at").prop('disabled', true);
      $('input[type=radio]').click(function(){
        if($(this).prop('id') == "date_campaign"){
-         $("#starts_at").prop('disabled', false);
-         $("#ends_at").prop('disabled', false);
+         $("#campaign_starts_at").prop('disabled', false);
+         $("#campaign_ends_at").prop('disabled', false);
        }else{
-         $("#starts_at").prop('disabled', true);
-         $("#starts_at").val("")
-         $("#ends_at").prop('disabled', true);
-         $("#ends_at").val("")
+         $("#campaign_starts_at").prop('disabled', true);
+         $("#campaign_starts_at").val("")
+         $("#campaign_ends_at").prop('disabled', true);
+         $("#campaign_ends_at").val("")
        }
 
      });
     // End toggle
 
+    // choose ad in wizard
+    $(".card-ad-link").click(function(e){
+      e.preventDefault();
+      $(".wizard_selected_ad").removeClass("wizard_selected_ad");
+      $(this).find("div:first-child > .card").addClass("wizard_selected_ad");
+      $("#campaign_ad_id").val($(this).attr("id"));
+    });
+    // end choose ad
   }
 });

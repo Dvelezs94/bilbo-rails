@@ -5,6 +5,7 @@ class CampaignsController < ApplicationController
   before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
 
   def index
+    redirect_to root_path
   end
 
   def analytics
@@ -21,10 +22,10 @@ class CampaignsController < ApplicationController
   def update
     respond_to do |format|
       if @campaign.update_attributes(campaign_params)
-        format.html { redirect_to @campaign, notice: 'Campaign was successfully updated.' }
+        format.html { redirect_to root_path, notice: 'Campaign was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "show" }
+        format.html { redirect_to root_path }
         format.json { render json: @campaign.errors, status: :unprocessable_entity }
       end
     end
@@ -51,7 +52,11 @@ class CampaignsController < ApplicationController
 
   private
   def campaign_params
-    params.require(:campaign).permit(:name, :description, :boards).merge(:user_id => current_user.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget).merge(:user_id => current_user.id)
+    @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?)) if @campaign_params[:boards].present?
+    # @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
+    # @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
+    @campaign_params
   end
 
   def get_campaigns

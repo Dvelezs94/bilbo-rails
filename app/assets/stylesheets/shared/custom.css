@@ -60,6 +60,12 @@ td {
   max-width: 200px;
 }
 
+.wizard_selected_ad {
+  border-width: 2px !important;
+  border-color: #10b759 !important;
+}
+
+
 .multi-line-truncate-2 {
   overflow: hidden;
   display: -webkit-box;
