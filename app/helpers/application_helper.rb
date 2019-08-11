@@ -30,7 +30,7 @@ end
      js add_gritter(msg, :image => flash_type, :title=>"Bilbo", :sticky => false, :time => 5000 )
   end
 
-  def number_to_currency_mxn(number)
-    number_to_currency(number, precision: 2, :unit => "$", separator: ".", delimiter: ",", format: "%u %n") + " MXN"
+  def number_to_currency_credit(number)
+    number_to_currency(number, precision: 2, separator: ".", delimiter: ",", format: "%n")
   end
 end
