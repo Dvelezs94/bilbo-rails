@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_31_231744) do
+ActiveRecord::Schema.define(version: 2019_08_11_040445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,15 @@ ActiveRecord::Schema.define(version: 2019_07_31_231744) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "invoices", force: :cascade do |t|
+    t.bigint "payment_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["payment_id"], name: "index_invoices_on_payment_id"
+    t.index ["user_id"], name: "index_invoices_on_user_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "status"
     t.bigint "campaign_id"
@@ -116,6 +125,15 @@ ActiveRecord::Schema.define(version: 2019_07_31_231744) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["campaign_id"], name: "index_orders_on_campaign_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.float "total"
+    t.bigint "user_id"
+    t.string "paid_with"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
   create_table "prints", force: :cascade do |t|
@@ -152,7 +170,10 @@ ActiveRecord::Schema.define(version: 2019_07_31_231744) do
   add_foreign_key "boards", "users"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "users"
+  add_foreign_key "invoices", "payments"
+  add_foreign_key "invoices", "users"
   add_foreign_key "orders", "campaigns"
+  add_foreign_key "payments", "users"
   add_foreign_key "prints", "boards"
   add_foreign_key "prints", "campaigns"
 end
