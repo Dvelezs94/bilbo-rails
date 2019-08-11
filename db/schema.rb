@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_040445) do
     t.bigint "user_id"
     t.string "name"
     t.string "description"
-    t.float "budget", default: 0.0
+    t.float "budget"
     t.integer "status", default: 0
     t.boolean "state"
     t.string "decline_comment"

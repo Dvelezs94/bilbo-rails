@@ -4,7 +4,7 @@ class Campaign < ApplicationRecord
 
   belongs_to :user
   has_many :prints
-  has_and_belongs_to_many :ads
+  belongs_to :ad, optional: true
   has_many :orders
   has_and_belongs_to_many :boards
   enum status: { in_review: 0, approved: 1, denied: 0}
