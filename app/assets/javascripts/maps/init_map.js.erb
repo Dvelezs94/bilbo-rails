@@ -23,7 +23,7 @@ function initializeMap() {
         $.ajax({
            url:  "/boards/get_info",
            dataType: "script",
-           data: {id: marker.id, lat: marker.getPosition().lat(), lng: marker.getPosition().lng()},
+           data: {lat: marker.getPosition().lat(), lng: marker.getPosition().lng(), selected_boards: $("#campaign_boards").val()},
            success: function(data) {
              $("#map-layout").removeClass("col-xl-12");
              $("#map-layout").addClass("col-xl-9");

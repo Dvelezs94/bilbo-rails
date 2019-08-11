@@ -10,10 +10,16 @@ class BoardsController < ApplicationController
   end
 
   def get_info
-    lat = params[:lat].to_f
-    lng = params[:lng].to_f
-    # @board = Board.find(params[:id])
+    if params[:lat].present?
+      lat = params[:lat].to_f
+      lng = params[:lng].to_f
+    else #using select
+      @board = Board.find(params[:id])
+      lat = @board.lat
+      lng = @board.lng
+    end
     @boards = Board.where(status: "enabled", lat: (lat - 0.00001)..(lat + 0.00001), lng: (lng - 0.00001)..(lng + 0.00001))
+
   end
 
   private
