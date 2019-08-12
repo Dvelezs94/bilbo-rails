@@ -7,12 +7,12 @@
   </th>
   <td data-toggle="tooltip" data-placement="top" title="<%= campaign.description %>" class="tx-medium truncate"><%= campaign.name %></td>
   <td class="text-right"><%= campaign.boards.length %></td>
-  <td class="text-right"><%= link_to(campaign.ads.first.name, ad_path(campaign.ads.first)) rescue t("ads.no_ad") %></td>
-  <td class="text-right"><%= campaign.starts_at || "-" %></td>
-  <td class="text-right"><%= campaign.ends_at || "-" %></td>
+  <td class="text-right"><%= link_to(campaign.ad.name, ad_path(campaign.ad)) rescue t("ads.no_ad") %></td>
+  <td class="text-right"><%= I18n.l(campaign.starts_at, format: :short) rescue "-" %></td>
+  <td class="text-right"><%= I18n.l(campaign.ends_at, format: :short) rescue "-" %></td>
   <td class="text-right tx-medium"><%= campaign.prints.length %></td>
-  <td class="text-right"><%= number_to_currency(campaign.budget, precision: 2, :unit => "$") %></td>
-  <td class="text-right"><%= number_to_currency(campaign.total_invested, precision: 2, :unit => "$") %></td>
+  <td class="text-right"><%= number_to_currency_credit(campaign.budget) %> <i class="fe fe-wallet"></i></td>
+  <td class="text-right"><%= number_to_currency_credit(campaign.total_invested) %> <i class="fe fe-wallet"></i></td>
   <td><div class="d-flex"><a href="<%= edit_campaign_path(campaign) %>" data-toggle="tooltip" data-placement="top" title="<%= t("general_inputs.edit") %>" class="tx-20"><i class="fe fe-edit"></i></a>
   <a href="<%= analytics_campaign_path(campaign) %>" data-toggle="tooltip" data-placement="top" title="<%= t("campaign.metrics") %>" class="pd-l-5 tx-20"><i class="fe fe-activity"></i></a></div></td>
 </tr>

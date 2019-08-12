@@ -13,6 +13,7 @@ class CampaignsController < ApplicationController
 
   def edit
     @ads = current_user.ads
+    @campaign_boards =  @campaign.boards.collect { |board| [board.address, board.id] }
   end
 
   def toggle_state
@@ -54,8 +55,8 @@ class CampaignsController < ApplicationController
   def campaign_params
     @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget).merge(:user_id => current_user.id)
     @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?)) if @campaign_params[:boards].present?
-    # @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
-    # @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
+    @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
+    @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
     @campaign_params
   end
 
@@ -64,7 +65,7 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaign
-    @campaign = Campaign.friendly.find(params[:id])
+    @campaign = Campaign.includes(:boards).friendly.find(params[:id])
   end
 
   def verify_identity
