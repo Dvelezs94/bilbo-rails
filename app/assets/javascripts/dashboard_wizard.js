@@ -38,33 +38,39 @@ $(document).on('turbolinks:load', function() {
     // End Jquery steps
 
     // Enable DatePick
-    var dateFormat = 'dd/mm/yy',
-      from = $('#campaign_starts_at')
-      .datepicker({
-        defaultDate: '+1w',
-        numberOfMonths: 2
-      })
-      .on('change', function() {
-        to.datepicker('option', 'minDate', getDate(this));
-      }),
-      to = $('#campaign_ends_at').datepicker({
-        defaultDate: '+1w',
-        numberOfMonths: 2
-      })
-      .on('change', function() {
-        from.datepicker('option', 'maxDate', getDate(this));
-      });
-
-    function getDate(element) {
-      var date;
-      try {
-        date = $.datepicker.parseDate(dateFormat, element.value);
-      } catch (error) {
-        date = null;
-      }
-
-      return date;
-    }
+    // var dateFormat = 'mm/dd/yy',
+    //   from = $('#campaign_starts_at')
+    //   .datepicker({
+    //     defaultDate: '+1w',
+    //     numberOfMonths: 2
+    //   })
+    //   .on('change', function() {
+    //     to.datepicker('option', 'minDate', getDate(this));
+    //   }),
+    //   to = $('#campaign_ends_at').datepicker({
+    //     defaultDate: '+1w',
+    //     numberOfMonths: 2
+    //   })
+    //   .on('change', function() {
+    //     from.datepicker('option', 'maxDate', getDate(this));
+    //   });
+    //
+    // function getDate(element) {
+    //   var date;
+    //   try {
+    //     date = $.datepicker.parseDate(dateFormat, element.value);
+    //   } catch (error) {
+    //     date = null;
+    //   }
+    //
+    //   return date;
+    // }
+    $('#campaign_starts_at').datepicker({
+      dateFormat: 'dd-mm-yy'
+    }).val();
+    $('#campaign_ends_at').datepicker({
+      dateFormat: 'dd-mm-yy'
+    }).val();
     // End Datepick
 
     // Toggle Datepick radio buttons
