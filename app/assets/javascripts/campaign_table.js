@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function() {
-  if ($("#campaignsTable".length)) {
+  if ($("#campaignsTable").length) {
     $('#campaignsTable').DataTable({
       responsive: true,
       language: {

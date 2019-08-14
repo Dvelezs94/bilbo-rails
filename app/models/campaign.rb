@@ -7,8 +7,9 @@ class Campaign < ApplicationRecord
   belongs_to :ad, optional: true
   has_many :orders
   has_and_belongs_to_many :boards
-  enum status: { in_review: 0, approved: 1, denied: 0}
+  enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3}
   validates :name, presence: true
+  before_save :set_in_review, :if => :ad_id_changed?
 
   def total_invested
     self.orders.sum(:total)
@@ -17,5 +18,9 @@ class Campaign < ApplicationRecord
   def ongoing?
     # validates if both fields are complete
     !(self.starts_at? && self.ends_at?)
+  end
+
+  def set_in_review
+    self.status = "in_review"
   end
 end

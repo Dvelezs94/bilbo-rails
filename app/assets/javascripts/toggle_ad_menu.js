@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function() {
-  if ($("#configurationTab".length)) {
+  if ($("#configurationTab").length) {
 
     $("#multimediaLink").click(function(e) {
       e.preventDefault();
