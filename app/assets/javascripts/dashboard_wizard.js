@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function() {
-  if ($("#dashboardWizard".length)) {
+  if ($("#dashboardWizard").length) {
     // Enable Jquery steps
     $('#dashboardWizard').steps({
       headerTag: 'h3',
@@ -37,39 +37,11 @@ $(document).on('turbolinks:load', function() {
   });
     // End Jquery steps
 
-    // Enable DatePick
-    // var dateFormat = 'mm/dd/yy',
-    //   from = $('#campaign_starts_at')
-    //   .datepicker({
-    //     defaultDate: '+1w',
-    //     numberOfMonths: 2
-    //   })
-    //   .on('change', function() {
-    //     to.datepicker('option', 'minDate', getDate(this));
-    //   }),
-    //   to = $('#campaign_ends_at').datepicker({
-    //     defaultDate: '+1w',
-    //     numberOfMonths: 2
-    //   })
-    //   .on('change', function() {
-    //     from.datepicker('option', 'maxDate', getDate(this));
-    //   });
-    //
-    // function getDate(element) {
-    //   var date;
-    //   try {
-    //     date = $.datepicker.parseDate(dateFormat, element.value);
-    //   } catch (error) {
-    //     date = null;
-    //   }
-    //
-    //   return date;
-    // }
     $('#campaign_starts_at').datepicker({
-      dateFormat: 'dd-mm-yy'
+      dateFormat: 'yy-mm-dd'
     }).val();
     $('#campaign_ends_at').datepicker({
-      dateFormat: 'dd-mm-yy'
+      dateFormat: 'yy-mm-dd'
     }).val();
     // End Datepick
 
@@ -82,12 +54,15 @@ $(document).on('turbolinks:load', function() {
          $("#campaign_ends_at").prop('disabled', false);
        }else{
          $("#campaign_starts_at").prop('disabled', true);
-         $("#campaign_starts_at").val("")
+         // $("#campaign_starts_at").val("")
          $("#campaign_ends_at").prop('disabled', true);
-         $("#campaign_ends_at").val("")
+         // $("#campaign_ends_at").val("")
        }
-
      });
+     if ($("#date_campaign").prop("checked")){
+       $("#campaign_starts_at").prop('disabled', false);
+       $("#campaign_ends_at").prop('disabled', false);
+     }
     // End toggle
 
     // choose ad in wizard
@@ -97,6 +72,12 @@ $(document).on('turbolinks:load', function() {
       $(this).find("div:first-child > .card").addClass("wizard_selected_ad");
       $("#campaign_ad_id").val($(this).attr("id"));
     });
+
+    if ($("#campaign_ad_id").val()){
+      var selected_ad_id = $("#campaign_ad_id").val()
+      var selected_ad = ($("#" + selected_ad_id))
+      selected_ad.find("div:first-child > .card").addClass("wizard_selected_ad");
+    }
     // end choose ad
   }
 });
