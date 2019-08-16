@@ -1,4 +1,6 @@
 #!/bin/bash
+# this points to the shared folder that you have on docker-compose
+DB_SHARED_FOLDER="tmp/db/"
 
 function build() {
   set -e
@@ -8,7 +10,7 @@ function build() {
   if [ "$DBDEL" == "y" ]
   then
     echo "Deleting DB folder..."
-    sudo rm -rf tmp/db/
+    sudo rm -rf ${DB_SHARED_FOLDER}
     echo "done."
   fi
   docker-compose down
@@ -44,7 +46,7 @@ function create_db() {
 function path {
   echo "exporting path"
   export PATH=$PATH:$(pwd)
-  echo "You can now use bilbo as a native command"
+  echo "You can now use the CLI as a native command"
   exec $(which bash)
 }
 
@@ -119,19 +121,19 @@ case $1 in
   *)
     echo "
     Usage:
-    $0 path                Export cli to your shell
-    $0 build               You will need this if you want to build from scratch
-    $0 status              check containers status
-    $0 start/stop          Start the project by using docker-compose
-    $0 restart             restart
-    $0 restart-mac         restart and reindex
-    $0 console             run rails console
-    $0 clear-tmp           Clear tmp files like js and assets
-    $0 logs                Tail logs
-    $0 create-db           Run db create and migrations
-    $0 run command here    Run any command inside the container
-    $0 fix-perms           Experimental - fix code permission issues
-    $0 seed                Seed DB
-    $0 expose              expose with ngrok on port 80"
+    `basename $0` path                Export cli to your shell
+    `basename $0` build               You will need this if you want to build from scratch
+    `basename $0` status              check containers status
+    `basename $0` start/stop          Start the project by using docker-compose
+    `basename $0` restart             restart
+    `basename $0` restart-mac         restart and reindex
+    `basename $0` console             run rails console
+    `basename $0` clear-tmp           Clear tmp files like js and assets
+    `basename $0` logs                Tail logs
+    `basename $0` create-db           Run db create and migrations
+    `basename $0` run command here    Run any command inside the container
+    `basename $0` fix-perms           Experimental - fix code permission issues
+    `basename $0` seed                Seed DB
+    `basename $0` expose              expose with ngrok on port 80"
   ;;
 esac

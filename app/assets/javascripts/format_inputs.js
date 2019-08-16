@@ -5,4 +5,12 @@ $(document).on('turbolinks:load', function() {
       numeralThousandsGroupStyle: 'thousand'
     });
   }
+
+  if ($(".input-number_integer").length) {
+    var cleave = new Cleave('.input-number_integer', {
+      numeral: true,
+      numeralDecimalMark: '',
+      delimiter: ''
+    });
+  }
 });

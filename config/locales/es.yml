@@ -71,6 +71,9 @@ es:
     delete_confirmation: "Seguro que quieres borrar este elemento?"
     items_page: "elementos/pagina"
     edit: "editar"
+    pay_with: "Pagar con"
+    please_wait: "Por favor espera..."
+    here: "aqui"
   campaign:
     campaign: "Campañas"
     home: "Inicio"
@@ -124,5 +127,7 @@ es:
     no_ad: "Sin anuncio"
     new_ad_description: "Crea un nuevo anuncio para tus campañas publicitarias"
   payments:
+    if_it_doesnt_redirect: "Si no lo redirige en 5 segundos, haga click"
+    processing_order: "Procesando la orden..."
     buy_credits: "Comprar Creditos"
     credits_text: "Los creditos son la forma en la cual tu pagas tus campañas de publicidad. Estos creditos son acumulables y puedes comprar cuantos necesites. Los creditos no cuentan con una fecha de expiracion. 1 Credito = 1 USD"

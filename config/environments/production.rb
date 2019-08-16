@@ -83,6 +83,15 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
+  ActiveMerchant::Billing::Base.mode = :production
+    paypal_options = {
+      login: ENV.fetch("PAYPAL_USERNAME"),
+      password: ENV.fetch("PAYPAL_PASSWORD"),
+      signature: ENV.fetch("PAYPAL_SIGNATURE")
+    }
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
+  end
+
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
