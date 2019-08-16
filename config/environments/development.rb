@@ -59,6 +59,16 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # paypal active merchannt
+  config.after_initialize do
+  ActiveMerchant::Billing::Base.mode = :test
+    paypal_options = {
+      login: ENV.fetch("PAYPAL_USERNAME"),
+      password: ENV.fetch("PAYPAL_PASSWORD"),
+      signature: ENV.fetch("PAYPAL_SIGNATURE")
+    }
+    ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
+  end
   Rails.application.routes.default_url_options[:host] = "https://app-#{ENV.fetch("ENVNAME")}.mybilbo.com"
   config.action_mailer.default_url_options = { host: "https://app-#{ENV.fetch("ENVNAME")}.mybilbo.com" }
 end

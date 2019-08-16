@@ -73,6 +73,7 @@ gem 'omniauth-facebook', '~> 5.0'
 # Google omniauth
 gem 'omniauth-google-oauth2', '~> 0.6.1'
 gem 'gravatar_image_tag', github: 'mdeering/gravatar_image_tag'
+gem "font-awesome-rails"
 #Handle images
 gem 'mini_magick', '~> 4.9', '>= 4.9.2'
 # AWS sdk to support role based auth and s3 files
@@ -86,3 +87,4 @@ gem 'gritter', '~> 1.2'
 gem 'ionicons-rails', '~> 2.0'
 gem 'rails-jquery-steps', '~> 1.0'
 gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
+gem 'activemerchant', '~> 1.96'

@@ -16,7 +16,11 @@ Rails.application.routes.draw do
       get :owned
     end
   end
-  resource :payment, only: [:new, :create]
+  resource :payment, only: [:new, :create] do
+    member do
+      post :express
+    end
+  end
   resources :invoices, only: [:index, :show]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -1,0 +1,22 @@
+<%= render 'shared_user/header', menu: "dashboard" %>
+<div class="content content-fixed">
+  <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0 m-auto text-center">
+    <h1 clas="df-title"><%= t("payments.processing_order") %></h1>
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+  <%= form_with(model: Payment, url: payment_path, method: :post, id: "process_payment", local: false) do |f| %>
+  <%= f.hidden_field :express_token, value: params[:token] %>
+  <% end %>
+  <br><br>
+  <small><%= t("payments.if_it_doesnt_redirect") %> <strong id="payment_redirect_submit" onclick="$('#process_payment').submit()"><%= t("general_inputs.here") %>...</strong></small>
+</div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    setTimeout(function(){
+      $('#process_payment').submit()
+    }, 1500);
+  });
+</script>

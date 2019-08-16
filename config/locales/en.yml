@@ -71,6 +71,9 @@ en:
     delete_confirmation: "Are you sure you want to delete this element?"
     items_page: "items/page"
     edit: "edit"
+    pay_with: "Pay with"
+    please_wait: "Please wait..."
+    here: "here"
   campaign:
     campaign: "Dashboard"
     home: "Home"
@@ -124,5 +127,7 @@ en:
     no_ad: "No ad attached"
     new_ad_description: "Create a new ad for your campaigns"
   payments:
+    if_it_doesnt_redirect: "If you don't get redirected in 5 seconds, click"
+    processing_order: "Processing order..."
     buy_credits: "Buy Credits"
     credits_text: "Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 Credit = 1 USD"

@@ -8291,6 +8291,13 @@ strong {
     border-color: #4064ac;
     color: #fff; }
 
+.btn-outline-paypal {
+  background-color: #FEBC36;
+  border-color: #FEBC36;
+  color: #fff; }
+  .btn-outline-paypal:hover, .btn-outline-paypal:focus {
+    color: #fff; }
+
 .btn-outline-twitter {
   background-color: transparent;
   border-color: #00a7e6;
