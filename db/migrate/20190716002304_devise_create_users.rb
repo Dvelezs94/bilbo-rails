@@ -19,6 +19,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       t.string :provider
       t.string :avatar
       t.float :balance, default: 0.0
+      t.string :locale
 
       ## Trackable
       # t.integer  :sign_in_count, default: 0, null: false

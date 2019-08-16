@@ -55,6 +55,7 @@ es:
     current_password: "Contraseña actual (necesitamos comprobar que eres tu)"
     minimum_characters: "caracteres minimos"
     update: "Actualizar"
+    idiom: "Idioma"
   general_inputs:
     close: "Cerrar"
     search: "Buscar"
@@ -131,3 +132,10 @@ es:
     processing_order: "Procesando la orden..."
     buy_credits: "Comprar Creditos"
     credits_text: "Los creditos son la forma en la cual tu pagas tus campañas de publicidad. Estos creditos son acumulables y puedes comprar cuantos necesites. Los creditos no cuentan con una fecha de expiracion. 1 Credito = 1 USD"
+  invoices:
+    invoice: "Factura"
+    invoices: "Facturas"
+    issued_at: "Fecha de emision"
+    beneficiary_name: "Nombre del beneficiario"
+    total_amount: "Cantidad total"
+    go_to_invoice: "Ir a la factura"
