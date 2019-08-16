@@ -1,0 +1,7 @@
+<tr>
+  <td><%= invoice.invoice_number %></td>
+  <td><%= I18n.l(invoice.created_at.to_date, format: :long) %></td>
+  <td><%= "#{invoice.payment.first_name} #{invoice.payment.last_name}" %></td>
+  <td><%= number_to_currency_usd(invoice.payment.total) %></td>
+  <td><a href="<%= invoice_path(invoice) %>"><%= t("invoices.go_to_invoice") %></a></td>
+</tr>

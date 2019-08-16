@@ -1,0 +1,45 @@
+<%= render 'shared_user/header', menu: "" %>
+
+<div class="content content-fixed">
+  <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+    <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-30">
+      <div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+            <li class="breadcrumb-item">
+              <a href="/"><%= t("campaign.home") %></a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page"><%= t("invoices.invoices") %></li>
+          </ol>
+        </nav>
+
+        <h4 class="mg-b-0 tx-spacing--1"><%= t("invoices.invoices") %></h4>
+      </div>
+    </div>
+    <% if @invoices.length > 0 %>
+    <div class="row">
+      <div class="table-responsive">
+
+        <table class="table" id="invoicesTable">
+          <thead>
+            <tr>
+              <th><%= t("invoices.invoice_number") %></th>
+              <th><%= t("invoices.issued_at") %></th>
+              <th><%= t("invoices.beneficiary_name") %></th>
+              <th><%= t("invoices.total_amount") %></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "invoices/invoice_row", collection: @invoices, as: :invoice %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <% end %>
+  </div>
+
+  <!-- container -->
+</div>
+<!-- content -->
+<%= render partial: "campaigns/new" %>

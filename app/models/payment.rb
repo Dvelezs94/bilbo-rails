@@ -5,9 +5,10 @@ class Payment < ApplicationRecord
 
   def purchase
     response = EXPRESS_GATEWAY.purchase(total.to_f, express_purchase_options)
-    user.increment!(:balance, by = total) if response.success?
-    p express_purchase_options
-    p response
+    if response.success?
+      user.increment!(:balance, by = total)
+      GenerateInvoiceWorker.perform_async(id)
+    end
     response.success?
   end
 

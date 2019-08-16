@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_040445) do
   end
 
   create_table "invoices", force: :cascade do |t|
+    t.string "invoice_number"
     t.bigint "payment_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
@@ -163,6 +164,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_040445) do
     t.string "provider"
     t.string "avatar"
     t.float "balance", default: 0.0
+    t.string "locale"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "roles"

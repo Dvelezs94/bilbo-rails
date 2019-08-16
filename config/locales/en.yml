@@ -55,6 +55,7 @@ en:
     current_password: "Current password (we need your current password to confirm your changes)"
     minimum_characters: "minimum characters"
     update: "Update"
+    idiom: "Language"
   general_inputs:
     close: "Close"
     search: "Search"
@@ -131,3 +132,10 @@ en:
     processing_order: "Processing order..."
     buy_credits: "Buy Credits"
     credits_text: "Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 Credit = 1 USD"
+  invoices:
+    invoice: "Invoice"
+    invoices: "Invoices"
+    issued_at: "Issued at"
+    beneficiary_name: "beneficiary name"
+    total_amount: "Total amount"
+    go_to_invoice: "Go to invoice"

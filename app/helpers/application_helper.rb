@@ -33,4 +33,8 @@ end
   def number_to_currency_credit(number)
     number_to_currency(number, precision: 2, separator: ".", delimiter: ",", format: "%n")
   end
+
+  def number_to_currency_usd(number)
+    number_to_currency(number, precision: 2, separator: ".", unit: "$", delimiter: ",", format: "%u %n")
+  end
 end

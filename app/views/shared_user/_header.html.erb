@@ -33,7 +33,7 @@
         <p class="tx-12 tx-color-03"><%= current_user.company_name %></p>
         <a href="#modalNewPayment" data-toggle="modal" class="dropdown-item" data-toggle="tooltip" data-placement="bottom" title="<%= t('header.purchase_credits') %>"><i class="fe fe-wallet pd-r-5 tx-success"></i><%= number_to_currency_credit(current_user.balance) %></a>
         <div class="dropdown-divider"></div>
-        <a href="" class="dropdown-item"><i class="fe fe-document pd-r-5"></i><%= t('header.invoices') %></a>
+        <a href="<%= invoices_path %>" class="dropdown-item"><i class="fe fe-document pd-r-5"></i><%= t('header.invoices') %></a>
         <a href="<%= edit_user_registration_path %>" class="dropdown-item"><i class="fe fe-gear pd-r-5"></i> <%= t('header.account_settings') %></a>
         <a href="#modalNewPayment" data-toggle="modal" class="dropdown-item"><i class="fe fe-wallet pd-r-5"></i><%= t('header.purchase_credits') %></a>
         <hr>
