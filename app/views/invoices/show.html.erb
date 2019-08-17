@@ -7,7 +7,7 @@
         <p class="mg-b-0 tx-color-03"><%= I18n.l(@invoice.created_at.to_date, format: :long) %></p>
       </div>
       <div class="mg-t-20 mg-sm-t-0">
-        <button class="btn btn-white"><i class="mg-r-5 fe fe-print"></i> Print</button>
+        <button class="btn btn-white" onclick="window.print();"><i class="mg-r-5 fe fe-print"></i> <%= t("invoices.print") %></button>
       </div>
     </div>
   </div><!-- container -->
@@ -73,26 +73,26 @@
 
     <div class="row justify-content-between">
       <div class="col-sm-6 col-lg-6 order-2 order-sm-0 mg-t-40 mg-sm-t-0">
-        <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03">Notes</label>
-        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+        <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03"><%= t("invoices.notes") %></label>
+        <p><%= t("invoices.all_prices_are_in_dollars") %></p>
       </div><!-- col -->
       <div class="col-sm-6 col-lg-4 order-1 order-sm-0">
         <ul class="list-unstyled lh-7 pd-r-10">
           <li class="d-flex justify-content-between">
             <span>Sub-Total</span>
-            <span>$5,750.00</span>
+            <span><%= number_to_currency_usd(@invoice.payment.total) %></span>
           </li>
-          <li class="d-flex justify-content-between">
+          <!-- <li class="d-flex justify-content-between">
             <span>Tax (5%)</span>
             <span>$287.50</span>
           </li>
           <li class="d-flex justify-content-between">
             <span>Discount</span>
             <span>-$50.00</span>
-          </li>
+          </li> -->
           <li class="d-flex justify-content-between">
-            <strong>Total Due</strong>
-            <strong>$5,987.50</strong>
+            <strong>Total</strong>
+            <strong><%= number_to_currency_usd(@invoice.payment.total) %></strong>
           </li>
         </ul>
       </div><!-- col -->

@@ -147,3 +147,6 @@ en:
     quantity: "Quantity"
     unit_price: "Unit price"
     total: "Total"
+    print: "print"
+    notes: "Notes"
+    all_prices_are_in_dollars: "All prices are charged and shown in USD."

@@ -147,3 +147,6 @@ es:
     quantity: "Cantidad"
     unit_price: "Precio unitario"
     total: "Total"
+    print: "Imprimir"
+    notes: "Notas"
+    all_prices_are_in_dollars: "Todos los precios son cargados y mostrados en Dolares Estadounidenses"
