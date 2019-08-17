@@ -1,0 +1,7 @@
+<tr>
+  <td class="tx-nowrap"><%= t("bilbos.credits") %></td>
+  <td class="d-none d-sm-table-cell tx-color-03"><%= t("payments.credits_text") %></td>
+  <td class="tx-center"><%= payment.total %></td>
+  <td class="tx-right">$1</td>
+  <td class="tx-right"><%= number_to_currency_usd(payment.total) %></td>
+</tr>

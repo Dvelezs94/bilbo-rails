@@ -21,37 +21,28 @@
         <h6 class="tx-15 mg-b-10">Bilbo</h6>
         <p class="mg-b-0">Manuel Perez Trevino 404, Colonia Los Pinos 4 Sector, Saltillo. Coah.</p>
         <p class="mg-b-0">Tel No: +52 844 688 20 30</p>
-        <p class="mg-b-0">Email: youremail@companyname.com</p>
+        <p class="mg-b-0">Email: info@mybilbo.com</p>
       </div><!-- col -->
       <div class="col-sm-6 tx-right d-none d-md-block">
-        <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03">Invoice Number</label>
-        <h1 class="tx-normal tx-color-04 mg-b-10 tx-spacing--2">#DF032AZ00022</h1>
+        <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03"><%= t("invoices.number") %></label>
+        <h1 class="tx-normal tx-color-04 mg-b-10 tx-spacing--2">#<%= @invoice.invoice_number %></h1>
       </div><!-- col -->
       <div class="col-sm-6 col-lg-8 mg-t-40 mg-sm-t-0 mg-md-t-40">
-        <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03">Billed To</label>
-        <h6 class="tx-15 mg-b-10">Juan Dela Cruz</h6>
-        <p class="mg-b-0">4033 Patterson Road, Staten Island, NY 10301</p>
-        <p class="mg-b-0">Tel No: 324 445-4544</p>
-        <p class="mg-b-0">Email: youremail@companyname.com</p>
+        <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03"><%= t("invoiced.billed_to") %></label>
+        <h6 class="tx-15 mg-b-10"><%= "#{@invoice.payment.first_name} #{@invoice.payment.last_name}" %></h6>
+        <p class="mg-b-0"><%= "#{t('authentication.company') }: #{ @invoice.user.company_name}"%>: </p>
+        <p class="mg-b-0">Email: <%= @invoice.user.email %></p>
       </div><!-- col -->
       <div class="col-sm-6 col-lg-4 mg-t-40">
-        <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03">Invoice Information</label>
+        <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03"><%= t("invoices.information") %></label>
         <ul class="list-unstyled lh-7">
           <li class="d-flex justify-content-between">
-            <span>Invoice Number</span>
-            <span>DF032AZ00022</span>
+            <span><%= t("invoices.number") %></span>
+            <span><%= @invoice.invoice_number %></span>
           </li>
           <li class="d-flex justify-content-between">
-            <span>Product ID</span>
-            <span>32334300</span>
-          </li>
-          <li class="d-flex justify-content-between">
-            <span>Issue Date</span>
-            <span>January 20, 2019</span>
-          </li>
-          <li class="d-flex justify-content-between">
-            <span>Due Date</span>
-            <span>April 21, 2019</span>
+            <span><%= t("invoices.issued_at") %></span>
+            <span><%= I18n.l(@invoice.created_at.to_date, format: :long) %></span>
           </li>
         </ul>
       </div><!-- col -->
@@ -61,41 +52,20 @@
       <table class="table table-invoice bd-b">
         <thead>
           <tr>
-            <th class="wd-20p">Type</th>
-            <th class="wd-40p d-none d-sm-table-cell">Description</th>
-            <th class="tx-center">QNTY</th>
-            <th class="tx-right">Unit Price</th>
-            <th class="tx-right">Amount</th>
+            <th class="wd-20p"><%= t("invoices.type") %></th>
+            <th class="wd-40p d-none d-sm-table-cell"><%= t("invoices.description") %></th>
+            <th class="tx-center"><%= t("invoices.quantity") %></th>
+            <th class="tx-right"><%= t("invoices.unit_price") %></th>
+            <th class="tx-right"><%= t("invoices.total") %></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="tx-nowrap">Website Design</td>
-            <td class="d-none d-sm-table-cell tx-color-03">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam...</td>
-            <td class="tx-center">2</td>
-            <td class="tx-right">$150.00</td>
-            <td class="tx-right">$300.00</td>
-          </tr>
-          <tr>
-            <td class="tx-nowrap">Firefox Plugin</td>
-            <td class="d-none d-sm-table-cell tx-color-03">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque...</td>
-            <td class="tx-center">1</td>
-            <td class="tx-right">$1,200.00</td>
-            <td class="tx-right">$1,200.00</td>
-          </tr>
-          <tr>
-            <td class="tx-nowrap">iPhone App</td>
-            <td class="d-none d-sm-table-cell tx-color-03">Et harum quidem rerum facilis est et expedita distinctio</td>
-            <td class="tx-center">2</td>
-            <td class="tx-right">$850.00</td>
-            <td class="tx-right">$1,700.00</td>
-          </tr>
-          <tr>
-            <td class="tx-nowrap">Android App</td>
-            <td class="d-none d-sm-table-cell tx-color-03">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut</td>
-            <td class="tx-center">3</td>
-            <td class="tx-right">$850.00</td>
-            <td class="tx-right">$2,550.00</td>
+            <td class="tx-nowrap"><%= t("bilbos.credits") %></td>
+            <td class="d-none d-sm-table-cell tx-color-03"><%= t("payments.credits_text") %></td>
+            <td class="tx-center"><%= @invoice.payment.total %></td>
+            <td class="tx-right">$1</td>
+            <td class="tx-right"><%= number_to_currency_usd(@invoice.payment.total) %></td>
           </tr>
         </tbody>
       </table>
