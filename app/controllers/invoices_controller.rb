@@ -1,11 +1,16 @@
 class InvoicesController < ApplicationController
   access user: :all
-  before_action :get_invoices, on: [:index]
+  before_action :get_invoices, only: [:index]
+  before_action :get_invoice, only: [:show]
 
   def index
   end
 
   def new
+  end
+
+  def show
+
   end
 
   def create
@@ -18,7 +23,7 @@ class InvoicesController < ApplicationController
   end
 
   def get_invoice
-    @invoice = Invoice.includes(:payment).friendly.find(params[:id])
+    @invoice = Invoice.includes(:payment).find(params[:id])
   end
 
   def verify_identity
