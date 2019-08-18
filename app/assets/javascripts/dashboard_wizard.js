@@ -6,9 +6,28 @@ $(document).on('turbolinks:load', function() {
       bodyTag: 'section',
       autoFocus: true,
       titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+
       onFinished: function (event, currentIndex) {
         $(".edit_campaign").submit();
-      }
+      },
+      onStepChanged: function (event, currentIndex, priorIndex) {
+        // update summary on map change
+        if (priorIndex == 0) {
+          $('#bilbosAddress').empty()
+          $("#selected_boards option:not(:eq(0))").each(function() {
+            $("#bilbosAddress").append('<li>'+$(this).text()+'</li>');
+          });
+          $("#bilbosNum").text($("#bilbosAddress li").length)
+          // update summary on ads change
+        } else if ( priorIndex == 1) {
+          $("#adName").text($(".wizard_selected_ad .card-body").text())
+          // update summary on budget and date change
+        } else if (priorIndex == 2) {
+          $("#dailyBudget").text($("#campaign_budget").val())
+          $("#campaignStarts").text($("#campaign_starts_at").val())
+          $("#campaignEnds").text($("#campaign_ends_at").val())
+        }
+      },
     //   onStepChanging: function (event, currentIndex, newIndex) {
     //   if(currentIndex < newIndex) {
     //     // Step 1 form validation

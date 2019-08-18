@@ -2,6 +2,7 @@ class InvoicesController < ApplicationController
   access user: :all
   before_action :get_invoices, only: [:index]
   before_action :get_invoice, only: [:show]
+  before_action :verify_identity, only: [:show]
 
   def index
   end
