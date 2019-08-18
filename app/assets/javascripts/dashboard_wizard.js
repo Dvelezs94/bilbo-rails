@@ -6,53 +6,63 @@ $(document).on('turbolinks:load', function() {
       bodyTag: 'section',
       autoFocus: true,
       titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
-
       onFinished: function (event, currentIndex) {
         $(".edit_campaign").submit();
       },
-      onStepChanged: function (event, currentIndex, priorIndex) {
-        // update summary on map change
-        if (priorIndex == 0) {
-          $('#bilbosAddress').empty()
-          $("#selected_boards option:not(:eq(0))").each(function() {
-            $("#bilbosAddress").append('<li>'+$(this).text()+'</li>');
-          });
-          $("#bilbosNum").text($("#bilbosAddress li").length)
-          // update summary on ads change
-        } else if ( priorIndex == 1) {
-          $("#adName").text($(".wizard_selected_ad .card-body").text())
-          // update summary on budget and date change
-        } else if (priorIndex == 2) {
-          $("#dailyBudget").text($("#campaign_budget").val())
-          $("#campaignStarts").text($("#campaign_starts_at").val())
-          $("#campaignEnds").text($("#campaign_ends_at").val())
+      onStepChanging: function (event, currentIndex, newIndex) {
+      if(currentIndex < newIndex) {
+        // Step 1 form validation
+        if(currentIndex === 0) {
+          var campaignboards = $('#campaign_boards').parsley();
+
+          if(campaignboards.isValid()) {
+            return true;
+          } else {
+            campaignboards.validate();
+          }
         }
-      },
-    //   onStepChanging: function (event, currentIndex, newIndex) {
-    //   if(currentIndex < newIndex) {
-    //     // Step 1 form validation
-    //     if(currentIndex === 0) {
-    //       var fname = $('#firstname').parsley();
-    //       var lname = $('#lastname').parsley();
-    //
-    //       if(fname.isValid() && lname.isValid()) {
-    //         return true;
-    //       } else {
-    //         fname.validate();
-    //         lname.validate();
-    //       }
-    //     }
-    //
-    //     // Step 2 form validation
-    //     if(currentIndex === 1) {
-    //       var email = $('#email').parsley();
-    //       if(email.isValid()) {
-    //         return true;
-    //       } else { email.validate(); }
-    //     }
-    //   // Always allow step back to the previous step even if the current step is not valid.
-    //   } else { return true; }
-    // }
+
+        // Step 2 form validation
+        if(currentIndex === 1) {
+          var campaignadid = $('#campaign_ad_id').parsley();
+          if(campaignadid.isValid()) {
+            return true;
+          } else { campaignadid.validate(); }
+        }
+
+        if(currentIndex === 2) {
+          var campaignbudget = $('#campaign_budget').parsley();
+          var campaignstartsat = $('#campaign_starts_at').parsley();
+          var campaignendsat = $('#campaign_ends_at').parsley();
+          if(campaignbudget.isValid() && campaignstartsat.isValid() && campaignendsat.isValid()) {
+            return true;
+          } else {
+            campaignbudget.validate();
+            campaignstartsat.validate();
+            campaignendsat.validate();
+          }
+        }
+      // Always allow step back to the previous step even if the current step is not valid.
+      } else { return true; }
+    },
+    onStepChanged: function (event, currentIndex, priorIndex) {
+      // update summary on map change
+      if (priorIndex === 0) {
+        $('#bilbosAddress').empty()
+        $("#selected_boards option:not(:eq(0))").each(function() {
+          $("#bilbosAddress").append('<li>'+$(this).text()+'</li>');
+        });
+        $("#bilbosNum").text($("#bilbosAddress li").length)
+        // update summary on ads change
+      } else if ( priorIndex === 1) {
+        $("#adName").text($(".wizard_selected_ad .card-body").text())
+        // update summary on budget and date change
+      } else if (priorIndex === 2) {
+        $("#dailyBudget").text($("#campaign_budget").val())
+        $("#campaignStarts").text($("#campaign_starts_at").val())
+        $("#campaignEnds").text($("#campaign_ends_at").val())
+      }
+    },
   });
     // End Jquery steps
 
