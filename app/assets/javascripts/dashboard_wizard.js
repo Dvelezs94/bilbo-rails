@@ -34,12 +34,21 @@ $(document).on('turbolinks:load', function() {
           var campaignbudget = $('#campaign_budget').parsley();
           var campaignstartsat = $('#campaign_starts_at').parsley();
           var campaignendsat = $('#campaign_ends_at').parsley();
-          if(campaignbudget.isValid() && campaignstartsat.isValid() && campaignendsat.isValid()) {
-            return true;
-          } else {
-            campaignbudget.validate();
-            campaignstartsat.validate();
-            campaignendsat.validate();
+          if ($("#date_campaign").prop("checked")){
+            if(campaignbudget.isValid() && campaignstartsat.isValid() && campaignendsat.isValid()) {
+              return true;
+            } else {
+              campaignbudget.validate();
+              campaignstartsat.validate();
+              campaignendsat.validate();
+            }
+          }
+          else {
+            if(campaignbudget.isValid()) {
+              return true;
+            } else {
+              campaignbudget.validate();
+            }
           }
         }
       // Always allow step back to the previous step even if the current step is not valid.
@@ -55,23 +64,37 @@ $(document).on('turbolinks:load', function() {
         $("#bilbosNum").text($("#bilbosAddress li").length)
         // update summary on ads change
       } else if ( priorIndex === 1) {
-        $("#adName").text($(".wizard_selected_ad .card-body").text())
+        $("#adName").text($(".wizard_selected_ad .card-body").text());
         // update summary on budget and date change
       } else if (priorIndex === 2) {
         $("#dailyBudget").text($("#campaign_budget").val())
-        $("#campaignStarts").text($("#campaign_starts_at").val())
-        $("#campaignEnds").text($("#campaign_ends_at").val())
+        if ($("#date_campaign").prop("checked")){
+          $("#campaignStarts").text($("#campaign_starts_at").val());
+          $("#campaignEnds").text($("#campaign_ends_at").val());
+        } else {
+          $("#campaignStarts").text("");
+          $("#campaignEnds").text("");
+        }
       }
-    },
+    }
   });
     // End Jquery steps
 
-    $('#campaign_starts_at').datepicker({
-      dateFormat: 'yy-mm-dd'
-    }).val();
-    $('#campaign_ends_at').datepicker({
-      dateFormat: 'yy-mm-dd'
-    }).val();
+    $("#date_campaign").click(function() {
+      $("#campaign_starts_at").prop('required', true);
+      $("#campaign_ends_at").prop('required', true);
+      $('#campaign_starts_at').datepicker({
+        dateFormat: 'yy-mm-dd'
+      }).val();
+      $('#campaign_ends_at').datepicker({
+        dateFormat: 'yy-mm-dd'
+      }).val();
+    });
+
+    $("#ongoing_campaign").click(function() {
+      $("#campaign_starts_at").prop('required', false);
+      $("#campaign_ends_at").prop('required', false);
+    });
     // End Datepick
 
     // Toggle Datepick radio buttons
@@ -88,6 +111,8 @@ $(document).on('turbolinks:load', function() {
          // $("#campaign_ends_at").val("")
        }
      });
+
+
      if ($("#date_campaign").prop("checked")){
        $("#campaign_starts_at").prop('disabled', false);
        $("#campaign_ends_at").prop('disabled', false);
