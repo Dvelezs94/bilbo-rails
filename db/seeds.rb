@@ -42,7 +42,16 @@ if ENV.fetch("RAILS_ENV") != "production"
         board.duration = Faker::Number.within(7..10)
         board.status = Faker::Number.between(0, 1)
         board.face = b
+        board.name = Faker::FunnyName.name
         board.address = Faker::Address.full_address
+        board.category = ["television", "billboard", "wallboard"].sample
+        board.base_earnings = Faker::Number.between(1000, 4000)
+      end
+      20.times do
+        Impression.create! do |pr|
+          pr.board_id = (x + 1)
+          #pr.campaign_id = (x + 1)
+        end
       end
     end
   end

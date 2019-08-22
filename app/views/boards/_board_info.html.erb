@@ -17,6 +17,13 @@
         </tr>
         <tr>
           <td>
+            <i class="fe fe-desktop ic-purple pd-r-5-f"></i>
+          </td>
+          <td class="tx-medium"><%= t("bilbos.type") %></td>
+          <td class="text-right"><%= t("bilbos.#{board.category}") %></td>
+        </tr>
+        <tr>
+          <td>
             <i class="fe fe-users ic-primary pd-r-5-f"></i>
           </td>
           <td class="tx-medium"><%= t("bilbos.avg_views") %></td>
@@ -34,7 +41,7 @@
             <i class="fe fe-wallet ic-success pd-r-5-f"></i>
           </td>
           <td class="tx-medium"><%= t("bilbos.credits_per_print") %></td>
-          <td class="text-right" data-toggle="tooltip" data-placement="bottom" title="<%= t('bilbos.credits') %>">0.005</td>
+          <td class="text-right" data-toggle="tooltip" data-placement="bottom" title="<%= t('bilbos.credits') %>"><%= number_to_currency_credit(board.cycle_price(DateTime.now), 6) %></td>
         </tr>
         <tr>
           <td>
