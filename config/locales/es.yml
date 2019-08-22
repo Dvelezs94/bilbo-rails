@@ -102,6 +102,7 @@ es:
       start_date: "Fecha de Inicio"
       end_date: "Fecha de Fin"
       summary: "Resumen"
+      impressions_forecast: "Suma del total de las impresiones diarias en tus bilbos elegidos"
   bilbos:
     avg_views: "Vistas Promedio"
     day: "Dia"
