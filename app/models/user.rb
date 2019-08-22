@@ -20,4 +20,31 @@ class User < ApplicationRecord
   has_one_attached :avatar
   attr_readonly :email
   has_many :ads
+
+  # gives an array with the user boards and the respective impressions in a given time
+  # sample output: [{"board_name": "V.carranza", "impressions": 435}, {"board_name": "E.zapata", "impressions": 544}]
+  def impressions_by_boards(start = 4.weeks.ago)
+    total_impressions = Impression.where(board_id: boards.pluck(:id), created_at: start.beginning_of_day..DateTime.now)
+    #total_impressions = total_impressions.select(:created_at, :board_id)
+    # Impression.where(board_id: User.find(39).boards.pluck(:id), created_at: 4.weeks.ago.beginning_of_day..DateTime.now)
+    # total_impressions = total_impressions.group_by{ |t| [created_at.beginning_of_day, t.board_id] }
+    total_impressions = total_impressions.group_by_day(:created_at).count
+    total_impressions
+  end
+
+  # returns a hash of total prints per day, WITHOUT grouping the boards
+  def total_board_impressions(start = 4.weeks.ago)
+    total_impressions = Impression.where(board_id: boards.pluck(:id), created_at: start.beginning_of_day..DateTime.now)
+    total_impressions = total_impressions.group_by_day(:created_at).count
+    total_impressions
+  end
+
+  def month_board_impressions(start = DateTime.now)
+    total_impressions = Impression.where(board_id: boards.pluck(:id), created_at: start.beginning_of_month..start.end_of_month)
+    total_impressions.sum(:cycles) * board.cycle_price
+  end
+
+  # get current month impressions * impression price
+  def current_month_earnings
+  end
 end

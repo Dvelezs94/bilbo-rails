@@ -17,7 +17,7 @@
       <li class="nav-item <%= "active" if menu == "help" %>"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.help_center') %></a></li>
     <% elsif current_user.role == :provider%>
       <li class="nav-item <%= "active" if menu == "dashboard" %>"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.dashboard') %></a></li>
-      <li class="nav-item <%= "active" if menu == "statistics" %>"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.statistics') %></a></li>
+      <!-- <li class="nav-item <%= "active" if menu == "statistics" %>"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.statistics') %></a></li> -->
       <li class="nav-item <%= "active" if menu == "my_bilbos" %>"><a href="<%= owned_boards_path %>" class="nav-link"><i class="fe fe-box"></i><%= t("header.my_bilbos") %></a></li>
     <% end %>
   </ul>
@@ -28,18 +28,26 @@
         <div class="avatar avatar-sm"><%= image_tag user_avatar(current_user, 500), class: "rounded-circle" %></div>
       </a><!-- dropdown-link -->
       <div class="dropdown-menu dropdown-menu-right">
+
         <div class="avatar avatar-lg mg-b-15"><%= image_tag user_avatar(current_user, 500), class: "rounded-circle" %></div>
         <h6 class="tx-semibold mg-b-5"><%= current_user.name %></h6>
         <p class="tx-12 tx-color-03"><%= current_user.company_name %></p>
-        <a href="#modalNewPayment" data-toggle="modal" class="dropdown-item" data-toggle="tooltip" data-placement="bottom" title="<%= t('header.purchase_credits') %>"><i class="fe fe-wallet pd-r-5 tx-success"></i><%= number_to_currency_credit(current_user.balance) %></a>
+        <% if current_user.role == :user %>
+          <a href="#modalNewPayment" data-toggle="modal" class="dropdown-item" data-toggle="tooltip" data-placement="bottom" title="<%= t('header.purchase_credits') %>"><i class="fe fe-wallet pd-r-5 tx-success"></i><%= number_to_currency_credit(current_user.balance) %></a>
+          <div class="dropdown-divider"></div>
+          <a href="<%= invoices_path %>" class="dropdown-item"><i class="fe fe-document pd-r-5"></i><%= t('header.invoices') %></a>
+          <a href="<%= edit_user_registration_path %>" class="dropdown-item"><i class="fe fe-gear pd-r-5"></i> <%= t('header.account_settings') %></a>
+          <a href="#modalNewPayment" data-toggle="modal" class="dropdown-item"><i class="fe fe-wallet pd-r-5"></i><%= t('header.purchase_credits') %></a>
+          <hr>
+          <%= link_to( (t('header.logout') + "<i class='fe fe-logout pd-l-5'></i>").html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item") %>
+        <% elsif current_user.role == :provider%>
         <div class="dropdown-divider"></div>
-        <a href="<%= invoices_path %>" class="dropdown-item"><i class="fe fe-document pd-r-5"></i><%= t('header.invoices') %></a>
         <a href="<%= edit_user_registration_path %>" class="dropdown-item"><i class="fe fe-gear pd-r-5"></i> <%= t('header.account_settings') %></a>
-        <a href="#modalNewPayment" data-toggle="modal" class="dropdown-item"><i class="fe fe-wallet pd-r-5"></i><%= t('header.purchase_credits') %></a>
         <hr>
         <%= link_to( (t('header.logout') + "<i class='fe fe-logout pd-l-5'></i>").html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item") %>
+        <% end %>
       </div><!-- dropdown-menu -->
     </div><!-- dropdown -->
   </div><!-- navbar-right -->
 </header><!-- navbar -->
-<%= render "payments/new" %>
+<%= render "payments/new"  if current_user.role == :user %>

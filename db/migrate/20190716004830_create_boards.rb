@@ -11,6 +11,10 @@ class CreateBoards < ActiveRecord::Migration[5.2]
       t.integer :status
       t.string :address
       t.string :images
+      t.string :name
+      t.string :category
+      # expected earnings for 70% of use in USD
+      t.integer :base_earnings
       # north face, south, etc
       t.integer :face
 

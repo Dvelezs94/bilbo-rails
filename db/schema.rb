@@ -64,6 +64,9 @@ ActiveRecord::Schema.define(version: 2019_08_11_040445) do
     t.integer "status"
     t.string "address"
     t.string "images"
+    t.string "name"
+    t.string "category"
+    t.integer "base_earnings"
     t.integer "face"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -107,6 +110,15 @@ ActiveRecord::Schema.define(version: 2019_08_11_040445) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "impressions", force: :cascade do |t|
+    t.bigint "campaign_id"
+    t.bigint "board_id"
+    t.integer "cycles", default: 1
+    t.datetime "created_at", null: false
+    t.index ["board_id"], name: "index_impressions_on_board_id"
+    t.index ["campaign_id"], name: "index_impressions_on_campaign_id"
+  end
+
   create_table "invoices", force: :cascade do |t|
     t.string "invoice_number"
     t.bigint "payment_id"
@@ -115,17 +127,6 @@ ActiveRecord::Schema.define(version: 2019_08_11_040445) do
     t.datetime "updated_at", null: false
     t.index ["payment_id"], name: "index_invoices_on_payment_id"
     t.index ["user_id"], name: "index_invoices_on_user_id"
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.integer "status"
-    t.bigint "campaign_id"
-    t.integer "prints"
-    t.float "total"
-    t.datetime "paid_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["campaign_id"], name: "index_orders_on_campaign_id"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -140,16 +141,6 @@ ActiveRecord::Schema.define(version: 2019_08_11_040445) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_payments_on_user_id"
-  end
-
-  create_table "prints", force: :cascade do |t|
-    t.bigint "campaign_id"
-    t.bigint "board_id"
-    t.float "price", default: 0.0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["board_id"], name: "index_prints_on_board_id"
-    t.index ["campaign_id"], name: "index_prints_on_campaign_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -177,10 +168,9 @@ ActiveRecord::Schema.define(version: 2019_08_11_040445) do
   add_foreign_key "boards", "users"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "users"
+  add_foreign_key "impressions", "boards"
+  add_foreign_key "impressions", "campaigns"
   add_foreign_key "invoices", "payments"
   add_foreign_key "invoices", "users"
-  add_foreign_key "orders", "campaigns"
   add_foreign_key "payments", "users"
-  add_foreign_key "prints", "boards"
-  add_foreign_key "prints", "campaigns"
 end

@@ -89,3 +89,5 @@ gem 'rails-jquery-steps', '~> 1.0'
 gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
 gem 'activemerchant', '~> 1.96'
 gem 'sidekiq', '~> 5.2', '>= 5.2.7'
+# be able to do group_by_date
+gem 'groupdate', '~> 4.1', '>= 4.1.2'
