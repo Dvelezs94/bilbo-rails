@@ -18,13 +18,13 @@
       </div>
     </div>
 
-    <%= form_for(@campaign, :html => { data: { parsley_validate: true } }) do |f| %>
+    <%= form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }) do |f| %>
     <div id="dashboardWizard">
       <h3><%= t("campaign.wizard.choose_bilbos") %></h3>
       <section>
         <hr>
         <div class="row row-xs">
-          <%= f.select(:boards, @campaign_boards, {:include_blank => 'Bilbos seleccionados'}, {:class => "custom-select col-sm-12 col-md-6 ml-auto", id: "selected_boards"})  %>
+          <%= f.select(:boards, @campaign_boards, {:include_blank => 'Bilbos seleccionados'}, {:class => "custom-select col-sm-12 col-md-6 ml-auto", id: "selected_boards"}) %>
           <%= f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true %>
           <div id="boardInfo" class="col-md-12 col-xl-3 mg-t-10 order-1 d-none">
             <!-- card -->
@@ -45,7 +45,7 @@
       </section>
       <h3><%= t("campaign.wizard.pick_ad") %></h3>
       <section>
-        <%= f.text_field :ad_id, :class => "d-none", readonly: true, required: true  %>
+        <%= f.text_field :ad_id, :class => "d-none", readonly: true, required: true %>
         <hr>
         <div class="card-columns">
           <%= render partial: "ads/new_ad_card" %>
@@ -58,12 +58,18 @@
           <div class="divider-text"><%= t("campaign.wizard.budget") %></div>
 
           <label for="formGroupExampleInput" class="d-block"><%= t("campaign.wizard.daily_budget_description") %></label>
-          <div class="input-group col-sm-12 col-md-6 col-xl-3">
+          <div class="input-group col-sm-12 col-md-6 col-xl-4">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fe fe-wallet"></i></span>
+              <span class="input-group-text">
+                <i class="fe fe-wallet"></i>
+              </span>
             </div>
             <%= f.text_field :budget, :class => "form-control input-number", required: true %>
+            <div class="input-group-append">
+              <span class="input-group-text" data-toggle="tooltip" data-placement="top" title="<%= t("campaign.wizard.impressions_forecast") %>"><strong id="impressions">0</strong></span>
+            </div>
           </div>
+          <div class="col-4"></div>
           <div class="divider-text"><%= t("campaign.wizard.campaign_duration") %></div>
           <div class="form-row">
             <div class="col-12">
@@ -92,25 +98,28 @@
             <summary>
               <strong>Bilbos (<span id="bilbosNum"></span>)</strong>
             </summary>
-            <ul style="list-style: none;" id="bilbosAddress">
-            </ul>
+            <ul style="list-style: none;" id="bilbosAddress"></ul>
           </details>
           <p>
-            <strong>Anuncio: </strong> <span id="adName">Ad Name</span>
-            <!-- <a href="/" target="_blank" id="">
-              <i class="fe fe-link-external tx-20"></i>
-            </a> -->
+            <strong>Anuncio:
+            </strong>
+            <span id="adName">Ad Name</span>
+            <!-- <a href="/" target="_blank" id=""> <i class="fe fe-link-external tx-20"></i> </a> -->
           </p>
           <p>
             <strong>Presupuesto Diario:</strong>
-            <span id="dailyBudget">Budget</span> <i class="fe fe-wallet"></i></p>
+            <span id="dailyBudget">Budget</span>
+            <i class="fe fe-wallet"></i>
+          </p>
           <p>
             <strong>Duracion de la campaña:</strong>
-            <span id="campaignStarts">01/02/1999</span> - <span id="campaignEnds">04/05/2019</span></p>
+            <span id="campaignStarts"></span>
+            -
+            <span id="campaignEnds"></span></p>
         </div>
       </section>
     </div>
-    <% end %>
-  </div>
+  <% end %>
+</div>
 </div>
 <%= render partial: "ads/new" %>

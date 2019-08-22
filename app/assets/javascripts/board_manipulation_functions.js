@@ -13,7 +13,7 @@ $(document).on('turbolinks:load', function() {
           $("#boardInfo").removeClass("d-none");
         },
         error: function(data) {
-          alert("parece que no estás conectado a internet.");
+          alert("Oops.. Ocurrio un error..");
         }
       });
     }
@@ -21,11 +21,13 @@ $(document).on('turbolinks:load', function() {
 });
 function addBilbo(el) {
   id = $(el).attr("data-id");
+  cycle_price = $(el).attr("data-price");
   buttons_container = $(el).closest(".info-board");
   address = $(el).attr("data-address");
   selected_boards = $("#selected_boards");
   if (selected_boards.find("option[value=" + id + "]").length == 0) {
-    selected_boards.append(new Option(address, id));
+    build_option = "<option value='" + id + "' data-price='" + cycle_price + "'>"+ address + "</option>"
+    selected_boards.append(build_option);
     selected_boards.val(selected_boards.find("option:last").val() );
     update_hidden_input(selected_boards);
     update_buttons("added", buttons_container);
