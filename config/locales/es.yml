@@ -57,6 +57,7 @@ es:
     update: "Actualizar"
     idiom: "Idioma"
   general_inputs:
+    confirm: "Confirmar"
     close: "Cerrar"
     search: "Buscar"
     browse: "Buscar"
@@ -104,6 +105,14 @@ es:
       summary: "Resumen"
       impressions_forecast: "Suma del total de las impresiones diarias en tus bilbos elegidos"
   bilbos:
+    name: "Nombre del Bilbo"
+    state: "Estado"
+    copy_stream_url: "Copiar URL"
+    regenerate_token: "Regenerar token de acceso"
+    month_impressions: "Impresiones Mensuales"
+    start_stream: "Empezar a emitir"
+    not_streaming: "No emitiendo"
+    streaming: "Emitiendo"
     avg_views: "Vistas Promedio"
     day: "Dia"
     duration: "Duracion"

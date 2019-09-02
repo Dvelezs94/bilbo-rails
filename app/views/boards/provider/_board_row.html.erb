@@ -1,0 +1,22 @@
+<tr>
+  <td class="text-left"><%= board.name %></td>
+  <% if board.streaming_state == "streaming" %>
+  <td><div class="avatar d-none d-sm-block wd-20-f ht-20-f" data-toggle="tooltip" data-placement="top" title="<%= t("bilbos.streaming") %>"><span class="avatar-initial rounded-circle bg-success traffic-light"></span></div></td>
+  <% else %>
+  <td></td>
+  <% end %>
+  <td><%= board.active_campaigns %></td>
+  <td><%= board.monthly_impressions_count %></td>
+  <td>
+    <ul class="nav float-right">
+      <li class="nav-item">
+        <a class="nav-link tx-primary" href="#" data-toggle="dropdown"><i class="fe fe-elipsis-v" class="wd-15 ht-15"></i></a>
+        <div class="dropdown-menu tx-13">
+          <a href="<%= board_path(board, access_token: board.access_token) %>" target="_blank" class="dropdown-item"><%= t("bilbos.start_stream") %></a>
+          <a href="/" target="_blank" class="dropdown-item"><%= t("bilbos.copy_stream_url") %></a>
+          <%= link_to t("bilbos.regenerate_token"), regenerate_access_token_board_path(board.slug), class: "dropdown-item", :data => {:confirm => t("general_inputs.confirm")} %>
+        </div>
+      </li>
+    </ul>
+  </td>
+</tr>

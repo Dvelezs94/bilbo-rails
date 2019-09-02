@@ -17,6 +17,7 @@ class CreateBoards < ActiveRecord::Migration[5.2]
       t.integer :base_earnings
       # north face, south, etc
       t.integer :face
+      t.string :access_token
 
       t.timestamps
     end
