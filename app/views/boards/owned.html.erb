@@ -1,1 +1,51 @@
 <%= render 'shared_user/header', menu: "my_bilbos" %>
+
+<div class="content content-fixed">
+  <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+    <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-30">
+      <div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+            <li class="breadcrumb-item">
+              <a href="/"><%= t("campaign.home") %></a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page"><%= t("header.my_bilbos") %></li>
+          </ol>
+        </nav>
+
+        <h4 class="mg-b-0 tx-spacing--1"><%= t("header.my_bilbos") %></h4>
+      </div>
+      <!-- <div class="d-none d-md-block">
+        <a href="#modalNewCampaign" data-toggle="modal">
+          <button class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5">
+            <i class="wd-10 mg-r-5 fe fe-plus"></i>
+            <%= t("campaign.new_campaign") %></button>
+        </a>
+      </div> -->
+    </div>
+    <% if @boards.length > 0 %>
+    <div class="row">
+      <div class="table-responsive">
+
+        <table class="table" id="boardsTable">
+          <thead>
+            <tr>
+              <th><%= t("bilbos.name") %></th>
+              <th><%= t("bilbos.state") %></th>
+              <th><%= t("campaign.active_campaigns") %></th>
+              <th><%= t("bilbos.month_impressions") %></th>
+              <th class="no-sort"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render partial: "boards/provider/board_row", collection: @boards, as: :board %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <% end %>
+  </div>
+
+  <!-- container -->
+</div>
+<!-- content -->

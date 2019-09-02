@@ -16,9 +16,9 @@
       <li class="nav-item <%= "active" if menu == "boards" %>"><a href="<%= boards_path %>" class="nav-link"><i class="fe fe-box"></i>Bilbos</a></li>
       <li class="nav-item <%= "active" if menu == "help" %>"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.help_center') %></a></li>
     <% elsif current_user.role == :provider%>
-      <li class="nav-item <%= "active" if menu == "dashboard" %>"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.dashboard') %></a></li>
-      <!-- <li class="nav-item <%= "active" if menu == "statistics" %>"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.statistics') %></a></li> -->
+      <!-- <li class="nav-item <%= "active" if menu == "dashboard" %>"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.dashboard') %></a></li> -->
       <li class="nav-item <%= "active" if menu == "my_bilbos" %>"><a href="<%= owned_boards_path %>" class="nav-link"><i class="fe fe-box"></i><%= t("header.my_bilbos") %></a></li>
+      <li class="nav-item <%= "active" if menu == "statistics" %>"><a href="<%= provider_statistics_dashboards_path %>" class="nav-link"><i class="fe fe-box"></i><%= t('header.statistics') %></a></li>
     <% end %>
   </ul>
   </div><!-- navbar-menu-wrapper -->
