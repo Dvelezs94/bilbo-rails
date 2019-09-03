@@ -61,13 +61,13 @@ ActiveRecord::Schema.define(version: 2019_09_01_214151) do
     t.float "width"
     t.float "height"
     t.integer "duration"
-    t.integer "status"
+    t.integer "status", default: 0
     t.string "address"
     t.string "images"
     t.string "name"
     t.string "category"
     t.integer "base_earnings"
-    t.integer "face"
+    t.string "face"
     t.string "access_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

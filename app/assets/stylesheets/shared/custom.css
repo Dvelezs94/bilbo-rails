@@ -130,3 +130,9 @@ details[open] summary:after {
   animation: up-right 1s infinite;
 }
 /* end traffic light */
+
+/* fix google maps z-indes */
+.pac-container {
+    z-index: 10000 !important;
+}
+/*  */

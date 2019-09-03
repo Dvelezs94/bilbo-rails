@@ -5,13 +5,8 @@ class Board < ApplicationRecord
   has_and_belongs_to_many :campaigns
   has_many :impressions
   has_many_attached :images
-  enum status: { enabled: 0, disabled: 1, banned: 2}
-  enum face: {
-    north: 0,
-    south: 1,
-    east: 2,
-    west: 3
-  }
+  before_create :generate_token
+  enum status: { in_review: 0, enabled: 1, disabled: 2, banned: 3}
 
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
   # and the user is not able to click the marker because it is a cluster
@@ -45,6 +40,12 @@ class Board < ApplicationRecord
 
   def active_campaigns
     campaigns.where(state: true).length
+  end
+
+  private
+
+  def generate_token
+    access_token = SecureRandom.hex
   end
 
 end
