@@ -1,0 +1,96 @@
+<div class="modal fade effect-slide-in-top" id="modalNewBilbo" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body pd-20 pd-sm-30">
+        <button type="button" class="close pos-absolute t-15 r-20" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <h5 class="tx-18 tx-sm-20 mg-b-30"><%= t("bilbos.new_bilbo") %></h5>
+
+        <div class="row">
+          <div class="col-12 m-auto">
+            <div class="pd-20">
+              <%= form_with(model: Board, url: boards_path, method: :post, :html => { :id => "new_board", data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, local: false) do |f| %>
+
+              <%= f.hidden_field :lat %>
+              <%= f.hidden_field :lng %>
+
+              <div class="form-group">
+                <%= f.label t("general_inputs.name") %><br/>
+                <%= f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name") %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label t("general_inputs.address") %><br/>
+                <%= f.text_field :address, class: "form-control google_autocomplete", value: "", required: true, autocomplete: "off", placeholder: t("general_inputs.address") %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label "Categoria" %>
+                <%= f.select("category", [[t("bilbos.billboard"),"billboard"],[t("bilbos.wallboard"),"wallboard"],[t("bilbos.television"),"television"]], {}, {:class => "custom-select"}) %>
+              </div>
+
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-12 col-md-6">
+                    <%= f.label "duracion" %><br/>
+                    <div class="input-group mg-b-10">
+                      <%= f.select("duration", [[8],[10]], {}, {:class => "custom-select", aria: { describedby: "bilboseconds", label: "Seconds"}}) %>
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="bilboseconds">segundos</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <%= f.label "Cantidad a generar esperada" %>
+                    <div class="input-group mg-b-10">
+                      <%= f.text_field :base_earnings, class: "form-control", autocomplete: "off", required: true, placeholder: "200", aria: { describedby: "bilbobaseearnings", label: "Base Earnings"} %>
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="bilbobaseearnings">USD</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="form-group">
+                <%= f.label "Cara" %><br/>
+                <%= f.text_field :face, class: "form-control", autocomplete: "off", required: true, placeholder: "cara", list: "faces" %>
+                <datalist id="faces">
+                  <option value="<%= t("bilbos.north") %>">
+                  <option value="<%= t("bilbos.south") %>">
+                  <option value="<%= t("bilbos.east") %>">
+                  <option value="<%= t("bilbos.west") %>">
+                  <option value="Cuarto 1">
+                </datalist>
+              </div>
+
+              <div class="form-group">
+                <%= f.label "Dimensiones (metros)" %><br/>
+                <div class="row">
+                  <div class="col-6">
+                    <%= f.text_field :width, class: "form-control", placeholder: "width", required: true %>
+                  </div>
+                  <div class="col-6">
+                    <%= f.text_field :height, class: "form-control", placeholder: "height", required: true %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="actions col-sm-12 col-md-6 m-auto">
+                <%= f.submit t("general_inputs.create"), class: "btn btn-primary btn-block", id: "submit_board" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary mg-sm-l-5" data-dismiss="modal"><%= t("general_inputs.close") %></button>
+      </div><!-- modal-footer -->
+    </div><!-- modal-content -->
+  </div><!-- modal-dialog -->
+</div><!-- modal -->

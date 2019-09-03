@@ -8,5 +8,6 @@
 //= require gritter
 //= require jquery.steps
 //= require jquery-ui
+//= require clipboard
 
 //= require_tree .

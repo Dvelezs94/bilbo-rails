@@ -1,5 +1,5 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:get_info, :index], provider: [:owned, :regenerate_access_token], all: [:show]
+  access [:provider, :admin, :user] => [:get_info, :index], provider: [:owned, :regenerate_access_token, :create], all: [:show], admin: [:toogle_status]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:show, :regenerate_access_token]
   before_action :restrict_access, only: :show
@@ -16,6 +16,21 @@ class BoardsController < ApplicationController
   def show
   end
 
+  def create
+    @board = Board.new(board_params)
+    if @board.save
+      flash[:success] = "Board saved"
+    else
+      flash[:error] = "Could not save board"
+    end
+    redirect_to root_path
+  end
+
+  # Admin action to toggle the status of a board
+  def toggle_status
+  end
+
+  # this gets called when a board is selected in the map
   def get_info
     if params[:lat].present?
       lat = params[:lat].to_f
@@ -40,6 +55,22 @@ class BoardsController < ApplicationController
   end
 
   private
+
+  def board_params
+    @campaign_params = params.require(:board).permit(:name,
+                                                        :avg_daily_views,
+                                                        :width,
+                                                        :height,
+                                                        :lat,
+                                                        :lng,
+                                                        :duration,
+                                                        :address,
+                                                        :category,
+                                                        :face,
+                                                        :base_earnings,
+                                                        images: []).merge(:user_id => current_user.id)
+  end
+
   def get_all_boards
     @boards = Board.enabled.pluck(:id, :latitude, :longitude).to_json
   end

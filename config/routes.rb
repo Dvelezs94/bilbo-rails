@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       get :analytics
     end
   end
-  resources :boards, only: [:index, :show] do
+  resources :boards, only: [:index, :show, :create] do
     collection do
       get :get_info
       get :owned
