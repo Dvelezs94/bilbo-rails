@@ -1,4 +1,4 @@
-<div class="tab-pane fade show <%= "active" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id] %>" id="<%= board.face %>" role="tabpanel" aria-labelledby="<%= board.face %>-tab">
+<div class="tab-pane fade show <%= "active" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id] %>" id="<%= board.slug %>" role="tabpanel" aria-labelledby="<%= board.slug %>-tab">
     <table class="table-dashboard-two">
       <tbody>
         <tr>
@@ -6,7 +6,7 @@
             <i class="fe fe-eye ic-teal pd-r-5-f"></i>
           </td>
           <td class="tx-medium"><%= t("bilbos.face") %></td>
-          <td class="text-right"><%= t("bilbos.#{board.face}") %></td>
+          <td class="text-right"><%= board.face %></td>
         </tr>
         <tr>
           <td>
@@ -75,7 +75,7 @@
     <% if URI(request.referer).path != "/boards" %>
       <div class="info-board">
         <% is_selected = (params[:selected_boards].split(",").include?(board.id.to_s))? true : false %>
-      <button type="button" onclick="addBilbo(this)" class="btn btn-success mg-t-5 btn-block add-bilbo <%= "d-none" if is_selected %>" data-id="<%= board.id %>" data-address="<%= board.address %>" data-price="<%= board.cycle_price(DateTime.now) %>"><%= t("bilbos.add_bilbo") %></button>
+      <button type="button" onclick="addBilbo(this)" class="btn btn-success mg-t-5 btn-block add-bilbo <%= "d-none" if is_selected %>" data-id="<%= board.id %>" data-address="<%= "#{board.address} - #{board.face}" %>" data-price="<%= board.cycle_price(DateTime.now) %>"><%= t("bilbos.add_bilbo") %></button>
       <button type="button" onclick="removeBilbo(this)" class="btn btn-secondary mg-t-5 btn-block remove-bilbo <%= "d-none" if !is_selected %>" data-id="<%= board.id %>"><%= t("bilbos.remove_bilbo") %></button>
       </div>
     <% end %>

@@ -27,8 +27,17 @@
               </div>
 
               <div class="form-group">
-                <%= f.label "Categoria" %>
-                <%= f.select("category", [[t("bilbos.billboard"),"billboard"],[t("bilbos.wallboard"),"wallboard"],[t("bilbos.television"),"television"]], {}, {:class => "custom-select"}) %>
+                <div class="row">
+                  <div class="col-sm-12 col-md-6">
+                    <%= f.label "Categoria" %>
+                    <%= f.select("category", [[t("bilbos.billboard"),"billboard"],[t("bilbos.wallboard"),"wallboard"],[t("bilbos.television"),"television"]], {}, {:class => "custom-select"}) %>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <%= f.label "Vistas Promedio/Dia" %>
+                    <%= f.text_field :avg_daily_views, class: "form-control", autocomplete: "off", required: true, placeholder: "200" %>
+                  </div>
+                </div>
+
               </div>
 
               <div class="form-group">

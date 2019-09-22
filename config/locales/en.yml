@@ -77,6 +77,7 @@ en:
     pay_with: "Pay with"
     please_wait: "Please wait..."
     here: "here"
+    nothing_to_see_here: "Nothing to see here..."
   campaign:
     campaign: "Dashboard"
     home: "Home"
@@ -118,6 +119,7 @@ en:
     month_impressions: "Month impressions"
     start_stream: "Start stream"
     not_streaming: "Not streaming"
+    stream_status: "Stream status"
     streaming: "Streaming"
     avg_views: "Average Views"
     day: "Day"

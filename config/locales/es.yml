@@ -77,6 +77,7 @@ es:
     pay_with: "Pagar con"
     please_wait: "Por favor espera..."
     here: "aqui"
+    nothing_to_see_here: "No hay nada aqui..."
   campaign:
     campaign: "Campañas"
     home: "Inicio"
@@ -118,6 +119,7 @@ es:
     month_impressions: "Impresiones Mensuales"
     start_stream: "Empezar a emitir"
     not_streaming: "No emitiendo"
+    stream_status: "Estado de la emicion"
     streaming: "Emitiendo"
     avg_views: "Vistas Promedio"
     day: "Dia"

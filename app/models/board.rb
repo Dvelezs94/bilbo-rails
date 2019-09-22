@@ -7,6 +7,7 @@ class Board < ApplicationRecord
   has_many_attached :images
   before_create :generate_token
   enum status: { in_review: 0, enabled: 1, disabled: 2, banned: 3}
+  validates_presence_of :user_id, :lat, :lng, :avg_daily_views, :width, :height, :duration, :address, :name, :category, :base_earnings, :face, on: :create
 
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
   # and the user is not able to click the marker because it is a cluster
