@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bilbo">
+    <meta name="twitter:description" content="Billboards that adapt to your budget">
+    <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="https://mybilbo.com">
+    <meta property="og:title" content="Bilbo">
+    <meta property="og:description" content="Billboards that adapt to your budget">
+
+    <!-- Meta -->
+    <meta name="description" content="Billboards that adapt to your budget">
+    <meta name="author" content="Bilbo">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="https://s3.us-east-2.amazonaws.com/cdn.mybilbo.com/Isotipo-azul.ico">
+
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY"), :defer => true, :async => true, 'data-turbolinks-track': 'reload' %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <title>Bilbo</title>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+
+  </head>
+  <body>
+    <%= notification_helper %>
+    <%= yield %>
+  </body>
+</html>

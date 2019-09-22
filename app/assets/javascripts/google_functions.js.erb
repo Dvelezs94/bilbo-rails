@@ -13,7 +13,6 @@ function activatePlacesSearch() {
     }
   };
   var search_autocomplete = new google.maps.places.Autocomplete(search_input, options)
-  console.log(IsplaceChange)
   google.maps.event.addListener(search_autocomplete, 'place_changed', function () {
     // update lat and lng when choosing location
     $("#board_lat").val(search_autocomplete.getPlace().geometry.location.lat);
