@@ -28,10 +28,8 @@ class AdsController < ApplicationController
 
   def create
     @ad = Ad.new(ad_params)
-    if @ad.save
-      flash[:success] = "Ad saved"
-    else
-      flash[:error] = "Could not save ad"
+    if ! @ad.save
+      flash[:error] = "Error"
     end
     redirect_to ad_path(@ad)
   end

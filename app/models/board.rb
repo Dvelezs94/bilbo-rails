@@ -40,7 +40,7 @@ class Board < ApplicationRecord
   end
 
   def active_campaigns
-    campaigns.where(state: true).length
+    campaigns.approved.where(state: true).length
   end
 
   private
