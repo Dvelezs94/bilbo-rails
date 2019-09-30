@@ -1,0 +1,13 @@
+.start-stream {
+  cursor: pointer;
+}
+
+.board-ads {
+  display: none;
+}
+
+.board-ad-inner {
+  display: none;
+  width: 100%;
+  height: auto;
+}
