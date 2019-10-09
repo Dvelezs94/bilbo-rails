@@ -8,7 +8,7 @@ class CreateCampaigns < ActiveRecord::Migration[5.2]
       # status is for internal status, like in review, accepted or denied
       t.integer :status, default: 0
       # state is for user desired state of the campaign, enabled or disabled
-      t.boolean :state, defalt: true
+      t.boolean :state, null: false, default: true
       t.string :decline_comment
       t.datetime :starts_at
       t.datetime :ends_at

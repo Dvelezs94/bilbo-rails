@@ -14,6 +14,7 @@ class BoardsController < ApplicationController
   end
 
   def show
+    @active_campaigns = @board.active_campaigns
   end
 
   def create

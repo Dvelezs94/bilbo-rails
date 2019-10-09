@@ -6,7 +6,7 @@
   <% else %>
   <td></td>
   <% end %>
-  <td><%= board.active_campaigns %></td>
+  <td><%= board.active_campaigns.length %></td>
   <td><%= board.monthly_impressions_count %></td>
   <td><%= t("bilbos." + board.status) %></td>
   <td>
