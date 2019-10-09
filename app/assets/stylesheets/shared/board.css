@@ -8,6 +8,20 @@
 
 .board-ad-inner {
   display: none;
-  width: 100%;
-  height: auto;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0 auto;
+}
+
+.board-display {
+  color: white;
+  background-color: black;
+}
+
+.minh-100-vh {
+  min-height: 100vh !important;
+}
+
+.maxh-100-vh {
+  max-height: 100vh !important;
 }

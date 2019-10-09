@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 2019_09_01_214151) do
     t.string "description"
     t.float "budget"
     t.integer "status", default: 0
-    t.boolean "state"
+    t.boolean "state", default: true, null: false
     t.string "decline_comment"
     t.datetime "starts_at"
     t.datetime "ends_at"

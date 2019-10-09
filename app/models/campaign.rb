@@ -7,7 +7,7 @@ class Campaign < ApplicationRecord
   belongs_to :ad, optional: true
   has_and_belongs_to_many :boards
   # status is for internal status, like in review, accepted or denied
-  enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3}
+  enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3 }
 
   # 'state' is for user desired state of the campaign, enabled or disabled
 

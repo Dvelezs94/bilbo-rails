@@ -5,7 +5,7 @@ class Board < ApplicationRecord
   has_and_belongs_to_many :campaigns
   has_many :impressions
   has_many_attached :images
-  before_create :generate_token
+  before_save :generate_token, :if => :new_record?
   enum status: { in_review: 0, enabled: 1, disabled: 2, banned: 3}
   validates_presence_of :user_id, :lat, :lng, :avg_daily_views, :width, :height, :duration, :address, :name, :category, :base_earnings, :face, on: :create
 
@@ -40,13 +40,13 @@ class Board < ApplicationRecord
   end
 
   def active_campaigns
-    campaigns.approved.where(state: true).length
+    campaigns.approved.where(state: true)
   end
 
   private
 
   def generate_token
-    access_token = SecureRandom.hex
+    self.access_token = SecureRandom.hex
   end
 
 end
