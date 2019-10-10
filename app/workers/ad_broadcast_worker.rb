@@ -10,7 +10,7 @@ class AdBroadcastWorker
     ad = campaign.ad
     append_msg = ""
     ad.multimedia.each do |mm|
-      html_code = "<img class='board-ad-inner' src='#{mm.service_url}' data-campaign='#{campaign.slug}'>"
+      html_code = "<img class='board-ad-inner' src='#{mm.service_url}' data-campaign='#{campaign.slug}' data-budget='#{campaign.budget}'>"
       append_msg.insert(-1, html_code)
     end
 

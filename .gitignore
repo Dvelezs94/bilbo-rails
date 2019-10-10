@@ -34,3 +34,5 @@ tmp/*
 /doc
 .DS_Store
 Gemfile.lock
+*.log
+*.pid
