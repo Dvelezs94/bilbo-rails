@@ -24,6 +24,7 @@ $(document).on('turbolinks:load', function() {
           alert("Stoping streaming");
           $(".start-stream").show();
           $(".board-ads").hide();
+          clearInterval();
         }
       }
     });
