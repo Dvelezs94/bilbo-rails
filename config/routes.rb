@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :campaigns do
     member do
       get :analytics
+      put :toggle_state
     end
   end
   resources :boards, only: [:index, :show, :create] do
