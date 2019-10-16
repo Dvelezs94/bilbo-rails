@@ -15,6 +15,11 @@ class BoardsController < ApplicationController
 
   def show
     @active_campaigns = @board.active_campaigns
+    # Set api key cookie
+    cookies.signed[:api_key] = {
+      value: @board.api_token,
+      path: request.env['PATH_INFO']
+    }
   end
 
   def create

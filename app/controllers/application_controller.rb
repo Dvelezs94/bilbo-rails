@@ -41,9 +41,11 @@ class ApplicationController < ActionController::Base
 
   # Set different layout depending on user role
   def set_layout
-    if current_user.nil? || current_user.role == :user
+    if current_user && current_user.role == :user
       'user'
-    elsif current_user.role == :provider
+    elsif params[:id].present? && request.path == board_path(params[:id])
+      'provider'
+    elsif current_user && current_user.role == :provider
       'provider'
     else
       'user'
