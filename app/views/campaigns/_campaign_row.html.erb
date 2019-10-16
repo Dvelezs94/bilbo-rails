@@ -13,6 +13,22 @@
   <td class="text-right tx-medium"><%= campaign.impressions.length %></td>
   <td class="text-right"><%= number_to_currency_credit(campaign.budget) %></td>
   <td class="text-right"><%= number_to_currency_credit(campaign.total_invested) %></td>
-  <td><div class="d-flex"><a href="<%= edit_campaign_path(campaign) %>" data-toggle="tooltip" data-placement="top" title="<%= t("general_inputs.edit") %>" class="tx-20"><i class="fe fe-edit"></i></a>
-  <a href="<%= analytics_campaign_path(campaign) %>" data-toggle="tooltip" data-placement="top" title="<%= t("campaign.metrics") %>" class="pd-l-5 tx-20"><i class="fe fe-activity"></i></a></div></td>
-</tr>
+  <td>
+    <ul class="nav float-right">
+      <li class="nav-item">
+        <a class="nav-link tx-primary p-0" href="#" data-toggle="dropdown">
+          <i class="fe fe-elipsis-v wd-15 ht-15"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="<%= edit_campaign_path(campaign) %>" data-toggle="tooltip" data-placement="top" title="<%= t("general_inputs.edit") %>" class="dropdown-item tx-primary">
+            <i class="fe fe-edit mg-r-5"></i><%= t("general_inputs.edit") %>
+          </a>
+          <a href="<%= analytics_campaign_path(campaign) %>" data-toggle="tooltip" data-placement="top" title="<%= t("campaign.metrics") %>" class="dropdown-item tx-primary">
+            <i class="fe fe-activity mg-r-5"></i><%= t("campaign.metrics") %>
+          </a>
+          <hr>
+          <%= link_to raw("<i class='fe fe-trash mg-r-5'></i>#{t("campaign.destroy")}"), campaign_path(campaign), method: "delete", class: "dropdown-item tx-danger", data: { confirm: t("general_inputs.confirm") } %>
+        </div>
+      </li>
+    </ul>
+  </tr>
