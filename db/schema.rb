@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 2019_09_01_214151) do
     t.integer "base_earnings"
     t.string "face"
     t.string "access_token"
+    t.string "api_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"

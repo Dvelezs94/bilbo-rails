@@ -5,7 +5,8 @@ class Board < ApplicationRecord
   has_and_belongs_to_many :campaigns
   has_many :impressions
   has_many_attached :images
-  before_save :generate_token, :if => :new_record?
+  before_save :generate_access_token, :if => :new_record?
+  before_save :generate_api_token, :if => :new_record?
   enum status: { in_review: 0, enabled: 1, disabled: 2, banned: 3}
   validates_presence_of :user_id, :lat, :lng, :avg_daily_views, :width, :height, :duration, :address, :name, :category, :base_earnings, :face, on: :create
 
@@ -35,8 +36,14 @@ class Board < ApplicationRecord
     (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration
   end
 
-  def streaming_state
-    "streaming"
+  # Check if there are Action cable connections in place
+  def connected?
+    Redis.new(url: ENV.fetch("REDIS_URL_ACTIONCABLE")).pubsub("channels", slug)[0].present?
+  end
+
+  # Returns how many times a single board should play it
+  def rep_times(campaign)
+    cycle_price(DateTime.now)
   end
 
   def active_campaigns
@@ -45,8 +52,12 @@ class Board < ApplicationRecord
 
   private
 
-  def generate_token
+  def generate_access_token
     self.access_token = SecureRandom.hex
+  end
+
+  def generate_api_token
+    self.api_token = SecureRandom.hex
   end
 
 end

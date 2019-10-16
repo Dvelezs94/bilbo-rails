@@ -116,6 +116,7 @@ es:
     banned: "Bloqueado"
     copy_stream_url: "Copiar URL"
     regenerate_token: "Regenerar token de acceso"
+    regenerate_api_token: "Regenerar token de API"
     month_impressions: "Impresiones Mensuales"
     start_stream: "Empezar a emitir"
     not_streaming: "No emitiendo"

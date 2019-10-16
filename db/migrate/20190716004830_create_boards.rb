@@ -18,6 +18,7 @@ class CreateBoards < ActiveRecord::Migration[5.2]
       # north face, south, etc
       t.string :face
       t.string :access_token
+      t.string :api_token
 
       t.timestamps
     end

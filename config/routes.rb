@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     end
     member do
       get :regenerate_access_token
+      get :regenerate_api_token
     end
   end
   resource :payment, only: [:new, :create] do
