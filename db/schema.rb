@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_11_040445) do
+ActiveRecord::Schema.define(version: 2019_09_01_214151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,15 +61,19 @@ ActiveRecord::Schema.define(version: 2019_08_11_040445) do
     t.float "width"
     t.float "height"
     t.integer "duration"
-    t.integer "status"
+    t.integer "status", default: 0
     t.string "address"
     t.string "images"
     t.string "name"
     t.string "category"
     t.integer "base_earnings"
-    t.integer "face"
+    t.string "face"
+    t.string "access_token"
+    t.string "api_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_boards_on_slug", unique: true
     t.index ["user_id"], name: "index_boards_on_user_id"
   end
 
@@ -86,7 +90,7 @@ ActiveRecord::Schema.define(version: 2019_08_11_040445) do
     t.string "description"
     t.float "budget"
     t.integer "status", default: 0
-    t.boolean "state"
+    t.boolean "state", default: true, null: false
     t.string "decline_comment"
     t.datetime "starts_at"
     t.datetime "ends_at"

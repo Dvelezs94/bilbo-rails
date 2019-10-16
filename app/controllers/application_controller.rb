@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  layout :set_layout
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
   # Override devise methods so there are no routes conflict with devise being at /
@@ -36,5 +37,18 @@ class ApplicationController < ActionController::Base
    if user_signed_in?
      current_user.locale.to_sym rescue false
    end
+  end
+
+  # Set different layout depending on user role
+  def set_layout
+    if current_user && current_user.role == :user
+      'user'
+    elsif params[:id].present? && request.path == board_path(params[:id])
+      'provider'
+    elsif current_user && current_user.role == :provider
+      'provider'
+    else
+      'user'
+    end
   end
 end

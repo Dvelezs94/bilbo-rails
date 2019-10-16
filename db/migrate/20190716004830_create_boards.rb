@@ -8,7 +8,7 @@ class CreateBoards < ActiveRecord::Migration[5.2]
       t.float :width
       t.float :height
       t.integer :duration
-      t.integer :status
+      t.integer :status, default: 0
       t.string :address
       t.string :images
       t.string :name
@@ -16,7 +16,9 @@ class CreateBoards < ActiveRecord::Migration[5.2]
       # expected earnings for 70% of use in USD
       t.integer :base_earnings
       # north face, south, etc
-      t.integer :face
+      t.string :face
+      t.string :access_token
+      t.string :api_token
 
       t.timestamps
     end
