@@ -39,7 +39,7 @@
               <th><%= t("campaign.impressions") %></th>
               <th><%= t("campaign.daily_budget") %></th>
               <th><%= t("campaign.total_invested") %></th>
-              <th></th>
+              <th class="no-sort"></th>
             </tr>
           </thead>
           <tbody>
@@ -47,6 +47,13 @@
           </tbody>
         </table>
       </div>
+    </div>
+    <% else %>
+    <div class="ht-100p d-flex flex-column align-items-center justify-content-center">
+      <div class="wd-150 wd-sm-250 mg-b-30">
+          <%= image_tag image_path("humaaans/img15"), class: "img-fluid" %>
+      </div>
+      <h4 class="tx-20 tx-sm-24"><%= t("general_inputs.nothing_to_see_here") %></h4>
     </div>
     <% end %>
   </div>

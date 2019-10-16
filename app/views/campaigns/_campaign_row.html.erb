@@ -1,8 +1,8 @@
 <tr>
   <th scope="row">
     <div class="custom-control custom-switch px-4">
-      <input type="checkbox" class="custom-control-input" id="customSwitch<%= campaign.id %>" checked="checked">
-      <label class="custom-control-label" for="customSwitch<%= campaign.id %>"></label>
+      <%= check_box_tag "customSwitch-#{campaign.slug}", nil, campaign.state, class: "custom-control-input", data: { url: toggle_state_campaign_path(campaign.slug), remote: :true, method: :put } %>
+      <label class="custom-control-label" for="customSwitch-<%= campaign.slug %>"></label>
     </div>
   </th>
   <td data-toggle="tooltip" data-placement="top" title="<%= campaign.description %>" class="tx-medium truncate"><%= campaign.name %></td>

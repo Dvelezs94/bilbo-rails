@@ -1,15 +1,14 @@
 class Board < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: :slugged
   belongs_to :user
   has_and_belongs_to_many :campaigns
   has_many :impressions
   has_many_attached :images
-  enum status: { enabled: 0, disabled: 1, banned: 2}
-  enum face: {
-    north: 0,
-    south: 1,
-    east: 2,
-    west: 3
-  }
+  before_save :generate_access_token, :if => :new_record?
+  before_save :generate_api_token, :if => :new_record?
+  enum status: { in_review: 0, enabled: 1, disabled: 2, banned: 3}
+  validates_presence_of :user_id, :lat, :lng, :avg_daily_views, :width, :height, :duration, :address, :name, :category, :base_earnings, :face, on: :create
 
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
   # and the user is not able to click the marker because it is a cluster
@@ -17,8 +16,14 @@ class Board < ApplicationRecord
     self.enabled.select(:lat, :lng).as_json(:except => :id).uniq
   end
 
+  # Get the total impressions starting from a certain date
   def impressions_count(start = 4.weeks.ago)
     impressions.where(created_at: start..Time.zone.now).sum(:cycles)
+  end
+
+  # Get the total impressions from a certain month
+  def monthly_impressions_count(start = Time.now)
+    impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:cycles)
   end
 
   # a cycle is the total time of an impression duration
@@ -29,6 +34,30 @@ class Board < ApplicationRecord
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = base_earnings * (10.0/7)
     (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration
+  end
+
+  # Check if there are Action cable connections in place
+  def connected?
+    Redis.new(url: ENV.fetch("REDIS_URL_ACTIONCABLE")).pubsub("channels", slug)[0].present?
+  end
+
+  # Returns how many times a single board should play it
+  def rep_times(campaign)
+    cycle_price(DateTime.now)
+  end
+
+  def active_campaigns
+    campaigns.approved.where(state: true)
+  end
+
+  private
+
+  def generate_access_token
+    self.access_token = SecureRandom.hex
+  end
+
+  def generate_api_token
+    self.api_token = SecureRandom.hex
   end
 
 end
