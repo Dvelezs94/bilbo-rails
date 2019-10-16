@@ -25,3 +25,16 @@
 .maxh-100-vh {
   max-height: 100vh !important;
 }
+
+/* Portrait */
+@media (orientation:landscape) {
+  .board-ad-inner {
+    height: 100vh;
+  }
+}
+/* Landscape */
+@media (orientation:portrait) {
+  .board-ad-inner {
+    width: 100vw;
+  }
+}
