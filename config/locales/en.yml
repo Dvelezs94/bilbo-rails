@@ -116,6 +116,7 @@ en:
     banned: "Banned"
     copy_stream_url: "Copy stream URL"
     regenerate_token: "Regenerate access token"
+    regenerate_api_token: "Regenerate API token"
     month_impressions: "Month impressions"
     start_stream: "Start stream"
     not_streaming: "Not streaming"

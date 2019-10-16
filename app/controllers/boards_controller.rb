@@ -1,9 +1,9 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:get_info, :index], provider: [:owned, :regenerate_access_token, :create], all: [:show], admin: [:toogle_status]
+  access [:provider, :admin, :user] => [:get_info, :index], provider: [:owned, :regenerate_access_token, :regenerate_api_token, :create], all: [:show], admin: [:toogle_status]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:show, :regenerate_access_token]
+  before_action :get_board, only: [:show, :regenerate_access_token, :regenerate_api_token]
   before_action :restrict_access, only: :show
-  before_action :validate_identity, only: :regenerate_access_token
+  before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :get_provider_boards, only: :owned
 
   def index
@@ -48,6 +48,15 @@ class BoardsController < ApplicationController
   # Regenerates access token when needed
   def regenerate_access_token
     if @board.update_attribute(:access_token, SecureRandom.hex)
+      flash[:success] = "Token was generated"
+    else
+      flash[:alert] = "Failed to create token"
+    end
+    redirect_to root_path
+  end
+
+  def regenerate_api_token
+    if @board.update_attribute(:api_token, SecureRandom.hex)
       flash[:success] = "Token was generated"
     else
       flash[:alert] = "Failed to create token"
