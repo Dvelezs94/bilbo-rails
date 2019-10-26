@@ -12,7 +12,7 @@
   <td>
     <ul class="nav float-right">
       <li class="nav-item">
-        <a class="nav-link tx-primary" href="#" data-toggle="dropdown"><i class="fe fe-elipsis-v" class="wd-15 ht-15"></i></a>
+        <a class="nav-link tx-primary" href="#" data-toggle="dropdown"><i class="fe fe-elipsis-v wd-15 ht-15"></i></a>
         <div class="dropdown-menu tx-13">
           <a href="<%= board_path(board, access_token: board.access_token) %>" target="_blank" class="dropdown-item"><%= t("bilbos.start_stream") %></a>
           <a data-clipboard-text="<%= board_url(board, access_token: board.access_token) %>" class="dropdown-item clipboard-btn"><%= t("bilbos.copy_stream_url") %></a>

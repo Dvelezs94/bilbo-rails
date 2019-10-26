@@ -27,7 +27,7 @@ class AttachmentsController < ApplicationController
   end
 
   def get_ad
-    @ad = Ad.with_attached_multimedia.find(params[:ad_id])
+    @ad = Ad.with_attached_multimedia.friendly.find(params[:ad_id])
   end
 
   def verify_identity

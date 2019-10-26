@@ -53,7 +53,7 @@ class AdsController < ApplicationController
   end
 
   def get_ad
-    @ad = Ad.with_attached_multimedia.find(params[:id])
+    @ad = Ad.with_attached_multimedia.friendly.find(params[:id])
   end
 
   def verify_identity

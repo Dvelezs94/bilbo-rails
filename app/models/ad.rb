@@ -1,5 +1,9 @@
 class Ad < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+
   belongs_to :user
+
   has_many :campaigns
   has_many_attached :multimedia
 
