@@ -1,13 +1,14 @@
 class DashboardsController < ApplicationController
-  access user: [:index], provider: [:provider_statistics]
+  access all: [:index], provider: [:provider_statistics]
   before_action :provider_metrics, only: :provider_statistics
 
   def index
-    if current_user.role == :user
-      @campaigns = current_user.campaigns.order(updated_at: :desc)
-      render "campaigns_index"
-    elsif current_user.role == :provider
+    if current_user && current_user.role == :user
+      redirect_to campaigns_path
+    elsif current_user && current_user.role == :provider
       redirect_to owned_boards_path
+    else
+      redirect_to new_user_session_path
     end
   end
 

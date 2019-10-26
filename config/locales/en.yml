@@ -57,7 +57,7 @@ en:
     update: "Update"
     idiom: "Language"
   general_inputs:
-    confirm: "Confirm"
+    confirm: "Are you sure?"
     close: "Close"
     search: "Search"
     browse: "Browse"
@@ -82,6 +82,7 @@ en:
     campaign: "Dashboard"
     home: "Home"
     new_campaign: "New Campaign"
+    destroy: "Destroy Campaign"
     active_campaigns: "Active Campaigns"
     campaign_name: "Campaign Name"
     bilbos_in_use: "Bilbos in use"

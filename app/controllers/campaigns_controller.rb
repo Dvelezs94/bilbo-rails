@@ -5,7 +5,6 @@ class CampaignsController < ApplicationController
   before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
 
   def index
-    redirect_to root_path
   end
 
   def analytics
@@ -45,11 +44,11 @@ class CampaignsController < ApplicationController
   end
 
   def destroy
-    @campaign.destroy
-
-    respond_to do |format|
-      format.html { redirect_to campaigns_path }
-      format.json { head :no_content }
+    if @campaign.deleted!
+      respond_to do |format|
+        format.html { redirect_to campaigns_path }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -63,7 +62,7 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaigns
-    @campaigns = current_user.campaigns
+    @campaigns = current_user.campaigns.where.not(status: "deleted")
   end
 
   def get_campaign
