@@ -18,7 +18,7 @@ class CampaignsController < ApplicationController
   end
 
   def toggle_state
-    @campaign.toggle(:state).save
+    @success = @campaign.toggle(:state).save
   end
 
   def update

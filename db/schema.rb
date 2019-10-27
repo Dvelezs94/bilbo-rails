@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_16_221805) do
+ActiveRecord::Schema.define(version: 2019_10_27_002510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 2019_10_16_221805) do
     t.datetime "updated_at", null: false
     t.bigint "ad_id"
     t.string "slug"
+    t.datetime "state_updated_at"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
     t.index ["user_id"], name: "index_campaigns_on_user_id"
