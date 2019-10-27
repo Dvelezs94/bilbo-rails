@@ -67,7 +67,7 @@ class Campaign < ApplicationRecord
     minutes_needed = (ENV["RAILS_ENV"] == "development")? 0.1.minutes : 2.minutes
     #if state_updated_at is nil, is the first time they update
     time_elapsed = (state_updated_at.present?)? ((Time.now - state_updated_at)/1.minutes).minutes : minutes_needed
-    errors.add(:base, "#{I18n.t ('campaign.wont_be_able_to_update_state')} #{distance_of_time_in_words( (minutes_needed - time_elapsed).ago, Time.now )}") if (time_elapsed < minutes_needed)
+    errors.add(:base, "#{I18n.t ('campaign.wont_be_able_to_update_state')} #{distance_of_time_in_words( (minutes_needed - time_elapsed).ago, Time.now, include_seconds: true )}") if (time_elapsed < minutes_needed)
   end
 
   def update_state_updated_at
