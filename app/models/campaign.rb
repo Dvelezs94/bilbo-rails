@@ -1,4 +1,5 @@
 class Campaign < ApplicationRecord
+  include ActionView::Helpers::DateHelper
   extend FriendlyId
   friendly_id :name, use: :slugged
 
@@ -16,6 +17,8 @@ class Campaign < ApplicationRecord
   before_destroy :remove_campaign
 
   validates :name, presence: true
+  validate :state_change_time
+  before_save :update_state_updated_at, if: :state_changed?
   before_save :set_in_review, :if => :ad_id_changed?
 
   def total_invested
@@ -57,5 +60,17 @@ class Campaign < ApplicationRecord
   # Remove ad function, this gets triggered when the state or status are false
   def remove_campaign
     AdBroadcastWorker.perform_async(self.id, "disable")
+  end
+
+  def state_change_time
+    # Value for state to be changed on prod every 2 minutes
+    minutes_needed = (ENV["RAILS_ENV"] == "development")? 0.1.minutes : 2.minutes
+    #if state_updated_at is nil, is the first time they update
+    time_elapsed = (state_updated_at.present?)? ((Time.now - state_updated_at)/1.minutes).minutes : minutes_needed
+    errors.add(:base, "#{I18n.t ('campaign.wont_be_able_to_update_state')} #{distance_of_time_in_words( (minutes_needed - time_elapsed).ago, Time.now )}") if (time_elapsed < minutes_needed)
+  end
+
+  def update_state_updated_at
+    self.state_updated_at = Time.now
   end
 end
