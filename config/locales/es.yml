@@ -93,6 +93,7 @@ es:
     daily_budget: "Presupuesto Diario"
     total_invested: "Total Invertido"
     metrics: "Metricas"
+    wont_be_able_to_update_state: "No podrás actualizar el estado hasta dento de"
     wizard:
       choose_bilbos: "Escoge tus Bilbos"
       pick_ad: "Elige tu Anuncio"
