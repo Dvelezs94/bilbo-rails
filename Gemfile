@@ -92,3 +92,5 @@ gem 'sidekiq', '~> 5.2', '>= 5.2.7'
 # be able to do group_by_date
 gem 'groupdate', '~> 4.1', '>= 4.1.2'
 gem 'clipboard-rails', '~> 1.7', '>= 1.7.1'
+# nice looking alerts
+gem 'data-confirm-modal'
