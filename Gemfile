@@ -51,7 +51,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
-
+gem 'sweetalert-rails', '~> 1.1', '>= 1.1.3'
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
@@ -92,3 +92,5 @@ gem 'sidekiq', '~> 5.2', '>= 5.2.7'
 # be able to do group_by_date
 gem 'groupdate', '~> 4.1', '>= 4.1.2'
 gem 'clipboard-rails', '~> 1.7', '>= 1.7.1'
+# nice looking alerts
+gem 'data-confirm-modal'

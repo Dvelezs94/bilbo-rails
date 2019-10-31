@@ -16,8 +16,8 @@
         <div class="dropdown-menu tx-13">
           <a href="<%= board_path(board, access_token: board.access_token) %>" target="_blank" class="dropdown-item"><%= t("bilbos.start_stream") %></a>
           <a data-clipboard-text="<%= board_url(board, access_token: board.access_token) %>" class="dropdown-item clipboard-btn"><%= t("bilbos.copy_stream_url") %></a>
-          <%= link_to t("bilbos.regenerate_token"), regenerate_access_token_board_path(board.slug), class: "dropdown-item", :data => {:confirm => t("general_inputs.confirm")} %>
-          <%= link_to t("bilbos.regenerate_api_token"), regenerate_api_token_board_path(board.slug), class: "dropdown-item", :data => {:confirm => t("general_inputs.confirm")} %>
+          <%= link_to t("bilbos.regenerate_token"), regenerate_access_token_board_path(board.slug), class: "dropdown-item", :data => {:confirm => t("general_inputs.confirm_submit")} %>
+          <%= link_to t("bilbos.regenerate_api_token"), regenerate_api_token_board_path(board.slug), class: "dropdown-item", :data => {:confirm => t("general_inputs.confirm_submit")} %>
         </div>
       </li>
     </ul>

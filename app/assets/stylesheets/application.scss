@@ -3,6 +3,7 @@
  *= require feathericon
  *= require gritter
  *= require_tree ./devise
+ *= require_tree ./global_dependencies
  *= require_tree ./shared
  */
  @import 'bootstrap';
