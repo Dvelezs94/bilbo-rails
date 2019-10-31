@@ -9,6 +9,7 @@
 //= require jquery.steps
 //= require jquery-ui
 //= require clipboard
+//= require data-confirm-modal
 
 //= require_tree ./global_dependencies
 //= require_tree ./shared
