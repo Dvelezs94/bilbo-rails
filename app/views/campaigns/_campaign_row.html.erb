@@ -27,7 +27,7 @@
             <i class="fe fe-activity mg-r-5"></i><%= t("campaign.metrics") %>
           </a>
           <div class="dropdown-divider"></div>
-          <%= link_to raw("<i class='fe fe-trash mg-r-5'></i>#{t("campaign.destroy")}"), campaign_path(campaign), method: "delete", class: "dropdown-item tx-danger", data: { confirm: t("general_inputs.confirm") } %>
+          <%= link_to raw("<i class='fe fe-trash mg-r-5'></i>#{t("campaign.destroy")}"), campaign_path(campaign), method: "delete", class: "dropdown-item tx-danger", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") } %>
         </div>
       </li>
     </ul>
