@@ -11,14 +11,16 @@ class CampaignsController < ApplicationController
   end
 
   def edit
-    @ads = current_user.ads
+    @ads = current_user.ads.active.select{ |ad| ad.multimedia.any? }
     @campaign_boards =  @campaign.boards.collect { |board| ["#{board.address} - #{board.face}", board.id] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
   end
 
   def toggle_state
-    @success = @campaign.toggle(:state).save
+    @campaign.with_lock do
+      @success = @campaign.update(state: !@campaign.state)
+    end
   end
 
   def update

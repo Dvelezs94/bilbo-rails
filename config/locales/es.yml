@@ -153,6 +153,7 @@ es:
     upload_multimedia: "Subir Archivos"
     all_multimedia_files: "Todos los Archivos Multimedia"
     delete_ad: "Borrar Anuncio"
+    wont_be_able_to_delete: "Este anuncio no puede eliminarse porque tiene campañas activas"
     no_ad: "Sin anuncio"
     new_ad_description: "Crea un nuevo anuncio para tus campañas publicitarias"
   payments:

@@ -154,6 +154,7 @@ en:
     all_multimedia_files: "All Multimedia Files"
     delete_ad: "Delete Ad"
     no_ad: "No ad attached"
+    wont_be_able_to_delete: "This ad cant be deleted because of ongoing campaigns"
     new_ad_description: "Create a new ad for your campaigns"
   payments:
     if_it_doesnt_redirect: "If you don't get redirected in 5 seconds, click"
