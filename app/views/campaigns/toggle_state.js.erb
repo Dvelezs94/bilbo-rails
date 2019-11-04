@@ -1,4 +1,5 @@
 <% unless @success %>
   show_error("<%= @campaign.errors.full_messages.first %>");
-  $("#customSwitch-" + "<%= @campaign.slug %>").prop('checked', <%= (@campaign.state)? true : false %>);
+  $("#customSwitch-" + "<%= @campaign.slug %>").prop('checked', <%= @campaign.state %>);
+  console.log(<%= @campaign.state %>)
 <% end %>

@@ -17,7 +17,10 @@ class Campaign < ApplicationRecord
   before_destroy :remove_campaign
 
   validates :name, presence: true
-  validate :state_change_time
+  # validates :ad, presence: true, on: :update
+  validate :state_change_time, on: :update,  if: :state_changed?
+  validate :validate_ad_stuff, on: :update
+  after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
   before_save :set_in_review, :if => :ad_id_changed?
 
@@ -68,6 +71,24 @@ class Campaign < ApplicationRecord
     #if state_updated_at is nil, is the first time they update
     time_elapsed = (state_updated_at.present?)? ((Time.now - state_updated_at)/1.minutes).minutes : minutes_needed
     errors.add(:base, "#{I18n.t ('campaign.wont_be_able_to_update_state')} #{distance_of_time_in_words( (minutes_needed - time_elapsed).ago, Time.now, include_seconds: true )}") if (time_elapsed < minutes_needed)
+  end
+
+  def validate_ad_stuff
+    if self.ad.nil?
+      errors.add(:base, "La campaña no tiene asociado un anuncio")
+      return
+    end
+    errors.add(:base, "El anuncio de la campaña no contiene multimedia") if self.ad.multimedia.empty?
+    errors.add(:base, "El anuncio de la campaña ya no existe") if self.ad.deleted?
+  end
+
+  def state_changed_to_true?
+    self.state
+  end
+
+  #used to return the old state of the object and display the correct error (if this is not set the state has desired value even if validation fails)
+  def return_to_old_state_id_invalid
+    self.state = !self.state if state_changed? && self.errors.any?
   end
 
   def update_state_updated_at
