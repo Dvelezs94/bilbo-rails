@@ -41,12 +41,18 @@ class ApplicationController < ActionController::Base
 
   # Set different layout depending on user role
   def set_layout
-    if current_user && current_user.role == :user
-      'user'
+    if user_signed_in?
+      if current_user.role == :user
+        'user'
+      elsif current_user.role == :provider
+        'provider'
+      elsif current_user.role == :admin
+        'admin'
+      end
+    # When board is accesed by an anonymous user
     elsif params[:id].present? && request.path == board_path(params[:id])
       'provider'
-    elsif current_user && current_user.role == :provider
-      'provider'
+    # When no user is idenfitied
     else
       'user'
     end
