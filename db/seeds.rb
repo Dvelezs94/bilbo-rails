@@ -27,6 +27,14 @@ if ENV.fetch("RAILS_ENV") != "production"
     end
   end
 
+  User.create! do |user|
+    user.name = "Admin"
+    user.email = "admin@mybilbo.com"
+    user.password = "1234aA"
+    user.role = :admin
+    puts "#{user.email}"
+  end
+
   50.times do |x|
     lat = Faker::Address.latitude
     lng = Faker::Address.longitude

@@ -7,23 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Meta -->
-    <meta name="description" content="<%= t("meta_tags.description") %>">
+    <meta name="description" content="Admin Dashboard">
     <meta name="author" content="Bilbo">
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="https://s3.us-east-2.amazonaws.com/cdn.mybilbo.com/Isotipo-azul.ico">
+
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY"), :defer => true, :async => true, 'data-turbolinks-track': 'reload' %>
+
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'board', 'data-turbolinks-track': 'reload' %>
-
-    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY") + '&libraries=places&callback=activatePlacesSearch', :defer => true, :async => true, 'data-turbolinks-track': 'reload' %>
-
 
     <title>Bilbo</title>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
 
   </head>
   <body>

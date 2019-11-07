@@ -5,6 +5,8 @@ es:
     search: "Buscar"
     submit: "Enviar"
   home: "Inicio"
+  meta_tags:
+    description: "Espacios publicitarios para negocios"
   authentication:
     name: "Nombre"
     name_hint: "Introduce tu Nombre"
