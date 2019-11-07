@@ -5,6 +5,8 @@ en:
     search: "Search"
     submit: "Submit"
   home: "Home"
+  meta_tags:
+    description: "Advertising spaces for businesses"
   authentication:
     name: "Name"
     name_hint: "Enter your name"

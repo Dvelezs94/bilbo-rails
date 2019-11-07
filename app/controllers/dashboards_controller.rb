@@ -3,10 +3,14 @@ class DashboardsController < ApplicationController
   before_action :provider_metrics, only: :provider_statistics
 
   def index
-    if current_user && current_user.role == :user
-      redirect_to campaigns_path
-    elsif current_user && current_user.role == :provider
-      redirect_to owned_boards_path
+    if user_signed_in?
+      if current_user.role == :user
+        redirect_to campaigns_path
+      elsif current_user.role == :provider
+        redirect_to owned_boards_path
+      elsif current_user.role == :admin
+        redirect_to admin_index_path
+      end
     else
       redirect_to new_user_session_path
     end
