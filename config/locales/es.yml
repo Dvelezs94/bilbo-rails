@@ -111,6 +111,11 @@ es:
       end_date: "Fecha de Fin"
       summary: "Resumen"
       impressions_forecast: "Suma del total de las impresiones diarias en tus bilbos elegidos"
+    errors:
+      no_ad: "La campaña no tiene asociado un anuncio"
+      no_multimedia: "El anuncio de la campaña no contiene multimedia"
+      ad_deleted: "El anuncio de la campaña ya no existe"
+      cant_update_when_active: "La campaña no puede editarse cuando está activa"
   bilbos:
     new_bilbo: "Nuevo Bilbo"
     name: "Nombre del Bilbo"

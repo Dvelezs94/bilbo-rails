@@ -3,6 +3,7 @@ class CampaignsController < ApplicationController
   before_action :get_campaigns, only: [:index]
   before_action :get_campaign, only: [:analytics, :edit, :destroy, :update, :toggle_state]
   before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
+  before_action :campaign_not_active, only: [:edit]
 
   def index
   end
@@ -26,10 +27,15 @@ class CampaignsController < ApplicationController
   def update
     respond_to do |format|
       if @campaign.update_attributes(campaign_params)
-        format.html { redirect_to root_path, notice: 'Campaign was successfully updated.' }
+        format.html {
+          flash[:success] = 'Campaign was successfully updated'
+          redirect_to root_path
+         }
         format.json { head :no_content }
       else
-        format.html { redirect_to root_path }
+        format.html {
+          flash[:error] = @campaign.errors.full_messages.first
+          redirect_to root_path }
         format.json { render json: @campaign.errors, status: :unprocessable_entity }
       end
     end
@@ -73,5 +79,12 @@ class CampaignsController < ApplicationController
 
   def verify_identity
     redirect_to campaigns_path if @campaign.user != current_user
+  end
+
+  def campaign_not_active
+    if @campaign.state
+      flash[:error] = I18n.t('campaign.errors.cant_update_when_active')
+      redirect_back fallback_location: root_path
+    end
   end
 end
