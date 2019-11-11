@@ -19,6 +19,7 @@ class Campaign < ApplicationRecord
   validates :name, presence: true
   # validates :ad, presence: true, on: :update
   validate :state_change_time, on: :update,  if: :state_changed?
+  validate :cant_update_when_active
   validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
@@ -75,11 +76,11 @@ class Campaign < ApplicationRecord
 
   def validate_ad_stuff
     if self.ad.nil?
-      errors.add(:base, "La campaña no tiene asociado un anuncio")
+      errors.add(:base, I18n.t('campaign.errors.no_ad'))
       return
     end
-    errors.add(:base, "El anuncio de la campaña no contiene multimedia") if self.ad.multimedia.empty?
-    errors.add(:base, "El anuncio de la campaña ya no existe") if self.ad.deleted?
+    errors.add(:base, I18n.t('campaign.errors.no_multimedia')) if self.ad.multimedia.empty?
+    errors.add(:base, I18n.t('campaign.errors.ad_deleted')) if self.ad.deleted?
   end
 
   def state_changed_to_true?
@@ -93,5 +94,13 @@ class Campaign < ApplicationRecord
 
   def update_state_updated_at
     self.state_updated_at = Time.now
+  end
+
+  def cant_update_when_active
+    if self.state_was && !state_changed?
+      #this can pass when someone is passing campaign to false and also updating other attributes, but i dont think now that will cause problems
+      #something is changing when state is active, so i raise error
+      errors.add(:base, I18n.t('campaign.errors.cant_update_when_active'))
+    end
   end
 end
