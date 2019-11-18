@@ -6,19 +6,25 @@ class AttachmentsController < ApplicationController
 
 
   def create
-    if @ad.multimedia.attach(params[:files])
+    if @ad.campaigns.all_off && @ad.multimedia.attach(params[:files])
       flash[:success] = "Attachment saved"
     else
-      flash[:error] = "Could not save atttachment"
+      flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')
     end
   end
 
   def destroy
-    @ad.multimedia.find_by_id(params[:id]).purge
     respond_to do |format|
-      format.html { redirect_to ad_path(@ad) }
+      format.html {
+        if @ad.campaigns.all_off && @ad.multimedia.find_by_id(params[:id]).purge
+          flash[:success] = I18n.t('ads.action.media_removed')
+        else
+          flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')
+        end
+       }
       format.json { head :no_content }
     end
+    redirect_to ad_path(@ad)
   end
 
   private
