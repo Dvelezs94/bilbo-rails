@@ -17,11 +17,8 @@ class Ad < ApplicationRecord
 
 
   def check_if_can_delete
-    self.campaigns.each do |campaign|
-      if campaign.state
-        errors.add(:base, I18n.t('ads.wont_be_able_to_delete'))
-        break
-      end
+    if self.campaigns.select_active.length > 0
+      errors.add(:base, I18n.t('ads.errors.wont_be_able_to_delete'))
     end
   end
 

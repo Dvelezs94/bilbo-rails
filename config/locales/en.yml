@@ -84,6 +84,8 @@ en:
   campaign:
     campaign: "Dashboard"
     home: "Home"
+    to_active: "The campaign has been activated"
+    to_inactive: "The campaign has been deactivated"
     new_campaign: "New Campaign"
     destroy: "Destroy Campaign"
     active_campaigns: "Active Campaigns"
@@ -116,6 +118,11 @@ en:
       no_multimedia: "The selected ad doesn´t have multimedia"
       ad_deleted: "The ad of the campaign no longer exists"
       cant_update_when_active: "Campaign can´t be updated when is active"
+      no_save: "Could not save campaign"
+    action:
+      deleted: "The campaign has been successfully deleted"
+      updated: "The campaign has been successfully updated"
+      saved: "The campaign has been saved successfully"
   bilbos:
     new_bilbo: "New Bilbo"
     name: "Bilbo name"
@@ -159,7 +166,11 @@ en:
     all_multimedia_files: "All Multimedia Files"
     delete_ad: "Delete Ad"
     no_ad: "No ad attached"
-    wont_be_able_to_delete: "This ad cant be deleted because of ongoing campaigns"
+    action:
+      media_removed: "Multimedia has been deleted succesfully"
+    errors:
+      wont_be_able_to_delete: "This ad cant be deleted because of ongoing campaigns"
+      wont_be_able_to_update: "This ad cant be updated because of ongoing campaigns"
     new_ad_description: "Create a new ad for your campaigns"
   payments:
     if_it_doesnt_redirect: "If you don't get redirected in 5 seconds, click"

@@ -56,6 +56,22 @@ class Campaign < ApplicationRecord
     end
   end
 
+  def self.select_active #state active
+    self.select {|campaign| campaign.state}
+  end
+
+  def self.all_off #state active
+    (self.select {|campaign| campaign.state}.length == 0)? true : false
+  end
+
+  def off
+    !self.state
+  end
+
+  def on
+    self.state
+  end
+
   # Publish ad function, this gets triggered when the state and status are true
   def publish_campaign
     AdBroadcastWorker.perform_async(self.id, "enable")

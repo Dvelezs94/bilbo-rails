@@ -28,7 +28,7 @@ class CampaignsController < ApplicationController
     respond_to do |format|
       if @campaign.update_attributes(campaign_params)
         format.html {
-          flash[:success] = 'Campaign was successfully updated'
+          flash[:success] = I18n.t('campaign.action.updated')
           redirect_to root_path
          }
         format.json { head :no_content }
@@ -44,17 +44,28 @@ class CampaignsController < ApplicationController
   def create
     @campaign = Campaign.new(campaign_params)
     if @campaign.save
-      flash[:success] = "Campaign saved"
+      flash[:success] = I18n.t('campaign.action.saved')
     else
-      flash[:error] = "Could not save campaign"
+      flash[:error] = I18n.t('campaign.errors.no_save')
     end
     redirect_to edit_campaign_path(@campaign)
   end
 
   def destroy
-    if @campaign.deleted!
+    if @campaign.update(status: "deleted")
       respond_to do |format|
-        format.html { redirect_to campaigns_path }
+        format.html {
+          flash[:success] = I18n.t('campaign.action.deleted')
+           redirect_to campaigns_path
+         }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html {
+          flash[:error] = @campaign.errors.full_messages.first
+          redirect_to campaigns_path
+         }
         format.json { head :no_content }
       end
     end

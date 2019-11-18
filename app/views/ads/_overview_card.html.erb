@@ -11,7 +11,7 @@
     <div class="card-body">
       <h6><%= ad.name %></h6>
     </div>
-    <div class="card-footer"><span class="d-sm-inline"><%= t("campaign.active_campaigns") %>: </span><%= ad.campaigns.length %></div>
+    <div class="card-footer"><span class="d-sm-inline"><%= t("campaign.active_campaigns") %>: </span><%= ad.campaigns.select_active.length %></div>
   </div>
 </div>
 </a>

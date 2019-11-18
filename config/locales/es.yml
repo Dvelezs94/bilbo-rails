@@ -84,6 +84,8 @@ es:
   campaign:
     campaign: "Campañas"
     home: "Inicio"
+    to_active: "La campaña se ha activado"
+    to_inactive: "La campaña se ha desactivado"
     new_campaign: "Nueva Campaña"
     destroy: "Destruir Campaña"
     active_campaigns: "Campañas activas"
@@ -116,6 +118,11 @@ es:
       no_multimedia: "El anuncio de la campaña no contiene multimedia"
       ad_deleted: "El anuncio de la campaña ya no existe"
       cant_update_when_active: "La campaña no puede editarse cuando está activa"
+      no_save: "La campaña no ha podido guardarse"
+    action:
+      deleted: "La campaña se ha borrado exitosamente"
+      updated: "La campaña se ha actualizado exitosamente"
+      saved: "La campaña se ha guardado con éxito"
   bilbos:
     new_bilbo: "Nuevo Bilbo"
     name: "Nombre del Bilbo"
@@ -158,7 +165,11 @@ es:
     upload_multimedia: "Subir Archivos"
     all_multimedia_files: "Todos los Archivos Multimedia"
     delete_ad: "Borrar Anuncio"
-    wont_be_able_to_delete: "Este anuncio no puede eliminarse porque tiene campañas activas"
+    action:
+      media_removed: "El archivo multimedia se ha eliminado con éxito"
+    errors:
+      wont_be_able_to_delete: "Este anuncio no puede eliminarse porque tiene campañas activas"
+      wont_be_able_to_update: "Este anuncio no puede actualizarse porque tiene campañas activas"
     no_ad: "Sin anuncio"
     new_ad_description: "Crea un nuevo anuncio para tus campañas publicitarias"
   payments:
