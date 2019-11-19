@@ -1,10 +1,10 @@
 class AdsController < ApplicationController
   access user: :all, provider: {except: [:new]}
-  before_action :get_ads, only: [:index]
   before_action :get_ad, only: [:show, :destroy, :update]
   before_action :verify_identity, only: [:show, :destroy, :update]
 
   def index
+    get_active_ads
   end
 
   def show
@@ -35,11 +35,14 @@ class AdsController < ApplicationController
   end
 
   def destroy
-    @ad.destroy
-
-    respond_to do |format|
-      format.html { redirect_to ads_path }
-      format.json { head :no_content }
+    if @ad.update(status: "deleted")
+      respond_to do |format|
+        format.html { redirect_to ads_path }
+        format.json { head :no_content }
+      end
+    else
+      flash[:error] = @ad.errors.full_messages.first
+      redirect_to ads_path
     end
   end
 
@@ -50,6 +53,10 @@ class AdsController < ApplicationController
 
   def get_ads
     @ads = current_user.ads.order(updated_at: :desc).with_attached_multimedia
+  end
+
+  def get_active_ads
+    @ads = current_user.ads.active.order(updated_at: :desc).with_attached_multimedia
   end
 
   def get_ad
