@@ -169,8 +169,8 @@ en:
     action:
       media_removed: "Multimedia has been deleted succesfully"
     errors:
-      wont_be_able_to_delete: "This ad cant be deleted because of ongoing campaigns"
-      wont_be_able_to_update: "This ad cant be updated because of ongoing campaigns"
+      wont_be_able_to_delete: "This ad can't be deleted because of active campaigns"
+      wont_be_able_to_update: "This ad can't be updated because of active campaigns"
     new_ad_description: "Create a new ad for your campaigns"
   payments:
     if_it_doesnt_redirect: "If you don't get redirected in 5 seconds, click"
