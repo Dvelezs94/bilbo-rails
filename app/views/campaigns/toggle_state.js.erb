@@ -1,4 +1,8 @@
-<% unless @success %>
+<% if @success && @campaign.state %>
+  show_success('<%= I18n.t('campaign.to_active') %>');
+<% elsif @success %>
+  show_success('<%= I18n.t('campaign.to_inactive') %>');
+<% else %>
   show_error("<%= @campaign.errors.full_messages.first %>");
-  $("#customSwitch-" + "<%= @campaign.slug %>").prop('checked', <%= (@campaign.state)? true : false %>);
+  $("#customSwitch-" + "<%= @campaign.slug %>").prop('checked', <%= @campaign.state %>);
 <% end %>

@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <%= form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }) do |f| %>
+    <%= form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, class: "edit_campaign") do |f| %>
     <div id="dashboardWizard">
       <h3><%= t("campaign.wizard.choose_bilbos") %></h3>
       <section>
