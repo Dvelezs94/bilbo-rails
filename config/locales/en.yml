@@ -114,10 +114,10 @@ en:
       summary: "Summary"
       impressions_forecast: "Total daily impressions of your chosen bilbos"
     errors:
-      no_ad: "The campaign doesn´t have an associated ad"
-      no_multimedia: "The selected ad doesn´t have multimedia"
+      no_ad: "The campaign doesn't have an associated ad"
+      no_multimedia: "The selected ad doesn't have multimedia"
       ad_deleted: "The ad of the campaign no longer exists"
-      cant_update_when_active: "Campaign can´t be updated when is active"
+      cant_update_when_active: "Campaign can't be updated when is active"
       no_save: "Could not save campaign"
     action:
       deleted: "The campaign has been successfully deleted"
