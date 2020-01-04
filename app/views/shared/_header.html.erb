@@ -31,7 +31,7 @@
           <a href="<%= show_users_admin_index_path(role: "support") %>" class="dropdown-item">Support</a>
         </div>
       </li>
-      <li class="nav-item <%= "active" if menu == "boards" %>"><a href="#" class="nav-link">Boards</a></li>
+      <li class="nav-item <%= "active" if menu == "boards" %>"><a href="<%= admin_index_boards_path %>" class="nav-link">Boards</a></li>
       <li class="nav-item <%= "active" if menu == "campaigns" %>"><a href="#" class="nav-link">Campaigns</a></li>
       <li class="nav-item <%= "active" if menu == "ads" %>"><a href="#" class="nav-link">Ads</a></li>
     <% end %>
@@ -60,7 +60,7 @@
           <a href="<%= edit_user_registration_path %>" class="dropdown-item"><i class="fe fe-gear pd-r-5"></i> <%= t('header.account_settings') %></a>
         <% end %>
           <hr>
-          <%= link_to( (t('header.logout') + "<i class='fe fe-logout pd-l-5'></i>").html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item") %>
+          <%= link_to(("<i class='fe fe-logout pd-r-5'></i>" + t('header.logout')).html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item") %>
       </div><!-- dropdown-menu -->
     </div><!-- dropdown -->
   </div><!-- navbar-right -->

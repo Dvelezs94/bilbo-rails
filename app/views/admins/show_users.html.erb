@@ -1,1 +1,57 @@
 <%= render 'shared/header', menu: "users" %>
+
+<div class="contact-wrapper">
+  <div class="contact-sidebar">
+    <div class="contact-sidebar-header">
+      <i class="fe fe-search tx-20"></i>
+      <div class="search-form">
+        <input type="search" class="form-control" placeholder="Search <%= params[:role] %>">
+      </div>
+      <% if params[:role] == "provider" %>
+      <a href="#modalNewContact" class="btn btn-xs btn-icon btn-primary" data-toggle="modal">
+        <span><i class="fe fe-user-plus tx-14"></i></span>
+      </a><!-- contact-add -->
+      <% end %>
+    </div><!-- contact-sidebar-header -->
+    <div class="contact-sidebar-body">
+      <div class="tab-content">
+        <div id="tabContact" class="tab-pane fade active show">
+          <div class="pd-y-20 pd-x-10 contact-list">
+            <!-- <label id="contactA" class="contact-list-divider">A</label> -->
+            <%= render partial: 'admins/users_tab/users_list', collection: @users, as: :user %>
+          </div><!-- contact-list -->
+        </div><!-- tab-pane -->
+      </div><!-- tab-content -->
+    </div><!-- contact-sidebar-body -->
+  </div><!-- contact-sidebar -->
+
+  <div class="contact-content">
+    <div class="contact-content-header">
+      <nav class="nav">
+        <% if params[:role] == "user" %>
+        <a href="#userInformation" class="nav-link active" data-toggle="tab">Contact Info<span>rmation</span></a>
+        <a href="#userInvoices" class="nav-link" data-toggle="tab">Invoices</a>
+        <a href="#userCampaigns" class="nav-link" data-toggle="tab">Campaigns</a>
+        <a href="#userAds" class="nav-link" data-toggle="tab">Ads</a>
+        <% elsif params[:role] == "provider" %>
+        <a href="#providerBoards" class="nav-link active" data-togggle="tab">Boards</a>
+        <a href="#providerEarnings" class="nav-link" data-togggle="tab">Earnings</a>
+        <a href="#providerStatistics" class="nav-link" data-togggle="tab">Statistics</a>
+        <a href="#providerInvoices" class="nav-link" data-togggle="tab">Invoices</a>
+        <% elsif params[:role] == "support" %>
+        <a href="#supportInfo" class="nav-link active" data-togggle="tab">Information</a>
+        <% end %>
+      </nav>
+      <a href="" id="contactOptions" class="text-secondary mg-l-auto d-xl-none"><i data-feather="more-horizontal"></i></a>
+    </div><!-- contact-content-header -->
+
+    <div class="contact-content-body">
+      <%= render "admins/users_tab/#{params[:role]}_tabs" %>
+    </div><!-- contact-content-body -->
+
+    <%= render "admins/users_tab/contact_sidebar" %>
+  </div><!-- contact-content -->
+
+</div><!-- contact-wrapper -->
+
+<%= render "admins/users_tab/modals" %>

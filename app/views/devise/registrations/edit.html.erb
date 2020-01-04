@@ -23,7 +23,7 @@
                 <%= render "devise/shared/error_messages", resource: resource %>
 
 
-                <div class="form-group col-12">
+                <div class="form-group">
                   <%= image_tag user_avatar(resource, 80), class: "rounded-circle" %>
                   <div class="custom-file col-10">
                     <%= f.file_field :avatar, accept: "image/png,image/jpg,image/jpeg", class: "custom-file-input" %>
@@ -42,7 +42,7 @@
                   <%= f.label t("account_settings.name") %><br />
                   <%= f.text_field :name, class: "form-control" %>
                 </div>
-                <div clas="form-group col-2">
+                <div class="form-group col-2">
                 <%= f.label t("account_settings.idiom") %><br />
                 <%= f.select("locale", [["español","es"],["english","en"]], {}, {:class => "custom-select"}) %>
                 </div>

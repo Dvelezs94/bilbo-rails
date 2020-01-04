@@ -1,5 +1,5 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:get_info, :index], provider: [:owned, :regenerate_access_token, :regenerate_api_token, :create], all: [:show], admin: [:toogle_status]
+  access [:provider, :admin, :user] => [:get_info, :index], provider: [:owned, :regenerate_access_token, :regenerate_api_token, :create], all: [:show], admin: [:toogle_status, :admin_index]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:show, :regenerate_access_token, :regenerate_api_token]
   before_action :restrict_access, only: :show
@@ -7,6 +7,9 @@ class BoardsController < ApplicationController
   before_action :get_provider_boards, only: :owned
 
   def index
+  end
+
+  def admin_index
   end
 
   # provider boards
@@ -88,6 +91,14 @@ class BoardsController < ApplicationController
 
   def get_all_boards
     @boards = Board.enabled.pluck(:id, :latitude, :longitude).to_json
+  end
+
+  # method used to get all boards for the admin dashboard
+  def get_all_boards_admin
+    @enabled_boards = Board.enabled
+    @disabled_boards = Board.disabled
+    @in_review_boards = Board.in_review
+    @banned_boards = Board.banned
   end
 
   def get_provider_boards
