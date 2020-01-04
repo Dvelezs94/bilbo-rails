@@ -17,6 +17,8 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'admin', 'data-turbolinks-track': 'reload' %>
+
 
     <title>Bilbo</title>
 
@@ -24,7 +26,7 @@
     <%= csp_meta_tag %>
 
   </head>
-  <body>
+  <body class="<%= "app-contact" if current_page?(action: "show_users") %>">
     <%= notification_helper %>
     <%= yield %>
   </body>

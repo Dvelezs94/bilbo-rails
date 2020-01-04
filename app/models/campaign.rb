@@ -5,6 +5,7 @@ class Campaign < ApplicationRecord
 
   belongs_to :user
   has_many :impressions
+  has_many :campaign_denials
   belongs_to :ad, optional: true
   has_and_belongs_to_many :boards
   # status is for internal status, like in review, accepted or denied

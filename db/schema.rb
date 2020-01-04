@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_04_045734) do
+ActiveRecord::Schema.define(version: 2019_11_27_223830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,13 +87,21 @@ ActiveRecord::Schema.define(version: 2019_11_04_045734) do
     t.index ["campaign_id", "board_id"], name: "index_boards_campaigns_on_campaign_id_and_board_id"
   end
 
+  create_table "campaign_denials", force: :cascade do |t|
+    t.bigint "campaign_id"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id"], name: "index_campaign_denials_on_campaign_id"
+  end
+
   create_table "campaigns", force: :cascade do |t|
     t.bigint "user_id"
     t.string "name"
     t.string "description"
     t.float "budget"
     t.integer "status", default: 0
-    t.boolean "state", default: false, null: false
+    t.boolean "state", default: true, null: false
     t.string "decline_comment"
     t.datetime "starts_at"
     t.datetime "ends_at"
@@ -174,6 +182,7 @@ ActiveRecord::Schema.define(version: 2019_11_04_045734) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ads", "users"
   add_foreign_key "boards", "users"
+  add_foreign_key "campaign_denials", "campaigns"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "users"
   add_foreign_key "impressions", "boards"

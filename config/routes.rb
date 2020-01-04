@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     collection do
       get :get_info
       get :owned
+      get :admin_index
     end
     member do
       get :regenerate_access_token
