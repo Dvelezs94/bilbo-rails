@@ -1,5 +1,5 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:get_info, :index], provider: [:owned, :regenerate_access_token, :regenerate_api_token, :create], all: [:show], admin: [:toogle_status]
+  access [:admin, :user] => [:get_info, :index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token, :create], all: [:show], admin: [:toogle_status]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:show, :regenerate_access_token, :regenerate_api_token]
   before_action :restrict_access, only: :show
@@ -47,7 +47,6 @@ class BoardsController < ApplicationController
       lng = @board.lng
     end
     @boards = Board.where(status: "enabled", lat: (lat - 0.00001)..(lat + 0.00001), lng: (lng - 0.00001)..(lng + 0.00001))
-
   end
 
   # Regenerates access token when needed
@@ -67,6 +66,10 @@ class BoardsController < ApplicationController
       flash[:alert] = "Failed to create token"
     end
     redirect_to root_path
+  end
+
+  # statistics of a singular board
+  def statistics
   end
 
   private
@@ -91,7 +94,7 @@ class BoardsController < ApplicationController
   end
 
   def get_provider_boards
-    @boards = current_user.boards
+    @boards = current_user.boards.page(params[:page])
   end
 
   # validate identity when trying to maange the boards

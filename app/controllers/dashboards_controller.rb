@@ -7,7 +7,7 @@ class DashboardsController < ApplicationController
       if current_user.role == :user
         redirect_to campaigns_path
       elsif current_user.role == :provider
-        redirect_to owned_boards_path
+        redirect_to provider_statistics_dashboards_path
       elsif current_user.role == :admin
         redirect_to admin_index_path
       end

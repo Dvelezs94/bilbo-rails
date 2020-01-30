@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     member do
       get :regenerate_access_token
       get :regenerate_api_token
+      # statistics of a single board
+      get :statistics
     end
   end
   resource :payment, only: [:new, :create] do
