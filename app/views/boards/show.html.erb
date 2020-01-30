@@ -12,5 +12,5 @@
   <div class="board-ads">
     <%= render partial: "campaigns/board_campaign", collection: @active_campaigns, as: :campaign %>
   </div>
-  <input type="number" class="d-none" id="duration" value="<%= @board.duration %>">
+  <input readonly type="number" class="d-none" id="duration" value="<%= @board.duration %>">
 </div>

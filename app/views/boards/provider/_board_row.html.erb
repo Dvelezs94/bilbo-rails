@@ -1,25 +1,70 @@
-<tr>
-  <td class="text-left"><%= board.name %></td>
-  <td><%= board.face %></td>
-  <% if board.connected? %>
-  <td><div class="avatar d-none d-sm-block wd-20-f ht-20-f" data-toggle="tooltip" data-placement="top" title="<%= t("bilbos.streaming") %>"><span class="avatar-initial rounded-circle bg-success traffic-light"></span></div></td>
-  <% else %>
-  <td><div class="avatar d-none d-sm-block wd-20-f ht-20-f" data-toggle="tooltip" data-placement="top" title="<%= t("bilbos.not_streaming") %>"><span class="avatar-initial rounded-circle bg-danger"></span></div></td>
-  <% end %>
-  <td><%= board.active_campaigns.length %></td>
-  <td><%= board.monthly_impressions_count %></td>
-  <td><%= t("bilbos." + board.status) %></td>
-  <td>
-    <ul class="nav float-right">
-      <li class="nav-item">
-        <a class="nav-link tx-primary" href="#" data-toggle="dropdown"><i class="fe fe-elipsis-v wd-15 ht-15"></i></a>
-        <div class="dropdown-menu tx-13">
-          <a href="<%= board_path(board, access_token: board.access_token) %>" target="_blank" class="dropdown-item"><%= t("bilbos.start_stream") %></a>
-          <a data-clipboard-text="<%= board_url(board, access_token: board.access_token) %>" class="dropdown-item clipboard-btn"><%= t("bilbos.copy_stream_url") %></a>
-          <%= link_to t("bilbos.regenerate_token"), regenerate_access_token_board_path(board.slug), class: "dropdown-item", :data => {:confirm => t("general_inputs.confirm_submit")} %>
-          <%= link_to t("bilbos.regenerate_api_token"), regenerate_api_token_board_path(board.slug), class: "dropdown-item", :data => {:confirm => t("general_inputs.confirm_submit")} %>
+<div class="col-sm-12 col-md-6 col-lg-4  mg-b-10">
+  <div class="card">
+    <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
+      <div>
+        <h6 class="mg-b-5"><%= link_to board.name, statistics_board_path(board) %></h6>
+      </div>
+      <div class="d-flex mg-t-20 mg-sm-t-0">
+        <p class="flex-fill tx-13 tx-color-03 mg-b-0"><%= board.face %></p>
+      </div>
+    </div>
+    <!-- card-header -->
+    <div class="card-body tx-center">
+      <h4 class="tx-normal tx-rubik tx-40 tx-spacing--1 mg-b-0"><%= number_to_currency_usd(board.monthly_earnings) %></h4>
+      <p class="tx-12 tx-uppercase tx-semibold tx-spacing-1 tx-color-02">Earnings this month</p>
+      <p class="tx-30 mg-b-0">
+        <a href="" data-clipboard-text="<%= board_url(board, access_token: board.access_token) %>" class="clipboard-btn">
+          <i class="mg-r-5 material-icons">&#xe14d;</i>
+        </a>
+        <%= link_to board_path(board, access_token: board.access_token), target: "blank" do %>
+        <i class="mg-r-5 fe fe-play"></i>
+        <% end %>
+    </p>
+  </div>
+  <div class="card-footer pd-20">
+    <div class="row">
+      <div class="col-6">
+        <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 tx-nowrap mg-b-5">Active Campaigns</p>
+        <div class="d-flex align-items-center">
+          <div class="wd-10 ht-10 rounded-circle bg-pink mg-r-5"></div>
+          <h5 class="tx-normal tx-rubik mg-b-0"><%= board.active_campaigns.size %>
+            <small class="tx-color-04">25%</small>
+          </h5>
         </div>
-      </li>
-    </ul>
-  </td>
-</tr>
+      </div>
+      <!-- col -->
+      <div class="col-6">
+        <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Monthly Impressions</p>
+        <div class="d-flex align-items-center">
+          <div class="wd-10 ht-10 rounded-circle bg-primary mg-r-5"></div>
+          <h5 class="tx-normal tx-rubik mg-b-0"><%= board.monthly_impressions_count %>
+            <small class="tx-color-04">20%</small>
+          </h5>
+        </div>
+      </div>
+      <!-- col -->
+      <div class="col-6 mg-t-20">
+        <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Status</p>
+        <div class="d-flex align-items-center">
+          <div class="wd-10 ht-10 rounded-circle bg-teal mg-r-5"></div>
+          <h5 class="tx-normal tx-rubik mg-b-0"><%= board.connected? ? t("bilbos.streaming") : t("bilbos.not_streaming") %></h5>
+        </div>
+      </div>
+      <!-- col -->
+      <div class="col-6 mg-t-20">
+        <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Max profit per month</p>
+        <div class="d-flex align-items-center">
+          <div class="wd-10 ht-10 rounded-circle bg-orange mg-r-5"></div>
+          <h5 class="tx-normal tx-rubik mg-b-0"><%= number_to_currency_usd(board.calculate_max_earnings) %></h5>
+        </div>
+      </div>
+      <!-- col -->
+      <div class="col-12 mg-t-20">
+        <%= button_to("Stats", statistics_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1") %>
+      </div>
+    </div>
+    <!-- row -->
+  </div>
+  <!-- card-footer -->
+</div>
+</div>
