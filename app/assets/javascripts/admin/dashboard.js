@@ -127,6 +127,7 @@ $(document).on('turbolinks:load', function() {
       $.plot('#flotChart1', [
         {
           data: df3,
+          label: "$",
           color: '#0168fa',
           lines: {
             fill: true,
@@ -136,6 +137,9 @@ $(document).on('turbolinks:load', function() {
       ], {
         series: {
           shadowSize: 1,
+          points: {
+            show: true
+          },
           lines: {
             show: true,
             lineWidth: 1.5
@@ -144,7 +148,8 @@ $(document).on('turbolinks:load', function() {
         grid: {
           borderWidth: 0,
           labelMargin: 0,
-          hoverable: true
+          hoverable: true,
+          clickable: true
         },
         yaxis: {
           show: false,

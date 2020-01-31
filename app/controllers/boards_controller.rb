@@ -1,5 +1,5 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:get_info, :index], provider: [:owned, :regenerate_access_token, :regenerate_api_token, :create], all: [:show], admin: [:toogle_status, :admin_index]
+  access [:provider, :admin, :user] => [:get_info, :index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token, :create], all: [:show], admin: [:toogle_status, :admin_index]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:show, :regenerate_access_token, :regenerate_api_token]
   before_action :restrict_access, only: :show
