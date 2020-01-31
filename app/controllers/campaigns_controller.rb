@@ -1,5 +1,5 @@
 class CampaignsController < ApplicationController
-  access user: :all, provider: {except: [:new]}
+  access user: {except: [:review, :approve_campaign, :deny_campaign]}, provider: {except: [:new]}
   before_action :get_campaigns, only: [:index]
   before_action :get_campaign, only: [:analytics, :edit, :destroy, :update, :toggle_state]
   before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
@@ -10,6 +10,30 @@ class CampaignsController < ApplicationController
 
   def analytics
   end
+
+  # Methods for the provider to either approve or deny a campaign
+  def review
+    # get campaigns of the providers boards that are in "in_review" state
+  end
+
+  def approve_campaign
+    if @campaign.approved!
+      flash[:success] = I18n.t('campaign.action.saved')
+    else
+      flash[:error] = I18n.t('campaign.errors.no_save')
+    end
+    redirect_to review_campaigns_path
+  end
+
+  def deny_campaign
+    if @campaign.denied!
+      flash[:success] = I18n.t('campaign.action.saved')
+    else
+      flash[:error] = I18n.t('campaign.errors.no_save')
+    end
+    redirect_to review_campaigns_path
+  end
+  # end provider methods
 
   def edit
     @ads = current_user.ads.active.select{ |ad| ad.multimedia.any? }
@@ -23,6 +47,7 @@ class CampaignsController < ApplicationController
       @success = @campaign.update(state: !@campaign.state)
     end
   end
+
 
   def update
     respond_to do |format|
