@@ -2,6 +2,7 @@
 
 <div class="content content-fixed">
   <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+
     <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-30">
       <div>
         <nav aria-label="breadcrumb">
@@ -23,31 +24,15 @@
         </a>
       </div>
     </div>
-    <% if @boards.length > 0 %>
-    <div class="row">
-      <div class="table-responsive">
 
-        <table class="table" id="boardsTable">
-          <thead>
-            <tr>
-              <th><%= t("bilbos.name") %></th>
-              <th><%= t("bilbos.face") %></th>
-              <th><%= t("bilbos.stream_status") %></th>
-              <th><%= t("campaign.active_campaigns") %></th>
-              <th><%= t("bilbos.month_impressions") %></th>
-              <th><%= t("bilbos.status") %></th>
-              <th class="no-sort"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <%= render partial: "boards/provider/board_row", collection: @boards, as: :board %>
-          </tbody>
-        </table>
+    <div class="row row-xs">
+      <%= render partial: "boards/provider/board_row", collection: @boards, as: :board %>
+      <div class="col-12">
+        <%= paginate @boards, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center" %>
       </div>
     </div>
-    <% end %>
-  </div>
 
+  </div>
   <!-- container -->
 </div>
 <!-- content -->
