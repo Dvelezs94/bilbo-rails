@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     collection do
       get :get_info
       get :owned
+      get :admin_index
     end
     member do
       get :regenerate_access_token
@@ -33,7 +34,11 @@ Rails.application.routes.draw do
     end
   end
   resources :invoices, only: [:index, :show]
-  resources :admins, only: [:index], as: "admin"
+  resources :admins, only: [:index], as: "admin" do
+    collection do
+      get :show_users
+    end
+  end
   resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -5,7 +5,7 @@
   </div><!-- navbar-brand -->
   <div id="navbarMenu" class="navbar-menu-wrapper">
     <!-- <div class="navbar-menu-header">
-      <a href="/" class="df-logo"><%= image_tag("https://s3.us-east-2.amazonaws.com/cdn.mybilbo.com/Logotipo-azul.png", class: "wd-80") %></a>
+      <a href="/" class="df-logo"><%= image_tag("https://s3.us-east-2.amazonaws.com/cdn.mybilbo.com/Bilbo-logo.png", class: "wd-80") %></a>
       <a id="mainMenuClose" href=""><i class="fe fe-close fnt-md"></i></a>
     </div>< navbar-menu-header -->
     <ul class="nav navbar-menu">
@@ -14,13 +14,26 @@
       <li class="nav-item <%= "active" if menu == "dashboard" %>"><a href="<%= campaigns_path %>" class="nav-link"><i class="fe fe-box"></i><%= t('header.campaigns') %></a></li>
       <li class="nav-item <%= "active" if menu == "ads" %>"><a href="<%= ads_path %>" class="nav-link"><i class="fe fe-box"></i><%= t('header.ads') %></a></li>
       <li class="nav-item <%= "active" if menu == "boards" %>"><a href="<%= boards_path %>" class="nav-link"><i class="fe fe-box"></i>Bilbos</a></li>
-      <li class="nav-item <%= "active" if menu == "help" %>"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.help_center') %></a></li>
+      <li class="nav-item <%= "active" if menu == "help" %>"><a href="http://docs.mybilbo.com" class="nav-link"><i class="fe fe-box"></i><%= t('header.help_center') %></a></li>
     <% elsif current_user.role == :provider %>
       <!-- <li class="nav-item <%= "active" if menu == "dashboard" %>"><a href="/" class="nav-link"><i class="fe fe-box"></i><%= t('header.dashboard') %></a></li> -->
       <li class="nav-item <%= "active" if menu == "statistics" %>"><a href="<%= provider_statistics_dashboards_path %>" class="nav-link"><i class="fe fe-box"></i><%= t('header.statistics') %></a></li>
       <li class="nav-item <%= "active" if menu == "my_bilbos" %>"><a href="<%= owned_boards_path %>" class="nav-link"><i class="fe fe-box"></i><%= t("header.my_bilbos") %></a></li>
     <% elsif current_user.role == :admin %>
-
+      <li class="nav-item <%= "active" if menu == "overview" %>"><a href="/" class="nav-link">Overview</a></li>
+      <li class="nav-item dropdown <%= "active" if menu == "users" %>">
+        <a class="nav-link dropdown-toggle" href="#" id="usersDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Users
+        </a>
+        <div class="dropdown-menu tx-13" aria-labelledby="usersDropdownMenuLink">
+          <a href="<%= show_users_admin_index_path(role: "user") %>" class="dropdown-item">Users</a>
+          <a href="<%= show_users_admin_index_path(role: "provider") %>" class="dropdown-item">Providers</a>
+          <a href="<%= show_users_admin_index_path(role: "support") %>" class="dropdown-item">Support</a>
+        </div>
+      </li>
+      <li class="nav-item <%= "active" if menu == "boards" %>"><a href="<%= admin_index_boards_path %>" class="nav-link">Boards</a></li>
+      <li class="nav-item <%= "active" if menu == "campaigns" %>"><a href="#" class="nav-link">Campaigns</a></li>
+      <li class="nav-item <%= "active" if menu == "ads" %>"><a href="#" class="nav-link">Ads</a></li>
     <% end %>
   </ul>
   </div><!-- navbar-menu-wrapper -->
@@ -97,7 +110,7 @@
           <a href="<%= edit_user_registration_path %>" class="dropdown-item"><i class="fe fe-gear pd-r-5"></i> <%= t('header.account_settings') %></a>
         <% end %>
           <hr>
-          <%= link_to( (t('header.logout') + "<i class='fe fe-logout pd-l-5'></i>").html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item") %>
+          <%= link_to(("<i class='fe fe-logout pd-r-5'></i>" + t('header.logout')).html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item") %>
       </div><!-- dropdown-menu -->
     </div><!-- dropdown -->
   </div><!-- navbar-right -->
