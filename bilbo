@@ -3,6 +3,14 @@
 DB_SHARED_FOLDER="tmp/db/"
 BASE_NAME=`echo $0 | awk -F/ '{print $NF}'`
 
+if [ "$(uname)" == "Darwin" ]; then
+  export US_ID=1000
+  export GR_ID=1000
+else
+  export US_ID=$(id -u)
+  export GR_ID=$(id -g)
+fi
+
 function build() {
   set -e
   read -p "Delete DB folder to start from scratch? (y/n): " DBDEL
@@ -10,11 +18,12 @@ function build() {
   read -p "Want to run the seeds after the creation? (y/n): " DBSEED
   if [ "$DBDEL" == "y" ]
   then
-    echo "Deleting DB folder..."
-    sudo rm -rf ${DB_SHARED_FOLDER}
+    echo "Deleting db volume"
+    docker-compose down -v
     echo "done."
+  else
+    docker-compose down
   fi
-  docker-compose down
   docker-compose up -d --build --force-recreate
   if [ "$DBCREATE" == "y" ]
   then
@@ -55,7 +64,7 @@ function clear-tmp {
   $BASE_NAME run rails tmp:cache:clear
 }
 function logs() {
-  docker-compose logs -f
+  docker-compose logs -f --tail=50
 }
 
 function seed() {

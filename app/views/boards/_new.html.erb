@@ -29,31 +29,33 @@
               <div class="form-group">
                 <div class="row">
                   <div class="col-sm-12 col-md-6">
-                    <%= f.label "Categoria" %>
+                    <%= f.label t('bilbos.category') %>
                     <%= f.select("category", [[t("bilbos.billboard"),"billboard"],[t("bilbos.wallboard"),"wallboard"],[t("bilbos.television"),"television"]], {}, {:class => "custom-select"}) %>
                   </div>
                   <div class="col-sm-12 col-md-6">
-                    <%= f.label "Vistas Promedio/Dia" %>
+                    <%= f.label t('bilbos.avg_views') %>
                     <%= f.text_field :avg_daily_views, class: "form-control", autocomplete: "off", required: true, placeholder: "200" %>
                   </div>
                 </div>
-
               </div>
 
               <div class="form-group">
                 <div class="row">
                   <div class="col-sm-12 col-md-6">
-                    <%= f.label "duracion" %><br/>
+                    <%= f.label t('bilbos.duration') %><br/>
                     <div class="input-group mg-b-10">
                       <%= f.select("duration", [[8],[10]], {}, {:class => "custom-select", aria: { describedby: "bilboseconds", label: "Seconds"}}) %>
                       <div class="input-group-append">
-                        <span class="input-group-text" id="bilboseconds">segundos</span>
+                        <span class="input-group-text" id="bilboseconds"><%= t('bilbos.seconds') %></span>
                       </div>
                     </div>
                   </div>
                   <div class="col-sm-12 col-md-6">
-                    <%= f.label "Cantidad a generar esperada" %>
+                    <%= f.label t('bilbos.expected_profit') %>
                     <div class="input-group mg-b-10">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">$</span>
+                      </div>
                       <%= f.text_field :base_earnings, class: "form-control", autocomplete: "off", required: true, placeholder: "200", aria: { describedby: "bilbobaseearnings", label: "Base Earnings"} %>
                       <div class="input-group-append">
                         <span class="input-group-text" id="bilbobaseearnings">USD</span>
@@ -65,8 +67,8 @@
               </div>
 
               <div class="form-group">
-                <%= f.label "Cara" %><br/>
-                <%= f.text_field :face, class: "form-control", autocomplete: "off", required: true, placeholder: "cara", list: "faces" %>
+                <%= f.label t('bilbos.face') %><br/>
+                <%= f.text_field :face, class: "form-control", autocomplete: "off", required: true, placeholder: t('bilbos.face'), list: "faces" %>
                 <datalist id="faces">
                   <option value="<%= t("bilbos.north") %>">
                   <option value="<%= t("bilbos.south") %>">
@@ -77,7 +79,7 @@
               </div>
 
               <div class="form-group">
-                <%= f.label "Dimensiones (metros)" %><br/>
+                <%= f.label t('bilbos.dimensions') %><br/>
                 <div class="row">
                   <div class="col-6">
                     <%= f.text_field :width, class: "form-control", placeholder: "width", required: true %>

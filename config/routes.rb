@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     member do
       get :regenerate_access_token
       get :regenerate_api_token
+      # statistics of a single board
+      get :statistics
     end
   end
   resource :payment, only: [:new, :create] do
@@ -37,5 +39,6 @@ Rails.application.routes.draw do
       get :show_users
     end
   end
+  resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
