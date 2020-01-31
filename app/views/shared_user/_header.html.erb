@@ -25,6 +25,57 @@
   </ul>
   </div><!-- navbar-menu-wrapper -->
   <div class="navbar-right">
+    <!-- notifications -->
+    <div class="dropdown dropdown-notification">
+      <a href="" class="dropdown-link new-indicator" data-toggle="dropdown">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"></path></svg>
+        <span>2</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
+        <div class="dropdown-header"><%= t('notifications.notifications') %></div>
+        <a href="" class="dropdown-item">
+          <div class="media">
+            <div class="avatar avatar-sm avatar-online"><img src="../../assets/img/img6.jpg" class="rounded-circle" alt=""></div>
+            <div class="media-body mg-l-15">
+              <p>Congratulate <strong>Socrates Itumay</strong> for work anniversaries</p>
+              <span>Mar 15 12:32pm</span>
+            </div><!-- media-body -->
+          </div><!-- media -->
+        </a>
+        <a href="" class="dropdown-item">
+          <div class="media">
+            <div class="avatar avatar-sm avatar-online"><img src="../../assets/img/img8.jpg" class="rounded-circle" alt=""></div>
+            <div class="media-body mg-l-15">
+              <p><strong>Joyce Chua</strong> just created a new blog post</p>
+              <span>Mar 13 04:16am</span>
+            </div><!-- media-body -->
+          </div><!-- media -->
+        </a>
+        <a href="" class="dropdown-item">
+          <div class="media">
+            <div class="avatar avatar-sm avatar-online"><img src="../../assets/img/img7.jpg" class="rounded-circle" alt=""></div>
+            <div class="media-body mg-l-15">
+              <p><strong>Althea Cabardo</strong> just created a new blog post</p>
+              <span>Mar 13 02:56am</span>
+            </div><!-- media-body -->
+          </div><!-- media -->
+        </a>
+        <a href="" class="dropdown-item">
+          <div class="media">
+            <div class="avatar avatar-sm avatar-online"><img src="../../assets/img/img9.jpg" class="rounded-circle" alt=""></div>
+            <div class="media-body mg-l-15">
+              <p><strong>Adrian Monino</strong> added new comment on your photo</p>
+              <span>Mar 12 10:40pm</span>
+            </div><!-- media-body -->
+          </div><!-- media -->
+        </a>
+        <div class="dropdown-footer d-flex justify-content-around">
+          <%= link_to(t('notifications.view_all'), root_path)%>
+          <%= link_to(t('notifications.clear'), root_path) %>
+        </div>
+      </div><!-- dropdown-menu -->
+    </div>
+    <!-- end notifications -->
     <div class="dropdown dropdown-profile">
       <a href="" class="dropdown-link" data-toggle="dropdown" data-display="static">
         <div class="avatar avatar-sm"><%= image_tag user_avatar(current_user, 500), class: "rounded-circle" %></div>
