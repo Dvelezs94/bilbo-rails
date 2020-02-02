@@ -106,11 +106,20 @@ $(document).on('turbolinks:load', function() {
 
       var optionsgeneral = {
         hAxis: {
-          title: "Date"
+          title: "Date",
+          titleTextStyle: {
+            italic: false,
+            fontName: "IBM Plex Sans"
+          }
         },
         vAxis: {
-          title: "Earnings"
+          title: "Earnings",
+          titleTextStyle: {
+            italic: false,
+            fontName: "IBM Plex Sans"
+          }
         },
+        colors: ['#00cccc', '#fd7e14', '#f10075', '#0168fa', '#5b47fb', '#596882'],
         seriesType: 'bars',
         height: "100%",
         width: "100%",
