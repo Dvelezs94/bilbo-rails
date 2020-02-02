@@ -8,7 +8,7 @@ class Campaign < ApplicationRecord
   has_many :campaign_denials
   belongs_to :ad, optional: true
   has_and_belongs_to_many :boards
-  # status is for internal status, like in review, accepted or denied
+  # status is for internal status, like in review, accepted or denied, this depends on the bilbo provider
   enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3, deleted: 4 }
 
   # 'state' is for user desired state of the campaign, enabled or disabled
@@ -20,7 +20,7 @@ class Campaign < ApplicationRecord
   validates :name, presence: true
   # validates :ad, presence: true, on: :update
   validate :state_change_time, on: :update,  if: :state_changed?
-  validate :cant_update_when_active
+  validate :cant_update_when_active, on: :update
   validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
