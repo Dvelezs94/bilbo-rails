@@ -13,6 +13,15 @@ $(document).on('turbolinks:load', function() {
       if(currentIndex < newIndex) {
         // Step 1 form validation
         if(currentIndex === 0) {
+          var campaignadid = $('#campaign_ad_id').parsley();
+          if(campaignadid.isValid()) {
+            return true;
+          } else { campaignadid.validate(); }
+        }
+
+
+        // Step 2 form validation
+        if(currentIndex === 1) {
           var campaignboards = $('#campaign_boards').parsley();
 
           if(campaignboards.isValid()) {
@@ -20,14 +29,6 @@ $(document).on('turbolinks:load', function() {
           } else {
             campaignboards.validate();
           }
-        }
-
-        // Step 2 form validation
-        if(currentIndex === 1) {
-          var campaignadid = $('#campaign_ad_id').parsley();
-          if(campaignadid.isValid()) {
-            return true;
-          } else { campaignadid.validate(); }
         }
 
         if(currentIndex === 2) {
