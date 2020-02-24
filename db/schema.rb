@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_27_223830) do
+ActiveRecord::Schema.define(version: 2020_02_22_202103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,13 @@ ActiveRecord::Schema.define(version: 2019_11_27_223830) do
     t.bigint "campaign_id", null: false
     t.index ["ad_id", "campaign_id"], name: "index_ads_campaigns_on_ad_id_and_campaign_id"
     t.index ["campaign_id", "ad_id"], name: "index_ads_campaigns_on_campaign_id_and_ad_id"
+  end
+
+  create_table "blogs", force: :cascade do |t|
+    t.string "name"
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "boards", force: :cascade do |t|
@@ -157,6 +164,14 @@ ActiveRecord::Schema.define(version: 2019_11_27_223830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_payments_on_user_id"
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string "name"
+    t.integer "age"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "height"
   end
 
   create_table "users", force: :cascade do |t|
