@@ -92,7 +92,7 @@ es:
     to_active: "La campaña se ha activado"
     to_inactive: "La campaña se ha desactivado"
     new_campaign: "Nueva Campaña"
-    destroy: "Destruir Campaña"
+    destroy: "Remover Campaña"
     active_campaigns: "Campañas activas"
     campaign_name: "Nombre de Campaña"
     bilbos_in_use: "Bilbos en uso"
