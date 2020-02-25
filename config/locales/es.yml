@@ -49,6 +49,7 @@ es:
     configuration: "Configuración"
   account_settings:
     general_information_divider: "Informacion General"
+    Company_information: "Informacion de Empresa"
     name: "Nombre Completo"
     company_name: "Nombre de Compañía"
     password_divider: "Contraseña"
@@ -57,6 +58,8 @@ es:
     current_password: "Contraseña actual (necesitamos comprobar que eres tu)"
     minimum_characters: "caracteres minimos"
     update: "Actualizar"
+    page_wep_company: "Pagina Wep de la Empresa"
+    address_company: "Dirrecion de la empresa"
     idiom: "Idioma"
   general_inputs:
     confirm_submit: "Estas seguro?"

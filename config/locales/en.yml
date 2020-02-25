@@ -49,6 +49,7 @@ en:
     configuration: "Configuration"
   account_settings:
     general_information_divider: "General Information"
+    Company_information: "Company Information"
     name: "Full Name"
     company_name: "Company Name"
     password_divider: "Password"
@@ -57,6 +58,8 @@ en:
     current_password: "Current password (we need your current password to confirm your changes)"
     minimum_characters: "minimum characters"
     update: "Update"
+    page_wep_company: "Page Wep Company"
+    address_company: "Address Company"
     idiom: "Language"
   general_inputs:
     confirm_submit: "Are you sure?"
