@@ -17,12 +17,17 @@ class BoardsController < ApplicationController
   end
 
   def show
-    @active_campaigns = @board.active_campaigns
-    # Set api key cookie
-    cookies.signed[:api_key] = {
-      value: @board.api_token,
-      path: request.env['PATH_INFO']
-    }
+    @display_campaign = (!Redis.new(url: ENV.fetch("REDIS_URL_ACTIONCABLE")).pubsub("channels").include? params[:id])
+      if @display_campaign
+      @active_campaigns = @board.active_campaigns
+      # Set api key cookie
+      cookies.signed[:api_key] = {
+        value: @board.api_token,
+        path: request.env['PATH_INFO']
+      }
+    else
+      redirect_to root_path
+    end
   end
 
   def create
@@ -74,6 +79,7 @@ class BoardsController < ApplicationController
   # statistics of a singular board
   def statistics
   end
+
 
   private
 
