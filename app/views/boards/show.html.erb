@@ -1,16 +1,18 @@
-<div class="content content-fixed content-auth-alt board-display m-0 p-0 minh-100-vh maxh-100-vh w-100">
-  <div class="container ht-100p tx-center">
-    <div class="row justify-content-center">
-      <div class="col-10 col-sm-6 col-md-4 col-lg-3 mg-t-40 mg-sm-t-0 d-flex flex-column">
-        <div class="start-stream" data-board="<%= @board.slug %>">
-          <div class="tx-100 lh-1"><i class="fe fe-play"></i></div>
-          <h3 class="mg-b-25 tx-white"><%= t("bilbos.start_stream") %></h3>
-        </div>
-      </div><!-- col -->
-    </div><!-- row -->
-  </div><!-- container -->
-  <div class="board-ads">
-    <%= render partial: "campaigns/board_campaign", collection: @active_campaigns, as: :campaign %>
+<%if @display_campaign%>
+  <div class="content content-fixed content-auth-alt board-display m-0 p-0 minh-100-vh maxh-100-vh w-100">
+    <div class="container ht-100p tx-center">
+      <div class="row justify-content-center">
+        <div class="col-10 col-sm-6 col-md-4 col-lg-3 mg-t-40 mg-sm-t-0 d-flex flex-column">
+          <div class="start-stream" data-board="<%= @board.slug %>">
+            <div class="tx-100 lh-1"><i class="fe fe-play"></i></div>
+            <h3 class="mg-b-25 tx-white"><%= t("bilbos.start_stream") %></h3>
+          </div>
+        </div><!-- col -->
+      </div><!-- row -->
+    </div><!-- container -->
+    <div class="board-ads">
+      <%= render partial: "campaigns/board_campaign", collection: @active_campaigns, as: :campaign %>
+    </div>
+    <input readonly type="number" class="d-none" id="duration" value="<%= @board.duration %>">
   </div>
-  <input readonly type="number" class="d-none" id="duration" value="<%= @board.duration %>">
-</div>
+<%end%>
