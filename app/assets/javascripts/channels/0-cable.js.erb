@@ -1,5 +1,5 @@
 // We need to keep this script at the top so the Action cable variable is created
-<% if !@boards_display %>
+<% if Board.connected? %>
   (function() {
     this.App || (this.App = {});
 

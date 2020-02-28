@@ -1,4 +1,4 @@
-<% if !@display_campaign %>
+<% if Board.connected? %>
   $(document).on('turbolinks:load', function() {
     if ($(".board-ads").length) {
       App.boards_display = App.cable.subscriptions.create({channel: "BoardsDisplayChannel", id: $("[data-board]").attr("data-board") }, {
