@@ -17,8 +17,7 @@ class BoardsController < ApplicationController
   end
 
   def show
-    @display_campaign = (!Redis.new(url: ENV.fetch("REDIS_URL_ACTIONCABLE")).pubsub("channels").include? params[:id])
-      if @display_campaign
+      if !@board.connected?
       @active_campaigns = @board.active_campaigns
       # Set api key cookie
       cookies.signed[:api_key] = {
