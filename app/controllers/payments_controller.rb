@@ -40,7 +40,7 @@ class PaymentsController < ApplicationController
   end
 
   def limit_credit
-    previous_purchases = current_user.payments.where(created_at: Date.today..Time.now.end_of_day).sum(:total)
+    previous_purchases = current_user.payments.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).sum(:total)
     credit_limit = current_user.credit_limit
     credit_purchase = payment_params_express[:total].to_i
      if credit_purchase + previous_purchases > credit_limit
