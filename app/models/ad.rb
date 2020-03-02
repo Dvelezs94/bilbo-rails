@@ -31,9 +31,9 @@ class Ad < ApplicationRecord
   end
 
  #this method changes the status of campaigns approved 
-   def change_status
+  def change_status
     if multimedia_update 
-    campaigns.approved.update_all(status: "in_review")
+      campaigns.approved.update_all(status: "in_review")
     end
    end
 end
