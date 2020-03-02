@@ -2,7 +2,7 @@ class BoardsDisplayChannel < ApplicationCable::Channel
 
   def subscribed
     # Condition for check if there are any connection
-    if !Redis.new(url: ENV.fetch("REDIS_URL_ACTIONCABLE")).pubsub("channels").include? params[:id]
+    if !Board.friendly.find(params[:id]).connected?
       # Channel utilized to send messages to all boards
       stream_from "shared_channel"
       # Board channel
