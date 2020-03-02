@@ -1,8 +1,8 @@
 <div class="col-md-6 col-lg-6 mg-t-10">
   <div class="card">
     <div class="card-header pd-b-0 bd-b-0 pd-t-20 pd-lg-t-25 pd-l-20 pd-lg-l-25">
-      <h6 class="mg-b-5">Campaigns count</h6>
-      <p class="tx-12 tx-color-03 mg-b-0">last 12 months of marketing cammpaigns created. This number is 1 year back of campaigns creation.
+      <h6 class="mg-b-5">Earnings</h6>
+      <p class="tx-12 tx-color-03 mg-b-0">Last 3 months of earnings.
       </p>
     </div>
     <!-- card-header -->
@@ -25,7 +25,9 @@
       <!-- row -->
 
       <div class="chart-eight">
-        <div id="chartjsChart1" class="flot-chart"></div>
+        <div class="flot-chart">
+          <%= area_chart @earnings %>
+        </div>
       </div>
     </div>
     <!-- card-body -->

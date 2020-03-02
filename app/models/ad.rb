@@ -15,7 +15,6 @@ class Ad < ApplicationRecord
   #this is executed when user is trying to delete the ad
   validate :check_if_can_delete, :if => :status_changed_to_deleted?
 
-
   def check_if_can_delete
     if self.campaigns.select_active.length > 0
       errors.add(:base, I18n.t('ads.errors.wont_be_able_to_delete'))
