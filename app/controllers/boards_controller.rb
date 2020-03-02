@@ -29,6 +29,7 @@ class BoardsController < ApplicationController
     end
   end
 
+
   def create
     @board = Board.new(board_params)
     if @board.save

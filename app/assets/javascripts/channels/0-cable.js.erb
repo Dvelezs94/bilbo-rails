@@ -1,9 +1,0 @@
-// We need to keep this script at the top so the Action cable variable is created
-<% if Board.connected? %>
-  (function() {
-    this.App || (this.App = {});
-
-    App.cable = ActionCable.createConsumer();
-
-  }).call(this);
-<%end%>
