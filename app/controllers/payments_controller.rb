@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
   access user: :all
-
+  before_action :limit_credit, only: :express
   def express
     order_total = (payment_params_express[:total].to_i  * 100)
     response = EXPRESS_GATEWAY.setup_purchase(order_total,
@@ -37,6 +37,16 @@ class PaymentsController < ApplicationController
       flash[:error] = "Debes utilizar una cuenta de paypal verificada"
     end
     redirect_to root_path
+  end
+
+  def limit_credit
+    payments= current_user.payments.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).sum(:total)
+    credit_limited = current_user.credit_limit
+    credit_buy = credit_limited - payments - payment_params_express[:total].to_i
+     if credit_buy < 0
+       redirect_to root_path
+       flash[:error] = "Límite de compra de creditos superada"
+     end
   end
 
   private
