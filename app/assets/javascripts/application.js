@@ -10,6 +10,7 @@
 //= require jquery-ui
 //= require clipboard
 //= require data-confirm-modal
+//= require chartkick
 
 //= require_tree ./global_dependencies
 //= require_tree ./shared

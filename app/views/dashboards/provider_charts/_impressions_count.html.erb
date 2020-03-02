@@ -2,19 +2,20 @@
   <div class="card">
     <div class="card-header bd-b-0 pd-t-20 pd-lg-t-25 pd-l-20 pd-lg-l-25 d-flex flex-column flex-sm-row align-items-sm-start justify-content-sm-between">
       <div>
-        <h6 class="mg-b-5">General Metrics</h6>
-        <p class="tx-12 tx-color-03 mg-b-0">Campaigns, revenue and general statistics for the  current date range.</p>
+        <h6 class="mg-b-5">Impressions Count</h6>
+        <p class="tx-12 tx-color-03 mg-b-0">last 3 months of impressions. The impressions are a sum of all your board impressions combined</p>
       </div>
-      <div class="btn-group mg-t-20 mg-sm-t-0">
+      <!-- <div class="btn-group mg-t-20 mg-sm-t-0">
         <button class="btn btn-xs btn-white btn-uppercase">Day</button>
         <button class="btn btn-xs btn-white btn-uppercase">Week</button>
         <button class="btn btn-xs btn-white btn-uppercase active">Month</button>
-      </div><!-- btn-group -->
+      </div>-->
     </div><!-- card-header -->
     <div class="card-body pd-lg-25">
       <div class="row align-items-sm-end">
-        <div class="col-12">
-          <div class="chart-six" id="chartBar1">
+        <div class="col-12 pd-0-f">
+          <div class="chart-six">
+            <%= area_chart @daily_impressions %>
           </div>
         </div>
       </div>
