@@ -24,7 +24,7 @@ class Campaign < ApplicationRecord
   validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
-  before_save :set_in_review, :if => :ad_id_changed?
+  before_save :set_in_review, :if => :ad_id_changed?  
 
   def total_invested
     # self.orders.sum(:total)
@@ -38,7 +38,7 @@ class Campaign < ApplicationRecord
 
   # Function to know if the campaign has multimedia files in the ad
   def has_multimedia?
-    ad.present? && ad.multimedia.first.present?
+   ad.present? && ad.multimedia.first.present?
   end
 
   def set_in_review
@@ -120,4 +120,6 @@ class Campaign < ApplicationRecord
       errors.add(:base, I18n.t('campaign.errors.cant_update_when_active'))
     end
   end
+
+
 end
