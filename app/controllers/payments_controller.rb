@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
   access user: :all
-  before_action :limit_credit, only: :express
+  before_action :limit_credit, only: [:create,:express]
   def express
     order_total = (payment_params_express[:total].to_i  * 100)
     response = EXPRESS_GATEWAY.setup_purchase(order_total,
@@ -40,10 +40,10 @@ class PaymentsController < ApplicationController
   end
 
   def limit_credit
-    payments= current_user.payments.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).sum(:total)
-    credit_limited = current_user.credit_limit
-    credit_buy = credit_limited - payments - payment_params_express[:total].to_i
-     if credit_buy < 0
+    previous_purchases = current_user.payments.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).sum(:total)
+    credit_limit = current_user.credit_limit
+    credit_purchase = payment_params_express[:total].to_i
+     if credit_purchase + previous_purchases > credit_limit
        redirect_to root_path
        flash[:error] = "Límite de compra de creditos superada"
      end
