@@ -33,11 +33,11 @@ class User < ApplicationRecord
   end
 
   # returns a hash of total prints per day, WITHOUT grouping the boards
-  def total_board_impressions(start = 4.weeks.ago)
-    total_impressions = Impression.where(board_id: boards.pluck(:id), created_at: start.beginning_of_day..DateTime.now)
-    total_impressions = total_impressions.group_by_day(:created_at).count
-    total_impressions
-  end
+  # def total_board_impressions(start = 4.weeks.ago)
+  #   total_impressions = Impression.where(board_id: boards.pluck(:id), created_at: start.beginning_of_day..DateTime.now)
+  #   total_impressions = total_impressions.group_by_day(:created_at).count
+  #   total_impressions
+  # end
 
   def month_board_impressions(start = DateTime.now)
     total_impressions = Impression.where(board_id: boards.pluck(:id), created_at: start.beginning_of_month..start.end_of_month)
@@ -46,5 +46,23 @@ class User < ApplicationRecord
 
   # get current month impressions * impression price
   def current_month_earnings
+  end
+
+  # provider methods
+
+  # campaigns that require provider feedback to be aither approved or denied
+  def campaigns_for_review
+    Campaign.in_review.joins(:boards).where(boards: {user_id: id}).length
+  end
+
+  def active_campaigns
+    Campaign.approved.joins(:boards).where(boards: {user_id: id}).length
+  end
+
+  # return a COUNT impressions for campaigns
+  # call it like -
+  # current_user.daily_provider_board_impressions(6.months.ago).group_by_day(:created_at).count
+  def daily_provider_board_impressions(time_range = 30.days.ago..Time.now)
+    Impression.joins(:board).where(boards: {user_id: id}, created_at: time_range)
   end
 end

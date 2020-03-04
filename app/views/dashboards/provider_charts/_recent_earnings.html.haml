@@ -1,0 +1,38 @@
+.col-lg-12.mg-t-10
+  .card.mg-b-10
+    .card-header.pd-t-20.d-sm-flex.align-items-start.justify-content-between.bd-b-0.pd-b-0
+      %div
+        %h6.mg-b-5= t('dashboards.recent_earnings')
+        %p.tx-13.tx-color-03.mg-b-0= t('dashboards.recent_earnings_description')
+      .d-flex.mg-t-20.mg-sm-t-0
+        .btn-group.flex-fill
+          %button.btn.btn-white.btn-xs.active= t('dashboards.view_all')
+    .card-body.pd-y-10
+    .table-responsive
+      %table.table.table-dashboard.mg-b-0
+        %thead
+          %tr
+            %th= t('dashboards.date')
+            %th.text-right= t('dashboards.impressions_count')
+            %th.text-right= t('dashboards.gross_earnings')
+            %th.text-right= t('dashboards.platform_fee')
+            %th.text-right= t('dashboards.net_earnings')
+        %tbody
+          - @earnings.sort_by {|k,v| k}.reverse.each do |earning|
+            %tr
+              %td.tx-color-03.tx-normal= I18n.l(earning[0], format: :long)
+              %td.tx-medium.text-right 1,050
+              %td.text-right.tx-teal
+                + #{number_to_currency_usd(earning[1])}
+              %td.text-right.tx-pink
+                \- #{number_to_currency_usd(earning[1] * 0.20)}
+              %td.tx-medium.text-right.tx-success= number_to_currency_usd(earning[1] * 0.80)
+  .card.card-body.ht-lg-100
+    .media
+      %span
+        %a.tx-color-04{:href => "#"}
+          %i.ht-60.fe.fe-download.tx-50
+      .media-body.mg-l-20
+        %h6.mg-b-10= t('dashboards.download_report_in_csv')
+        %p.tx-color-03.mg-b-0
+          = t('dashboards.download_report_in_csv_description')

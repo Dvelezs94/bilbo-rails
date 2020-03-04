@@ -19,7 +19,6 @@ class Ad < ApplicationRecord
   #this is executed when the ad update the multimedia
   before_commit :change_status
 
-
   def check_if_can_delete
     if self.campaigns.select_active.length > 0
       errors.add(:base, I18n.t('ads.errors.wont_be_able_to_delete'))
