@@ -29,7 +29,7 @@
 
   </head>
   <body>
-    <%= notification_helper %>
+  <%= render :partial => 'flash/flash', :flash => flash %>
     <%= yield %>
   </body>
 </html>

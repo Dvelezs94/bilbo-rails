@@ -2,9 +2,9 @@
  *= require_self
  *= require feathericon
  *= require material_icons
- *= require gritter
  *= require_tree ./devise
  *= require_tree ./shared
+ *= require toastr
  */
 @import 'bootstrap';
 @import 'ionicons';
