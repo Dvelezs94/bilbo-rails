@@ -20,7 +20,7 @@
         %tbody
           - @earnings.sort_by {|k,v| k}.reverse.each do |earning|
             %tr
-              %td.tx-color-03.tx-normal= earning[0].strftime("%B, %d, %Y")
+              %td.tx-color-03.tx-normal= I18n.l(earning[0], format: :long)
               %td.tx-medium.text-right 1,050
               %td.text-right.tx-teal
                 + #{number_to_currency_usd(earning[1])}
