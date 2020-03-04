@@ -96,13 +96,7 @@ class Board < ApplicationRecord
     h = Impression.joins(:board).where(boards: {user: provider}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
     h.each { |key,value| h[key] = value.round(3) }
   end
-
-  # same as the above but for the graph to compare months
-  def self.monthly_earnings_comparison(provider, time_range = 60.days.ago..30.days.ago)
-    h = Impression.joins(:board).where(boards: {user: provider}, created_at: time_range).group(:board_id).group_by_day(:created_at).sum(:total_price)
-    #h.each { |key,value| h[key] = value.round(3) }
-  end
-
+  
   # this function returns an array of the top campaigns. This works on a monthly basis
   # Board.top_monthly_campaigns(User.find(x), Time.now)
   def self.top_monthly_campaigns(provider, time_range = 30.days.ago..Time.now)
