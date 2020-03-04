@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "roles"
+    t.integer "credit_limit", default: 100
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

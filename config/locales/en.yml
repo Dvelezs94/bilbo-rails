@@ -183,6 +183,7 @@ en:
     processing_order: Processing order...
     buy_credits: Buy Credits
     credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 Credit = 1 USD
+    credit_limit: Credit purchase limit exceeded
   invoices:
     invoice: Invoice
     invoices: Invoices
