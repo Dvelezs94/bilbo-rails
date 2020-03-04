@@ -1,7 +1,6 @@
-- danger = current_user.campaigns_for_review > 0 ?  true : false
+- danger = current_user.campaigns_for_review.positive? ? true : false
 .col-sm-5.col-md-4.col-lg-3.mg-t-10
-  %div{ class: "#{'bd-danger' if danger}" }
-  .card
+  %div{ class: "card #{'bd-danger' if danger}" }
     .card-header
       %h6.mg-b-0
         = t('dashboards.pending_campaigns')
