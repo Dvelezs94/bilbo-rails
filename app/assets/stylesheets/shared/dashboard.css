@@ -142,16 +142,16 @@
   margin-left: -26px;
   margin-right: -26px;
   margin-bottom: -26px;
-  height: 141px; }
+  height: 185px; }
   @media (min-width: 768px) {
     .chart-eight .flot-chart {
-      height: 264px; } }
+      height: 307px; } }
   @media (min-width: 992px) {
     .chart-eight .flot-chart {
       margin-left: -30px;
       margin-right: -30px;
       margin-bottom: -30px;
-      height: 141px; } }
+      height: 185px; } }
 
 .chart-nine .flot-chart {
   height: 142px;

@@ -205,4 +205,27 @@ es:
     notifications: "Notificaciones"
     view_all: "Ver Todas"
     clear: "Borrar"
-    mark_as_read: "Marcas como leído"
+    mark_as_read: "Marcar como leído"
+  dashboards:
+    export_to_csv: Exportar a CSV
+    print: Imprimir
+    settings: Configuración
+    impressions_count: Cuenta de impresiones
+    impressions_count_description: Últimos 30 días de impresiones. Cada punto es la suma de todas las impresiones de tus bilbos en un mismo dia
+    top_campaigns: Top de Campañas
+    earnings: Ganancias
+    earnings_description: Últimos 30 días de ganancias
+    pending_campaigns: Campañas pendientes
+    pending_campaigns_description: Campañas de marketing que tienen que ser revisadas
+    review_now: Revisar
+    view_all: Ver todas
+    active_campaigns: Campañas activas
+    active_campaigns_description: Todas las campañas corriendo a éste momento en tus bilbos
+    recent_earnings: Ganancias Recientes
+    recent_earnings_description: Impresiones y ganancias de tus bilbos en los últimos 30 días
+    date: Fecha
+    gross_earnings: Ganancias Brutas
+    platform_fee: Comisión de plataforma
+    net_earnings: Ganancias Netas
+    download_report_in_csv: Descargar reporte en formato CSV
+    download_report_in_csv_description: Útil para que realizes tus propios cálculos, gráficas, etc. El CSV contiene información extra como detalles de las campañas, compradores, y fechas.
