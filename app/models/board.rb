@@ -34,8 +34,18 @@ class Board < ApplicationRecord
     impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:cycles)
   end
 
+  def daily_impressions_count(day = Time.now)
+    time_range = day.beginning_of_day..day.end_of_day
+    impressions.where(created_at: time_range).sum(:cycles)
+  end
+
+  def daily_earnings(day = Time.now)
+    time_range = day.beginning_of_day..day.end_of_day
+    cycle_price(day) * daily_impressions_count(day)
+  end
+
   def monthly_earnings(start = Time.now)
-    cycle_price(start) * monthly_impressions_count(start)
+    impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:total_price)
   end
 
   # get the maximum number of earnings based on base_price * 140%
@@ -77,5 +87,24 @@ class Board < ApplicationRecord
   def generate_api_token
     self.api_token = SecureRandom.hex
   end
+
+  # Provider functions
+
+  # this function returns an array of the daily earnings by each board. This works on a monthly basis
+  # Board.daily_provider_earnings_by_boards(User.find(x), Time.now)
+  def self.daily_provider_earnings_by_boards(provider, time_range = 30.days.ago..Time.now)
+    h = Impression.joins(:board).where(boards: {user: provider}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
+    h.each { |key,value| h[key] = value.round(3) }
+  end
+  
+  # this function returns an array of the top campaigns. This works on a monthly basis
+  # Board.top_monthly_campaigns(User.find(x), Time.now)
+  def self.top_monthly_campaigns(provider, time_range = 30.days.ago..Time.now)
+    h = Impression.joins(:campaign, :board).where(boards: {user: provider}, created_at: time_range).group('campaigns.name').count
+    h.sort_by {|k, v| -v}
+  end
+
+  # End provider functions
+
 
 end

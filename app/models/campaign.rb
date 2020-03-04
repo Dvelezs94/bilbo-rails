@@ -26,11 +26,6 @@ class Campaign < ApplicationRecord
   before_save :update_state_updated_at, if: :state_changed?
   before_save :set_in_review, :if => :ad_id_changed?  
 
-  def total_invested
-    # self.orders.sum(:total)
-    true
-  end
-
   def ongoing?
     # validates if both fields are complete
     !(self.starts_at? && self.ends_at?)
@@ -121,5 +116,12 @@ class Campaign < ApplicationRecord
     end
   end
 
-
+  # Get total ammount of money invested on the campaign to date
+  def total_invested
+    total = 0.0
+    boards.each do |board|
+      total = total + board.cycle_price * impressions.where(board: board).length
+    end
+    return total
+  end
 end
