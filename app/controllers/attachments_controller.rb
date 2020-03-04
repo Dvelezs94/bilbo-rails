@@ -15,10 +15,11 @@ class AttachmentsController < ApplicationController
   def destroy
     respond_to do |format|
       format.html {
-        if @ad.campaigns.all_off && @ad.multimedia.find_by_id(params[:id]).purge
+        if @ad.campaigns.all_off 
+            @ad.multimedia.find_by_id(params[:id]).purge
           flash[:success] = I18n.t('ads.action.media_removed')
         else
-         flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')
+         flash[:danger] = I18n.t('ads.errors.wont_be_able_to_update')
         end
        }
       format.json { head :no_content }
