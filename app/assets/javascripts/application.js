@@ -5,7 +5,7 @@
 //= require jquery3
 //= require popper
 //= require bootstrap
-//= require gritter
+//= require toastr
 //= require jquery.steps
 //= require jquery-ui
 //= require clipboard
