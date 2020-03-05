@@ -96,7 +96,7 @@ class Board < ApplicationRecord
     h = Impression.joins(:board).where(boards: {user: provider}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
     h.each { |key,value| h[key] = value.round(3) }
   end
-  
+
   # this function returns an array of the top campaigns. This works on a monthly basis
   # Board.top_monthly_campaigns(User.find(x), Time.now)
   def self.top_monthly_campaigns(provider, time_range = 30.days.ago..Time.now)
@@ -104,7 +104,14 @@ class Board < ApplicationRecord
     h.sort_by {|k, v| -v}
   end
 
+
   # End provider functions
+
+  private
+
+  def to_s
+    name
+  end
 
 
 end
