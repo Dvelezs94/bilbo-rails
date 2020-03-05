@@ -27,7 +27,7 @@
 
   </head>
   <body class="<%= "app-contact" if current_page?(action: "show_users") %>">
-    <%= notification_helper %>
-    <%= yield %>
+  <%= render :partial => 'flash/flash', :flash => flash %>
+  <%= yield %>
   </body>
 </html>
