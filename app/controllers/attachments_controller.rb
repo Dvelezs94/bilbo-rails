@@ -19,7 +19,7 @@ class AttachmentsController < ApplicationController
             @ad.multimedia.find_by_id(params[:id]).purge
           flash[:success] = I18n.t('ads.action.media_removed')
         else
-         flash[:danger] = I18n.t('ads.errors.wont_be_able_to_update')
+         flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')
         end
        }
       format.json { head :no_content }
