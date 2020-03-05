@@ -39,6 +39,12 @@ Rails.application.routes.draw do
       get :show_users
     end
   end
+  resources :csv, controller: "csv", only: [] do
+    collection do
+      get :provider_boards
+      get :total_impressions
+    end
+  end
   resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

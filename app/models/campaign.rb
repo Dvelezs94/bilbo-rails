@@ -24,7 +24,7 @@ class Campaign < ApplicationRecord
   validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
-  before_save :set_in_review, :if => :ad_id_changed?  
+  before_save :set_in_review, :if => :ad_id_changed?
 
   def ongoing?
     # validates if both fields are complete
@@ -123,5 +123,11 @@ class Campaign < ApplicationRecord
       total = total + board.cycle_price * impressions.where(board: board).length
     end
     return total
+  end
+
+  private
+
+  def to_s
+    name
   end
 end
