@@ -55,7 +55,7 @@ class CampaignsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @campaign.update_attributes(campaign_params)
+      if @campaign.update_attributes(campaign_params.merge(state: true))
         format.html {
           flash[:success] = I18n.t('campaign.action.updated')
           redirect_to root_path
