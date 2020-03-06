@@ -1,0 +1,15 @@
+%a.link-02.card-ad-link{:href => "#{ad_path(ad)}", :id => "#{ad.id}"}
+  .col-sm-12.col-md-12.col-xl.pd-b-5.flex-0-f{"data-placement" => "top", "data-toggle" => "tooltip", :title => "#{ad.description}"}
+    .card.card-file
+      .card-file-thumb.bg-white
+        - if ad.multimedia.first
+          = image_tag ad.multimedia.first, class: "img-inherit"
+        - else
+          = image_tag image_path("placeholder_sm"), class: "img-inherit"
+      .card-body
+        %h6= ad.name
+      .card-footer
+        %span.d-sm-inline
+          = t("campaign.active_campaigns")
+          \:
+        = ad.campaigns.select_active.length

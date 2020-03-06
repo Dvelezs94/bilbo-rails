@@ -1,0 +1,27 @@
+%tr
+  %th{:scope => "row"}
+    .custom-control.custom-switch.px-4
+      = check_box_tag "customSwitch-#{campaign.slug}", nil, campaign.state, class: "custom-control-input", data: { url: toggle_state_campaign_path(campaign.slug), remote: :true, method: :put }
+      %label.custom-control-label{:for => "customSwitch-#{campaign.slug}"}
+  %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip", :title => campaign.description}= campaign.name
+  %td.text-right= campaign.boards.length
+  %td.text-right= link_to(campaign.ad.name, ad_path(campaign.ad)) rescue t("ads.no_ad")
+  %td.text-right= I18n.l(campaign.starts_at.to_date, format: :long) rescue "-"
+  %td.text-right= I18n.l(campaign.ends_at.to_date, format: :long) rescue "-"
+  %td.text-right.tx-medium= campaign.impressions.length
+  %td.text-right= number_to_currency_credit(campaign.budget)
+  %td.text-right= number_to_currency_credit(campaign.total_invested)
+  %td
+    %ul.nav.float-right
+      %li.nav-item
+        %a.nav-link.tx-primary.p-0{"data-toggle" => "dropdown", :href => "#"}
+          %i.fe.fe-elipsis-v.wd-15.ht-15
+        .dropdown-menu
+          %a.dropdown-item.tx-primary{"data-placement" => "top", "data-toggle" => "tooltip", :href => edit_campaign_path(campaign), :title => t("general_inputs.edit")}
+            %i.fe.fe-edit.mg-r-5
+            = t("general_inputs.edit")
+          %a.dropdown-item.tx-primary{"data-placement" => "top", "data-toggle" => "tooltip", :href => analytics_campaign_path(campaign), :title => t("campaign.metrics")}
+            %i.fe.fe-activity.mg-r-5
+            = t("campaign.metrics")
+          .dropdown-divider
+          = link_to raw("<i class='fe fe-trash mg-r-5'></i>#{t("campaign.destroy")}"), campaign_path(campaign), method: "delete", class: "dropdown-item tx-danger", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
