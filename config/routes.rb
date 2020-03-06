@@ -14,6 +14,9 @@ Rails.application.routes.draw do
       get :analytics
       put :toggle_state
     end
+    collection do
+      get :provider_index
+    end
   end
   resources :boards, only: [:index, :show, :create] do
     collection do

@@ -43,6 +43,8 @@ en:
     ads: "Ads"
     statistics: "Statistics"
     my_bilbos: "My Bilbos"
+    export_csv: "EXPORT TO CSV"
+    print: "PRINT"
 
   nav_headers:
     users: "Users"
@@ -59,7 +61,7 @@ en:
     minimum_characters: "minimum characters"
     update: "Update"
     company_web_page: "Company web page"
-    address_company: "Company Address"
+    company_address: "Company Address"
 
     idiom: "Language"
   general_inputs:
@@ -90,6 +92,7 @@ en:
     width: "width"
     height: "height"
   campaign:
+    active_campaigns: "Active Campaigns"
     campaign: "Dashboard"
     home: "Home"
     to_active: "The campaign has been activated"
@@ -106,6 +109,9 @@ en:
     daily_budget: "Daily Budget"
     total_invested: "Total Invested"
     metrics: "Metrics"
+    campaign_status: "Campaign"
+    campaign_name: "Name"
+    campaign_date: "Date"
     wont_be_able_to_update_state: "You will not be able to update the state until"
     wizard:
       choose_bilbos: "Choose your Bilbos"

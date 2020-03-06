@@ -43,6 +43,9 @@ es:
     ads: "Anuncios"
     statistics: "Estadisticas"
     my_bilbos: "Mis Bilbos"
+    export_csv: "EXPORTAR A CSV"
+    print: "IMPRIMIR"
+
 
   nav_headers:
     users: "Usuarios"
@@ -59,7 +62,7 @@ es:
     minimum_characters: "caracteres minimos"
     update: "Actualizar"
     company_web_page: "Pagina Wep de la Empresa"
-    address_company: "Dirrecion de la empresa"
+    company_address: "Dirrecion de la empresa"
     idiom: "Idioma"
   general_inputs:
     confirm_submit: "Estas seguro?"
@@ -90,6 +93,7 @@ es:
     width: "Largo"
     height: "Alto"
   campaign:
+    active_campaigns: "Campañas Activas"
     campaign: "Campañas"
     home: "Inicio"
     to_active: "La campaña se ha activado"
@@ -106,6 +110,9 @@ es:
     daily_budget: "Presupuesto Diario"
     total_invested: "Total Invertido"
     metrics: "Metricas"
+    campaign_status: "Campaña"
+    campaign_name: "Nombre"
+    campaign_date: "Fecha"
     wont_be_able_to_update_state: "No podrás actualizar el estado hasta dento de"
     wizard:
       choose_bilbos: "Escoge tus Bilbos"
