@@ -31,33 +31,39 @@ es:
     forgot_password_question: Olvide mi contraseña
     terms_of_service_agreement: al registrarte estas de acuerdo con nuestros terminos y condiciones al igual que nuestra politica de privacidad.
   header:
-    account_settings: Ajustes de cuenta
-    invoices: Facturas
-    view_profile: Ver perfil
-    logout: Cerrar sesion
-    dashboard: Inicio
-    campaigns: Campañas
-    help_center: Centro de ayuda
-    payment_methods: Metodos de pago
-    purchase_credits: Comprar Creditos
-    ads: Anuncios
-    statistics: Estadisticas
-    my_bilbos: Mis Bilbos
+    account_settings: "Ajustes de cuenta"
+    invoices: "Facturas"
+    view_profile: "Ver perfil"
+    logout: "Cerrar sesion"
+    dashboard: "Inicio"
+    campaigns: "Campañas"
+    help_center: "Centro de ayuda"
+    payment_methods: "Metodos de pago"
+    purchase_credits: "Comprar Creditos"
+    ads: "Anuncios"
+    statistics: "Estadisticas"
+    my_bilbos: "Mis Bilbos"
+    export_csv: "EXPORTAR A CSV"
+    print: "IMPRIMIR"
+
 
   nav_headers:
     users: Usuarios
     configuration: Configuración
   account_settings:
-    general_information_divider: Informacion General
-    name: Nombre Completo
-    company_name: Nombre de Compañía
-    password_divider: Contraseña
-    password_hint: Contraseña (Dejar en blanco si no quieres cambiarla)
-    password_confirmation: Confirmacion de contraseña
-    current_password: Contraseña actual (necesitamos comprobar que eres tu)
-    minimum_characters: caracteres minimos
-    update: Actualizar
-    idiom: Idioma
+    general_information_divider: "Informacion General"
+    company_information: "Informacion de Empresa"
+    name: "Nombre Completo"
+    company_name: "Nombre de Compañía"
+    password_divider: "Contraseña"
+    password_hint: "Contraseña (Dejar en blanco si no quieres cambiarla)"
+    password_confirmation: "Confirmacion de contraseña"
+    current_password: "Contraseña actual (necesitamos comprobar que eres tu)"
+    minimum_characters: "caracteres minimos"
+    update: "Actualizar"
+    company_web_page: "Pagina Wep de la Empresa"
+    company_address: "Dirrecion de la empresa"
+    idiom: "Idioma"
   general_inputs:
     confirm_submit: Estas seguro?
     confirm_deletion: Estas seguro que quieres borrar este elemento?
@@ -87,23 +93,27 @@ es:
     width: Largo
     height: Alto
   campaign:
-    campaign: Campañas
-    home: Inicio
-    to_active: La campaña se ha activado
-    to_inactive: La campaña se ha desactivado
-    new_campaign: Nueva Campaña
-    destroy: Remover Campaña
-    active_campaigns: Campañas activas
-    campaign_name: Nombre de Campaña
-    bilbos_in_use: Bilbos en uso
-    ad_name: Nombre de anuncio
-    start_date: Fecha de inicio
-    end_date: Fecha de fin
-    impressions: Impresiones
-    daily_budget: Presupuesto Diario
-    total_invested: Total Invertido
-    metrics: Metricas
-    wont_be_able_to_update_state: No podrás actualizar el estado hasta dento de
+    active_campaigns: "Campañas Activas"
+    campaign: "Campañas"
+    home: "Inicio"
+    to_active: "La campaña se ha activado"
+    to_inactive: "La campaña se ha desactivado"
+    new_campaign: "Nueva Campaña"
+    destroy: "Remover Campaña"
+    active_campaigns: "Campañas activas"
+    campaign_name: "Nombre de Campaña"
+    bilbos_in_use: "Bilbos en uso"
+    ad_name: "Nombre de anuncio"
+    start_date: "Fecha de inicio"
+    end_date: "Fecha de fin"
+    impressions: "Impresiones"
+    daily_budget: "Presupuesto Diario"
+    total_invested: "Total Invertido"
+    metrics: "Metricas"
+    campaign_status: "Campaña"
+    campaign_name: "Nombre"
+    campaign_date: "Fecha"
+    wont_be_able_to_update_state: "No podrás actualizar el estado hasta dento de"
     wizard:
       choose_bilbos: Escoge tus Bilbos
       pick_ad: Elige tu Anuncio
