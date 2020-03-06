@@ -23,10 +23,10 @@
                 <%= render "devise/shared/error_messages", resource: resource %>
 
                 <div class="form-group d-flex justify-content-between">
-                  <div class="col-md-10">
+                  <div class="col-xs-6 col-sm-2">
                     <%= image_tag user_avatar(resource, 80), class: "rounded-circle" %>
                   </div>
-                  <div class=" custom-file col-md-10 align-self-center ">
+                  <div class=" custom-file col-xs-6 col-sm-8 col-md-10 align-self-center ">
                     <%= f.file_field :avatar, accept: "image/png,image/jpg,image/jpeg", class: "custom-file-input" %>
                     <%= f.label(:avatar, t("general_inputs.choose_a_file"), class: "custom-file-label") %>
                   </div>
@@ -106,7 +106,7 @@
                           <input type="text" class="form-control" placeholder="www.company.com">
                         </div>
                         <div class="form-group">
-                          <label for="formGroupExampleInput" class="d-block"><%= t("account_settings.add`ress_company"`) %></label>
+                          <label for="formGroupExampleInput" class="d-block"><%= t("account_settings.address_company") %></label>
                           <input type="text" class="form-control" placeholder="234 Main St">
                         </div>
 
