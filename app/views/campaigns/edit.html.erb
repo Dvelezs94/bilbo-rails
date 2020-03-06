@@ -33,7 +33,7 @@
       <section>
         <hr>
         <div class="row row-xs">
-          <%= f.select(:boards, @campaign_boards, {:include_blank => 'Bilbos seleccionados'}, {:class => "custom-select col-sm-12 col-md-6 ml-auto", id: "selected_boards"}) %>
+          <%= f.select(:boards, @campaign_boards.to_a.join(", "), {:include_blank => 'Bilbos seleccionados'}, {:class => "custom-select col-sm-12 col-md-6 ml-auto", id: "selected_boards"}) %>
           <%= f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true %>
           <div id="boardInfo" class="col-md-12 col-xl-3 mg-t-10 order-1 d-none">
             <!-- card -->
