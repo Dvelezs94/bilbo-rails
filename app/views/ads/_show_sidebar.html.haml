@@ -1,0 +1,21 @@
+.filemgr-sidebar
+  .filemgr-sidebar-header
+    .dropdown.dropdown-icon.flex-fill.mg-l-10
+      %a{"data-toggle" => "modal", :href => "#modalUploadMultimedia"}
+        %button.btn.btn-xs.btn-block.btn-primary
+          %i.fe.fe-upload
+          = t("ads.upload_multimedia")
+    / dropdown
+  / filemgr-sidebar-header
+  .filemgr-sidebar-body
+    .pd-t-20.pd-b-10.pd-x-10
+      %nav.nav.nav-sidebar.tx-13
+        %a#multimediaLink.nav-link.active{:href => ""}
+          %i.pd-5.fnt-md.fe.fe-folder
+          %span Multimedia
+        / <a href="" class="nav-link"><i class="pd-5 fnt-md fe fe-clock"></i> <span>Actividad</span></a>
+        %a#configurationLink.nav-link{:href => ""}
+          %i.pd-5.fnt-md.fe.fe-gear
+          %span Configuracion
+  / filemgr-sidebar-body
+/ filemgr-sidebar
