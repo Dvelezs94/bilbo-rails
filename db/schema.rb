@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_27_223830) do
+ActiveRecord::Schema.define(version: 2020_02_28_221131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 2019_11_27_223830) do
     t.bigint "board_id"
     t.integer "cycles", default: 1
     t.datetime "created_at", null: false
+    t.float "total_price"
     t.index ["board_id"], name: "index_impressions_on_board_id"
     t.index ["campaign_id"], name: "index_impressions_on_campaign_id"
   end
@@ -175,6 +176,7 @@ ActiveRecord::Schema.define(version: 2019_11_27_223830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "roles"
+    t.integer "credit_limit", default: 100
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

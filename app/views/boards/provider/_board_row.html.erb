@@ -28,7 +28,6 @@
         <div class="d-flex align-items-center">
           <div class="wd-10 ht-10 rounded-circle bg-pink mg-r-5"></div>
           <h5 class="tx-normal tx-rubik mg-b-0"><%= board.active_campaigns.size %>
-            <small class="tx-color-04">25%</small>
           </h5>
         </div>
       </div>
@@ -38,7 +37,6 @@
         <div class="d-flex align-items-center">
           <div class="wd-10 ht-10 rounded-circle bg-primary mg-r-5"></div>
           <h5 class="tx-normal tx-rubik mg-b-0"><%= board.monthly_impressions_count %>
-            <small class="tx-color-04">20%</small>
           </h5>
         </div>
       </div>
@@ -47,19 +45,22 @@
         <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Status</p>
         <div class="d-flex align-items-center">
           <div class="wd-10 ht-10 rounded-circle bg-teal mg-r-5"></div>
-          <h5 class="tx-normal tx-rubik mg-b-0"><%= board.connected? ? t("bilbos.streaming") : t("bilbos.not_streaming") %></h5>
+          <h5 class="<%= "tx-danger" if !board.connected? %> tx-rubik mg-b-0"><%= board.connected? ? t("bilbos.streaming") : t("bilbos.not_streaming") %></h5>
         </div>
       </div>
       <!-- col -->
       <div class="col-6 mg-t-20">
-        <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Max profit per month</p>
+        <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Monthly Sales</p>
         <div class="d-flex align-items-center">
           <div class="wd-10 ht-10 rounded-circle bg-orange mg-r-5"></div>
-          <h5 class="tx-normal tx-rubik mg-b-0"><%= number_to_currency_usd(board.calculate_max_earnings) %></h5>
+          <h5 class="tx-normal tx-rubik mg-b-0"><%= number_to_currency_usd(board.monthly_earnings) %></h5>
         </div>
       </div>
       <!-- col -->
-      <div class="col-12 mg-t-20">
+      <div class="col-6 mg-t-20">
+        <%= button_to("View Campaigns", statistics_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-secondary btn-uppercase tx-spacing-1") %>
+      </div>
+      <div class="col-6 mg-t-20">
         <%= button_to("Stats", statistics_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1") %>
       </div>
     </div>
