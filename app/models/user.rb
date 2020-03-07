@@ -47,4 +47,5 @@ class User < ApplicationRecord
   # get current month impressions * impression price
   def current_month_earnings
   end
+
 end

@@ -39,6 +39,11 @@ Rails.application.routes.draw do
       get :show_users
     end
   end
+  resources :searches, only:[] do
+    collection do
+      get :autocomplete_user_email
+    end
+  end
   resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
