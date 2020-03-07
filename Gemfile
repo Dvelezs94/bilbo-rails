@@ -97,3 +97,5 @@ gem 'clipboard-rails', '~> 1.7', '>= 1.7.1'
 gem 'data-confirm-modal', '~> 1.6', '>= 1.6.2'
 gem 'kaminari', '~> 1.1', '>= 1.1.1'
 gem 'bootstrap4-kaminari-views', '~> 1.0', '>= 1.0.1'
+#autocomplete
+gem 'rails-jquery-autocomplete', '~> 1.0', '>= 1.0.5'

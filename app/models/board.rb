@@ -68,6 +68,8 @@ class Board < ApplicationRecord
     campaigns.approved.where(state: true)
   end
 
+
+
   private
 
   def generate_access_token
@@ -77,5 +79,4 @@ class Board < ApplicationRecord
   def generate_api_token
     self.api_token = SecureRandom.hex
   end
-
 end

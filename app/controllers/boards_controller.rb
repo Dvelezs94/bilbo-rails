@@ -1,11 +1,11 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:get_info, :index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token, :create], all: [:show], admin: [:toogle_status, :admin_index]
+  access [:provider, :admin, :user] => [:get_info, :index, :create], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token, :create], all: [:show], admin: [:toogle_status, :admin_index]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:show, :regenerate_access_token, :regenerate_api_token]
   before_action :restrict_access, only: :show
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :get_provider_boards, only: :owned
-
+  
   def index
   end
 
@@ -80,7 +80,6 @@ class BoardsController < ApplicationController
   def statistics
   end
 
-
   private
 
   def board_params
@@ -95,7 +94,7 @@ class BoardsController < ApplicationController
                                                         :category,
                                                         :face,
                                                         :base_earnings,
-                                                        images: []).merge(:user_id => current_user.id)
+                                                        images: []).merge(:user_id => User.find_by_email(:email))
   end
 
   def get_all_boards
