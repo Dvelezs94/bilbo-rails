@@ -1,3 +1,3 @@
 class SearchesController < ApplicationController
-  autocomplete :user, :email, :full => true
+  autocomplete :user, :email, :extra_data => [:roles], :full => true
 end
