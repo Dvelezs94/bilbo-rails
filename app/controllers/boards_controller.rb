@@ -5,7 +5,7 @@ class BoardsController < ApplicationController
   before_action :restrict_access, only: :show
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :get_provider_boards, only: :owned
-  
+
   def index
   end
 
@@ -83,7 +83,8 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    @campaign_params = params.require(:board).permit(:name,
+    @campaign_params = params.require(:board).permit(:user_id,
+                                                        :name,
                                                         :avg_daily_views,
                                                         :width,
                                                         :height,
@@ -94,7 +95,7 @@ class BoardsController < ApplicationController
                                                         :category,
                                                         :face,
                                                         :base_earnings,
-                                                        images: []).merge(:user_id => User.find_by_email(:email))
+                                                        images: [])
   end
 
   def get_all_boards
