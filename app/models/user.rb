@@ -47,8 +47,4 @@ class User < ApplicationRecord
   # get current month impressions * impression price
   def current_month_earnings
   end
-
-  def display_method
-    "#{self.email}.camelize"
-  end
 end
