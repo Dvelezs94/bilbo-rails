@@ -1,35 +1,35 @@
 en:
   error:
-    error_ocurrred: "It seems an error has occurred, please try again later"
+    error_ocurrred: It seems an error has occurred, please try again later
   input:
-    search: "Search"
-    submit: "Submit"
-  home: "Home"
+    search: Search
+    submit: Submit
+  home: Home
   meta_tags:
-    description: "Advertising spaces for businesses"
+    description: Advertising spaces for businesses
   authentication:
-    name: "Name"
-    name_hint: "Enter your name"
-    company: "Company"
-    company_hint: "enter your company name"
-    reset_password: "Reset your password"
-    reset_password_banner: "Enter your email address and we will send you a link to reset your password"
-    reset_password_hint: "Enter your Email"
-    reset_password_submit: "Send me reset password instructions"
-    sign_up: "Create New Account"
-    sign_up_banner: "It's free to signup and only takes a minute."
-    already_have_account: "Already have an account?"
-    sign_in: "Sign In"
-    sign_in_banner: "Welcome back! Please signin to continue."
-    create_account: "Create Account"
-    email_address: "Email address"
-    email_address_sample: "yourname@email.com"
-    password: "Password"
-    password_hint: "Enter your password"
-    password_confirmation: "Repeat password"
-    password_confirmation_hint: "Enter your password"
+    name: Name
+    name_hint: Enter your name
+    company: Company
+    company_hint: enter your company name
+    reset_password: Reset your password
+    reset_password_banner: Enter your email address and we will send you a link to reset your password
+    reset_password_hint: Enter your Email
+    reset_password_submit: Send me reset password instructions
+    sign_up: Create New Account
+    sign_up_banner: It's free to signup and only takes a minute.
+    already_have_account: Already have an account?
+    sign_in: Sign In
+    sign_in_banner: Welcome back! Please signin to continue.
+    create_account: Create Account
+    email_address: Email address
+    email_address_sample: yourname@email.com
+    password: Password
+    password_hint: Enter your password
+    password_confirmation: Repeat password
+    password_confirmation_hint: Enter your password
     forgot_password_question: Forgot password?
-    terms_of_service_agreement: "By signing up, you agree to our terms of service and privacy statement."
+    terms_of_service_agreement: By signing up, you agree to our terms of service and privacy statement.
   header:
     account_settings: "Account Settings"
     invoices: "Invoices"
@@ -43,12 +43,15 @@ en:
     ads: "Ads"
     statistics: "Statistics"
     my_bilbos: "My Bilbos"
+    export_csv: "EXPORT TO CSV"
+    print: "PRINT"
 
   nav_headers:
-    users: "Users"
-    configuration: "Configuration"
+    users: Users
+    configuration: Configuration
   account_settings:
     general_information_divider: "General Information"
+    company_information: "Company Information"
     name: "Full Name"
     company_name: "Company Name"
     password_divider: "Password"
@@ -57,41 +60,45 @@ en:
     current_password: "Current password (we need your current password to confirm your changes)"
     minimum_characters: "minimum characters"
     update: "Update"
+    company_web_page: "Company web page"
+    company_address: "Company Address"
+
     idiom: "Language"
   general_inputs:
-    confirm_submit: "Are you sure?"
-    confirm_deletion: "Are you sure you want to delete this item?"
-    close: "Close"
-    search: "Search"
-    browse: "Browse"
-    confirm: "Confirm"
-    cancel: "Cancel"
-    choose_a_file: "choose a file"
-    submit: "Submit"
-    create: "Create"
-    update: "Update"
-    name: "Name"
-    address: "Address"
-    description: "Description"
-    created_at: "Created at:"
-    dimensions: "Dimensions:"
-    size: "Size"
-    delete_confirmation: "Are you sure you want to delete this element?"
-    items_page: "items/page"
-    edit: "Edit Campaign"
-    pay_with: "Pay with"
-    please_wait: "Please wait..."
-    here: "here"
-    nothing_to_see_here: "Nothing to see here..."
-    width: "width"
-    height: "height"
+    confirm_submit: Are you sure?
+    confirm_deletion: Are you sure you want to delete this item?
+    close: Close
+    search: Search
+    browse: Browse
+    confirm: Confirm
+    cancel: Cancel
+    choose_a_file: choose a file
+    submit: Submit
+    create: Create
+    update: Update
+    name: Name
+    address: Address
+    description: Description
+    created_at: Created at
+    dimensions: Dimensions
+    size: Size
+    delete_confirmation: Are you sure you want to delete this element?
+    items_page: items/page
+    edit: Edit Campaign
+    pay_with: Pay with
+    please_wait: Please wait...
+    here: here
+    nothing_to_see_here: Nothing to see here...
+    width: width
+    height: height
   campaign:
+    active_campaigns: "Active Campaigns"
     campaign: "Dashboard"
     home: "Home"
     to_active: "The campaign has been activated"
     to_inactive: "The campaign has been deactivated"
     new_campaign: "New Campaign"
-    destroy: "Destroy Campaign"
+    destroy: "Remove Campaign"
     active_campaigns: "Active Campaigns"
     campaign_name: "Campaign Name"
     bilbos_in_use: "Bilbos in use"
@@ -102,31 +109,34 @@ en:
     daily_budget: "Daily Budget"
     total_invested: "Total Invested"
     metrics: "Metrics"
+    campaign_status: "Campaign"
+    campaign_name: "Name"
+    campaign_date: "Date"
     wont_be_able_to_update_state: "You will not be able to update the state until"
     wizard:
-      choose_bilbos: "Choose your Bilbos"
-      pick_ad: "Pick Ad"
-      date_and_budget: "Date and Budget"
-      payment_details: "Payment Details"
-      budget: "Budget"
-      daily_budget_description: "The budget is daily, so the impressions will adapt to it during the whole day"
-      campaign_duration: "Campaign Duration"
-      ongoing_campaign: "Ongoing Campaign"
-      pick_date: "Choose Date"
-      start_date: "Start Date"
-      end_date: "End Date"
-      summary: "Summary"
-      impressions_forecast: "Total daily impressions of your chosen bilbos"
+      choose_bilbos: Choose your Bilbos
+      pick_ad: Pick Ad
+      date_and_budget: Date and Budget
+      payment_details: Payment Details
+      budget: Budget
+      daily_budget_description: The budget is daily, so the impressions will adapt to it during the whole day
+      campaign_duration: Campaign Duration
+      ongoing_campaign: Ongoing Campaign
+      pick_date: Choose Date
+      start_date: Start Date
+      end_date: End Date
+      summary: Summary
+      impressions_forecast: Total daily impressions of your chosen bilbos
     errors:
-      no_ad: "The campaign doesn't have an associated ad"
-      no_multimedia: "The selected ad doesn't have multimedia"
-      ad_deleted: "The ad of the campaign no longer exists"
-      cant_update_when_active: "Campaign can't be updated when is active"
-      no_save: "Could not save campaign"
+      no_ad: The campaign doesn't have an associated ad
+      no_multimedia: The selected ad doesn't have multimedia
+      ad_deleted: The ad of the campaign no longer exists
+      cant_update_when_active: Campaign can't be updated when is active
+      no_save: Could not save campaign
     action:
-      deleted: "The campaign has been successfully deleted"
-      updated: "The campaign has been successfully updated"
-      saved: "The campaign has been saved successfully"
+      deleted: The campaign has been successfully deleted
+      updated: The campaign has been successfully updated
+      saved: The campaign has been saved successfully
   bilbos:
     new_bilbo: "New Bilbo"
     name: "Bilbo name"
@@ -167,44 +177,67 @@ en:
     billboard: "Billboard"
     provider: "Provider email"
   ads:
-    ads: "Ads"
-    new_ad: "New Ad"
-    upload_multimedia: "Upload Multimedia"
-    all_multimedia_files: "All Multimedia Files"
-    delete_ad: "Delete Ad"
-    no_ad: "No ad attached"
+    ads: Ads
+    new_ad: New Ad
+    upload_multimedia: Upload Multimedia
+    all_multimedia_files: All Multimedia Files
+    delete_ad: Delete Ad
+    no_ad: No ad attached
     action:
-      media_removed: "Multimedia has been deleted succesfully"
+      media_removed: Multimedia has been deleted succesfully
     errors:
-      wont_be_able_to_delete: "This ad can't be deleted because of active campaigns"
-      wont_be_able_to_update: "This ad can't be updated because of active campaigns"
-    new_ad_description: "Create a new ad for your campaigns"
+      wont_be_able_to_delete: This ad can't be deleted because of active campaigns
+      wont_be_able_to_update: This ad can't be updated because of active campaigns
+    new_ad_description: Create a new ad for your campaigns
   payments:
-    if_it_doesnt_redirect: "If you don't get redirected in 5 seconds, click"
-    processing_order: "Processing order..."
-    buy_credits: "Buy Credits"
-    credits_text: "Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 Credit = 1 USD"
-    credit_limit: "Credit purchase limit exceeded"
+    if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
+    processing_order: Processing order...
+    buy_credits: Buy Credits
+    credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 Credit = 1 USD
+    credit_limit: Credit purchase limit exceeded
   invoices:
-    invoice: "Invoice"
-    invoices: "Invoices"
-    issued_at: "Issued at"
-    beneficiary_name: "beneficiary name"
-    total_amount: "Total amount"
-    go_to_invoice: "Go to invoice"
-    number: "Invoice Number"
-    billed_to: "Billed to"
-    information: "Invoice information"
-    type: "Type"
-    description: "Description"
-    quantity: "Quantity"
-    unit_price: "Unit price"
-    total: "Total"
-    print: "print"
-    notes: "Notes"
-    all_prices_are_in_dollars: "All prices are charged and shown in USD."
+    invoice: Invoice
+    invoices: Invoices
+    issued_at: Issued at
+    beneficiary_name: beneficiary name
+    total_amount: Total amount
+    go_to_invoice: Go to invoice
+    number: Invoice Number
+    billed_to: Billed to
+    information: Invoice information
+    type: Type
+    description: Description
+    quantity: Quantity
+    unit_price: Unit price
+    total: Total
+    print: print
+    notes: Notes
+    all_prices_are_in_dollars: All prices are charged and shown in USD.
   notifications:
-    notifications: "Notifications"
-    view_all: "View All"
-    clear: "Clear"
-    mark_as_read: "Mark as read"
+    notifications: Notifications
+    view_all: View All
+    clear: Clear
+    mark_as_read: Mark as read
+  dashboards:
+    export_to_csv: Export to CSV
+    print: Print
+    settings: Settings
+    impressions_count: Impressions Count
+    impressions_count_description: last 30 days of impressions. The impressions are a sum of all your board impressions combined
+    top_campaigns: Top Campaigns
+    earnings: Earnings
+    earnings_description: Last 30 days of earnings.
+    pending_campaigns: Pending Campaigns
+    pending_campaigns_description: Marketing campaigns that need to be reviewed.
+    review_now: Review now
+    view_all: View All
+    active_campaigns: Active Campaigns
+    active_campaigns_description: Total number of marketing campaigns that are currently running on your Bilbos.
+    recent_earnings: Most Recent Earnings
+    recent_earnings_description: Impressions and earnings of all your Bilbos over the last 30 days
+    date: Date
+    gross_earnings: Gross earnings
+    platform_fee: Platform Fee
+    net_earnings: Net Earnings
+    download_report_in_csv: Download report in CSV format.
+    download_report_in_csv_description: Open it in a spreadsheet and perform your own calculations, graphing etc. The CSV file contains all the impressions ever made on your bilbos.

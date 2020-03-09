@@ -67,3 +67,4 @@ class AdsController < ApplicationController
     redirect_to ads_path if @ad.user != current_user
   end
 end
+

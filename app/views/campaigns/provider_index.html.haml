@@ -1,0 +1,148 @@
+= render 'shared/header', menu: "statistics"
+.content.content-fixed
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-25.mg-xl-b-30
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "/"}= t("campaign.home")
+            %li.breadcrumb-item{"aria-current" => "page"}= t("header.statistics")
+            %li.breadcrumb-item.active{"aria-current" => "page"}= t("campaign.active_campaigns")
+        %h4.mg-b-0.tx-spacing--1
+          = t("campaign.campaign_status")
+      .d-none.d-md-block
+        %button.btn.btn-sm.pd-x-15.btn-white.btn-uppercase.mg-l-5
+          %i.wd-10.mg-r-5.fe.fe-export>
+          = t("header.export_csv")
+        %button.btn.btn-sm.pd-x-15.btn-white.btn-uppercase.mg-l-5{:onclick => "window.print()"}
+          %i.wd-10.mg-r-5.fe.fe-print>
+          = t("header.print")
+    %table#table_camp.table
+      %thead
+        %tr
+          %th{:scope => "col"}= t("campaign.campaign_name")
+          %th{:scope => "col"} Multimedia
+          %th{:scope => "col"}= t("campaign.campaign_date")
+          %th{:scope => "col"} Bilbos
+          %th{:scope => "col"} $
+          %th{:scope => "col"}
+      %tbody
+        %tr
+          %td bilbo1
+          %td
+            %a{"data-toggle" => "modal", "effect-animation" => "effect-scale", :href => "#modal6"} view
+          %td 23/12/2020
+          %td 5
+          %td $4000.00
+          %td.d-flex.justify-content-between
+            %a{:href => "#"}
+              %i.fe.fe-check{"data-placement" => "top", "data-toggle" => "tooltip", :title => "accept bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-pause{"data-placement" => "top", "data-toggle" => "tooltip", :title => "pause bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-trash{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Remove bilbo"}
+        %tr
+          %td bilbo1
+          %td
+            %a{"data-toggle" => "modal", "effect-animation" => "effect-scale", :href => "#modal6"} view
+          %td 01/01/2020
+          %td 6
+          %td $50000.00
+          %td.d-flex.justify-content-between
+            %a{:href => "#"}
+              %i.fe.fe-check{"data-placement" => "top", "data-toggle" => "tooltip", :title => "accept bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-pause{"data-placement" => "top", "data-toggle" => "tooltip", :title => "pause bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-trash{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Remove bilbo"}
+        %tr
+          %td bilbo1
+          %td
+            %a{"data-toggle" => "modal", "effect-animation" => "effect-scale", :href => "#modal6"} view
+          %td 20/02/2020
+          %td 9
+          %td $9000.00
+          %td.d-flex.justify-content-between
+            %a{:href => "#"}
+              %i.fe.fe-check{"data-placement" => "top", "data-toggle" => "tooltip", :title => "accept bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-pause{"data-placement" => "top", "data-toggle" => "tooltip", :title => "pause bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-trash{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Remove bilbo"}
+        %tr
+          %td bilbo1
+          %td
+            %a{"data-toggle" => "modal", "effect-animation" => "effect-scale", :href => "#modal6"} view
+          %td 1/02/2020
+          %td 9
+          %td $9000.00
+          %td.d-flex.justify-content-between
+            %a{:href => "#"}
+              %i.fe.fe-check{"data-placement" => "top", "data-toggle" => "tooltip", :title => "accept bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-pause{"data-placement" => "top", "data-toggle" => "tooltip", :title => "pause bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-trash{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Remove bilbo"}
+        %tr
+          %td bilbo1
+          %td
+            %a{"data-toggle" => "modal", "effect-animation" => "effect-scale", :href => "#modal6"} view
+          %td 14/03/2019
+          %td 9
+          %td $9000.00
+          %td.d-flex.justify-content-between
+            %a{:href => "#"}
+              %i.fe.fe-check{"data-placement" => "top", "data-toggle" => "tooltip", :title => "accept bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-pause{"data-placement" => "top", "data-toggle" => "tooltip", :title => "pause bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-trash{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Remove bilbo"}
+        %tr
+          %td bilbo1
+          %td
+            %a{"data-toggle" => "modal", "effect-animation" => "effect-scale", :href => "#modal6"} view
+          %td 13/02/2019
+          %td 9
+          %td $9000.00
+          %td.d-flex.justify-content-between
+            %a{:href => "#"}
+              %i.fe.fe-check{"data-placement" => "top", "data-toggle" => "tooltip", :title => "accept bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-pause{"data-placement" => "top", "data-toggle" => "tooltip", :title => "pause bilbo"}
+            %a{:href => "#"}
+              %i.fe.fe-trash{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Remove bilbo"}
+#modal6.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel6", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content.tx-14
+      .modal-header
+        %h6#exampleModalLabel6.modal-title Multimedia
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"}
+      .modal-body
+        .df-example{"data-label" => "Example"}
+          #carouselExample5.carousel.slide.carousel-fade{"data-ride" => "carousel"}
+            %ol.carousel-indicators
+              %li.active{"data-slide-to" => "0", "data-target" => "#carouselExample5"}
+              %li{"data-slide-to" => "1", "data-target" => "#carouselExample5"}
+              %li{"data-slide-to" => "2", "data-target" => "#carouselExample5"}
+            .carousel-inner.bg-dark
+              .carousel-item.active
+                %a{:href => "https://via.placeholder.com/500x281"}
+                %img.d-block.w-100{:alt => "...", :src => "https://images.unsplash.com/photo-1558981420-87aa9dad1c89?ixlib=rb-1.2.1=eyJhcHBfaWQiOjEyMDd9=format=crop=1350=80"}
+              .carousel-item
+                %a{:href => "https://via.placeholder.com/500x281"}
+                %img.d-block.w-100{:alt => "...", :src => "https://images.unsplash.com/photo-1558980394-dbb977039a2e?ixlib=rb-1.2.1=format=crop=1350=80"}
+              .carousel-item
+                %a{:href => "https://via.placeholder.com/500x281"}
+                  %img.d-block.w-100{:alt => "...", :src => "https://images.unsplash.com/photo-1558981359-219d6364c9c8?ixlib=rb-1.2.1=format=crop=1350=80"}
+                %a.carousel-control-prev{"data-slide" => "prev", :href => "#carouselExample5", :role => "button"}
+                  %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+                    %i{"data-feather" => "chevron-left"}
+                  %span.sr-only Previous
+                %a.carousel-control-next{"data-slide" => "next", :href => "#carouselExample5", :role => "button"}
+                  %span.carousel-control-next-icon{"aria-hidden" => "true"}
+                    %i{"data-feather" => "chevron-right"}
+                  %span.sr-only Next
+            / df-example
+            %script{:src => "../app/assets/javascripts/global_dependencies/table_avanc.js"}
