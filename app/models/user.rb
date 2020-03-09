@@ -48,4 +48,7 @@ class User < ApplicationRecord
   def current_month_earnings
   end
 
+  def display_method
+    "#{self.email}.camelize"
+  end
 end

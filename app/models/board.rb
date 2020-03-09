@@ -68,8 +68,6 @@ class Board < ApplicationRecord
     campaigns.approved.where(state: true)
   end
 
-
-
   private
 
   def generate_access_token
