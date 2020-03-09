@@ -41,8 +41,8 @@ Rails.application.routes.draw do
   end
   resources :csv, controller: "csv", only: [] do
     collection do
-      get :provider_boards
-      get :total_impressions
+      get :generate_provider_report
+      get :validate_daily_generation
     end
   end
   resources :notifications

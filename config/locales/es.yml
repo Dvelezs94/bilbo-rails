@@ -230,3 +230,6 @@ es:
     net_earnings: Ganancias Netas
     download_report_in_csv: Descargar reporte en formato CSV
     download_report_in_csv_description: Útil para que realizes tus propios cálculos, gráficas, etc. El CSV contiene información de todas las impresiones históricas de tus bilbos.
+    reports:
+      failed_to_generate_report: Solo esta permitido crear un reporte al dia
+      report_created: El reporte fue creado, se te enviara el link de descarga a tu email
