@@ -139,42 +139,43 @@ es:
       updated: La campaña se ha actualizado exitosamente
       saved: La campaña se ha guardado con éxito
   bilbos:
-    new_bilbo: Nuevo Bilbo
-    name: Nombre del Bilbo
-    state: Estado
-    enabled: Habilitado
-    in_review: En revision
-    disabled: Desactivado
-    banned: Bloqueado
-    category: Categoria
-    copy_stream_url: Copiar URL
-    regenerate_token: Regenerar token de acceso
-    regenerate_api_token: Regenerar token de API
-    month_impressions: Impresiones Mensuales
-    start_stream: Empezar a emitir
-    not_streaming: No emitiendo
-    stream_status: Estado de la emicion
-    streaming: Emitiendo
-    avg_views: Vistas Promedio/día
-    day: Dia
-    duration: Duracion
-    seconds: segundos
-    price_per_print: Precio/Impresion
-    credits_per_print: Creditos/Impresion
-    dimensions: Dimensiones
-    north: Norte
-    south: Sur
-    east: Este
-    west: Oeste
-    face: Cara
-    address: Direccion
-    add_bilbo: Agregar Bilbo
-    remove_bilbo: Eliminar Bilbo
-    credits: Creditos
-    type: Tipo
-    television: Television
-    wallboard: Cartelon
-    billboard: Espectacular
+    new_bilbo: "Nuevo Bilbo"
+    name: "Nombre del Bilbo"
+    state: "Estado"
+    enabled: "Habilitado"
+    in_review: "En revision"
+    disabled: "Desactivado"
+    banned: "Bloqueado"
+    category: "Categoria"
+    copy_stream_url: "Copiar URL"
+    regenerate_token: "Regenerar token de acceso"
+    regenerate_api_token: "Regenerar token de API"
+    month_impressions: "Impresiones Mensuales"
+    start_stream: "Empezar a emitir"
+    not_streaming: "No emitiendo"
+    stream_status: "Estado de la emicion"
+    streaming: "Emitiendo"
+    avg_views: "Vistas Promedio/día"
+    day: "Dia"
+    duration: "Duracion"
+    seconds: "segundos"
+    price_per_print: "Precio/Impresion"
+    credits_per_print: "Creditos/Impresion"
+    dimensions: "Dimensiones"
+    north: "Norte"
+    south: "Sur"
+    east: "Este"
+    west: "Oeste"
+    face: "Cara"
+    address: "Direccion"
+    add_bilbo: "Agregar Bilbo"
+    remove_bilbo: "Eliminar Bilbo"
+    credits: "Creditos"
+    type: "Tipo"
+    television: "Television"
+    wallboard: "Cartelon"
+    billboard: "Espectacular"
+    provider: "Correo del proveedor"
   ads:
     ads: Anuncios
     new_ad: Nuevo Anuncio

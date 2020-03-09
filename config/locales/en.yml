@@ -138,43 +138,44 @@ en:
       updated: The campaign has been successfully updated
       saved: The campaign has been saved successfully
   bilbos:
-    new_bilbo: New Bilbo
-    name: Bilbo name
-    state: State
-    enabled: Enabled
-    in_review: In review
-    disabled: Disabled
-    banned: Banned
-    category: Category
-    copy_stream_url: Copy stream URL
-    regenerate_token: Regenerate access token
-    regenerate_api_token: Regenerate API token
-    month_impressions: Month impressions
-    start_stream: Start stream
-    not_streaming: Not streaming
-    stream_status: Stream status
-    streaming: Streaming
-    avg_views: Average Views/day
-    day: Day
-    duration: Duration
-    seconds: seconds
-    price_per_print: Price/Impression
-    credits_per_print: Credits/Impression
-    dimensions: Dimensions
-    expected_profit: Expected profit
-    north: North
-    south: South
-    east: East
-    west: West
-    face: Face
-    address: Address
-    add_bilbo: Add Bilbo
-    remove_bilbo: Remove Bilbo
-    credits: Credits
-    type: Type
-    television: Television
-    wallboard: Wallboard
-    billboard: Billboard
+    new_bilbo: "New Bilbo"
+    name: "Bilbo name"
+    state: "State"
+    enabled: "Enabled"
+    in_review: "In review"
+    disabled: "Disabled"
+    banned: "Banned"
+    category: "Category"
+    copy_stream_url: "Copy stream URL"
+    regenerate_token: "Regenerate access token"
+    regenerate_api_token: "Regenerate API token"
+    month_impressions: "Month impressions"
+    start_stream: "Start stream"
+    not_streaming: "Not streaming"
+    stream_status: "Stream status"
+    streaming: "Streaming"
+    avg_views: "Average Views/day"
+    day: "Day"
+    duration: "Duration"
+    seconds: "seconds"
+    price_per_print: "Price/Impression"
+    credits_per_print: "Credits/Impression"
+    dimensions: "Dimensions"
+    expected_profit: "Expected profit"
+    north: "North"
+    south: "South"
+    east: "East"
+    west: "West"
+    face: "Face"
+    address: "Address"
+    add_bilbo: "Add Bilbo"
+    remove_bilbo: "Remove Bilbo"
+    credits: "Credits"
+    type: "Type"
+    television: "Television"
+    wallboard: "Wallboard"
+    billboard: "Billboard"
+    provider: "Provider email"
   ads:
     ads: Ads
     new_ad: New Ad

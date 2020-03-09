@@ -42,6 +42,11 @@ Rails.application.routes.draw do
       get :show_users
     end
   end
+  resources :searches, only:[] do
+    collection do
+      get :autocomplete_user_email
+    end
+  end
   resources :csv, controller: "csv", only: [] do
     collection do
       get :provider_boards

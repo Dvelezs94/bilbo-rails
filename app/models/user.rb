@@ -47,7 +47,7 @@ class User < ApplicationRecord
   # get current month impressions * impression price
   def current_month_earnings
   end
-
+    
   # provider methods
 
   # campaigns that require provider feedback to be aither approved or denied
@@ -64,5 +64,6 @@ class User < ApplicationRecord
   # current_user.daily_provider_board_impressions(6.months.ago).group_by_day(:created_at).count
   def daily_provider_board_impressions(time_range = 30.days.ago..Time.now)
     Impression.joins(:board).where(boards: {user_id: id}, created_at: time_range)
+
   end
 end
