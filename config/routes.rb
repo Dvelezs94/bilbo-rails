@@ -14,6 +14,9 @@ Rails.application.routes.draw do
       get :analytics
       put :toggle_state
     end
+    collection do
+      get :provider_index
+    end
   end
   resources :boards, only: [:index, :show, :create] do
     collection do
@@ -42,6 +45,12 @@ Rails.application.routes.draw do
   resources :searches, only:[] do
     collection do
       get :autocomplete_user_email
+    end
+  end
+  resources :csv, controller: "csv", only: [] do
+    collection do
+      get :provider_boards
+      get :total_impressions
     end
   end
   resources :notifications

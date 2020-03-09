@@ -1,0 +1,41 @@
+= render 'shared/header', menu: "dashboard"
+.content.content-fixed
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "/"}= t("campaign.home")
+            %li.breadcrumb-item.active{"aria-current" => "page"}= t("campaign.campaign")
+        %h4.mg-b-0.tx-spacing--1= t("campaign.campaign")
+      .d-block
+        %a{"data-toggle" => "modal", :href => "#modalNewCampaign"}
+          %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
+            %i.wd-10.mg-r-5.fe.fe-plus
+            = t("campaign.new_campaign")
+    - if current_user.campaigns.where.not(status: "deleted").length > 0
+      .row
+        .table-responsive
+          %table#campaignsTable.table
+            %thead
+              %tr
+                %th
+                %th= t("campaign.campaign_name")
+                %th= t("campaign.bilbos_in_use")
+                %th= t("campaign.ad_name")
+                %th= t("campaign.start_date")
+                %th= t("campaign.end_date")
+                %th= t("campaign.impressions")
+                %th= t("campaign.daily_budget")
+                %th= t("campaign.total_invested")
+                %th.no-sort
+            %tbody= render partial: "campaigns/campaign_row", collection: @campaigns, as: :campaign
+    - else
+      .ht-100p.d-flex.flex-column.align-items-center.justify-content-center
+        .wd-150.wd-sm-250.mg-b-30
+          = image_tag image_path("humaaans/img15"), class: "img-fluid"
+        %h4.tx-20.tx-sm-24= t("general_inputs.nothing_to_see_here")
+  / container
+/ content
+= render partial: "campaigns/new"

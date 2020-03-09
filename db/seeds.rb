@@ -6,17 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 if ENV.fetch("RAILS_ENV") != "production"
-  20.times do |x|
-    User.create! do |user|
-      user.name = Faker::Name.first_name
-      user.email = "user#{x}#{Faker::Internet.email}"
-      user.company_name = Faker::Company.name
-      user.password = "1234aA"
-      puts "#{user.email}"
-    end
-  end
 
-  20.times do |x|
+  5.times do |x|
     User.create! do |provider|
       provider.name = Faker::Name.first_name
       provider.email = "provider#{x}#{Faker::Internet.email}"
@@ -41,16 +32,45 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.address = Faker::Address.full_address
             board.category = ["television", "billboard", "wallboard"].sample
             board.base_earnings = Faker::Number.between(1000, 4000)
-            rand(20..50).times do
-              board.impressions.new do |pr|
-                #pr.campaign_id = (x + 1)
+          end
+        end
+      end
+    end
+  end
+
+  5.times do |x|
+    User.create! do |user|
+      user.name = Faker::Name.first_name
+      user.email = "user#{x}#{Faker::Internet.email}"
+      user.company_name = Faker::Company.name
+      user.password = "1234aA"
+      puts user.email
+      10.times do |y|
+        user.ads.new do |ad|
+          ad.name = "ad #{y}"
+          ad.multimedia.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'avatar.png', content_type: 'image/png')
+          2.times do |z|
+            ad.campaigns.new do |cp|
+              cp.name   = "campaign#{ad.name}#{z}#{Faker::Music::RockBand.name}"
+              cp.budget = Faker::Number.between(5, 50)
+              cp.state  = Faker::Boolean.boolean
+              cp.status = Faker::Number.between(0, 4)
+              cp.user   = user
+              cp.boards = Board.order('RANDOM()').first(Faker::Number.between(2, 7))
+              cp.boards.each do |board|
+                rand(*100).times do
+                  board.impressions.create! do |im|
+                    im.campaign   = cp
+                    im.created_at = (rand*365).days.ago
+                  end
+                end
+              end
             end
           end
         end
       end
     end
   end
-end
 
   User.create! do |user|
     user.name = "Admin"
