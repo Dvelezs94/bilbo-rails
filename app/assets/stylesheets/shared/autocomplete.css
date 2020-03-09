@@ -38,14 +38,18 @@
 
 
 
-    .ui-widget-content .ui-state-focus {
-      color: #ffffff;
-      text-decoration: none;
-      background-color: #0088cc;
-      border-radius: 0px;
-      -webkit-border-radius: 0px;
-      -moz-border-radius: 0px;
-      background-image: none;
-    }
   }
+}
+.ui-widget-content .ui-state-focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #0088cc;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  background-image: none;
+}
+
+.ui-helper-hidden-accessible {
+  display: none !important;
 }
