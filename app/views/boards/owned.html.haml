@@ -1,0 +1,27 @@
+= render 'shared/header', menu: "my_bilbos"
+
+.content.content-fixed
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+
+    .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "/"}= t("campaign.home")
+            %li.breadcrumb-item.active{"aria-current" => "page"}= t("header.my_bilbos")
+
+        %h4.mg-b-0.tx-spacing--1
+        = t("header.my_bilbos")
+      .d-none.d-md-block
+        %a{:href => "#modalNewBilbo" ,  "data-toggle" => "modal"}
+          %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
+            %i.wd-10.mg-r-5.fe.fe-plus
+            = t("bilbos.new_bilbo")
+
+    .row.row-xs
+      = render partial: "boards/provider/board_row", collection: @boards, as: :board
+      .col-12
+        = paginate @boards, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center"
+
+= render 'new'

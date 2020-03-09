@@ -16,8 +16,8 @@
       <div class="pd-20 pd-lg-25 pd-xl-30">
         <h4 class="mg-b-15 mg-lg-b-25"><%= t("ads.all_multimedia_files") %></h4>
 
-        <div class="row row-xs" id="multimediaElements">
-          <%= render partial: "ads/show_single_multimedia", collection: @ad.multimedia, as: :multimedia %>
+        <div class="card-group" id="multimediaElements">
+          <%= render partial: "show_single_multimedia", collection: @ad.multimedia, as: :multimedia %>
         </div>
         <!-- row -->
       </div>
@@ -31,9 +31,8 @@
       <div class="pd-20 pd-lg-25 pd-xl-30">
         <h4 class="mg-b-15 mg-lg-b-25"><%= t("nav_headers.configuration") %></h4>
 
-        <div class="row row-xs">
-          <div class="col-sm-12 col-lg-4">
-            <div class="pd-20">
+          <div class="col-sm-12 col-lg-4 pd-0">
+            <div class="pd-0">
               <%= form_for(@ad) do |f| %>
               <div class="form-group">
                 <%= f.label :name %><br/>
@@ -55,7 +54,6 @@
               </div>
             <% end %>
 
-          </div>
         </div>
       </div>
       <!-- row -->

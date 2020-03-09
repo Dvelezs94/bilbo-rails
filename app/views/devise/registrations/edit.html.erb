@@ -22,14 +22,16 @@
               <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
                 <%= render "devise/shared/error_messages", resource: resource %>
 
-
-                <div class="form-group">
-                  <%= image_tag user_avatar(resource, 80), class: "rounded-circle" %>
-                  <div class="custom-file col-10">
+                <div class="form-group d-flex justify-content-between">
+                  <div class="col-xs-6 col-sm-2">
+                    <%= image_tag user_avatar(resource, 80), class: "rounded-circle" %>
+                  </div>
+                  <div class=" custom-file col-xs-6 col-sm-8 col-md-10 align-self-center ">
                     <%= f.file_field :avatar, accept: "image/png,image/jpg,image/jpeg", class: "custom-file-input" %>
                     <%= f.label(:avatar, t("general_inputs.choose_a_file"), class: "custom-file-label") %>
                   </div>
                 </div>
+
 
                 <div class="form-group">
                   <%= f.label :email %><br />
@@ -37,27 +39,28 @@
                 </div>
                 <div class="divider-text"><%= t("account_settings.general_information_divider") %></div>
 
+
                 <div class="form-row">
-                <div class="form-group col-10">
+                <div class="form-group col-md-6">
                   <%= f.label t("account_settings.name") %><br />
                   <%= f.text_field :name, class: "form-control" %>
                 </div>
-                <div class="form-group col-2">
+                <div class="form-group col-md-2">
                 <%= f.label t("account_settings.idiom") %><br />
                 <%= f.select("locale", [["español","es"],["english","en"]], {}, {:class => "custom-select"}) %>
                 </div>
+                <div class="form-group col-md-4 align-self-stretch mg-t-auto">
+
+                  <button  href="#modal2" type="button" class="btn btn-dark btn-block" data-toggle="modal"><%= t("account_settings.company_information") %></button>
                 </div>
 
-                <div class="form-group">
-                  <%= f.label t("account_settings.company_name") %><br />
-                  <%= f.text_field :company_name, class: "form-control" %>
                 </div>
 
-                <div class="divider-text"><%= t("account_settings.password_divider") %></div>
 
-                <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                    <div class="divider-text"><%= t("account_settings.password_divider") %></div>
+                    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
                   <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-                <% end %>
+                  <% end %>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
@@ -74,8 +77,7 @@
                   <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder:  t('account_settings.password_divider') %>
                 </div>
               </div>
-
-                <div class="form-group">
+              <div class="form-group">
                   <%= f.label t("account_settings.current_password") %><br />
                   <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control" %>
                 </div>
@@ -83,7 +85,42 @@
                 <div class="actions">
                   <%= f.submit t("account_settings.update"), class: "btn btn-primary btn-block" %>
                 </div>
+
+                <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content tx-14">
+                      <div class="modal-header">
+                        <h6 class="modal-title" id="exampleModalLabel2"><%= t("account_settings.company_information") %></h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="form-group">
+                          <%= f.label t("account_settings.company_name") %><br />
+                          <%= f.text_field :company_name, class: "form-control" %>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="formGroupExampleInput" class="d-block"><%= t("account_settings.company_web_page") %></label>
+                          <input type="text" class="form-control" placeholder="www.company.com">
+                        </div>
+                        <div class="form-group">
+                          <label for="formGroupExampleInput" class="d-block"><%= t("account_settings.address_company") %></label>
+                          <input type="text" class="form-control" placeholder="234 Main St">
+                        </div>
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary tx-13" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary tx-13">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               <% end %>
+
             </div>
           </div>
         </div><!-- row -->

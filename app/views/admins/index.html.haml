@@ -1,0 +1,30 @@
+= render 'shared/header', menu: "overview"
+.content.content-fixed
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-25.mg-xl-b-30
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "#"} Admin
+            %li.breadcrumb-item.active{"aria-current" => "page"} Overview
+        %h4.mg-b-0.tx-spacing--1 Admin Dashboard
+      .d-none.d-md-block
+        %button.btn.btn-sm.pd-x-15.btn-white.btn-uppercase.mg-l-5
+          %i.wd-10.mg-r-5.fe.fe-export
+          Export to CSV
+        %button.btn.btn-sm.pd-x-15.btn-white.btn-uppercase.mg-l-5{:onclick => "window.print()"}
+          %i.wd-10.mg-r-5.fe.fe-print
+          Print
+        %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
+          %i.wd-10.mg-r-5.fe.fe-equalizer
+          Settings
+    .row.row-xs
+      = render 'admins/charts/general_metrics'
+      = render 'admins/charts/top_providers'
+      = render 'admins/charts/campaigns_count_history'
+      = render 'admins/charts/pending_campaigns'
+      = render 'admins/charts/active_campaigns'
+      = render 'admins/charts/sales'
+      / row
+    / container

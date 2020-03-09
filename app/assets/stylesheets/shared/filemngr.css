@@ -42,7 +42,7 @@
   @media (prefers-reduced-motion: reduce) {
     .filemgr-sidebar {
       transition: none; } }
-  @media (min-width: 992px) {
+  @media (min-width: 576px) {
     .filemgr-sidebar {
       left: 0;
       opacity: 1;
@@ -91,7 +91,7 @@
   @media (prefers-reduced-motion: reduce) {
     .filemgr-content {
       transition: none; } }
-  @media (min-width: 992px) {
+  @media (min-width: 576px) {
     .filemgr-content {
       left: 240px; } }
 
@@ -174,6 +174,11 @@
   position: relative;
   border-color: rgba(72, 94, 144, 0.16);
   transition: all 0.2s ease-in-out; }
+  @media (min-width: 576px) {
+    .card-file {
+      max-width: 192px;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .card-file {
       transition: none; } }
