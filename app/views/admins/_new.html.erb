@@ -11,14 +11,14 @@
         <div class="row">
           <div class="col-12 m-auto">
             <div class="pd-20">
-              <%= form_with(model: Board) do |f| %>
+              <%= form_with(model: Board, url: boards_path, method: :post, :html => { :id => "new_board", data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, local: false) do |f| %>
 
               <%= f.hidden_field :lat %>
               <%= f.hidden_field :lng %>
 
               <div class="form-group" id="new" >
                 <%= f.label t("bilbos.provider") %>
-                <%= f.autocomplete_field :user_email, autocomplete_user_email_searches_path, :append_to => "#new", class: "form-control", :id_element => '#some_element', placeholder: t("bilbos.provider"), :display_value => :display_method, 'data-showNoMatches' => false, type: 'email', :fields => {:roles => '#roles_element'} %>
+                <%= f.autocomplete_field :user_email, autocomplete_user_email_searches_path, :append_to => "#new", class: "form-control", :id_element => '#some_element', placeholder: t("bilbos.provider"), 'data-showNoMatches' => false, type: 'email', :fields => {:roles => '#roles_element'} %>
                 <%= f.hidden_field :user_id, id:"some_element"%>
               </div>
 
