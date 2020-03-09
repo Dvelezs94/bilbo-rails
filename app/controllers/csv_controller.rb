@@ -1,18 +1,18 @@
 class CsvController < ApplicationController
   access provider: :all
+  before_action :validate_daily_generation
 
-  def provider_boards
-    respond_to do |format|
-      format.html
-      format.csv { send_data current_user.boards.to_csv(["name", "status", "address", "category", "base_earnings", "face", "created_at"]), filename: "bilbos-#{Date.today}.csv" }
+  def generate_provider_report
+    ProviderReportWorker.perform_async(current_user.id)
+    redirect_to root_path
+  end
+
+  def validate_daily_generation
+    if current_user.reports.where(created_at: 1.day.ago..Time.now).present?
+      flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report')
+    else
+      flash[:success] = I18n.t('dashboards.reports.report_created')
     end
   end
 
-  def total_impressions
-    @user = current_user.daily_provider_board_impressions(10.years.ago..Time.now)
-    respond_to do |format|
-      format.html
-      format.csv { send_data @user.to_csv(["campaign", "board", "created_at", "total_price"]), filename: "impressions-#{Date.today}.csv" }
-    end
-  end
 end

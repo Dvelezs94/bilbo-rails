@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_many :campaigns
   has_many :payments
   has_many :invoices
+  has_many :reports
   has_one_attached :avatar
   attr_readonly :email
   has_many :ads

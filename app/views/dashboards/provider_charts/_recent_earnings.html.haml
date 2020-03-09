@@ -30,7 +30,7 @@
   .card.card-body.ht-lg-100
     .media
       %span
-        = link_to total_impressions_csv_index_path(format: "csv"), class: 'tx-color-04' do
+        = link_to generate_provider_report_csv_index_path(format: "csv"), class: 'tx-color-04' do
           %i.ht-60.fe.fe-download.tx-50
       .media-body.mg-l-20
         %h6.mg-b-10= t('dashboards.download_report_in_csv')
