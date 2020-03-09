@@ -165,6 +165,7 @@ en:
     television: "Television"
     wallboard: "Wallboard"
     billboard: "Billboard"
+    provider: "Provider email"
   ads:
     ads: "Ads"
     new_ad: "New Ad"

@@ -165,6 +165,7 @@ es:
     television: "Television"
     wallboard: "Cartelon"
     billboard: "Espectacular"
+    provider: "Correo del proveedor"
   ads:
     ads: "Anuncios"
     new_ad: "Nuevo Anuncio"

@@ -17,8 +17,8 @@
               <%= f.hidden_field :lng %>
 
               <div class="form-group" id="new" >
-                <%= f.label t("authentication.email_address") %>
-                <%= f.autocomplete_field :user_email, autocomplete_user_email_searches_path, :append_to => "#new", class: "form-control", :id_element => '#some_element', placeholder: t("authentication.email_address"), :display_value => :display_method, 'data-showNoMatches' => false, type: 'email' %>
+                <%= f.label t("bilbos.provider") %>
+                <%= f.autocomplete_field :user_email, autocomplete_user_email_searches_path, :append_to => "#new", class: "form-control", :id_element => '#some_element', placeholder: t("bilbos.provider"), :display_value => :display_method, 'data-showNoMatches' => false, type: 'email', :fields => {:roles => '#roles_element'} %>
                 <%= f.hidden_field :user_id, id:"some_element"%>
               </div>
 
