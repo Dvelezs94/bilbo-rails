@@ -3,7 +3,7 @@ class CsvController < ApplicationController
   before_action :validate_daily_generation
 
   def generate_provider_report
-    ProviderReportWorker.perform_async(current_user.id)
+    ProviderImpressionsCsvWorker.perform_async(current_user.id)
     redirect_to root_path
   end
 
