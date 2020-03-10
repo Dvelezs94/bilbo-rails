@@ -1,7 +1,7 @@
 class AdsController < ApplicationController
   access user: :all, provider: {except: [:new]}
   before_action :get_ad, only: [:show, :destroy, :update]
-  before_action :verify_identity, only: [:show, :destroy, :update]
+  #before_action :verify_identity, only: [:show, :destroy, :update]
 
   def index
     get_active_ads
@@ -48,23 +48,22 @@ class AdsController < ApplicationController
 
   private
   def ad_params
-    params.require(:ad).permit(:name, :description).merge(:user_id => current_user.id)
+    params.require(:ad).permit(:name, :description).merge(:account_id => @account.id)
   end
 
   def get_ads
-    @ads = current_user.ads.order(updated_at: :desc).with_attached_multimedia
+    @ads = @account.ads.order(updated_at: :desc).with_attached_multimedia
   end
 
   def get_active_ads
-    @ads = current_user.ads.active.order(updated_at: :desc).with_attached_multimedia
+    @ads = @account.ads.active.order(updated_at: :desc).with_attached_multimedia
   end
 
   def get_ad
-    @ad = Ad.with_attached_multimedia.friendly.find(params[:id])
+    @ad = Ad.with_attached_multimedia.where(account: @account).friendly.find(params[:id])
   end
 
   def verify_identity
     redirect_to ads_path if @ad.user != current_user
   end
 end
-

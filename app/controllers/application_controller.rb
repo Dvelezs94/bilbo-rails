@@ -2,20 +2,34 @@ class ApplicationController < ActionController::Base
   layout :set_layout
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
-  # Override devise methods so there are no routes conflict with devise being at /
-  def after_sign_in_path_for(resource_or_scope)
-    dashboards_path
+  before_action :set_account
+
+  # require accout helper
+  def require_account!
+    redirect_to root_url(subdomain: "app")
   end
 
-  def after_sign_out_path_for(resource_or_scope)
-    root_path
+  # Override devise methods so there are no routes conflict with devise being at /
+  def after_sign_in_path_for(resource)
+    dashboards_url(subdomain: resource.account.slug)
+  end
+
+  def after_sign_out_path_for(resource)
+    root_url(subdomain: "app")
   end
 
   protected
+  # find the company for the multi tenancy
+  def set_account
+    if request.subdomain.present? && request.subdomain != "app" && user_signed_in? && current_user.role == :user
+      @account = Account.friendly.find(request.subdomain)
+    end
+  end
+
   # add extra registration fields for devise
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :company_name])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :company_name, :avatar, :locale])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, account_attributes: [:subdomain]])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale, account_attributes: [:subdomain]])
   end
 
   def set_locale

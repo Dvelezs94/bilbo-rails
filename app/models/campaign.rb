@@ -3,7 +3,7 @@ class Campaign < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  belongs_to :user
+  belongs_to :account
   has_many :impressions
   has_many :campaign_denials
   belongs_to :ad, optional: true
@@ -118,11 +118,7 @@ class Campaign < ApplicationRecord
 
   # Get total ammount of money invested on the campaign to date
   def total_invested
-    total = 0.0
-    boards.each do |board|
-      total = total + board.cycle_price * impressions.where(board: board).length
-    end
-    return total
+    Impression.where(campaign_id: id).sum(:total_price)
   end
 
   private
