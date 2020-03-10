@@ -14,12 +14,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
   has_many :boards
-  has_many :campaigns
+  # account related methods
+  has_one :account
+  after_initialize :set_account
+  accepts_nested_attributes_for :account
   has_many :payments
   has_many :invoices
   has_one_attached :avatar
   attr_readonly :email
-  has_many :ads
 
   # gives an array with the user boards and the respective impressions in a given time
   # sample output: [{"board_name": "V.carranza", "impressions": 435}, {"board_name": "E.zapata", "impressions": 544}]
@@ -47,7 +49,7 @@ class User < ApplicationRecord
   # get current month impressions * impression price
   def current_month_earnings
   end
-    
+
   # provider methods
 
   # campaigns that require provider feedback to be aither approved or denied
@@ -65,5 +67,11 @@ class User < ApplicationRecord
   def daily_provider_board_impressions(time_range = 30.days.ago..Time.now)
     Impression.joins(:board).where(boards: {user_id: id}, created_at: time_range)
 
+  end
+
+  private
+
+  def set_account
+    build_account unless account.present?
   end
 end

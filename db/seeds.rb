@@ -11,10 +11,12 @@ if ENV.fetch("RAILS_ENV") != "production"
     User.create! do |provider|
       provider.name = Faker::Name.first_name
       provider.email = "provider#{x}#{Faker::Internet.email}"
-      provider.company_name = Faker::Company.name
       provider.password = "1234aA"
       provider.role = :provider
-      puts "#{provider.email}"
+      provider.account_attributes = {
+        subdomain: Faker::Company.name
+      }
+      puts provider.email
       10.times do
         lat = Faker::Address.latitude
         lng = Faker::Address.longitude
@@ -42,21 +44,23 @@ if ENV.fetch("RAILS_ENV") != "production"
     User.create! do |user|
       user.name = Faker::Name.first_name
       user.email = "user#{x}#{Faker::Internet.email}"
-      user.company_name = Faker::Company.name
       user.password = "1234aA"
+      user.account_attributes = {
+        subdomain: Faker::Company.name
+      }
       puts user.email
       10.times do |y|
-        user.ads.new do |ad|
+        user.account.ads.new do |ad|
           ad.name = "ad #{y}"
           ad.multimedia.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'avatar.png', content_type: 'image/png')
           2.times do |z|
             ad.campaigns.new do |cp|
-              cp.name   = "campaign#{ad.name}#{z}#{Faker::Music::RockBand.name}"
-              cp.budget = Faker::Number.between(5, 50)
-              cp.state  = Faker::Boolean.boolean
-              cp.status = Faker::Number.between(0, 4)
-              cp.user   = user
-              cp.boards = Board.order('RANDOM()').first(Faker::Number.between(2, 7))
+              cp.name    = "campaign#{ad.name}#{z}#{Faker::Music::RockBand.name}"
+              cp.budget  = Faker::Number.between(5, 50)
+              cp.state   = Faker::Boolean.boolean
+              cp.status  = Faker::Number.between(0, 4)
+              cp.account = ad.account
+              cp.boards  = Board.order('RANDOM()').first(Faker::Number.between(2, 7))
               cp.boards.each do |board|
                 rand(*100).times do
                   board.impressions.create! do |im|

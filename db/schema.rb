@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_28_221131) do
+ActiveRecord::Schema.define(version: 2020_03_09_231334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "subdomain"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_accounts_on_slug", unique: true
+    t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -39,14 +49,14 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
   create_table "ads", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.bigint "user_id"
+    t.bigint "account_id"
     t.string "multimedia"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
     t.integer "status", default: 0
+    t.index ["account_id"], name: "index_ads_on_account_id"
     t.index ["slug"], name: "index_ads_on_slug", unique: true
-    t.index ["user_id"], name: "index_ads_on_user_id"
   end
 
   create_table "ads_campaigns", id: false, force: :cascade do |t|
@@ -96,7 +106,7 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
   end
 
   create_table "campaigns", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "account_id"
     t.string "name"
     t.string "description"
     t.float "budget"
@@ -110,9 +120,9 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
     t.bigint "ad_id"
     t.string "slug"
     t.datetime "state_updated_at"
+    t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
-    t.index ["user_id"], name: "index_campaigns_on_user_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -168,7 +178,6 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
     t.datetime "remember_created_at"
     t.string "timezone"
     t.string "name"
-    t.string "company_name"
     t.string "provider"
     t.string "avatar"
     t.float "balance", default: 0.0
@@ -181,12 +190,13 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "accounts", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "ads", "users"
+  add_foreign_key "ads", "accounts"
   add_foreign_key "boards", "users"
   add_foreign_key "campaign_denials", "campaigns"
+  add_foreign_key "campaigns", "accounts"
   add_foreign_key "campaigns", "ads"
-  add_foreign_key "campaigns", "users"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
   add_foreign_key "invoices", "payments"
