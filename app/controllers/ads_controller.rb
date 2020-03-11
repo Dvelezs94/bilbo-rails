@@ -48,19 +48,19 @@ class AdsController < ApplicationController
 
   private
   def ad_params
-    params.require(:ad).permit(:name, :description).merge(:account_id => @account.id)
+    params.require(:ad).permit(:name, :description).merge(:project_id => @project.id)
   end
 
   def get_ads
-    @ads = @account.ads.order(updated_at: :desc).with_attached_multimedia
+    @ads = @project.ads.order(updated_at: :desc).with_attached_multimedia
   end
 
   def get_active_ads
-    @ads = @account.ads.active.order(updated_at: :desc).with_attached_multimedia
+    @ads = @project.ads.active.order(updated_at: :desc).with_attached_multimedia
   end
 
   def get_ad
-    @ad = Ad.with_attached_multimedia.where(account: @account).friendly.find(params[:id])
+    @ad = Ad.with_attached_multimedia.where(project: @project).friendly.find(params[:id])
   end
 
   def verify_identity

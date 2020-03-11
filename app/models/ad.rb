@@ -5,7 +5,7 @@ class Ad < ApplicationRecord
 
   friendly_id :name, use: :slugged
 
-  belongs_to :account
+  belongs_to :project
 
   has_many :campaigns
   has_many_attached :multimedia

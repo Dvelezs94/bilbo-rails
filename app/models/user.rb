@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  attr_accessor :project_name
   ############################################################################################
   ## PeterGate Roles                                                                        ##
   ## The :user role is added by default and shouldn't be included in this list.             ##
@@ -14,10 +15,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
   has_many :boards
-  # account related methods
-  has_one :account
-  after_initialize :set_account
-  accepts_nested_attributes_for :account
+  # project related methods
+  has_many :project_users
+  has_many :projects, through: :project_users
+  after_commit :set_project, on: :create
+
   has_many :payments
   has_many :invoices
   has_one_attached :avatar
@@ -66,12 +68,17 @@ class User < ApplicationRecord
   # current_user.daily_provider_board_impressions(6.months.ago).group_by_day(:created_at).count
   def daily_provider_board_impressions(time_range = 30.days.ago..Time.now)
     Impression.joins(:board).where(boards: {user_id: id}, created_at: time_range)
+  end
 
+  def projects_owned
+    projects.where(role: "owner")
   end
 
   private
 
-  def set_account
-    build_account unless account.present?
+  def set_project
+    @project = Project.new(name: project_name)
+    @project.project_users.new(user: self, role: "owner")
+    @project.save
   end
 end

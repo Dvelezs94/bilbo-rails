@@ -15,16 +15,6 @@ ActiveRecord::Schema.define(version: 2020_03_09_231334) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "accounts", force: :cascade do |t|
-    t.string "subdomain"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "slug"
-    t.index ["slug"], name: "index_accounts_on_slug", unique: true
-    t.index ["user_id"], name: "index_accounts_on_user_id"
-  end
-
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,13 +39,13 @@ ActiveRecord::Schema.define(version: 2020_03_09_231334) do
   create_table "ads", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.bigint "account_id"
+    t.bigint "project_id"
     t.string "multimedia"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
     t.integer "status", default: 0
-    t.index ["account_id"], name: "index_ads_on_account_id"
+    t.index ["project_id"], name: "index_ads_on_project_id"
     t.index ["slug"], name: "index_ads_on_slug", unique: true
   end
 
@@ -106,7 +96,7 @@ ActiveRecord::Schema.define(version: 2020_03_09_231334) do
   end
 
   create_table "campaigns", force: :cascade do |t|
-    t.bigint "account_id"
+    t.bigint "project_id"
     t.string "name"
     t.string "description"
     t.float "budget"
@@ -120,8 +110,8 @@ ActiveRecord::Schema.define(version: 2020_03_09_231334) do
     t.bigint "ad_id"
     t.string "slug"
     t.datetime "state_updated_at"
-    t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
+    t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
   end
 
@@ -170,6 +160,24 @@ ActiveRecord::Schema.define(version: 2020_03_09_231334) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
+  create_table "project_users", force: :cascade do |t|
+    t.bigint "project_id"
+    t.bigint "user_id"
+    t.integer "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_users_on_project_id"
+    t.index ["user_id"], name: "index_project_users_on_user_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_projects_on_slug", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -190,16 +198,17 @@ ActiveRecord::Schema.define(version: 2020_03_09_231334) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "accounts", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "ads", "accounts"
+  add_foreign_key "ads", "projects"
   add_foreign_key "boards", "users"
   add_foreign_key "campaign_denials", "campaigns"
-  add_foreign_key "campaigns", "accounts"
   add_foreign_key "campaigns", "ads"
+  add_foreign_key "campaigns", "projects"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
   add_foreign_key "invoices", "payments"
   add_foreign_key "invoices", "users"
   add_foreign_key "payments", "users"
+  add_foreign_key "project_users", "projects"
+  add_foreign_key "project_users", "users"
 end
