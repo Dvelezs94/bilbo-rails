@@ -2,16 +2,16 @@ class ApplicationController < ActionController::Base
   layout :set_layout
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :set_account
+  before_action :set_project
 
   # require accout helper
-  def require_account!
-    redirect_to root_url(subdomain: "app")
+  def require_project!
+    redirect_to root_url(subdomain: "app") if request.subdomain != "app"
   end
 
   # Override devise methods so there are no routes conflict with devise being at /
   def after_sign_in_path_for(resource)
-    dashboards_url(subdomain: resource.account.slug)
+    dashboards_url(subdomain: resource.project_users.first.project.slug)
   end
 
   def after_sign_out_path_for(resource)
@@ -20,16 +20,16 @@ class ApplicationController < ActionController::Base
 
   protected
   # find the company for the multi tenancy
-  def set_account
+  def set_project
     if request.subdomain.present? && request.subdomain != "app" && user_signed_in? && current_user.role == :user
-      @account = Account.friendly.find(request.subdomain)
+      @project = Project.friendly.find(request.subdomain)
     end
   end
 
   # add extra registration fields for devise
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, account_attributes: [:subdomain]])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale, account_attributes: [:subdomain]])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :project_name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale])
   end
 
   def set_locale

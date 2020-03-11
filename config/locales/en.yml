@@ -241,3 +241,7 @@ en:
     net_earnings: Net Earnings
     download_report_in_csv: Download report in CSV format.
     download_report_in_csv_description: Open it in a spreadsheet and perform your own calculations, graphing etc. The CSV file contains all the impressions ever made on your bilbos.
+  projects:
+    project: Proyecto
+    successfuly_created: "Project successfuly created"
+    error: "Could not create project"

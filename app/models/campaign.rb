@@ -3,7 +3,7 @@ class Campaign < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  belongs_to :account
+  belongs_to :project
   has_many :impressions
   has_many :campaign_denials
   belongs_to :ad, optional: true

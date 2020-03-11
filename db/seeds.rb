@@ -7,15 +7,15 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 if ENV.fetch("RAILS_ENV") != "production"
 
+  Project
+
   5.times do |x|
     User.create! do |provider|
       provider.name = Faker::Name.first_name
       provider.email = "provider#{x}#{Faker::Internet.email}"
       provider.password = "1234aA"
       provider.role = :provider
-      provider.account_attributes = {
-        subdomain: Faker::Company.name
-      }
+      provider.project_name = Faker::Company.name
       puts provider.email
       10.times do
         lat = Faker::Address.latitude
@@ -45,12 +45,11 @@ if ENV.fetch("RAILS_ENV") != "production"
       user.name = Faker::Name.first_name
       user.email = "user#{x}#{Faker::Internet.email}"
       user.password = "1234aA"
-      user.account_attributes = {
-        subdomain: Faker::Company.name
-      }
+      user.project_name = Faker::Company.name
       puts user.email
+      user.save
       10.times do |y|
-        user.account.ads.new do |ad|
+        user.projects.first.ads.new do |ad|
           ad.name = "ad #{y}"
           ad.multimedia.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'avatar.png', content_type: 'image/png')
           2.times do |z|
@@ -59,7 +58,7 @@ if ENV.fetch("RAILS_ENV") != "production"
               cp.budget  = Faker::Number.between(5, 50)
               cp.state   = Faker::Boolean.boolean
               cp.status  = Faker::Number.between(0, 4)
-              cp.account = ad.account
+              cp.project = ad.project
               cp.boards  = Board.order('RANDOM()').first(Faker::Number.between(2, 7))
               cp.boards.each do |board|
                 rand(*100).times do
