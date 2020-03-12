@@ -8,4 +8,8 @@ class Project < ApplicationRecord
   has_many :users, through: :project_users
   has_many :campaigns
   has_many :ads
+
+  def owners
+    project_users.where(role: "owner").pluck(:user_id)
+  end
 end

@@ -53,7 +53,9 @@ Rails.application.routes.draw do
       get :total_impressions
     end
   end
-  resources :projects
+  resources :projects do
+    resources :project_users, path: :users, module: :projects, only: [:create, :destroy]
+  end
   resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

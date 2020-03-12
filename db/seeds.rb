@@ -16,6 +16,7 @@ if ENV.fetch("RAILS_ENV") != "production"
       provider.password = "1234aA"
       provider.role = :provider
       provider.project_name = Faker::Company.name
+      provider.confirmed_at = DateTime.now
       puts provider.email
       10.times do
         lat = Faker::Address.latitude
@@ -46,6 +47,7 @@ if ENV.fetch("RAILS_ENV") != "production"
       user.email = "user#{x}#{Faker::Internet.email}"
       user.password = "1234aA"
       user.project_name = Faker::Company.name
+      user.confirmed_at = DateTime.now
       puts user.email
       user.save
       10.times do |y|
@@ -80,6 +82,7 @@ if ENV.fetch("RAILS_ENV") != "production"
     user.email = "admin@mybilbo.com"
     user.password = "1234aA"
     user.role = :admin
+    user.confirmed_at = DateTime.now
     puts "#{user.email}"
   end
 end
