@@ -29,6 +29,6 @@ class Projects::ProjectUsersController < ApplicationController
   end
 
   def validate_owner
-    redirect_to root_path if not @project.owners.include? current_user.id
+    raise_not_found if not @project.owners.include? current_user.id
   end
 end

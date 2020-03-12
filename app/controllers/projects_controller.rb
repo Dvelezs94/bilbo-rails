@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
     @project.project_users.new(user: current_user, role: "owner")
 
     if @project.save
-      flash[:success] = I18n.t('project.successfuly_created')
+      flash[:success] = I18n.t('project.successfully_created')
     else
       flash[:error] = I18n.t('project.error')
     end

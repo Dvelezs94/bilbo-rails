@@ -15,7 +15,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
 
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+ validates :email, presence: true, format: Devise.email_regexp
   has_many :boards
   # project related methods
   has_many :project_users
@@ -74,6 +74,10 @@ class User < ApplicationRecord
 
   def projects_owned
     projects.where(role: "owner")
+  end
+
+  def name_or_email
+    name || email
   end
 
   private
