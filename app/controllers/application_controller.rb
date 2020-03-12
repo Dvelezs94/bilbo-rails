@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     root_url(subdomain: "app")
   end
 
+  def raise_not_found
+    raise ActionController::RoutingError.new('Not Found')
+  end
+
   protected
   # find the company for the multi tenancy
   def set_project

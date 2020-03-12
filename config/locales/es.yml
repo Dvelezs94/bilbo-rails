@@ -244,7 +244,7 @@ es:
     download_report_in_csv_description: Útil para que realizes tus propios cálculos, gráficas, etc. El CSV contiene información de todas las impresiones históricas de tus bilbos.
   projects:
     project: Proyecto
-    successfuly_created: Proyect creado con éxito
+    successfully_created: Proyect creado con éxito
     error: Error al crear proyecto
     member_invited: Miembro invitado con éxito
     member_invited_error: Error al invitar miembro

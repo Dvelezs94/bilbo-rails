@@ -10,10 +10,10 @@
             .pd-20
               - @project.project_users.each do |u|
                 .media.align-items-center.mg-b-20
-                  .avatar{title: u.user.email}
+                  .avatar
                     = image_tag user_avatar(u.user, 500), class: "rounded-circle"
-                  .media-body.pd-l-15{title: u.user.email}
-                    %h6mg-b-3= u.user.name
+                  .media-body.pd-l-15
+                    %h6mg-b-3= u.user.name_or_email
                     %span.d-block.tx-13.tx-color-03= u.role
                   %span.d-none.d-sm-block.tx-12.tx-color-03.align-self-start
                     = link_to raw("<i class='fe fe-trash'></i> "),  project_project_user_path(@project, u.user), method: :delete, class: "tx-danger tx-15 confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") } if u.user.id != current_user.id
