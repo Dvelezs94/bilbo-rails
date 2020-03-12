@@ -14,6 +14,8 @@ class User < ApplicationRecord
   devise :confirmable, :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
+
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   has_many :boards
   # project related methods
   has_many :project_users
