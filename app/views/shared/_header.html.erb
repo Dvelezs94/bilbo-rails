@@ -38,6 +38,17 @@
   </ul>
   </div><!-- navbar-menu-wrapper -->
   <div class="navbar-right">
+    <!-- teams -->
+    <div class="dropdown">
+      <button class="btn btn-outline-light dropdown-toggle" type="button" id="teamMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= truncate(@project.name, length: 15) %>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="teamMenuButton">
+        <% current_user.projects.each do |pr| %>
+        <%= link_to pr.name, root_url(subdomain: pr.slug), class: "dropdown-item" %>
+        <% end  %>
+      </div>
+    </div>
     <!-- notifications -->
     <div class="dropdown dropdown-notification">
       <a href="" class="dropdown-link new-indicator" data-toggle="dropdown">
@@ -100,6 +111,7 @@
         <% if current_user.role == :user %>
           <a href="#modalNewPayment" data-toggle="modal" class="dropdown-item" data-toggle="tooltip" data-placement="bottom" title="<%= t('header.purchase_credits') %>"><i class="fe fe-wallet pd-r-5 tx-success"></i><%= number_to_currency_credit(current_user.balance) %></a>
           <div class="dropdown-divider"></div>
+          <a href="#modalManageTeam" data-toggle="modal" class="dropdown-item"><i class="fe fe-users pd-r-5"></i><%= t('header.manage_team') %></a>
           <a href="<%= invoices_path %>" class="dropdown-item"><i class="fe fe-document pd-r-5"></i><%= t('header.invoices') %></a>
           <a href="<%= edit_user_registration_path %>" class="dropdown-item"><i class="fe fe-gear pd-r-5"></i> <%= t('header.account_settings') %></a>
           <a href="#modalNewPayment" data-toggle="modal" class="dropdown-item"><i class="fe fe-wallet pd-r-5"></i><%= t('header.purchase_credits') %></a>
@@ -116,3 +128,4 @@
   </div><!-- navbar-right -->
 </header><!-- navbar -->
 <%= render "payments/new"  if current_user.role == :user %>
+<%= render "project_users/manage_modal"  if current_user.role == :user %>

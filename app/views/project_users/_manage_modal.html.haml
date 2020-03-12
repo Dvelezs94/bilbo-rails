@@ -1,0 +1,35 @@
+#modalManageTeam.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20.pd-sm-30
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h5.tx-18.tx-sm-20.mg-b-30= t("projects.manage_team")
+        .row
+          .col-12.m-auto
+            .pd-20
+              - @project.project_users.each do |u|
+                .media.align-items-center.mg-b-20
+                  .avatar{title: u.user.email}
+                    = image_tag user_avatar(u.user, 500), class: "rounded-circle"
+                  .media-body.pd-l-15{title: u.user.email}
+                    %h6mg-b-3= u.user.name
+                    %span.d-block.tx-13.tx-color-03= u.role
+                  %span.d-none.d-sm-block.tx-12.tx-color-03.align-self-start
+                    = link_to raw("<i class='fe fe-trash'></i> "),  project_project_user_path(@project, u.user), method: :delete, class: "tx-danger tx-15 confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") } if u.id != current_user.id
+              %hr
+              = form_for [@project, ProjectUser.new] do |f|
+                .form-group
+                  %label= t('projects.invite')
+                  .input-group
+                    = f.email_field :email, required: true, class: "form-control", placeholder: "john-doe@mail.com"
+                    .input-group-append{title: t('projects.role')}
+                      = f.select(:role, ["user", "administrator"], {:include_blank => false}, {:class => "custom-select"})
+
+                = f.submit  t('projects.send_invite'), class: "btn btn-primary float-right"
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+      / modal-footer
+    / modal-content
+  / modal-dialog
+/ modal

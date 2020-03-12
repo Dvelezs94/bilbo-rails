@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   # find the company for the multi tenancy
   def set_project
     if request.subdomain.present? && request.subdomain != "app" && user_signed_in? && current_user.role == :user
-      @project = Project.friendly.find(request.subdomain)
+      @project = Project.includes(:project_users).friendly.find(request.subdomain)
     end
   end
 
@@ -30,6 +30,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :project_name])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale])
+    devise_parameter_sanitizer.permit(:accept_invitation, keys: [:project_name])
   end
 
   def set_locale
