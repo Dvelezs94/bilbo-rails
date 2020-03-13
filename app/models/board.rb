@@ -48,6 +48,26 @@ class Board < ApplicationRecord
     impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:total_price)
   end
 
+  def quarter_monthly_impressions
+    impressions.where(created_at: Time.now.months_ago(3)..Time.now).sum(:total_price)
+  end
+
+  def daily_board_impressions(time_range = Time.now.months_ago(3)..Time.now)
+    Impression.where(board_id: self, created_at: time_range)
+  end
+
+  def pending_campaign
+    Campaign.in_review.joins(:boards).where(boards:{id: self}).count
+  end
+
+  def approve_campaign
+    Campaign.approved.joins(:boards).where(boards:{id: self}).count
+  end
+
+  def campaign_of_day
+    h = Impression.joins(:board, :campaign).where(board_id: self, created_at: Time.now.beginning_of_day..Time.now.end_of_day).group('campaigns.name').count
+    h.each { |key,value| h[key] = value.round(3) }
+  end
   # get the maximum number of earnings based on base_price * 140%
   def calculate_max_earnings
     base_earnings * (10.0/7)
@@ -78,6 +98,18 @@ class Board < ApplicationRecord
     campaigns.approved.where(state: true)
   end
 
+  # Returns how much earnings in quarter of year
+  def quarter_monthly_earnings(time_range = Time.now.months_ago(3)..Time.now)
+    h = Impression.where(board_id: self, created_at: time_range ).group_by_day(:created_at).sum(:total_price)
+    h.each { |key,value| h[key] = value.round(3) }
+  end
+
+  def top_quarter_campaigns(time_range = Time.now.months_ago(3)..Time.now)
+    h = Impression.joins(:campaign, :board).where(board_id: self, created_at: time_range).group('campaigns.name').count
+    h.sort_by {|k, v| -v}
+  end
+
+
   private
 
   def generate_access_token
@@ -97,12 +129,14 @@ class Board < ApplicationRecord
     h.each { |key,value| h[key] = value.round(3) }
   end
 
+
   # this function returns an array of the top campaigns. This works on a monthly basis
   # Board.top_monthly_campaigns(User.find(x), Time.now)
   def self.top_monthly_campaigns(provider, time_range = 30.days.ago..Time.now)
     h = Impression.joins(:campaign, :board).where(boards: {user: provider}, created_at: time_range).group('campaigns.name').count
     h.sort_by {|k, v| -v}
   end
+
 
 
   # End provider functions
@@ -115,3 +149,5 @@ class Board < ApplicationRecord
 
 
 end
+#Impression.joins(:board).where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)
+#Impression.joins(:board).where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).group(:board_id).count

@@ -176,6 +176,8 @@ en:
     wallboard: "Wallboard"
     billboard: "Billboard"
     provider: "Provider email"
+    earnings_description: "last 3 months of earnings."
+    impressions_count_description: "last 3 months of impressions."
   ads:
     ads: Ads
     new_ad: New Ad

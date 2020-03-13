@@ -1,7 +1,7 @@
 class BoardsController < ApplicationController
   access [:provider, :admin, :user] => [:get_info, :index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show], admin: [:toogle_status, :admin_index, :create]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:show, :regenerate_access_token, :regenerate_api_token]
+  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token]
   before_action :restrict_access, only: :show
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :get_provider_boards, only: :owned
@@ -78,6 +78,8 @@ class BoardsController < ApplicationController
 
   # statistics of a singular board
   def statistics
+    @impressions = @board.daily_board_impressions.group_by_day(:created_at).count
+    @bilbo_top = @board.top_quarter_campaigns.first(4)
   end
 
   private
