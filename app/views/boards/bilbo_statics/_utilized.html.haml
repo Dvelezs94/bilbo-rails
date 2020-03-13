@@ -1,0 +1,13 @@
+.col-lg-8.col-xl-6.mg-t-10
+  .card
+    .card-header.bd-b-0.pd-t-20.pd-lg-t-25.pd-l-20.pd-lg-l-25.d-flex.flex-column.flex-sm-row.align-items-sm-start.justify-content-sm-between
+      %div
+        %h6.mg-b-5
+          = t('dashboards.impressions_count')
+        %p.tx-12.tx-color-03.mg-b-0
+          = t('dashboards.impressions_count_description')
+    .card-body.pd-lg-25
+      .row.align-items-sm-end
+        .col-12.pd-0-f
+          .chart-six
+            = area_chart @daily_impressions
