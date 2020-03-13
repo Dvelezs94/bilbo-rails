@@ -15,7 +15,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       t.datetime :remember_created_at
       t.string :timezone
       t.string :name
-      t.string :company_name
       t.string :provider
       t.string :avatar
       t.float :balance, default: 0.0

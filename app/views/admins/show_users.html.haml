@@ -1,0 +1,50 @@
+= render 'shared/header', menu: "users"
+.contact-wrapper
+  .contact-sidebar
+    .contact-sidebar-header
+      %i.fe.fe-search.tx-20
+      .search-form
+        %input.form-control{:placeholder => "Search #{params[:role]}", :type => "search"}/
+      - if params[:role] == "provider"
+        %a.btn.btn-xs.btn-icon.btn-primary{"data-toggle" => "modal", :href => "#modalNewContact"}
+          %span
+            %i.fe.fe-user-plus.tx-14
+        / contact-add
+    / contact-sidebar-header
+    .contact-sidebar-body
+      .tab-content
+        #tabContact.tab-pane.fade.active.show
+          .pd-y-20.pd-x-10.contact-list
+            / <label id="contactA" class="contact-list-divider">A</label>
+            = render partial: 'admins/users_tab/users_list', collection: @users, as: :user
+          / contact-list
+        / tab-pane
+      / tab-content
+    / contact-sidebar-body
+  / contact-sidebar
+  .contact-content
+    .contact-content-header
+      %nav.nav
+        - if params[:role] == "user"
+          %a.nav-link.active{"data-toggle" => "tab", :href => "#userInformation"}
+            Contact Information
+          %a.nav-link{"data-toggle" => "tab", :href => "#userInvoices"} Invoices
+          %a.nav-link{"data-toggle" => "tab", :href => "#userCampaigns"} Campaigns
+          %a.nav-link{"data-toggle" => "tab", :href => "#userAds"} Ads
+        - elsif params[:role] == "provider"
+          %a.nav-link.active{"data-togggle" => "tab", :href => "#providerBoards"} Boards
+          %a.nav-link{"data-togggle" => "tab", :href => "#providerEarnings"} Earnings
+          %a.nav-link{"data-togggle" => "tab", :href => "#providerStatistics"} Statistics
+          %a.nav-link{"data-togggle" => "tab", :href => "#providerInvoices"} Invoices
+        - elsif params[:role] == "support"
+          %a.nav-link.active{"data-togggle" => "tab", :href => "#supportInfo"} Information
+      %a#contactOptions.text-secondary.mg-l-auto.d-xl-none{:href => ""}
+        %i{"data-feather" => "more-horizontal"}
+    / contact-content-header
+    .contact-content-body
+      = render "admins/users_tab/#{params[:role]}_tabs"
+    / contact-content-body
+    = render "admins/users_tab/contact_sidebar"
+  / contact-content
+/ contact-wrapper
+= render "admins/users_tab/modals"

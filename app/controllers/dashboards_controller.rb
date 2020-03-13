@@ -17,14 +17,14 @@ class DashboardsController < ApplicationController
   end
 
   def provider_statistics
-    @daily_impressions = current_user.daily_provider_board_impressions().group_by_day(:created_at).count
-    @earnings = Board.daily_provider_earnings_by_boards(current_user)
-    @tops = Board.top_monthly_campaigns(current_user).first(4)
+    @daily_impressions = @project.daily_provider_board_impressions().group_by_day(:created_at).count
+    @earnings = Board.daily_provider_earnings_by_boards(@project)
+    @tops = Board.top_monthly_campaigns(@project).first(4)
   end
 
   private
   def provider_metrics
-    @board_impressions = current_user.impressions_by_boards(4.weeks.ago)
+    @board_impressions = @project.impressions_by_boards(4.weeks.ago)
   end
 
 end

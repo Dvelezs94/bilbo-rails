@@ -1,0 +1,23 @@
+= render 'shared/header', menu: "ads"
+.content.content-fixed
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "/"}= t("campaign.home")
+            %li.breadcrumb-item.active{"aria-current" => "page"}= t("ads.ads")
+        %h4.mg-b-0.tx-spacing--1= t("ads.ads")
+      .d-none.d-md-block
+        %a{"data-toggle" => "modal", :href => "#modalNewAd"}
+          %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
+            %i.wd-10.mg-r-5.fe.fe-plus
+            = t("ads.new_ad")
+    / Content
+    .card-group
+      = render partial: "new_ad_card"
+      = render partial: 'overview_card', collection: @ads, as: :ad
+  / container
+/ content
+= render partial: "ads/new"

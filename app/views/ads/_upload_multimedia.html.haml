@@ -1,0 +1,15 @@
+#modalUploadMultimedia.modal.fade.effect-scale{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20.pd-sm-30
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &#215;
+        %h5.tx-18.tx-sm-20.mg-b-30= t('ads.upload_multimedia')
+        / row
+        #drag-drop-area
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"} Close
+      / modal-footer
+    / modal-content
+  / modal-dialog
+/ modal

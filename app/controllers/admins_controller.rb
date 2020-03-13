@@ -2,6 +2,7 @@ class AdminsController < ApplicationController
   access admin: :all
 
   def index
+
   end
 
   def new
@@ -28,5 +29,8 @@ class AdminsController < ApplicationController
   def create
   end
 
+  def display_autocomplete
+    "#{self.email}.camelize"
+  end
   private
 end

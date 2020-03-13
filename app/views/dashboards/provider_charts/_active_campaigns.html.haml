@@ -5,12 +5,11 @@
         = t('dashboards.active_campaigns')
     .card-body.tx-center
       %h4.tx-normal.tx-rubik.tx-40.tx-spacing--1.mg-b-0
-        = current_user.active_campaigns
+        = @project.active_campaigns
       %p.tx-12.tx-uppercase.tx-semibold.tx-spacing-1.tx-color-02
         = t('dashboards.active_campaigns')
       %hr
       %p.tx-12.tx-color-03.mg-b-0
         = t('dashboards.active_campaigns_description')
     .card-footer.bd-t-0.pd-t-0
-      %button.btn.btn-sm.btn-block.btn-outline-primary.btn-uppercase.tx-spacing-1
-        = t('dashboards.view_all')
+      = link_to t('dashboards.view_all'), provider_index_campaigns_path, class: "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1"
