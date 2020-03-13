@@ -2,20 +2,48 @@ class ApplicationController < ActionController::Base
   layout :set_layout
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
-  # Override devise methods so there are no routes conflict with devise being at /
-  def after_sign_in_path_for(resource_or_scope)
-    dashboards_path
+  before_action :set_project
+
+  # require accout helper
+  def require_project!
+    redirect_to root_url(subdomain: "app") if request.subdomain != "app"
   end
 
-  def after_sign_out_path_for(resource_or_scope)
-    root_path
+  # Override devise methods so there are no routes conflict with devise being at /
+  def after_sign_in_path_for(resource)
+    dashboards_url(subdomain: resource.project_users.first.project.slug)
+  end
+
+  def after_sign_out_path_for(resource)
+    root_url(subdomain: "app")
+  end
+
+  def after_accept_path_for(resource)
+    after_sign_in_path_for(resource)
+  end
+
+  def raise_not_found
+    raise ActionController::RoutingError.new('Not Found')
   end
 
   protected
+  # find the company for the multi tenancy
+  def set_project
+    if request.subdomain.present? && request.subdomain != "app" && user_signed_in?
+      @project = Project.includes(:project_users).friendly.find(request.subdomain)
+      # if user tries to go a project that doesnt belong to, an error is raised
+      raise_not_found if not @project.users.include? current_user.id
+    # default to this one to be able to see boards when not logged in
+    elsif user_signed_in?
+      @project = current_user.projects.first
+    end
+  end
+
   # add extra registration fields for devise
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :company_name])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :company_name, :avatar, :locale])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :project_name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale])
+    devise_parameter_sanitizer.permit(:accept_invitation, keys: [:name])
   end
 
   def set_locale

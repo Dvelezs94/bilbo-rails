@@ -1,4 +1,4 @@
-- danger = current_user.campaigns_for_review.positive? ? true : false
+- danger = @project.campaigns_for_review.positive? ? true : false
 .col-sm-5.col-md-4.col-lg-3.mg-t-10
   %div{ class: "card #{'bd-danger' if danger}" }
     .card-header
@@ -6,7 +6,7 @@
         = t('dashboards.pending_campaigns')
     .card-body.tx-center
       %h4{ class: "tx-rubik tx-40 tx-spacing--1 mg-b-0 #{'tx-danger' if danger}" }
-        = current_user.campaigns_for_review
+        = @project.campaigns_for_review
       %p{ class: "tx-12 tx-uppercase tx-semibold tx-spacing-1 tx-color-02 #{'tx-danger' if danger}" }
         = t('dashboards.pending_campaigns')
       %hr
