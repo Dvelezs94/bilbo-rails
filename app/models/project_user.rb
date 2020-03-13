@@ -10,6 +10,6 @@ class ProjectUser < ApplicationRecord
   validates_uniqueness_of :project_id, :scope => :user_id, :message => "Duplicate"
 
   def set_user_id
-    self.user = User.invite!(email: email, project_name: email.split("@")[0])
+    self.user = User.invite!(email: email, project_name: email)
   end
 end

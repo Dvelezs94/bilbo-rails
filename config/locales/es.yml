@@ -10,8 +10,8 @@ es:
   authentication:
     name: Nombre
     name_hint: Introduce tu Nombre
-    company: Compañía
-    company_hint: Introduce el nombre de tu compañía
+    project: Proyecto
+    project_hint: Introduce el nombre de tu nuevo proyecto
     reset_password: Recuperar tu contraseña
     reset_password_banner: Introduce tu Email y nosotros te enviaremos un link para que recuperes tu contraseña
     reset_password_hint: Introduce tu Email

@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_213908) do
   end
 
   create_table "boards", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "project_id"
     t.float "lat"
     t.float "lng"
     t.integer "avg_daily_views"
@@ -76,8 +76,8 @@ ActiveRecord::Schema.define(version: 2020_03_11_213908) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
-    t.index ["user_id"], name: "index_boards_on_user_id"
   end
 
   create_table "boards_campaigns", id: false, force: :cascade do |t|
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_213908) do
 
   create_table "projects", force: :cascade do |t|
     t.string "name"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
@@ -216,7 +217,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_213908) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ads", "projects"
-  add_foreign_key "boards", "users"
+  add_foreign_key "boards", "projects"
   add_foreign_key "campaign_denials", "campaigns"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "projects"

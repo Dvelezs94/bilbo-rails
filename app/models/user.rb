@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :project_name
+  attribute :project_name
   ############################################################################################
   ## PeterGate Roles                                                                        ##
   ## The :user role is added by default and shouldn't be included in this list.             ##
@@ -15,7 +15,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
 
- validates :email, presence: true, format: Devise.email_regexp
+  validates :email, presence: true, format: Devise.email_regexp
   has_many :boards
   # project related methods
   has_many :project_users
@@ -26,17 +26,6 @@ class User < ApplicationRecord
   has_many :invoices
   has_one_attached :avatar
   attr_readonly :email
-
-  # gives an array with the user boards and the respective impressions in a given time
-  # sample output: [{"board_name": "V.carranza", "impressions": 435}, {"board_name": "E.zapata", "impressions": 544}]
-  def impressions_by_boards(start = 4.weeks.ago)
-    total_impressions = Impression.where(board_id: boards.pluck(:id), created_at: start.beginning_of_day..DateTime.now)
-    #total_impressions = total_impressions.select(:created_at, :board_id)
-    # Impression.where(board_id: User.find(39).boards.pluck(:id), created_at: 4.weeks.ago.beginning_of_day..DateTime.now)
-    # total_impressions = total_impressions.group_by{ |t| [created_at.beginning_of_day, t.board_id] }
-    total_impressions = total_impressions.group_by_day(:created_at).count
-    total_impressions
-  end
 
   # returns a hash of total prints per day, WITHOUT grouping the boards
   # def total_board_impressions(start = 4.weeks.ago)
@@ -56,14 +45,6 @@ class User < ApplicationRecord
 
   # provider methods
 
-  # campaigns that require provider feedback to be aither approved or denied
-  def campaigns_for_review
-    Campaign.in_review.joins(:boards).where(boards: {user_id: id}).length
-  end
-
-  def active_campaigns
-    Campaign.approved.joins(:boards).where(boards: {user_id: id}).length
-  end
 
   # return a COUNT impressions for campaigns
   # call it like -

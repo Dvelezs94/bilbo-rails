@@ -1,6 +1,7 @@
 class Projects::ProjectUsersController < ApplicationController
   access user: :all
   before_action :validate_owner
+  before_action :avoid_owner_deletion, only: :destroy
 
   def create
     project_user = @project.project_users.new(project_user_params)
@@ -29,6 +30,10 @@ class Projects::ProjectUsersController < ApplicationController
   end
 
   def validate_owner
-    raise_not_found if not @project.owners.include? current_user.id
+    raise_not_found if not @project.admins.include? current_user.id
+  end
+
+  def avoid_owner_deletion
+    raise_not_found if @project.owners.include? params[:id].to_i
   end
 end
