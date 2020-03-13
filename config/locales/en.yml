@@ -10,8 +10,8 @@ en:
   authentication:
     name: Name
     name_hint: Enter your name
-    company: Company
-    company_hint: enter your company name
+    project: Project
+    project_hint: Enter the name of your new project
     reset_password: Reset your password
     reset_password_banner: Enter your email address and we will send you a link to reset your password
     reset_password_hint: Enter your Email

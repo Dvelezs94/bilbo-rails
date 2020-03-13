@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @project = Project.new
+    @new_project = Project.new
   end
 
   def show
@@ -16,15 +16,15 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.new(project_params)
-    @project.project_users.new(user: current_user, role: "owner")
+    @new_project = Project.new(project_params)
+    @new_project.project_users.new(user: current_user, role: "owner")
 
-    if @project.save
+    if @new_project.save
       flash[:success] = I18n.t('project.successfully_created')
     else
       flash[:error] = I18n.t('project.error')
     end
-    redirect_to root_url(subdomain: @project.slug)
+    redirect_to root_url(subdomain: @new_project.slug)
   end
 
   private
@@ -34,10 +34,6 @@ class ProjectsController < ApplicationController
   end
 
   def set_project
-    @project = current_user.projects.find(params[:id])
-  end
-
-  def verify_identity
-    redirect_to root_path if @project.users.pluck(:id).includes(current_user.id)
+    @new_project = current_user.projects.find(params[:id])
   end
 end

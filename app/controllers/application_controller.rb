@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     root_url(subdomain: "app")
   end
 
+  def after_accept_path_for(resource)
+    after_sign_in_path_for(resource)
+  end
+
   def raise_not_found
     raise ActionController::RoutingError.new('Not Found')
   end
@@ -25,8 +29,13 @@ class ApplicationController < ActionController::Base
   protected
   # find the company for the multi tenancy
   def set_project
-    if request.subdomain.present? && request.subdomain != "app" && user_signed_in? && current_user.role == :user
+    if request.subdomain.present? && request.subdomain != "app" && user_signed_in?
       @project = Project.includes(:project_users).friendly.find(request.subdomain)
+      # if user tries to go a project that doesnt belong to, an error is raised
+      raise_not_found if not @project.users.include? current_user.id
+    # default to this one to be able to see boards when not logged in
+    elsif user_signed_in?
+      @project = current_user.projects.first
     end
   end
 
@@ -34,7 +43,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :project_name])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale])
-    devise_parameter_sanitizer.permit(:accept_invitation, keys: [:project_name])
+    devise_parameter_sanitizer.permit(:accept_invitation, keys: [:name])
   end
 
   def set_locale

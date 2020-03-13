@@ -17,12 +17,13 @@ if ENV.fetch("RAILS_ENV") != "production"
       provider.role = :provider
       provider.project_name = Faker::Company.name
       provider.confirmed_at = DateTime.now
+      provider.save
       puts provider.email
       10.times do
         lat = Faker::Address.latitude
         lng = Faker::Address.longitude
         4.times do |y|
-          provider.boards.new do |board|
+          provider.projects.first.boards.create! do |board|
             board.lat = lat
             board.lng = lng
             board.avg_daily_views = Faker::Number.number(6)
