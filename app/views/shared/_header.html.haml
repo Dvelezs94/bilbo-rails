@@ -55,7 +55,7 @@
     .navbar-right
       / teams
       .dropdown
-        %button#teamMenuButton.btn.btn-outline-light.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+        %button#teamMenuButton.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
           = truncate(@project.name, length: 15)
         .dropdown-menu{"aria-labelledby" => "teamMenuButton"}
           - current_user.projects.each do |pr|

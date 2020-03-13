@@ -1,7 +1,6 @@
 class AttachmentsController < ApplicationController
-  access user: :all, provider: {except: [:new]}
+  access user: :all, provider: :all
   before_action :get_ad, only: [:create, :destroy]
-  #before_action :verify_identity, only: [:create, :destroy]
   skip_before_action :verify_authenticity_token, only: [:create]
 
   def create
@@ -34,9 +33,5 @@ class AttachmentsController < ApplicationController
     #This is for assign multimedia updates to the ad
     @ad.multimedia_update = true
     @ad
-  end
-
-  def verify_identity
-    redirect_to ads_path if @ad.user != current_user
   end
 end
