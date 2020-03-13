@@ -1,5 +1,5 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:get_info, :index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token, :create], all: [:show], admin: [:toogle_status, :admin_index]
+  access [:provider, :admin, :user] => [:get_info, :index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show], admin: [:toogle_status, :admin_index, :create]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:show, :regenerate_access_token, :regenerate_api_token]
   before_action :restrict_access, only: :show
@@ -80,11 +80,11 @@ class BoardsController < ApplicationController
   def statistics
   end
 
-
   private
 
   def board_params
-    @campaign_params = params.require(:board).permit(:name,
+    @campaign_params = params.require(:board).permit(:user_id,
+                                                        :name,
                                                         :avg_daily_views,
                                                         :width,
                                                         :height,
@@ -95,7 +95,7 @@ class BoardsController < ApplicationController
                                                         :category,
                                                         :face,
                                                         :base_earnings,
-                                                        images: []).merge(:user_id => current_user.id)
+                                                        images: [])
   end
 
   def get_all_boards
@@ -111,7 +111,7 @@ class BoardsController < ApplicationController
   end
 
   def get_provider_boards
-    @boards = current_user.boards.page(params[:page])
+    @boards = @project.boards.page(params[:page])
   end
 
   # validate identity when trying to maange the boards

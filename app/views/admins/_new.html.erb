@@ -16,6 +16,12 @@
               <%= f.hidden_field :lat %>
               <%= f.hidden_field :lng %>
 
+              <div class="form-group" id="new" >
+                <%= f.label t("bilbos.provider") %>
+                <%= f.autocomplete_field :user_email, autocomplete_user_email_searches_path, :append_to => "#new", class: "form-control", :id_element => '#some_element', placeholder: t("bilbos.provider"), 'data-showNoMatches' => false, type: 'email', :fields => {:roles => '#roles_element'} %>
+                <%= f.hidden_field :user_id, id:"some_element"%>
+              </div>
+
               <div class="form-group">
                 <%= f.label t("general_inputs.name") %><br/>
                 <%= f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name") %>
@@ -23,7 +29,7 @@
 
               <div class="form-group">
                 <%= f.label t("general_inputs.address") %><br/>
-                <%= f.text_field :address, class: "form-control google_autocomplete", value: "", required: true, autocomplete: "off", placeholder: t("general_inputs.address") %>
+                <%= f.text_field :address, class: "form-control google_autocomplete", value: "", required: true, autocomplete: "off", placeholder: t("general_inputs.address")%>
               </div>
 
               <div class="form-group">
