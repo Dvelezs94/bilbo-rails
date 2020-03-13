@@ -63,6 +63,7 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise', '~> 4.6', '>= 4.6.2'
+gem 'devise_invitable', '~> 2.0', '>= 2.0.1'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.5'
 gem 'feathericon-sass', '~> 1.0'
@@ -97,6 +98,8 @@ gem 'clipboard-rails', '~> 1.7', '>= 1.7.1'
 gem 'data-confirm-modal', '~> 1.6', '>= 1.6.2'
 gem 'kaminari', '~> 1.1', '>= 1.1.1'
 gem 'bootstrap4-kaminari-views', '~> 1.0', '>= 1.0.1'
+#autocomplete
+gem 'rails-jquery-autocomplete', '~> 1.0', '>= 1.0.5'
 gem 'chartkick', '~> 3.3', '>= 3.3.1'
 gem 'haml', '~> 5.1', '>= 5.1.2'
 gem 'animate.css-rails', '~> 3.2', '>= 3.2'
