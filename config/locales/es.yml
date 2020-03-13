@@ -10,8 +10,8 @@ es:
   authentication:
     name: Nombre
     name_hint: Introduce tu Nombre
-    company: Compañía
-    company_hint: Introduce el nombre de tu compañía
+    project: Proyecto
+    project_hint: Introduce el nombre de tu nuevo proyecto
     reset_password: Recuperar tu contraseña
     reset_password_banner: Introduce tu Email y nosotros te enviaremos un link para que recuperes tu contraseña
     reset_password_hint: Introduce tu Email
@@ -33,6 +33,7 @@ es:
   header:
     account_settings: Ajustes de cuenta
     invoices: Facturas
+    manage_team: Equipo
     view_profile: Ver perfil
     logout: Cerrar sesion
     dashboard: Inicio
@@ -43,12 +44,16 @@ es:
     ads: Anuncios
     statistics: Estadisticas
     my_bilbos: Mis Bilbos
+    export_csv: EXPORTAR A CSV
+    print: IMPRIMIR
+
 
   nav_headers:
     users: Usuarios
     configuration: Configuración
   account_settings:
     general_information_divider: Informacion General
+    company_information: Informacion de Empresa
     name: Nombre Completo
     company_name: Nombre de Compañía
     password_divider: Contraseña
@@ -57,6 +62,8 @@ es:
     current_password: Contraseña actual (necesitamos comprobar que eres tu)
     minimum_characters: caracteres minimos
     update: Actualizar
+    company_web_page: Pagina Wep de la Empresa
+    company_address: Dirrecion de la empresa
     idiom: Idioma
   general_inputs:
     confirm_submit: Estas seguro?
@@ -87,6 +94,7 @@ es:
     width: Largo
     height: Alto
   campaign:
+    active_campaigns: Campañas Activas
     campaign: Campañas
     home: Inicio
     to_active: La campaña se ha activado
@@ -103,6 +111,9 @@ es:
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
     metrics: Metricas
+    campaign_status: Campaña
+    campaign_name: Nombre
+    campaign_date: Fecha
     wont_be_able_to_update_state: No podrás actualizar el estado hasta dento de
     wizard:
       choose_bilbos: Escoge tus Bilbos
@@ -165,6 +176,7 @@ es:
     television: Television
     wallboard: Cartelon
     billboard: Espectacular
+    provider: Correo del proveedor
   ads:
     ads: Anuncios
     new_ad: Nuevo Anuncio
@@ -233,3 +245,15 @@ es:
     reports:
       failed_to_generate_report: Solo esta permitido crear un reporte al dia
       report_created: El reporte fue creado, se te enviara el link de descarga a tu email
+  projects:
+    project: Proyecto
+    successfully_created: Proyect creado con éxito
+    error: Error al crear proyecto
+    member_invited: Miembro invitado con éxito
+    member_invited_error: Error al invitar miembro
+    member_deleted: Miembro removido
+    member_deletion_error: Error al remover miembro
+    manage_team: Administrar Equipo
+    send_invite: Enviar Invitación
+    invite: Invitar nuevos miembros
+    role: Rol en el equipo

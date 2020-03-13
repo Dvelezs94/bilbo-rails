@@ -1,11 +1,15 @@
 class CampaignsController < ApplicationController
-  access user: {except: [:review, :approve_campaign, :deny_campaign]}, provider: {except: [:new]}
+  access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index]}, provider: {except: [:new]}
   before_action :get_campaigns, only: [:index]
   before_action :get_campaign, only: [:analytics, :edit, :destroy, :update, :toggle_state]
-  before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
+  #before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
   before_action :campaign_not_active, only: [:edit]
 
   def index
+  end
+
+  def provider_index
+
   end
 
   def analytics
@@ -36,7 +40,7 @@ class CampaignsController < ApplicationController
   # end provider methods
 
   def edit
-    @ads = current_user.ads.active.select{ |ad| ad.multimedia.any? }
+    @ads = @project.ads.active.select{ |ad| ad.multimedia.any? }
     @campaign_boards =  @campaign.boards.collect { |board| ["#{board.address} - #{board.face}", board.id] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
@@ -98,7 +102,7 @@ class CampaignsController < ApplicationController
 
   private
   def campaign_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget).merge(:user_id => current_user.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget).merge(:project_id => @project.id)
     @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?)) if @campaign_params[:boards].present?
     @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
     @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
@@ -106,11 +110,11 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaigns
-    @campaigns = current_user.campaigns.where.not(status: "deleted")
+    @campaigns = @project.campaigns.includes(:boards, :impressions).where.not(status: "deleted")
   end
 
   def get_campaign
-    @campaign = Campaign.includes(:boards).friendly.find(params[:id])
+    @campaign = Campaign.includes(:boards, :impressions).where(project: @project).friendly.find(params[:id])
   end
 
   def verify_identity

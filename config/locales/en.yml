@@ -10,8 +10,8 @@ en:
   authentication:
     name: Name
     name_hint: Enter your name
-    company: Company
-    company_hint: enter your company name
+    project: Project
+    project_hint: Enter the name of your new project
     reset_password: Reset your password
     reset_password_banner: Enter your email address and we will send you a link to reset your password
     reset_password_hint: Enter your Email
@@ -33,6 +33,7 @@ en:
   header:
     account_settings: Account Settings
     invoices: Invoices
+    manage_team: Manage Team
     view_profile: View Profile
     logout: Log Out
     dashboard: Dashboard
@@ -43,12 +44,15 @@ en:
     ads: Ads
     statistics: Statistics
     my_bilbos: My Bilbos
+    export_csv: EXPORT TO CSV
+    print: PRINT
 
   nav_headers:
     users: Users
     configuration: Configuration
   account_settings:
     general_information_divider: General Information
+    company_information: Company Information
     name: Full Name
     company_name: Company Name
     password_divider: Password
@@ -57,6 +61,9 @@ en:
     current_password: Current password (we need your current password to confirm your changes)
     minimum_characters: minimum characters
     update: Update
+    company_web_page: Company web page
+    company_address: Company Address
+
     idiom: Language
   general_inputs:
     confirm_submit: Are you sure?
@@ -86,6 +93,7 @@ en:
     width: width
     height: height
   campaign:
+    active_campaigns: Active Campaigns
     campaign: Dashboard
     home: Home
     to_active: The campaign has been activated
@@ -102,6 +110,9 @@ en:
     daily_budget: Daily Budget
     total_invested: Total Invested
     metrics: Metrics
+    campaign_status: Campaign
+    campaign_name: Name
+    campaign_date: Date
     wont_be_able_to_update_state: You will not be able to update the state until
     wizard:
       choose_bilbos: Choose your Bilbos
@@ -165,6 +176,7 @@ en:
     television: Television
     wallboard: Wallboard
     billboard: Billboard
+    provider: Provider email
   ads:
     ads: Ads
     new_ad: New Ad
@@ -233,3 +245,16 @@ en:
     reports:
       failed_to_generate_report: You are available to generate only one report a day
       report_created: The report was created succesfully, the download link will send via email
+  projects:
+    project: Project
+    successfully_created: Project successfully created
+    error: Could not create project
+    member_invited: successfully invited member
+    member_invited_error: Error inviting member
+    member_deleted: Member deleted
+    member_deletion_error: Error deleting member
+    manage_team: Manage Team
+    send_invite: Send Invite
+    invite: Invite new members
+    role: Team role
+

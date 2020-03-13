@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations" }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", sessions: "sessions" }
   root :to => 'dashboards#index'
   resources :dashboards, only: [:index] do
     collection do
@@ -13,6 +13,9 @@ Rails.application.routes.draw do
     member do
       get :analytics
       put :toggle_state
+    end
+    collection do
+      get :provider_index
     end
   end
   resources :boards, only: [:index, :show, :create] do
@@ -39,11 +42,19 @@ Rails.application.routes.draw do
       get :show_users
     end
   end
+  resources :searches, only:[] do
+    collection do
+      get :autocomplete_user_email
+    end
+  end
   resources :csv, controller: "csv", only: [] do
     collection do
       get :generate_provider_report
       get :validate_daily_generation
     end
+  end
+  resources :projects do
+    resources :project_users, path: :users, module: :projects, only: [:create, :destroy]
   end
   resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

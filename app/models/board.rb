@@ -1,7 +1,7 @@
 class Board < ApplicationRecord
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
-  belongs_to :user
+  belongs_to :project
   has_and_belongs_to_many :campaigns
   has_many :impressions
   has_many_attached :images
@@ -91,16 +91,16 @@ class Board < ApplicationRecord
   # Provider functions
 
   # this function returns an array of the daily earnings by each board. This works on a monthly basis
-  # Board.daily_provider_earnings_by_boards(User.find(x), Time.now)
-  def self.daily_provider_earnings_by_boards(provider, time_range = 30.days.ago..Time.now)
-    h = Impression.joins(:board).where(boards: {user: provider}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
+  # Board.daily_provider_earnings_by_boards(@project, Time.now)
+  def self.daily_provider_earnings_by_boards(project, time_range = 30.days.ago..Time.now)
+    h = Impression.joins(:board).where(boards: {project: project}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
     h.each { |key,value| h[key] = value.round(3) }
   end
 
   # this function returns an array of the top campaigns. This works on a monthly basis
-  # Board.top_monthly_campaigns(User.find(x), Time.now)
-  def self.top_monthly_campaigns(provider, time_range = 30.days.ago..Time.now)
-    h = Impression.joins(:campaign, :board).where(boards: {user: provider}, created_at: time_range).group('campaigns.name').count
+  # Board.top_monthly_campaigns(@project, Time.now)
+  def self.top_monthly_campaigns(project, time_range = 30.days.ago..Time.now)
+    h = Impression.joins(:campaign, :board).where(boards: {project: project}, created_at: time_range).group('campaigns.name').count
     h.sort_by {|k, v| -v}
   end
 
