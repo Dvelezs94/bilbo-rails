@@ -1,0 +1,164 @@
+%body
+  %header.navbar.navbar-header.navbar-header-fixed
+    %a#mainMenuOpen.burger-menu{:href => ""}
+      %i.fe.fe-bar.fnt-md
+    .navbar-brand
+      %a.df-logo{:href => "/"}= image_tag("https://s3.us-east-2.amazonaws.com/cdn.mybilbo.com/Bilbo-logo.png", class: "wd-80")
+    / navbar-brand
+    #navbarMenu.navbar-menu-wrapper
+      %ul.nav.navbar-menu
+        %li.nav-label.pd-l-20.pd-lg-l-25.d-lg-none Main Navigation
+        - if current_user.role == :user
+          %li{:class => "nav-item #{"active" if menu == "dashboard"}"}
+            %a.nav-link{:href => campaigns_path}
+              %i.fe.fe-box
+              = t('header.campaigns')
+          %li{:class => "nav-item #{"active" if menu == "ads"}"}
+            %a.nav-link{:href => ads_path}
+              %i.fe.fe-box
+              = t('header.ads')
+          %li{:class => "nav-item #{"active" if menu == "boards"}"}
+            %a.nav-link{:href => boards_path}
+              %i.fe.fe-box>
+              Bilbos
+          %li{:class => "nav-item #{"active" if menu == "help"}"}
+            %a.nav-link{:href => "http://docs.mybilbo.com"}
+              %i.fe.fe-box
+              = t('header.help_center')
+        - elsif current_user.role == :provider
+          / <li class="nav-item <haml_loud> &quot;active&quot; if menu == &quot;dashboard&quot; </haml_loud>"><a href="/" class="nav-link"><i class="fe fe-box"></i><haml_loud> t(&#39;header.dashboard&#39;) </haml_loud></a></li>
+          %li{:class => "nav-item #{"active" if menu == "statistics"}"}
+            %a.nav-link{:href => provider_statistics_dashboards_path}
+              %i.fe.fe-box
+              = t('header.statistics')
+          %li{:class => "nav-item #{"active" if menu == "my_bilbos"}"}
+            %a.nav-link{:href => owned_boards_path}
+              %i.fe.fe-box
+              = t("header.my_bilbos")
+        - elsif current_user.role == :admin
+          %li{:class => "nav-item #{"active" if menu == "overview"}"}
+            %a.nav-link{:href => "/"} Overview
+          %li{:class => "nav-item dropdown #{"active" if menu == "users"}"}
+            %a#usersDropdownMenuLink.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#"}
+              Users
+            .dropdown-menu.tx-13{"aria-labelledby" => "usersDropdownMenuLink"}
+              %a.dropdown-item{:href => "#{show_users_admin_index_path(role: "user")}"} Users
+              %a.dropdown-item{:href => "#{show_users_admin_index_path(role: "provider")}"} Providers
+              %a.dropdown-item{:href => "#{show_users_admin_index_path(role: "support")}"} Support
+          %li{:class => "nav-item #{"active" if menu == "boards"}"}
+            %a.nav-link{:href => admin_index_boards_path} Boards
+          %li{:class => "nav-item #{"active" if menu == "campaigns"}"}
+            %a.nav-link{:href => "#"} Campaigns
+          %li{:class => "nav-item #{"active" if menu == "ads"}"}
+            %a.nav-link{:href => "#"} Ads
+    / navbar-menu-wrapper
+    .navbar-right
+      / teams
+      .dropdown
+        %button#teamMenuButton.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+          = truncate(@project.name, length: 15)
+        .dropdown-menu{"aria-labelledby" => "teamMenuButton"}
+          - current_user.projects.each do |pr|
+            = link_to pr.name, root_url(subdomain: pr.slug), class: "dropdown-item"
+      / notifications
+      .dropdown.dropdown-notification
+        %a.dropdown-link.new-indicator{"data-toggle" => "dropdown", :href => ""}
+          %svg.feather.feather-bell{:fill => "none", :height => "24", :stroke => "currentColor", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2", :viewbox => "0 0 24 24", :width => "24", :xmlns => "http://www.w3.org/2000/svg"}
+            %path{:d => "M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"}
+          %span 2
+        .dropdown-menu.dropdown-menu-right
+          .dropdown-header= t('notifications.notifications')
+          %a.dropdown-item{:href => ""}
+            .media
+              .avatar.avatar-sm.avatar-online
+                %img.rounded-circle{:alt => "", :src => "../../assets/img/img6.jpg"}/
+              .media-body.mg-l-15
+                %p
+                  Congratulate
+                  %strong Socrates Itumay
+                  for work anniversaries
+                %span Mar 15 12:32pm
+              / media-body
+            / media
+          %a.dropdown-item{:href => ""}
+            .media
+              .avatar.avatar-sm.avatar-online
+                %img.rounded-circle{:alt => "", :src => "../../assets/img/img8.jpg"}/
+              .media-body.mg-l-15
+                %p
+                  %strong Joyce Chua
+                  just created a new blog post
+                %span Mar 13 04:16am
+              / media-body
+            / media
+          %a.dropdown-item{:href => ""}
+            .media
+              .avatar.avatar-sm.avatar-online
+                %img.rounded-circle{:alt => "", :src => "../../assets/img/img7.jpg"}/
+              .media-body.mg-l-15
+                %p
+                  %strong Althea Cabardo
+                  just created a new blog post
+                %span Mar 13 02:56am
+              / media-body
+            / media
+          %a.dropdown-item{:href => ""}
+            .media
+              .avatar.avatar-sm.avatar-online
+                %img.rounded-circle{:alt => "", :src => "../../assets/img/img9.jpg"}/
+              .media-body.mg-l-15
+                %p
+                  %strong Adrian Monino
+                  added new comment on your photo
+                %span Mar 12 10:40pm
+              / media-body
+            / media
+          .dropdown-footer.d-flex.justify-content-around
+            = link_to(t('notifications.view_all'), notifications_path)
+            = link_to(t('notifications.clear'), notifications_path)
+        / dropdown-menu
+      / end notifications
+      .dropdown.dropdown-profile
+        %a.dropdown-link{"data-display" => "static", "data-toggle" => "dropdown", :href => ""}
+          .avatar.avatar-sm= image_tag user_avatar(current_user, 500), class: "rounded-circle"
+        / dropdown-link
+        .dropdown-menu.dropdown-menu-right
+          .avatar.avatar-lg.mg-b-15= image_tag user_avatar(current_user, 500), class: "rounded-circle"
+          %h6.tx-semibold.mg-b-5= current_user.name
+          %p.tx-12.tx-color-03= @project.name
+          - if current_user.role == :user
+            %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
+              %i.fe.fe-wallet.pd-r-5.tx-success
+              = number_to_currency_credit(current_user.balance)
+            .dropdown-divider
+            - if @project.admins.include? current_user.id
+              %a.dropdown-item{"data-toggle" => "modal", :href => "#modalManageTeam"}
+                %i.fe.fe-users.pd-r-5
+                = t('header.manage_team')
+            %a.dropdown-item{:href => invoices_path}
+              %i.fe.fe-document.pd-r-5
+              = t('header.invoices')
+            %a.dropdown-item{:href => edit_user_registration_path}
+              %i.fe.fe-gear.pd-r-5
+              = t('header.account_settings')
+            %a.dropdown-item{"data-toggle" => "modal", :href => "#modalNewPayment"}
+              %i.fe.fe-wallet.pd-r-5
+              = t('header.purchase_credits')
+          - elsif current_user.role == :provider
+            .dropdown-divider
+            %a.dropdown-item{:href => edit_user_registration_path}
+              %i.fe.fe-gear.pd-r-5
+              = t('header.account_settings')
+          - elsif current_user.role == :admin
+            %a.dropdown-item{:href => edit_user_registration_path}
+              %i.fe.fe-gear.pd-r-5
+              = t('header.account_settings')
+          %hr/
+          = link_to(("<i class='fe fe-logout pd-r-5'></i>" + t('header.logout')).html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item")
+        / dropdown-menu
+      / dropdown
+    / navbar-right
+  / navbar
+  = render "payments/new"  if current_user.role == :user
+  - if @project.admins.include? current_user.id
+    = render "project_users/manage_modal"
