@@ -54,7 +54,7 @@ class User < ApplicationRecord
   end
 
   def projects_owned
-    projects.where(role: "owner")
+    project_users.where(role: "owner")
   end
 
   def name_or_email

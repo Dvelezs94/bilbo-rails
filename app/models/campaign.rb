@@ -26,6 +26,10 @@ class Campaign < ApplicationRecord
   before_save :update_state_updated_at, if: :state_changed?
   before_save :set_in_review, :if => :ad_id_changed?
 
+  def self.running
+    approved.where(state: true)
+  end
+
   def ongoing?
     # validates if both fields are complete
     !(self.starts_at? && self.ends_at?)

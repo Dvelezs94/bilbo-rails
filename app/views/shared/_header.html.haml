@@ -135,6 +135,9 @@
               %a.dropdown-item{"data-toggle" => "modal", :href => "#modalManageTeam"}
                 %i.fe.fe-users.pd-r-5
                 = t('header.manage_team')
+            %a.dropdown-item{:href => projects_path}
+              %i.fe.fe-folder.pd-r-5
+              = t('header.manage_projects')
             %a.dropdown-item{:href => invoices_path}
               %i.fe.fe-document.pd-r-5
               = t('header.invoices')
