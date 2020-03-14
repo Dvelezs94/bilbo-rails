@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   # Override devise methods so there are no routes conflict with devise being at /
   def after_sign_in_path_for(resource)
-    dashboards_url(subdomain: resource.project_users.first.project.slug)
+    dashboards_url(subdomain: resource.projects.first.slug)
   end
 
   def after_sign_out_path_for(resource)

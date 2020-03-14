@@ -1,0 +1,21 @@
+= render 'shared/header', menu: "dashboard"
+.content.content-fixed.bd-b
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-flex.align-items-center.justify-content-between
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "/"}= t("campaign.home")
+            %li.breadcrumb-item.active{"aria-current" => "page"}= t("header.manage_projects")
+        %h4.mg-b-0.tx-spacing--1= t("header.manage_projects")
+      .search-form.mg-t-20.mg-sm-t-0
+        %input.form-control{:placeholder => "#{t('general_inputs.search')} #{t('projects.project').downcase}", :type => "search"}/
+        %button.btn{:type => "button"}
+          %svg.feather.feather-search{:fill => "none", :height => "24", :stroke => "currentColor", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2", :viewbox => "0 0 24 24", :width => "24", :xmlns => "http://www.w3.org/2000/svg"}
+            %circle{:cx => "11", :cy => "11", :r => "8"}
+            %line{:x1 => "21", :x2 => "16.65", :y1 => "21", :y2 => "16.65"}
+.content
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .row.row-xs
+      = render partial: "projects/project_card", collection: @projects, as: :project
