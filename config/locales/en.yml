@@ -256,3 +256,4 @@ en:
     invite: Invite new members
     role: Team role
     delete_project: Delete project
+    could_not_delete: Could not delete project, try again later
