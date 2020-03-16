@@ -14,9 +14,9 @@ class ProjectsController < ApplicationController
     @new_project.project_users.new(user: current_user, role: "owner")
 
     if @new_project.save
-      flash[:success] = I18n.t('project.successfully_created')
+      flash[:success] = I18n.t('projects.successfully_created')
     else
-      flash[:error] = I18n.t('project.error')
+      flash[:error] = I18n.t('error.error_ocurrred')
     end
     redirect_to root_url(subdomain: @new_project.slug)
   end
