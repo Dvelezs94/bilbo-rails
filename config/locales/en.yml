@@ -257,3 +257,4 @@ en:
     role: Team role
     delete_project: Delete project
     could_not_delete: Could not delete project, try again later
+    new_project: New project

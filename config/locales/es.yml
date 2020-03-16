@@ -257,3 +257,4 @@ es:
     role: Rol en el equipo
     delete_project: Borrar proyecto
     could_not_delete: Error al borrar proyecto, intenta de nuevo más tarde
+    new_project: Nuevo proyecto
