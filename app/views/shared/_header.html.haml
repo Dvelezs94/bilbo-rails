@@ -58,7 +58,7 @@
         %button#teamMenuButton.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
           = truncate(@project.name, length: 15)
         .dropdown-menu{"aria-labelledby" => "teamMenuButton"}
-          - current_user.projects.each do |pr|
+          - current_user.projects.enabled.each do |pr|
             = link_to pr.name, root_url(subdomain: pr.slug), class: "dropdown-item"
       / notifications
       .dropdown.dropdown-notification

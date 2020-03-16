@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
   before_action :validate_project_count, only: :destroy
 
   def index
-    @projects = current_user.projects.includes(:project_users, :campaigns, :ads)
+    @projects = current_user.projects.includes(:project_users, :campaigns, :ads).enabled
   end
 
   def create
@@ -22,13 +22,15 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    if @current_project.update(status: "disabled")
+    # attempt to stop all campaigns before deleting (disabling) the project
+    if @current_project.campaigns.update_all(state: false)
+      @current_project.update(status: "disabled")
       respond_to do |format|
         format.html { redirect_to root_url(subdomain: current_user.projects.first.slug) }
         format.json { head :no_content }
       end
     else
-      flash[:error] = "Error"
+      flash[:error] = I18n.t('projects.could_not_delete')
       redirect_to projects_path
     end
   end
@@ -49,8 +51,8 @@ class ProjectsController < ApplicationController
 
   # make sure the user doesn't delete his/her last project
   def validate_project_count
-    if current_user.projects_owned.size == 1
-      flash[:error] = "Error"
+    if current_user.projects.enabled.size == 1
+      flash[:error] = I18n.t('projects.could_not_delete')
       redirect_to root_path
     end
   end

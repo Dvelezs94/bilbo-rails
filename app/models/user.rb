@@ -53,10 +53,6 @@ class User < ApplicationRecord
     Impression.joins(:board).where(boards: {user_id: id}, created_at: time_range)
   end
 
-  def projects_owned
-    project_users.where(role: "owner")
-  end
-
   def name_or_email
     name || email
   end
