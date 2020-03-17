@@ -30,15 +30,16 @@ class ApplicationController < ActionController::Base
   # find the company for the multi tenancy
   def set_project
     if request.subdomain.present? && request.subdomain != "app" && user_signed_in?
-      @project = Project.includes(:project_users).friendly.find(request.subdomain)
+      @project = Project.includes(:project_users).enabled.friendly.find(request.subdomain)
       # raise error if project is disabled
       redirect_to(after_sign_in_path_for(current_user)) if @project.disabled?
       # if user tries to go a project that doesnt belong to, an error is raised
       raise_not_found if not @project.users.include? current_user.id
-      # default to this one to be able to see boards when not logged in
+    # redirect if project is not set on url or the condition above is not met
     elsif user_signed_in?
-      @project = current_user.projects.first
+      redirect_to(after_sign_in_path_for(current_user))
     end
+    # otherwise don't do anything, we need to make sure boards can be seen even without user signed in
   end
 
   # add extra registration fields for devise
