@@ -8,5 +8,4 @@ class Impression < ApplicationRecord
   def set_total_price
     self.total_price = (board.cycle_price * cycles).round(3)
   end
-
 end
