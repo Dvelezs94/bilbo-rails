@@ -1,0 +1,36 @@
+.col-sm-6.col-md-6.col-lg-4.col-xl-3.mg-b-10
+  .card
+    .card-body
+      .d-flex.align-items-center.justify-content-between
+        %h6.card-title
+          %strong= truncate(project.name, length: 30)
+        - if project.owned?(current_user.id)
+          %a.nav-link.p-0{"data-toggle" => "dropdown", :href => "#"}
+            %i.fe.fe-elipsis-v.tx-20
+            .dropdown-menu
+              = link_to raw("<i class='fe fe-trash'></i> " + t("projects.delete_project")), project_path(project.slug), method: :delete, class: "dropdown-item tx-danger confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
+      %p.card-text.tx-14.tx-color-03
+        = "#{project.campaigns.running.size} #{t('campaign.active_campaigns')}"
+        ● #{"#{project.ads.size} #{t('ads.ads')}"}
+      .d-flex.align-items-center.justify-content-between.pd-b-10
+        .img-group.img-group-sm
+          - project.project_users.first(5).each do |u|
+            = image_tag user_avatar(u.user, 100), class: "img wd-40 ht-40 rounded-circle", title: u.user.name_or_email
+        %span
+          - if project.admin?(current_user.id)
+            %a.btn.btn-primary.btn-icon{"data-toggle": "collapse", href: "##{project.slug}Collapse", role: "button", "aria-expanded": "false", "aria-controls": "##{project.slug}Collapse"}
+              %i.fe.fe-user-plus
+          = link_to raw("<i class='fe fe-link-external'></i>"), root_url(subdomain: project.slug), class:"btn btn-primary btn-icon"
+      .collapse.mg-t-5{id: "#{project.slug}Collapse"}
+        = form_for [project, ProjectUser.new] do |f|
+          .form-group
+            = f.email_field :email, required: true, class: "form-control", placeholder: "john-doe@mail.com"
+          .form-group
+            .custom-control.custom-radio
+              = f.radio_button :role, "user", value: "user", checked: true, class: "custom-control-input"
+              = f.label :role_user, 'User', class: "custom-control-label"
+            .custom-control.custom-radio
+              = f.radio_button :role, "administrator", value: "administrator",  class: "custom-control-input"
+              = f.label :role_administrator, 'Administrator', class: "custom-control-label"
+
+          = f.submit  t('projects.send_invite'), class: "btn btn-primary float-right"

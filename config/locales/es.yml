@@ -34,6 +34,7 @@ es:
     account_settings: Ajustes de cuenta
     invoices: Facturas
     manage_team: Equipo
+    manage_projects: Proyectos
     view_profile: Ver perfil
     logout: Cerrar sesion
     dashboard: Inicio
@@ -257,3 +258,6 @@ es:
     send_invite: Enviar Invitación
     invite: Invitar nuevos miembros
     role: Rol en el equipo
+    delete_project: Borrar proyecto
+    could_not_delete: Error al borrar proyecto, intenta de nuevo más tarde
+    new_project: Nuevo proyecto
