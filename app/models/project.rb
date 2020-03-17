@@ -14,6 +14,14 @@ class Project < ApplicationRecord
   has_many :boards
   has_many :reports
 
+  # useful when you want to retrieve a collection of certain users that have permissions for the project
+  # current_user.projects.admins -> will get the admins of all the projects
+  scope :owners, -> { joins(:project_users).where(project_users: {role: ['owner']}).pluck(:user_id) }
+  scope :admins, -> { joins(:project_users).where(project_users: {role: ["owner", "administrator"]}).pluck(:user_id) }
+  scope :users, -> { joins(:project_users).pluck(:user_id) }
+  
+  # functions to get the users of a specific project
+  # Project.first.owners
   def owners
     project_users.where(role: "owner").pluck(:user_id)
   end
@@ -24,6 +32,14 @@ class Project < ApplicationRecord
 
   def users
     project_users.pluck(:user_id)
+  end
+
+  def owned?(user_id)
+    owners.include? user_id
+  end
+
+  def admin?(user_id)
+    admins.include? user_id || owned?(user_id)
   end
 
   # !!methods for statistics
