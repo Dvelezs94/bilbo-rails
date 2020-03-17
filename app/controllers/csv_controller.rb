@@ -1,14 +1,14 @@
 class CsvController < ApplicationController
   access provider: :all
-  #before_action :validate_daily_generation
+  before_action :validate_daily_generation
 
   def generate_provider_report
-    ProviderImpressionsCsvWorker.perform_async(current_user.id)
+    ProviderImpressionsCsvWorker.perform_async(@project.slug)
     redirect_to root_path
   end
 
   def validate_daily_generation
-    if current_user.reports.where(created_at: 2.day.ago..Time.now).present?
+    if @project.reports.where(created_at: 2.day.ago..Time.now).present?
       flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report')
       redirect_to root_path
     else

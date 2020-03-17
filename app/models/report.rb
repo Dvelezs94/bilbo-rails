@@ -1,5 +1,5 @@
 class Report < ApplicationRecord
-  belongs_to :user
+  belongs_to :project
   has_one_attached :attachment
 
     def last_report_created
