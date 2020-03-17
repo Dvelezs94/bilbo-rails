@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2020_03_06_154241) do
-=======
 ActiveRecord::Schema.define(version: 2020_03_11_213908) do
->>>>>>> 1203e69ecc1524195a7f3bfa4577b62f9357da61
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,15 +160,6 @@ ActiveRecord::Schema.define(version: 2020_03_11_213908) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
-
-  create_table "reports", force: :cascade do |t|
-    t.string "name"
-    t.bigint "user_id"
-    t.string "attachment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_reports_on_user_id"
-
   create_table "project_users", force: :cascade do |t|
     t.bigint "project_id"
     t.bigint "user_id"
@@ -190,7 +177,15 @@ ActiveRecord::Schema.define(version: 2020_03_11_213908) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.index ["slug"], name: "index_projects_on_slug", unique: true
->>>>>>> 1203e69ecc1524195a7f3bfa4577b62f9357da61
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "name"
+    t.bigint "project_id"
+    t.string "attachment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_reports_on_project_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -240,10 +235,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_213908) do
   add_foreign_key "invoices", "payments"
   add_foreign_key "invoices", "users"
   add_foreign_key "payments", "users"
-<<<<<<< HEAD
-  add_foreign_key "reports", "users"
-=======
   add_foreign_key "project_users", "projects"
   add_foreign_key "project_users", "users"
->>>>>>> 1203e69ecc1524195a7f3bfa4577b62f9357da61
+  add_foreign_key "reports", "projects"
 end

@@ -12,6 +12,7 @@ class Project < ApplicationRecord
   has_many :campaigns
   has_many :ads
   has_many :boards
+  has_many :reports
 
   def owners
     project_users.where(role: "owner").pluck(:user_id)
