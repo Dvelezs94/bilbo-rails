@@ -12,6 +12,7 @@ class Project < ApplicationRecord
   has_many :campaigns
   has_many :ads
   has_many :boards
+  has_many :reports
 
   # useful when you want to retrieve a collection of certain users that have permissions for the project
   # current_user.projects.admins -> will get the admins of all the projects
