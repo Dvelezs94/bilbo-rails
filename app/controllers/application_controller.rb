@@ -30,11 +30,7 @@ class ApplicationController < ActionController::Base
   # find the company for the multi tenancy
   def set_project
     if request.subdomain.present? && request.subdomain != "app" && user_signed_in?
-      @project = Project.includes(:project_users).enabled.friendly.find(request.subdomain)
-      # raise error if project is disabled
-      redirect_to(after_sign_in_path_for(current_user)) if @project.disabled?
-      # if user tries to go a project that doesnt belong to, an error is raised
-      raise_not_found if not @project.users.include? current_user.id
+      @project = current_user.projects.includes(:project_users).enabled.friendly.find(request.subdomain)
     # redirect if project is not set on url or the condition above is not met
     elsif user_signed_in?
       redirect_to(after_sign_in_path_for(current_user))
