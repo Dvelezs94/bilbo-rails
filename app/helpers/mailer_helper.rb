@@ -42,9 +42,6 @@ module MailerHelper
     merge_to_hash(dynamic_template_data_hash, :link_text, link_text) if link_text.present?
     merge_to_hash(dynamic_template_data_hash, :image_url, image_url) if image_url.present?
 
-    puts "x" * 500
-    puts data
-
     sendgrid_client.client.mail._("send").post(request_body: (data))
   end
 end
