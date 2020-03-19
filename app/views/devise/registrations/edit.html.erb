@@ -41,19 +41,14 @@
 
 
                 <div class="form-row">
-                <div class="form-group col-md-6">
-                  <%= f.label t("account_settings.name") %><br />
-                  <%= f.text_field :name, class: "form-control" %>
-                </div>
-                <div class="form-group col-md-2">
-                <%= f.label t("account_settings.idiom") %><br />
-                <%= f.select("locale", [["español","es"],["english","en"]], {}, {:class => "custom-select"}) %>
-                </div>
-                <div class="form-group col-md-4 align-self-stretch mg-t-auto">
-
-                  <button  href="#modal2" type="button" class="btn btn-dark btn-block" data-toggle="modal"><%= t("account_settings.company_information") %></button>
-                </div>
-
+                  <div class="form-group col-md-8">
+                    <%= f.label t("account_settings.name") %><br />
+                    <%= f.text_field :name, class: "form-control" %>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <%= f.label t("account_settings.idiom") %><br />
+                    <%= f.select("locale", [["español","es"],["english","en"]], {}, {:class => "custom-select"}) %>
+                  </div>
                 </div>
 
 
@@ -84,39 +79,6 @@
 
                 <div class="actions">
                   <%= f.submit t("account_settings.update"), class: "btn btn-primary btn-block" %>
-                </div>
-
-                <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content tx-14">
-                      <div class="modal-header">
-                        <h6 class="modal-title" id="exampleModalLabel2"><%= t("account_settings.company_information") %></h6>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
-                      </div>
-                      <div class="modal-body">
-
-                        <div class="form-group">
-                          <%= f.label t("account_settings.company_name") %><br />
-
-                        </div>
-
-                        <div class="form-group">
-                          <label for="formGroupExampleInput" class="d-block"><%= t("account_settings.company_web_page") %></label>
-                          <input type="text" class="form-control" placeholder="www.company.com">
-                        </div>
-                        <div class="form-group">
-                          <label for="formGroupExampleInput" class="d-block"><%= t("account_settings.address_company") %></label>
-                          <input type="text" class="form-control" placeholder="234 Main St">
-                        </div>
-
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary tx-13" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary tx-13">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
               <% end %>

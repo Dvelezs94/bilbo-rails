@@ -18,12 +18,13 @@ class User < ApplicationRecord
   validates :email, presence: true, format: Devise.email_regexp
   has_many :boards
   # project related methods
-  has_many :project_users
+  has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
   after_commit :set_project, on: :create
 
   has_many :payments
   has_many :invoices
+  has_many :reports
   has_one_attached :avatar
   attr_readonly :email
 
@@ -51,10 +52,6 @@ class User < ApplicationRecord
   # current_user.daily_provider_board_impressions(6.months.ago).group_by_day(:created_at).count
   def daily_provider_board_impressions(time_range = 30.days.ago..Time.now)
     Impression.joins(:board).where(boards: {user_id: id}, created_at: time_range)
-  end
-
-  def projects_owned
-    projects.where(role: "owner")
   end
 
   def name_or_email
