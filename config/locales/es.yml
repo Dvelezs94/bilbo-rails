@@ -34,6 +34,7 @@ es:
     account_settings: Ajustes de cuenta
     invoices: Facturas
     manage_team: Equipo
+    manage_projects: Proyectos
     view_profile: Ver perfil
     logout: Cerrar sesion
     dashboard: Inicio
@@ -242,6 +243,9 @@ es:
     net_earnings: Ganancias Netas
     download_report_in_csv: Descargar reporte en formato CSV
     download_report_in_csv_description: Útil para que realizes tus propios cálculos, gráficas, etc. El CSV contiene información de todas las impresiones históricas de tus bilbos.
+    reports:
+      failed_to_generate_report: Sólo esta permitido crear un reporte al día
+      report_created: El reporte fue creado, se te enviará el link de descarga a tu email
   projects:
     project: Proyecto
     successfully_created: Proyect creado con éxito
@@ -254,3 +258,6 @@ es:
     send_invite: Enviar Invitación
     invite: Invitar nuevos miembros
     role: Rol en el equipo
+    delete_project: Borrar proyecto
+    could_not_delete: Error al borrar proyecto, intenta de nuevo más tarde
+    new_project: Nuevo proyecto
