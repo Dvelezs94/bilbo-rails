@@ -15,4 +15,16 @@
 //= require chartkick
 
 //= require_tree ./global_dependencies
-//= require_tree ./shared
+
+
+$(document).on('turbolinks:fetch', function(){
+  $("#p1").removeClass("d-none");
+  $(".content").hide();
+  $(".spinner").show();
+});
+
+$(document).on("turbolinks:receive", function(){
+  $("#p1").addClass("d-none");
+  $(".spinner").hide();
+  $(".content").show();
+});
