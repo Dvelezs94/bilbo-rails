@@ -34,6 +34,7 @@ en:
     account_settings: Account Settings
     invoices: Invoices
     manage_team: Manage Team
+    manage_projects: Projects
     view_profile: View Profile
     logout: Log Out
     dashboard: Dashboard
@@ -242,6 +243,9 @@ en:
     net_earnings: Net Earnings
     download_report_in_csv: Download report in CSV format.
     download_report_in_csv_description: Open it in a spreadsheet and perform your own calculations, graphing etc. The CSV file contains all the impressions ever made on your bilbos.
+    reports:
+      failed_to_generate_report: You are available to generate only one report a day
+      report_created: The report was created succesfully, the download link will send via email
   projects:
     project: Project
     successfully_created: Project successfully created
@@ -254,3 +258,4 @@ en:
     send_invite: Send Invite
     invite: Invite new members
     role: Team role
+

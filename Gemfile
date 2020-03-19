@@ -103,3 +103,5 @@ gem 'rails-jquery-autocomplete', '~> 1.0', '>= 1.0.5'
 gem 'chartkick', '~> 3.3', '>= 3.3.1'
 gem 'haml', '~> 5.1', '>= 5.1.2'
 gem 'animate.css-rails', '~> 3.2', '>= 3.2'
+# Sendgrid API calls v3
+gem 'sendgrid-ruby', '~> 5.3'
