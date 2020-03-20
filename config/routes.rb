@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations" }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", sessions: "sessions" }
   root :to => 'dashboards#index'
   resources :dashboards, only: [:index] do
     collection do
@@ -52,6 +52,9 @@ Rails.application.routes.draw do
       get :provider_boards
       get :total_impressions
     end
+  end
+  resources :projects do
+    resources :project_users, path: :users, module: :projects, only: [:create, :destroy]
   end
   resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

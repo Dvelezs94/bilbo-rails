@@ -1,4 +1,4 @@
-- danger = current_user.campaigns_for_review.positive? ? true : false
+- danger = @project.campaigns_for_review.positive? ? true : false
 .mg-t-10
   %div{ class: "card #{'bd-danger' if danger}" }
     .card-header

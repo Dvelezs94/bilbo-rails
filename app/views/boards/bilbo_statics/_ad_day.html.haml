@@ -1,0 +1,16 @@
+.col-lg-8.col-xl-6.mg-t-10
+  .card
+    .card-header.bd-b-0.pd-t-20.pd-lg-t-25.pd-l-20.pd-lg-l-25.d-flex.flex-column.flex-sm-row.align-items-sm-start.justify-content-sm-between
+      %div
+        %h6.mg-b-5
+          = t('dashboards.impressions_count')
+        %p.tx-12.tx-color-03.mg-b-0
+          = t('bilbos.impressions_count_description')
+
+    .card-body.pd-lg-25
+      #myCarousel.carousel.slide{"data-ride" => "carousel"}
+        .carousel-inner
+          - @board.image_campaign(@bilbo_top[0]).ad.multimedia.each.with_index do |media_first,i|
+            %div{class: "carousel-item #{'active' if i == 0}"}
+              = image_tag media_first, size:"600x300", class: "d-block w-100"
+            
