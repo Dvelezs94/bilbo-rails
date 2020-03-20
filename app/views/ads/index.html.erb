@@ -25,11 +25,12 @@
     </div>
 
     <!-- Content -->
-    <div class="card-group">
-      <%= render partial: "new_ad_card" %>
-      <%= render partial: 'overview_card', collection: @ads, as: :ad %>
+    <div class="">
+      <div class="card-group d-flex justify-content-between">
+        <%= render partial: "new_ad_card" %>
+        <%= render partial: 'overview_card', collection: @ads, as: :ad %>
+      </div>
     </div>
-
   </div>
   <!-- container -->
 </div>
