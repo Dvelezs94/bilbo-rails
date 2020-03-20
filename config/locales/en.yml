@@ -10,8 +10,8 @@ en:
   authentication:
     name: Name
     name_hint: Enter your name
-    company: Company
-    company_hint: enter your company name
+    project: Project
+    project_hint: Enter the name of your new project
     reset_password: Reset your password
     reset_password_banner: Enter your email address and we will send you a link to reset your password
     reset_password_hint: Enter your Email
@@ -31,39 +31,40 @@ en:
     forgot_password_question: Forgot password?
     terms_of_service_agreement: By signing up, you agree to our terms of service and privacy statement.
   header:
-    account_settings: "Account Settings"
-    invoices: "Invoices"
-    view_profile: "View Profile"
-    logout: "Log Out"
-    dashboard: "Dashboard"
-    campaigns: "Campaigns"
-    help_center: "Help Center"
-    payment_methods: "Payment Methods"
-    purchase_credits: "Purchase Credits"
-    ads: "Ads"
-    statistics: "Statistics"
-    my_bilbos: "My Bilbos"
-    export_csv: "EXPORT TO CSV"
-    print: "PRINT"
+    account_settings: Account Settings
+    invoices: Invoices
+    manage_team: Manage Team
+    view_profile: View Profile
+    logout: Log Out
+    dashboard: Dashboard
+    campaigns: Campaigns
+    help_center: Help Center
+    payment_methods: Payment Methods
+    purchase_credits: Purchase Credits
+    ads: Ads
+    statistics: Statistics
+    my_bilbos: My Bilbos
+    export_csv: EXPORT TO CSV
+    print: PRINT
 
   nav_headers:
     users: Users
     configuration: Configuration
   account_settings:
-    general_information_divider: "General Information"
-    company_information: "Company Information"
-    name: "Full Name"
-    company_name: "Company Name"
-    password_divider: "Password"
-    password_hint: "Password (leave blank if you don't want to change it)"
-    password_confirmation: "Password confirmation"
-    current_password: "Current password (we need your current password to confirm your changes)"
-    minimum_characters: "minimum characters"
-    update: "Update"
-    company_web_page: "Company web page"
-    company_address: "Company Address"
+    general_information_divider: General Information
+    company_information: Company Information
+    name: Full Name
+    company_name: Company Name
+    password_divider: Password
+    password_hint: Password (leave blank if you don't want to change it)
+    password_confirmation: Password confirmation
+    current_password: Current password (we need your current password to confirm your changes)
+    minimum_characters: minimum characters
+    update: Update
+    company_web_page: Company web page
+    company_address: Company Address
 
-    idiom: "Language"
+    idiom: Language
   general_inputs:
     confirm_submit: Are you sure?
     confirm_deletion: Are you sure you want to delete this item?
@@ -92,27 +93,29 @@ en:
     width: width
     height: height
   campaign:
-    active_campaigns: "Active Campaigns"
-    campaign: "Dashboard"
-    home: "Home"
-    to_active: "The campaign has been activated"
-    to_inactive: "The campaign has been deactivated"
-    new_campaign: "New Campaign"
-    destroy: "Remove Campaign"
-    active_campaigns: "Active Campaigns"
-    campaign_name: "Campaign Name"
-    bilbos_in_use: "Bilbos in use"
-    ad_name: "Ad Name"
-    start_date: "Start Date"
-    end_date: "End Date"
-    impressions: "Impressions"
-    daily_budget: "Daily Budget"
-    total_invested: "Total Invested"
-    metrics: "Metrics"
-    campaign_status: "Campaign"
-    campaign_name: "Name"
-    campaign_date: "Date"
-    wont_be_able_to_update_state: "You will not be able to update the state until"
+    active_campaigns: Active Campaigns
+    campaign: Dashboard
+    home: Home
+    to_active: The campaign has been activated
+    to_inactive: The campaign has been deactivated
+    new_campaign: New Campaign
+    destroy: Remove Campaign
+    active_campaigns: Active Campaigns
+    campaign_name: Campaign Name
+    bilbos_in_use: Bilbos in use
+    ad_name: Ad Name
+    start_date: Start Date
+    end_date: End Date
+    impressions: Impressions
+    daily_budget: Daily Budget
+    total_invested: Total Invested
+    metrics: Metrics
+    campaign_status: Campaign
+    campaign_name: Name
+    campaign_date: Date
+    wont_be_able_to_update_state: You will not be able to update the state until
+    campaign_day: Campaigns of the day
+    campaign_impressions: List of campaigns impression in the day
     wizard:
       choose_bilbos: Choose your Bilbos
       pick_ad: Pick Ad
@@ -138,46 +141,46 @@ en:
       updated: The campaign has been successfully updated
       saved: The campaign has been saved successfully
   bilbos:
-    new_bilbo: "New Bilbo"
-    name: "Bilbo name"
-    state: "State"
-    enabled: "Enabled"
-    in_review: "In review"
-    disabled: "Disabled"
-    banned: "Banned"
-    category: "Category"
-    copy_stream_url: "Copy stream URL"
-    regenerate_token: "Regenerate access token"
-    regenerate_api_token: "Regenerate API token"
-    month_impressions: "Month impressions"
-    start_stream: "Start stream"
-    not_streaming: "Not streaming"
-    stream_status: "Stream status"
-    streaming: "Streaming"
-    avg_views: "Average Views/day"
-    day: "Day"
-    duration: "Duration"
-    seconds: "seconds"
-    price_per_print: "Price/Impression"
-    credits_per_print: "Credits/Impression"
-    dimensions: "Dimensions"
-    expected_profit: "Expected profit"
-    north: "North"
-    south: "South"
-    east: "East"
-    west: "West"
-    face: "Face"
-    address: "Address"
-    add_bilbo: "Add Bilbo"
-    remove_bilbo: "Remove Bilbo"
-    credits: "Credits"
-    type: "Type"
-    television: "Television"
-    wallboard: "Wallboard"
-    billboard: "Billboard"
-    provider: "Provider email"
-    earnings_description: "last 3 months of earnings."
-    impressions_count_description: "last 3 months of impressions."
+    new_bilbo: New Bilbo
+    name: Bilbo name
+    state: State
+    enabled: Enabled
+    in_review: In review
+    disabled: Disabled
+    banned: Banned
+    category: Category
+    copy_stream_url: Copy stream URL
+    regenerate_token: Regenerate access token
+    regenerate_api_token: Regenerate API token
+    month_impressions: Month impressions
+    start_stream: Start stream
+    not_streaming: Not streaming
+    stream_status: Stream status
+    streaming: Streaming
+    avg_views: Average Views/day
+    day: Day
+    duration: Duration
+    seconds: seconds
+    price_per_print: Price/Impression
+    credits_per_print: Credits/Impression
+    dimensions: Dimensions
+    expected_profit: Expected profit
+    north: North
+    south: South
+    east: East
+    west: West
+    face: Face
+    address: Address
+    add_bilbo: Add Bilbo
+    remove_bilbo: Remove Bilbo
+    credits: Credits
+    type: Type
+    television: Television
+    wallboard: Wallboard
+    billboard: Billboard
+    provider: Provider email
+    earnings_description: last 3 months of earnings.
+    impressions_count_description: last 3 months of impressions.
   ads:
     ads: Ads
     new_ad: New Ad
@@ -243,3 +246,15 @@ en:
     net_earnings: Net Earnings
     download_report_in_csv: Download report in CSV format.
     download_report_in_csv_description: Open it in a spreadsheet and perform your own calculations, graphing etc. The CSV file contains all the impressions ever made on your bilbos.
+  projects:
+    project: Project
+    successfully_created: Project successfully created
+    error: Could not create project
+    member_invited: successfully invited member
+    member_invited_error: Error inviting member
+    member_deleted: Member deleted
+    member_deletion_error: Error deleting member
+    manage_team: Manage Team
+    send_invite: Send Invite
+    invite: Invite new members
+    role: Team role

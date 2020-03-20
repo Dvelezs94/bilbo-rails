@@ -2,10 +2,10 @@ class Ad < ApplicationRecord
   #attr accessor is for trigger the changes on the multimedia
   attr_accessor :multimedia_update
   extend FriendlyId
-  
+
   friendly_id :name, use: :slugged
-  
-  belongs_to :user
+
+  belongs_to :project
 
   has_many :campaigns
   has_many_attached :multimedia
@@ -29,9 +29,9 @@ class Ad < ApplicationRecord
     status_changed?(to: "deleted")
   end
 
- #this method changes the status of campaigns approved 
+ #this method changes the status of campaigns approved
   def change_status
-    if multimedia_update 
+    if multimedia_update
       campaigns.approved.update_all(status: "in_review")
     end
    end

@@ -113,7 +113,7 @@ class BoardsController < ApplicationController
   end
 
   def get_provider_boards
-    @boards = current_user.boards.page(params[:page])
+    @boards = @project.boards.page(params[:page])
   end
 
   # validate identity when trying to maange the boards

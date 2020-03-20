@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_28_221131) do
+ActiveRecord::Schema.define(version: 2020_03_11_213908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,14 +39,14 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
   create_table "ads", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.bigint "user_id"
+    t.bigint "project_id"
     t.string "multimedia"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
     t.integer "status", default: 0
+    t.index ["project_id"], name: "index_ads_on_project_id"
     t.index ["slug"], name: "index_ads_on_slug", unique: true
-    t.index ["user_id"], name: "index_ads_on_user_id"
   end
 
   create_table "ads_campaigns", id: false, force: :cascade do |t|
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
   end
 
   create_table "boards", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "project_id"
     t.float "lat"
     t.float "lng"
     t.integer "avg_daily_views"
@@ -76,8 +76,8 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
+    t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
-    t.index ["user_id"], name: "index_boards_on_user_id"
   end
 
   create_table "boards_campaigns", id: false, force: :cascade do |t|
@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
   end
 
   create_table "campaigns", force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "project_id"
     t.string "name"
     t.string "description"
     t.float "budget"
@@ -111,8 +111,8 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
     t.string "slug"
     t.datetime "state_updated_at"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
+    t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
-    t.index ["user_id"], name: "index_campaigns_on_user_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -160,6 +160,25 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
+  create_table "project_users", force: :cascade do |t|
+    t.bigint "project_id"
+    t.bigint "user_id"
+    t.integer "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_project_users_on_project_id"
+    t.index ["user_id"], name: "index_project_users_on_user_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "name"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_projects_on_slug", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -168,7 +187,6 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
     t.datetime "remember_created_at"
     t.string "timezone"
     t.string "name"
-    t.string "company_name"
     t.string "provider"
     t.string "avatar"
     t.float "balance", default: 0.0
@@ -177,19 +195,37 @@ ActiveRecord::Schema.define(version: 2020_02_28_221131) do
     t.datetime "updated_at", null: false
     t.string "roles"
     t.integer "credit_limit", default: 100
+    t.string "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer "invitation_limit"
+    t.string "invited_by_type"
+    t.bigint "invited_by_id"
+    t.integer "invitations_count", default: 0
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
+    t.index ["invitations_count"], name: "index_users_on_invitations_count"
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by_type_and_invited_by_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "ads", "users"
-  add_foreign_key "boards", "users"
+  add_foreign_key "ads", "projects"
+  add_foreign_key "boards", "projects"
   add_foreign_key "campaign_denials", "campaigns"
   add_foreign_key "campaigns", "ads"
-  add_foreign_key "campaigns", "users"
+  add_foreign_key "campaigns", "projects"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
   add_foreign_key "invoices", "payments"
   add_foreign_key "invoices", "users"
   add_foreign_key "payments", "users"
+  add_foreign_key "project_users", "projects"
+  add_foreign_key "project_users", "users"
 end
