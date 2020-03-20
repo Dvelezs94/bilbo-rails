@@ -28,19 +28,17 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-
     <title>Bilbo</title>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
 
   </head>
   <body>
     <%= render :partial => 'flash/flash', :flash => flash %>
     <%= yield %>
 
-      <%= render 'shared/spinner' %>
+    <%= render 'shared/spinner' %>
 
-        </body>
+  </body>
 </html>
