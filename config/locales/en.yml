@@ -181,7 +181,7 @@ en:
     provider: Provider email
     earnings_description: last 3 months of earnings
     impressions_count_description: last 3 months of impressions
-    ads_top: top three month ads
+    ads_top: top four month ads
     campaign_ads: Campaign ads
   ads:
     ads: Ads
