@@ -56,10 +56,11 @@ class Board < ApplicationRecord
     Impression.where(board_id: self, created_at: time_range)
   end
 
+  #Return the number of pending campaigns in the board
   def pending_campaign
     Campaign.in_review.joins(:boards).where(boards:{id: self}).count
   end
-
+  #Return the number of active campaigns in the board
   def approve_campaign
     Campaign.approved.joins(:boards).where(boards:{id: self}).count
   end
@@ -68,6 +69,7 @@ class Board < ApplicationRecord
     h = Impression.joins(:board, :campaign).where(board_id: self, created_at: Time.now.beginning_of_day..Time.now.end_of_day).group('campaigns.name').count
     h.sort_by { |key,value| h[key] = value.round(3) }
   end
+
   # get the maximum number of earnings based on base_price * 140%
   def calculate_max_earnings
     base_earnings * (10.0/7)
@@ -94,6 +96,7 @@ class Board < ApplicationRecord
     cycle_price(DateTime.now)
   end
 
+  # Return campaigns active
   def active_campaigns
     campaigns.approved.where(state: true)
   end
@@ -104,22 +107,20 @@ class Board < ApplicationRecord
     h.each { |key,value| h[key] = value.round(3) }
   end
 
+  # Returns top four campaigns in quarter of year
   def top_quarter_campaigns(time_range = Time.now.months_ago(3)..Time.now)
     h = Impression.joins(:campaign, :board).where(board_id: self, created_at: time_range).group('campaigns.name').count
     h.sort_by {|k, v| -v}
   end
 
-  def image_campaign(first)
-    #Impression.joins(:campaign, :board).where(board_id: 4, created_at: Time.now.months_ago(3)..Time.now).group('campaigns.name').count.first[0]
-    #campaigns.where(name:Impression.joins(:campaign, :board).where(board_id: 2, created_at: Time.now.months_ago(3)..Time.now).group('campaigns.name').count.first(4).first[0])
-    #campaigns.where(name:Impression.joins(:campaign, :board).where(board_id: self, created_at: Time.now.months_ago(3)..Time.now).group('campaigns.name').count.first(4).first[0])
-    #Campaign.where(name:Impression.joins(:campaign, :board).where(board_id: self, created_at: Time.now.months_ago(3)..Time.now).group('campaigns.name').count.first(4).map{|sub| sub.values_at(0)}.join(",").split(","))
-    #campaigns.where(name:Impression.joins(:campaign, :board).where(board_id: 2, created_at: Time.now.months_ago(3)..Time.now).group('campaigns.name').count.first(1))
-    #campaigns.where(name:Impression.joins(:campaign, :board).where(board_id: self, created_at: Time.now.months_ago(3)..Time.now).group('campaigns.name').count.first(3).map{|sub| sub.values_at(0)}.join(",").split(","))
-    campaigns.find_by_name(first)
+  # Return first top campaign ads
+  def board_ads_first(ad)
+    campaigns.find_by_name(ad)
   end
-  def image
-    self.image_campaign(self.top_quarter_campaigns.first(4).map{|sub| sub.values_at(0)}.join(",").split(",").values_at(1))
+
+  # Return second,third and fourth top campaign ads
+  def board_ads(ads)
+    campaigns.where(name:ads, status:"approved")
   end
 
   private
@@ -148,9 +149,6 @@ class Board < ApplicationRecord
     h = Impression.joins(:campaign, :board).where(boards: {project: project}, created_at: time_range).group('campaigns.name').count
     h.sort_by {|k, v| -v}
   end
-
-
-
   # End provider functions
 
   private
@@ -161,5 +159,3 @@ class Board < ApplicationRecord
 
 
 end
-#Impression.joins(:board).where(created_at: Time.now.beginning_of_day..Time.now.end_of_day)
-#Impression.joins(:board).where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).group(:board_id).count
