@@ -25,13 +25,16 @@
     </div>
 
     <!-- Content -->
-    <div class="">
-      <div class="card-group d-flex justify-content-between">
+    <div class="card-group d-flex justify-content-around">
+
         <%= render partial: "new_ad_card" %>
+
+
         <%= render partial: 'overview_card', collection: @ads, as: :ad %>
-        
-      </div>
+
+
     </div>
+
   </div>
   <!-- container -->
 </div>
