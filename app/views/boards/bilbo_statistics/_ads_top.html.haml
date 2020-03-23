@@ -1,16 +1,16 @@
 .col-lg-8.col-xl-6.mg-t-10
   .card
-    .card-header.bd-b-0.pd-t-20.pd-lg-t-25.pd-l-20.pd-lg-l-25.d-flex.flex-column.flex-sm-row.align-items-sm-start.justify-content-sm-between
+    .card-header
       %div
         %h6.mg-b-5
           = t('bilbos.campaign_ads')
         %p.tx-12.tx-color-03.mg-b-0
           = t('bilbos.ads_top')
 
-    .card-body.pd-lg-25
-      #myCarousel.carousel.slide{"data-ride" => "carousel"}
+    .card-body.pd-lg-30
+      #adsCarousel.carousel.slide{"data-ride" => "carousel"}
         .carousel-inner
-          -if @board.board_ads_first(@bilbo_top[0]).ad.present?
+          -if @board.campaigns.present? && @board.board_ads_first(@bilbo_top[0]).ad.present?
             - @board.board_ads_first(@bilbo_top[0]).ad.multimedia.each.with_index do |media_first,i|
               %div{class: "carousel-item #{'active' if i == 0}"}
                 = image_tag media_first, size:"600x300", class: "d-block w-100"
@@ -18,11 +18,11 @@
           -else
             .carousel-item.active
             = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
-        %a.carousel-control-prev{"data-slide" => "prev", href: "#myCarousel", role: "button"}
+        %a.carousel-control-prev{"data-slide" => "prev", href: "#adsCarousel", role: "button"}
           %span.carousel-control-prev-icon{"aria-hidden" => "true"}
             %i.fe.fe-arrow-left.tx-30
           %span.sr-only Previous
-        %a.carousel-control-next{"data-slide" => "next", href: "#myCarousel", role: "button"}
+        %a.carousel-control-next{"data-slide" => "next", href: "#adsCarousel", role: "button"}
           %span.carousel-control-next-icon{"aria-hidden" => "true"}
             %i.fe.fe-arrow-right.tx-30
           %span.sr-only Next

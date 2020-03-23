@@ -56,10 +56,6 @@ class Board < ApplicationRecord
     Impression.where(board_id: self, created_at: time_range)
   end
 
-  #Return the number of pending campaigns in the board
-  def pending_campaign
-    Campaign.in_review.joins(:boards).where(boards:{id: self}).count
-  end
   #Return the number of active campaigns in the board
   def approve_campaign
     Campaign.approved.joins(:boards).where(boards:{id: self}).count
