@@ -48,12 +48,8 @@ class Board < ApplicationRecord
     impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:total_price)
   end
 
-  def quarter_monthly_impressions
-    impressions.where(created_at: Time.now.months_ago(3)..Time.now).sum(:total_price)
-  end
-
-  def daily_board_impressions(time_range = Time.now.months_ago(3)..Time.now)
-    Impression.where(board_id: self, created_at: time_range)
+  def campaign_monthly_impressions(time_range = 3.months_ago..Time.now)
+    impressions.where(created_at: time_range ).sum(:total_price)
   end
 
   #Return the number of active campaigns in the board
@@ -98,13 +94,13 @@ class Board < ApplicationRecord
   end
 
   # Returns how much earnings in quarter of year
-  def quarter_monthly_earnings(time_range = Time.now.months_ago(3)..Time.now)
+  def board_monthly_earnings(time_range = 3.months.ago..Time.now)
     h = Impression.where(board_id: self, created_at: time_range ).group_by_day(:created_at).sum(:total_price)
     h.each { |key,value| h[key] = value.round(3) }
   end
 
   # Returns top four campaigns in quarter of year
-  def top_quarter_campaigns(time_range = Time.now.months_ago(3)..Time.now)
+  def top_board_campaigns(time_range = 3.months.ago..Time.now)
     h = Impression.joins(:campaign, :board).where(board_id: self, created_at: time_range).group('campaigns.name').count
     h.sort_by {|k, v| -v}
   end
