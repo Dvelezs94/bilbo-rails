@@ -17,7 +17,7 @@
         <h4 class="mg-b-0 tx-spacing--1"><%= @campaign.name %></h4>
       </div>
     </div>
-
+w
     <%= form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, class: "edit_campaign") do |f| %>
 
     <div id="dashboardWizard">
@@ -25,7 +25,7 @@
       <section>
         <%= f.text_field :ad_id, :class => "d-none", readonly: true, required: true %>
         <hr>
-        <div class="card-group">
+        <div class="card-group d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-30">
           <%= render partial: "ads/new_ad_card" %>
           <%= render partial: 'ads/overview_card', collection: @ads, as: :ad %>
         </div>

@@ -25,9 +25,14 @@
     </div>
 
     <!-- Content -->
-    <div class="card-group">
-      <%= render partial: "new_ad_card" %>
-      <%= render partial: 'overview_card', collection: @ads, as: :ad %>
+    <div class="card-group d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-30">
+
+        <%= render partial: "new_ad_card" %>
+
+
+        <%= render partial: 'overview_card', collection: @ads, as: :ad %>
+
+
     </div>
 
   </div>
