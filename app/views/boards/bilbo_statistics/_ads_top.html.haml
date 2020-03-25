@@ -10,11 +10,11 @@
     .card-body.pd-lg-30
       #adsCarousel.carousel.slide{"data-ride" => "carousel"}
         .carousel-inner
-          -if @board.campaigns.present? && @board.board_ads_first(@bilbo_top[0]).ad.present?
-            - @board.board_ads_first(@bilbo_top[0]).ad.multimedia.each.with_index do |media_first,i|
+          -if @board.campaigns.present? && @board.campaigns.find_by_name(@bilbo_top[0]).ad.present?
+            - @board.campaigns.find_by_name(@bilbo_top[0]).ad.multimedia.each.with_index do |media_first,i|
               %div{class: "carousel-item #{'active' if i == 0}"}
                 = image_tag media_first, size:"600x300", class: "d-block w-100"
-            = render partial: "boards/bilbo_statistics/board_top", collection: @board.board_ads(@board.top_board_campaigns.first(4).map{|sub| sub.values_at(0)}.join(",").split(",").values_at(1,2,3)), as: :campaign
+            = render partial: "boards/bilbo_statistics/board_top", collection: @board.campaigns.where(name: @bilbo_top.map{|sub| sub.values_at(0)}.join(",").split(",").values_at(1,2,3)), as: :campaign
           -else
             .carousel-item.active
             = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
