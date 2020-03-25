@@ -1,12 +1,12 @@
-.col-md-6.col-lg-12.mg-t-10
+.col-md-6.col-lg-12
   .card
     .card-header.pd-b-0.bd-b-0
-      %h6.mg-b-5
-        = t('dashboards.earnings')
-      %p.tx-12.tx-color-03.mg-b-0
-        = t('bilbos.earnings_description')
+      %div
+        %h6.mg-b-5
+          = t('dashboards.earnings')
+        %p.tx-12.tx-color-03.mg-b-0
+          = t('bilbos.earnings_description')
     .card-body.pd-lg-25
-      .col-12.pd-0-f
-        .chart-five
-          .flot-chart
-            = column_chart @board.daily_earnings, colors: ["#008f39"]
+      .chart-five
+        .flot-chart
+          = column_chart @board.daily_earnings, colors: ["#10b759"]
