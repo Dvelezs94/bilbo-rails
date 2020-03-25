@@ -45,16 +45,17 @@ class Board < ApplicationRecord
   end
 
   def monthly_earnings(start = Time.now)
-    impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:total_price)
+      impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:total_price)
   end
 
-  def campaign_monthly_impressions(time_range = 3.months_ago..Time.now)
-    impressions.where(created_at: time_range ).sum(:total_price)
+  def daily_earnings(time_range = 3.months.ago..Time.now )
+    h = impressions.where(board_id: self, created_at: time_range ).group_by_day(:created_at).sum(:total_price)
+    h.each { |key,value| h[key] = value.round(3) }
   end
 
   #Return the number of active campaigns in the board
-  def approve_campaign
-    Campaign.approved.joins(:boards).where(boards:{id: self}).count
+  def approved_campaign_by_board
+    campaigns.approved.joins(:boards).where(boards:{id: self}).count
   end
 
   def campaign_of_day
@@ -93,28 +94,6 @@ class Board < ApplicationRecord
     campaigns.approved.where(state: true)
   end
 
-  # Returns how much earnings in quarter of year
-  def board_monthly_earnings(time_range = 3.months.ago..Time.now)
-    h = Impression.where(board_id: self, created_at: time_range ).group_by_day(:created_at).sum(:total_price)
-    h.each { |key,value| h[key] = value.round(3) }
-  end
-
-  # Returns top four campaigns in quarter of year
-  def top_board_campaigns(time_range = 3.months.ago..Time.now)
-    h = Impression.joins(:campaign, :board).where(board_id: self, created_at: time_range).group('campaigns.name').count
-    h.sort_by {|k, v| -v}
-  end
-
-  # Return first top campaign ads
-  def board_ads_first(ad)
-    campaigns.find_by_name(ad)
-  end
-
-  # Return second,third and fourth top campaign ads
-  def board_ads(ads)
-    campaigns.where(name:ads, status:"approved")
-  end
-
   private
 
   def generate_access_token
@@ -129,16 +108,22 @@ class Board < ApplicationRecord
 
   # this function returns an array of the daily earnings by each board. This works on a monthly basis
   # Board.daily_provider_earnings_by_boards(@project, Time.now)
-  def self.daily_provider_earnings_by_boards(project, time_range = 30.days.ago..Time.now)
+  def self.daily_provider_earnings_by_boards(project, time_range = 30.days.ago..Time.now, type = 1)
     h = Impression.joins(:board).where(boards: {project: project}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
     h.each { |key,value| h[key] = value.round(3) }
   end
 
 
   # this function returns an array of the top campaigns. This works on a monthly basis
-  # Board.top_monthly_campaigns(@project, Time.now)
-  def self.top_monthly_campaigns(project, time_range = 30.days.ago..Time.now)
-    h = Impression.joins(:campaign, :board).where(boards: {project: project}, created_at: time_range).group('campaigns.name').count
+  # Board.top_campaigns(@project, Time.now)
+  # Board.top_campaigns(@board, Time.now)
+  def self.top_campaigns(id, time_range = 30.days.ago..Time.now, type = 1)
+    if type == 1
+        h = Impression.joins(:campaign, :board).where(boards: {project: id}, created_at: time_range).group('campaigns.name').count
+    end
+    if type == 2
+        h = Impression.joins(:campaign, :board).where(board_id: id, created_at: time_range).group('campaigns.name').count
+    end
     h.sort_by {|k, v| -v}
   end
   # End provider functions
