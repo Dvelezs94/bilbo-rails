@@ -115,6 +115,8 @@ en:
     campaign_name: Name
     campaign_date: Date
     wont_be_able_to_update_state: You will not be able to update the state until
+    campaign_day: Campaigns of the day
+    campaign_impressions: list of campaigns impression in the day
     wizard:
       choose_bilbos: Choose your Bilbos
       pick_ad: Pick Ad
@@ -178,6 +180,10 @@ en:
     wallboard: Wallboard
     billboard: Billboard
     provider: Provider email
+    earnings_description: last 3 months of earnings
+    impressions_count_description: last 3 months of impressions
+    ads_top: top four month ads
+    campaign_ads: Campaign ads
   ads:
     ads: Ads
     new_ad: New Ad

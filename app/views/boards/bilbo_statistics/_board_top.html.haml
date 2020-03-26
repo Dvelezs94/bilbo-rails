@@ -1,0 +1,6 @@
+-if campaign.ad.present?
+ -campaign.ad.multimedia.each.with_index do |media, i|
+  %div.carousel-item
+   = image_tag media, size:"600x300", class: "d-block w-100"
+ %end
+%end

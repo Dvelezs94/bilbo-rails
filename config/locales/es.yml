@@ -178,6 +178,9 @@ es:
     wallboard: Cartelon
     billboard: Espectacular
     provider: Correo del proveedor
+    earnings_description: Ultimos 3 meses de ganancias.
+    ads_top: anuncios del top 4 durante 3 meses
+    campaign_ads: Anuncios de campañas
   ads:
     ads: Anuncios
     new_ad: Nuevo Anuncio
