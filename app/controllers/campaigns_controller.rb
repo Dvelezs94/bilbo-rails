@@ -1,5 +1,5 @@
 class CampaignsController < ApplicationController
-  access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index]}, provider: {except: [:new]}
+  access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index]}, provider: :all
   before_action :get_campaigns, only: [:index]
   before_action :get_campaign, only: [:analytics, :edit, :destroy, :update, :toggle_state]
   #before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
@@ -55,16 +55,16 @@ class CampaignsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @campaign.update_attributes(campaign_params.merge(state: true))
+      if @campaign.update_attributes(campaign_params.merge(state: true, provider_campaign: current_user.is_provider?))
         format.html {
           flash[:success] = I18n.t('campaign.action.updated')
-          redirect_to root_path
+          redirect_to campaigns_path
          }
         format.json { head :no_content }
       else
         format.html {
           flash[:error] = @campaign.errors.full_messages.first
-          redirect_to root_path }
+          redirect_to campaigns_path }
         format.json { render json: @campaign.errors, status: :unprocessable_entity }
       end
     end
@@ -72,6 +72,7 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = Campaign.new(campaign_params)
+    @campaign.status = "approved" if current_user.is_provider?
     if @campaign.save
       flash[:success] = I18n.t('campaign.action.saved')
     else
