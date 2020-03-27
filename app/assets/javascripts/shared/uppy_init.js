@@ -25,7 +25,7 @@ $(document).on('turbolinks:load', function() {
     })
 
     uppy.on('upload-error', (file, error, response) => {
-      alert("Make sure you have all ad blockers disabled");
+      show_error("Make sure you have all ad blockers disabled");
     })
   }
 });
