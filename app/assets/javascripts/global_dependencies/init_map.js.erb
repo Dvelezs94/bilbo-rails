@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function() {
 function initializeMap() {
-  var bilbos = <%= Board.get_map_markers.to_json %>
+  var bilbos = JSON.parse($("#bilboMarkers").val())
   // center of mexico
   var center = new google.maps.LatLng(23.959124, -102.482976);
 

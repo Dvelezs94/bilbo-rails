@@ -18,10 +18,14 @@ $(document).on('turbolinks:load', function() {
     // uppy.use(Uppy.GoogleDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
     // uppy.use(Uppy.Webcam, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
 
-    uppy.on('complete', (result) => {
+    uppy.on('upload-success', (result) => {
       setTimeout(function(){
         location.reload();
       }, 2000);
+    })
+
+    uppy.on('upload-error', (file, error, response) => {
+      show_error("Make sure you have all ad blockers disabled");
     })
   }
 });
