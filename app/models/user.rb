@@ -58,6 +58,18 @@ class User < ApplicationRecord
     name || email
   end
 
+  def is_admin?
+    true if roles.include?(:admin)
+  end
+
+  def is_provider?
+    true if roles.include?(:provider)
+  end
+
+  def is_user?
+    true if roles.include?(:user)
+  end
+
   private
 
   def set_project

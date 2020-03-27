@@ -1,5 +1,5 @@
 class AdsController < ApplicationController
-  access user: :all, provider: {except: [:new]}
+  access user: :all, provider: :all
   before_action :get_ad, only: [:show, :destroy, :update]
   #before_action :verify_identity, only: [:show, :destroy, :update]
 

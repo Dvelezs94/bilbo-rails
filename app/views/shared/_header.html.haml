@@ -26,7 +26,6 @@
               %i.fe.fe-box
               = t('header.help_center')
         - elsif current_user.role == :provider
-          / <li class="nav-item <haml_loud> &quot;active&quot; if menu == &quot;dashboard&quot; </haml_loud>"><a href="/" class="nav-link"><i class="fe fe-box"></i><haml_loud> t(&#39;header.dashboard&#39;) </haml_loud></a></li>
           %li{:class => "nav-item #{"active" if menu == "statistics"}"}
             %a.nav-link{:href => provider_statistics_dashboards_path}
               %i.fe.fe-box
@@ -35,6 +34,14 @@
             %a.nav-link{:href => owned_boards_path}
               %i.fe.fe-box
               = t("header.my_bilbos")
+          %li{:class => "nav-item #{"active" if menu == "dashboard"}"}
+            %a.nav-link{:href => campaigns_path}
+              %i.fe.fe-box
+              = t('header.campaigns')
+          %li{:class => "nav-item #{"active" if menu == "ads"}"}
+            %a.nav-link{:href => ads_path}
+              %i.fe.fe-box
+              = t('header.ads')
         - elsif current_user.role == :admin
           %li{:class => "nav-item #{"active" if menu == "overview"}"}
             %a.nav-link{:href => "/"} Overview
