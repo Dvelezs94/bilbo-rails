@@ -1,0 +1,34 @@
+<tr>
+  <th scope="row">
+    <div class="custom-control custom-switch px-4">
+      <%= check_box_tag "customSwitch-#{campaign.slug}", nil, campaign.state, class: "custom-control-input", data: { url: toggle_state_campaign_path(campaign.slug), remote: :true, method: :put } %>
+      <label class="custom-control-label" for="customSwitch-<%= campaign.slug %>"></label>
+    </div>
+  </th>
+  <td data-toggle="tooltip" data-placement="top" title="<%= campaign.description %>" class="tx-medium truncate"><%= campaign.name %></td>
+  <td class="text-right"><%= campaign.boards.length %></td>
+  <td class="text-right"><%= link_to(campaign.ad.name, ad_path(campaign.ad)) rescue t("ads.no_ad") %></td>
+  <td class="text-right"><%= I18n.l(campaign.starts_at.to_date, format: :long) rescue "-" %></td>
+  <td class="text-right"><%= I18n.l(campaign.ends_at.to_date, format: :long) rescue "-" %></td>
+  <td class="text-right tx-medium"><%= campaign.impressions.length %></td>
+  <td class="text-right"><%= number_to_currency_credit(campaign.budget) %></td>
+  <td class="text-right"><%= number_to_currency_credit(campaign.total_invested) %></td>
+  <td>
+    <ul class="nav float-right">
+      <li class="nav-item">
+        <a class="nav-link tx-primary p-0" href="#" data-toggle="dropdown">
+          <i class="fe fe-elipsis-v wd-15 ht-15"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="<%= edit_campaign_path(campaign) %>" data-toggle="tooltip" data-placement="top" title="<%= t("general_inputs.edit") %>" class="dropdown-item tx-primary">
+            <i class="fe fe-edit mg-r-5"></i><%= t("general_inputs.edit") %>
+          </a>
+          <a href="<%= analytics_campaign_path(campaign) %>" data-toggle="tooltip" data-placement="top" title="<%= t("campaign.metrics") %>" class="dropdown-item tx-primary">
+            <i class="fe fe-activity mg-r-5"></i><%= t("campaign.metrics") %>
+          </a>
+          <div class="dropdown-divider"></div>
+          <%= link_to raw("<i class='fe fe-trash mg-r-5'></i>#{t("campaign.destroy")}"), campaign_path(campaign), method: "delete", class: "dropdown-item tx-danger", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") } %>
+        </div>
+      </li>
+    </ul>
+  </tr>
