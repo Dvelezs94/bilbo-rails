@@ -14,7 +14,7 @@
           %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
             %i.wd-10.mg-r-5.fe.fe-plus
             = t("campaign.new_campaign")
-    - if current_user.campaigns.where.not(status: "deleted").length > 0
+    - if @project.campaigns.where.not(status: "deleted").length > 0
       .row
         .table-responsive
           %table#campaignsTable.table
@@ -30,7 +30,8 @@
                 %th= t("campaign.daily_budget")
                 %th= t("campaign.total_invested")
                 %th.no-sort
-            %tbody= render partial: "campaigns/campaign_row", collection: @campaigns, as: :campaign
+            %tbody
+              = render partial: "campaigns/campaign_row", collection: @campaigns, as: :campaign
     - else
       .ht-100p.d-flex.flex-column.align-items-center.justify-content-center
         .wd-150.wd-sm-250.mg-b-30
