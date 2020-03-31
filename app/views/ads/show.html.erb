@@ -1,0 +1,68 @@
+<%= render 'shared/header', menu: "ads" %>
+
+<div class="filemgr-wrapper">
+  <%= render "ads/show_sidebar" %>
+
+  <div class="filemgr-content" id="multimediaTab">
+    <div class="filemgr-content-header">
+      <i class="fe fe-search pd-r-5 fnt-md"></i>
+      <div class="search-form w-25">
+        <input type="search" id="searchMultimedia" class="form-control" placeholder="<%= t("general_inputs.search") %>">
+      </div>
+      <!-- search-form -->
+    </div>
+    <!-- filemgr-content-header -->
+    <div class="filemgr-content-body">
+
+      <div class="pd-20 pd-lg-25 pd-xl-30">
+        <h4 class="mg-b-15 mg-lg-b-25"><%= t("ads.all_multimedia_files") %></h4>
+
+        <div class="card-group" id="multimediaElements">
+          <%= render partial: "show_single_multimedia", collection: @ad.multimedia, as: :multimedia %>
+        </div>
+        <!-- row -->
+      </div>
+    </div>
+    <!-- filemgr-content-body -->
+  </div>
+  <!-- filemgr-content -->
+  <div class="filemgr-content fm-content-grey d-none" id="configurationTab">
+    <!-- filemgr-content-header -->
+    <div class="filemgr-content-body">
+      <div class="pd-20 pd-lg-25 pd-xl-30">
+        <h4 class="mg-b-15 mg-lg-b-25"><%= t("nav_headers.configuration") %></h4>
+
+          <div class="col-sm-12 col-lg-4 pd-0">
+            <div class="pd-0">
+              <%= form_for(@ad) do |f| %>
+              <div class="form-group">
+                <%= f.label :name %><br/>
+                <%= f.text_field :name, class: "form-control", required: true %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :description %><br/>
+                <%= f.text_area :description, class: "form-control" %>
+              </div>
+
+              <div class="form-group">
+
+                <%= link_to raw("<i class='fe fe-trash'></i> " + t("ads.delete_ad")), ad_path(@ad), method: :delete, class: "tx-danger tx-15 confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") } %>
+              </div>
+
+              <div class="actions">
+                <%= f.submit t("general_inputs.update"), class: "btn btn-primary btn-block" %>
+              </div>
+            <% end %>
+
+        </div>
+      </div>
+      <!-- row -->
+    </div>
+  </div>
+  <!-- filemgr-content-body -->
+</div>
+</div>
+<!-- filemgr-wrapper -->
+<!-- content -->
+<%= render partial: "ads/upload_multimedia" %>
