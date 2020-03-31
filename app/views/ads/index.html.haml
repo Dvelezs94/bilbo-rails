@@ -15,7 +15,7 @@
             %i.wd-10.mg-r-5.fe.fe-plus
             = t("ads.new_ad")
     / Content
-    .card-group
+    .card-group.d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
       = render partial: "new_ad_card"
       = render partial: 'overview_card', collection: @ads, as: :ad
   / container
