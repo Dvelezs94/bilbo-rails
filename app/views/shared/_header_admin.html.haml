@@ -42,15 +42,24 @@
             %a.nav-link{:href => ads_path}
               %i.fe.fe-box
               = t('header.ads')
+        - elsif current_user.role == :admin
+          %li{:class => "nav-item #{"active" if menu == "overview"}"}
+            %a.nav-link{:href => "/"} Overview
+          %li{:class => "nav-item dropdown #{"active" if menu == "users"}"}
+            %a#usersDropdownMenuLink.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#"}
+              Users
+            .dropdown-menu.tx-13{"aria-labelledby" => "usersDropdownMenuLink"}
+              %a.dropdown-item{:href => "#{show_users_admin_index_path(role: "user")}"} Users
+              %a.dropdown-item{:href => "#{show_users_admin_index_path(role: "provider")}"} Providers
+              %a.dropdown-item{:href => "#{show_users_admin_index_path(role: "support")}"} Support
+          %li{:class => "nav-item #{"active" if menu == "boards"}"}
+            %a.nav-link{:href => admin_index_boards_path} Boards
+          %li{:class => "nav-item #{"active" if menu == "campaigns"}"}
+            %a.nav-link{:href => "#"} Campaigns
+          %li{:class => "nav-item #{"active" if menu == "ads"}"}
+            %a.nav-link{:href => "#"} Ads
     / navbar-menu-wrapper
     .navbar-right
-      / teams
-      .dropdown
-        %button#teamMenuButton.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-          = truncate(@project.name, length: 15)
-        .dropdown-menu{"aria-labelledby" => "teamMenuButton"}
-          - current_user.projects.enabled.each do |pr|
-            = link_to pr.name, root_url(subdomain: pr.slug), class: "dropdown-item"
       / notifications
       .dropdown.dropdown-notification
         %a.dropdown-link.new-indicator{"data-toggle" => "dropdown", :href => ""}
@@ -116,39 +125,12 @@
         .dropdown-menu.dropdown-menu-right
           .avatar.avatar-lg.mg-b-15= image_tag user_avatar(current_user, 500), class: "rounded-circle"
           %h6.tx-semibold.mg-b-5= current_user.name
-          %p.tx-12.tx-color-03= @project.name
-          - if current_user.role == :user
-            %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
-              %i.fe.fe-wallet.pd-r-5.tx-success
-              = number_to_currency_credit(current_user.balance)
-            .dropdown-divider
-            - if @project.admins.include? current_user.id
-              %a.dropdown-item{"data-toggle" => "modal", :href => "#modalManageTeam"}
-                %i.fe.fe-users.pd-r-5
-                = t('header.manage_team')
-            %a.dropdown-item{:href => projects_path}
-              %i.fe.fe-folder.pd-r-5
-              = t('header.manage_projects')
-            %a.dropdown-item{:href => invoices_path}
-              %i.fe.fe-document.pd-r-5
-              = t('header.invoices')
-            %a.dropdown-item{:href => edit_user_registration_path}
-              %i.fe.fe-gear.pd-r-5
-              = t('header.account_settings')
-            %a.dropdown-item{"data-toggle" => "modal", :href => "#modalNewPayment"}
-              %i.fe.fe-wallet.pd-r-5
-              = t('header.purchase_credits')
-          - elsif current_user.role == :provider
-            .dropdown-divider
-            %a.dropdown-item{:href => edit_user_registration_path}
-              %i.fe.fe-gear.pd-r-5
-              = t('header.account_settings')
+          %a.dropdown-item{:href => edit_user_registration_path}
+            %i.fe.fe-gear.pd-r-5
+            = t('header.account_settings')
           %hr/
           = link_to(("<i class='fe fe-logout pd-r-5'></i>" + t('header.logout')).html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item")
         / dropdown-menu
       / dropdown
     / navbar-right
   / navbar
-  = render "payments/new"  if current_user.role == :user
-  - if @project.admins.include? current_user.id
-    = render "project_users/manage_modal"
