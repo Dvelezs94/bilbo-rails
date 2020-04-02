@@ -22,6 +22,8 @@ es:
     mailer:
       confirmation_instructions:
         subject: "Instrucciones de confirmación"
+        link_text: Confirmar
+        message: Hola! %{user_name}. Te queremos dar una calurosa bienvenida a bilbo, sin embargo antes de comenzar necesitamos confirmar que eres tú. Haz click en el boton debajo para confirmar tu cuenta. Si no funciona puedes utilizar esta liga %{link}
       reset_password_instructions:
         subject: "Instrucciones para reestablecer tu contraseña"
       unlock_instructions:

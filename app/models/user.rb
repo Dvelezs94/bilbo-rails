@@ -18,7 +18,7 @@ class User < ApplicationRecord
   validates :email, presence: true, format: Devise.email_regexp
   has_many :boards
   # project related methods
-  has_many :project_users
+  has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
   after_commit :set_project, on: :create
 
@@ -56,6 +56,18 @@ class User < ApplicationRecord
 
   def name_or_email
     name || email
+  end
+
+  def is_admin?
+    true if roles.include?(:admin)
+  end
+
+  def is_provider?
+    true if roles.include?(:provider)
+  end
+
+  def is_user?
+    true if roles.include?(:user)
   end
 
   private
