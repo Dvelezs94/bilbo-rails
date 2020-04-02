@@ -116,6 +116,10 @@ es:
     campaign_name: Nombre
     campaign_date: Fecha
     wont_be_able_to_update_state: No podrás actualizar el estado hasta dento de
+    impressions: Impresiones diarias
+    impressions_per_day: Impresiones
+    invested: Daily invested
+    popular_hours: Horas mas populares
     wizard:
       choose_bilbos: Escoge tus Bilbos
       pick_ad: Elige tu Anuncio
