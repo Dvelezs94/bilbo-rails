@@ -127,6 +127,19 @@ class Campaign < ApplicationRecord
     Impression.where(campaign_id: id).sum(:total_price)
   end
 
+  def daily_impressions(time_range = 3.weeks.ago..Time.now)
+    impressions.where(campaign_id: id,created_at: time_range).group_by_day(:created_at).count
+  end
+
+  def daily_invested( time_range = 30.days.ago..Time.now)
+    h = impressions.where(campaign_id: id, created_at: time_range).group_by_day(:created_at, format: "%a").sum(:total_price)
+    h.each { |key,value| h[key] = value.round(3) }
+  end
+
+  def peak_hours (time_range = 30.days.ago..Time.now)
+    impressions.where(campaign_id: id, created_at: time_range).group_by_hour_of_day(:created_at, format: "%l %P").count
+  end
+
   private
 
   def to_s
