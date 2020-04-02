@@ -26,12 +26,12 @@ class ProjectsController < ApplicationController
     if @current_project.campaigns.update_all(state: false)
       @current_project.update(status: "disabled")
       respond_to do |format|
-        format.html { redirect_to root_url(subdomain: current_user.projects.first.slug) }
+        format.html { redirect_to(after_sign_in_path_for(current_user)) }
         format.json { head :no_content }
       end
     else
       flash[:error] = I18n.t('projects.could_not_delete')
-      redirect_to projects_path
+      redirect_to(after_sign_in_path_for(current_user))
     end
   end
 

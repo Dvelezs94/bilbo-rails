@@ -21,7 +21,7 @@ class Board < ApplicationRecord
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
   # and the user is not able to click the marker because it is a cluster
   def self.get_map_markers
-    self.enabled.select(:lat, :lng).as_json(:except => :id).uniq
+    enabled.select(:lat, :lng).as_json(:except => :id).uniq
   end
 
   # Get the total impressions starting from a certain date
@@ -45,7 +45,22 @@ class Board < ApplicationRecord
   end
 
   def monthly_earnings(start = Time.now)
-    impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:total_price)
+      impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:total_price)
+  end
+
+  def daily_earnings(time_range = 3.months.ago..Time.now )
+    h = impressions.where(board_id: self, created_at: time_range ).group_by_day(:created_at).sum(:total_price)
+    h.each { |key,value| h[key] = value.round(3) }
+  end
+
+  #Return the number of active campaigns in the board
+  def approved_campaign_by_board
+    campaigns.approved.joins(:boards).where(boards:{id: self}).count
+  end
+
+  def campaign_of_day
+    h = Impression.joins(:board, :campaign).where(board_id: self, created_at: Time.now.beginning_of_day..Time.now.end_of_day).group('campaigns.name').count
+    h.sort_by { |key,value| h[key] = value.round(3) }
   end
 
   # get the maximum number of earnings based on base_price * 140%
@@ -74,6 +89,7 @@ class Board < ApplicationRecord
     cycle_price(DateTime.now)
   end
 
+  # Return campaigns active
   def active_campaigns
     campaigns.approved.where(state: true)
   end
@@ -92,19 +108,24 @@ class Board < ApplicationRecord
 
   # this function returns an array of the daily earnings by each board. This works on a monthly basis
   # Board.daily_provider_earnings_by_boards(@project, Time.now)
-  def self.daily_provider_earnings_by_boards(project, time_range = 30.days.ago..Time.now)
+  def self.daily_provider_earnings_by_boards(project, time_range = 30.days.ago..Time.now, type = 1)
     h = Impression.joins(:board).where(boards: {project: project}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
     h.each { |key,value| h[key] = value.round(3) }
   end
 
+
   # this function returns an array of the top campaigns. This works on a monthly basis
-  # Board.top_monthly_campaigns(@project, Time.now)
-  def self.top_monthly_campaigns(project, time_range = 30.days.ago..Time.now)
-    h = Impression.joins(:campaign, :board).where(boards: {project: project}, created_at: time_range).group('campaigns.name').count
+  # Board.top_campaigns(@project, Time.now)
+  # Board.top_campaigns(@board, Time.now)
+  def self.top_campaigns(id, time_range = 30.days.ago..Time.now, type = 1)
+    if type == 1
+        h = Impression.joins(:campaign, :board).where(boards: {project: id}, created_at: time_range).group('campaigns.name').count
+    end
+    if type == 2
+        h = Impression.joins(:campaign, :board).where(board_id: id, created_at: time_range).group('campaigns.name').count
+    end
     h.sort_by {|k, v| -v}
   end
-
-
   # End provider functions
 
   private

@@ -21,6 +21,8 @@ en:
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"
+        link_text: Confirm
+        message: Hello %{user_name}! Welcome to bilbo. Before proceeding we need to confirm your email, Click on the button below to confirm your account, or you can click on the link next %{link}
       reset_password_instructions:
         subject: "Reset password instructions"
       unlock_instructions:

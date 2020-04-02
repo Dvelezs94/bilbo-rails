@@ -1,6 +1,5 @@
 $(document).on('turbolinks:load', function() {
-$(function(){
-  'use strict'
+  // 'use strict'
   ////////// NAVBAR //////////
 
 
@@ -35,7 +34,7 @@ $(function(){
 
   // Closing dropdown menu of navbar menu
   $(document).on('click touchstart', function(e){
-    e.stopPropagation();
+    //e.stopPropagation();
 
     // closing nav sub menu of header when clicking outside of it
     if(window.matchMedia('(min-width: 992px)').matches) {
@@ -102,7 +101,7 @@ $(function(){
 
   // hide sidebar when clicking outside of it
   $(document).on('click touchstart', function(e){
-    e.stopPropagation();
+    //e.stopPropagation();
 
     // closing of sidebar menu when clicking outside of it
     if(!$(e.target).closest('.burger-menu').length) {
@@ -119,4 +118,3 @@ $(function(){
   });
 
 })
-});

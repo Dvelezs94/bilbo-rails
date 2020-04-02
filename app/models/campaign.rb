@@ -3,6 +3,8 @@ class Campaign < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  attribute :provider_campaign, :boolean
+
   belongs_to :project
   has_many :impressions
   has_many :campaign_denials
@@ -41,7 +43,7 @@ class Campaign < ApplicationRecord
   end
 
   def set_in_review
-    self.status = "in_review"
+    self.status = "in_review" if provider_campaign.nil?
   end
 
   # function that checks if the value of attributes changed
