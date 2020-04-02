@@ -19,10 +19,6 @@
         %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
           %i.wd-10.mg-r-5.fe.fe-equalizer
           Settings
-          %a{"data-toggle" => "modal", href: "#modalNewBilbo"}
-            %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
-              %i.wd-10.mg-r-5.fe.fe-plus
-              = t("bilbos.new_bilbo")
     .row.row-xs
       = render 'admins/charts/general_metrics'
       = render 'admins/charts/top_providers'
@@ -31,5 +27,4 @@
       = render 'admins/charts/active_campaigns'
       = render 'admins/charts/sales'
       / row
-      = render 'new'
     / container
