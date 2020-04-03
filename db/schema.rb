@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_213908) do
   create_table "boards_campaigns", id: false, force: :cascade do |t|
     t.bigint "campaign_id", null: false
     t.bigint "board_id", null: false
+    t.integer "status", default: 0, null: false
     t.index ["board_id", "campaign_id"], name: "index_boards_campaigns_on_board_id_and_campaign_id"
     t.index ["campaign_id", "board_id"], name: "index_boards_campaigns_on_campaign_id_and_board_id"
   end

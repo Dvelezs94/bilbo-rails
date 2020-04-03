@@ -2,7 +2,8 @@ class Board < ApplicationRecord
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
-  has_and_belongs_to_many :campaigns
+  has_many :board_campaigns, class_name: "BoardsCampaigns"
+  has_many :campaigns, through: :board_campaigns
   has_many :impressions
   has_many_attached :images
   before_save :generate_access_token, :if => :new_record?

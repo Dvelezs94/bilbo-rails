@@ -9,7 +9,8 @@ class Campaign < ApplicationRecord
   has_many :impressions
   has_many :campaign_denials
   belongs_to :ad, optional: true
-  has_and_belongs_to_many :boards
+  has_many :board_campaigns, class_name: "BoardsCampaigns"
+  has_many :boards, through: :board_campaigns
   # status is for internal status, like in review, accepted or denied, this depends on the bilbo provider
   enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3, deleted: 4 }
 
