@@ -14,5 +14,5 @@
 //= require data-confirm-modal
 //= require autocomplete-rails
 //= require chartkick
-
+//= require Chart.bundle
 //= require_tree ./global_dependencies
