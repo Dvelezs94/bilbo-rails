@@ -1,0 +1,10 @@
+.col-md-6.col-xl-4.mg-t-10.order-md-1.order-xl-0
+  .card.ht-lg-100p
+    .card-header.d-flex.align-items-center.justify-content-between
+      %h6.mg-b-0 
+      = t('campaigns.popular_hours')
+      .tx-13.d-flex.align-items-center
+    / card-header
+    .card-body.pd-0
+    .pd-y-25.pd-x-20
+      = column_chart @campaign.peak_hours

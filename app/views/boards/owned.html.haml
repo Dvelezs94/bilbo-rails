@@ -13,15 +13,8 @@
 
         %h4.mg-b-0.tx-spacing--1
         = t("header.my_bilbos")
-      .d-none.d-md-block
-        %a{:href => "#modalNewBilbo" ,  "data-toggle" => "modal"}
-          %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
-            %i.wd-10.mg-r-5.fe.fe-plus
-            = t("bilbos.new_bilbo")
 
     .row.row-xs
       = render partial: "boards/provider/board_row", collection: @boards, as: :board
       .col-12
         = paginate @boards, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center"
-
-= render 'new'

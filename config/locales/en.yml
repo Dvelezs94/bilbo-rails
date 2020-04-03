@@ -115,8 +115,9 @@ en:
     campaign_name: Name
     campaign_date: Date
     wont_be_able_to_update_state: You will not be able to update the state until
-    campaign_day: Campaigns of the day
-    campaign_impressions: list of campaigns impression in the day
+    impressions: Daily impressions
+    impressions_per_day: Impressions
+    popular_hours: Most popular hours
     wizard:
       choose_bilbos: Choose your Bilbos
       pick_ad: Pick Ad
