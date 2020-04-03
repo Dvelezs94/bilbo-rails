@@ -2,7 +2,6 @@ class AdminsController < ApplicationController
   access admin: :all
 
   def index
-
   end
 
   def new
