@@ -11,7 +11,11 @@ class ApplicationController < ActionController::Base
 
   # Override devise methods so there are no routes conflict with devise being at /
   def after_sign_in_path_for(resource)
-    dashboards_url(subdomain: resource.projects.enabled.first.slug)
+    if current_user.is_admin?
+      admin_index_path
+    else
+      dashboards_url(subdomain: resource.projects.enabled.first.slug)
+    end
   end
 
   def after_sign_out_path_for(resource)
@@ -32,7 +36,7 @@ class ApplicationController < ActionController::Base
     if request.subdomain.present? && request.subdomain != "app" && user_signed_in?
       @project = current_user.projects.includes(:project_users).enabled.friendly.find(request.subdomain)
     # redirect if project is not set on url or the condition above is not met
-    elsif user_signed_in?
+    elsif user_signed_in? && !current_user.is_admin?
       redirect_to(after_sign_in_path_for(current_user))
     end
     # otherwise don't do anything, we need to make sure boards can be seen even without user signed in

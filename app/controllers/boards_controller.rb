@@ -85,7 +85,7 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    @campaign_params = params.require(:board).permit(:user_id,
+    @campaign_params = params.require(:board).permit(:project_id,
                                                         :name,
                                                         :avg_daily_views,
                                                         :width,
