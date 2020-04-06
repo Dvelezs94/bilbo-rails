@@ -14,7 +14,7 @@
           %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
             %i.wd-10.mg-r-5.fe.fe-plus
             = t("campaign.new_campaign")
-    - if @project.campaigns.where.not(status: "deleted").length > 0
+    - if @project.campaigns.active.size > 0
       .row
         .table-responsive
           %table#campaignsTable.table

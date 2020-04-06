@@ -60,7 +60,7 @@ if ENV.fetch("RAILS_ENV") != "production"
               cp.name    = "campaign#{ad.name}#{z}#{Faker::Music::RockBand.name}"
               cp.budget  = Faker::Number.between(5, 50)
               cp.state   = Faker::Boolean.boolean
-              cp.status  = Faker::Number.between(0, 4)
+              cp.status  = Faker::Number.between(0, 1)
               cp.project = ad.project
               cp.boards  = Board.order('RANDOM()').first(Faker::Number.between(2, 7))
               cp.boards.each do |board|

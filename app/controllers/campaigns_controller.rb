@@ -2,7 +2,7 @@ class CampaignsController < ApplicationController
   access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index]}, provider: :all
   before_action :get_campaigns, only: [:index]
   before_action :get_campaign, only: [:analytics, :edit, :destroy, :update, :toggle_state]
-  #before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
+  before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
   before_action :campaign_not_active, only: [:edit]
 
   def index
@@ -14,30 +14,6 @@ class CampaignsController < ApplicationController
 
   def analytics
   end
-
-  # Methods for the provider to either approve or deny a campaign
-  def review
-    # get campaigns of the providers boards that are in "in_review" state
-  end
-
-  def approve_campaign
-    if @campaign.approved!
-      flash[:success] = I18n.t('campaign.action.saved')
-    else
-      flash[:error] = I18n.t('campaign.errors.no_save')
-    end
-    redirect_to review_campaigns_path
-  end
-
-  def deny_campaign
-    if @campaign.denied!
-      flash[:success] = I18n.t('campaign.action.saved')
-    else
-      flash[:error] = I18n.t('campaign.errors.no_save')
-    end
-    redirect_to review_campaigns_path
-  end
-  # end provider methods
 
   def edit
     @ads = @project.ads.active.select{ |ad| ad.multimedia.any? }
@@ -72,7 +48,6 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = Campaign.new(campaign_params)
-    @campaign.status = "approved" if current_user.is_provider?
     if @campaign.save
       flash[:success] = I18n.t('campaign.action.saved')
     else
@@ -82,7 +57,7 @@ class CampaignsController < ApplicationController
   end
 
   def destroy
-    if @campaign.update(status: "deleted")
+    if @campaign.inactive!
       respond_to do |format|
         format.html {
           flash[:success] = I18n.t('campaign.action.deleted')
@@ -111,7 +86,7 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaigns
-    @campaigns = @project.campaigns.includes(:boards, :impressions).where.not(status: "deleted")
+    @campaigns = @project.campaigns.includes(:boards, :impressions).active
   end
 
   def get_campaign
@@ -119,7 +94,7 @@ class CampaignsController < ApplicationController
   end
 
   def verify_identity
-    redirect_to campaigns_path if @campaign.user != current_user
+    redirect_to campaigns_path if not @campaign.project.users.include? current_user.id
   end
 
   def campaign_not_active
