@@ -19,7 +19,7 @@ class Project < ApplicationRecord
   scope :owners, -> { joins(:project_users).where(project_users: {role: ['owner']}).pluck(:user_id) }
   scope :admins, -> { joins(:project_users).where(project_users: {role: ["owner", "administrator"]}).pluck(:user_id) }
   scope :users, -> { joins(:project_users).pluck(:user_id) }
-  
+
   # functions to get the users of a specific project
   # Project.first.owners
   def owners
@@ -61,10 +61,10 @@ class Project < ApplicationRecord
 
   # campaigns that require provider feedback to be aither approved or denied
   def campaigns_for_review
-    Campaign.in_review.joins(:boards).where(boards: {project_id: id}).length
+    BoardsCampaigns.in_review.where(board: [boards]).size
   end
 
   def active_campaigns
-    Campaign.approved.joins(:boards).where(boards: {project_id: id}).length
+    BoardsCampaigns.approved.where(board: [boards]).size
   end
 end
