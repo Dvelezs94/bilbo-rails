@@ -2,7 +2,8 @@ class Board < ApplicationRecord
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
-  has_and_belongs_to_many :campaigns
+  has_many :board_campaigns, class_name: "BoardsCampaigns"
+  has_many :campaigns, through: :board_campaigns
   has_many :impressions
   has_many_attached :images
   before_save :generate_access_token, :if => :new_record?
@@ -55,7 +56,7 @@ class Board < ApplicationRecord
 
   #Return the number of active campaigns in the board
   def approved_campaign_by_board
-    campaigns.approved.joins(:boards).where(boards:{id: self}).count
+    board_campaigns.approved.count
   end
 
   def campaign_of_day
@@ -91,7 +92,7 @@ class Board < ApplicationRecord
 
   # Return campaigns active
   def active_campaigns
-    campaigns.approved.where(state: true)
+    board_campaigns.approved
   end
 
   private

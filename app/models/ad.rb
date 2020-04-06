@@ -20,7 +20,7 @@ class Ad < ApplicationRecord
   before_commit :change_status
 
   def check_if_can_delete
-    if self.campaigns.select_active.length > 0
+    if self.campaigns.select_active.size > 0
       errors.add(:base, I18n.t('ads.errors.wont_be_able_to_delete'))
     end
   end
@@ -29,10 +29,10 @@ class Ad < ApplicationRecord
     status_changed?(to: "deleted")
   end
 
- #this method changes the status of campaigns approved
+ #this method changes the status of campaigns approved to in review
   def change_status
     if multimedia_update
-      campaigns.approved.update_all(status: "in_review")
+      BoardsCampaigns.approved.where(campaign: campaigns.active).update_all(status: "in_review")
     end
    end
 end
