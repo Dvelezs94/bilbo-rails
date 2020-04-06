@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     collection do
       get :provider_index
     end
+    resources :boards, only: [], controller: :board_campaigns do
+      put :approve_campaign
+      put :deny_Campaign
+    end
   end
   resources :boards, only: [:index, :show, :create] do
     collection do

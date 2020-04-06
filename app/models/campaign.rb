@@ -11,13 +11,12 @@ class Campaign < ApplicationRecord
   belongs_to :ad, optional: true
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :boards, through: :board_campaigns
-  # status is for internal status, like in review, accepted or denied, this depends on the bilbo provider
-  enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3, deleted: 4 }
+  # status is for the
+  enum status: { active: 0, inactive: 1 }
 
-  # 'state' is for user desired state of the campaign, enabled or disabled
+  # 'state' is for user desired state ser by the user, enabled or disabled
 
   # Trigger broadcast or remove campaign
-  before_update :update_broadcast
   before_destroy :remove_campaign
 
   validates :name, presence: true
@@ -27,10 +26,10 @@ class Campaign < ApplicationRecord
   validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
-  before_save :set_in_review, :if => :ad_id_changed?
+  before_save :set_in_review, :if => [:ad_id_changed?, :state_changed?]
 
   def self.running
-    approved.where(state: true)
+    active.where(state: true)
   end
 
   def ongoing?
@@ -44,27 +43,15 @@ class Campaign < ApplicationRecord
   end
 
   def set_in_review
-    self.status = "in_review" if provider_campaign.nil?
-  end
-
-  # function that checks if the value of attributes changed
-  # after check it trigger the proper function to add or remove campaign from boards
-  def update_broadcast
-    if status_changed? || state_changed?
-      if approved? && state.present?
-        publish_campaign
-      else
-        remove_campaign
-      end
-    end
-  end
-
-  def self.select_active #state active
-    self.select {|campaign| campaign.state}
+    self.board_campaigns.update_all(status: "in_review") if provider_campaign.nil?
   end
 
   def self.all_off #state active
     (self.select {|campaign| campaign.state}.length == 0)? true : false
+  end
+
+  def self.select_active #state active
+    self.select {|campaign| campaign.state}
   end
 
   def off
@@ -73,16 +60,6 @@ class Campaign < ApplicationRecord
 
   def on
     self.state
-  end
-
-  # Publish ad function, this gets triggered when the state and status are true
-  def publish_campaign
-    AdBroadcastWorker.perform_async(self.id, "enable")
-  end
-
-  # Remove ad function, this gets triggered when the state or status are false
-  def remove_campaign
-    AdBroadcastWorker.perform_async(self.id, "disable")
   end
 
   def state_change_time
@@ -117,7 +94,7 @@ class Campaign < ApplicationRecord
 
   def cant_update_when_active
     if self.state_was && !state_changed?
-      #this can pass when someone is passing campaign to false and also updating other attributes, but i dont think now that will cause problems
+      #this can happen when someone is passing campaign to false and also updating other attributes, but i dont think now that will cause problems
       #something is changing when state is active, so i raise error
       errors.add(:base, I18n.t('campaign.errors.cant_update_when_active'))
     end
