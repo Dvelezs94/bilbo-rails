@@ -3,8 +3,6 @@ class Campaign < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  attribute :provider_campaign, :boolean
-
   belongs_to :project
   has_many :impressions
   has_many :campaign_denials
@@ -26,7 +24,7 @@ class Campaign < ApplicationRecord
   validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
-  before_save :set_in_review, :if => [:ad_id_changed?, :state_changed?]
+  before_save :set_in_review, :if => :ad_id_changed?
 
   def self.running
     active.where(state: true)
@@ -43,7 +41,7 @@ class Campaign < ApplicationRecord
   end
 
   def set_in_review
-    self.board_campaigns.update_all(status: "in_review") if provider_campaign.nil?
+    self.board_campaigns.update_all(status: "in_review")
   end
 
   def self.all_off #state active

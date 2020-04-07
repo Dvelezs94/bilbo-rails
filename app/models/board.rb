@@ -92,7 +92,7 @@ class Board < ApplicationRecord
 
   # Return campaigns active
   def active_campaigns
-    board_campaigns.approved
+    Campaign.where(id: board_campaigns.approved.pluck(:campaign_id)).active
   end
 
   private
