@@ -12,13 +12,11 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="https://s3.us-east-2.amazonaws.com/cdn.mybilbo.com/Bilbo-Favicon.png">
-
-
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY")+ '&libraries=places&callback=activatePlacesSearch', :defer => true, :async => true, 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'admin', 'data-turbolinks-track': 'reload' %>
 
-    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY")+ '&libraries=places&callback=activatePlacesSearch', :defer => true, :async => true, 'data-turbolinks-track': 'reload' %>
     <title>Bilbo</title>
 
     <%= csrf_meta_tags %>

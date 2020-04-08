@@ -47,7 +47,7 @@ function initializeMap() {
 
 }
 
-  if ($("#bilbomap").length > 0){
+  if ($("#bilbomap").length){
     google.maps.event.addDomListener(window, 'turbolinks:load', initializeMap);
   }
 });
