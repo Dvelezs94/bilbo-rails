@@ -4,6 +4,8 @@
 //= require jquery.steps
 //= require jquery-ui
 //= require jquery-ui/widgets/autocomplete
+//= require Chart.bundle
+//= require chartkick
 //= require turbolinks
 
 //= require popper
@@ -13,6 +15,4 @@
 //= require clipboard
 //= require data-confirm-modal
 //= require autocomplete-rails
-//= require chartkick
-//= require Chart.bundle
 //= require_tree ./global_dependencies

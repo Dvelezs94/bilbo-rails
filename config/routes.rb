@@ -60,6 +60,15 @@ Rails.application.routes.draw do
   resources :projects do
     resources :project_users, path: :users, module: :projects, only: [:create, :destroy]
   end
+
+  resources :charts, only: [] do
+    member do
+      get :daily_impressions
+      get :daily_invested
+      get :popular_hours
+    end
+  end
+
   resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
