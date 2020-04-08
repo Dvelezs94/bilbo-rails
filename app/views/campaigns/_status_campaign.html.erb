@@ -1,0 +1,26 @@
+<tr>
+  <td data-toggle="tooltip" data-placement="top" title="<%=  %>" class="tx-medium truncate"><%= campaign.board_id %></td>
+  <td><a data-toggle="modal" effect-animation="effect-scale" href="#modal6">view</a>
+
+      <div aria-hidden="true" aria-labelledby="exampleModalLabel6" class="modal fade" id="modal6" role="dialog" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-14">
+          <div class="modal-header">
+            <h6 class="modal-title" id="exampleModalLabel6">Multimedia</h6>
+            <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+              <span aria-hidden="true"></span>
+            </button>
+          </div>
+
+
+
+
+  </td>
+  <td class="text-between"><%= ("%d/%m/%Y")%></td>
+  <td class="text-between"><%=campaign.campaign_id  %></td>
+  <td class="text-between"><%= campaign.status%></td>
+    <td class="text-between"><%= %></td>
+    <td class="d-flex justify-content-between align-center">
+      <%=link_to '', campaign_board_approve_campaign_path(campaign.campaign_id,campaign.board_id), class: 'fe fe-check', title: 'accept bilbo', data: { toggle: 'tooltip', placement: 'top', method: :put }%>
+      <%=link_to '', campaign_board_deny_campaign_path(campaign.campaign_id,campaign.board_id), class: 'fe fe-trash', title: 'remove bilbo', data: { toggle: 'tooltip', placement: 'top', method: :put }%>
+    </td>

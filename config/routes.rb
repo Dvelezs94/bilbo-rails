@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     end
     resources :boards, only: [], controller: :board_campaigns do
       put :approve_campaign
-      put :deny_Campaign
+      put :deny_campaign
     end
   end
   resources :boards, only: [:index, :show, :create] do
