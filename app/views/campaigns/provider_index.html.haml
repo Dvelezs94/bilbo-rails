@@ -29,7 +29,7 @@
               %th{:scope => "col"} Bilbos
               %th{:scope => "col"} $
               %th{:scope => "col"} Status
-            %tbody= render partial: "campaigns/status_campaign", collection: BoardsCampaigns.all, as: :campaign
+            %tbody= render partial: "campaigns/status_campaign", collection: @campaigns, as: :campaign
 #modal6.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel6", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document"}
     .modal-content.tx-14

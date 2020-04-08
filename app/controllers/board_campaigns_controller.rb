@@ -1,10 +1,10 @@
 class BoardCampaignsController < ApplicationController
   access provider: :all
   before_action :get_board_campaign
-  #before_action :validate_provider
+  before_action :validate_provider
 
   def approve_campaign
-    if get_board_campaign.update(status:2)
+    if @board_campaign.approved!
       flash[:success] = I18n.t('campaign.action.saved')
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
@@ -13,7 +13,7 @@ class BoardCampaignsController < ApplicationController
   end
 
   def deny_campaign
-    if get_board_campaign.update(status:3)
+    if @board_campaign.denied!
       flash[:success] = I18n.t('campaign.action.saved')
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
