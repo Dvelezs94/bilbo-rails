@@ -1,30 +1,30 @@
-class BoardCampaignsContoller < ApplicationController
+class BoardCampaignsController < ApplicationController
   access provider: :all
   before_action :get_board_campaign
-  before_action :validate_provider
+  #before_action :validate_provider
 
   def approve_campaign
-    if @campaign.board_campaigns.where(board_id: params[:board_id]).approved!
+    if get_board_campaign.update(status:2)
       flash[:success] = I18n.t('campaign.action.saved')
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
-    redirect_to review_campaigns_path
+    redirect_to provider_index_campaigns_path
   end
 
   def deny_campaign
-    if @campaign.denied!
+    if get_board_campaign.update(status:3)
       flash[:success] = I18n.t('campaign.action.saved')
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
-    redirect_to review_campaigns_path
+    redirect_to provider_index_campaigns_path
   end
 
   private
 
   def get_board_campaign
-    @boad_campaign = BoardsCampaigns.where(board_id: params[:board_id], campaign_id: params[:campaign_id])
+    @board_campaign = BoardsCampaigns.where(board_id: params[:board_id], campaign_id: params[:campaign_id])
   end
 
   def validate_provider
