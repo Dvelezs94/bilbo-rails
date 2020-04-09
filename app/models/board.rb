@@ -8,7 +8,7 @@ class Board < ApplicationRecord
   has_many_attached :images
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
-  enum status: { in_review: 0, enabled: 1, disabled: 2, banned: 3}
+  enum status: { enabled: 0, disabled: 1}
   validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :duration, :address, :name, :category, :base_earnings, :face, on: :create
 
   # slug candidates for friendly id
