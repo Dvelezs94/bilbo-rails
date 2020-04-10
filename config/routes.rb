@@ -65,7 +65,7 @@ Rails.application.routes.draw do
     member do
       get :daily_impressions
       get :daily_invested
-      get :popular_hours
+      get :peak_hours
     end
   end
 
