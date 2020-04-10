@@ -1,15 +1,19 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:get_info, :index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show], admin: [:toogle_status, :admin_index, :create]
+  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toogle_status, :admin_index, :create]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token]
   before_action :restrict_access, only: :show
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :get_provider_boards, only: :owned
+  before_action :allow_iframe_requests, only: :map_frame
 
   def index
   end
 
   def admin_index
+  end
+
+  def map_frame
   end
 
   # provider boards
@@ -129,5 +133,9 @@ class BoardsController < ApplicationController
 
   def get_board
     @board = Board.friendly.find(params[:id])
+  end
+
+  def allow_iframe_requests
+    response.headers.delete('X-Frame-Options')
   end
 end
