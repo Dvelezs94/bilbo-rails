@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   end
   resources :boards, only: [:index, :show, :create] do
     collection do
+      get :map_frame
       get :get_info
       get :owned
       get :admin_index

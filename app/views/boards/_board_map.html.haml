@@ -1,5 +1,5 @@
 #map-layout.col-lg-12.col-xl-12.mg-t-10
   .card.mg-b-10
     #map-container
-      %input#bilboMarkers{:type => "hidden", :value => current_user.role == :provider ? @project.boards.get_map_markers.to_json : Board.all.get_map_markers.to_json}/
+      %input#bilboMarkers{:type => "hidden", :value => (user_signed_in? && current_user.role) == :provider ? @project.boards.get_map_markers.to_json : Board.all.get_map_markers.to_json}/
       #bilbomap.ht-630
