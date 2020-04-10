@@ -17,9 +17,3 @@
 //= require_tree ./global_dependencies
 
 //= require turbolinks
-
-$(document).on('turbolinks:load', function() {
-  Chartkick.eachChart((chart) => {
-    chart.redraw();
-  });
-})
