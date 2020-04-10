@@ -52,10 +52,9 @@
         </tr>
       </tbody>
     </table>
-    <hr>
     <div id="carouselBoardInfo" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner">
-        <% if board.images? %>
+      <div class="carousel-inner ht-250">
+        <% if board.images.attached? %>
           <%= render partial: 'boards/board_images', collection: board.images, as: :image %>
         <% else %>
         <div class="carousel-item active">
@@ -72,6 +71,7 @@
     <span class="sr-only">Next</span>
   </a>
     </div>
+
     <% if URI(request.referer).path != "/boards" %>
       <div class="info-board">
         <% is_selected = (params[:selected_boards].split(",").include?(board.id.to_s))? true : false %>

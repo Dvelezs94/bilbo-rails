@@ -96,6 +96,12 @@
                 </div>
               </div>
 
+               <div class="form-group">
+                <%= f.label :images %>
+                <%= f.file_field :images, multiple: true, class: "form-control"%>
+              </div>
+
+
               <div class="actions col-sm-12 col-md-6 m-auto">
                 <%= f.submit t("general_inputs.create"), class: "btn btn-primary btn-block", id: "submit_board" %>
               </div>
