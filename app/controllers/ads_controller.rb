@@ -46,6 +46,13 @@ class AdsController < ApplicationController
     end
   end
 
+  def modal_action
+    if Campaign.find_by_id(params[:id]).ad.present?
+      @objects = Campaign.find_by_id(params[:id]).ad.multimedia.attachments
+    render  'modal_action', :locals => {:obj => @objects}
+    puts @objects
+  end
+end
   private
   def ad_params
     params.require(:ad).permit(:name, :description).merge(:project_id => @project.id)

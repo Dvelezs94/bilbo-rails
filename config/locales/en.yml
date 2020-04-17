@@ -95,6 +95,7 @@ en:
     height: height
   campaign:
     active_campaigns: Active Campaigns
+    review_campaigns: Review Campaigns
     campaign: Dashboard
     home: Home
     to_active: The campaign has been activated
@@ -111,7 +112,8 @@ en:
     daily_budget: Daily Budget
     total_invested: Total Invested
     metrics: Metrics
-    campaign_status: Campaign
+    campaign: Campaign
+    campaign_status: Status
     campaign_name: Name
     campaign_date: Date
     wont_be_able_to_update_state: You will not be able to update the state until
@@ -265,4 +267,3 @@ en:
     send_invite: Send Invite
     invite: Invite new members
     role: Team role
-

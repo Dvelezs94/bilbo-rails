@@ -1,6 +1,6 @@
 class AttachmentsController < ApplicationController
   access user: :all, provider: :all
-  before_action :get_ad, only: [:create, :destroy]
+  before_action :get_ad, only: [:create, :destroy, :random_action]
   skip_before_action :verify_authenticity_token, only: [:create]
 
   def create

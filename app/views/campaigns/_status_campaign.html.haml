@@ -1,0 +1,18 @@
+%tr
+  %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip", title: ""}= board_campaign.campaign.name
+  %td
+    = link_to 'view', modal_action_ad_path(board_campaign.campaign_id),  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: 'fa fa-picture-o'}
+    #modal-window.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel6", role: "dialog", tabindex: "-1"}
+      .modal-dialog.modal-dialog-centered{role: "document"}
+        .modal-content.tx-14
+  %td.text-between= board_campaign.campaign.created_at.strftime("%d/%m/%Y")
+  %td.text-between= board_campaign.board.name
+  %td.text-between= board_campaign.campaign.budget
+  - if board_campaign.status == "in_review"
+    %td.text-between in review
+  - else
+    %td.text-between= board_campaign.status
+  %td.d-flex.justify-content-between.align-center
+    = link_to '', campaign_board_approve_campaign_path(board_campaign.campaign_id,board_campaign.board_id), class: 'fe fe-check', title: 'accept bilbo', data: { toggle: 'tooltip', placement: 'top', method: :put }
+    = link_to '', campaign_board_in_review_campaign_path(board_campaign.campaign_id,board_campaign.board_id), class: 'fe fe-pause', title: 'remove bilbo', data: { toggle: 'tooltip', placement: 'top', method: :put }
+    = link_to '', campaign_board_deny_campaign_path(board_campaign.campaign_id,board_campaign.board_id), class: 'fe fe-trash', title: 'remove bilbo', data: { toggle: 'tooltip', placement: 'top', method: :put }
