@@ -21,7 +21,7 @@ class Campaign < ApplicationRecord
   # validates :ad, presence: true, on: :update
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
-  validate :validate_ad_stuff, on: :update
+  #validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
   before_save :set_in_review, :if => :ad_id_changed?
