@@ -96,6 +96,7 @@ es:
     height: Alto
   campaign:
     active_campaigns: Campañas Activas
+    review_campaigns: Campañas Activas
     campaign: Campañas
     home: Inicio
     to_active: La campaña se ha activado
@@ -112,7 +113,8 @@ es:
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
     metrics: Metricas
-    campaign_status: Campaña
+    campaign: Campaña
+    campaign_status: Estado
     campaign_name: Nombre
     campaign_date: Fecha
     wont_be_able_to_update_state: No podrás actualizar el estado hasta dento de
