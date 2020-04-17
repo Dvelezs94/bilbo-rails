@@ -50,7 +50,6 @@ class AdsController < ApplicationController
     if Campaign.find_by_id(params[:id]).ad.present?
       @objects = Campaign.find_by_id(params[:id]).ad.multimedia.attachments
     render  'modal_action', :locals => {:obj => @objects}
-    puts @objects
   end
 end
   private
