@@ -96,6 +96,9 @@ en:
   campaign:
     active_campaigns: Active Campaigns
     review_campaigns: Review Campaigns
+    accept: Accept campaign
+    deny: Deny campaign
+    review: Review campaign
     campaign: Dashboard
     home: Home
     to_active: The campaign has been activated
@@ -120,6 +123,9 @@ en:
     impressions: Daily impressions
     impressions_per_day: Impressions
     popular_hours: Most popular hours
+    approve_campaign: Are you sure change status to approved?
+    deny_campaign: Are you sure change status to denied ?
+    in_review_campaign: Are you sure change status to in review?
     wizard:
       choose_bilbos: Choose your Bilbos
       pick_ad: Pick Ad

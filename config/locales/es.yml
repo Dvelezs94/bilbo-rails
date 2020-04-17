@@ -96,7 +96,10 @@ es:
     height: Alto
   campaign:
     active_campaigns: Campañas Activas
-    review_campaigns: Campañas Activas
+    review_campaigns: Campañas en Revisión
+    accept: Aceptar campaña
+    deny: Denegar campaña
+    review: Revisar campaña
     campaign: Campañas
     home: Inicio
     to_active: La campaña se ha activado
@@ -122,6 +125,9 @@ es:
     impressions_per_day: Impresiones
     invested: Daily invested
     popular_hours: Horas mas populares
+    approve_campaign: ¿Seguro de cambiar el estado en aprobado?
+    deny_campaign: ¿Seguro de cambiar el estado a denegado?
+    in_review_campaign: ¿Seguro de cambiar el estado a revisión?
     wizard:
       choose_bilbos: Escoge tus Bilbos
       pick_ad: Elige tu Anuncio
