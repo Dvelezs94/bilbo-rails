@@ -4,22 +4,22 @@ class BoardCampaignsController < ApplicationController
   before_action :validate_provider
 
   def approve_campaign
-     if @board_campaign.approved!
+    if @board_campaign.approved!
       flash[:success] = I18n.t('campaign.action.saved')
-     else
+    else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
-   redirect_to provider_index_campaigns_path(q:"review")
-  end
+  redirect_to provider_index_campaigns_path(q:"review")
+ end
 
   def deny_campaign
-     if @board_campaign.denied!
+    if @board_campaign.denied!
       flash[:success] = I18n.t('campaign.action.saved')
-     else
+    else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
-   redirect_to provider_index_campaigns_path
-  end
+  redirect_to provider_index_campaigns_path
+ end
 
   def in_review_campaign
     if @board_campaign.in_review!
