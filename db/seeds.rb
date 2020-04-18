@@ -57,7 +57,7 @@ if ENV.fetch("RAILS_ENV") != "production"
           ad.multimedia.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'avatar.png', content_type: 'image/png')
           2.times do |z|
             ad.campaigns.new do |cp|
-              cp.name    = "campaign#{ad.name}#{z}#{Faker::Music::RockBand.name}"
+              cp.name    = "#{Faker::Company.name} #{Faker::Commerce.product_name}"
               cp.budget  = Faker::Number.between(5, 50)
               cp.state   = Faker::Boolean.boolean
               cp.status  = Faker::Number.between(0, 1)
@@ -68,9 +68,11 @@ if ENV.fetch("RAILS_ENV") != "production"
                   board.impressions.create! do |im|
                     im.campaign   = cp
                     im.created_at = (rand*365).days.ago
+                    im.api_token = board.api_token
                   end
                 end
               end
+              cp.board_campaigns.update(status: Faker::Number.between(0, 3))
             end
           end
         end
