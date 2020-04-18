@@ -7,10 +7,14 @@ function showAd() {
       oldAd.css({display: "none"});
     }
     newAd = ads.eq(chosen).css({display: "block"});
+    // build map for new ad displayed and merge it to displayedAds
+    newAdMap = {campaign_id: newAd.attr("data-camapaign-id"), board_slug: $(location).attr('pathname').split('/')[2], created_at: new Date(Date.now()).toISOString()}
+    $.extend(displayedAds, obj2);
 }
 
 $(document).on('turbolinks:load', function() {
   var rotateAds;
+  var displayedAds = [];
   // Convert seconds to milliseconds
   board_duration = parseInt($("#duration").val()) * 1000;
 

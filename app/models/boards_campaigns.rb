@@ -1,4 +1,5 @@
 class BoardsCampaigns < ApplicationRecord
+    include BroadcastConcern
     belongs_to :campaign
     belongs_to :board
 
@@ -6,22 +7,10 @@ class BoardsCampaigns < ApplicationRecord
     before_save :update_broadcast, if: :status_changed?
 
     def update_broadcast
-      if status_changed?
-        if approved?
-          publish_campaign
-        else
-          remove_campaign
-        end
+      if approved?
+        publish_campaign(campaign_id, board_id)
+      else
+        remove_campaign(campaign_id, board_id)
       end
-    end
-
-    # Publish ad function, this gets triggered when the state and status are true
-    def publish_campaign
-      AdBroadcastWorker.perform_async(campaign_id, board_id, "enable")
-    end
-
-    # Remove ad function, this gets triggered when the state or status are false
-    def remove_campaign
-      AdBroadcastWorker.perform_async(campaign_id, board_id, "disable")
     end
 end
