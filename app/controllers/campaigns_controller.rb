@@ -9,7 +9,11 @@ class CampaignsController < ApplicationController
   end
 
   def provider_index
-
+    if params[:q] == "review"
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.pluck(:id)).in_review
+    else
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.pluck(:id)).approved
+    end
   end
 
   def analytics
