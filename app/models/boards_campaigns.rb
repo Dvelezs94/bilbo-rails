@@ -7,7 +7,7 @@ class BoardsCampaigns < ApplicationRecord
     before_save :update_broadcast, if: :status_changed?
 
     def update_broadcast
-      if approved?
+      if approved? && campaign.status.present?
         publish_campaign(campaign_id, board_id)
       else
         remove_campaign(campaign_id, board_id)
