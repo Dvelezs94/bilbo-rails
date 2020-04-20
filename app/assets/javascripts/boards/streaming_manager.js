@@ -1,6 +1,5 @@
 $(document).on('turbolinks:load', function() {
   function createImpression() {
-    console.log("hey");
     // build the query
     var impressionMutation = graph.mutate(`{
       createImpression(input: {
@@ -18,7 +17,7 @@ $(document).on('turbolinks:load', function() {
       }
     }`);
 
-    displayedAds.forEach((index, value)=>{
+    displayedAds.forEach((value, index)=>{
       impressionMutation.merge('buildImpression', {
           api_token: api_token,
           board_slug: board_slug,
