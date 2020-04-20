@@ -27,13 +27,11 @@ $(document).on('turbolinks:load', function() {
             created_at: value["created_at"]
         }).then((response)=> {
             return response;
-        }).then((data)=> {
-          console.log(data);
         }).catch(function(e) {
             console.log(e); // print error
         });
       });
-      
+
       graph.commit('buildImpression').then(function (response) {
         // All base fields will be in response return.
         // console.log(response);
