@@ -371,6 +371,12 @@
     }
   }
 
+  GraphQLClient.prototype.checkBuffer = function (mergeName) {
+    if (!this._transaction[mergeName]) {
+      throw new Error( mergeName + " buffer is empty")
+    }
+  }
+
   GraphQLClient.prototype.commit = function (mergeName) {
     if (!this._transaction[mergeName]) {
       throw new Error("You cannot commit the merge " + mergeName + " without creating it first.")
