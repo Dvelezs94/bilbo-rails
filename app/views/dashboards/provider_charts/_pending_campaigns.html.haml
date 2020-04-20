@@ -13,4 +13,7 @@
       %p.tx-12.mg-b-0
         = t('dashboards.pending_campaigns_description')
     .card-footer.bd-t-0.pd-t-0
-      = link_to t('dashboards.review_now'), provider_index_campaigns_path, class: "btn btn-sm btn-block btn-uppercase tx-spacing-1 #{'btn-outline-danger' if danger}"
+      -if @project.campaigns_for_review > 0
+        = link_to t('dashboards.review_now'), provider_index_campaigns_path(q: "review"), class: "btn btn-sm btn-block btn-uppercase tx-spacing-1 #{'btn-outline-danger' if danger}"
+      -else
+        %button.btn.btn-sm.btn-block.btn-uppercase.tx-spacing-1.disabled= t('dashboards.review_now')

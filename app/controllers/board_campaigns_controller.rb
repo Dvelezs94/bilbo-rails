@@ -1,30 +1,39 @@
-class BoardCampaignsContoller < ApplicationController
+class BoardCampaignsController < ApplicationController
   access provider: :all
   before_action :get_board_campaign
   before_action :validate_provider
 
   def approve_campaign
-    if @campaign.board_campaigns.where(board_id: params[:board_id]).approved!
+    if @board_campaign.approved!
       flash[:success] = I18n.t('campaign.action.saved')
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
-    redirect_to review_campaigns_path
-  end
+  redirect_to provider_index_campaigns_path(q:"review")
+ end
 
   def deny_campaign
-    if @campaign.denied!
+    if @board_campaign.denied!
       flash[:success] = I18n.t('campaign.action.saved')
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
-    redirect_to review_campaigns_path
+  redirect_to provider_index_campaigns_path
+ end
+
+  def in_review_campaign
+    if @board_campaign.in_review!
+     flash[:success] = I18n.t('campaign.action.saved')
+    else
+     flash[:error] = I18n.t('campaign.errors.no_save')
+    end
+   redirect_to provider_index_campaigns_path
   end
 
   private
 
   def get_board_campaign
-    @boad_campaign = BoardsCampaigns.where(board_id: params[:board_id], campaign_id: params[:campaign_id])
+    @board_campaign = BoardsCampaigns.find_by(board_id: params[:board_id], campaign_id: params[:campaign_id])
   end
 
   def validate_provider
