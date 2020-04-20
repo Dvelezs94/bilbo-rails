@@ -4,7 +4,6 @@ class BoardsCampaigns < ApplicationRecord
     belongs_to :board
 
     enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3 }
-    before_save :update_broadcast, if: :status_changed?
 
     def update_broadcast
       if approved? && campaign.status.present?

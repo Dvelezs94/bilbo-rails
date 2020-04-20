@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   end
   resources :ads do
     resources :attachments, only:  [:create, :destroy]
+      member do
+        get :modal_action
+      end
   end
   resources :campaigns do
     member do
@@ -24,7 +27,8 @@ Rails.application.routes.draw do
     end
     resources :boards, only: [], controller: :board_campaigns do
       put :approve_campaign
-      put :deny_Campaign
+      put :deny_campaign
+      put :in_review_campaign
     end
   end
   resources :boards, only: [:index, :show, :create] do
