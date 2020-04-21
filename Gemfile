@@ -50,6 +50,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'graphiql-rails'
 end
 
 group :test do
@@ -105,3 +106,5 @@ gem 'haml', '~> 5.1', '>= 5.1.2'
 gem 'animate.css-rails', '~> 3.2', '>= 3.2'
 # Sendgrid API calls v3
 gem 'sendgrid-ruby', '~> 5.3'
+#APIs
+gem 'graphql', '~> 1.10', '>= 1.10.6'
