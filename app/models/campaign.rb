@@ -1,5 +1,6 @@
 class Campaign < ApplicationRecord
   include ActionView::Helpers::DateHelper
+  include BroadcastConcern
   extend FriendlyId
   friendly_id :name, use: :slugged
 
@@ -24,6 +25,7 @@ class Campaign < ApplicationRecord
   #validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
+  before_save :update_broadcast, if: :state_changed?
   before_save :set_in_review, :if => :ad_id_changed?
 
   def self.running
@@ -42,6 +44,18 @@ class Campaign < ApplicationRecord
 
   def set_in_review
     self.board_campaigns.update_all(status: "in_review")
+  end
+
+  def update_broadcast
+    if state.present?
+      board_campaigns.approved.pluck(:board_id).each do |board_id|
+        publish_campaign(id, board_id)
+      end
+    else
+      board_campaigns.approved.pluck(:board_id).each do |board_id|
+        remove_campaign(id, board_id)
+      end
+    end
   end
 
   def self.all_off #state active
