@@ -1,7 +1,7 @@
 = render 'shared/header', menu: "ads"
 .content.content-fixed
   .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
-    .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+    .d-sm-flex.align-items-center.justify-content-between
       %div
         %nav{"aria-label" => "breadcrumb"}
           %ol.breadcrumb.breadcrumb-style1.mg-b-10
@@ -15,7 +15,9 @@
             %i.wd-10.mg-r-5.fe.fe-plus
             = t("ads.new_ad")
     / Content
-    .card-group
+.content
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .row
       = render partial: "new_ad_card"
       = render partial: 'overview_card', collection: @ads, as: :ad
   / container
