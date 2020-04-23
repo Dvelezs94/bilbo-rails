@@ -169,16 +169,12 @@
       color: #8392a5; }
 
 .card-file {
-  max-width: 300px;
   padding: 10px;
   position: relative;
   border-color: rgba(72, 94, 144, 0.16);
-  transition: all 0.2s ease-in-out; }
-  @media (min-width: 576px) {
-    .card-file {
-      max-width: 192px;
-    }
-  }
+  transition: all 0.2s ease-in-out;
+}
+
   @media (prefers-reduced-motion: reduce) {
     .card-file {
       transition: none; } }
