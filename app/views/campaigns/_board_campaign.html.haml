@@ -1,2 +1,2 @@
 - campaign.ad.multimedia.each do |media|
-    = image_tag media, class: "board-ad-inner animated #{Ad.transitions.key(media.transition)}", data: { campaign: campaign.slug, budget: campaign.budget }
+    = image_tag media, class: "board-ad-inner animated #{Ad.transitions.key(media.transition)}", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }

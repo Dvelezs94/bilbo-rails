@@ -30,7 +30,7 @@ class AttachmentsController < ApplicationController
     if Ad.find(params[:ad_id]).multimedia.find_by_id(params[:id]).update(transition:params[:effect])
       flash[:success] = I18n.t('ads.transition_ad')
     else
-      flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')
+      flash[:error] = I18n.t('ads.transition_no_added')
     end
     redirect_to ad_path(Ad.find(params[:ad_id]))
   end
