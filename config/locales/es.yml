@@ -199,6 +199,9 @@ es:
     upload_multimedia: Subir Archivos
     all_multimedia_files: Todos los Archivos Multimedia
     delete_ad: Borrar Anuncio
+    transition: Transición
+    transition_ad: Transición agregada en la multimedia correctamente
+    transition_no_added: La transición no se pudo agregar en el multimedia
     action:
       media_removed: El archivo multimedia se ha eliminado con éxito
     errors:

@@ -11,4 +11,12 @@
         \:
       = number_to_human_size(multimedia.byte_size, precision: 2)
       = link_to raw("<i class='fe fe-trash fnt-md tx-danger a-right'></i>"), ad_attachment_path(multimedia.record, multimedia), class: "float-right", method: :delete, data: { confirm: t("general_inputs.delete_confirmation") }
+    .dropdown.dropright
+      %button#teamMenuButton.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+        = Ad.transitions.key(multimedia.transition)
+      .dropdown-menu{"aria-labelledby" => "dropdownMenuButton"}
+        %h6dropdown-header.tx-uppercase.tx-12.tx-bold.tx-inverseDropdown= t("ads.transition")
+        -Ad.transitions.keys.each_with_index do |keys,i|
+          %div.dropdown-item=link_to keys, ad_attachment_path(multimedia.record,multimedia, effect:i), method: :patch
+        %end
 / col

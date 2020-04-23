@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api"
   end
   post "/api", to: "graphql#execute"
-  
+
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", sessions: "sessions" }
   root :to => 'dashboards#index'
   resources :dashboards, only: [:index] do
@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
   end
   resources :ads do
-    resources :attachments, only:  [:create, :destroy]
+    resources :attachments, only:  [:create, :destroy, :update]
       member do
         get :modal_action
       end
