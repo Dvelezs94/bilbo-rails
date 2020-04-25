@@ -44,19 +44,36 @@ $(document).on('turbolinks:load', function() {
       }).catch( (error) => console.log(error))
     }
 
-    function showAd() {
-        ads = $(".board-ad-inner");
-        chosen = Math.floor(Math.random() * ads.length);
+    // show bilbo ad
+    function showBilboAd() {
+      $(".board-ads").hide();
+      $("#bilbo-ad").show();
+    }
 
-        if (typeof newAd !== 'undefined') {
-          oldAd = newAd;
-          oldAd.css({display: "none"});
+    // show user ad
+    function showAd() {
+        if (bilbo_ad_count < 10 ) {
+          ++bilbo_ad_count;
+          ads = $(".board-ad-inner");
+          chosen = Math.floor(Math.random() * ads.length);
+          if ($("#bilbo-ad").is(":visible")) {
+              $("#bilbo-ad").hide();
+              $(".board-ads").show();
+          }
+          if (typeof newAd !== 'undefined') {
+            oldAd = newAd;
+            oldAd.css({display: "none"});
+          }
+          newAd = ads.eq(chosen).css({display: "block"});
+          // build map for new ad displayed and merge it to displayedAds
+          newAdMap = {campaign_id: $(newAd[0]).attr("data-campaign-id"), created_at: new Date(Date.now()).toISOString()}
+          displayedAds.push(newAdMap);
+          //console.log(displayedAds);
+        } else {
+          showBilboAd();
+          bilbo_ad_count = 0
         }
-        newAd = ads.eq(chosen).css({display: "block"});
-        // build map for new ad displayed and merge it to displayedAds
-        newAdMap = {campaign_id: $(newAd[0]).attr("data-campaign-id"), created_at: new Date(Date.now()).toISOString()}
-        displayedAds.push(newAdMap);
-        //console.log(displayedAds);
+
     }
 
     // initiate graphql
@@ -65,6 +82,8 @@ $(document).on('turbolinks:load', function() {
     var displayedAds = [];
     var api_token = $("#api_token").val();
     var board_slug = $(location).attr('pathname').split('/')[2]
+    // counter for bilbo ad to be shown
+    var bilbo_ad_count = 0
     // create the impressions every 60 seconds
     setInterval(createImpression, 60000);
     // Convert seconds to milliseconds
