@@ -34,7 +34,7 @@ $(document).on('turbolinks:load', function() {
 
       graph.commit('buildImpression').then(function (response) {
         // All base fields will be in response return.
-        console.log(response);
+        //console.log(response);
         response["createImpression"].forEach((value, index)=>{
           //console.log(value["impression"]["createdAt"]);
           try {
