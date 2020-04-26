@@ -34,12 +34,17 @@ $(document).on('turbolinks:load', function() {
 
       graph.commit('buildImpression').then(function (response) {
         // All base fields will be in response return.
-        // console.log(response);
+        console.log(response);
         response["createImpression"].forEach((value, index)=>{
           //console.log(value["impression"]["createdAt"]);
-          displayedAds = displayedAds.filter((impression) => {
-            return impression.createdAt === value["impression"]["createdAt"];
-          });
+          try {
+            displayedAds = displayedAds.filter((impression) => {
+              return impression.createdAt === value["impression"]["createdAt"];
+            });
+          } catch {
+            console.log("error")
+            console.log(value);
+          }
         });
       }).catch( (error) => console.log(error))
     }
@@ -68,7 +73,7 @@ $(document).on('turbolinks:load', function() {
           // build map for new ad displayed and merge it to displayedAds
           newAdMap = {campaign_id: $(newAd[0]).attr("data-campaign-id"), created_at: new Date(Date.now()).toISOString()}
           displayedAds.push(newAdMap);
-          //console.log(displayedAds);
+          console.log(displayedAds);
         } else {
           showBilboAd();
           bilbo_ad_count = 0
@@ -96,18 +101,25 @@ $(document).on('turbolinks:load', function() {
       rotateAds = setInterval(showAd, board_duration);
     });
 
-    // Stop stream
-      $("body").keyup(function (e) {
-        // Stop option only if its started
-        if ($(".start-stream").is(":hidden")) {
-          // stop if Escape key is pressed
-          if (e.keyCode === 27) {
-            $(".start-stream").show();
-            $(".board-ads").hide();
-            clearInterval(rotateAds);
-            $(".board-ad-inner").css({display: "none"});
-          }
+  // Stop stream
+    $("body").keyup(function (e) {
+      // Stop option only if its started
+      if ($(".start-stream").is(":hidden")) {
+        // stop if Escape key is pressed
+        if (e.keyCode === 27) {
+          $(".start-stream").show();
+          $(".board-ads").hide();
+          clearInterval(rotateAds);
+          $(".board-ad-inner").css({display: "none"});
         }
-      });
- }
+      }
+    });
+
+    // auto start
+    // &autoplay=true should be added to the params on the url
+    if ($.urlParam('autoplay') == "true") {
+      console.log("starting autoplay");
+      $( ".start-stream" ).trigger( "click" );
+    }
+  }
 })
