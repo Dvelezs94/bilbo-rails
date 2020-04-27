@@ -5,6 +5,7 @@ class Impression < ApplicationRecord
   belongs_to :board
   belongs_to :campaign, optional: true
   before_create :set_total_price
+  after_create :update_balance
 
   private
   def validate_api_token
@@ -15,5 +16,13 @@ class Impression < ApplicationRecord
 
   def set_total_price
     self.total_price = (board.cycle_price * cycles).round(3)
+  end
+
+  def update_balance
+    user = self.campaign.project.owner
+    user.with_lock do
+      user.balance -= total_price
+      user.save
+    end
   end
 end

@@ -21,9 +21,9 @@ class Project < ApplicationRecord
   scope :users, -> { joins(:project_users).pluck(:user_id) }
 
   # functions to get the users of a specific project
-  # Project.first.owners
-  def owners
-    project_users.where(role: "owner").pluck(:user_id)
+  # Project.first.owner
+  def owner
+    project_users.find_by_role("owner").user
   end
 
   def admins
@@ -35,7 +35,7 @@ class Project < ApplicationRecord
   end
 
   def owned?(user_id)
-    owners.include? user_id
+    [owner.id].include? user_id
   end
 
   def admin?(user_id)

@@ -46,7 +46,7 @@ class ProjectsController < ApplicationController
   end
 
   def validate_owner
-    raise_not_found if not @current_project.owners.include? current_user.id
+    raise_not_found if not @current_project.owned?(current_user.id)
   end
 
   # make sure the user doesn't delete his/her last project
