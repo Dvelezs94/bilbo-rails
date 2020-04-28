@@ -1,7 +1,7 @@
 class AttachmentsController < ApplicationController
   access user: :all, provider: :all
-  before_action :get_ad, only: [:create, :destroy]
-  skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :get_ad, only: [:create, :destroy, :update]
+  skip_before_action :verify_authenticity_token, only: [:create, :update]
 
   def create
     if @ad.campaigns.all_off && @ad.multimedia.attach(params[:files])
@@ -26,6 +26,15 @@ class AttachmentsController < ApplicationController
     redirect_to ad_path(@ad)
   end
 
+  def update
+    if @ad.present?
+        @ad.multimedia.find_by_id(params[:id]).update(transition:params[:effect])
+        respond_to do |format|
+        format.html{head :no_content}
+      end
+    end
+  end
+
   private
 
   def get_ad
@@ -34,4 +43,5 @@ class AttachmentsController < ApplicationController
     @ad.multimedia_update = true
     @ad
   end
+
 end
