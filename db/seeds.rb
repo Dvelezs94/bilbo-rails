@@ -43,7 +43,7 @@ if ENV.fetch("RAILS_ENV") != "production"
   end
 
   5.times do |x|
-    User.create! do |user|
+    User.new do |user|
       user.name = Faker::Name.first_name
       user.email = "user#{x}#{Faker::Internet.email}"
       user.password = "1234aA"
@@ -65,7 +65,7 @@ if ENV.fetch("RAILS_ENV") != "production"
               cp.boards  = Board.order('RANDOM()').first(Faker::Number.between(2, 7))
               cp.boards.each do |board|
                 rand(*100).times do
-                  board.impressions.create! do |im|
+                  board.impressions.new do |im|
                     im.campaign   = cp
                     im.created_at = (rand*365).days.ago
                     im.api_token = board.api_token

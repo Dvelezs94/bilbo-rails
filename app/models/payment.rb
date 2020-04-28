@@ -8,6 +8,9 @@ class Payment < ApplicationRecord
     if response.success?
       user.increment!(:balance, by = total)
       GenerateInvoiceWorker.perform_async(id)
+    else
+      # for debugging
+      puts response.message
     end
     response.success?
   end
@@ -35,8 +38,9 @@ class Payment < ApplicationRecord
    {
      :ip => ip.to_s,
      :token => express_token,
-     :payer_id => express_payer_id
+     :payer_id => express_payer_id,
+     :currency => ENV.fetch("CURRENCY")
    }
- end
+  end
 
 end
