@@ -10,7 +10,7 @@ class Ad < ApplicationRecord
   has_many :campaigns
   has_many_attached :multimedia
   enum status: { active: 0, deleted: 1 }
-
+  enum transition: { no_transition: 0, fadeInDown: 1, fadeInUp: 2, fadeInLeft: 3, fadeInRight: 4}
   validates :name, presence: true
 
   validates :multimedia, content_type: ["image/png", "image/jpeg", "image/gif"]

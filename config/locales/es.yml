@@ -199,6 +199,7 @@ es:
     upload_multimedia: Subir Archivos
     all_multimedia_files: Todos los Archivos Multimedia
     delete_ad: Borrar Anuncio
+    transition: Efecto de transición
     action:
       media_removed: El archivo multimedia se ha eliminado con éxito
     errors:
