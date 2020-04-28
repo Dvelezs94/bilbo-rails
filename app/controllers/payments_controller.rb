@@ -7,7 +7,7 @@ class PaymentsController < ApplicationController
       ip: request.remote_ip,
       return_url: new_payment_url,
       cancel_return_url: root_url,
-      currency: "USD",
+      currency: ENV.fetch("CURRENCY"),
       no_shipping: 1,
       allow_guest_checkout: true,
       items: [{name: "Bilbo Credits", description: "#{payment_params_express[:total]} Credits Purchase", quantity: payment_params_express[:total].to_i, amount: 100}]
