@@ -70,6 +70,13 @@ class User < ApplicationRecord
     true if roles.include?(:user)
   end
 
+  def charge!(charge)
+    with_lock do
+      self.balance -= charge.to_f
+      save!
+    end
+  end
+
   private
 
   def set_project
