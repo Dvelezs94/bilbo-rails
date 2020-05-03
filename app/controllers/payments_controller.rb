@@ -9,7 +9,7 @@ class PaymentsController < ApplicationController
       cancel_return_url: root_url,
       currency: ENV.fetch("CURRENCY"),
       no_shipping: 1,
-      allow_guest_checkout: true,
+      allow_guest_checkout: false,
       items: [{name: "Bilbo Credits", description: "#{payment_params_express[:total]} Credits Purchase", quantity: payment_params_express[:total].to_i, amount: 100}]
     )
     # p response

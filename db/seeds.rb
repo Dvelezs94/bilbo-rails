@@ -35,7 +35,7 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.name = "#{x}#{y}#{Faker::Lorem.sentence}"
             board.address = Faker::Address.full_address
             board.category = ["television", "billboard", "wallboard"].sample
-            board.base_earnings = Faker::Number.between(1000, 4000)
+            board.base_earnings = Faker::Number.between(40000, 200000)
           end
         end
       end
@@ -43,12 +43,13 @@ if ENV.fetch("RAILS_ENV") != "production"
   end
 
   5.times do |x|
-    User.new do |user|
+    User.create! do |user|
       user.name = Faker::Name.first_name
       user.email = "user#{x}#{Faker::Internet.email}"
       user.password = "1234aA"
       user.project_name = Faker::Company.name
       user.confirmed_at = DateTime.now
+      user.balance = Faker::Number.between(500, 5000)
       puts user.email
       user.save
       10.times do |y|
@@ -63,18 +64,23 @@ if ENV.fetch("RAILS_ENV") != "production"
               cp.status  = Faker::Number.between(0, 1)
               cp.project = ad.project
               cp.boards  = Board.order('RANDOM()').first(Faker::Number.between(2, 7))
-              cp.boards.each do |board|
-                rand(*100).times do
-                  board.impressions.new do |im|
-                    im.campaign   = cp
-                    im.created_at = (rand*365).days.ago
-                    im.api_token = board.api_token
-                  end
-                end
-              end
               cp.board_campaigns.update(status: Faker::Number.between(0, 3))
             end
           end
+        end
+      end
+    end
+  end
+
+  puts "Creating impressions.. It may take minutes to finish"
+  Campaign.all.each do |cp|
+    puts "#{cp.id} out of #{Campaign.count}..."
+    cp.boards.each do |board|
+      rand(*100).times do
+        board.impressions.create! do |im|
+          im.campaign = cp
+          im.created_at = (rand*365).days.ago
+          im.api_token = board.api_token
         end
       end
     end

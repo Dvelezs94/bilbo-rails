@@ -19,10 +19,6 @@ class Impression < ApplicationRecord
   end
 
   def update_balance
-    user = self.campaign.project.owner
-    user.with_lock do
-      user.balance -= total_price
-      user.save
-    end
+    self.campaign.project.owner.charge!(self.total_price)
   end
 end
