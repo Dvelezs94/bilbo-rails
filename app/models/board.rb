@@ -49,6 +49,10 @@ class Board < ApplicationRecord
       impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:total_price)
   end
 
+  def impressions_single
+    self.impressions.where(created_at: 3.months.ago..Time.now).group_by_day(:created_at).count
+  end
+
   def daily_earnings(time_range = 3.months.ago..Time.now )
     h = impressions.where(board_id: self, created_at: time_range ).group_by_day(:created_at).sum(:total_price)
     h.each { |key,value| h[key] = value.round(3) }

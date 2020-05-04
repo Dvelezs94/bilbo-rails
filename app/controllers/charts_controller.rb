@@ -1,7 +1,7 @@
 class ChartsController < ApplicationController
   access user: :all
   before_action :get_campaign, only: [:daily_impressions, :daily_invested, :peak_hours]
-
+  before_action :get_board, only: [:daily_earnings, :campaign_of_day, :impressions_count, :top_campaigns]
   # Campaign Charts
   def daily_impressions
     render json: @campaign.daily_impressions
@@ -23,12 +23,12 @@ class ChartsController < ApplicationController
     render json: @board.campaign_of_day
   end
 
-  def impressions
-    render json: @board.impressions
+  def impressions_count
+    render json: @board.impressions_single
   end
 
-  def bilbo_top
-    render json: @board.bilbo_top
+  def top_campaigns
+    render json: Board.top_campaigns(@board, 3.months.ago..Time.now, 2).first(4)
   end
   # End Campaign Charts
 
@@ -37,4 +37,9 @@ class ChartsController < ApplicationController
   def get_campaign
     @campaign = Campaign.find_by_slug(params[:id])
   end
+
+  def get_board
+    @board = Board.find_by_slug(params[:id])
+  end
+  
 end
