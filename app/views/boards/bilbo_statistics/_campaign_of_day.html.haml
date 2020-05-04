@@ -10,4 +10,4 @@
       .row.align-items-sm-end
         .col-12.pd-0-f
           .chart-six
-            = column_chart @board.campaign_of_day
+            = column_chart campaign_of_day_chart_path(@board.slug)
