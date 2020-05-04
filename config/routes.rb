@@ -76,6 +76,10 @@ Rails.application.routes.draw do
       get :daily_impressions
       get :daily_invested
       get :peak_hours
+      get :daily_earnings
+      get :campaign_of_day
+      get :impressions_count
+      get :top_campaigns
     end
   end
 
