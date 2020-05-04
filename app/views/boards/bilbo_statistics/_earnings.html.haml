@@ -9,4 +9,4 @@
     .card-body.pd-lg-25
       .chart-five
         .flot-chart
-          = column_chart @board.daily_earnings, colors: ["#10b759"]
+          = column_chart daily_earnings_chart_path(@board.slug), colors: ["#10b759"]

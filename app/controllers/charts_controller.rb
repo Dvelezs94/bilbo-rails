@@ -14,6 +14,22 @@ class ChartsController < ApplicationController
   def peak_hours
     render json: @campaign.peak_hours
   end
+
+  def daily_earnings
+    render json: @board.daily_earnings
+  end
+
+  def campaign_of_day
+    render json: @board.campaign_of_day
+  end
+
+  def impressions
+    render json: @impressions
+  end
+
+  def bilbo_top
+    render json: @bilbo_top
+  end
   # End Campaign Charts
 
   private

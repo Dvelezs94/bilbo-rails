@@ -4,7 +4,7 @@
       %h6.mg-b-0 Top Campaigns
     .card-body.pd-lg-25
       .chart-seven
-        = pie_chart @bilbo_top, download: false
+        = pie_chart bilbo_top_chart_path(@board.slug), download: false
     .card-footer.pd-20
       .col-12.tx-12
         .d-flex.align-items-center
