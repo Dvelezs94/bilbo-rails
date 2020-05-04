@@ -82,7 +82,6 @@ class BoardsController < ApplicationController
 
   # statistics of a singular board
   def statistics
-    @impressions = Impression.where(board_id: @board, created_at: 3.months.ago..Time.now).group_by_day(:created_at).count
     @bilbo_top = Board.top_campaigns(@board, 3.months.ago..Time.now, 2).first(4)
   end
 

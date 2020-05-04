@@ -10,4 +10,4 @@
       .row.align-items-sm-end
         .col-12.pd-0-f
           .chart-six
-            = area_chart @impressions, colors: ["#ff6600"]
+            = area_chart impressions_count_chart_path(@board.slug), colors: ["#ff6600"]
