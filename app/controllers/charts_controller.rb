@@ -24,11 +24,11 @@ class ChartsController < ApplicationController
   end
 
   def impressions
-    render json: @impressions
+    render json: @board.impressions
   end
 
   def bilbo_top
-    render json: @bilbo_top
+    render json: @board.bilbo_top
   end
   # End Campaign Charts
 
