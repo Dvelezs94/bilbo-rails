@@ -58,7 +58,7 @@
       </div>
       <!-- col -->
       <div class="col-6 mg-t-20">
-        <%= button_to("View Campaigns", statistics_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-secondary btn-uppercase tx-spacing-1") %>
+        <%= link_to("View Campaigns", provider_index_campaigns_path(:bilbo => board), method: :get, :class => "btn btn-sm btn-block btn-outline-secondary btn-uppercase tx-spacing-1") %>
       </div>
       <div class="col-6 mg-t-20">
         <%= button_to("Stats", statistics_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1") %>
