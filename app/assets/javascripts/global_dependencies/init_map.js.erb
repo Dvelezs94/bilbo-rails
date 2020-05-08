@@ -19,16 +19,19 @@ function initializeMap() {
 
     if ($("#bilbomap").length > 0){
       google.maps.event.addListener(marker, 'click', function() {
+        $("#boardInfo").addClass("d-none");
+        $("#map-layout").removeClass("col-xl-12");
+        $("#map-layout").addClass("col-xl-9");
+        $("#loading").addClass("placeholder-paragraph");
         // alert('marker ' + marker.getPosition().lat() + ' clicked');
         $.ajax({
            url:  "/boards/get_info",
            dataType: "script",
            data: {lat: marker.getPosition().lat(), lng: marker.getPosition().lng(), selected_boards: $("#campaign_boards").val()},
            success: function(data) {
-             $("#map-layout").removeClass("col-xl-12");
-             $("#map-layout").addClass("col-xl-9");
+             $("#loading").removeClass("placeholder-paragraph");
              $("#boardInfo").removeClass("d-none");
-           },
+                        },
            error: function(data) {
              alert("parece que no estás conectado a internet.");
            }
