@@ -14,8 +14,8 @@ class Board < ApplicationRecord
   # slug candidates for friendly id
   def slug_candidates
     [
-      :name,
-      [:name, :address]
+      ["bilbo", :name],
+      ["bilbo", :name, :address]
     ]
   end
 
