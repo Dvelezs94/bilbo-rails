@@ -17,3 +17,6 @@
         - else
           .carousel-item.active
             = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
+.modal-footer
+  %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+/ modal-footer
