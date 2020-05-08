@@ -41,7 +41,7 @@ es:
     campaigns: Campañas
     help_center: Centro de ayuda
     payment_methods: Metodos de pago
-    purchase_credits: Comprar Creditos
+    purchase_credits: Comprar Créditos
     ads: Anuncios
     statistics: Estadisticas
     my_bilbos: Mis Bilbos
@@ -213,6 +213,8 @@ es:
     buy_credits: Comprar Creditos
     credits_text: Los creditos son la forma en la cual tu pagas tus campañas de publicidad. Estos creditos son acumulables y puedes comprar cuantos necesites. Los creditos no cuentan con una fecha de expiracion.
     credit_limit: Límite de compra de creditos superada
+    verification_needed: Necesitas un perfil verificado para poder comprar créditos. Responde la encuesta debajo o haz click en la siguiente liga para verificar tu cuenta.
+    verify_account: Verificar Cuenta
   invoices:
     invoice: Factura
     invoices: Facturas

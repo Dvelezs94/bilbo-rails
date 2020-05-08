@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   # Override devise methods so there are no routes conflict with devise being at /
   def after_sign_in_path_for(resource)
     if current_user.is_admin?
-      admin_index_path
+      admin_main_index_path
     else
       dashboards_url(subdomain: resource.projects.enabled.first.slug)
     end

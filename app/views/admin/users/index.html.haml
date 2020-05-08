@@ -16,7 +16,7 @@
         #tabContact.tab-pane.fade.active.show
           .pd-y-20.pd-x-10.contact-list
             / <label id="contactA" class="contact-list-divider">A</label>
-            = render partial: 'admins/users_tab/users_list', collection: @users, as: :user
+            = render partial: 'admin/users/users_tab/users_list', collection: @users, as: :user
           / contact-list
         / tab-pane
       / tab-content
@@ -42,9 +42,11 @@
         %i{"data-feather" => "more-horizontal"}
     / contact-content-header
     .contact-content-body
-      = render "admins/users_tab/#{params[:role]}_tabs"
+      / = render "admin/users/users_tab/#{params[:role]}_tabs"
     / contact-content-body
-    = render "admins/users_tab/contact_sidebar"
+    .contact-content-sidebar
+    / = render "admin/users/users_tab/contact_sidebar"
   / contact-content
 / contact-wrapper
-= render "admins/users_tab/modals"
+.user-modal
+  = render "admin/users/users_tab/modals"
