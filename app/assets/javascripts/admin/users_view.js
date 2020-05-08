@@ -7,9 +7,9 @@ $(document).on('turbolinks:load', function() {
       $('[data-toggle="tooltip"]').tooltip();
 
       // set active contact from list to show in desktop view by default
-      if (window.matchMedia('(min-width: 992px)').matches) {
-        $('.contact-list .media:first-of-type').addClass('active');
-      }
+      // if (window.matchMedia('(min-width: 992px)').matches) {
+      //   $('.contact-list .media:first-of-type').addClass('active');
+      // }
 
       const contactSidebar = new PerfectScrollbar('.contact-sidebar-body', {
         suppressScrollX: true

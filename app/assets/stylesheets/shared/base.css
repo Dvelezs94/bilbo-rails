@@ -11823,9 +11823,6 @@ textarea.parsley-success:focus {
         @media (min-width: 992px) {
           .navbar-header .navbar-right .dropdown:last-child {
             margin-left: 20px; } }
-        @media (min-width: 1200px) {
-          .navbar-header .navbar-right .dropdown:last-child {
-            margin-left: 30px; } }
     .navbar-header .navbar-right .dropdown-menu {
       border-top-width: 0;
       border-top-left-radius: 0;

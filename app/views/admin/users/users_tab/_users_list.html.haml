@@ -1,0 +1,8 @@
+= link_to fetch_admin_user_path(user.id), remote: true do
+  .media
+    .avatar.avatar-sm= image_tag user_avatar(user, 500), class: "rounded-circle"
+    .media-body.mg-l-10
+      %h6.tx-13.mg-b-3= user.name
+      %span.tx-12= user.projects.pluck(:name).join(', ')
+  / media-body
+/ media

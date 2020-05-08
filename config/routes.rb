@@ -51,9 +51,17 @@ Rails.application.routes.draw do
     end
   end
   resources :invoices, only: [:index, :show]
-  resources :admins, only: [:index], as: "admin" do
-    collection do
-      get :show_users
+
+  namespace :admin do
+    resources :main, only: [:index]
+    resources :users, only: [] do
+      collection do
+        get :index
+      end
+      member do
+        get :fetch
+        patch :verify
+      end
     end
   end
   resources :searches, only:[] do
@@ -83,6 +91,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :verification
   resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

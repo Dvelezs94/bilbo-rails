@@ -13,4 +13,17 @@ $(document).on('turbolinks:load', function() {
       delimiter: ''
     });
   }
+
+  if ($(".input-phone").length) {
+    var cleave = new Cleave('.input-phone', {
+      delimiter: '-',
+      blocks: [3, 3, 4]
+    });
+  }
+
+  if ($(".input-website").length) {
+    var cleave = new Cleave('.input-website', {
+      prefix: 'http://'
+    });
+  }
 });

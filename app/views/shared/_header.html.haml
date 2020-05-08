@@ -21,10 +21,6 @@
             %a.nav-link{:href => boards_path}
               %i.fe.fe-box>
               Bilbos
-          %li{:class => "nav-item #{"active" if menu == "help"}"}
-            %a.nav-link{:href => "https://bilbo.freshdesk.com/support/home", :target => "_blank"}
-              %i.fe.fe-box
-              = t('header.help_center')
         - elsif current_user.role == :provider
           %li{:class => "nav-item #{"active" if menu == "statistics"}"}
             %a.nav-link{:href => provider_statistics_dashboards_path}
@@ -42,6 +38,10 @@
             %a.nav-link{:href => ads_path}
               %i.fe.fe-box
               = t('header.ads')
+        %li{:class => "nav-item #{"active" if menu == "help"}"}
+          %a.nav-link{:href => "https://bilbo.freshdesk.com/support/home", :target => "_blank"}
+            %i.fe.fe-box
+            = t('header.help_center')
     / navbar-menu-wrapper
     .navbar-right
       / teams
@@ -118,9 +118,14 @@
           %h6.tx-semibold.mg-b-5= current_user.name
           %p.tx-12.tx-color-03= @project.name
           - if current_user.role == :user
-            %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
-              %i.fe.fe-wallet.pd-r-5.tx-success
-              = number_to_currency_credit(current_user.balance)
+            - if not current_user.verified?
+              %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalVerify", :title => "#{t('header.purchase_credits')}"}
+                %i.fe.fe-wallet.pd-r-5.tx-success
+                = number_to_currency_credit(current_user.balance)
+            - else
+              %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
+                %i.fe.fe-wallet.pd-r-5.tx-success
+                = number_to_currency_credit(current_user.balance)
             .dropdown-divider
             - if @project.admins.include? current_user.id
               %a.dropdown-item{"data-toggle" => "modal", :href => "#modalManageTeam"}
@@ -135,9 +140,14 @@
             %a.dropdown-item{:href => edit_user_registration_path}
               %i.fe.fe-gear.pd-r-5
               = t('header.account_settings')
-            %a.dropdown-item{"data-toggle" => "modal", :href => "#modalNewPayment"}
-              %i.fe.fe-wallet.pd-r-5
-              = t('header.purchase_credits')
+            - if not current_user.verified?
+              %a.dropdown-item{"data-toggle" => "modal", :href => "#modalVerify"}
+                %i.fe.fe-wallet.pd-r-5
+                = t('header.purchase_credits')
+            - else
+              %a.dropdown-item{"data-toggle" => "modal", :href => "#modalNewPayment"}
+                %i.fe.fe-wallet.pd-r-5
+                = t('header.purchase_credits')
           - elsif current_user.role == :provider
             .dropdown-divider
             %a.dropdown-item{:href => edit_user_registration_path}
@@ -149,6 +159,9 @@
       / dropdown
     / navbar-right
   / navbar
-  = render "payments/new"  if current_user.role == :user
+  - if not current_user.verified?
+    = render "users/verify"  if current_user.role == :user
+  - else
+    = render "payments/new"  if current_user.role == :user
   - if @project.admins.include? current_user.id
     = render "project_users/manage_modal"
