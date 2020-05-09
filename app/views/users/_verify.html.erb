@@ -83,7 +83,7 @@
                   <%= f.label :business_code, "RFC" %>
                 </div>
                 <div class="col-sm-9">
-                  <%= f.text_field :business_code, class: "form-control", required: true %>
+                  <%= f.text_field :business_code, class: "form-control" %>
                 </div>
               </div>
 
@@ -92,7 +92,7 @@
                   <%= f.label :official_business_name, "Razón Social" %>
                 </div>
                 <div class="col-sm-9">
-                  <%= f.text_field :official_business_name, class: "form-control", required: true %>
+                  <%= f.text_field :official_business_name, class: "form-control" %>
                 </div>
               </div>
 
@@ -101,7 +101,7 @@
                   <%= f.label :website, "Página web" %>
                 </div>
                 <div class="col-sm-9">
-                  <%= f.text_field :website, class: "form-control input-website", required: true %>
+                  <%= f.text_field :website, class: "form-control input-website" %>
                 </div>
               </div>
 
@@ -114,7 +114,7 @@
                 </div>
               </div>
 
-              <%= f.submit "Submit", class: "btn btn-primary" %>
+              <%= f.submit "Enviar", class: "btn btn-primary" %>
               <% end %>
           </div>
         </div>
