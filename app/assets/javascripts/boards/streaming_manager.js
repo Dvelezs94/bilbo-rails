@@ -6,7 +6,7 @@ $(document).on('turbolinks:load', function() {
         createImpression(input: {
           apiToken: $api_token,
           boardSlug: $board_slug,
-          campaignId: $campaign_id ,
+          campaignId: $campaign_id,
           cycles: 1,
           createdAt: $created_at
         }) {
@@ -72,7 +72,9 @@ $(document).on('turbolinks:load', function() {
           newAd = ads.eq(chosen).css({display: "block"});
           // build map for new ad displayed and merge it to displayedAds
           newAdMap = {campaign_id: $(newAd[0]).attr("data-campaign-id"), created_at: new Date(Date.now()).toISOString()}
-          displayedAds.push(newAdMap);
+          if (typeof newAdMap["campaign_id"] !== 'undefined') {
+            displayedAds.push(newAdMap);
+          }
           console.log(displayedAds);
         } else {
           showBilboAd();

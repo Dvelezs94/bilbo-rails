@@ -1,7 +1,14 @@
 FROM ruby:2.5.1
 
 
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev curl software-properties-common nginx vim supervisor
+RUN apt-get update -qq && apt-get install -y sudo \
+    build-essential \
+    libpq-dev \
+    curl \
+    software-properties-common \
+    nginx \
+    vim \
+    supervisor
 
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt install -y nodejs
@@ -20,10 +27,17 @@ COPY .docker/nginx.conf /etc/nginx/sites-enabled/
 # Create app user for correct file permissions
 ARG US_ID=1000
 ARG GR_ID=1000
-ARG USERNAME=bilbouser
+ARG USERNAME=bilbo
 
 RUN addgroup --gid $GR_ID $USERNAME
 RUN adduser --disabled-password --gecos '' --uid $US_ID --gid $GR_ID $USERNAME
+
+# allow user to run sudo commands without password
+RUN chmod 644 /etc/sudoers && \
+    echo "$USERNAME     ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    # && \
+    #chmod 400 /etc/sudoers
+
 USER $USERNAME
 
 RUN mkdir /home/$USERNAME/app
@@ -32,7 +46,10 @@ COPY --chown=$USERNAME . .
 
 RUN bundle install
 
+# Run asset precompile if CI_AGENT key is set
+RUN if [ -n "$CI_AGENT" ]; then bundle exec rake assets:precompile; fi
+
 # Prevent server pid from saving
 RUN rm -f tmp/pids/server.pid
 
-CMD ["/usr/bin/supervisord"]
+CMD /usr/bin/sudo -E -u root /usr/bin/supervisord

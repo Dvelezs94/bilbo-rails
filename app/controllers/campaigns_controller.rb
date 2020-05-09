@@ -38,6 +38,8 @@ class CampaignsController < ApplicationController
   def update
     respond_to do |format|
       if @campaign.update_attributes(campaign_params.merge(state: true))
+        # move campaign to in review since it was changed
+        @campaign.set_in_review
         format.html {
           flash[:success] = I18n.t('campaign.action.updated')
           redirect_to campaigns_path
