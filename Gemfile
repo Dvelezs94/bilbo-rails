@@ -108,3 +108,4 @@ gem 'animate.css-rails', '~> 3.2', '>= 3.2'
 gem 'sendgrid-ruby', '~> 5.3'
 #APIs
 gem 'graphql', '~> 1.10', '>= 1.10.6'
+gem 'country_select', '~> 4.0'
