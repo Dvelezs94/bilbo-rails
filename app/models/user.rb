@@ -27,6 +27,7 @@ class User < ApplicationRecord
   has_many :reports
   has_one_attached :avatar
   attr_readonly :email
+  has_many :verifications
 
   # returns a hash of total prints per day, WITHOUT grouping the boards
   # def total_board_impressions(start = 4.weeks.ago)

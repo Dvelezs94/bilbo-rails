@@ -213,6 +213,8 @@ en:
     buy_credits: Buy Credits
     credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date.
     credit_limit: Credit purchase limit exceeded
+    verification_needed: A verified profile is needed in order to buy credits. Answer the form below or click the following link to verify your profile.
+    verify_account: Verify Account
   invoices:
     invoice: Invoice
     invoices: Invoices

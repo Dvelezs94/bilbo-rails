@@ -8,56 +8,25 @@
     #navbarMenu.navbar-menu-wrapper
       %ul.nav.navbar-menu
         %li.nav-label.pd-l-20.pd-lg-l-25.d-lg-none Main Navigation
-        - if current_user.role == :user
-          %li{:class => "nav-item #{"active" if menu == "dashboard"}"}
-            %a.nav-link{:href => campaigns_path}
-              %i.fe.fe-box
-              = t('header.campaigns')
-          %li{:class => "nav-item #{"active" if menu == "ads"}"}
-            %a.nav-link{:href => ads_path}
-              %i.fe.fe-box
-              = t('header.ads')
-          %li{:class => "nav-item #{"active" if menu == "boards"}"}
-            %a.nav-link{:href => boards_path}
-              %i.fe.fe-box>
-              Bilbos
-          %li{:class => "nav-item #{"active" if menu == "help"}"}
-            %a.nav-link{:href => "http://docs.mybilbo.com"}
-              %i.fe.fe-box
-              = t('header.help_center')
-        - elsif current_user.role == :provider
-          %li{:class => "nav-item #{"active" if menu == "statistics"}"}
-            %a.nav-link{:href => provider_statistics_dashboards_path}
-              %i.fe.fe-box
-              = t('header.statistics')
-          %li{:class => "nav-item #{"active" if menu == "my_bilbos"}"}
-            %a.nav-link{:href => owned_boards_path}
-              %i.fe.fe-box
-              = t("header.my_bilbos")
-          %li{:class => "nav-item #{"active" if menu == "dashboard"}"}
-            %a.nav-link{:href => campaigns_path}
-              %i.fe.fe-box
-              = t('header.campaigns')
-          %li{:class => "nav-item #{"active" if menu == "ads"}"}
-            %a.nav-link{:href => ads_path}
-              %i.fe.fe-box
-              = t('header.ads')
-        - elsif current_user.role == :admin
-          %li{:class => "nav-item #{"active" if menu == "overview"}"}
-            %a.nav-link{:href => "/"} Overview
-          %li{:class => "nav-item dropdown #{"active" if menu == "users"}"}
-            %a#usersDropdownMenuLink.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#"}
-              Users
-            .dropdown-menu.tx-13{"aria-labelledby" => "usersDropdownMenuLink"}
-              %a.dropdown-item{:href => "#{show_users_admin_index_path(role: "user")}"} Users
-              %a.dropdown-item{:href => "#{show_users_admin_index_path(role: "provider")}"} Providers
-              %a.dropdown-item{:href => "#{show_users_admin_index_path(role: "support")}"} Support
-          %li{:class => "nav-item #{"active" if menu == "boards"}"}
-            %a.nav-link{:href => admin_index_boards_path} Boards
-          %li{:class => "nav-item #{"active" if menu == "campaigns"}"}
-            %a.nav-link{:href => "#"} Campaigns
-          %li{:class => "nav-item #{"active" if menu == "ads"}"}
-            %a.nav-link{:href => "#"} Ads
+        %li{:class => "nav-item #{"active" if menu == "overview"}"}
+          %a.nav-link{:href => "/"} Overview
+        %li{:class => "nav-item dropdown #{"active" if menu == "users"}"}
+          %a#usersDropdownMenuLink.nav-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#"}
+            Users
+          .dropdown-menu.tx-13{"aria-labelledby" => "usersDropdownMenuLink"}
+            %a.dropdown-item{:href => "#{admin_users_path(role: "user")}"} Users
+            %a.dropdown-item{:href => "#{admin_users_path(role: "provider")}"} Providers
+            %a.dropdown-item{:href => "#{admin_users_path(role: "support")}"} Support
+        %li{:class => "nav-item #{"active" if menu == "boards"}"}
+          %a.nav-link{:href => admin_index_boards_path} Boards
+        %li{:class => "nav-item #{"active" if menu == "campaigns"}"}
+          %a.nav-link{:href => "#"} Campaigns
+        %li{:class => "nav-item #{"active" if menu == "ads"}"}
+          %a.nav-link{:href => "#"} Ads
+        %li{:class => "nav-item #{"active" if menu == "help"}"}
+          %a.nav-link{:href => "https://bilbo.freshdesk.com/support/home", :target => "_blank"}
+            %i.fe.fe-box
+            = t('header.help_center')
     / navbar-menu-wrapper
     .navbar-right
       / notifications

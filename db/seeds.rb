@@ -88,7 +88,7 @@ if ENV.fetch("RAILS_ENV") != "production"
 
   User.create! do |user|
     user.name = "Admin"
-    user.email = "admin@mybilbo.com"
+    user.email = "admin@bilbo.mx"
     user.password = "1234aA"
     user.role = :admin
     user.confirmed_at = DateTime.now

@@ -24,7 +24,7 @@
     <%= csp_meta_tag %>
 
   </head>
-  <body class="<%= "app-contact" if current_page?(action: "show_users", controller: "admins") %>">
+  <body class="<%= "app-contact" if current_page?(action: "index", controller: "admin/users") %>">
   <%= render :partial => 'flash/flash', :flash => flash %>
   <%= yield %>
   <%= render 'shared/spinner' %>
