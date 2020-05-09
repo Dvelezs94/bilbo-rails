@@ -64,7 +64,7 @@
                       </div>
                       <%= f.text_field :base_earnings, class: "form-control", autocomplete: "off", required: true, placeholder: "200", aria: { describedby: "bilbobaseearnings", label: "Base Earnings"} %>
                       <div class="input-group-append">
-                        <span class="input-group-text" id="bilbobaseearnings">USD</span>
+                        <span class="input-group-text" id="bilbobaseearnings"><%= ENV.fetch("CURRENCY") %></span>
                       </div>
                     </div>
                   </div>
