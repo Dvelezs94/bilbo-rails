@@ -243,7 +243,7 @@ ActiveRecord::Schema.define(version: 2020_05_07_221131) do
     t.string "official_business_name"
     t.string "website"
     t.string "phone"
-    t.integer "status"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_verifications_on_user_id"

@@ -1,5 +1,6 @@
 class Admin::UsersController < ApplicationController
   access admin: :all
+  before_action :get_user, only: [:fetch, :verify]
 
   def index
     case params[:role]
@@ -16,7 +17,6 @@ class Admin::UsersController < ApplicationController
   end
 
   def fetch
-    @user = User.find(params[:id])
     @user_verification = @user.verifications.where(status: ["pending", "accepted"]).first
     respond_to do |format|
         format.js
@@ -24,12 +24,18 @@ class Admin::UsersController < ApplicationController
   end
 
   def verify
-    @user = User.find(params[:id])
-    if @user.update(verified: true)
+    @user_verification = @user.verifications.where(status: ["pending", "accepted"]).first
+    if @user.update(verified: true) && @user_verification.accepted!
       flash[:success] = "User verified"
     else
       flash[:error] = "Could not verfy user"
     end
     redirect_to admin_users_path(role: "user")
+  end
+
+  private
+
+  def get_user
+    @user = User.find(params[:id])
   end
 end

@@ -4,6 +4,7 @@
       %h6.mg-b-0 Personal Details
       .d-flex
         - if verification.present?
+          = image_tag verification.official_id, class: "d-none", id: "id_picture", :data => {lity: true}, alt: "No Image"
           .btn.btn-sm.d-flex.align-items-center.mg-r-5.btn-outline-primary{ onclick: '$("#id_picture").click()' }
             %i.fe.fe-picture-square
             %span.d-none.d-sm-inline.mg-l-5 View ID Picture
@@ -24,7 +25,6 @@
         = link_to verify_admin_user_path(user.id), method: :patch,class: "btn btn-sm btn-white d-flex align-items-center mg-r-5", data: { confirm: "You sure you want to ban?" } do
           %i.fe.fe-disabled
           %span.d-none.d-sm-inline.mg-l-5 Ban
-      = image_tag verification.official_id, class: "d-none", id: "id_picture", :data => {lity: true}, alt: "No Image"
     .row
       .col-4.col-sm
         %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Name
