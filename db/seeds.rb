@@ -29,6 +29,7 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.avg_daily_views = Faker::Number.number(6)
             board.width = "#{Faker::Number.between(10, 14)}.#{Faker::Number.between(30, 90)}".to_f
             board.height = "#{Faker::Number.between(7, 9)}.#{Faker::Number.between(30, 90)}".to_f
+            board.working_hours = Faker::Number.within(5..16)
             board.duration = Faker::Number.within(7..10)
             board.status = Faker::Number.between(0, 1)
             board.face = ["north", "south", "east", "west"].sample
