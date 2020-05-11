@@ -6,7 +6,7 @@ $(document).on('turbolinks:load', function() {
         createImpression(input: {
           apiToken: $api_token,
           boardSlug: $board_slug,
-          campaignId: $campaign_id ,
+          campaignId: $campaign_id,
           cycles: 1,
           createdAt: $created_at
         }) {
@@ -57,10 +57,12 @@ $(document).on('turbolinks:load', function() {
 
     // show user ad
     function showAd() {
-        if (bilbo_ad_count < 10 ) {
-          ++bilbo_ad_count;
-          ads = $(".board-ad-inner");
-          chosen = Math.floor(Math.random() * ads.length);
+      if (bilbo_ad_count < 10 ) {
+        ++bilbo_ad_count;
+        ads = jQuery.parseJSON($("#ads_rotation").val());
+        chosen = ads[rotation_key];
+        console.log("showing ad on array " + rotation_key);
+        if (chosen !== "-") {
           if ($("#bilbo-ad").is(":visible")) {
               $("#bilbo-ad").hide();
               $(".board-ads").show();
@@ -69,16 +71,23 @@ $(document).on('turbolinks:load', function() {
             oldAd = newAd;
             oldAd.css({display: "none"});
           }
-          newAd = ads.eq(chosen).css({display: "block"});
+          newAd = $('[data-campaign-id="' + chosen + '"]').css({display: "block"});
           // build map for new ad displayed and merge it to displayedAds
-          newAdMap = {campaign_id: $(newAd[0]).attr("data-campaign-id"), created_at: new Date(Date.now()).toISOString()}
-          displayedAds.push(newAdMap);
+          newAdMap = { campaign_id: chosen.toString(), created_at: new Date(Date.now()).toISOString() }
+          if (typeof newAdMap["campaign_id"] !== 'undefined') {
+            displayedAds.push(newAdMap);
+          }
           console.log(displayedAds);
+          // else it is empty, so we need to show the bilbo hire
         } else {
           showBilboAd();
-          bilbo_ad_count = 0
         }
-
+      } else {
+        showBilboAd();
+        bilbo_ad_count = 0
+      }
+      // increase rotation key
+      ++rotation_key;
     }
 
     // initiate graphql
@@ -89,6 +98,8 @@ $(document).on('turbolinks:load', function() {
     var board_slug = $(location).attr('pathname').split('/')[2]
     // counter for bilbo ad to be shown
     var bilbo_ad_count = 0
+    // start from first item on the array for ads rotation
+    var rotation_key = 5526
     // create the impressions every 60 seconds
     setInterval(createImpression, 60000);
     // Convert seconds to milliseconds

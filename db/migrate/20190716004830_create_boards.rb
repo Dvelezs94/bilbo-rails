@@ -7,7 +7,7 @@ class CreateBoards < ActiveRecord::Migration[5.2]
       t.integer :avg_daily_views
       t.float :width
       t.float :height
-      t.integer :duration
+      t.integer :duration, default: 10
       t.integer :status, default: 0
       t.string :address
       t.string :images
@@ -19,6 +19,7 @@ class CreateBoards < ActiveRecord::Migration[5.2]
       t.string :face
       t.string :access_token
       t.string :api_token
+      t.string :ads_rotation
 
       t.timestamps
     end

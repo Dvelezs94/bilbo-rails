@@ -14,6 +14,10 @@ $(document).on('turbolinks:load', function() {
         } else {
           $("[data-campaign="+ data["campaign_slug"] +"]").remove();
         }
+        // ad rotation replacement
+        $("#ads_rotation").val(data['ads_rotation']);
+        $("#ads_rotation").html(data['ads_rotation']);
+        $("#ads_rotation").text(data['ads_rotation']);
       }
     });
   }
