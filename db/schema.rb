@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2020_05_09_231559) do
     t.string "face"
     t.string "access_token"
     t.string "api_token"
+    t.string "ads_rotation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"

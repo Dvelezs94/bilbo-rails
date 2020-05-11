@@ -19,6 +19,7 @@ class CreateBoards < ActiveRecord::Migration[5.2]
       t.string :face
       t.string :access_token
       t.string :api_token
+      t.string :ads_rotation
 
       t.timestamps
     end

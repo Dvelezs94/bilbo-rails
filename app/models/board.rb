@@ -1,4 +1,5 @@
 class Board < ApplicationRecord
+  include AdRotationAlgorithm
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
