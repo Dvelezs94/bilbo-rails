@@ -48,15 +48,6 @@
               <div class="form-group">
                 <div class="row">
                   <div class="col-sm-12 col-md-6">
-                    <%= f.label t('bilbos.duration') %><br/>
-                    <div class="input-group mg-b-10">
-                      <%= f.select("duration", [[8],[10]], {}, {:class => "custom-select", aria: { describedby: "bilboseconds", label: "Seconds"}}) %>
-                      <div class="input-group-append">
-                        <span class="input-group-text" id="bilboseconds"><%= t('bilbos.seconds') %></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-6">
                     <%= f.label t('bilbos.expected_profit') %>
                     <div class="input-group mg-b-10">
                       <div class="input-group-prepend">

@@ -95,7 +95,6 @@ class BoardsController < ApplicationController
                                                         :height,
                                                         :lat,
                                                         :lng,
-                                                        :duration,
                                                         :address,
                                                         :category,
                                                         :face,
