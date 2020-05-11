@@ -15,13 +15,14 @@ services:
         US_ID: $US_ID
         GR_ID: $GR_ID
     image: bilbo-rails_app:latest
-    command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    #command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - .:/home/bilbouser/app
+      - .:/home/bilbo/app
     env_file:
       - .env
     ports:
       - "80:3000"
+      - "81:80"
     depends_on:
       - db
 
@@ -33,7 +34,7 @@ services:
       - db
       - app
     volumes:
-      - .:/home/bilbouser/app
+      - .:/home/bilbo/app
     env_file:
       - .env
 

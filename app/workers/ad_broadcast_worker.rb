@@ -5,7 +5,7 @@ class AdBroadcastWorker
 
   def perform(campaign_id, board_id,action)
     campaign = Campaign.find(campaign_id)
-    board_channel = Board.find(board_id).slug
+    board = Board.find(board_id)
 
     # build html to append
     ad = campaign.ad
@@ -15,17 +15,18 @@ class AdBroadcastWorker
       append_msg.insert(-1, html_code)
     end
 
-    broadcast_to_boards(board_channel, action, append_msg, campaign.slug)
+    broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.ads_rotation)
   end
 
   private
 
-  def broadcast_to_boards(channel, action, ad, campaign_slug)
+  def broadcast_to_boards(channel, action, ad, campaign_slug, ads_rotation)
     ActionCable.server.broadcast(
       channel,
       action: action,
       campaign_slug: campaign_slug,
-      ad: ad
+      ad: ad,
+      ads_rotation: ads_rotation
     )
   end
 end
