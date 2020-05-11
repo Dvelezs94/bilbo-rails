@@ -60,6 +60,10 @@ $(document).on('turbolinks:load', function() {
       if (bilbo_ad_count < 10 ) {
         ++bilbo_ad_count;
         ads = jQuery.parseJSON($("#ads_rotation").val());
+        // restart from beginning if the array was completely ran
+        if (rotation_key >= ads.length) {
+          rotation_key = 0
+        }
         chosen = ads[rotation_key];
         console.log("showing ad on array " + rotation_key);
         if (chosen !== "-") {
@@ -99,7 +103,7 @@ $(document).on('turbolinks:load', function() {
     // counter for bilbo ad to be shown
     var bilbo_ad_count = 0
     // start from first item on the array for ads rotation
-    var rotation_key = 5526
+    var rotation_key = 5755
     // create the impressions every 60 seconds
     setInterval(createImpression, 60000);
     // Convert seconds to milliseconds
