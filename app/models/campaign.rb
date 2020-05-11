@@ -46,6 +46,11 @@ class Campaign < ApplicationRecord
     self.board_campaigns.update_all(status: "in_review")
   end
 
+  # distribute budget evenly between all bilbos
+  def budget_per_bilbo
+    self.budget / boards.count
+  end
+
   def update_broadcast
     if state.present?
       board_campaigns.approved.pluck(:board_id).each do |board_id|
