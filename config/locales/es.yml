@@ -141,7 +141,7 @@ es:
       start_date: Fecha de Inicio
       end_date: Fecha de Fin
       summary: Resumen
-      impressions_forecast: Suma del total de las impresiones diarias en tus bilbos elegidos
+      impressions_forecast: Impresiones diarias esperadas con el presupuesto elegido
     errors:
       no_ad: La campaña no tiene asociado un anuncio
       no_multimedia: El anuncio de la campaña no contiene multimedia

@@ -139,7 +139,7 @@ en:
       start_date: Start Date
       end_date: End Date
       summary: Summary
-      impressions_forecast: Total daily impressions of your chosen bilbos
+      impressions_forecast: Expected daily impressions
     errors:
       no_ad: The campaign doesn't have an associated ad
       no_multimedia: The selected ad doesn't have multimedia
