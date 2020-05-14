@@ -14,7 +14,7 @@
               %li.breadcrumb-item{"aria-current" => "page", class: "active"}= t("campaign.review_campaigns")
             -else
               %li.breadcrumb-item{"aria-current" => "page"}
-                %a{:href => "provider_index?q=review" }=t("campaign.review_campaigns")
+                %a{:href => "provider_index?q=review" }= t("campaign.review_campaigns")
               %li.breadcrumb-item{"aria-current" => "page", class: "active"}= t("campaign.active_campaigns")
         -if params[:q] == "review"
           %h4.mg-b-0.tx-spacing--1
