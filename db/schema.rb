@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2020_05_09_231559) do
     t.integer "avg_daily_views"
     t.float "width"
     t.float "height"
-    t.integer "duration"
+    t.integer "duration", default: 10
     t.integer "status", default: 0
     t.string "address"
     t.string "images"
