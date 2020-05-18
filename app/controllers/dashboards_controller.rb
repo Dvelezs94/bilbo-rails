@@ -20,9 +20,9 @@ class DashboardsController < ApplicationController
     @daily_impressions = @project.daily_provider_board_impressions().group_by_day(:created_at).count
     @earnings = Board.daily_provider_earnings_by_boards(@project)
     @tops = Board.top_campaigns(@project).first(3)
+    @tops_four = Board.top_campaigns(@project).first(4)
     @percentage = Board.top_campaigns(@project).each.map{|p| p[1]}.sum
-    @resta = Board.top_campaigns(@project).each.map{|p| p[1]}.sum-Board.top_campaigns(@project).first(3).each.map{|p| p[1]}.sum
-    @others = @tops.push([I18n.t('dashboards.others'), @resta])
+    @substraction = Board.top_campaigns(@project).each.map{|p| p[1]}.sum-@tops.each.map{|p| p[1]}.sum
     if @tops.length >= 1
       @percentage_top_1 = '%.2f' %(@tops[0][1].to_f * 100 / @percentage)
     end
@@ -32,7 +32,8 @@ class DashboardsController < ApplicationController
     if @tops.length >= 3
       @percentage_top_3 = '%.2f' %(@tops[2][1].to_f * 100 / @percentage)
     end
-    if @tops.length == 4
+    if @tops_four.length > 3
+      @others = @tops.push([I18n.t('dashboards.others'), @substraction])
       @percentage_top_4 = '%.2f' %(100.to_f - @percentage_top_1.to_f - @percentage_top_2.to_f - @percentage_top_3.to_f)
     end
   end
