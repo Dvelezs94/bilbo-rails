@@ -8,10 +8,16 @@ RUN apt-get update -qq && apt-get install -y sudo \
     software-properties-common \
     nginx \
     vim \
-    supervisor
+    supervisor \
+    python3 \
+    python3-pip \
+    jq
 
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt install -y nodejs
+
+# install awscli
+RUN pip3 install --upgrade awscli
 
 # cleanup
 RUN rm -rf /var/lib/apt/lists/*
@@ -57,3 +63,5 @@ RUN rm -f tmp/pids/server.pid
 
 
 ENTRYPOINT bash .docker/entrypoint.sh
+
+CMD ["web"]
