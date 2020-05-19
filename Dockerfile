@@ -64,4 +64,4 @@ RUN rm -f tmp/pids/server.pid
 
 ENTRYPOINT bash .docker/entrypoint.sh
 
-CMD ["web"]
+CMD web
