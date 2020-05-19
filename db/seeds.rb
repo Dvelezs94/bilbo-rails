@@ -64,7 +64,7 @@ if ENV.fetch("RAILS_ENV") != "production"
               cp.state   = Faker::Boolean.boolean
               cp.status  = Faker::Number.between(0, 1)
               cp.project = ad.project
-              cp.boards  = Board.enabled.order('RANDOM()').first(Faker::Number.between(2, 7))
+              cp.boards  = Board.order('RANDOM()').first(Faker::Number.between(2, 7))
               cp.board_campaigns.update(status: Faker::Number.between(0, 3))
             end
           end
