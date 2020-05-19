@@ -1,0 +1,43 @@
+image: docker:latest
+
+variables:
+  REPOSITORY_URL: 167732392816.dkr.ecr.us-east-2.amazonaws.com/bilbo
+  ECS_SERVICE: webapp
+  ECS_SERVICE_SIDEKIQ: sidekiq
+  AWS_REGION: us-east-2
+  DOCKER_IMAGE_CI: $REPOSITORY_URL:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}
+
+services:
+- docker:dind
+
+before_script:
+  - apk add --no-cache curl jq python py-pip
+  - pip install awscli ecs-deploy
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - $(aws ecr get-login --no-include-email --region $AWS_REGION)
+    - rm -f .env
+    - docker pull $REPOSITORY_URL:latest || true
+    - docker build --cache-from $REPOSITORY_URL:latest -t $DOCKER_IMAGE_CI .
+    - docker push $DOCKER_IMAGE_CI
+  only:
+    - master
+    - staging
+  tags:
+    - docker
+
+deploy:
+  stage: deploy
+  script:
+    - sh ecs-deploy.sh
+  only:
+    - master
+    - staging
+  tags:
+    - docker
