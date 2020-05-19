@@ -17,8 +17,11 @@ case "$1" in
     bundle exec sidekiq
   ;;
   ## use this like bash .docker/entrypoint.sh run echo "hello". you can give it any number of arguments after run
-  *)
-    #shift
+  run)
+    shift
     $@
+  ;;
+  *)
+    /usr/bin/sudo -E -u root /usr/bin/supervisord
   ;;
 esac
