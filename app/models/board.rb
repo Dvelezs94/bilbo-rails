@@ -11,7 +11,7 @@ class Board < ApplicationRecord
   before_save :generate_api_token, :if => :new_record?
   enum status: { enabled: 0, disabled: 1}
   validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
-  scope :enabled_boards, -> {where(status:0)}
+
   # slug candidates for friendly id
   def slug_candidates
     [
