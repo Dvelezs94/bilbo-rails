@@ -55,4 +55,5 @@ RUN if [ -n "$CI_AGENT" ]; then bundle exec rake assets:precompile; fi
 # Prevent server pid from saving
 RUN rm -f tmp/pids/server.pid
 
-CMD bash .docker/entrypoint.sh
+
+ENTRYPOINT bash .docker/entrypoint.sh

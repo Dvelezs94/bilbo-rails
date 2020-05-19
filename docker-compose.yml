@@ -15,7 +15,7 @@ services:
         US_ID: $US_ID
         GR_ID: $GR_ID
     image: bilbo-rails_app:latest
-    #command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: web
     volumes:
       - .:/home/bilbo/app
     env_file:
@@ -28,7 +28,7 @@ services:
 
   sidekiq:
     image: bilbo-rails_app:latest
-    #command: bash -c "rm -f tmp/pids/server.pid && bundle install && bundle exec sidekiq"
+    command: sidekiq
     depends_on:
       - redis
       - db
@@ -37,8 +37,6 @@ services:
       - .:/home/bilbo/app
     env_file:
       - .env
-    environment:
-      COMPONENT: sidekiq
 
   adminer:
     image: adminer

@@ -9,8 +9,19 @@ if [ -n "$SECRETS_MANAGER_ID" ]; then
 fi
 
 # init supervisor or sidekiq
-if [ $COMPONENT == "sidekiq" ]; then
-  bundle exec sidekiq
-else
-  /usr/bin/sudo -E -u root /usr/bin/supervisord
-fi
+case "$1" in
+  web)
+    /usr/bin/sudo -E -u root /usr/bin/supervisord
+  ;;
+  sidekiq)
+    bundle exec sidekiq
+  ;;
+  ## use this like bash .docker/entrypoint.sh run echo "hello". you can give it any number of arguments after run
+  run)
+    shift
+    $@
+  ;;
+  *)
+    /usr/bin/sudo -E -u root /usr/bin/supervisord
+  ;;
+esac
