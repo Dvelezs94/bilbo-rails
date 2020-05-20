@@ -101,6 +101,12 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  Rails.application.routes.default_url_options[:host] = 'https://app.mybilbo.com'
-  config.action_mailer.default_url_options = { host: 'https://app.mybilbo.com' }
+  
+  if ENV.fetch("ENVNAME") == "local"
+    Rails.application.routes.default_url_options[:host] = "http://lvh.me"
+    config.action_mailer.default_url_options = { host: "https://lvh.me" }
+  else
+    Rails.application.routes.default_url_options[:host] = "https://#{ENV.fetch("ENVNAME")}.app.bilbo.mx"
+    config.action_mailer.default_url_options = { host: "https://#{ENV.fetch("ENVNAME")}.app.bilbo.mx" }
+  end
 end
