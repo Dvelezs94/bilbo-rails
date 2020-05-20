@@ -77,6 +77,9 @@ Rails.application.routes.draw do
   end
   resources :projects do
     resources :project_users, path: :users, module: :projects, only: [:create, :destroy]
+    member do
+      get :change_project
+    end
   end
 
   resources :charts, only: [] do
