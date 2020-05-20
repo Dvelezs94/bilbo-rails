@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "priting first argument: $1"
+echo "priting first argument: $@"
 
 if [ -n "$SECRETS_MANAGER_ID" ]; then
   # Get current region on the instance and export it as default region
