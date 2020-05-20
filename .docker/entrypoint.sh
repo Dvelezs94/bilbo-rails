@@ -20,8 +20,9 @@ case "$1" in
     bundle exec sidekiq
   ;;
   ## use this like bash .docker/entrypoint.sh run echo "hello". you can give it any number of arguments after run
-  run)
-    shift
+  *)
+    #shift
+    echo "running: $@"
     $@
   ;;
 esac
