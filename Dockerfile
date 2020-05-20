@@ -62,6 +62,6 @@ RUN if [ -n "$CI_AGENT" ]; then bundle exec rake assets:precompile; fi
 RUN rm -f tmp/pids/server.pid
 
 
-ENTRYPOINT bash .docker/entrypoint.sh
+ENTRYPOINT bash -x .docker/entrypoint.sh
 
 CMD web
