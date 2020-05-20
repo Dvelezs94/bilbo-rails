@@ -1,6 +1,4 @@
 class RegistrationsController < Devise::RegistrationsController
-  before_action :require_project!, only: [:new]
-  
   protected
   def update_resource(resource, params)
     # Require current password if user is trying to change password.

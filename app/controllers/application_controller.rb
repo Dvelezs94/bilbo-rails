@@ -2,24 +2,31 @@ class ApplicationController < ActionController::Base
   layout :set_layout
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_project_cookie
   before_action :set_project
 
-  # require accout helper
-  def require_project!
-    redirect_to root_url(subdomain: "app") if request.subdomain != "app"
+  def set_project_cookie
+    if user_signed_in? && cookies[:project].nil? && !current_user.is_admin?
+      cookies.permanent[:project] = {
+        value: current_user.projects.enabled.first.slug,
+        domain: :all,
+        expires: 1.day
+      }
+    end
   end
+
 
   # Override devise methods so there are no routes conflict with devise being at /
   def after_sign_in_path_for(resource)
     if current_user.is_admin?
       admin_main_index_path
     else
-      dashboards_url(subdomain: resource.projects.enabled.first.slug)
+      dashboards_path
     end
   end
 
   def after_sign_out_path_for(resource)
-    root_url(subdomain: "app")
+    root_url()
   end
 
   def after_accept_path_for(resource)
@@ -33,8 +40,17 @@ class ApplicationController < ActionController::Base
   protected
   # find the company for the multi tenancy
   def set_project
-    if request.subdomain.present? && request.subdomain != "app" && user_signed_in?
-      @project = current_user.projects.includes(:project_users).enabled.friendly.find(request.subdomain)
+    if cookies[:project].present? && user_signed_in? && !current_user.is_admin?
+      begin
+        @project = current_user.projects.enabled.friendly.find(cookies[:project])
+      rescue
+        # redo the cookie because it may be using an old project
+        cookies.permanent[:project] = {
+          value: current_user.projects.enabled.first.slug,
+          domain: :all
+        }
+        @project = current_user.projects.enabled.friendly.find(cookies[:project])
+      end
     # redirect if project is not set on url or the condition above is not met
     elsif user_signed_in? && !current_user.is_admin?
       redirect_to(after_sign_in_path_for(current_user))
