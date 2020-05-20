@@ -18,8 +18,8 @@ class ProjectsController < ApplicationController
     else
       flash[:error] = I18n.t('error.error_ocurrred')
     end
-    set_cookies(@new_project.slug)
-    redirect_to root_url(cookies[:project])
+    change_project_cookie(@new_project.slug)
+    redirect_to root_url()
   end
 
   def destroy
@@ -36,11 +36,22 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def set_cookies(project)
-    cookies.permanent[:project] = {value: project, domain: :all}
+  def change_project
+    change_project_cookie(params[:id])
+    redirect_to root_path
+    flash[:success] = I18n.t('projects.project_name', parameter: "#{Project.find(params[:id]).name}")
   end
 
+
+
   private
+    def change_project_cookie (project)
+      cookies.permanent[:project] = {
+        value: project,
+        domain: :all,
+        expires: 1.day
+      }
+    end
 
   def project_params
     params.require(:project).permit(:name)
