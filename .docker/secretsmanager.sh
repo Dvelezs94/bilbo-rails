@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 
 # call this script by doing ./secretsmanager.sh secret/of/app
 
