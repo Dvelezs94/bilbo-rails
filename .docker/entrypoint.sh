@@ -1,6 +1,7 @@
 #!/bin/bash
+ set -x
 
-echo "priting first argument: $@"
+echo "priting first argument: $1"
 
 if [ -n "$SECRETS_MANAGER_ID" ]; then
   secrets=$(aws secretsmanager get-secret-value --secret-id $SECRETS_MANAGER_ID | jq -r '.SecretString')
