@@ -21,7 +21,4 @@ case "$1" in
     shift
     $@
   ;;
-  *)
-    /usr/bin/sudo -E -u root /usr/bin/supervisord
-  ;;
 esac
