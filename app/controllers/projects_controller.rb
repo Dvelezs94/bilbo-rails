@@ -18,7 +18,8 @@ class ProjectsController < ApplicationController
     else
       flash[:error] = I18n.t('error.error_ocurrred')
     end
-    redirect_to root_url(subdomain: @new_project.slug)
+    set_cookies(@new_project.slug)
+    redirect_to root_url(cookies[:project])
   end
 
   def destroy
@@ -33,6 +34,10 @@ class ProjectsController < ApplicationController
       flash[:error] = I18n.t('projects.could_not_delete')
       redirect_to(after_sign_in_path_for(current_user))
     end
+  end
+
+  def set_cookies(project)
+    cookies.permanent[:project] = {value: project, domain: :all}
   end
 
   private

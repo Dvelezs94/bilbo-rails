@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :set_project
 
   def set_project_cookie
-    if user_signed_in? && cookies[:project].nil?
+    if user_signed_in? && cookies[:project].nil? && !current_user.is_admin?
       cookies.permanent[:project] = {
         value: current_user.projects.enabled.first.slug,
         domain: :all,
@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   protected
   # find the company for the multi tenancy
   def set_project
-    if cookies[:project].present? && user_signed_in?
+    if cookies[:project].present? && user_signed_in? && !current_user.is_admin?
       begin
         @project = current_user.projects.enabled.friendly.find(cookies[:project])
       rescue
