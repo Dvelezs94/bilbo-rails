@@ -91,7 +91,7 @@ Rails.application.configure do
       signature: ENV.fetch("PAYPAL_SIGNATURE")
     }
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
-  end
+  
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
@@ -101,7 +101,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  
+
   if ENV.fetch("ENVNAME") == "local"
     Rails.application.routes.default_url_options[:host] = "http://lvh.me"
     config.action_mailer.default_url_options = { host: "https://lvh.me" }
