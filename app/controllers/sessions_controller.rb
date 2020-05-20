@@ -1,3 +1,10 @@
 class SessionsController < Devise::SessionsController
-  before_action :require_project!, only: [:new]
+  def create
+    super
+  end
+
+  # GET /resource/sign_out
+  def destroy
+    super
+  end
 end
