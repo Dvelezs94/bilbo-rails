@@ -4,120 +4,23 @@
       .modal-body.pd-20.pd-sm-30
         %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} &#215;
-        %h5.tx-18.tx-sm-20.mg-b-20 Create New Contact
-        %p.tx-13.tx-color-03.mg-b-30
-          You can add more information than what you see here, such as address and birthday by clicking
-          %span.tx-color-02 Add More Fields
-          button below to bring up more options.
-        .d-sm-flex
-          .mg-sm-r-30
-            .pos-relative.d-inline-block.mg-b-20
-              .avatar.avatar-xxl
-                %span.avatar-initial.rounded-circle.bg-gray-700.tx-normal
-                  %i.icon.ion-md-person
-              %a.contact-edit-photo{:href => ""}
-                %i{"data-feather" => "edit-2"}
-          / col
-          .flex-fill
-            %h6.mg-b-10 Personal Information
+        %h5.tx-18.tx-sm-20.mg-b-20= t("projects.invite")
+        .flex-fill
+          = form_with(model: User, url: user_invitation_path, method: :post) do |f|
+            %h6.mg-b-10= t("account_settings.company_name")
             .form-group.mg-b-10
-              %input.form-control{:placeholder => "Firstname", :type => "text"}/
+            = f.text_field :project_name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: "Nombre de la empresa"
             / form-group
+            %h6.mg-t-20.mg-b-10
+            .form-group.mg-b-10= t("bilbos.provider")
+            = f.text_field :email, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("bilbos.provider")
+            / form-group
+            %h6.mg-t-20.mg-b-10
             .form-group.mg-b-10
-              %input.form-control{:placeholder => "Lastname", :type => "text"}/
+            = f.hidden_field :role, class: "form-control", value: "provider", autocomplete: "off"
             / form-group
-            %h6.mg-t-20.mg-b-10 Contact Information
-            .form-group.mg-b-10
-              %input.form-control{:placeholder => "Phone number", :type => "text"}/
-            / form-group
-            .form-group.mg-b-10
-              %input.form-control{:placeholder => "Email address", :type => "email"}/
-            / form-group
-            %h6.mg-t-20.mg-b-10 Notes
-            %textarea.form-control{:placeholder => "Add notes", :rows => "2"}
-          / col
-      .modal-footer
-        .wd-100p.d-flex.flex-column.flex-sm-row.justify-content-end
-          .dropup.mg-b-15.mg-sm-b-0.mg-sm-r-auto
-            %button.btn.btn-block.bd.bd-gray-300{"data-toggle" => "dropdown", :type => "button"}
-              Add More Fields
-              %i.icon.ion-ios-arrow-up.mg-l-5
-            .dropdown-menu.tx-13
-              %a.dropdown-item{:href => ""} Email
-              %a.dropdown-item{:href => ""} Phone
-              %a.dropdown-item{:href => ""} Address
-              %a.dropdown-item{:href => ""} Custom
-            / dropdown-menu
-          %button.btn.btn-primary.mg-b-5.mg-sm-b-0{:type => "button"} Save Contact
-          %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"} Discard
-      / modal-footer
-    / modal-content
-  / modal-dialog
-/ modal
-#modalEditContact.modal.fade.effect-scale{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog.modal-dialog-centered{:role => "document"}
-    .modal-content
-      .modal-body.pd-20.pd-sm-30
-        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} &#215;
-        %h5.tx-18.tx-sm-20.mg-b-20 Edit Contact
-        %p.tx-13.tx-color-03.mg-b-30
-          You can add more information than what you see here, such as address and birthday by clicking
-          %span.tx-color-02 Add More Fields
-          button below to bring up more options.
-        .d-sm-flex
-          .mg-sm-r-30
-            .pos-relative.d-inline-block.mg-b-20
-              .avatar.avatar-xxl
-                %span.avatar-initial.rounded-circle.bg-gray-700.tx-normal A
-              %a.contact-edit-photo{:href => ""}
-                %i{"data-feather" => "edit-2"}
-          / col
-          .flex-fill
-            %h6.mg-b-10 Personal Information
-            .form-group.mg-b-10
-              %input.form-control{:placeholder => "Firstname", :type => "text", :value => "Abigail"}/
-            / form-group
-            .form-group.mg-b-10
-              %input.form-control{:placeholder => "Lastname", :type => "text", :value => "Johnson"}/
-            / form-group
-            %h6.mg-t-20.mg-b-10 Contact Information
-            .form-group.mg-b-10
-              %input.form-control{:placeholder => "Phone number", :type => "text", :value => "+1 234 567 8910"}/
-            / form-group
-            .form-group.mg-b-10
-              %input.form-control{:placeholder => "Email address", :type => "email", :value => "me@themepixels.me"}/
-            / form-group
-            %h6.mg-t-20.mg-b-10 Notes
-            %textarea.form-control{:placeholder => "Add notes", :rows => "2"}
-          / col
-      .modal-footer
-        .wd-100p.d-flex.flex-column.flex-sm-row.justify-content-end
-          .dropup.mg-b-15.mg-sm-b-0.mg-sm-r-auto
-            %button.btn.btn-block.bd.bd-gray-300{"data-toggle" => "dropdown", :type => "button"}
-              Add More Fields
-              %i.icon.ion-ios-arrow-up.mg-l-5
-            .dropdown-menu.tx-13
-              %a.dropdown-item{:href => ""} Email
-              %a.dropdown-item{:href => ""} Phone
-              %a.dropdown-item{:href => ""} Address
-              %a.dropdown-item{:href => ""} Custom
-            / dropdown-menu
-          %button.btn.btn-primary.mg-b-5.mg-sm-b-0{:type => "button"} Save Changes
-          %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"} Cancel
-      / modal-footer
-    / modal-content
-  / modal-dialog
-/ modal
-#modalDeleteContact.modal.fade.effect-scale{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog.modal-dialog-centered.modal-sm{:role => "document"}
-    .modal-content
-      .modal-header
-        %h6.modal-title Delete Contact
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} &#215;
-      .modal-body
-        %p.mg-b-0 Do you really want to delete this contact?
-      .modal-footer
-        %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Cancel
-        %button.btn.btn-primary{:type => "button"} Continue Delete
+            %h6.mg-t-20.mg-b-10= t("general_inputs.name")
+            = f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name")
+            %h6.mg-t-20.mg-b-10
+            %div.actions.col-sm-12.col-md-8.m-auto
+              = f.submit t("projects.send_invite"), class: "btn btn-primary btn-block"
