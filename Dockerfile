@@ -30,9 +30,6 @@ COPY .docker/supervisor-services.conf /etc/supervisor/conf.d/services.conf
 RUN rm /etc/nginx/sites-enabled/default
 COPY .docker/nginx.conf /etc/nginx/sites-enabled/
 
-# Copy secrets manager script
-COPY .docker/secretsmanager.sh /usr/local/bin/secretsmanager
-
 # Create app user for correct file permissions
 ARG US_ID=1000
 ARG GR_ID=1000
