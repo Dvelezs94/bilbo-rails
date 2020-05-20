@@ -267,6 +267,7 @@ es:
       report_created: El reporte fue creado, se te enviará el link de descarga a tu email
   projects:
     project: Proyecto
+    project_name: Proyecto %{parameter}
     successfully_created: Proyect creado con éxito
     error: Error al crear proyecto
     member_invited: Miembro invitado con éxito
