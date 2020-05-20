@@ -267,6 +267,7 @@ en:
       report_created: The report was created succesfully, the download link will send via email
   projects:
     project: Project
+    project_name: Project %{parameter}
     successfully_created: Project successfully created
     error: Could not create project
     member_invited: successfully invited member

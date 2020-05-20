@@ -50,7 +50,7 @@
           = truncate(@project.name, length: 15)
         .dropdown-menu{"aria-labelledby" => "teamMenuButton"}
           - current_user.projects.enabled.each do |pr|
-            = link_to pr.name, root_url(subdomain: pr.slug), class: "dropdown-item"
+            = link_to pr.name, change_project_project_path(pr.slug), class: "dropdown-item"
       / notifications
       .dropdown.dropdown-notification
         %a.dropdown-link.new-indicator{"data-toggle" => "dropdown", :href => ""}

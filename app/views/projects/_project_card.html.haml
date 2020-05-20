@@ -18,10 +18,10 @@
             = image_tag user_avatar(u.user, 100), class: "img wd-40 ht-40 rounded-circle", title: u.user.name_or_email
         %span
           - if project.admin?(current_user.id)
-            %a.btn.btn-primary.btn-icon{"data-toggle": "collapse", href: "##{project.slug}Collapse", role: "button", "aria-expanded": "false", "aria-controls": "##{project.slug}Collapse"}
+            %a.btn.btn-primary.btn-icon{"data-toggle": "collapse", href: "#{cookies[:project]}Collapse", role: "button", "aria-expanded": "false", "aria-controls": "##{project.slug}Collapse"}
               %i.fe.fe-user-plus
-          = link_to raw("<i class='fe fe-link-external'></i>"), root_url(subdomain: project.slug), class:"btn btn-primary btn-icon"
-      .collapse.mg-t-5{id: "#{project.slug}Collapse"}
+          = link_to raw("<i class='fe fe-link-external'></i>"), change_project_project_path(project.slug), class:"btn btn-primary btn-icon"
+      .collapse.mg-t-5{id: "#{cookies[:project]}Collapse"}
         = form_for [project, ProjectUser.new] do |f|
           .form-group
             = f.email_field :email, required: true, class: "form-control", placeholder: "john-doe@mail.com"
