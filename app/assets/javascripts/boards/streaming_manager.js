@@ -41,7 +41,7 @@ $(document).on('turbolinks:load', function() {
             displayedAds = displayedAds.filter((impression) => {
               return impression.createdAt === value["impression"]["createdAt"];
             });
-          } catch {
+          } catch (value) {
             console.log("error")
             console.log(value);
           }
