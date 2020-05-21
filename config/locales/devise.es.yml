@@ -23,9 +23,15 @@ es:
       confirmation_instructions:
         subject: "Instrucciones de confirmación"
         link_text: Confirmar
-        message: Hola! %{user_name}. Te queremos dar una calurosa bienvenida a bilbo, sin embargo antes de comenzar necesitamos confirmar que eres tú. Haz click en el boton debajo para confirmar tu cuenta. Si no funciona puedes utilizar esta liga %{link}
+        message: Hola %{user_name}. Te queremos dar una calurosa bienvenida a bilbo, sin embargo antes de comenzar necesitamos confirmar que eres tú. Haz click en el boton debajo para confirmar tu cuenta. Si no funciona puedes utilizar esta liga %{link}
       reset_password_instructions:
-        subject: "Instrucciones para reestablecer tu contraseña"
+        subject: "Reestablecer Contraseña"
+        link_text: Reestablecer Contraseña
+        message: Hola %{user_name}. Recientemente solicitaste reestablecer tu contraseña,  Haz click en el boton debajo para Resstablecer tu contraseña, o puedes utilizar esta liga %{link}
+      invitation_instructions:
+        subject: "Invitación a Bilbo"
+        link_text: Aceptar Invitación
+        message: Hola %{user_name}. Te han invitado a Bilbo, antes de proceder necesitamos que establezcas una contraseña segura, Haz click en el botón debajo para establecer tu contraseña, o puedes utilizar esta liga %{link}
       unlock_instructions:
         subject: "Instrucciones de desbloqueo"
     omniauth_callbacks:

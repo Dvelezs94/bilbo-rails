@@ -22,9 +22,15 @@ en:
       confirmation_instructions:
         subject: "Confirmation instructions"
         link_text: Confirm
-        message: Hello %{user_name}! Welcome to bilbo. Before proceeding we need to confirm your email, Click on the button below to confirm your account, or you can click on the link next %{link}
+        message: Hello %{user_name}. Welcome to bilbo. Before proceeding we need to confirm your email, Click on the button below to confirm your account, or you can click on the link next %{link}
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "Reset password Instructions"
+        link_text: Reset Password
+        message: Hello %{user_name}. You have recently requested your password reset, click on the button below to Reset your password, or you can click on the link next %{link}
+      invitation_instructions:
+        subject: "Invitation to Bilbo"
+        link_text: Accept Invite
+        message: Hello %{user_name}. You have been invited to Bilbo, but before proceeding you need to set your password, Click on the button below to set your password, or you can click on the link next %{link}
       unlock_instructions:
         subject: "Unlock instructions"
       email_changed:
