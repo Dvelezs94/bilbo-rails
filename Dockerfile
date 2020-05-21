@@ -1,6 +1,7 @@
 FROM ruby:2.5.1
 
 
+
 RUN apt-get update -qq && apt-get install -y sudo \
     build-essential \
     libpq-dev \
@@ -51,6 +52,9 @@ WORKDIR /home/$USERNAME/app
 COPY --chown=$USERNAME . .
 
 RUN bundle install
+
+ARG CI_AGENT
+ARG ENVNAME
 
 # Run asset precompile if CI_AGENT key is set
 RUN if [ -n "$CI_AGENT" ]; then bundle exec rake assets:precompile; fi
