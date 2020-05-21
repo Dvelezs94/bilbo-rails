@@ -55,6 +55,9 @@ RUN bundle install
 
 ARG CI_AGENT
 ARG ENVNAME
+ARG PAYPAL_USERNAME
+ARG PAYPAL_PASSWORD
+ARG PAYPAL_SIGNATURE
 
 # Run asset precompile if CI_AGENT key is set
 RUN if [ -n "$CI_AGENT" ]; then bundle exec rake assets:precompile; fi
