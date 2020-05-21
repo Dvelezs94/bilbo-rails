@@ -25,7 +25,7 @@ build:
     - rm -f .env
     - docker pull $REPOSITORY_URL:latest || true
     #- docker build --cache-from $REPOSITORY_URL:latest -t $DOCKER_IMAGE_CI --build-arg CI_AGENT="${CI_AGENT}" .
-    - docker build --cache-from $REPOSITORY_URL:latest -t $DOCKER_IMAGE_CI --build-arg CI_AGENT="${CI_AGENT}" --build-arg ENVNAME="production" --build-arg PAYPAL_USERNAME="$PAYPAL_USERNAME" --build-arg PAYPAL_PASSWORD="$PAYPAL_PASSWORD" --build-arg PAYPAL_SIGNATURE="$PAYPAL_SIGNATURE"--build-arg MAPS_API_KEY="$MAPS_API_KEY"  .
+    - docker build --cache-from $REPOSITORY_URL:latest -t $DOCKER_IMAGE_CI --build-arg CI_AGENT="${CI_AGENT}" --build-arg ENVNAME="production" --build-arg PAYPAL_USERNAME="$PAYPAL_USERNAME" --build-arg PAYPAL_PASSWORD="$PAYPAL_PASSWORD" --build-arg PAYPAL_SIGNATURE="$PAYPAL_SIGNATURE" --build-arg MAPS_API_KEY="$MAPS_API_KEY"  .
     - docker tag $DOCKER_IMAGE_CI ${REPOSITORY_URL}:latest
     - docker push $DOCKER_IMAGE_CI
     - docker push ${REPOSITORY_URL}:latest
