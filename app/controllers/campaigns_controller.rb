@@ -65,7 +65,8 @@ class CampaignsController < ApplicationController
   end
 
   def destroy
-    if @campaign.inactive!
+    if !@campaign.state?
+      @campaign.inactive!
       respond_to do |format|
         format.html {
           flash[:success] = I18n.t('campaign.action.deleted')
@@ -76,7 +77,7 @@ class CampaignsController < ApplicationController
     else
       respond_to do |format|
         format.html {
-          flash[:error] = @campaign.errors.full_messages.first
+          flash[:error] = I18n.t('campaign.errors.cant_update_when_active')
           redirect_to campaigns_path
          }
         format.json { head :no_content }

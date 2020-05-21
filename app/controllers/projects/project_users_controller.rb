@@ -3,7 +3,7 @@ class Projects::ProjectUsersController < ApplicationController
   before_action :set_current_project
   before_action :validate_admins
   before_action :avoid_owner_deletion, only: :destroy
-
+  include CookiesProject
   def create
     project_user = @current_project.project_users.new(project_user_params)
 
@@ -12,7 +12,8 @@ class Projects::ProjectUsersController < ApplicationController
     else
       flash[:error] = I18n.t('projects.member_invited_error')
     end
-    redirect_to root_url(subdomain: @current_project.slug)
+    change_project_cookie(@current_project.slug)
+    redirect_to root_path
   end
 
   def destroy
@@ -24,8 +25,7 @@ class Projects::ProjectUsersController < ApplicationController
     end
     # if admin removes himself from project, redirect to other project
     if params[:id].to_i == current_user.id
-      puts "x" * 500
-      redirect_to root_url(subdomain: current_user.projects.first.slug)
+      change_project_cookie(current_user.projects.first.slug)
     else
       redirect_to root_path
     end
