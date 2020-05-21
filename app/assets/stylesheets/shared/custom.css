@@ -96,6 +96,10 @@ td {
   /* autoprefixer: on */
 }
 
+.pd-pr-10 {
+  padding: 10%;
+}
+
 /* change summary dropdown */
 summary::-webkit-details-marker {
   display: none
