@@ -14,28 +14,24 @@ class UserMailer  < Devise::Mailer
   end
 
   def reset_password_instructions(record, token, opts={})
-    @token = token
-    data = {
-      "personalizations": [
-        {
-          "to": [
-            {
-              "email": record.email
-            }
-          ],
-          "dynamic_template_data": {
-            "ALIAS": record.alias,
-            "RESETURL": edit_password_url(record, reset_password_token: @token)
-          }
-        }
-      ],
-      "from": {
-        "email": "noreply@jalecitos.com",
-        "name": "Jalecitos"
-      },
-      "template_id": "d-038e9bd99cef4c7ebe128b90e6da69cb"
-    }
+    @subject   = I18n.t('devise.mailer.reset_password_instructions.subject')
+    @title     = @subject
+    @greeting  = @subject
+    @link      = edit_password_url(record, reset_password_token: token)
+    @link_text = I18n.t('devise.mailer.reset_password_instructions.link_text')
+    @message   = I18n.t('devise.mailer.reset_password_instructions.message', user_name: record.name, link: @link)
 
-    sendgrid_client.client.mail._("send").post(request_body: (data))
-    end
+    generic_mail(subject=@subject, title=@title, greeting=@greeting, message=@message, receiver=record.email, link=@link, link_text=@link_text)
+  end
+
+  def invitation_instructions(record, token, opts={})
+    @subject   = I18n.t('devise.mailer.invitation_instructions.subject')
+    @title     = @subject
+    @greeting  = @subject
+    @link      = accept_user_invitation_url(invitation_token: token)
+    @link_text = I18n.t('devise.mailer.invitation_instructions.link_text')
+    @message   = I18n.t('devise.mailer.invitation_instructions.message', user_name: record.name, link: @link)
+
+    generic_mail(subject=@subject, title=@title, greeting=@greeting, message=@message, receiver=record.email, link=@link, link_text=@link_text)
+  end
 end
