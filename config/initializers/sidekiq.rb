@@ -1,4 +1,4 @@
-sidekiq_config = { url: ENV.fetch("REDIS_URL_SIDEKIQ") }
+sidekiq_config = { url: ENV.fetch("REDIS_URL_SIDEKIQ") { "" } }
 
 Sidekiq.configure_server do |config|
   config.redis = sidekiq_config
