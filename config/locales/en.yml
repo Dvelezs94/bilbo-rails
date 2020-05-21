@@ -278,3 +278,5 @@ en:
     send_invite: Send Invite
     invite: Invite new members
     role: Team role
+    delete_project: Delete project
+    deleted_project: Project removed

@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  include CookiesProject
   access user: :all
   before_action :set_current_project, only: :destroy
   before_action :verify_identity, only: [:update]
@@ -27,7 +28,8 @@ class ProjectsController < ApplicationController
     if @current_project.campaigns.update_all(state: false)
       @current_project.update(status: "disabled")
       respond_to do |format|
-        format.html { redirect_to(after_sign_in_path_for(current_user)) }
+        format.html { flash[:success] = I18n.t('projects.deleted_project')
+          redirect_to(after_sign_in_path_for(current_user)) }
         format.json { head :no_content }
       end
     else
@@ -36,22 +38,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def change_project
-    change_project_cookie(params[:id])
-    redirect_to root_path
-    flash[:success] = I18n.t('projects.project_name', parameter: "#{Project.find(params[:id]).name}")
-  end
-
-
-
   private
-    def change_project_cookie (project)
-      cookies.permanent[:project] = {
-        value: project,
-        domain: :all,
-        expires: 1.day
-      }
-    end
 
   def project_params
     params.require(:project).permit(:name)
