@@ -16,6 +16,7 @@ RUN apt-get update -qq && apt-get install -y sudo \
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt install -y nodejs
+RUN npm install yarn -g
 
 # install awscli
 RUN pip3 install --upgrade awscli
