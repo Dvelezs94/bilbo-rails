@@ -279,5 +279,6 @@ es:
     invite: Invitar nuevos miembros
     role: Rol en el equipo
     delete_project: Borrar proyecto
+    deleted_project: Proyecto eliminado
     could_not_delete: Error al borrar proyecto, intenta de nuevo más tarde
     new_project: Nuevo proyecto
