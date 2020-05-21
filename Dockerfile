@@ -62,7 +62,7 @@ ARG PAYPAL_SIGNATURE
 ARG MAPS_API_KEY
 
 # Run asset precompile if CI_AGENT key is set
-RUN if [ -n "$CI_AGENT" ]; then bundle exec rake assets:precompile; fi
+RUN if [ -n "$CI_AGENT" ]; then rails assets:clobber && rails assets:precompile; fi
 
 # Prevent server pid from saving
 RUN rm -f tmp/pids/server.pid
