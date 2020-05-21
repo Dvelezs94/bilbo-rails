@@ -1,5 +1,4 @@
 #!/bin/bash
- set -x
 
 echo "priting first argument: $1"
 
