@@ -81,7 +81,7 @@
         .col-sm.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Notes
           %p.tx-13.mg-b-0 It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
-  - if user.role.to_s == "provider"
+  - if user.is_provider?
     .divider-text Boards
     .row.row-xs
       = render partial: 'admin/users/users_tab/boards', collection: User.find(user.id).projects, as: :project
