@@ -232,7 +232,7 @@ en:
     total: Total
     print: print
     notes: Notes
-    all_prices_are_in_dollars: All prices are charged and shown in USD.
+    all_prices_are_in_currency: All prices are charged and shown in %{currency}.
   notifications:
     notifications: Notifications
     view_all: View All
