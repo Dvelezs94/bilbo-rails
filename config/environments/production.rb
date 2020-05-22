@@ -87,7 +87,7 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   config.after_initialize do
-  ActiveMerchant::Billing::Base.mode = :test
+  ActiveMerchant::Billing::Base.mode = :production
     paypal_options = {
       login: ENV.fetch("PAYPAL_USERNAME") { "" },
       password: ENV.fetch("PAYPAL_PASSWORD") { "" },
