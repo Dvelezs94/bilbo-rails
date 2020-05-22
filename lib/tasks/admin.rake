@@ -3,6 +3,6 @@ namespace :admin_email do
 #bilbo run rails admin_email:do_it["email"]
   task :do_it, [:email] => :environment do |t,args|
     puts args[:email]
-     User.invite!(email: args[:email], role: "admin")
+     User.invite!(email: args[:email].tr('"', ''), role: "admin")
   end
 end
