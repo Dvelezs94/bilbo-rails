@@ -87,6 +87,11 @@
                 </div>
               </div>
 
+              <div class="form-group">
+                <%= f.label t("bilbos.working_hours") %><br/>
+                <%= f.text_field :working_hours, class: "form-control", autocomplete: "off", required: true, placeholder: "12" %>
+              </div>
+
                <div class="form-group">
                 <%= f.label :images %>
                 <%= f.file_field :images, multiple: true, class: "form-control"%>
