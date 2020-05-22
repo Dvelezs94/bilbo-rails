@@ -176,6 +176,7 @@ es:
     price_per_print: Precio/Impresion
     credits_per_print: Creditos/Impresion
     dimensions: Dimensiones
+    expected_profit: Ganancia Esperada
     north: Norte
     south: Sur
     east: Este
@@ -193,6 +194,7 @@ es:
     earnings_description: Ultimos 3 meses de ganancias.
     ads_top: anuncios del top 4 durante 3 meses
     campaign_ads: Anuncios de campañas
+    working_hours: Horas activas
   ads:
     ads: Anuncios
     new_ad: Nuevo Anuncio
