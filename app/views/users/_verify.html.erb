@@ -13,10 +13,10 @@
           <div class="col-12 m-auto">
             <div class="pd-20">
               <%= form_for(:verification, url: verification_path, method: :post, :html => { data: { parsley_validate: true } }, local: false) do |f| %>
-
+              <div class="divider-text">Datos Personales</div>
               <div class="form-group row">
                 <div class="col-sm-3">
-                  <%= f.label :name, "Nombre Completo" %>
+                  <%= f.label :name, raw("Nombre Completo <span class='tx-danger'>*</span>") %>
                 </div>
                 <div class="col-sm-9">
                   <%= f.text_field :name, class: "form-control", value: current_user.name, required: true %>
@@ -25,7 +25,7 @@
 
               <div class="form-group row">
                 <div class="col-sm-3">
-                  <%= f.label "Identificación Oficial" %>
+                  <%= f.label :official_id, raw("Identificación Oficial <span class='tx-danger'>*</span>")  %>
                 </div>
                 <div class="col-sm-9">
                   <%= f.file_field :official_id, class: "custom-file-input", required: true %>
@@ -35,7 +35,18 @@
 
               <div class="form-group row">
                 <div class="col-sm-3">
-                  <%= f.label :business_name, "Nombre de la Empresa" %>
+                  <%= f.label :phone, raw("Número de teléfono <span class='tx-danger'>*</span>")  %>
+                </div>
+                <div class="col-sm-9">
+                  <%= f.text_field :phone, placeholder: "555-555-5555", class: "form-control input-phone", required: true %>
+                </div>
+              </div>
+
+              <div class="divider-text">Datos de la Empresa</div>
+
+              <div class="form-group row">
+                <div class="col-sm-3">
+                  <%= f.label :business_name, raw("Nombre <span class='tx-danger'>*</span>") %>
                 </div>
                 <div class="col-sm-9">
                   <%= f.text_field :business_name, class: "form-control", required: true %>
@@ -44,7 +55,7 @@
 
               <div class="form-group row">
                 <div class="col-sm-3">
-                  <%= f.label :business_address, "Dirección de la Empresa" %>
+                  <%= f.label :business_address, raw("Dirección <span class='tx-danger'>*</span>")  %>
                 </div>
                 <div class="col-sm-9">
                   <div class="form-group">
@@ -80,6 +91,17 @@
 
               <div class="form-group row">
                 <div class="col-sm-3">
+                  <%= f.label :website, raw("Página web <span class='tx-danger'>*</span>")  %>
+                </div>
+                <div class="col-sm-9">
+                  <%= f.text_field :website, class: "form-control input-website" %>
+                </div>
+              </div>
+
+              <div class="divider-text">Datos Fiscales</div>
+
+              <div class="form-group row">
+                <div class="col-sm-3">
                   <%= f.label :business_code, "RFC" %>
                 </div>
                 <div class="col-sm-9">
@@ -93,24 +115,6 @@
                 </div>
                 <div class="col-sm-9">
                   <%= f.text_field :official_business_name, class: "form-control" %>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <div class="col-sm-3">
-                  <%= f.label :website, "Página web" %>
-                </div>
-                <div class="col-sm-9">
-                  <%= f.text_field :website, class: "form-control input-website" %>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <div class="col-sm-3">
-                  <%= f.label :phone, "Número de teléfono" %>
-                </div>
-                <div class="col-sm-9">
-                  <%= f.text_field :phone, placeholder: "555-555-5555", class: "form-control input-phone", required: true %>
                 </div>
               </div>
 

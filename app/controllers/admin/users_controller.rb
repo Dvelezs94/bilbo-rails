@@ -25,7 +25,7 @@ class Admin::UsersController < ApplicationController
 
   def verify
     @user_verification = @user.verifications.where(status: ["pending", "accepted"]).first
-    if @user.update(verified: true) && @user_verification.accepted!
+    if @user_verification.accepted! && @user.update(verified: true)
       flash[:success] = "User verified"
     else
       flash[:error] = "Could not verfy user"
