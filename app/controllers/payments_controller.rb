@@ -12,8 +12,6 @@ class PaymentsController < ApplicationController
       allow_guest_checkout: false,
       items: [{name: "Bilbo Credits", description: "#{payment_params_express[:total]} Credits Purchase", quantity: payment_params_express[:total].to_i, amount: 100}]
     )
-    puts "x" * 500
-    puts response.to_s
     redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
   end
 
