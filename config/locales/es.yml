@@ -232,7 +232,7 @@ es:
     total: Total
     print: Imprimir
     notes: Notas
-    all_prices_are_in_dollars: Todos los precios son cargados y mostrados en Dolares Estadounidenses
+    all_prices_are_in_currency: Todos los precios son cargados y mostrados en %{currency}
   notifications:
     notifications: Notificaciones
     view_all: Ver Todas

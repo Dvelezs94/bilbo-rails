@@ -30,7 +30,6 @@
       <div class="col-sm-6 col-lg-8 mg-t-40 mg-sm-t-0 mg-md-t-40">
         <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03"><%= t("invoiced.billed_to") %></label>
         <h6 class="tx-15 mg-b-10"><%= "#{@invoice.payment.first_name} #{@invoice.payment.last_name}" %></h6>
-        <p class="mg-b-0"><%= "#{t('authentication.company') }: #{ @invoice.user.company_name}"%>: </p>
         <p class="mg-b-0">Email: <%= @invoice.user.email %></p>
       </div><!-- col -->
       <div class="col-sm-6 col-lg-4 mg-t-40">
@@ -74,7 +73,7 @@
     <div class="row justify-content-between">
       <div class="col-sm-6 col-lg-6 order-2 order-sm-0 mg-t-40 mg-sm-t-0">
         <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03"><%= t("invoices.notes") %></label>
-        <p><%= t("invoices.all_prices_are_in_dollars") %></p>
+        <p><%= t("invoices.all_prices_are_in_currency", currency: ENV.fetch("CURRENCY")) %></p>
       </div><!-- col -->
       <div class="col-sm-6 col-lg-4 order-1 order-sm-0">
         <ul class="list-unstyled lh-7 pd-r-10">
