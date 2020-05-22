@@ -113,6 +113,7 @@ class BoardsController < ApplicationController
                                                         :category,
                                                         :face,
                                                         :base_earnings,
+                                                        :working_hours,
                                                         images: [])
   end
 
