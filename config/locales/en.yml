@@ -280,3 +280,28 @@ en:
     role: Team role
     delete_project: Delete project
     deleted_project: Project removed
+    could_not_delete: Could not delete report, try again later
+    new_project: New project
+  notifications:
+    notifications: Notifications
+    actions:
+      view_all: View All
+      clear: Clear
+    campaign:
+      created:
+        message: The campaign <strong>%{campaign_name}</strong> is waiting for your review.
+        url_string: Review Campaigns
+      accepted:
+        message: Your campaign <strong>%{campaign_name}</strong> has been accepted on bilbo <strong>%{bilbo_name}</strong>
+        url_string: Go to my Campaign
+      denied:
+        message: Your campaign <strong>%{campaign_name}</strong> was denied on bilbo <strong>%{bilbo_name}</strong>
+        url_string: Go to my Campaign
+    user:
+      out_of_credits:
+        message: Your account is running out of credits
+        url_string: Purchase Credits
+    report:
+      weekly_ready:
+        message: Your weekly report is ready to be downloaded
+        url_string: Download Report
