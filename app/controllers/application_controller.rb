@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include NotificationsHelper
+  include ApplicationHelper
   layout :set_layout
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -51,6 +53,7 @@ class ApplicationController < ActionController::Base
         }
         @project = current_user.projects.enabled.friendly.find(cookies[:project])
       end
+      @unread_notifications_count = @project.notifications.unread.size
     # redirect if project is not set on url or the condition above is not met
     elsif user_signed_in? && !current_user.is_admin?
       redirect_to(after_sign_in_path_for(current_user))

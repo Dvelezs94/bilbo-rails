@@ -54,59 +54,19 @@
       / notifications
       .dropdown.dropdown-notification
         %a.dropdown-link.new-indicator{"data-toggle" => "dropdown", :href => ""}
-          %svg.feather.feather-bell{:fill => "none", :height => "24", :stroke => "currentColor", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2", :viewbox => "0 0 24 24", :width => "24", :xmlns => "http://www.w3.org/2000/svg"}
-            %path{:d => "M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"}
-          %span 2
+          - if @unread_notifications_count > 0
+            %svg.feather.feather-bell{:fill => "none", :height => "24", :stroke => "currentColor", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2", :viewbox => "0 0 24 24", :width => "24", :xmlns => "http://www.w3.org/2000/svg"}
+              %path{:d => "M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"}
+            %span= @unread_notifications_count
+          - else
+            %svg.feather.feather-bell{:fill => "none", :height => "24", :stroke => "currentColor", "stroke-linecap" => "round", :viewbox => "0 0 24 24", :width => "24", :xmlns => "http://www.w3.org/2000/svg"}
+              %path{:d => "M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"}
         .dropdown-menu.dropdown-menu-right
           .dropdown-header= t('notifications.notifications')
-          %a.dropdown-item{:href => ""}
-            .media
-              .avatar.avatar-sm.avatar-online
-                %img.rounded-circle{:alt => "", :src => "https://via.placeholder.com/150"}/
-              .media-body.mg-l-15
-                %p
-                  Congratulate
-                  %strong Socrates Itumay
-                  for work anniversaries
-                %span Mar 15 12:32pm
-              / media-body
-            / media
-          %a.dropdown-item{:href => ""}
-            .media
-              .avatar.avatar-sm.avatar-online
-                %img.rounded-circle{:alt => "", :src => "https://via.placeholder.com/150"}/
-              .media-body.mg-l-15
-                %p
-                  %strong Joyce Chua
-                  just created a new blog post
-                %span Mar 13 04:16am
-              / media-body
-            / media
-          %a.dropdown-item{:href => ""}
-            .media
-              .avatar.avatar-sm.avatar-online
-                %img.rounded-circle{:alt => "", :src => "https://via.placeholder.com/150"}/
-              .media-body.mg-l-15
-                %p
-                  %strong Althea Cabardo
-                  just created a new blog post
-                %span Mar 13 02:56am
-              / media-body
-            / media
-          %a.dropdown-item{:href => ""}
-            .media
-              .avatar.avatar-sm.avatar-online
-                %img.rounded-circle{:alt => "", :src => "https://via.placeholder.com/150"}/
-              .media-body.mg-l-15
-                %p
-                  %strong Adrian Monino
-                  added new comment on your photo
-                %span Mar 12 10:40pm
-              / media-body
-            / media
+          = render partial: 'notifications/notification_header_card', collection: @project.notifications.first(5), as: :notification
           .dropdown-footer.d-flex.justify-content-around
-            = link_to(t('notifications.view_all'), notifications_path)
-            = link_to(t('notifications.clear'), notifications_path)
+            = link_to(t('notifications.actions.view_all'), notifications_path)
+            = link_to(t('notifications.actions.clear'), clear_notifications_path)
         / dropdown-menu
       / end notifications
       .dropdown.dropdown-profile

@@ -40,6 +40,11 @@ class CampaignsController < ApplicationController
       if @campaign.update_attributes(campaign_params.merge(state: true))
         # move campaign to in review since it was changed
         @campaign.set_in_review
+        # Create a notification per project
+        @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
+          create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
+                              action: "created", notifiable: @campaign)
+        end
         format.html {
           flash[:success] = I18n.t('campaign.action.updated')
           redirect_to campaigns_path

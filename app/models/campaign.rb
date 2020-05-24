@@ -135,8 +135,6 @@ class Campaign < ApplicationRecord
     impressions.where(campaign_id: id, created_at: time_range).group_by_hour_of_day(:created_at, format: "%l %P").count
   end
 
-  private
-
   def to_s
     name
   end
