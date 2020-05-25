@@ -1,0 +1,21 @@
+= render 'shared/header', menu: ""
+.content.content-fixed.bd-b
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-flex.align-items-center.justify-content-between
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "/"}= t("campaign.home")
+            %li.breadcrumb-item.active{"aria-current" => "page"}= t('notifications.notifications')
+        %h4.mg-b-0= t('notifications.notifications')
+      = link_to t('notifications.actions.clear'), clear_notifications_path, class: "btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"
+
+.content
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .media.d-block.d-lg-flex
+      .media-body
+        .timeline-group.tx-13
+          = render partial: "notification_index_card", collection: @notifications.group_by{|x| x.created_at.strftime("%Y-%m-%d")}, as: :notifications
+        .col-12
+          = paginate @notifications, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center"

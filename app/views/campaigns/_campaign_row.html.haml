@@ -4,7 +4,7 @@
       = check_box_tag "customSwitch-#{campaign.slug}", nil, campaign.state, class: "custom-control-input", data: { url: toggle_state_campaign_path(campaign.slug), remote: :true, method: :put }
       %label.custom-control-label{:for => "customSwitch-#{campaign.slug}"}
   %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip", :title => campaign.description}= campaign.name
-  %td.text-right= campaign.boards.length
+  %td.text-right= campaign.boards.enabled.length
   %td.text-right= link_to(campaign.ad.name, ad_path(campaign.ad)) rescue t("ads.no_ad")
   %td.text-right= I18n.l(campaign.starts_at.to_date, format: :long) rescue "-"
   %td.text-right= I18n.l(campaign.ends_at.to_date, format: :long) rescue "-"

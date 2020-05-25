@@ -1,8 +1,8 @@
 $(document).on('turbolinks:load', function() {
 
-  if ($('#campaignTable').length){
+  if ($('#campaignsTable').length){
     $(function(){
-      $('#campaignTable').DataTable({
+      $('#campaignsTable').DataTable({
         language: {
           searchPlaceholder: 'Search...',
           sSearch: '',
