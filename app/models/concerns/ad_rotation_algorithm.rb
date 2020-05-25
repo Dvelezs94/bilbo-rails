@@ -24,7 +24,7 @@ module AdRotationAlgorithm
       cycles.fill("-", cycles.length, empty_cycles)
     elsif cycles.length > total_cycles
       extra_cycles = cycles.length - total_cycles
-      extra_cycles.times do
+      extra_cycles.round(0).times do
         cycles.delete_at(rand(cycles.length))
       end
     end

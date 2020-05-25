@@ -61,10 +61,10 @@ class Project < ApplicationRecord
 
   # campaigns that require provider feedback to be aither approved or denied
   def campaigns_for_review
-    BoardsCampaigns.in_review.where(board: [boards]).size
+    BoardsCampaigns.where(board: self.boards.pluck(:id), campaign: Campaign.all.active.pluck(:id)).in_review.count
   end
 
   def active_campaigns
-    BoardsCampaigns.approved.where(board: [boards]).size
+    BoardsCampaigns.where(board: self.boards.pluck(:id), campaign: Campaign.all.active.pluck(:id)).approved.count
   end
 end
