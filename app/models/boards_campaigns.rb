@@ -5,20 +5,18 @@ class BoardsCampaigns < ApplicationRecord
     belongs_to :board
 
     enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3 }
-    before_save :notify_users, if: :will_save_change_to_status?
-    after_save :update_broadcast
+    before_save :notify_users, :update_broadcast, if: :will_save_change_to_status?
 
+    private
 
     def update_broadcast
       update_ad_rotation
       if approved? && campaign.status.present?
         publish_campaign(campaign_id, board_id)
-      else
+      else in_review? || denied?
         remove_campaign(campaign_id, board_id)
       end
     end
-
-    private
 
     def notify_users
       if in_review?
