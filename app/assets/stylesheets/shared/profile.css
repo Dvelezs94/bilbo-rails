@@ -198,3 +198,25 @@
     border-radius: 100%; }
   .timeline-body h6 {
     line-height: 1.5; }
+
+.timeline-body-unread {
+  flex: 1;
+  padding-left: 25px;
+  border-left: 1px solid rgba(72, 94, 144, 0.16);
+  position: relative;
+  margin-left: 10px; }
+  @media (min-width: 576px) {
+    .timeline-body-unread {
+      margin-left: 0; } }
+  .timeline-body-unread::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: -6px;
+    background-color: #fff;
+    width: 11px;
+    height: 11px;
+    border: 2px solid #dc3545;
+    border-radius: 100%; }
+  .timeline-body-unread h6 {
+    line-height: 1.5; }

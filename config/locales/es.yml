@@ -234,7 +234,7 @@ es:
     total: Total
     print: Imprimir
     notes: Notas
-    all_prices_are_in_dollars: Todos los precios son cargados y mostrados en Dolares Estadounidenses
+    all_prices_are_in_currency: Todos los precios son cargados y mostrados en %{currency}
   notifications:
     notifications: Notificaciones
     view_all: Ver Todas
@@ -284,3 +284,27 @@ es:
     deleted_project: Proyecto eliminado
     could_not_delete: Error al borrar proyecto, intenta de nuevo más tarde
     new_project: Nuevo proyecto
+  notifications:
+    notifications: Notificaciones
+    new_notification: Tienes una nueva notificación para tu proyecto %{project_name}
+    actions:
+      view_all: Ver Todas
+      clear: Marcar como leídas
+    campaign:
+      created:
+        message: La campaña <strong>%{campaign_name}</strong> ha sido creada para tus Bilbos
+        url_string: Revisar Campaña
+      approved:
+        message: Tu campaña <strong>%{campaign_name}</strong> ha sido aceptada en el Bilbo <strong>%{bilbo_name}</strong>
+        url_string: Ir a la Campaña
+      denied:
+        message: Tu campaña <strong>%{campaign_name}</strong> ha sido denegada el Bilbo <strong>%{bilbo_name}</strong>
+        url_string: Ir a la Campaña
+    user:
+      out_of_credits:
+        message: Tus créditos se están agotando
+        url_string: Comprar Créditos
+    report:
+      weekly_ready:
+        message: Tu reporte semanal está listo para descargar
+        url_string: Descargar Reporte

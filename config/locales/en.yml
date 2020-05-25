@@ -233,7 +233,7 @@ en:
     total: Total
     print: print
     notes: Notes
-    all_prices_are_in_dollars: All prices are charged and shown in USD.
+    all_prices_are_in_currency: All prices are charged and shown in %{currency}.
   notifications:
     notifications: Notifications
     view_all: View All
@@ -281,3 +281,29 @@ en:
     role: Team role
     delete_project: Delete project
     deleted_project: Project removed
+    could_not_delete: Could not delete report, try again later
+    new_project: New project
+  notifications:
+    notifications: Notifications
+    new_notification: You have a new notification for your project %{project_name}
+    actions:
+      view_all: View All
+      clear: Clear Notifications
+    campaign:
+      created:
+        message: The campaign <strong>%{campaign_name}</strong> is waiting for your review.
+        url_string: Review Campaigns
+      approved:
+        message: Your campaign <strong>%{campaign_name}</strong> has been approved on bilbo <strong>%{bilbo_name}</strong>
+        url_string: Go to my Campaign
+      denied:
+        message: Your campaign <strong>%{campaign_name}</strong> was denied on bilbo <strong>%{bilbo_name}</strong>
+        url_string: Go to my Campaign
+    user:
+      out_of_credits:
+        message: Your account is running out of credits
+        url_string: Purchase Credits
+    report:
+      weekly_ready:
+        message: Your weekly report is ready to be downloaded
+        url_string: Download Report

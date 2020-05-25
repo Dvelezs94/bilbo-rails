@@ -13,6 +13,8 @@ class Project < ApplicationRecord
   has_many :ads
   has_many :boards
   has_many :reports
+  # the project has notifications so all users in the project can see them
+  has_many :notifications, foreign_key: :recipient_id
 
   # useful when you want to retrieve a collection of certain users that have permissions for the project
   # current_user.projects.admins -> will get the admins of all the projects
@@ -29,10 +31,10 @@ class Project < ApplicationRecord
   def admins
     project_users.where(role: ["owner", "administrator"]).pluck(:user_id)
   end
-
-  def users
-    project_users.pluck(:user_id)
-  end
+  # 
+  # def users
+  #   project_users.pluck(:user_id)
+  # end
 
   def owned?(user_id)
     [owner.id].include? user_id

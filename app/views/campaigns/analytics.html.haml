@@ -11,12 +11,14 @@
               %a{:href => "/"}= t("campaign.campaign")
             %li.breadcrumb-item.active{"aria-current" => "page"}= @campaign.name
         %h4.mg-b-0.tx-spacing--1= @campaign.name
-      .d-md-block
-      %div
-        %a{:href => edit_campaign_path(@campaign)}
-        %button.btn.btn-primary.btn-icon{:type => "button"}
-          %i.fe.fe-edit.arrow-left.pd-5
-          = t("general_inputs.edit")
+      .d-none.d-md-block
+        %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()' }
+          %i.wd-10.mg-r-5.fe.fe-print
+          = t('dashboards.print')
+        = link_to root_path, class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5' do
+          %i.wd-10.mg-r-5.fe.fe-export
+          = t('dashboards.export_to_csv')
+
     .row.row-xs
       = render 'campaigns/user_charts/daily_impressions'
       = render 'campaigns/user_charts/daily_invested'

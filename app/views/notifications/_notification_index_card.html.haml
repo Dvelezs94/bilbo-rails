@@ -1,0 +1,16 @@
+.timeline-label= l(notifications[1].first.created_at, format: ("%B %d %Y"))
+- notifications[1].each do |notif|
+  - notif_hash = notif.build_notification_body
+  .timeline-item
+    .timeline-time= format_time(notif.created_at)
+    -# nasty DRY, could not get the contents out of the if
+    - if notif.read_at?
+      .timeline-body
+        %h6.mg-b-0= raw(notif_hash[:message])
+        %nav.nav.nav-row.mg-t-15
+          %a.nav-link{:href => notif_hash[:url]}= notif_hash[:url_string]
+    - else
+      .timeline-body-unread
+        %h6.mg-b-0= raw(notif_hash[:message])
+        %nav.nav.nav-row.mg-t-15
+          %a.nav-link{:href => notif_hash[:url]}= notif_hash[:url_string]
