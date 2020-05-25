@@ -1,11 +1,12 @@
 class BoardsCampaigns < ApplicationRecord
     include BroadcastConcern
+    include NotificationsHelper
     belongs_to :campaign
     belongs_to :board
 
     enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3 }
+    before_save :notify_users, if: :will_save_change_to_status?
     after_save :update_broadcast
-    after_commit :create_notification, on: :create
 
 
     def update_broadcast
@@ -19,12 +20,20 @@ class BoardsCampaigns < ApplicationRecord
 
     private
 
-    def create_notification
+    def notify_users
       if in_review?
-        boards.includes(:project).map(&:project).uniq.each do |provider|
-          create_notification(recipient_id: provider.id, actor_id: project.id,
-                              action: "created", notifiable: self)
+        campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
+          create_notification(recipient_id: provider.id, actor_id: campaign.project.id,
+                              action: "created", notifiable: campaign)
         end
+      elsif approved?
+        create_notification(recipient_id: campaign.project.id, actor_id: board.project.id,
+                            action: "approved", notifiable: campaign,
+                            reference: board)
+      elsif denied?
+        create_notification(recipient_id: campaign.project.id, actor_id: board.project.id,
+                            action: "denied", notifiable: campaign,
+                            reference: board)
       end
     end
 

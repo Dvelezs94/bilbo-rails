@@ -284,15 +284,16 @@ en:
     new_project: New project
   notifications:
     notifications: Notifications
+    new_notification: You have a new notification for your project %{project_name}
     actions:
       view_all: View All
-      clear: Clear
+      clear: Clear Notifications
     campaign:
       created:
         message: The campaign <strong>%{campaign_name}</strong> is waiting for your review.
         url_string: Review Campaigns
-      accepted:
-        message: Your campaign <strong>%{campaign_name}</strong> has been accepted on bilbo <strong>%{bilbo_name}</strong>
+      approved:
+        message: Your campaign <strong>%{campaign_name}</strong> has been approved on bilbo <strong>%{bilbo_name}</strong>
         url_string: Go to my Campaign
       denied:
         message: Your campaign <strong>%{campaign_name}</strong> was denied on bilbo <strong>%{bilbo_name}</strong>

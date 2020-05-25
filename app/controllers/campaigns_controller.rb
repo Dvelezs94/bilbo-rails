@@ -108,7 +108,7 @@ class CampaignsController < ApplicationController
   end
 
   def verify_identity
-    redirect_to campaigns_path if not @campaign.project.users.include? current_user.id
+    redirect_to campaigns_path if not @campaign.project.users.pluck(:id).include? current_user.id
   end
 
   def campaign_not_active
