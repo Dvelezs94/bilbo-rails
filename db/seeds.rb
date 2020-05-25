@@ -12,7 +12,7 @@ if ENV.fetch("RAILS_ENV") != "production"
   5.times do |x|
     User.create! do |provider|
       provider.name = Faker::Name.first_name
-      provider.email = "provider#{x}#{Faker::Internet.email}"
+      provider.email = "provider#{x}@bilbo.mx"
       provider.password = "1234aA"
       provider.role = :provider
       provider.project_name = Faker::Company.name
@@ -46,7 +46,7 @@ if ENV.fetch("RAILS_ENV") != "production"
   2.times do |x|
     User.create! do |user|
       user.name = Faker::Name.first_name
-      user.email = "user#{x}#{Faker::Internet.email}"
+      user.email = "user#{x}@bilbo.mx"
       user.password = "1234aA"
       user.project_name = Faker::Company.name
       user.confirmed_at = DateTime.now
@@ -57,7 +57,8 @@ if ENV.fetch("RAILS_ENV") != "production"
         user.projects.first.ads.new do |ad|
           ad.name = "ad #{y}"
           ad.multimedia.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'avatar.png', content_type: 'image/png')
-          2.times do |z|
+          ad.save
+          1.times do |z|
             ad.campaigns.new do |cp|
               cp.name    = "#{Faker::Company.name} #{Faker::Commerce.product_name}"
               cp.budget  = Faker::Number.between(5, 50)

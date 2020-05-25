@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function() {
-  if ($("#campaignsTable").length) {
-    $('#campaignsTable').DataTable({
+  if ($("#userCampaignTable").length) {
+    $('#userCampaignTable').DataTable({
       responsive: true,
       pageLength: 25,
       columnDefs: [ {
@@ -13,6 +13,7 @@ $(document).on('turbolinks:load', function() {
         lengthMenu: '_MENU_ items/page'
       }
     });
+    $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
   }
 
   if ($("#invoicesTable").length) {

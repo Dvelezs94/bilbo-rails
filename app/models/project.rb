@@ -31,10 +31,10 @@ class Project < ApplicationRecord
   def admins
     project_users.where(role: ["owner", "administrator"]).pluck(:user_id)
   end
-
-  def users
-    project_users.pluck(:user_id)
-  end
+  # 
+  # def users
+  #   project_users.pluck(:user_id)
+  # end
 
   def owned?(user_id)
     [owner.id].include? user_id

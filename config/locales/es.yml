@@ -284,6 +284,7 @@ es:
     new_project: Nuevo proyecto
   notifications:
     notifications: Notificaciones
+    new_notification: Tienes una nueva notificación para tu proyecto %{project_name}
     actions:
       view_all: Ver Todas
       clear: Marcar como leídas
@@ -291,7 +292,7 @@ es:
       created:
         message: La campaña <strong>%{campaign_name}</strong> ha sido creada para tus Bilbos
         url_string: Revisar Campaña
-      accepted:
+      approved:
         message: Tu campaña <strong>%{campaign_name}</strong> ha sido aceptada en el Bilbo <strong>%{bilbo_name}</strong>
         url_string: Ir a la Campaña
       denied:
