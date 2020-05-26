@@ -4,6 +4,7 @@
 
 .board-ads {
   display: none;
+  overflow: hidden !important;
 }
 
 #bilbo-ad {

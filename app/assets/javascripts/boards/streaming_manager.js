@@ -75,7 +75,9 @@ $(document).on('turbolinks:load', function() {
             oldAd = newAd;
             oldAd.css({display: "none"});
           }
-          newAd = $('[data-campaign-id="' + chosen + '"]').css({display: "block"});
+          newAdLength = $('[data-campaign-id="' + chosen + '"]').length;
+          newAdChosen = Math.floor(Math.random() * newAdLength);
+          newAd = $($('[data-campaign-id="' + chosen + '"]')[newAdChosen]).css({display: "block"});
           // build map for new ad displayed and merge it to displayedAds
           newAdMap = { campaign_id: chosen.toString(), created_at: new Date(Date.now()).toISOString() }
           if (typeof newAdMap["campaign_id"] !== 'undefined') {
