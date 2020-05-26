@@ -10,11 +10,11 @@ class CampaignsController < ApplicationController
 
   def provider_index
     if params[:q] == "review"
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.pluck(:id), campaign_id: Campaign.active.joins(:boards).merge(Project.first.boards).uniq.pluck(:id)).in_review
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id)).in_review
     elsif params[:bilbo].present?
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.where(name: params[:bilbo]), campaign_id: Campaign.active.joins(:boards).merge(Project.first.boards).uniq.pluck(:id)).approved
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.where(name: params[:bilbo]), campaign_id: Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved
     else
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.pluck(:id), campaign_id: Campaign.active.joins(:boards).merge(Project.first.boards).uniq.pluck(:id)).approved
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved
     end
   end
 

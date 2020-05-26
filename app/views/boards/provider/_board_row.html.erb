@@ -13,7 +13,7 @@
       <h4 class="tx-normal tx-rubik tx-40 tx-spacing--1 mg-b-0"><%= number_to_currency_usd(board.monthly_earnings) %></h4>
       <p class="tx-12 tx-uppercase tx-semibold tx-spacing-1 tx-color-02">Earnings this month</p>
       <p class="tx-30 mg-b-0">
-        <a href="" data-clipboard-text="<%= board_url(board, access_token: board.access_token) %>" class="clipboard-btn">
+        <a href="" data-clipboard-text="<%= board_url(board, access_token: board.access_token, autoplay: true) %>" class="clipboard-btn">
           <i class="mg-r-5 material-icons">&#xe14d;</i>
         </a>
         <%= link_to board_path(board, access_token: board.access_token), target: "blank" do %>
