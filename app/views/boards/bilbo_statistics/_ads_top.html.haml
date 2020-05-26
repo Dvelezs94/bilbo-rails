@@ -10,7 +10,7 @@
     .card-body.pd-lg-30
       #adsCarousel.carousel.slide{"data-ride" => "carousel"}
         .carousel-inner
-          -if @board.campaigns.present? && @board.campaigns.find_by_name(@bilbo_top[0]).ad.present?
+          -if @board.campaigns.present? && @board.campaigns.find_by_name(@bilbo_top[0]).present? && @board.campaigns.find_by_name(@bilbo_top[0]).has_multimedia? 
             - @board.campaigns.find_by_name(@bilbo_top[0]).ad.multimedia.each.with_index do |media_first,i|
               %div{class: "carousel-item #{'active' if i == 0}"}
                 = image_tag media_first, size:"600x300", class: "d-block w-100"
