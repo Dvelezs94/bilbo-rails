@@ -31,7 +31,7 @@ class Project < ApplicationRecord
   def admins
     project_users.where(role: ["owner", "administrator"]).pluck(:user_id)
   end
-  # 
+  #
   # def users
   #   project_users.pluck(:user_id)
   # end
@@ -63,10 +63,10 @@ class Project < ApplicationRecord
 
   # campaigns that require provider feedback to be aither approved or denied
   def campaigns_for_review
-    BoardsCampaigns.where(board: self.boards.pluck(:id), campaign: Campaign.active.joins(:boards).merge(Project.first.boards).uniq.pluck(:id)).in_review.count
+    BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: Campaign.active.joins(:boards).merge(self.boards).pluck(:id)).in_review.count
   end
 
   def active_campaigns
-    BoardsCampaigns.where(board: self.boards.pluck(:id), campaign: Campaign.active.joins(:boards).merge(Project.first.boards).uniq.pluck(:id)).approved.count
+    BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: Campaign.active.joins(:boards).merge(self.boards).pluck(:id)).approved.count
   end
 end
