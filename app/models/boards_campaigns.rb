@@ -10,7 +10,6 @@ class BoardsCampaigns < ApplicationRecord
     private
 
     def update_broadcast
-      update_ad_rotation
       if approved? && campaign.status.present?
         publish_campaign(campaign_id, board_id)
       else in_review? || denied?
@@ -33,11 +32,5 @@ class BoardsCampaigns < ApplicationRecord
                             action: "denied", notifiable: campaign,
                             reference: board)
       end
-    end
-
-    def update_ad_rotation
-      # build the ad rotation because the ads changed
-      new_cycle = self.board.build_ad_rotation(self.board)
-      board.update(ads_rotation: new_cycle)
     end
 end

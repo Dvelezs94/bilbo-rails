@@ -1,11 +1,13 @@
 class AdBroadcastWorker
   include Sidekiq::Worker
+  include AdRotationAlgorithm
   sidekiq_options retry: false, dead: false
   include Rails.application.routes.url_helpers
 
   def perform(campaign_id, board_id,action)
     campaign = Campaign.find(campaign_id)
     board = Board.find(board_id)
+    update_ad_rotation(board)
 
     # build html to append
     ad = campaign.ad
@@ -19,6 +21,12 @@ class AdBroadcastWorker
   end
 
   private
+
+  def update_ad_rotation(board)
+    # build the ad rotation because the ads changed
+    new_cycle = board.build_ad_rotation(board)
+    board.update(ads_rotation: new_cycle)
+  end
 
   def broadcast_to_boards(channel, action, ad, campaign_slug, ads_rotation)
     ActionCable.server.broadcast(
