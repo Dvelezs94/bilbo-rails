@@ -10,11 +10,11 @@ class CampaignsController < ApplicationController
 
   def provider_index
     if params[:q] == "review"
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.pluck(:id)).in_review
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.pluck(:id), campaign_id: Campaign.active.joins(:boards).merge(Project.first.boards).uniq.pluck(:id)).in_review
     elsif params[:bilbo].present?
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.where(name: params[:bilbo])).approved
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.where(name: params[:bilbo]), campaign_id: Campaign.active.joins(:boards).merge(Project.first.boards).uniq.pluck(:id)).approved
     else
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.pluck(:id)).approved
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.pluck(:id), campaign_id: Campaign.active.joins(:boards).merge(Project.first.boards).uniq.pluck(:id)).approved
     end
   end
 
@@ -60,7 +60,7 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    @campaign = Campaign.new(campaign_params)
+    @campaign = Campaign.new(create_params)
     if @campaign.save
       flash[:success] = I18n.t('campaign.action.saved')
     else
@@ -96,6 +96,12 @@ class CampaignsController < ApplicationController
     @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?)) if @campaign_params[:boards].present?
     @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
     @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
+    @campaign_params[:budget] = @campaign_params[:budget].tr(",","").to_f
+    @campaign_params
+  end
+
+  def create_params
+    @campaign_params = params.require(:campaign).permit(:name, :description).merge(:project_id => @project.id)
     @campaign_params
   end
 
