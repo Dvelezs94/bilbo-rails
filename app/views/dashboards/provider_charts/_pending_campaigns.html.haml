@@ -16,4 +16,4 @@
       -if @project.campaigns_for_review > 0
         = link_to t('dashboards.review_now'), provider_index_campaigns_path(q: "review"), class: "btn btn-sm btn-block btn-uppercase tx-spacing-1 #{'btn-outline-danger' if danger}"
       -else
-        %button.btn.btn-sm.btn-block.btn-uppercase.tx-spacing-1.disabled= t('dashboards.review_now')
+        %button.btn.btn-sm.btn-block.btn-uppercase.tx-spacing-1.disabled{style: "background-color: gray; color: white;"}= t('dashboards.review_now')

@@ -9,6 +9,9 @@ $(document).on('turbolinks:load', function() {
   $(document).on('click',"#selected_boards",function(){
     var id = this.value
     if (id != "") {
+      $("#boardInfo").addClass("d-none");
+      $("#loading").addClass("placeholder-paragraph");
+
       $.ajax({
         url:  "/boards/get_info",
         dataType: "script",
@@ -16,6 +19,7 @@ $(document).on('turbolinks:load', function() {
         success: function(data) {
           $("#map-layout").removeClass("col-xl-12");
           $("#map-layout").addClass("col-xl-9");
+          $("#loading").removeClass("placeholder-paragraph");
           $("#boardInfo").removeClass("d-none");
         },
         error: function(data) {
