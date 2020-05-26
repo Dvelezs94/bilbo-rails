@@ -13,7 +13,7 @@
         - if @objects.present?
           - @objects.each.with_index do |media,i|
             %div{class: "carousel-item #{'active' if i == 0}"}
-              = image_tag media, size:"600x300", class: "d-block w-100"
+              = image_tag media, size:"600x300", class: "d-block w-100", :data => {lity: true}
         - else
           .carousel-item.active
             = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
