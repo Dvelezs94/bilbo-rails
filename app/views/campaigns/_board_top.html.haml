@@ -1,6 +1,6 @@
-.carousel-item
-  %img.d-block.w-100{alt: "...", src: "https://mdbootstrap.com/img/Photos/Slides/img%20(45).jpg"}/
-.carousel-item
-  %img.d-block.w-100{alt: "...", src: "https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg"}/
-.carousel-item
-  %img.d-block.w-100{alt: "...", src: "https://mdbootstrap.com/img/Photos/Slides/img%20(47).jpg"}/
+-if campaign.ad.present?
+ -campaign.ad.multimedia.each.with_index do |media, i|
+  %div.carousel-item
+   = image_tag media, size:"600x300", class: "d-block w-100"
+ %end
+%end

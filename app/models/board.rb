@@ -61,7 +61,7 @@ class Board < ApplicationRecord
 
   #Return the number of active campaigns in the board
   def approved_campaign_by_board
-    board_campaigns.approved.count
+    BoardsCampaigns.where(board_id: self, campaign_id: Campaign.active.joins(:boards).merge(Project.first.boards).uniq.pluck(:id)).approved.count
   end
 
   def campaign_of_day
