@@ -125,6 +125,8 @@ es:
     impressions_per_day: Impresiones
     invested: Daily invested
     popular_hours: Horas mas populares
+    status_on: Encendido
+    status_off: Apagado
     approve_campaign: ¿Seguro de cambiar el estado en aprobado?
     deny_campaign: ¿Seguro de cambiar el estado a denegado?
     in_review_campaign: ¿Seguro de cambiar el estado a revisión?
