@@ -125,6 +125,8 @@ en:
     popular_hours: Most popular hours
     approve_campaign: Are you sure change status to approved?
     deny_campaign: Are you sure change status to denied ?
+    status_on: "On"
+    status_off: "Off"
     in_review_campaign: Are you sure change status to in review?
     wizard:
       choose_bilbos: Choose your Bilbos

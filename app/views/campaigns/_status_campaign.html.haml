@@ -10,7 +10,10 @@
   %td.text-between= board_campaign.campaign.created_at.strftime("%d/%m/%Y")
   %td.text-between= board_campaign.board.name
   %td.text-between= board_campaign.campaign.budget
-  %td.text-between= board_campaign.campaign.status
+  -if board_campaign.campaign.state.to_s == "true"
+    %td.text-between= t('campaign.status_on')
+  -else
+    %td.text-between= t('campaign.status_off')
   %td.d-flex.justify-content-between.align-center
     -if params[:q] == "review"
       = link_to '', campaign_board_approve_campaign_path(board_campaign.campaign_id,board_campaign.board_id), class: 'fe fe-check', title: t('campaign.accept'), data: { toggle: 'tooltip', placement: 'top', method: :put, confirm: t('campaign.approve_campaign') }

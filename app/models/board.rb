@@ -1,5 +1,6 @@
 class Board < ApplicationRecord
   include AdRotationAlgorithm
+  include Rails.application.routes.url_helpers
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
@@ -11,7 +12,7 @@ class Board < ApplicationRecord
   before_save :generate_api_token, :if => :new_record?
   enum status: { enabled: 0, disabled: 1}
   validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
-
+  after_create :generate_qr_code
   # slug candidates for friendly id
   def slug_candidates
     [
@@ -137,6 +138,27 @@ class Board < ApplicationRecord
 
   private
 
+  def generate_qr_code
+    require 'rqrcode'
+
+    qrcode = RQRCode::QRCode.new(root_url)
+
+    # NOTE: showing with default options specified explicitly
+    png = qrcode.as_png(
+      bit_depth: 1,
+      border_modules: 4,
+      color_mode: ChunkyPNG::COLOR_GRAYSCALE,
+      color: 'black',
+      file: nil,
+      fill: 'white',
+      module_px_size: 6,
+      resize_exactly_to: false,
+      resize_gte_to: false,
+      size: 120
+    )
+    self.update!(qr: Base64.encode64(png.to_s))
+  end
+  
   def to_s
     name
   end
