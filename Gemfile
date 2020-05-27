@@ -111,3 +111,6 @@ gem 'graphql', '~> 1.10', '>= 1.10.6'
 gem 'country_select', '~> 4.0'
 
 gem 'bugsnag', '~> 6.13', '>= 6.13.1'
+#rqrcode gems need
+gem 'chunky_png', '~> 1.3', '>= 1.3.11'
+gem 'rqrcode', '~> 1.1', '>= 1.1.2'
