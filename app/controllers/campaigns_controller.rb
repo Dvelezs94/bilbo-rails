@@ -1,5 +1,5 @@
 class CampaignsController < ApplicationController
-  access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index]}, provider: :all
+  access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index, :active_campaigns]}, provider: :all
   before_action :get_campaigns, only: [:index]
   before_action :get_campaign, only: [:analytics, :edit, :destroy, :update, :toggle_state]
   before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
