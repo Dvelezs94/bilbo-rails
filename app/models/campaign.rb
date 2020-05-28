@@ -52,8 +52,15 @@ class Campaign < ApplicationRecord
   end
 
   def should_run?
+    #project_ids look for users with projects that have a balance greater than 5 credits and are the owner
+    #self.state check the state of campaign
+    #self.status == "active" check the status of campaign
+    #self.budget > 0 Check that the budget is greater than 0 of campaign
+    #self.project.users[0].is_provider? check if this user is a provider
+    #project_ids.include? self.project.id Check if the user's project is included in the user array with available credits
+    #self.starts_at.nil? || (self.starts_at <= Time.now && self.ends_at > Time.now check if the project has a null date or if that start date was less than today and if that end date was greater than today
     project_ids = ProjectUser.joins(:user).where(role: "owner").where("balance > ?", 5 ).pluck(:project_id)
-    if (self.state && (board_campaigns.approved.pluck(:campaign_id).include? self.id) && self.budget > 0 && (self.project.users[0].is_provider? || (project_ids.include? self.project.id)) && (self.starts_at.nil? || (self.starts_at <= Time.now && self.ends_at > Time.now) ))
+    if (self.status == "active" && self.state && (board_campaigns.approved.pluck(:campaign_id).include? self.id) && self.budget > 0 && (self.project.users[0].is_provider? || (project_ids.include? self.project.id)) && (self.starts_at.nil? || (self.starts_at <= Time.now && self.ends_at > Time.now)))
       true
     else
       false
