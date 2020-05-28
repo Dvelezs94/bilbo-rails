@@ -1,4 +1,5 @@
 class Impression < ApplicationRecord
+  include BroadcastConcern
   attribute :api_token
 
   validate :validate_api_token
@@ -6,7 +7,7 @@ class Impression < ApplicationRecord
   belongs_to :campaign, optional: true
   before_create :set_total_price
   after_create :update_balance
-
+  after_create :continue_runnning_campaign
   private
   def validate_api_token
     if self.board.api_token != api_token
@@ -20,5 +21,13 @@ class Impression < ApplicationRecord
 
   def update_balance
     self.campaign.project.owner.charge!(self.total_price)
+  end
+
+  def continue_runnning_campaign
+    if self.campaign.should_run?
+      true
+    else
+      remove_campaign(self.campaign.id, self.board.id)
+    end
   end
 end

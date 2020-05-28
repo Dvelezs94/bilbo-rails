@@ -51,6 +51,15 @@ class Campaign < ApplicationRecord
     self.budget / boards.count
   end
 
+  def should_run?
+    project_ids = ProjectUser.joins(:user).where(role: "owner").where("balance > ?", 5 ).pluck(:project_id)
+    if (self.state && (board_campaigns.approved.pluck(:campaign_id).include? self.id) && self.budget > 0 && (self.project.users[0].is_provider? || (project_ids.include? self.project.id)) && (self.starts_at.nil? || (self.starts_at <= Time.now && self.ends_at > Time.now) ))
+      true
+    else
+      false
+    end
+  end
+
   def update_broadcast
     if state.present?
       board_campaigns.approved.pluck(:board_id).each do |board_id|
@@ -138,4 +147,5 @@ class Campaign < ApplicationRecord
   def to_s
     name
   end
+
 end
