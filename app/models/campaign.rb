@@ -60,7 +60,7 @@ class Campaign < ApplicationRecord
     #project_ids.include? self.project.id Check if the user's project is included in the user array with available credits
     #self.starts_at.nil? || (self.starts_at <= Time.now && self.ends_at > Time.now check if the project has a null date or if that start date was less than today and if that end date was greater than today
     project_ids = ProjectUser.joins(:user).where(role: "owner").where("balance > ?", 5 ).pluck(:project_id)
-    if (self.status == "active" && self.state && (board_campaigns.approved.pluck(:campaign_id).include? self.id) && self.budget > 0 && (self.project.users[0].is_provider? || (project_ids.include? self.project.id)) && (self.starts_at.nil? || (self.starts_at <= Time.now && self.ends_at > Time.now)))
+    if (self.status == "active" && self.state && (board_campaigns.approved.pluck(:campaign_id).include? self.id) && self.budget > 0 && (self.project.users[0].is_provider? || (project_ids.include? self.project.id)) && (self.starts_at.nil? || (self.starts_at <= Time.zone.now && self.ends_at > Time.zone.now)))
       true
     else
       false
