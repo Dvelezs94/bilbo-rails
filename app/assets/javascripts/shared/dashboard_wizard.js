@@ -84,9 +84,10 @@ $(document).on('turbolinks:load', function() {
       sum = 0
       $("#selected_boards option:not(:eq(0))").each(function() {
         sum +=  $(this).data('price') || 0;
+        avg = sum/$("#selected_boards option:not(:eq(0))").length
       });
       console.log(sum);
-      maximum_impressions = Math.round(parseFloat($("#campaign_budget").val().replace(',',''))/sum)
+      maximum_impressions = Math.round(parseFloat($("#campaign_budget").val().replace(',',''))/avg)
       $("#impressions").text(maximum_impressions);
     });
     // calculate board prints
