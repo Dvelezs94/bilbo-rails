@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq'
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api"
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
   end
   post "/api", to: "graphql#execute"
 
