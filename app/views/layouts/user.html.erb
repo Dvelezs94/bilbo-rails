@@ -37,21 +37,6 @@
 
     <%= render :partial => 'flash/flash', :flash => flash %>
     <%= yield %>
-    <% flash.each do |name, msg| %>
-
-  # New code (allow for flash elements to be arrays)
-  <% if msg.class == Array %>
-    <% msg.each do |message| %>
-      <%= content_tag :div, message, :id => "flash_#{name}" %>
-    <% end %>
-  <% else %>
-
-    # old code
-    <%= content_tag :div, msg, :id => "flash_#{name}" %>
-
-  <% end %> #don't forget the extra end
-<% end %>
-
     <%= render 'shared/spinner' %>
 
   </body>

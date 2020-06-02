@@ -2,8 +2,9 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     build_resource(sign_up_params)
 
-   resource.save
-   flash[:success] = I18n.t('devise.registrations.signed_up_but_unconfirmed')
+    if resource.save
+     flash[:success] = I18n.t('devise.registrations.signed_up_but_unconfirmed')
+    end
    yield resource if block_given?
    if resource.persisted?
      if resource.active_for_authentication?
