@@ -44,7 +44,11 @@ class CampaignsController < ApplicationController
         @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
           create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
                               action: "created", notifiable: @campaign)
+        if @campaign_params[:starts_at].present?
+          difference_in_seconds = (Time.zone.parse(@campaign_params[:starts_at]) - Time.zone.now).to_i
+          ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id)
         end
+      end
         format.html {
           flash[:success] = I18n.t('campaign.action.updated')
           redirect_to campaigns_path
@@ -101,7 +105,8 @@ class CampaignsController < ApplicationController
   end
 
   def create_params
-    @campaign_params = params.require(:campaign).permit(:name, :description).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign).merge(:project_id => @project.id)
+    @campaign_params[:provider_campaign] = @project.owner.is_provider?.present?
     @campaign_params
   end
 
