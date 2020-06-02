@@ -1,0 +1,10 @@
+%tr
+  %th= format_time(invoice.created_at)
+  %th= invoice.uuid
+  %td= invoice.campaign.project.name
+  %td= invoice.campaign.name
+  %td= invoice.comments
+  %td
+    - invoice.documents.each do |doc|
+      = link_to("#{t("provider_invoices.download_attachment")} #{doc.filename.extension_without_delimiter}", rails_blob_url(doc, disposition: 'attachment'))
+      %br

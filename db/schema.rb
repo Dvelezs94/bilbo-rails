@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_02_143127) do
+ActiveRecord::Schema.define(version: 2020_05_27_225034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -198,6 +198,19 @@ ActiveRecord::Schema.define(version: 2020_06_02_143127) do
     t.index ["slug"], name: "index_projects_on_slug", unique: true
   end
 
+  create_table "provider_invoices", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "issuing_id"
+    t.string "documents"
+    t.bigint "campaign_id"
+    t.string "comments"
+    t.string "uuid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id"], name: "index_provider_invoices_on_campaign_id"
+    t.index ["user_id"], name: "index_provider_invoices_on_user_id"
+  end
+
   create_table "reports", force: :cascade do |t|
     t.string "name"
     t.bigint "project_id"
@@ -279,6 +292,8 @@ ActiveRecord::Schema.define(version: 2020_06_02_143127) do
   add_foreign_key "payments", "users"
   add_foreign_key "project_users", "projects"
   add_foreign_key "project_users", "users"
+  add_foreign_key "provider_invoices", "campaigns"
+  add_foreign_key "provider_invoices", "users"
   add_foreign_key "reports", "projects"
   add_foreign_key "verifications", "users"
 end

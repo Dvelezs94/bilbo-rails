@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   if Rails.env.development?
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api"
     require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq'
@@ -32,6 +34,7 @@ Rails.application.routes.draw do
       put :deny_campaign
       put :in_review_campaign
     end
+    resource :provider_invoices, only: :create
   end
   resources :boards, only: [:index, :show, :create] do
     collection do
@@ -53,6 +56,7 @@ Rails.application.routes.draw do
     end
   end
   resources :invoices, only: [:index, :show]
+  resources :provider_invoices, only: [:index]
 
   namespace :admin do
     resources :main, only: [:index]
@@ -100,6 +104,11 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index] do
     collection do
       get :clear
+    end
+  end
+  resources :impressions, only: [:index] do
+    collection do
+      get :fetch
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
