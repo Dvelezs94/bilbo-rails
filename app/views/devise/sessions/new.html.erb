@@ -1,6 +1,5 @@
 <%= render 'devise/shared/header' %>
 <!-- navbar -->
-
 <div class="content content-fixed content-auth">
 <div class="container">
   <%= render "devise/shared/error_messages", resource: resource %>
@@ -43,5 +42,6 @@
 <!-- media -->
 </div>
 <!-- container -->
+<%= devise_error_messages! %>
 </div>
 <!-- content -->

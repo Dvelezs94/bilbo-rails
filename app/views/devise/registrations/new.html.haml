@@ -1,8 +1,7 @@
 = render 'devise/shared/header'
-flash[:notice] = flash[:notice].to_a.concat resource.errors.full_messages
+= devise_error_messages!
 .content.content-fixed.content-auth
   .container
-    = render "devise/shared/error_messages", resource: resource
     .media.align-items-stretch.justify-content-center.ht-100p
       .sign-wrapper.mg-lg-r-50.mg-xl-r-60
         .pd-t-20.wd-100p
