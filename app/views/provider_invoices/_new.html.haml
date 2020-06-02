@@ -1,0 +1,31 @@
+.modal.fade.effect-slide-in-top{id: "modalNewInvoice#{campaign.id}", "aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20.pd-sm-30
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &#215;
+        %h5.tx-18.tx-sm-20.mg-b-30= t("invoices.new_invoice")
+        .row
+          .col-12.m-auto
+            .pd-20
+              = form_with(model: ProviderInvoice, url: campaign_provider_invoices_path(campaign.id), method: :post, :html => { :id => "new_invoice_#{campaign.id}", data: { parsley_validate: true } }, remote: true) do |f|
+                .form-group
+                  .custom-file.mg-b-10-f
+                    = f.label :uuid, t("provider_invoices.invoice_uuid")
+                    = f.text_field(:uuid, placeholder: t("provider_invoices.invoice_uuid"), required: true, class: "form-control")
+
+                .form-group
+                  .custom-file.mg-b-10-f
+                    = f.file_field :documents, multiple: true, required: true, class: "custom-file-input", accept: 'application/pdf, application/xml'
+                    = f.label :documents, t("provider_invoices.attach_files"), class: "custom-file-label"
+
+                  = f.label :comments, t("provider_invoices.comments")
+                  = f.text_area :comments, class: "form-control", value: "", autocomplete: "off", placeholder: t("provider_invoices.comments_placeholder")
+                .actions.col-sm-12.col-md-6.m-auto
+                  = f.submit t("provider_invoices.send_invoice"), class: "btn btn-primary btn-block"
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+      / modal-footer
+    / modal-content
+  / modal-dialog
+/ modal

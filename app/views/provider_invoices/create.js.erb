@@ -1,0 +1,7 @@
+<% if @success_message.present? %>
+  show_success("<%= escape_javascript(@success_message)%>");
+  $('.modal').modal('hide');
+  $('[id*=new_invoice]').trigger("reset");
+<% else %>
+  show_error("<%= escape_javascript(@error_message)%>");
+<% end %>
