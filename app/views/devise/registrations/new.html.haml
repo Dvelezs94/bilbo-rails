@@ -1,4 +1,5 @@
 = render 'devise/shared/header'
+flash[:notice] = flash[:notice].to_a.concat resource.errors.full_messages
 .content.content-fixed.content-auth
   .container
     = render "devise/shared/error_messages", resource: resource
