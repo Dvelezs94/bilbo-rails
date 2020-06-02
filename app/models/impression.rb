@@ -16,7 +16,11 @@ class Impression < ApplicationRecord
   end
 
   def set_total_price
-    self.total_price = (board.cycle_price * cycles).round(3)
+    if self.campaign.provider_campaign
+      self.total_price = 0
+    else
+      self.total_price = (board.cycle_price * cycles).round(3)
+    end
   end
 
   def update_balance

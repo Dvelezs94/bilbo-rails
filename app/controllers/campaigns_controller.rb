@@ -105,7 +105,8 @@ class CampaignsController < ApplicationController
   end
 
   def create_params
-    @campaign_params = params.require(:campaign).permit(:name, :description).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign).merge(:project_id => @project.id)
+    @campaign_params[:provider_campaign] = @project.owner.is_provider?.present?
     @campaign_params
   end
 
