@@ -99,7 +99,7 @@ class Board < ApplicationRecord
 
   # Return campaigns active
   def active_campaigns
-    Campaign.where(id: board_campaigns.approved.pluck(:campaign_id)).active.where(state: true)
+    campaigns.to_a.select(&:should_run?)
   end
 
   private
@@ -158,7 +158,7 @@ class Board < ApplicationRecord
     )
     self.update!(qr: Base64.encode64(png.to_s))
   end
-  
+
   def to_s
     name
   end

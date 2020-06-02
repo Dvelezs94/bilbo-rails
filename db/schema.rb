@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_225034) do
     t.bigint "ad_id"
     t.string "slug"
     t.datetime "state_updated_at"
+    t.boolean "provider_campaign"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
