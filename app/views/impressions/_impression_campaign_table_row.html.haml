@@ -1,0 +1,11 @@
+- @campaign = Campaign.find(campaign_impression[0])
+%tr
+  %th{:scope => "row"}= @campaign.name
+  %td= campaign_impression[1][:impressions_count]
+  %td= number_to_currency_usd(campaign_impression[1][:total_invested])
+  %td
+    %a{href: ""} Descargar CSV
+  %td
+    %a{href: "", "data-toggle": "modal", "data-target": "#modalNewInvoice#{@campaign.id}"} Subir Factura
+
+    = render "provider_invoices/new", campaign: @campaign

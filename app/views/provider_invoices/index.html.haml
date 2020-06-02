@@ -1,0 +1,32 @@
+= render 'shared/header', menu: ""
+.content.content-fixed
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "/"}= t("campaign.home")
+            %li.breadcrumb-item.active{"aria-current" => "page"}= t("provider_invoices.provider_invoices")
+        %h4.mg-b-0.tx-spacing--1= t("provider_invoices.provider_invoices")
+    - if @provider_invoices.length > 0
+      .row
+        .table-responsive
+          %table#invoicesTable.table
+            %thead
+              %tr
+                %th= t("provider_invoices.invoice_upload_date")
+                %th.no-sort= t("provider_invoices.invoice_uuid")
+                %th= t("projects.project")
+                %th= t("campaign.campaign")
+                %th= t("provider_invoices.comments")
+                %th.no-sort= t("provider_invoices.downloadable_files")
+            %tbody
+              = render partial: "provider_invoices/provider_invoice_row", collection: @provider_invoices, as: :invoice
+    - else
+      .ht-100p.d-flex.flex-column.align-items-center.justify-content-center
+        .wd-150.wd-sm-250.mg-b-30
+          = image_tag image_path("humaaans/img17"), class: "img-fluid"
+        %h4.tx-20.tx-sm-24= t("general_inputs.nothing_to_see_here")
+  / container
+/ content
