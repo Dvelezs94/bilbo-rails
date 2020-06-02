@@ -32,7 +32,7 @@ en:
     terms_of_service_agreement: By signing up, you agree to our terms of service and privacy statement.
   header:
     account_settings: Account Settings
-    invoices: Invoices
+    invoices: Receipts
     manage_team: Manage Team
     manage_projects: Projects
     view_profile: View Profile
@@ -120,7 +120,6 @@ en:
     campaign_name: Name
     campaign_date: Date
     wont_be_able_to_update_state: You will not be able to update the state until
-    impressions: Daily impressions
     impressions_per_day: Impressions
     popular_hours: Most popular hours
     approve_campaign: Are you sure change status to approved?
@@ -219,15 +218,15 @@ en:
     verification_needed: A verified profile is needed in order to buy credits. Answer the form below or click the following link to verify your profile.
     verify_account: Verify Account
   invoices:
-    invoice: Invoice
-    invoices: Invoices
+    invoice: Receipt
+    invoices: Receipts
     issued_at: Issued at
     beneficiary_name: beneficiary name
     total_amount: Total amount
-    go_to_invoice: Go to invoice
-    number: Invoice Number
+    go_to_invoice: Go to receipt
+    number: Receipt Number
     billed_to: Billed to
-    information: Invoice information
+    information: Receipt information
     type: Type
     description: Description
     quantity: Quantity
@@ -236,6 +235,23 @@ en:
     print: print
     notes: Notes
     all_prices_are_in_currency: All prices are charged and shown in %{currency}.
+  provider_invoices:
+    provider_invoices: Invoices
+    provider_invoice: Invoice
+    invoice_uuid: Invoice ID
+    downloadable_files: Downloadable files
+    download_attachment: Download attachment
+    invoice_upload_date: Invoice Upload Date
+    comments: Comments
+    comments_placeholder: Comments for the invoice
+    attach_files: Attach files PDF and XML
+    send_invoice: Send Invoice
+    invoice_created: Invoice Sent
+    invoice_error: Invoice creation error, contact support.
+    mailer:
+      go_to_invoices: Go to my Invoices
+      invoice_subject: New invoice created for your campaign %{campaign_name}
+      invoice_message: You have a new invoice for your campaign %{campaign_name} which is on your project %{project_name}. Click on the button below to view your invoices
   notifications:
     notifications: Notifications
     view_all: View All
@@ -243,6 +259,7 @@ en:
     mark_as_read: Mark as read
   dashboards:
     export_to_csv: Export to CSV
+    view_impressions: View All Impressions
     print: Print
     settings: Settings
     impressions_count: Impressions Count

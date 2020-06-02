@@ -32,7 +32,7 @@ es:
     terms_of_service_agreement: al registrarte estas de acuerdo con nuestros terminos y condiciones al igual que nuestra politica de privacidad.
   header:
     account_settings: Ajustes de cuenta
-    invoices: Facturas
+    invoices: Recibos
     manage_team: Equipo
     manage_projects: Proyectos
     view_profile: Ver perfil
@@ -121,7 +121,6 @@ es:
     campaign_name: Nombre
     campaign_date: Fecha
     wont_be_able_to_update_state: No podrás actualizar el estado hasta dento de
-    impressions: Impresiones diarias
     impressions_per_day: Impresiones
     invested: Daily invested
     popular_hours: Horas mas populares
@@ -220,15 +219,15 @@ es:
     verification_needed: Necesitas un perfil verificado para poder comprar créditos. Responde la encuesta debajo o haz click en la siguiente liga para verificar tu cuenta.
     verify_account: Verificar Cuenta
   invoices:
-    invoice: Factura
-    invoices: Facturas
+    invoice: Recibo
+    invoices: Recibos
     issued_at: Fecha de emision
     beneficiary_name: Nombre del beneficiario
     total_amount: Cantidad total
-    go_to_invoice: Ir a la factura
-    number: Numero de Factura
-    billed_to: Facturado a
-    information: Informacion de factura
+    go_to_invoice: Ir al Recibo
+    number: Numero de Recibo
+    billed_to: Emitido a
+    information: Informacion de recibo
     type: Tipo
     description: Descripcion
     quantity: Cantidad
@@ -237,6 +236,23 @@ es:
     print: Imprimir
     notes: Notas
     all_prices_are_in_currency: Todos los precios son cargados y mostrados en %{currency}
+  provider_invoices:
+    provider_invoices: Facturas
+    provider_invoice: Factura
+    invoice_uuid: Identificafor de la Factura
+    downloadable_files: Archivos descargables
+    download_attachment: Descargar archivo
+    invoice_upload_date: Fecha de subida
+    comments: Comentarios
+    comments_placeholder: Comentarios acerca de la factura
+    attach_files: Adjuntar documentos PDF y XML
+    send_invoice: Enviar Factura
+    invoice_created: Factura enviada
+    invoice_error: Error al enviar Factura, contacta al soporte para mayor información
+    mailer:
+      go_to_invoices: Go to my Invoices
+      invoice_subject: New invoice created for your campaign %{campaign_name}
+      invoice_message: You have a new invoice for your campaign %{campaign_name} which is on your project %{project_name}. Click on the button below to view your invoices
   notifications:
     notifications: Notificaciones
     view_all: Ver Todas
@@ -244,6 +260,7 @@ es:
     mark_as_read: Marcar como leído
   dashboards:
     export_to_csv: Exportar a CSV
+    view_impressions: Ver Impresiones
     print: Imprimir
     settings: Configuración
     impressions_count: Cuenta de impresiones

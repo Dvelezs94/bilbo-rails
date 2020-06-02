@@ -1,0 +1,36 @@
+= render 'shared/header', menu: 'statistics'
+
+.content.content-fixed
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-25.mg-xl-b-30
+      .d-none.d-md-block
+        %nav{ 'aria-label' => 'breadcrumb' }
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              = link_to t('campaign.home'), root_path
+            %li.breadcrumb-item.active{"aria-current" => "page"}= t("campaign.impressions")
+        %h4.mg-b-0.tx-spacing--1
+          = t('campaign.impressions')
+
+    = form_for(:impression, url: fetch_impressions_path, method: :get, :html => { data: { parsley_validate: true } }, remote: true) do |f|
+      .form-row
+        .form-group.col-md-5
+          = f.select(:board_id, @project.boards.all.collect {|b| [ "#{b.name} - #{b.face} ", b.slug ] }, { include_blank: "Selecciona un Bilbo" }, class: "custom-select", required: true)
+        .form-group.col-md-3.d-flex.align-items-end
+          = f.text_field :start_date, class: "form-control", placeholder: "Fecha inicio", required: true, value: (Date.today - 1.month).strftime("%m-%d-%Y")
+          .invalid-feedback This is required
+        .form-group.col-md-3.d-flex.align-items-end
+          = f.text_field :end_date, class: "form-control", placeholder: "Fecha fin", required: true, value:  Date.today.strftime("%m-%d-%Y")
+          .invalid-feedback This is required
+        .form-group.col-md-1.d-flex.align-items-end
+          %button.btn.btn-primary.btn-block{:type => "submit"}
+            %i.mg-l-5.fe.fe-search
+    %table.table#impressionsTable
+      %thead
+        %tr
+          %th{:scope => "col"} Campaña
+          %th{:scope => "col"} Número de impresiones
+          %th{:scope => "col"} Cargo Total
+          %th{:scope => "col"} Descargar impresiones
+          %th
+      %tbody

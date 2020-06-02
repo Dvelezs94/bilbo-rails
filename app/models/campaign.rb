@@ -10,6 +10,7 @@ class Campaign < ApplicationRecord
   belongs_to :ad, optional: true
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :boards, through: :board_campaigns
+  has_many :provider_invoices
   # status is for the
   enum status: { active: 0, inactive: 1 }
 
