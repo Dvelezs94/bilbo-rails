@@ -28,7 +28,6 @@ class ImpressionsController < ApplicationController
       @campaign_impressions[key] = {impressions_count: value, total_invested: @impressions.group(:campaign_id).sum(:total_price)[key]}
     end
     return @campaign_impressions
-    #@campaign_impressions = Board.find(impression_params[:board_id]).impressions.where(created_at: impression_params[:start_date]..impression_params[:end_date]).group(:campaign_id).sum(:total_price)
   end
 
   # make sure only the correct provider can access the impressions
