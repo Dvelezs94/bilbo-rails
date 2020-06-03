@@ -1,19 +1,8 @@
-<% if flash.present? %>
-  <div id='flash'>
-   <script>
-     <% if flash[:success] %>
-       var $toastContent = $('<span><%= flash[:success] %></span>');
-       toastr.success($toastContent)
-     <% end %>
-     <% if flash[:info] %>
-       var $toastContent = $('<span><%= flash[:info] %></span>');
-       toastr.info($toastContent)
-     <% end %>
-     <% if flash[:error] %>
-       var $toastContent = $('<span><%= flash[:error] %></span>');
-       toastr.error($toastContent)
-     <% end %>
-   </script>
-  </div>
+<% unless flash.empty? %>
+<script type="text/javascript">
+  <% flash.each do |f| %>
+  <% type = f[0].to_s.gsub('alert', 'error').gsub('notice', 'info') %>
+   toastr['<%= type %>']('<%= f[1] %>');
+  <% end %>
+</script>
 <% end %>
-
