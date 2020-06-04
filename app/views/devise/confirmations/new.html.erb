@@ -1,16 +1,24 @@
-<h2>Resend confirmation instructions</h2>
+<%= render "devise/shared/header" %>
+<%= devise_error_messages! %>
+<div class="content content-fixed content-auth-alt">
+  <div class="container d-flex justify-content-center ht-100p">
+    <div class="mx-wd-300 wd-sm-450 ht-100p d-flex flex-column align-items-center justify-content-center">
+      <div class="mx-lg-wd-80p wd-sm-300 mg-b-15">
+        <%= image_tag image_path("humaaans/img17"), class: "img-fluid" %>
+      </div>
+      <h4 class="tx-20 tx-sm-24"><%= t('devise.registrations.verify_email') %></h4>
+      <p class="tx-color-03 mg-b-30 tx-center"><%= t('devise.registrations.message_veryfy_email') %></p>
 
-<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+      <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control wd-sm-250 flex-fill", placeholder: t('authentication.reset_password_hint'), required: "required" %>
+        <%= f.submit t('devise.sessions.resend_confirmation_instructions'), class: "btn btn-brand-02 mg-sm-l-10 mg-t-10 mg-sm-t-0" %>
+
+      </div>
+    <% end %>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Resend confirmation instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
+<!-- container -->
+</div>
+<!-- content -->
