@@ -34,9 +34,15 @@
         Facebook</button>
       <button onclick="window.location.href = '<%= user_google_oauth2_omniauth_authorize_path %>';" class="btn btn-outline-google btn-block"><%= t('devise.generic.connect_with') %>
         Google</button> -->
-      <div class="tx-13 mg-t-20 tx-center"><%= t('devise.registrations.dont_have_account') %>
-        <%= link_to t('devise.registrations.register_now'), new_user_registration_path %></div>
-        <%= link_to t('devise.sessions.confirmation_instructions'), new_confirmation_path(resource_name), class: "tx-13 mg-t-20 tx-rigth pd-l-55" %>
+      <div class="tx-13 mg-t-20 tx-center">
+        <div class="col-12">
+          <%= t('devise.registrations.dont_have_account') %>
+          <%= link_to t('devise.registrations.register_now'), new_user_registration_path %>
+        </div>
+        <div class="col-12">
+          <%= link_to t('devise.sessions.confirmation_instructions'), new_confirmation_path(resource_name), class: "tx-13 mg-t-20" %>
+        </div>
+    </div>
     </div>
   </div>
   <!-- sign-wrapper -->
