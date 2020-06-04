@@ -34,9 +34,10 @@
 
   </head>
   <body>
-    <%= render :partial => 'flash/flash', :flash => flash %>
-    <%= yield %>
 
+
+    <%= render :partial => 'flash/flash'%>
+    <%= yield %>
     <%= render 'shared/spinner' %>
 
   </body>

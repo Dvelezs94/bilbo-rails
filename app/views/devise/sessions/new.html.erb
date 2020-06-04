@@ -1,9 +1,9 @@
 <%= render 'devise/shared/header' %>
 <!-- navbar -->
-
+<%= devise_error_messages! %>
+<%= render "devise/shared/error_messages", resource: resource %>
 <div class="content content-fixed content-auth">
 <div class="container">
-  <%= render "devise/shared/error_messages", resource: resource %>
   <div class="media align-items-stretch justify-content-center ht-100p pos-relative">
     <div class="media-body align-items-center d-none d-lg-flex">
       <div class="mx-wd-600">
@@ -36,6 +36,7 @@
         Google</button> -->
       <div class="tx-13 mg-t-20 tx-center"><%= t('devise.registrations.dont_have_account') %>
         <%= link_to t('devise.registrations.register_now'), new_user_registration_path %></div>
+        <%= link_to t('devise.sessions.confirmation_instructions'), new_confirmation_path(resource_name), class: "tx-13 mg-t-20 tx-rigth pd-l-55" %>
     </div>
   </div>
   <!-- sign-wrapper -->
