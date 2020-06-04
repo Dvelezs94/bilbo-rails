@@ -107,6 +107,9 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # GTM
+  GoogleTagManager.gtm_id = ENV.fetch("GOOGLE_TAG_MANAGER_ID")
+
   if ENV.fetch("ENVNAME") == "local"
     Rails.application.routes.default_url_options[:host] = "http://lvh.me"
     config.action_mailer.default_url_options = { host: "http://lvh.me" }

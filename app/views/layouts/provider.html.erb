@@ -28,8 +28,9 @@
 
   </head>
   <body>
-  <%= render :partial => 'flash/flash'%>
+    <%= google_tag_manager %>
+    <%= render :partial => 'flash/flash'%>
     <%= yield %>
-      <%= render 'shared/spinner' %>
+    <%= render 'shared/spinner' %>
   </body>
 </html>
