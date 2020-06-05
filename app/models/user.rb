@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   attribute :project_name
+  include NotificationsHelper
   ############################################################################################
   ## PeterGate Roles                                                                        ##
   ## The :user role is added by default and shouldn't be included in this list.             ##
@@ -21,7 +22,7 @@ class User < ApplicationRecord
   has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
   after_commit :set_project, on: :create
-
+  before_save :notify_credits, if: :balance_changed?
   has_many :payments
   has_many :invoices
   has_many :provider_invoices
@@ -70,6 +71,20 @@ class User < ApplicationRecord
 
   def is_user?
     true if roles.include?(:user)
+  end
+
+  def notify_credits
+    if self.balance < 5 && self.is_user?.present?
+      self.projects.each do |project|
+        puts project.id
+        if project.campaigns.find_by(state: true).present? && project.notifications.find_by(action: "out of credits").nil?
+          create_notification(recipient_id: project.id, actor_id: project.id, action: "out of credits", notifiable: self)
+        elsif project.campaigns.find_by(state: true).present? && project.notifications.find_by(action: "out of credits").created_at < Time.zone.now.ago(30.minutes)
+          create_notification(recipient_id: project.id, actor_id: project.id, action: "out of credits", notifiable: self)
+          break
+        end
+      end
+    end
   end
 
   def charge!(charge)
