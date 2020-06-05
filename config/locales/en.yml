@@ -319,19 +319,29 @@ en:
       clear: Clear Notifications
     campaign:
       created:
+        subject: The campaign <strong>%{campaign_name}</strong> is waiting for your review.
         message: The campaign <strong>%{campaign_name}</strong> is waiting for your review.
         url_string: Review Campaigns
       approved:
+        subject: Your campaign <strong>%{campaign_name}</strong> has been approved on bilbo <strong>%{bilbo_name}</strong>
         message: Your campaign <strong>%{campaign_name}</strong> has been approved on bilbo <strong>%{bilbo_name}</strong>
         url_string: Go to my Campaign
       denied:
+        subject: Your campaign <strong>%{campaign_name}</strong> was denied on bilbo <strong>%{bilbo_name}</strong>
         message: Your campaign <strong>%{campaign_name}</strong> was denied on bilbo <strong>%{bilbo_name}</strong>
         url_string: Go to my Campaign
     user:
       out_of_credits:
-        message: Your account is running out of credits
+        subject: Your account is running out of credits
+        message: Your project campaigns will stop due to lack of credits, buy more credits to broadcast again
         url_string: Purchase Credits
     report:
       weekly_ready:
+        subject: Your weekly report is ready to be downloaded
         message: Your weekly report is ready to be downloaded
         url_string: Download Report
+  alert:
+    project_out_of_credits: Your project is running out of credits
+    verify_profile: Verify your profile for
+    purchase_credits: Purchase Credits
+    more_credits: Notify the owner of the project that purchase credits
