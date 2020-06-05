@@ -203,6 +203,15 @@ en:
     delete_ad: Delete Ad
     no_ad: No ad attached
     transition: Effect transition
+    transitions:
+      no_transition: No Transition
+      fadeInDown: Fade In Down
+      fadeInUp: Fade In Up
+      fadeInLeft: Fade In Left
+      fadeInRight: Fade In Right
+      update:
+        success: Transition updated
+        error: Could not update transition
     action:
       media_removed: Multimedia has been deleted succesfully
     errors:

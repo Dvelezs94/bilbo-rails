@@ -37,6 +37,10 @@
   object-fit: cover;
 }
 
+.obj-fit-scale-down {
+  object-fit: scale-down !important;
+}
+
 .new-ad-thumb {
   height: 107px !important; }
   @media (max-width: 991.98px) {

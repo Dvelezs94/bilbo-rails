@@ -28,9 +28,10 @@ class AttachmentsController < ApplicationController
 
   def update
     if @ad.present?
-        @ad.multimedia.find_by_id(params[:id]).update(transition:params[:effect])
-        respond_to do |format|
-        format.html{head :no_content}
+      if @ad.multimedia.find_by_id(params[:id]).update(transition:params[:effect])
+        @success_message = I18n.t("ads.transitions.update.success")
+      else
+        @error_message = I18n.t("ads.transitions.update.error")
       end
     end
   end
