@@ -28,31 +28,36 @@ class Notification < ApplicationRecord
       when "created"
         { url: provider_index_campaigns_url(q: "review"),
           url_string: I18n.t("#{translation}.url_string"),
-          message: I18n.t("#{translation}.message", campaign_name: notifiable.name) }
+          message: I18n.t("#{translation}.message", campaign_name: notifiable.name),
+          subject: I18n.t("#{translation}.subject") }
       when "approved"
         { url: analytics_campaign_url(notifiable.slug),
           url_string: I18n.t("#{translation}.url_string"),
           message: I18n.t("#{translation}.message",
-          campaign_name: notifiable.name, bilbo_name: reference.name) }
+          campaign_name: notifiable.name, bilbo_name: reference.name),
+          subject: I18n.t("#{translation}.subject") }
       when "denied"
         { url: analytics_campaign_url(notifiable.slug),
           url_string: I18n.t("#{translation}.url_string"),
           message: I18n.t("#{translation}.message",
-          campaign_name: notifiable.name, bilbo_name: reference.name) }
+          campaign_name: notifiable.name, bilbo_name: reference.name),
+          subject: I18n.t("#{translation}.subject") }
       end
     when "User"
       case action
       when "out of credits"
-        { url: provider_index_campaigns_url(q: "review"),
+        { url: campaigns_url(credits: "true"),
           url_string: I18n.t("#{translation}.url_string"),
-          message: I18n.t("#{translation}.message") }
+          message: I18n.t("#{translation}.message"),
+          subject: I18n.t("#{translation}.subject") }
       end
     when "Report"
       case action
       when "weekly ready"
         { url: provider_index_campaigns_url(q: "review"),
           url_string: I18n.t("#{translation}.url_string"),
-          message: I18n.t("#{translation}.message") }
+          message: I18n.t("#{translation}.message"),
+        subject: I18n.t("#{translation}.subject") }
       end
     end
   end
@@ -68,7 +73,7 @@ class Notification < ApplicationRecord
     notif_body = self.build_notification_body
     recipient.users.each do |user|
       NotificationMailer.new_notification(user: user, message: ActionView::Base.full_sanitizer.sanitize(notif_body[:message]),
-        subject: I18n.t("notifications.new_notification", project_name: recipient.name),
+        subject: notif_body[:subject],
         link: notif_body[:url], link_text: notif_body[:url_string]).deliver
     end
   end

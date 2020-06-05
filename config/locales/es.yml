@@ -320,19 +320,29 @@ es:
       clear: Marcar como leídas
     campaign:
       created:
+        subject: La campaña <strong>%{campaign_name}</strong> ha sido creada para tus Bilbos
         message: La campaña <strong>%{campaign_name}</strong> ha sido creada para tus Bilbos
         url_string: Revisar Campaña
       approved:
+        subject: Tu campaña <strong>%{campaign_name}</strong> ha sido aceptada en el Bilbo <strong>%{bilbo_name}</strong>
         message: Tu campaña <strong>%{campaign_name}</strong> ha sido aceptada en el Bilbo <strong>%{bilbo_name}</strong>
         url_string: Ir a la Campaña
       denied:
+        subject: Tu campaña <strong>%{campaign_name}</strong> ha sido denegada el Bilbo <strong>%{bilbo_name}</strong>
         message: Tu campaña <strong>%{campaign_name}</strong> ha sido denegada el Bilbo <strong>%{bilbo_name}</strong>
         url_string: Ir a la Campaña
     user:
       out_of_credits:
-        message: Tus créditos se están agotando
+        subject: Tus créditos se están agotando
+        message: Las campañas de su proyecto se detendrán debido a la falta de créditos, compre más créditos para transmitir nuevamente
         url_string: Comprar Créditos
     report:
       weekly_ready:
+        subject: Tu reporte semanal está listo para descargar
         message: Tu reporte semanal está listo para descargar
         url_string: Descargar Reporte
+  alert:
+    project_out_of_credits: Tu proyecto se esta quedando sin créditos
+    verify_profile: Verifica tu perfil para
+    purchase_credits: Comprar créditos
+    more_credits: Avise al dueño del proyecto que compre créditos
