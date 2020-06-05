@@ -25,7 +25,7 @@
                 .input-group
                   = f.email_field :email, required: true, class: "form-control", placeholder: "john-doe@mail.com"
                   .input-group-append{title: t('projects.role')}
-                    = f.select(:role, ["user", "administrator"], {:include_blank => false}, {:class => "custom-select"})
+                    = f.select(:role, ["user", "administrator"], {:include_blank => false}, {:class => "custom-select", style: "border-radius: 0px 0.25rem 0.25rem 0px;"})
 
               = f.submit  t('projects.send_invite'), class: "btn btn-primary float-right"
       .modal-footer
