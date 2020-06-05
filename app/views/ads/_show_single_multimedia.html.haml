@@ -7,7 +7,7 @@
       %span= "#{multimedia.metadata[:width]} x #{multimedia.metadata[:height]}"
       %div.pd-t-10
       %span= I18n.t('ads.transition')
-      = select_tag "",options_for_select(Ad.transitions.reject.with_index{ |x, i| x[1] == multimedia.transition }.map{|x|  [x[0],x[1]]}) ,onchange: "$.post('#{ad_attachment_path(multimedia.record,multimedia)}',{'_method':'put', 'effect': this.value} );", class: 'custom-select',:prompt => Ad.transitions.key(multimedia.transition)
+      = select_tag "",options_for_select(Ad.transitions.map{|x|  [t("ads.transitions.#{x[0]}"),x[1]]}, multimedia.transition) ,onchange: "$.post('#{ad_attachment_path(multimedia.record,multimedia)}',{'_method':'put', 'effect': this.value} );", class: 'custom-select'
     .card-footer
       %span.d-sm-inline
         = t("general_inputs.size")

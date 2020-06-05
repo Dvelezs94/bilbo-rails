@@ -8,7 +8,7 @@
     .modal-dialog.modal-dialog-centered{role: "document"}
       .modal-content.tx-14
   %td.text-between= board_campaign.campaign.created_at.strftime("%d/%m/%Y")
-  %td.text-between= board_campaign.board.name
+  %td.text-between= link_to(board_campaign.board.name, statistics_board_path(board_campaign.board))
   %td.text-between= board_campaign.campaign.budget
   -if board_campaign.campaign.state.to_s == "true"
     %td.text-between= t('campaign.status_on')
