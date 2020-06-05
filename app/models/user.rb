@@ -76,12 +76,14 @@ class User < ApplicationRecord
   def notify_credits
     if self.balance < 5 && self.is_user?.present?
       self.projects.each do |project|
-        puts project.id
-        if project.campaigns.find_by(state: true).present? && project.notifications.find_by(action: "out of credits").nil?
-          create_notification(recipient_id: project.id, actor_id: project.id, action: "out of credits", notifiable: self)
-        elsif project.campaigns.find_by(state: true).present? && project.notifications.find_by(action: "out of credits").created_at < Time.zone.now.ago(30.minutes)
-          create_notification(recipient_id: project.id, actor_id: project.id, action: "out of credits", notifiable: self)
-          break
+        #if the project dont have notifications created else check if created at 30 minutes
+        if project.campaigns.find_by(state: true).present?
+          if project.notifications.find_by(action: "out of credits").nil?
+            create_notification(recipient_id: project.id, actor_id: project.id, action: "out of credits", notifiable: self)
+          else project.notifications.find_by(action: "out of credits").created_at < Time.zone.now.ago(30.minutes)
+            create_notification(recipient_id: project.id, actor_id: project.id, action: "out of credits", notifiable: self)
+            break
+          end
         end
       end
     end

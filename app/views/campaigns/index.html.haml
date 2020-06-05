@@ -28,11 +28,11 @@
           %span{"aria-hidden" => "true"} ×
     -elsif @project.owner.balance < 20 && !current_user.is_provider?
       .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
-        -if @project.owner.verified
-          %i.mg-r-10{class: "fe fe-warning"}
-          = t('alert.more_credits')
+        %i.mg-r-10{class: "fe fe-warning"}
+        = t('alert.more_credits')
         %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
           %span{"aria-hidden" => "true"} ×
+
     - if @project.campaigns.active.size > 0
       .row
         .table-responsive
