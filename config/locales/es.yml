@@ -206,7 +206,7 @@ es:
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
-      fadeInUp: Enrada por Arriba
+      fadeInUp: Entrada por Arriba
       fadeInLeft: Entrada por Izquierda
       fadeInRight: Entrada por Derecha
       update:
