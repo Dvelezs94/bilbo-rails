@@ -74,7 +74,7 @@ body {
 
 table {
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(28, 39, 60, 0.05);
+  box-shadow: 0 0 10px rgba(28, 39, 60, 0.03);
 }
 
 [tabindex="-1"]:focus {
@@ -3298,7 +3298,7 @@ input[type="button"].btn-block {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  box-shadow: 0 0 10px rgba(28, 39, 60, 0.05);
+  box-shadow: 0 0 10px rgba(28, 39, 60, 0.02);
   border: 1px solid rgba(72, 94, 144, 0.16);
   border-radius: 0.25rem; }
   .card > hr {
