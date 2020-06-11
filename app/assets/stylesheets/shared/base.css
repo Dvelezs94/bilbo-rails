@@ -30,6 +30,7 @@
   --cyan: #00b8d4;
   --white: #fff;
   --gray: #7987a1;
+  --gray-900: #1c273c;
   --gray-dark: #3b4863;
   --primary: #0168fa;
   --secondary: #7987a1;
@@ -69,7 +70,12 @@ body {
   line-height: 1.5;
   color: #001737;
   text-align: left;
-  background-color: #fff; }
+  background-color: #f5f6fa; }
+
+table {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(var(--gray-900), .05);
+}
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }
@@ -3292,6 +3298,7 @@ input[type="button"].btn-block {
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
+  box-shadow: 0 0 10px rgba(var(--gray-900), .05);
   border: 1px solid rgba(72, 94, 144, 0.16);
   border-radius: 0.25rem; }
   .card > hr {
