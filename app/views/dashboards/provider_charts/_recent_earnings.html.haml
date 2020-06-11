@@ -21,12 +21,12 @@
           - @earnings.sort_by {|k,v| k}.reverse.each do |earning|
             %tr
               %td.tx-color-03.tx-normal= I18n.l(earning[0], format: :long)
-              %td.tx-medium.text-right 1,050
+              %td.tx-medium.text-right= earning[1][:impressions_count]
               %td.text-right.tx-teal
-                + #{number_to_currency_usd(earning[1])}
+                + #{number_to_currency_usd(earning[1][:gross_earnings])}
               %td.text-right.tx-pink
-                \- #{number_to_currency_usd(earning[1] * 0.20)}
-              %td.tx-medium.text-right.tx-success= number_to_currency_usd(earning[1] * 0.80)
+                \- #{number_to_currency_usd(earning[1][:gross_earnings] * 0.20)}
+              %td.tx-medium.text-right.tx-success= number_to_currency_usd(earning[1][:gross_earnings] * 0.80)
   .card.card-body.ht-lg-100
     .media
       %span

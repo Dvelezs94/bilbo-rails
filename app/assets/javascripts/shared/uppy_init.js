@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function() {
   if ($("#drag-drop-area").length) {
-    var create_attachment_url = window.location.href + "/attachments";
+    var create_attachment_url = document.location.protocol +"//"+ document.location.hostname + document.location.pathname + "/attachments";
     var uppy = Uppy.Core({
       restrictions: {
         maxFileSize: 10000000,
@@ -18,9 +18,13 @@ $(document).on('turbolinks:load', function() {
     // uppy.use(Uppy.GoogleDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
     // uppy.use(Uppy.Webcam, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
 
-    uppy.on('upload-success', (result) => {
+    uppy.on('complete', (result) => {
       setTimeout(function(){
-        location.reload();
+        if ($.urlParam('campaign_ref')) {
+          document.location.href = '/campaigns/' + $.urlParam('campaign_ref') + "/edit"
+        } else {
+          location.reload();
+        }
       }, 2000);
     })
 
