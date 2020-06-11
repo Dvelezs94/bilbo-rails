@@ -217,7 +217,7 @@ en:
     errors:
       wont_be_able_to_delete: This ad can't be deleted because of active campaigns
       wont_be_able_to_update: This ad can't be updated because of active campaigns
-    new_ad_description: Create a new ad for your campaigns
+    new_ad_description: Create a new amazing and beautiful ad for your campaigns
   payments:
     if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
     processing_order: Processing order...

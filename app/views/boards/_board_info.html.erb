@@ -53,7 +53,7 @@
       </tbody>
     </table>
     <div id="carouselBoardInfo" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner ht-250">
+      <div class="carousel-inner ht-250 center_image_vertically">
         <% if board.images.attached? %>
           <%= render partial: 'boards/board_images', collection: board.images, as: :image %>
         <% else %>
