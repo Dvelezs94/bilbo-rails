@@ -342,6 +342,6 @@ en:
         url_string: Download Report
   alert:
     project_out_of_credits: Your project is running out of credits
-    verify_profile: Verify your profile for
+    verify_profile: Verify your profile to
     purchase_credits: Purchase Credits
     more_credits: Notify the owner of the project that purchase credits
