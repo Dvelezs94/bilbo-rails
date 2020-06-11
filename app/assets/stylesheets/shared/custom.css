@@ -156,3 +156,8 @@ details[open] summary:after {
     z-index: 10000 !important;
 }
 /*  */
+
+.center_image_vertically {
+  display: flex;
+  align-items: flex-end;
+}
