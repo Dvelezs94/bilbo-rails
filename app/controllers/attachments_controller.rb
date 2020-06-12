@@ -4,7 +4,13 @@ class AttachmentsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create, :update]
 
   def create
-    if @ad.campaigns.all_off && @ad.multimedia.attach(params[:files])
+    if @ad.campaigns.all_off
+      if (params[:name].include? "mp4") || (params[:name].include? "webm")
+          @ad.multimedia.attach(params[:files]).each do |video|
+            VideoConverter.perform_async(@ad.id, video.id)
+          end
+      elsif ((!params[:name].include? "mp4") || (!params[:name].include? "webm")) && @ad.multimedia.attach(params[:files])
+    end
       flash[:success] = "Attachment saved"
     else
       flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')

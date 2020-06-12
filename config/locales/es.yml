@@ -203,6 +203,7 @@ es:
     all_multimedia_files: Todos los Archivos Multimedia
     delete_ad: Borrar Anuncio
     transition: Efecto de transición
+    measures: No hay medidas disponibles
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
