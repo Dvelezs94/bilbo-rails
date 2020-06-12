@@ -6,6 +6,7 @@ RUN apt-get update -qq && apt-get install -y sudo \
     build-essential \
     libpq-dev \
     curl \
+    ffmpeg \
     software-properties-common \
     nginx \
     vim \

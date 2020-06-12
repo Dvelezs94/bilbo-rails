@@ -4,7 +4,7 @@ $(document).on('turbolinks:load', function() {
     var uppy = Uppy.Core({
       restrictions: {
         maxFileSize: 10000000,
-        allowedFileTypes: ["image/png", "image/jpeg", "image/gif"]
+        allowedFileTypes: ["image/png", "image/jpeg", "image/gif", "image/webp", "video/mp4", "video/webm"]
       }
     })
     .use(Uppy.Dashboard, {
@@ -18,7 +18,7 @@ $(document).on('turbolinks:load', function() {
     // uppy.use(Uppy.GoogleDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
     // uppy.use(Uppy.Webcam, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
 
-    uppy.on('upload-success', (result) => {
+    uppy.on('complete', (result) => {
       setTimeout(function(){
         location.reload();
       }, 2000);
