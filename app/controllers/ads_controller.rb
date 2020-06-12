@@ -31,7 +31,13 @@ class AdsController < ApplicationController
     if ! @ad.save
       flash[:error] = "Error"
     end
-    redirect_to ad_path(@ad)
+    # if ad is created from campaign wizard, create param to then redirect once the content is uploaded
+    ref = Rails.application.routes.recognize_path(request.referrer)
+    if ref[:controller] == "campaigns"
+      redirect_to ad_path(@ad, campaign_ref: ref[:id])
+    else
+      redirect_to ad_path(@ad)
+    end
   end
 
   def destroy
