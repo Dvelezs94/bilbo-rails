@@ -171,3 +171,7 @@ details[open] summary:after {
   max-height: 60vh;
   overflow: scroll;
 }
+
+.white-background {
+  background-color: #fff;
+}
