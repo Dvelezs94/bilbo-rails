@@ -4,8 +4,6 @@ class AttachmentsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create, :update]
 
   def create
-    puts "x"*800
-  puts
     if @ad.campaigns.all_off
       extension_attachment = ActiveStorage::Filename.new(params[:name]).extension_without_delimiter
       if (extension_attachment.include? "mp4") || (extension_attachment.include? "webm")
