@@ -1,7 +1,7 @@
 .col-sm-12.col-md-4.col-lg-3.pd-b-5.pd-md-l-0
   .card.card-file
     .card-file-thumb.bg-white
-      -if (multimedia.filename.to_s.include? "webm") || (multimedia.filename.to_s.include? "mp4")
+      -if (ActiveStorage::Filename.new(multimedia.filename.to_s).extension_without_delimiter.include? "webm") || (ActiveStorage::Filename.new(multimedia.filename.to_s).extension_without_delimiter.include? "mp4")
         = image_tag "loading.gif", class: "img-inherit", :data => {lity: true}
       -else
         = image_tag multimedia, class: "img-inherit", :data => {lity: true}

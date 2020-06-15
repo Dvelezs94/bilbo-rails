@@ -12,12 +12,13 @@ class VideoConverter
       f.write(video.download)
     end
 
+    movie = FFMPEG::Movie.new(orig_video_tmpfile)
     if movie.duration > 10
       system('ffmpeg', '-i', orig_video_tmpfile, '-ss', "00:00:00", '-to', "00:00:10",'-c', "copy", cut_video_tmpfile)
-      system('ffmpeg', '-i', cut_video_tmpfile, '-compression_level', "6", '-q:v', "60", '-preset', "picture", '-loop', "0", '-vf', "fps=20, scale=720:-1", gif_video_tmpfile)
+      system('ffmpeg', '-probesize', "100M", '-analyzeduration', "100M", '-i', cut_video_tmpfile, '-compression_level', "6", '-q:v', "60", '-preset', "picture", '-loop', "0", '-vf', "fps=20, scale=720:-1", gif_video_tmpfile)
       File.delete(cut_video_tmpfile)
     else
-      system('ffmpeg', '-i', orig_video_tmpfile, '-compression_level', "6", '-q:v', "75", '-preset', "picture", '-loop', "0", '-vf', "fps=20, scale=720:-1", gif_video_tmpfile)
+        system('ffmpeg', '-probesize', "100M", '-analyzeduration', "100M", '-i', orig_video_tmpfile, '-compression_level', "6", '-q:v', "60", '-preset', "picture", '-loop', "0", '-vf', "fps=20, scale=720:-1", gif_video_tmpfile)
     end
 
     Ad.find(ad_id).multimedia.attach(io: File.open(gif_video_tmpfile), filename: "#{video.blob.filename.base}.webp", content_type: 'image/webp')
