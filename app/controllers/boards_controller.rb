@@ -114,6 +114,7 @@ class BoardsController < ApplicationController
                                                         :face,
                                                         :base_earnings,
                                                         :working_hours,
+                                                        :social_class,
                                                         images: [])
   end
 

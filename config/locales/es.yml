@@ -196,6 +196,7 @@ es:
     ads_top: anuncios del top 4 durante 3 meses
     campaign_ads: Anuncios de campañas
     working_hours: Horas activas
+    social_class: Clasificación
   ads:
     ads: Anuncios
     new_ad: Nuevo Anuncio
