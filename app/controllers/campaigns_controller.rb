@@ -22,7 +22,7 @@ class CampaignsController < ApplicationController
   end
 
   def edit
-    @ads = @project.ads.active.select{ |ad| ad.multimedia.any? }
+    @ads = @project.ads.active.order(updated_at: :desc).with_attached_multimedia.select{ |ad| ad.multimedia.any? }
     @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-price': board.cycle_price } ] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""

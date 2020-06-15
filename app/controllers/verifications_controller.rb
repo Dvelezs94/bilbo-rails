@@ -10,6 +10,7 @@ class VerificationsController < ApplicationController
     else
       flash[:error] = "Error, contacta al soporte en el centro de ayuda"
     end
+    SlackNotifyWorker.perform_async("Nueva verificación pendiente del usuario #{@verification.user.email}.")
     redirect_to root_path
   end
 
@@ -33,6 +34,11 @@ class VerificationsController < ApplicationController
   end
   # Make sure user does not send many verifications
   def verify_previous_verification
-    raise_not_found if current_user.verifications.pending.present?
+    if current_user.verifications.pending.present?
+      flash[:notice] = "Ya tienes una verificatión en proceso."
+      # resend notification to admins
+      SlackNotifyWorker.perform_async("Nueva verificación pendiente del usuario #{@verification.user.email}.")
+      redirect_to root_path
+    end
   end
 end

@@ -115,4 +115,8 @@ gem 'bugsnag', '~> 6.13', '>= 6.13.1'
 gem 'chunky_png', '~> 1.3', '>= 1.3.11'
 gem 'rqrcode', '~> 1.1', '>= 1.1.2'
 gem 'google-tag-manager-rails', '~> 0.1.3'
+
 gem 'streamio-ffmpeg', '~> 3.0', '>= 3.0.2'
+
+gem 'slack-notifier', '~> 2.3', '>= 2.3.2'
+

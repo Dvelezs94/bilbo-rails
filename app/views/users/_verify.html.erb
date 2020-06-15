@@ -28,7 +28,7 @@
                   <%= f.label :official_id, raw("Identificación Oficial <span class='tx-danger'>*</span>")  %>
                 </div>
                 <div class="col-sm-9">
-                  <%= f.file_field :official_id, class: "custom-file-input", required: true %>
+                  <%= f.file_field :official_id, accept:'image/*', class: "custom-file-input", required: true %>
                   <%= f.label :official_id, "Elegir Archivo", class: "custom-file-label file-input-100" %>
                 </div>
               </div>
