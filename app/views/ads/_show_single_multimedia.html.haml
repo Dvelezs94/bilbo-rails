@@ -2,7 +2,7 @@
   .card.card-file
     .card-file-thumb.bg-white
       -if (ActiveStorage::Filename.new(multimedia.filename.to_s).extension_without_delimiter.include? "webm") || (ActiveStorage::Filename.new(multimedia.filename.to_s).extension_without_delimiter.include? "mp4")
-        = image_tag "loading.gif", class: "img-inherit", :data => {lity: true}
+        = image_tag "construction_video.webp", class: "img-inherit", :data => {lity: true}
       -else
         = image_tag multimedia, class: "img-inherit", :data => {lity: true}
     .card-body
