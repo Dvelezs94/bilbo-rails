@@ -13,7 +13,7 @@ class Ad < ApplicationRecord
   enum transition: { no_transition: 0, fadeInDown: 1, fadeInUp: 2, fadeInLeft: 3, fadeInRight: 4}
   validates :name, presence: true
 
-  validates :multimedia, content_type: ["image/png", "image/jpeg", "image/gif"]
+  validates :multimedia, content_type: ["image/png", "image/jpeg", "image/gif", "image/webp", "video/mp4", "video/webm"]
   #this is executed when user is trying to delete the ad
   validate :check_if_can_delete, if: :status_changed_to_deleted?
   #this is executed when the ad update the multimedia

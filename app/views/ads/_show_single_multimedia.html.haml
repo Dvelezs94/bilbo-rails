@@ -1,10 +1,16 @@
 .col-sm-12.col-md-4.col-lg-3.pd-b-5.pd-md-l-0
   .card.card-file
     .card-file-thumb.bg-white
-      = image_tag multimedia, class: "img-inherit", :data => {lity: true}
+      -if (ActiveStorage::Filename.new(multimedia.filename.to_s).extension_without_delimiter.include? "webm") || (ActiveStorage::Filename.new(multimedia.filename.to_s).extension_without_delimiter.include? "mp4")
+        = image_tag "construction_video.webp", class: "img-inherit", :data => {lity: true}
+      -else
+        = image_tag multimedia, class: "img-inherit", :data => {lity: true}
     .card-body
-      %h6= multimedia.filename
-      %span= "#{multimedia.metadata[:width]} x #{multimedia.metadata[:height]}"
+      %h6= multimedia.filename.base
+      - if multimedia.metadata[:width].nil?
+        %span= t("ads.measures")
+      -else
+        %span= "#{multimedia.metadata[:width]} x #{multimedia.metadata[:height]}"
       %div.pd-t-10
       %span= I18n.t('ads.transition')
       = select_tag "",options_for_select(Ad.transitions.map{|x|  [t("ads.transitions.#{x[0]}"),x[1]]}, multimedia.transition) ,onchange: "$.post('#{ad_attachment_path(multimedia.record,multimedia)}',{'_method':'put', 'effect': this.value} );", class: 'custom-select'
