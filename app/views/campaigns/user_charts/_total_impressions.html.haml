@@ -1,0 +1,35 @@
+.col-sm-2.col-lg-6
+.col-lg-12.col-xl-8.mg-t-10
+  .card.mg-b-10
+    .card-header.pd-t-20.d-sm-flex.align-items-start.justify-content-between.bd-b-0.pd-b-0
+      %div
+        %h6.mg-b-5 Your Most Recent Earnings
+        %p.tx-13.tx-color-03.mg-b-0 Your sales and referral earnings over the last 30 days
+      .d-flex.mg-t-20.mg-sm-t-0
+        .btn-group.flex-fill
+          %button.btn.btn-white.btn-xs.active Range
+          %button.btn.btn-white.btn-xs Period
+    / card-header
+    .card-body.pd-y-30
+      .d-sm-flex
+        .media
+          .wd-40.wd-md-50.ht-40.ht-md-50.bg-teal.tx-white.mg-r-10.mg-md-r-10.d-flex.align-items-center.justify-content-center.rounded.op-6
+            %i.fe.fe-bar-chart.fnt-md
+          .media-body
+            %h6.tx-sans.tx-uppercase.tx-10.tx-spacing-1.tx-color-03.tx-semibold.tx-nowrap.mg-b-5.mg-md-b-8 Total invested
+            %h4.tx-20.tx-sm-18.tx-md-24.tx-normal.tx-rubik.mg-b-0 $#{@total_invested}
+        .media.mg-t-20.mg-sm-t-0.mg-sm-l-15.mg-md-l-40
+          .wd-40.wd-md-50.ht-40.ht-md-50.bg-pink.tx-white.mg-r-10.mg-md-r-10.d-flex.align-items-center.justify-content-center.rounded.op-5
+            %i.fe.fe-bar-chart.fnt-md
+          .media-body
+            %h6.tx-sans.tx-uppercase.tx-10.tx-spacing-1.tx-color-03.tx-semibold.mg-b-5.mg-md-b-8 Total impressions
+            %h4.tx-20.tx-sm-18.tx-md-24.tx-normal.tx-rubik.mg-b-0=@total_impressions
+    / card-body
+    .table-responsive{:style => "overflow-y: scroll; max-height: 260px;"}
+      %table.table#impressionsTable1.table-dashboard.mg-b-0
+        %thead
+          %tr
+            %th.text Date
+            %th.text-right Total invested
+            %th.text-right Total impressions
+            =render partial: 'campaigns/user_charts/impressions', collection: @campaign_impressions, as: :impression
