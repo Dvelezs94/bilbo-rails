@@ -1,4 +1,23 @@
 <div class="tab-pane fade show <%= "active" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id] %>" id="<%= board.slug %>" role="tabpanel" aria-labelledby="<%= board.slug %>-tab">
+  <div id="carouselBoardInfo" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner ht-250 center_image_vertically">
+      <% if board.images.attached? %>
+        <%= render partial: 'boards/board_images', collection: board.images, as: :image %>
+      <% else %>
+      <div class="carousel-item active">
+        <%= image_tag image_path("board_placeholder"), class: "d-block w-100", :data => {lity: true}, alt: "No Image" %>
+      </div>
+      <% end %>
+    </div>
+    <a class="carousel-control-prev" href="#carouselBoardInfo" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"><i class="fe fe-arrow-left tx-30"></i></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselBoardInfo" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"><i class="fe fe-arrow-right tx-30"></i></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
     <table class="table-dashboard-two">
       <tbody>
         <tr>
@@ -50,32 +69,32 @@
           <td class="tx-medium"><%= t("bilbos.dimensions") %></td>
           <td class="text-right"><%= board.width %> x <%= board.height %></td>
         </tr>
+        <tr>
+          <td>
+            <i class="fe fe-line-chart ic-primary pd-r-5-f"></i>
+          </td>
+          <td class="tx-medium">% Ocupado</td>
+          <td>
+            <% percentage_occupied = board.percentage_occupied %>
+            <div class="progress ht-15">
+              <% if percentage_occupied < 30 %>
+                <% percentage_bar_builder = { bg: "success"} %>
+              <% elsif percentage_occupied < 75 %>
+                <% percentage_bar_builder = { bg: "warning"} %>
+              <% else %>
+                <% percentage_bar_builder = { bg: "danger"} %>
+              <% end %>
+              <div class="progress-bar bg-<%= percentage_bar_builder[:bg] %> wd-<%= up_to_nearest_5(percentage_occupied) %>p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="Inversión mínima <%= number_to_currency_usd(board.minimum_investment) %>"><%= percentage_occupied %>%</div>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
-    <div id="carouselBoardInfo" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner ht-250 center_image_vertically">
-        <% if board.images.attached? %>
-          <%= render partial: 'boards/board_images', collection: board.images, as: :image %>
-        <% else %>
-        <div class="carousel-item active">
-          <%= image_tag image_path("board_placeholder"), class: "d-block w-100", :data => {lity: true}, alt: "No Image" %>
-        </div>
-        <% end %>
-      </div>
-      <a class="carousel-control-prev" href="#carouselBoardInfo" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"><i class="fe fe-arrow-left tx-30"></i></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselBoardInfo" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"><i class="fe fe-arrow-right tx-30"></i></span>
-    <span class="sr-only">Next</span>
-  </a>
-    </div>
     <% if not URI(request.referer).path.match? /boards|map_frame/ %>
-      <div class="info-board">
+      <div class="info-board mg-t-5">
         <% is_selected = (params[:selected_boards].split(",").include?(board.id.to_s))? true : false %>
-      <button type="button" onclick="addBilbo(this)" class="btn btn-success mg-t-5 btn-block add-bilbo <%= "d-none" if is_selected %>" data-id="<%= board.id %>" data-address="<%= "#{board.address} - #{board.face}" %>" data-price="<%= board.cycle_price(DateTime.now) %>"><%= t("bilbos.add_bilbo") %></button>
-      <button type="button" onclick="removeBilbo(this)" class="btn btn-secondary mg-t-5 btn-block remove-bilbo <%= "d-none" if !is_selected %>" data-id="<%= board.id %>"><%= t("bilbos.remove_bilbo") %></button>
+      <button type="button" onclick="addBilbo(this)" class="btn btn-primary-custom btn-block add-bilbo <%= "d-none" if is_selected %>" data-id="<%= board.id %>" data-address="<%= "#{board.address} - #{board.face}" %>" data-price="<%= board.cycle_price(DateTime.now) %>"><i class="material-icons md-18 material-icon-middle">add_circle</i> <%= t("bilbos.add_bilbo") %></button>
+      <button type="button" onclick="removeBilbo(this)" class="btn btn-secondary-custom btn-block remove-bilbo mg-t-0-f <%= "d-none" if !is_selected %>" data-id="<%= board.id %>"><i class="material-icons md-18 material-icon-middle">remove_circle</i>  <%= t("bilbos.remove_bilbo") %></button>
       </div>
     <% end %>
   </div>
