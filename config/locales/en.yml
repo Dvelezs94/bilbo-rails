@@ -114,6 +114,7 @@ en:
     impressions: Impressions
     daily_budget: Daily Budget
     total_invested: Total Invested
+    minimum_budget_per_bilbo: The minimum is $50 per chosen bilbo.
     metrics: Metrics
     campaign: Campaign
     campaign_status: Status
@@ -133,7 +134,7 @@ en:
       date_and_budget: Date and Budget
       payment_details: Payment Details
       budget: Budget
-      daily_budget_description: The budget is daily, so the impressions will adapt to it during the whole day
+      daily_budget_description: Budget for your chosen Bilbos. The budget will be dividided equally between all Bilbos.
       campaign_duration: Campaign Duration
       ongoing_campaign: Ongoing Campaign
       pick_date: Choose Date
