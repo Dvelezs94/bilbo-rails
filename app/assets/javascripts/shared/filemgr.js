@@ -1,3 +1,4 @@
+$(document).on('turbolinks:load', function() {
 $(function(){
   if ($(".filemgr-sidebar-body").length) {
   'use strict'
@@ -44,4 +45,5 @@ $(function(){
       feather.replace();
     })
   }
-})
+});
+});

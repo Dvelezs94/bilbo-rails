@@ -115,6 +115,7 @@ es:
     impressions: Impresiones
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
+    minimum_budget_per_bilbo: El mínimo por bilbo es de $50 al día.
     metrics: Metricas
     campaign: Campaña
     campaign_status: Estado
@@ -135,7 +136,7 @@ es:
       date_and_budget: Fecha y Presupuesto
       payment_details: Detalles de Pago
       budget: Presupuesto
-      daily_budget_description: El presupuesto es diario, asi que las impresiones se adaptaran a el durante todo el dia
+      daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto de dividirá entre todos los bilbos equitativamente.
       campaign_duration: Duracion de la campaña
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha

@@ -22,6 +22,7 @@ $(document).on('turbolinks:load', function() {
 
         // Step 2 form validation
         if(currentIndex === 1) {
+          calculatebudget();
           var campaignboards = $('#campaign_boards').parsley();
 
           if(campaignboards.isValid()) {
@@ -32,6 +33,13 @@ $(document).on('turbolinks:load', function() {
         }
 
         if(currentIndex === 2) {
+          // check if the user set a minimum of 50 per board
+          if ( (parseInt($('#campaign_budget').val()) / parseInt($('#boards_counter').html())) >= 50 ) {
+            return true
+          } else {
+            show_error($("#budget_error_message").html());
+            return false
+          }
           var campaignbudget = $('#campaign_budget').parsley();
           var campaignstartsat = $('#campaign_starts_at').parsley();
           var campaignendsat = $('#campaign_ends_at').parsley();
@@ -80,7 +88,13 @@ $(document).on('turbolinks:load', function() {
     }
   });
     // End Jquery steps
+
+    // calculate budget when input is updated
     $("#campaign_budget").keyup(function(){
+      calculatebudget();
+    });
+    // function to calculate impressions
+    function calculatebudget() {
       sum = 0
       $("#selected_boards option:not(:eq(0))").each(function() {
         sum +=  $(this).data('price') || 0;
@@ -89,7 +103,7 @@ $(document).on('turbolinks:load', function() {
       console.log(sum);
       maximum_impressions = Math.round(parseFloat($("#campaign_budget").val().replace(',',''))/avg)
       $("#impressions").text(maximum_impressions);
-    });
+    }
     // calculate board prints
 
 
