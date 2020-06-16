@@ -43,6 +43,7 @@ function addBilbo(el) {
     update_hidden_input(selected_boards);
     update_buttons("added", buttons_container);
   }
+  $('#boards_counter').html(parseInt($('#boards_counter').html(), 10)+1)
 }
 
 function removeBilbo(el) {
@@ -52,6 +53,7 @@ function removeBilbo(el) {
   selected_boards.find("option[value=" + id + "]").remove();
   update_hidden_input(selected_boards);
   update_buttons("deleted", buttons_container);
+  $('#boards_counter').html(parseInt($('#boards_counter').html(), 10)-1)
 }
 
 function update_hidden_input(selected_boards) {

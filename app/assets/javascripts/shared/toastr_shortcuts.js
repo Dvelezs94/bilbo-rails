@@ -1,10 +1,10 @@
 function show_notice(text) {
-  toastr.info('Atención', text);
+  toastr.info(text);
 }
 
 function show_success(text) {
-  toastr.success('Exito', text);
+  toastr.success(text);
 }
 function show_error(text) {
-  toastr.error('Error', text);
+  toastr.error(text);
 }

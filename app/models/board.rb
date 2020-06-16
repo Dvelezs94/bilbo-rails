@@ -27,6 +27,25 @@ class Board < ApplicationRecord
     enabled.select(:lat, :lng).as_json(:except => :id).uniq
   end
 
+  # Get percentage occupied by active campaigns
+  def percentage_occupied
+    begin
+      rotation = JSON.parse(self.ads_rotation)
+      # total places available
+      rotation_size = rotation.size
+      # free places for people to run ads
+      free_places = rotation.group_by(&:itself).transform_values(&:count)["-"] || 1
+      # regla de 3
+      ((free_places * 100 / rotation_size) - 100).abs
+    rescue
+      return 0
+    end
+  end
+
+  def minimum_investment
+    0
+  end
+
   # Get the total impressions starting from a certain date
   def impressions_count(start = 4.weeks.ago)
     impressions.where(created_at: start..Time.zone.now).sum(:cycles)

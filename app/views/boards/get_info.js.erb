@@ -1,3 +1,4 @@
 $("#boardTab").html("<%= j render partial: 'boards/board_tab', collection: @boards, as: :board %>");
 $("#boardTabContent").html("<%= j render partial: 'boards/board_info', collection: @boards, as: :board %>");
 $("#boardSelect").html("<%= j render partial: 'boards/board_select_tab', collection: @boards, as: :board %>");
+$('[data-toggle="tooltip"]').tooltip();
