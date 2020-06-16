@@ -27,8 +27,8 @@ class Board < ApplicationRecord
     enabled.select(:lat, :lng).as_json(:except => :id).uniq
   end
 
-  # Get percentage occupied by active campaigns
-  def percentage_occupied
+  # Get percentage occupied by active campaigns and minimum investment required to appear in the board
+  def occupation
     begin
       rotation = JSON.parse(self.ads_rotation)
       # total places available
@@ -36,14 +36,24 @@ class Board < ApplicationRecord
       # free places for people to run ads
       free_places = rotation.group_by(&:itself).transform_values(&:count)["-"] || 1
       # regla de 3
-      ((free_places * 100 / rotation_size) - 100).abs
+      occupation = ((free_places * 100 / rotation_size) - 100).abs
+      if occupation >= 95
+        # campaign with lowest budget that is currently running
+        lowest_running_campaign = rotation.group_by(&:itself).transform_values(&:count).except("-").sort_by { |key, value| value }.first[0]
+        minimum_investment = Campaign.find(lowest_running_campaign).budget + 84 # 84 is a random number :)
+      else
+        minimum_investment = 50
+      end
+      {
+        occupation: occupation,
+        minimum_investment: minimum_investment
+      }
     rescue
-      return 0
+      {
+        occupation: 0,
+        minimum_investment: 50
+      }
     end
-  end
-
-  def minimum_investment
-    0
   end
 
   # Get the total impressions starting from a certain date

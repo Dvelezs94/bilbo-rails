@@ -75,16 +75,16 @@
           </td>
           <td class="tx-medium">% Ocupado</td>
           <td>
-            <% percentage_occupied = board.percentage_occupied %>
+            <% occupation = board.occupation %>
             <div class="progress ht-15">
-              <% if percentage_occupied < 30 %>
+              <% if occupation[:occupation] < 30 %>
                 <% percentage_bar_builder = { bg: "success"} %>
-              <% elsif percentage_occupied < 75 %>
+              <% elsif occupation[:occupation] < 75 %>
                 <% percentage_bar_builder = { bg: "warning"} %>
               <% else %>
                 <% percentage_bar_builder = { bg: "danger"} %>
               <% end %>
-              <div class="progress-bar bg-<%= percentage_bar_builder[:bg] %> wd-<%= up_to_nearest_5(percentage_occupied) %>p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="Inversión mínima <%= number_to_currency_usd(board.minimum_investment) %>"><%= percentage_occupied %>%</div>
+              <div class="progress-bar bg-<%= percentage_bar_builder[:bg] %> wd-<%= up_to_nearest_5(occupation[:occupation]) %>p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="Inversión mínima <%= number_to_currency_usd(occupation[:minimum_investment]) %>"><%= occupation[:occupation] %>%</div>
             </div>
           </td>
         </tr>
