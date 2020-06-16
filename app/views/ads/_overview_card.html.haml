@@ -3,7 +3,10 @@
     .card.card-file
       .card-file-thumb.bg-white
         - if ad.multimedia.first
-          = image_tag ad.multimedia.first, class: "img-inherit"
+          -if (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "mp4") || (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "webm")
+            = image_tag "construction_video.webp", class: "img-inherit"
+          -else
+            = image_tag ad.multimedia.first, class: "img-inherit"
         - else
           = image_tag image_path("placeholder_sm"), class: "img-inherit"
       .card-body

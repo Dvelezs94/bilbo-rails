@@ -4,7 +4,7 @@ $(document).on('turbolinks:load', function() {
     var uppy = Uppy.Core({
       restrictions: {
         maxFileSize: 10000000,
-        allowedFileTypes: ["image/png", "image/jpeg", "image/gif"]
+        allowedFileTypes: ["image/png", "image/jpeg", "image/gif", "image/webp", "video/mp4", "video/webm"]
       }
     })
     .use(Uppy.Dashboard, {
