@@ -4,6 +4,6 @@ $(document).on('turbolinks:load', function() {
     if (event.target.id != "search_autocomplete") $(this).find("input[type=submit]").click();
   });
   $( "form#filter-bilbos input[type=submit]" ).on("click", function(event) {
-    window.maploading = toastr.info("Cargando");
+    window.maploading = toastr.info("Cargando", "", {"extendedTimeOut": 0, timeOut: 0, tapToDismiss: false});
   });
 });
