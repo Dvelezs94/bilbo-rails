@@ -19,25 +19,25 @@
     <div class="row row-xs">
       <div class="d-flex flex-wrap">
         <%= form_with url: boards_path, method: :get, id: "filter-bilbos",class: "row", remote: true do |f|%>
-        <div class="form-group col-6 col-md-2 wd-md-1000">
+        <div class="form-group col-6 col-lg-2">
           <%= f.text_field :location, class: 'form-control rounded', id: "search_autocomplete", placeholder: t('bilbos.search.location'),
             value: (params[:location].present?)? params[:location] : "" ,
             lat: (params[:location].present?)? params[:lat] : "",
             lng: (params[:location].present?)? params[:lng] : "" %>
         </div>
-        <div class="form-group col-6 col-md-2 wd-md-1000">
+        <div class="form-group col-6 col-lg-2">
           <%= f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification')}, {class: 'custom-select'}) %>
         </div>
-        <div class="form-group col-6 col-md-2 wd-md-1000">
+        <div class="form-group col-6 col-lg-2">
           <%= f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select'}) %>
         </div>
-        <div class="form-group col-6 col-md-2 wd-md-1000">
+        <div class="form-group col-6 col-lg-2">
           <%= f.number_field :cycle_price, class: "form-control", placeholder: t('bilbos.search.max_per_impression'), value: params[:cycle_price], step: "0.001", autocomplete: "off" %>
         </div>
-        <div class="form-group col-6 col-md-2 wd-md-1000">
+        <div class="form-group col-6 col-lg-2">
           <%= f.number_field :min_width, class: "form-control", placeholder: t('bilbos.search.min_width'), value: params[:min_width], autocomplete: "off" %>
         </div>
-        <div class="form-group col-6 col-md-2 wd-md-1000">
+        <div class="form-group col-6 col-lg-2">
           <%= f.number_field :min_height, class: "form-control", placeholder: t('bilbos.search.min_height'), value: params[:min_height], autocomplete: "off" %>
         </div>
         <%= f.submit "Enviar", class: "d-none" %>
