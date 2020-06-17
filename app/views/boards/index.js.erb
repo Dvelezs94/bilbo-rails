@@ -2,3 +2,4 @@ DeleteMarkers();
 console.log(2)
 // build markers from the available bilbos
 build_markers(<%=  raw @boards.get_map_markers.to_json %>);
+toastr.clear(window.maploading);
