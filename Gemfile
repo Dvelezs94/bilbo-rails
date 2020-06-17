@@ -86,7 +86,7 @@ gem 'friendly_id', '~> 5.2.4'
 gem 'petergate', '~> 2.0', '>= 2.0.1'
 gem 'active_storage_validations', '~> 0.7.1'
 #notifications
-gem 'toastr-rails', '~> 1.0', '>= 1.0.3'
+# gem 'toastr-rails', '~> 1.0', '>= 1.0.3'
 gem 'ionicons-rails', '~> 2.0'
 gem 'rails-jquery-steps', '~> 1.0'
 gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
@@ -119,4 +119,3 @@ gem 'google-tag-manager-rails', '~> 0.1.3'
 gem 'streamio-ffmpeg', '~> 3.0', '>= 3.0.2'
 
 gem 'slack-notifier', '~> 2.3', '>= 2.3.2'
-
