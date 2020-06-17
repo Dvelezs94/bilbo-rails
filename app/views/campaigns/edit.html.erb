@@ -1,4 +1,5 @@
 <%= render 'shared/header', menu: "dashboard" %>
+
 <div class="content content-fixed">
   <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
     <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-30">
@@ -17,8 +18,34 @@
         <h4 class="mg-b-0 tx-spacing--1"><%= @campaign.name %></h4>
       </div>
     </div>
-    <%= form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, class: "edit_campaign") do |f| %>
+    <div class="d-flex flex-wrap">
+      <%= form_with url: boards_path, method: :get, id: "filter-bilbos",class: "row", remote: true do |f|%>
+      <div class="form-group col-6 col-md-2 wd-md-1000">
+        <%= f.text_field :location, class: 'form-control rounded', id: "search_autocomplete", placeholder: t('bilbos.search.location'),
+          value: (params[:location].present?)? params[:location] : "" ,
+          lat: (params[:location].present?)? params[:lat] : "",
+          lng: (params[:location].present?)? params[:lng] : "" %>
+      </div>
+      <div class="form-group col-6 col-md-2 wd-md-1000">
+        <%= f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification')}, {class: 'custom-select'}) %>
+      </div>
+      <div class="form-group col-6 col-md-2 wd-md-1000">
+        <%= f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select'}) %>
+      </div>
+      <div class="form-group col-6 col-md-2 wd-md-1000">
+        <%= f.number_field :cycle_price, class: "form-control", placeholder: t('bilbos.search.max_per_impression'), value: params[:cycle_price], step: "0.001", autocomplete: "off" %>
+      </div>
+      <div class="form-group col-6 col-md-2 wd-md-1000">
+        <%= f.number_field :min_width, class: "form-control", placeholder: t('bilbos.search.min_width'), value: params[:min_width], autocomplete: "off" %>
+      </div>
+      <div class="form-group col-6 col-md-2 wd-md-1000">
+        <%= f.number_field :min_height, class: "form-control", placeholder: t('bilbos.search.min_height'), value: params[:min_height], autocomplete: "off" %>
+      </div>
+      <%= f.submit "Enviar", class: "d-none" %>
+      <% end %>
+    </div>
 
+    <%= form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, class: "edit_campaign") do |f| %>
     <div id="dashboardWizard">
       <h3><%= t("campaign.wizard.pick_ad") %></h3>
       <section>
@@ -42,32 +69,7 @@
             <%= f.select(:boards, options_for_select(@campaign_boards), {:include_blank => 'Bilbos seleccionados'}, {:class => "custom-select", id: "selected_boards"}) %>
           </div>
           <%= f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true %>
-          <div class="d-flex flex-wrap">
-            <%= form_with url: boards_path, method: :get, id: "filter-bilbos",class: "row", remote: true do |f|%>
-            <div class="form-group col-6 col-md-2 wd-md-1000">
-              <%= f.text_field :location, class: 'form-control rounded', id: "search_autocomplete", placeholder: t('bilbos.search.location'),
-                value: (params[:location].present?)? params[:location] : "" ,
-                lat: (params[:location].present?)? params[:lat] : "",
-                lng: (params[:location].present?)? params[:lng] : "" %>
-            </div>
-            <div class="form-group col-6 col-md-2 wd-md-1000">
-              <%= f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification')}, {class: 'custom-select'}) %>
-            </div>
-            <div class="form-group col-6 col-md-2 wd-md-1000">
-              <%= f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select'}) %>
-            </div>
-            <div class="form-group col-6 col-md-2 wd-md-1000">
-              <%= f.number_field :cycle_price, class: "form-control", placeholder: t('bilbos.search.max_per_impression'), value: params[:cycle_price], step: "0.001", autocomplete: "off" %>
-            </div>
-            <div class="form-group col-6 col-md-2 wd-md-1000">
-              <%= f.number_field :min_width, class: "form-control", placeholder: t('bilbos.search.min_width'), value: params[:min_width], autocomplete: "off" %>
-            </div>
-            <div class="form-group col-6 col-md-2 wd-md-1000">
-              <%= f.number_field :min_height, class: "form-control", placeholder: t('bilbos.search.min_height'), value: params[:min_height], autocomplete: "off" %>
-            </div>
-            <%= f.submit "Enviar", class: "d-none" %>
-            <% end %>
-          </div>
+          <!-- AQUI IBAN LOS FILTROS -->
           <div id="boardInfo" class="col-md-12 col-xl-3 mg-t-10 order-1 d-none">
             <!-- card -->
             <ul class="nav nav-tabs nav-justified d-none" id="boardTab" role="tablist">
