@@ -159,7 +159,11 @@ details[open] summary:after {
 
 .center_image_vertically {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+}
+
+#carouselBoardInfo {
+  background: rgba(0, 0, 0, 0.8);
 }
 
 #boardTabContent {
