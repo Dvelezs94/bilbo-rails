@@ -10,7 +10,7 @@ class BoardsController < ApplicationController
   def index
     respond_to do |format|
     format.js { #means filter is used
-      @boards = Board.all
+      @boards = Board.all.enabled
       if params[:cycle_price].present?
         @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f }
         @boards = Board.where(id: @boards)
@@ -23,7 +23,7 @@ class BoardsController < ApplicationController
       puts @boards.length
      }
     format.html {
-      @boards = Board.all
+      @boards = Board.enabled
      }
    end
   end
