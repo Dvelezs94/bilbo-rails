@@ -8,23 +8,17 @@ class BoardsController < ApplicationController
   before_action :allow_iframe_requests, only: :map_frame
 
   def index
-    respond_to do |format|
-    format.js { #means filter is used
-      @boards = Board.all
-      if params[:cycle_price].present?
-        @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f }
-        @boards = Board.where(id: @boards)
-      end
-      @boards = @boards.where("height > ?", params[:min_lat]) if params[:min_height].present?
-      @boards = @boards.where("width > ?", params[:min_lng]) if params[:min_width].present?
-      @boards = @boards.where(category: params[:category]) if params[:category].present?
-      @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
-     }
-    format.html {
-      @boards = Board.all
-     }
+    @boards = Board.all
+    if params[:cycle_price].present?
+      @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f }
+      @boards = Board.where(id: @boards)
+    end
+    @boards = @boards.where("height >= ?", params[:min_height]) if params[:min_height].present?
+    @boards = @boards.where("width >= ?", params[:min_width]) if params[:min_width].present?
+    @boards = @boards.where(category: params[:category]) if params[:category].present?
+    @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
    end
-  end
+
 
   def admin_index
   end
