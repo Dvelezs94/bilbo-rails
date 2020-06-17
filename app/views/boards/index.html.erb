@@ -18,7 +18,7 @@
 
     <div class="row row-xs">
       <div class="d-flex flex-wrap">
-        <%= form_with url: boards_path, method: :get, id: "filter-bilbos",class: "row", remote: true do |f|%>
+        <%= form_with url: boards_path, method: :get, id: "filter-bilbos",class: "row send-on-change", remote: true do |f|%>
         <div class="form-group col-6 col-lg-2">
           <%= f.text_field :location, class: 'form-control rounded', id: "search_autocomplete", placeholder: t('bilbos.search.location'),
             value: (params[:location].present?)? params[:location] : "" ,
