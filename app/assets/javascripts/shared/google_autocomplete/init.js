@@ -58,11 +58,6 @@ function initGoogleAutocomplete(input_id, lat_name, lng_name, address_name, mode
       search_autocomplete.addListener('place_changed', function() {
         updateMap(this, search_input, window.bilbomap);
       });
-      //change coordinates when moving map so on reaload doesnt have bugs
-      window.bilbomap.addListener('center_changed', function() {
-        $("#lat1").val(window.bilbomap.center.lat());
-        $("#lng1").val(window.bilbomap.center.lng());
-      });
 
     }
     //extra events
@@ -97,3 +92,12 @@ function waitForElement(elementPath, callBack) {
     }
   }, 500)
 }
+
+function DeleteMarkers() {
+    window.markerCluster.clearMarkers();
+     // //Loop through all the markers and remove
+     // for (var i = 0; i < window.markers.length; i++) {
+     //     window.markers[i].setMap(null);
+     // }
+     window.markers = [];
+ }
