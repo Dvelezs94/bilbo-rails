@@ -1,5 +1,10 @@
 $(document).on('turbolinks:load', function() {
+  if ($("#bilbomap").length) {
+    google.maps.event.addDomListener(window, 'turbolinks:load', initializeMap);
+  }
+});
 function initializeMap() {
+
   var bilbos = JSON.parse($("#bilboMarkers").val())
   // center of mexico
   var center = new google.maps.LatLng( parseFloat($.getUrlVar("lat")) ||23.959124, parseFloat($.getUrlVar("lng")) ||-102.482976);
@@ -10,8 +15,12 @@ function initializeMap() {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
+  build_markers(bilbos);
+
+}
+function build_markers(bilbos) {
   // build markers from the available bilbos
-  var markers = bilbos.map(function(bilbo) {
+  window.markers = bilbos.map(function(bilbo) {
     var marker = new google.maps.Marker({
       position: bilbo
       // id: bilbo.id
@@ -46,11 +55,5 @@ function initializeMap() {
     imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
   };
 
-  var markerCluster = new MarkerClusterer(window.bilbomap, markers, options);
-
+  window.markerCluster = new MarkerClusterer(window.bilbomap, window.markers, options);
 }
-
-  if ($("#bilbomap").length) {
-    google.maps.event.addDomListener(window, 'turbolinks:load', initializeMap);
-  }
-});
