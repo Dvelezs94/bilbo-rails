@@ -98,6 +98,7 @@ es:
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
+    occupied: Ocupado
     deny: Denegar campaña
     review: Revisar campaña
     campaign: Campañas
@@ -136,7 +137,7 @@ es:
       date_and_budget: Fecha y Presupuesto
       payment_details: Detalles de Pago
       budget: Presupuesto
-      daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto de dividirá entre todos los bilbos equitativamente.
+      daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto se dividirá entre todos los bilbos equitativamente.
       campaign_duration: Duracion de la campaña
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha
