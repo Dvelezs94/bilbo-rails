@@ -12,7 +12,7 @@ class BoardsController < ApplicationController
     format.js { #means filter is used
       @boards = Board.all
       if params[:cycle_price].present?
-        @boards = @boards.select{ |board| board.cycle_price >= params[:cycle_price].to_f }
+        @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f }
         @boards = Board.where(id: @boards)
       end
       @boards = @boards.where("height > ?", params[:min_lat]) if params[:min_height].present?

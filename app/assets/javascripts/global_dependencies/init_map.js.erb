@@ -2,10 +2,10 @@ $(document).on('turbolinks:load', function() {
 function initializeMap() {
   var bilbos = JSON.parse($("#bilboMarkers").val())
   // center of mexico
-  var center = new google.maps.LatLng(23.959124, -102.482976);
+  var center = new google.maps.LatLng( parseFloat($.getUrlVar("lat")) ||23.959124, parseFloat($.getUrlVar("lng")) ||-102.482976);
 
   window.bilbomap = new google.maps.Map(document.getElementById('bilbomap'), {
-    zoom: 5,
+    zoom: 4,
     center: center,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
