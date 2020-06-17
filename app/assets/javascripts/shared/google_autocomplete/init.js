@@ -8,7 +8,7 @@ function updateMap(autocomplete, input, map) {
   place = autocomplete.getPlace();
   if (place.geometry) {
     map.panTo(place.geometry.location);
-    map.setZoom(10);
+    map.setZoom(8);
   } else {
     input.value = '';
   }
@@ -56,9 +56,14 @@ function initGoogleAutocomplete(input_id, lat_name, lng_name, address_name, mode
     }
       //change map when autocomplete changes
       search_autocomplete.addListener('place_changed', function() {
-        console.log
         updateMap(this, search_input, window.bilbomap);
       });
+      //change coordinates when moving map so on reaload doesnt have bugs
+      window.bilbomap.addListener('center_changed', function() {
+        $("#lat1").val(window.bilbomap.center.lat());
+        $("#lng1").val(window.bilbomap.center.lng());
+      });
+
     }
     //extra events
     if (send_on_select) {
