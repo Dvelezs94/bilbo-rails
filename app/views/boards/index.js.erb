@@ -1,3 +1,4 @@
 DeleteMarkers();
 // build markers from the available bilbos
 build_markers(<%=  raw @boards.get_map_markers.to_json %>);
+toastr.clear();

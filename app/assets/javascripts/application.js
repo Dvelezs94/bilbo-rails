@@ -10,7 +10,6 @@
 //= require popper
 //= require_tree ./shared
 //= require bootstrap
-//= require toastr
 //= require clipboard
 //= require data-confirm-modal
 //= require autocomplete-rails
