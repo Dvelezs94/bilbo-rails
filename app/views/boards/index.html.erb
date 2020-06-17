@@ -18,33 +18,30 @@
 
     <div class="row row-xs">
       <div class="d-flex flex-wrap">
+        <%= form_with url: boards_path, method: :get, id: "filter-bilbos",class: "row", remote: true do |f|%>
         <div class="form-group col-6 col-md-2 wd-md-1000">
-          <input class="form-control rounded pac-target-input" id="search_autocomplete" placeholder="Ubicación" lat="19.432608" lng="-99.133209" type="text" name="location" autocomplete="off"><input type="hidden" name="lat" id="lat1" value="19.432608"><input type="hidden" name="lng" id="lng1" value="-99.133209"><input type="hidden" name="address_name" id="address_name1" value="">
+          <%= f.text_field :location, class: 'form-control rounded', id: "search_autocomplete", placeholder: "Ubicación",
+            value: (params[:location].present?)? params[:location] : "" ,
+            lat: (params[:location].present?)? params[:lat] : "",
+            lng: (params[:location].present?)? params[:lng] : "" %>
+        </div>
+          <div class="form-group col-6 col-md-2 wd-md-1000">
+            <%= f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: "Clasificación"}, {class: 'custom-select'}) %>
           </div>
           <div class="form-group col-6 col-md-2 wd-md-1000">
-            <select class="custom-select" name="category_id" id="category_id"><option value="">Clasificación</option>
-              <option value="1">A</option>
-              <option value="2">AA</option>
-              <option value="3">AAA</option>
-              <option value="4">AAA+</option>
-            </select>
+            <%= f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: "Tipo de Medio"}, {class: 'custom-select'}) %>
           </div>
           <div class="form-group col-6 col-md-2 wd-md-1000">
-            <select class="custom-select" name="order_by" id="order_by"><option value="">Tipo de Medio</option>
-              <option value="recent">Espectacular</option>
-              <option value="price">Televisión</option>
-              <option value="score">Cartelón</option>
-            </select>
+            <%= f.number_field :cycle_price, class: "form-control", placeholder: "Precio por Impresión", value: params[:cycle_price], autocomplete: "off" %>
           </div>
           <div class="form-group col-6 col-md-2 wd-md-1000">
-            <input class="form-control" placeholder="Precio por Impresión" autocomplete="off" type="number" name="price" id="price">
+            <%= f.number_field :min_width, class: "form-control", placeholder: "Ancho min. (metros)", value: params[:min_width], autocomplete: "off" %>
           </div>
           <div class="form-group col-6 col-md-2 wd-md-1000">
-            <input class="form-control" placeholder="Ancho (metros)" autocomplete="off" type="number" name="price" id="width">
+            <%= f.number_field :min_height, class: "form-control", placeholder: "Largo min. (metros)", value: params[:min_height], autocomplete: "off" %>
           </div>
-          <div class="form-group col-6 col-md-2 wd-md-1000">
-            <input class="form-control" placeholder="Largo (metros)" autocomplete="off" type="number" name="price" id="height">
-          </div>
+          <%= f.submit "Enviar", class: "d-none" %>
+          <% end %>
         </div>
       <div id="boardInfo" class="col-md-12 col-xl-3 mg-t-10 order-1 d-none">
         <!-- card -->

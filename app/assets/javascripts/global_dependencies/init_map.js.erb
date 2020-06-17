@@ -4,7 +4,7 @@ function initializeMap() {
   // center of mexico
   var center = new google.maps.LatLng(23.959124, -102.482976);
 
-  var map = new google.maps.Map(document.getElementById('bilbomap'), {
+  window.bilbomap = new google.maps.Map(document.getElementById('bilbomap'), {
     zoom: 5,
     center: center,
     mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -46,7 +46,7 @@ function initializeMap() {
     imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
   };
 
-  var markerCluster = new MarkerClusterer(map, markers, options);
+  var markerCluster = new MarkerClusterer(window.bilbomap, markers, options);
 
 }
 
