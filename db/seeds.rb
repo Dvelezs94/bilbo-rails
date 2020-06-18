@@ -37,6 +37,7 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.address = Faker::Address.full_address
             board.category = ["television", "billboard", "wallboard"].sample
             board.base_earnings = Faker::Number.between(40000, 200000)
+            board.social_class = Faker::Number.between(0, 3)
           end
         end
       end

@@ -11,6 +11,7 @@ class Board < ApplicationRecord
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
   enum status: { enabled: 0, disabled: 1}
+  enum social_class: {A: 0, AA: 1, AAA: 2, "AAA+": 3}
   validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
   after_create :generate_qr_code
   # slug candidates for friendly id
@@ -25,6 +26,35 @@ class Board < ApplicationRecord
   # and the user is not able to click the marker because it is a cluster
   def self.get_map_markers
     enabled.select(:lat, :lng).as_json(:except => :id).uniq
+  end
+
+  # Get percentage occupied by active campaigns and minimum investment required to appear in the board
+  def occupation
+    begin
+      rotation = JSON.parse(self.ads_rotation)
+      # total places available
+      rotation_size = rotation.size
+      # free places for people to run ads
+      free_places = rotation.group_by(&:itself).transform_values(&:count)["-"] || 1
+      # regla de 3
+      occupation = ((free_places * 100 / rotation_size) - 100).abs
+      if occupation >= 95
+        # campaign with lowest budget that is currently running
+        lowest_running_campaign = rotation.group_by(&:itself).transform_values(&:count).except("-").sort_by { |key, value| value }.first[0]
+        minimum_investment = Campaign.find(lowest_running_campaign).budget + 84 # 84 is a random number :)
+      else
+        minimum_investment = 50
+      end
+      {
+        occupation: occupation,
+        minimum_investment: minimum_investment
+      }
+    rescue
+      {
+        occupation: 0,
+        minimum_investment: 50
+      }
+    end
   end
 
   # Get the total impressions starting from a certain date

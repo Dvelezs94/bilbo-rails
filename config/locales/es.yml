@@ -71,6 +71,7 @@ es:
     confirm_deletion: Estas seguro que quieres borrar este elemento?
     close: Cerrar
     search: Buscar
+    apply_filter: Aplicar Filtro
     browse: Buscar
     confirm: Confirmar
     cancel: Cancelar
@@ -98,6 +99,7 @@ es:
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
+    occupied: Ocupado
     deny: Denegar campaña
     review: Revisar campaña
     campaign: Campañas
@@ -123,6 +125,7 @@ es:
     campaign_deactivated: La campaña fue desactivada
     campaign_updated: La campaña fue actualizada
     campaign_created: La campaña fue creada
+    minimum_budget_per_bilbo: El mínimo por bilbo es de $50 al día.
     metrics: Metricas
     campaign: Campaña
     campaign_status: Estado
@@ -143,7 +146,7 @@ es:
       date_and_budget: Fecha y Presupuesto
       payment_details: Detalles de Pago
       budget: Presupuesto
-      daily_budget_description: El presupuesto es diario, asi que las impresiones se adaptaran a el durante todo el dia
+      daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto se dividirá entre todos los bilbos equitativamente.
       campaign_duration: Duracion de la campaña
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha
@@ -166,6 +169,7 @@ es:
     name: Nombre del Bilbo
     state: Estado
     enabled: Habilitado
+    filter: Filtros del Mapa
     in_review: En revision
     disabled: Desactivado
     banned: Bloqueado
@@ -204,6 +208,14 @@ es:
     ads_top: anuncios del top 4 durante 3 meses
     campaign_ads: Anuncios de campañas
     working_hours: Horas activas
+    social_class: Clasificación
+    search:
+      location: Ubicación
+      classification: Clasificación
+      media_type: Tipo de Medio
+      max_per_impression: $max. / impresión
+      min_width: Ancho min. (mts)
+      min_height: Alto min. (mts)
   ads:
     ads: Anuncios
     new_ad: Nuevo Anuncio
@@ -283,7 +295,7 @@ es:
     settings: Configuración
     impressions_count: Cuenta de impresiones
     impressions_count_description: Últimos 30 días de impresiones. Cada punto es la suma de todas las impresiones de tus bilbos en un mismo dia
-    top_campaigns: Top de Campañas
+    top_campaigns: Campañas sobresalientes
     earnings: Ganancias
     earnings_description: Últimos 30 días de ganancias
     pending_campaigns: Campañas pendientes
