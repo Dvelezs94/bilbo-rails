@@ -71,6 +71,7 @@ es:
     confirm_deletion: Estas seguro que quieres borrar este elemento?
     close: Cerrar
     search: Buscar
+    apply_filter: Aplicar Filtro
     browse: Buscar
     confirm: Confirmar
     cancel: Cancelar
@@ -160,6 +161,7 @@ es:
     name: Nombre del Bilbo
     state: Estado
     enabled: Habilitado
+    filter: Filtros del Mapa
     in_review: En revision
     disabled: Desactivado
     banned: Bloqueado
