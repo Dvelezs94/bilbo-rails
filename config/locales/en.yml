@@ -71,6 +71,7 @@ en:
     confirm_deletion: Are you sure you want to delete this item?
     close: Close
     search: Search
+    apply_filter: Apply filter
     browse: Browse
     confirm: Confirm
     cancel: Cancel
@@ -158,6 +159,7 @@ en:
     name: Bilbo name
     state: State
     enabled: Enabled
+    filter: Map filters
     in_review: In review
     disabled: Disabled
     banned: Banned
