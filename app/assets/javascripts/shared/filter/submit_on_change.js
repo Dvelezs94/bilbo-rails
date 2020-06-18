@@ -6,4 +6,7 @@ $(document).on('turbolinks:load', function() {
   $( "form#filter-bilbos input[type=submit]" ).on("click", function(event) {
     window.maploading = toastr.info("Cargando", "", {"extendedTimeOut": 0, timeOut: 0, tapToDismiss: false});
   });
+  $( "button[form=filter-bilbos]").on("click",function(){
+    $( "form#filter-bilbos input[type=submit]" ).click();
+  });
 });
