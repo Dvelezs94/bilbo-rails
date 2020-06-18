@@ -19,7 +19,6 @@ class BoardsController < ApplicationController
       @boards = @boards.where("width > ?", params[:min_width]) if params[:min_width].present?
       @boards = @boards.where(category: params[:category]) if params[:category].present?
       @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
-      puts "X"*500
       puts @boards.length
      }
     format.html {
