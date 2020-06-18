@@ -71,6 +71,7 @@ en:
     confirm_deletion: Are you sure you want to delete this item?
     close: Close
     search: Search
+    apply_filter: Apply filter
     browse: Browse
     confirm: Confirm
     cancel: Cancel
@@ -99,6 +100,7 @@ en:
     accept: Accept campaign
     deny: Deny campaign
     review: Review campaign
+    occupied: Occupied
     campaign: Dashboard
     home: Home
     to_active: The campaign has been activated
@@ -157,6 +159,7 @@ en:
     name: Bilbo name
     state: State
     enabled: Enabled
+    filter: Map filters
     in_review: In review
     disabled: Disabled
     banned: Banned
@@ -197,6 +200,13 @@ en:
     campaign_ads: Campaign ads
     working_hours: Working hours
     social_class: Clasification
+    search:
+      location: Location
+      classification: Classification
+      media_type: Media Type
+      max_per_impression: $max. / impression
+      min_width: Min width. (mts)
+      min_height: Min height. (mts)
   ads:
     ads: Ads
     new_ad: New Ad
