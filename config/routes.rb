@@ -26,7 +26,6 @@ Rails.application.routes.draw do
     end
     collection do
       get :provider_index
-      get :fetch
     end
     resources :boards, only: [], controller: :board_campaigns do
       put :approve_campaign
