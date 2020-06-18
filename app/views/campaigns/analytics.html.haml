@@ -23,75 +23,8 @@
       = render 'campaigns/user_charts/daily_impressions'
       = render 'campaigns/user_charts/daily_invested'
       = render 'campaigns/user_charts/peak_hours'
-      = render 'campaigns/user_charts/total_impressions'
-      / media
-      / col
-      .col-md-6.col-xl-4.mg-t-10
-        .card.ht-100p
-          .card-header.d-flex.align-items-center.justify-content-between
-            %h6.mg-b-0 Transaction History
-            .d-flex.tx-18
-              %a.link-03.lh-0{:href => ""}
-                %i.icon.ion-md-refresh
-              %a.link-03.lh-0.mg-l-10{:href => ""}
-                %i.icon.ion-md-more
-          %ul.list-group.list-group-flush.tx-13
-            %li.list-group-item.d-flex.pd-sm-x-20
-              .avatar.d-none.d-sm-block
-                %span.avatar-initial.rounded-circle.bg-teal
-                  %i.icon.ion-md-checkmark
-              .pd-sm-l-10
-                %p.tx-medium.mg-b-0 Payment from #10322
-                %small.tx-12.tx-color-03.mg-b-0 Mar 21, 2019, 3:30pm
-              .mg-l-auto.text-right
-                %p.tx-medium.mg-b-0 + $250.00
-                %small.tx-12.tx-success.mg-b-0 Completed
-            %li.list-group-item.d-flex.pd-sm-x-20
-              .avatar.d-none.d-sm-block
-                %span.avatar-initial.rounded-circle.bg-indigo.op-5
-                  %i.icon.ion-md-return-left
-              .pd-sm-l-10
-                %p.tx-medium.mg-b-2 Process refund to #00910
-                %small.tx-12.tx-color-03.mg-b-0 Mar 21, 2019, 1:00pm
-              .mg-l-auto.text-right
-                %p.tx-medium.mg-b-2 -$16.50
-                %small.tx-12.tx-success.mg-b-0 Completed
-            %li.list-group-item.d-flex.pd-sm-x-20
-              .avatar.d-none.d-sm-block
-                %span.avatar-initial.rounded-circle.bg-orange.op-5
-                  %i.icon.ion-md-bus
-              .pd-sm-l-10
-                %p.tx-medium.mg-b-2 Process delivery to #44333
-                %small.tx-12.tx-color-03.mg-b-0 Mar 20, 2019, 11:40am
-              .mg-l-auto.text-right
-                %p.tx-medium.mg-b-2 3 Items
-                %small.tx-12.tx-info.mg-b-0 For pickup
-            %li.list-group-item.d-flex.pd-sm-x-20
-              .avatar.d-none.d-sm-block
-                %span.avatar-initial.rounded-circle.bg-teal
-                  %i.icon.ion-md-checkmark
-              .pd-sm-l-10
-                %p.tx-medium.mg-b-0 Payment from #023328
-                %small.tx-12.tx-color-03.mg-b-0 Mar 20, 2019, 10:30pm
-              .mg-l-auto.text-right
-                %p.tx-medium.mg-b-0 + $129.50
-                %small.tx-12.tx-success.mg-b-0 Completed
-            %li.list-group-item.d-flex.pd-sm-x-20
-              .avatar.d-none.d-sm-block
-                %span.avatar-initial.rounded-circle.bg-gray-400
-                  %i.icon.ion-md-close
-              .pd-sm-l-10
-                %p.tx-medium.mg-b-0 Payment failed from #087651
-                %small.tx-12.tx-color-03.mg-b-0 Mar 19, 2019, 12:54pm
-              .mg-l-auto.text-right
-                %p.tx-medium.mg-b-0 $150.00
-                %small.tx-12.tx-danger.mg-b-0 Declined
-          .card-footer.text-center.tx-13
-            %a.link-03{:href => ""}
-              View All Transactions
-              %i.icon.ion-md-arrow-down.mg-l-5
-          / card-footer
-        / card
+      = render 'campaigns/user_charts/history_data'
+      = render 'campaigns/user_charts/campaign_activity'
     .card.card-body.ht-lg-100.mg-t-10
       .media
         %span.tx-color-04
