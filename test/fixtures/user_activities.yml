@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  activity: MyString
+  activeness_id: 1
+  activeness_type: MyString
+  user: one
+
+two:
+  activity: MyString
+  activeness_id: 1
+  activeness_type: MyString
+  user: two
