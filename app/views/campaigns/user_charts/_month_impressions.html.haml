@@ -1,0 +1,5 @@
+%tbody.sidebar-body
+  %tr
+  %td.text= impression[0].strftime("%B %d, %Y")
+  %td.text-right.tx-success $ #{impression[1][:total_invested].round(3)}
+  %td.text-right.tx-danger= impression[1][:impressions_count]

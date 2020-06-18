@@ -1,7 +1,8 @@
 class CampaignsController < ApplicationController
+  include UserActivityHelper
   access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index]}, provider: :all
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:analytics, :edit, :destroy, :update, :toggle_state, :fetch]
+  before_action :get_campaign, only: [:analytics, :edit, :destroy, :update, :toggle_state]
   before_action :verify_identity, only: [:analytics, :edit, :destroy, :update, :toggle_state]
   before_action :campaign_not_active, only: [:edit]
 
@@ -19,25 +20,15 @@ class CampaignsController < ApplicationController
   end
 
   def analytics
+    @history_campaign = UserActivity.where( activeness_id: @campaign).order(created_at: :desc)
     @campaign_impressions = {}
-    @impressions = Impression.where(campaign_id: @campaign, created_at: 4.weeks.ago..Time.now)
-    @total_invested = @impressions.sum(:total_price)
+    @impressions = Impression.where(campaign_id: @campaign, created_at: 1.month.ago..Time.zone.now)
+    @total_invested = @impressions.sum(:total_price).round(3)
     @total_impressions = @impressions.count
     @impressions.group_by_day(:created_at).count.each do |key, value|
       @campaign_impressions[key] = {impressions_count: value, total_invested: @impressions.group_by_day(:created_at).sum(:total_price)[key].round(3)}
     end
     return @campaign_impressions
-  end
-
-  def get_impressions
-
-  end
-
-  def fetch
-    get_impressions
-    respond_to do |format|
-        format.js
-    end
   end
 
   def edit
@@ -51,12 +42,20 @@ class CampaignsController < ApplicationController
     @campaign.with_lock do
       @success = @campaign.update(state: !@campaign.state)
     end
+    if @success == true
+      if !@campaign.state == false
+        track_activity( action: "campaign.campaign_actived", activeness: @campaign)
+      elsif !@campaign.state == true
+        track_activity( action: "campaign.campaign_deactivated", activeness: @campaign)
+      end
+    end
   end
 
 
   def update
     respond_to do |format|
       if @campaign.update_attributes(campaign_params.merge(state: true))
+        track_activity( action: "campaign.campaign_updated", activeness: @campaign)
         # move campaign to in review since it was changed
         @campaign.set_in_review
         # Create a notification per project
@@ -85,6 +84,7 @@ class CampaignsController < ApplicationController
   def create
     @campaign = Campaign.new(create_params)
     if @campaign.save
+      track_activity( action: 'campaign.campaign_created', activeness: @campaign)
       flash[:success] = I18n.t('campaign.action.saved')
     else
       flash[:error] = I18n.t('campaign.errors.no_save')

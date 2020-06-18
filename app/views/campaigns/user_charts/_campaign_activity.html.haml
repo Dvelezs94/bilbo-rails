@@ -1,0 +1,23 @@
+/ media
+/ col
+.col-md-6.col-xl-4.mg-t-10
+  .card
+    .card-header.d-flex.align-items-center.justify-content-between
+      %h6.mg-b-0= t("campaign.campaign_activity")
+      .d-flex.tx-18
+        %a.link-03.lh-0{:href => ""}
+          %i.icon.ion-md-refresh
+        %a.link-03.lh-0.mg-l-10{:href => ""}
+          %i.icon.ion-md-more
+    %ul.card.activity-table.list-group.list-group-flush.tx-13{:style => "height: 340px;"}
+      -@history_campaign.each do |activity_campaign|
+        %li.list-group-item.d-flex.pd-sm-x-20
+          .avatar.d-block
+            %span.avatar-initial= image_tag user_avatar(activity_campaign.user, 500), class: "rounded-circle"
+          .pd-sm-l-10.pd-l-10
+            %p.tx-medium.mg-b-0= t("#{activity_campaign.activity}")
+            %small.tx-12.tx-color-03.mg-b-0=activity_campaign.created_at.strftime("%B %d, %Y, %I:%M%p")
+          .mg-l-auto.text-right
+            %p.tx-medium.tx-color-03.mg-b-0= activity_campaign.user.name
+    / card-footer
+  / card
