@@ -74,7 +74,6 @@ body {
 
 table {
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(28, 39, 60, 0.03);
 }
 
 [tabindex="-1"]:focus {
@@ -2756,6 +2755,21 @@ input[type="button"].btn-block {
     transform: translateX(0.75rem); }
   .custom-switch .custom-control-input:disabled:checked ~ .custom-control-label::before {
     background-color: rgba(1, 104, 250, 0.5); }
+
+.custom-select-blue {
+  color: white !important;
+  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='white' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right 0.625rem center/8px 10px !important;
+  background-color: #27AE60 !important;
+}
+
+.custom-select option {
+  color: white !important;
+  background-color: #7987a1 !important;
+}
+
+.custom-select option:hover {
+  background-color: black !important;
+}
 
 .custom-select {
   display: inline-block;

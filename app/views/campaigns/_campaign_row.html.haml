@@ -17,10 +17,10 @@
         %a.nav-link.tx-primary.p-0{"data-toggle" => "dropdown", :href => "#"}
           %i.fe.fe-elipsis-v.wd-15.ht-15
         .dropdown-menu
-          %a.dropdown-item.tx-primary{"data-placement" => "top", "data-toggle" => "tooltip", :href => edit_campaign_path(campaign), :title => t("general_inputs.edit")}
+          %a.dropdown-item.tx-primary{:href => edit_campaign_path(campaign)}
             %i.fe.fe-edit.mg-r-5
             = t("general_inputs.edit")
-          %a.dropdown-item.tx-primary{"data-placement" => "top", "data-toggle" => "tooltip", :href => analytics_campaign_path(campaign), :title => t("campaign.metrics")}
+          %a.dropdown-item.tx-primary{:href => analytics_campaign_path(campaign)}
             %i.fe.fe-activity.mg-r-5
             = t("campaign.metrics")
           .dropdown-divider

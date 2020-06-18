@@ -159,7 +159,11 @@ details[open] summary:after {
 
 .center_image_vertically {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+}
+
+#carouselBoardInfo {
+  background: rgba(0, 0, 0, 0.8);
 }
 
 #boardTabContent {
@@ -169,9 +173,29 @@ details[open] summary:after {
 
 .wizard-height {
   max-height: 60vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .white-background {
   background-color: #fff;
+}
+
+.btn-primary-custom {
+  color: white;
+  background-color: #2B78FB;
+} .btn-primary-custom:hover {
+  color: white;
+}
+
+.btn-secondary-custom {
+  color: white;
+  background-color:  #A5B8D7;
+} .btn-secondary-custom:hover {
+  color: white;
+}
+
+.material-icon-middle {
+  display: inline-flex !important;
+  vertical-align: sub !important;
+  height: 0em !important;
 }

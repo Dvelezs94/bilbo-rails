@@ -76,6 +76,17 @@
               </div>
 
               <div class="form-group">
+                <%= f.label " Social class" %><br/>
+                <%= f.text_field :social_class, class: "form-control", autocomplete: "off", required: true, placeholder: "A", list: "social" %>
+                <datalist id="social">
+                  <option value= "A">
+                  <option value="AA">
+                  <option value="AAA">
+                  <option value="AAA+">
+                </datalist>
+              </div>
+
+              <div class="form-group">
                 <%= f.label t('bilbos.dimensions') %><br/>
                 <div class="row">
                   <div class="col-6">
