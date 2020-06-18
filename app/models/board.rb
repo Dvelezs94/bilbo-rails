@@ -146,7 +146,7 @@ class Board < ApplicationRecord
 
   # this function returns an array of the daily earnings by each board. This works on a monthly basis
   # Board.daily_provider_earnings_by_boards(@project, Time.now)
-  def self.daily_provider_earnings_by_boards(project, time_range = 30.days.ago..Time.now, type = 1)
+  def self.daily_provider_earnings_by_boards(project, time_range = 30.days.ago..Time.now)
     @daily_earnings = {}
     @impressions = Impression.joins(:board).where(boards: {project: project}, created_at: time_range)
     @impressions.group_by_day(:created_at).count.each do |key, value|
