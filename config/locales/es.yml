@@ -117,15 +117,23 @@ es:
     impressions: Impresiones
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
+    total_impressions: Total de impresiones
+    history_data: Historial de datos
+    month_impressions: Sus impresiones y el total invertido en los últimos 30 días
+    campaign_activity: Actividad de la campaña
+    campaign_actived: La campaña fue activada
+    campaign_deactivated: La campaña fue desactivada
+    campaign_updated: La campaña fue actualizada
+    campaign_created: La campaña fue creada
     minimum_budget_per_bilbo: El mínimo por bilbo es de $50 al día.
     metrics: Metricas
     campaign: Campaña
     campaign_status: Estado
     campaign_name: Nombre
     campaign_date: Fecha
-    wont_be_able_to_update_state: No podrás actualizar el estado hasta dento de
+    wont_be_able_to_update_state: No podrás actualizar el estado hasta dentro de
     impressions_per_day: Impresiones
-    invested: Daily invested
+    invested: Inversión diaria
     popular_hours: Horas mas populares
     status_on: Encendido
     status_off: Apagado
