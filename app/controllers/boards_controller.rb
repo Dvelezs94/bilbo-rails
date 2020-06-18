@@ -5,7 +5,6 @@ class BoardsController < ApplicationController
   before_action :restrict_access, only: :show
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :get_provider_boards, only: :owned
-  before_action :get_boards, only: :index
   before_action :allow_iframe_requests, only: :map_frame
 
   def index
