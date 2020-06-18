@@ -287,7 +287,7 @@ es:
     settings: Configuración
     impressions_count: Cuenta de impresiones
     impressions_count_description: Últimos 30 días de impresiones. Cada punto es la suma de todas las impresiones de tus bilbos en un mismo dia
-    top_campaigns: Top de Campañas
+    top_campaigns: Campañas sobresalientes
     earnings: Ganancias
     earnings_description: Últimos 30 días de ganancias
     pending_campaigns: Campañas pendientes
