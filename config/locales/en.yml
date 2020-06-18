@@ -116,6 +116,14 @@ en:
     impressions: Impressions
     daily_budget: Daily Budget
     total_invested: Total Invested
+    total_impressions: Total impressions
+    history_data: History data
+    month_impressions: Your impressions and total invested over the last 30 days
+    campaign_activity: Campaign activity
+    campaign_actived: The campaign was activated
+    campaign_deactivated: The campaign was deactivated
+    campaign_updated: The campaign was updated
+    campaign_created: The campaign was created
     minimum_budget_per_bilbo: The minimum is $50 per chosen bilbo.
     metrics: Metrics
     campaign: Campaign
