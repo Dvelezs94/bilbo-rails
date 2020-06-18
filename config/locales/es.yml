@@ -71,6 +71,7 @@ es:
     confirm_deletion: Estas seguro que quieres borrar este elemento?
     close: Cerrar
     search: Buscar
+    apply_filter: Aplicar Filtro
     browse: Buscar
     confirm: Confirmar
     cancel: Cancelar
@@ -98,6 +99,7 @@ es:
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
+    occupied: Ocupado
     deny: Denegar campaña
     review: Revisar campaña
     campaign: Campañas
@@ -136,7 +138,7 @@ es:
       date_and_budget: Fecha y Presupuesto
       payment_details: Detalles de Pago
       budget: Presupuesto
-      daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto de dividirá entre todos los bilbos equitativamente.
+      daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto se dividirá entre todos los bilbos equitativamente.
       campaign_duration: Duracion de la campaña
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha
@@ -159,6 +161,7 @@ es:
     name: Nombre del Bilbo
     state: Estado
     enabled: Habilitado
+    filter: Filtros del Mapa
     in_review: En revision
     disabled: Desactivado
     banned: Bloqueado
@@ -198,6 +201,13 @@ es:
     campaign_ads: Anuncios de campañas
     working_hours: Horas activas
     social_class: Clasificación
+    search:
+      location: Ubicación
+      classification: Clasificación
+      media_type: Tipo de Medio
+      max_per_impression: $max. / impresión
+      min_width: Ancho min. (mts)
+      min_height: Alto min. (mts)
   ads:
     ads: Anuncios
     new_ad: Nuevo Anuncio

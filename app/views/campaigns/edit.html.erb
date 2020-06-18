@@ -35,7 +35,14 @@
       <section>
         <hr>
         <div class="row row-xs">
-          <div class="input-group mg-b-10 col-sm-12 col-md-6 ml-auto">
+
+          <div class="col-6 col-md-3 ">
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#campaignEditMapFilter" onclick="return false">
+              <%= t('bilbos.filter') %>
+            </button>
+          </div>
+
+          <div class="input-group mg-b-10 col-6 col-md-6 ml-auto">
             <div class="input-group-prepend">
               <span class="input-group-text pd-x-15" id="boards_counter"><%= @campaign_boards.size %></span>
             </div>
@@ -266,3 +273,4 @@
         </div>
 
 <%= render partial: "ads/new" %>
+<%= render partial: "edit_map_filter" %>
