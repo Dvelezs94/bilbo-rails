@@ -11,13 +11,10 @@
         %h4.mg-b-0.tx-spacing--1
           = t('header.statistics')
 
-      %div
-        %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()' }
-          %i.wd-10.mg-r-5.fe.fe-print
-          = t('dashboards.print')
+      %div.d-flex
         = link_to impressions_path, class: 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5' do
           %i.wd-10.mg-r-5.fe.fe-list-order
-          = t('dashboards.view_all_impressions')
+          = t('dashboards.view_impressions')
         = link_to generate_provider_report_csv_index_path, class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5' do
           %i.wd-10.mg-r-5.fe.fe-export
           = t('dashboards.export_to_csv')
