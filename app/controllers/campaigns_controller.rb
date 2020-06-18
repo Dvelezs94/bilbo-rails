@@ -20,9 +20,9 @@ class CampaignsController < ApplicationController
   end
 
   def analytics
-    @history_campaign = UserActivity.where( activeness_id: @campaign).order(created_at: :desc)
+    @history_campaign = UserActivity.where( activeness: @campaign).order(created_at: :desc)
     @campaign_impressions = {}
-    @impressions = Impression.where(campaign_id: @campaign, created_at: 1.month.ago..Time.zone.now)
+    @impressions = Impression.where(campaign: @campaign, created_at: 1.month.ago..Time.zone.now)
     @total_invested = @impressions.sum(:total_price).round(3)
     @total_impressions = @impressions.count
     @impressions.group_by_day(:created_at).count.each do |key, value|
