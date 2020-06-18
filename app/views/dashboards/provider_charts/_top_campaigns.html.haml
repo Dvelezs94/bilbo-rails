@@ -1,7 +1,7 @@
 .col-md-6.col-lg-4.col-xl-3.mg-t-10.mg-lg-t-0
   .card
     .card-header.d-flex.justify-content-between
-      %h6.mg-b-0 Top Campaigns
+      %h6.mg-b-0= t('dashboards.top_campaigns')
     .card-body.pd-lg-25
       .chart-seven
         = pie_chart @tops, download: false
