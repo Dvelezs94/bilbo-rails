@@ -52,7 +52,7 @@ $(document).on('turbolinks:load', function() {
     // show bilbo ad
     function showBilboAd() {
       $(".board-ads").hide();
-      $("#bilbo-ad").show();
+      $("#bilbo-ad").attr('style','display:block !important');
     }
 
     // show user ad
@@ -68,7 +68,7 @@ $(document).on('turbolinks:load', function() {
         if (chosen !== "-") {
           if ($("#bilbo-ad").is(":visible")) {
               $("#bilbo-ad").hide();
-              $(".board-ads").show();
+              $(".board-ads").attr('style','display:block !important');
           }
           if (typeof newAd !== 'undefined') {
             oldAd = newAd;
@@ -113,7 +113,7 @@ $(document).on('turbolinks:load', function() {
     // Start stream
     $(".start-stream").click(function(){
       $(".start-stream").hide();
-      $(".board-ads").show();
+      $(".board-ads").attr('style','display:block !important');
       rotateAds = setInterval(showAd, board_duration);
     });
 
@@ -123,7 +123,7 @@ $(document).on('turbolinks:load', function() {
       if ($(".start-stream").is(":hidden")) {
         // stop if Escape key is pressed
         if (e.keyCode === 27) {
-          $(".start-stream").show();
+          $(".start-stream").attr('style','display:block !important');
           $(".board-ads").hide();
           clearInterval(rotateAds);
           $(".board-ad-inner").css({display: "none"});
