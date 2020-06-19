@@ -1,0 +1,3 @@
+regenerate_ads_rotation_job:
+  cron: "*/1 * * * *" # execute at every 30 minutes
+  class: "RegerateAdsrotationWorker"
