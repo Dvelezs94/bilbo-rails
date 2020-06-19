@@ -34,7 +34,7 @@ $(document).on('turbolinks:load', function() {
 
         if(currentIndex === 2) {
           // check if the user set a minimum of 50 per board
-          if ( (parseInt($('#campaign_budget').val()) / parseInt($('#boards_counter').html())) >= 50 ) {
+          if ( (parseInt($('#campaign_budget').val().replace(',','')) / parseInt($('#boards_counter').html())) >= 50 ) {
             return true
           } else {
             show_error($("#budget_error_message").html());
