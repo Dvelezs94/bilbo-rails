@@ -100,7 +100,7 @@ en:
     accept: Accept campaign
     deny: Deny campaign
     review: Review campaign
-    occupied: Occupied
+    occupied: "% Occupied"
     campaign: Dashboard
     home: Home
     to_active: The campaign has been activated

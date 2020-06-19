@@ -65,7 +65,6 @@ $(document).on('turbolinks:load', function() {
           rotation_key = 0
         }
         chosen = ads[rotation_key];
-        console.log("showing ad on array " + rotation_key);
         if (chosen !== "-") {
           if ($("#bilbo-ad").is(":visible")) {
               $("#bilbo-ad").hide();

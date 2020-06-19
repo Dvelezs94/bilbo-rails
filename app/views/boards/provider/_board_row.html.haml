@@ -10,41 +10,43 @@
       %h4.tx-normal.tx-rubik.tx-40.tx-spacing--1.mg-b-0= number_to_currency_usd(board.monthly_earnings)
       %p.tx-12.tx-uppercase.tx-semibold.tx-spacing-1.tx-color-02 Earnings this month
       %p.tx-30.mg-b-0
-        %a.clipboard-btn{"data-clipboard-text" => board_url(board, access_token: board.access_token), :href => ""}
-          %i.mg-r-5.material-icons &#57677;
+        %a.clipboard-btn{"data-clipboard-text" => "#{board_url(board, access_token: board.access_token, autoplay: true)}", :href => ""}
+          %i.mg-r-5.material-icons 
         = link_to board_path(board, access_token: board.access_token), target: "blank" do
           %i.mg-r-5.fe.fe-play
     .card-footer.pd-20
       .row
         .col-6
-          %p.tx-10.tx-uppercase.tx-medium.tx-color-03.tx-spacing-1.tx-nowrap.mg-b-5 Active Campaigns
+          %p.tx-10.tx-uppercase.tx-medium.tx-color-03.tx-spacing-1.tx-nowrap.mg-b-5= t('campaign.active_campaigns')
           .d-flex.align-items-center
             .wd-10.ht-10.rounded-circle.bg-pink.mg-r-5
             %h5.tx-normal.tx-rubik.mg-b-0
               = board.active_campaigns.size
-              %small.tx-color-04 25%
         / col
         .col-6
-          %p.tx-10.tx-uppercase.tx-medium.tx-color-03.tx-spacing-1.mg-b-5 Monthly Impressions
+          %p.tx-10.tx-uppercase.tx-medium.tx-color-03.tx-spacing-1.mg-b-5= t('bilbos.month_impressions')
           .d-flex.align-items-center
             .wd-10.ht-10.rounded-circle.bg-primary.mg-r-5
             %h5.tx-normal.tx-rubik.mg-b-0
               = board.monthly_impressions_count
-              %small.tx-color-04 20%
         / col
         .col-6.mg-t-20
           %p.tx-10.tx-uppercase.tx-medium.tx-color-03.tx-spacing-1.mg-b-5 Status
           .d-flex.align-items-center
             .wd-10.ht-10.rounded-circle.bg-teal.mg-r-5
-            %h5.tx-normal.tx-rubik.mg-b-0= board.connected? ? t("bilbos.streaming") : t("bilbos.not_streaming")
+            %h5{:class => "#{"tx-danger" if !board.connected?} tx-rubik mg-b-0"}= board.connected? ? t("bilbos.streaming") : t("bilbos.not_streaming")
         / col
         .col-6.mg-t-20
-          %p.tx-10.tx-uppercase.tx-medium.tx-color-03.tx-spacing-1.mg-b-5 Max profit per month
+          %p.tx-10.tx-uppercase.tx-medium.tx-color-03.tx-spacing-1.mg-b-5=  t('campaign.occupied')
           .d-flex.align-items-center
             .wd-10.ht-10.rounded-circle.bg-orange.mg-r-5
-            %h5.tx-normal.tx-rubik.mg-b-0= number_to_currency_usd(board.calculate_max_earnings)
+            %h5.tx-normal.tx-rubik.mg-b-0= "#{board.occupation[:occupation]} %"
+
+
         / col
-        .col-12.mg-t-20
+        .col-6.mg-t-20
+          = link_to("View Campaigns", provider_index_campaigns_path(:bilbo => board.name), method: :get, :class => "btn btn-sm btn-block btn-outline-secondary btn-uppercase tx-spacing-1")
+        .col-6.mg-t-20
           = button_to("Stats", statistics_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1")
       / row
     / card-footer
