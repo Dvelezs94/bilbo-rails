@@ -132,6 +132,12 @@ class Board < ApplicationRecord
     campaigns.to_a.select(&:should_run?)
   end
 
+  def update_ad_rotation
+    # build the ad rotation because the ads changed
+    new_cycle = self.build_ad_rotation
+    self.update(ads_rotation: new_cycle)
+  end
+
   private
 
   def generate_access_token
