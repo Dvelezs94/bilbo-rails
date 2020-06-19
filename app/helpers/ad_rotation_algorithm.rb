@@ -12,7 +12,7 @@ module AdRotationAlgorithm
     #despues reviso si hay consecutivos iguales y trato de cambiarlos de lugar (incluidos los separadores, esto ayuda a una distribución del tiempo al aire más homogénea)
     hours = board.working_hours
     total_cycles = hours*60*6.to_i #each hour has 60 minutes, each with 6 cycles, integer because i cant have medium cycle
-    cps  = board.active_campaigns.map{ |c| [ c.id, c.budget_per_bilbo ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
+    cps  = board.active_campaigns.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
     #puts cps
     cycles = [] #empty and fill it with total displays in order
     cps.map do |name, displays|
