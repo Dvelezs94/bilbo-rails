@@ -132,6 +132,12 @@ class Board < ApplicationRecord
     campaigns.to_a.select(&:should_run?)
   end
 
+  def update_ad_rotation
+    # build the ad rotation because the ads changed
+    new_cycle = self.build_ad_rotation
+    self.update(ads_rotation: new_cycle)
+  end
+
   private
 
   def generate_access_token
@@ -146,7 +152,7 @@ class Board < ApplicationRecord
 
   # this function returns an array of the daily earnings by each board. This works on a monthly basis
   # Board.daily_provider_earnings_by_boards(@project, Time.now)
-  def self.daily_provider_earnings_by_boards(project, time_range = 30.days.ago..Time.now, type = 1)
+  def self.daily_provider_earnings_by_boards(project, time_range = 30.days.ago..Time.now)
     @daily_earnings = {}
     @impressions = Impression.joins(:board).where(boards: {project: project}, created_at: time_range)
     @impressions.group_by_day(:created_at).count.each do |key, value|
@@ -154,6 +160,11 @@ class Board < ApplicationRecord
     end
     @daily_earnings
   end
+
+  def self.daily_provider_earnings_graph(project, time_range = 30.days.ago..Time.now)
+  h = Impression.joins(:board).where(boards: {project: project}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
+      h.each { |key,value| h[key] = value.round(3) }
+end
 
 
   # this function returns an array of the top campaigns. This works on a monthly basis

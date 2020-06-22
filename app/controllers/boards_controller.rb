@@ -10,7 +10,7 @@ class BoardsController < ApplicationController
   def index
     respond_to do |format|
     format.js { #means filter is used
-      @boards = Board.all.enabled
+      get_boards
       if params[:cycle_price].present?
         @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f }
         @boards = Board.where(id: @boards)
@@ -19,10 +19,9 @@ class BoardsController < ApplicationController
       @boards = @boards.where("width > ?", params[:min_width]) if params[:min_width].present?
       @boards = @boards.where(category: params[:category]) if params[:category].present?
       @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
-      puts @boards.length
      }
     format.html {
-      @boards = Board.enabled
+      get_boards
      }
    end
   end
@@ -149,6 +148,14 @@ class BoardsController < ApplicationController
 
   def get_provider_boards
     @boards = @project.boards.page(params[:page])
+  end
+
+  def get_boards
+    if current_user.is_provider?
+      @boards = @project.boards
+    else
+      @boards = Board.enabled
+    end
   end
 
   # validate identity when trying to maange the boards
