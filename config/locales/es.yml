@@ -99,7 +99,7 @@ es:
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
-    occupied: Ocupado
+    occupied: "% Ocupado"
     deny: Denegar campaña
     review: Revisar campaña
     campaign: Campañas

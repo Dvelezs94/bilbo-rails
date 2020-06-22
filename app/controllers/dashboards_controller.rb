@@ -18,6 +18,7 @@ class DashboardsController < ApplicationController
 
   def provider_statistics
     @daily_impressions = @project.daily_provider_board_impressions().group_by_day(:created_at).count
+    @graph_earnings = Board.daily_provider_earnings_graph(@project)
     @earnings = Board.daily_provider_earnings_by_boards(@project)
     @tops = Board.top_campaigns(@project).first(3)
     @tops_four = Board.top_campaigns(@project).first(4)
