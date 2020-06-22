@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     collection do
       get :generate_provider_report
       get :validate_daily_generation
+      get :download_csv
     end
   end
   resources :projects do

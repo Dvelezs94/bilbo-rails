@@ -27,4 +27,9 @@
             %th.text= t("campaign.campaign_date")
             %th.text-right= t("campaign.total_invested")
             %th.text-right= t("campaign.total_impressions")
-            = render partial: 'campaigns/user_charts/month_impressions', collection: @campaign_impressions, as: :impression
+            - @campaign_impressions.sort_by {|k,v| k}.reverse.each do |impression|
+              %tbody.sidebar-body
+                %tr
+                %td.text= impression[0].strftime("%B %d, %Y")
+                %td.text-right.tx-success= number_to_currency_usd(impression[1][:total_invested])
+                %td.text-right.tx-danger= impression[1][:impressions_count]
