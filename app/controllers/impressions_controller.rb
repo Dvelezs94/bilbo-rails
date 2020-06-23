@@ -27,6 +27,9 @@ class ImpressionsController < ApplicationController
     @impressions.group(:campaign_id).count.each do |key, value|
       @campaign_impressions[key] = {impressions_count: value, total_invested: @impressions.group(:campaign_id).sum(:total_price)[key]}
     end
+    @start_date = impression_params[:start_date]
+    @end_date = impression_params[:end_date]
+    @board_impression = impression_params[:board_id]
     return @campaign_impressions
   end
 
