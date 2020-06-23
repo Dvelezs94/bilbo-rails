@@ -51,7 +51,7 @@ class Notification < ApplicationRecord
           message: I18n.t("#{translation}.message"),
           subject: I18n.t("#{translation}.subject") }
       when "csv ready"
-      { url: download_csv_csv_index_url,
+      { url: download_csv_csv_index_url(reference: reference.name),
         url_string: I18n.t("#{translation}.url_string"),
         message: I18n.t("#{translation}.message"),
         subject: I18n.t("#{translation}.subject") }

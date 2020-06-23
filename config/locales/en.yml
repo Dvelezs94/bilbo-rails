@@ -358,8 +358,8 @@ en:
         message: Your project campaigns will stop due to lack of credits, buy more credits to broadcast again
         url_string: Purchase Credits
       csv_ready:
-        subject: Your csv is ready to be downloaded
-        message: Your csv is ready to be downloaded
+        subject: Your Report is ready to be downloaded
+        message: Your Report is ready to be downloaded
         url_string: Download csv
     report:
       weekly_ready:

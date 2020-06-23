@@ -6,7 +6,7 @@
       .chart-seven
         = pie_chart @tops, download: false
     .card-footer.pd-20
-      .col-12.tx-12
+      .col-12.tx-12{style: "padding: 0"}
         .d-flex.align-items-center
           .wd-10.ht-10.bg-primary.rounded-circle.pos-relative.t--1
           %span.tx-medium.mg-l-10{:title => "#{@tops.first[0] rescue ""}"}= truncate(@tops.first[0], length: 12) rescue "-"

@@ -7,7 +7,8 @@
         %nav{ 'aria-label' => 'breadcrumb' }
           %ol.breadcrumb.breadcrumb-style1.mg-b-10
             %li.breadcrumb-item
-              = link_to t('campaign.home'), root_path
+              %a{:href => "/boards/owned"}= t("header.my_bilbos")
+            %li.breadcrumb-item.active{"aria-current" => "page"}= @board.name
         %h4.mg-b-0.tx-spacing--1
           = t('header.statistics')
 
@@ -15,10 +16,9 @@
         %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()' }
           %i.wd-10.mg-r-5.fe.fe-print
           = t('dashboards.print')
-        %button{ class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5'}
-          %i.wd-10.mg-r-5.fe.fe-export
+        = link_to generate_board_provider_report_csv_index_path(board: @board.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5' do
+          %i.wd-10.mg-r-5.fe.fe-download
           = t('dashboards.export_to_csv')
-
     .row.row-xs
       = render 'boards/bilbo_statistics/earnings'
       = render 'boards/bilbo_statistics/impressions_count'
