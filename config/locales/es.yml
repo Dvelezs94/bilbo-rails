@@ -359,8 +359,8 @@ es:
         message: Las campañas de su proyecto se detendrán debido a la falta de créditos, compre más créditos para transmitir nuevamente
         url_string: Comprar Créditos
       csv_ready:
-        subject: Tu csv está listo para descargar
-        message: Tu csv está listo para descargar
+        subject: Tu reporte está listo para descargar
+        message: Tu reporte está listo para descargar
         url_string: Descargar csv
     report:
       weekly_ready:

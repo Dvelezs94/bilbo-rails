@@ -4,7 +4,7 @@
   %td= campaign_impression[1][:impressions_count]
   %td= number_to_currency_usd(campaign_impression[1][:total_invested])
   %td
-  %td=link_to "Descargar CSV", generate_campaign_provider_report_csv_index_path(board: @board_impression, campaign: @campaign.id, start_date: @start_date, end_date: @end_date)
+  %td= link_to "Descargar CSV", generate_campaign_provider_report_csv_index_path(board: @board_impression, campaign: @campaign.id, start_date: @start_date, end_date: @end_date)
   %td
     %a{href: "", "data-toggle": "modal", "data-target": "#modalNewInvoice#{@campaign.id}"} Subir Factura
 
