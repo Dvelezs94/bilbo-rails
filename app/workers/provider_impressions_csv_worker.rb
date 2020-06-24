@@ -1,17 +1,40 @@
 class ProviderImpressionsCsvWorker
     include Sidekiq::Worker
+    include NotificationsHelper
     include Rails.application.routes.url_helpers
     sidekiq_options retry: false, dead: false
 
-  
-    def perform(project_slug)
+    #optional parameters for the type of csv
+    def perform(project_slug, user_id, campaign_id = nil, board_id= nil, start_date= nil, end_date= nil)
       @project = Project.friendly.find(project_slug)
-      @impressions = @project.daily_provider_board_impressions(10.years.ago..Time.now)
-      name = "impressions-#{Time.now}.csv"
+      name = "impressions-#{Time.zone.now}.csv"
+        if campaign_id.present?
+          if board_id.present?
+            #if campaign, board and dates are present, create a csv for impressions of board and campaign selected in time range
+            if start_date.present?
+              @impressions = @project.boards.find(board_id).impressions.where(campaign: campaign_id).where("created_at >= ? AND created_at <= ?", start_date, end_date)
+              @report = @project.reports.create!(name: name, category: "board_campaign", campaign_id: campaign_id, board_id: board_id)
+            end
+          else
+          #if only campaign is present, create a csv with the campaign selected
+            @impressions = @project.campaigns.find(campaign_id).impressions
+            @report = @project.reports.create!(name: name, category: "campaign", campaign_id: campaign_id)
+          end
+          #if board present and date isn't there create a csv of board
+          elsif board_id.present? && !start_date.present?
+            @impressions = @project.boards.find(board_id).impressions
+            @report = @project.reports.create!(name: name, category: "board", board_id: board_id)
+        else
+          #if only is the proyect, csv of all impressions of provider
+          @impressions = @project.daily_provider_board_impressions(10.years.ago..Time.zone.now)
+          @report = @project.reports.create!(name: name, category: "project")
+        end
       result = @impressions.to_csv(name, ["campaign", "board", "created_at", "total_price"])
-      @report = @project.reports.create!(name: name)
-      @report.attachment.attach(io: File.open(result), filename: name, content_type: ',	text/csv')  
+
+      @report.attachment.attach(io: File.open(result), filename: name, content_type: 'text/csv')
       puts report_url
+      #create a notification for download a csv
+      create_notification(recipient_id: user_id, actor_id: @project.id , action: "csv ready", notifiable: User.find(user_id), reference: @project.reports.find_by_name(name))
     end
 
     def report_url

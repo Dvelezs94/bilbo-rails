@@ -15,8 +15,8 @@
         %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()' }
           %i.wd-10.mg-r-5.fe.fe-print
           = t('dashboards.print')
-        = link_to root_path, class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5' do
-          %i.wd-10.mg-r-5.fe.fe-export
+        = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5' do
+          %i.wd-10.mg-r-5.fe.fe-download
           = t('dashboards.export_to_csv')
 
     .row.row-xs
@@ -28,7 +28,8 @@
     .card.card-body.ht-lg-100.mg-t-10
       .media
         %span.tx-color-04
-          %i.wd-60.ht-60{"data-feather" => "download"}
+          %a.tx-color-04{:href => "#{generate_campaign_report_csv_index_path(campaign: @campaign.id)}"}
+            %i.ht-60.fe.fe-download.tx-50
         .media-body.mg-l-20
           %h6.mg-b-10 Download your earnings in CSV format.
           %p.tx-color-03.mg-b-0

@@ -50,7 +50,12 @@ class Notification < ApplicationRecord
           url_string: I18n.t("#{translation}.url_string"),
           message: I18n.t("#{translation}.message"),
           subject: I18n.t("#{translation}.subject") }
-      end
+      when "csv ready"
+      { url: download_csv_csv_index_url(reference: reference.name),
+        url_string: I18n.t("#{translation}.url_string"),
+        message: I18n.t("#{translation}.message"),
+        subject: I18n.t("#{translation}.subject") }
+    end
     when "Report"
       case action
       when "weekly ready"
