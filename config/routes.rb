@@ -13,6 +13,18 @@ Rails.application.routes.draw do
       get :provider_statistics
     end
   end
+
+  direct :rails_public_blob do |blob|
+    # Preserve the behaviour of `rails_blob_url` inside these environments
+    # where S3 or the CDN might not be configured
+    if Rails.env.development? || Rails.env.test?
+      route_for(:rails_blob, blob)
+    else
+      # Use an environment variable instead of hard-coding the CDN host
+      File.join(ENV.fetch("CDN_HOST") {""}, blob.key)
+    end
+  end
+
   resources :ads do
     resources :attachments, only:  [:create, :destroy, :update]
       member do
