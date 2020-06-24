@@ -29,7 +29,7 @@ class ImpressionsController < ApplicationController
     end
     @start_date = impression_params[:start_date]
     @end_date = impression_params[:end_date]
-    @board_impression = impression_params[:board_id]
+    @board_impression = Board.find(impression_params[:board_id]).id
     return @campaign_impressions
   end
 
