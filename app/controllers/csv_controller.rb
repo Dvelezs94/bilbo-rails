@@ -67,6 +67,7 @@ class CsvController < ApplicationController
   end
 
   def download_csv
+
     if @project.reports.find_by_name(params[:reference]).present?
       send_file "tmp/#{params[:reference]}", type: 'text/csv'
     end
