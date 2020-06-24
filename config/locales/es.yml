@@ -317,8 +317,8 @@ es:
     reports:
       failed_to_generate_report: Sólo esta permitido crear un reporte al día
       report_created: El reporte fue creado, se te enviará el link de descarga a tu email
-      failed_to_generate_report_campaign_one_hour: Sólo esta permitido crear un csv por hora de esta campaña
-      failed_to_generate_report_bilbo_one_hour: Sólo esta permitido crear un csv por hora de este Bilbo
+      failed_to_generate_report_campaign_one_hour: Sólo esta permitido crear un reporte por hora de esta campaña
+      failed_to_generate_report_bilbo_one_hour: Sólo esta permitido crear un reporte por hora de este Bilbo
   projects:
     project: Proyecto
     project_name: Proyecto %{parameter}
