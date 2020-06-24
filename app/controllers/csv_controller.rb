@@ -2,6 +2,7 @@ class CsvController < ApplicationController
   include UserActivityHelper
   access provider: :all, user: :all
   before_action :validate_daily_generation, only:[:generate_provider_report]
+  before_action :validate_daily_hour_generation, only:[:generate_campaign_report, :generate_board_provider_report, :generate_campaign_provider_report]
 
   def generate_provider_report
     ProviderImpressionsCsvWorker.perform_async( @project.slug, current_user.id)
@@ -16,27 +17,42 @@ class CsvController < ApplicationController
     @end_date = params[:end_date]
     ProviderImpressionsCsvWorker.perform_async( @project.slug, current_user.id, @campaign, @board, @start_date, @end_date)
     flash[:success] = I18n.t('dashboards.reports.report_created')
-    redirect_to root_path
+    redirect_to impressions_path
   end
 
   def generate_campaign_report
     @campaign = params[:campaign]
     ProviderImpressionsCsvWorker.perform_async( @project.slug, current_user.id, @campaign)
     flash[:success] = I18n.t('dashboards.reports.report_created')
-    redirect_to root_path
+    redirect_to analytics_campaign_path(@campaign_id)
   end
 
   def generate_board_provider_report
     @board = params[:board]
     ProviderImpressionsCsvWorker.perform_async( @project.slug, current_user.id, nil, @board)
     flash[:success] = I18n.t('dashboards.reports.report_created')
-    redirect_to root_path
+    redirect_to owned_boards_path
   end
 
   def validate_daily_generation
-    if @project.reports.where(created_at: 1.day.ago..Time.zone.now).present?
+    if @project.reports.where(created_at: 1.day.ago..Time.zone.now, category: "project").exists?
       flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report')
       redirect_to root_path
+    end
+  end
+
+  def validate_daily_hour_generation
+    @board_slug = params[:board]
+    @campaign_id = params[:campaign]
+    if @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "board_campaign", board_id: @board_slug, campaign_id: @campaign_id).exists?
+      flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report')
+      redirect_to impressions_path
+    elsif @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "campaign", campaign_id: @campaign_id).exists?
+      flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report')
+      redirect_to analytics_campaign_path(@campaign_id)
+    elsif @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "board", board_id: @board_slug).exists?
+      flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report')
+      redirect_to owned_boards_path
     end
   end
 

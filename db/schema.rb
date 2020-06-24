@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_17_170649) do
+ActiveRecord::Schema.define(version: 2020_06_24_164051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,6 +218,11 @@ ActiveRecord::Schema.define(version: 2020_06_17_170649) do
     t.string "attachment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "category"
+    t.bigint "campaign_id"
+    t.bigint "board_id"
+    t.index ["board_id"], name: "index_reports_on_board_id"
+    t.index ["campaign_id"], name: "index_reports_on_campaign_id"
     t.index ["project_id"], name: "index_reports_on_project_id"
   end
 
@@ -305,6 +310,8 @@ ActiveRecord::Schema.define(version: 2020_06_17_170649) do
   add_foreign_key "project_users", "users"
   add_foreign_key "provider_invoices", "campaigns"
   add_foreign_key "provider_invoices", "users"
+  add_foreign_key "reports", "boards"
+  add_foreign_key "reports", "campaigns"
   add_foreign_key "reports", "projects"
   add_foreign_key "user_activities", "users"
   add_foreign_key "verifications", "users"
