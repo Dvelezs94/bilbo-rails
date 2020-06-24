@@ -24,7 +24,7 @@ class CsvController < ApplicationController
     @campaign = params[:campaign]
     ProviderImpressionsCsvWorker.perform_async( @project.slug, current_user.id, @campaign)
     flash[:success] = I18n.t('dashboards.reports.report_created')
-    redirect_to analytics_campaign_path(@campaign_id)
+    redirect_to analytics_campaign_path(Campaign.find(@campaign_id).slug)
   end
 
   def generate_board_provider_report
@@ -45,26 +45,22 @@ class CsvController < ApplicationController
     @board_id = params[:board]
     @campaign_id = params[:campaign]
 
-    if @board_id.present? && @campaign_id.present?
+    if @board_id.present?
       if @campaign_id.present?
         if @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "board_campaign", board_id: @board_id, campaign_id: @campaign_id).exists?
           flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report_bilbo_one_hour')
           redirect_to impressions_path
         end
+      else
+        @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "board", board_id: @board_id).exists?
+        flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report_bilbo_one_hour')
+        redirect_to owned_boards_path
       end
 
-      if !@campaign_id.present?
-        if @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "board", board_id: @board_id).exists?
-          flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report_bilbo_one_hour')
-          redirect_to owned_boards_path
-        end
-      end
-    end
-
-    if @campaign_id.present? && !@board_id.present?
+    elsif @campaign_id.present?
       if @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "campaign", campaign_id: @campaign_id).exists?
         flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report_campaign_one_hour')
-        redirect_to analytics_campaign_path(@campaign_id)
+        redirect_to analytics_campaign_path(Campaign.find(@campaign_id).slug)
       end
     end
   end
