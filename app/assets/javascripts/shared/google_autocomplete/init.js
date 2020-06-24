@@ -88,11 +88,10 @@ function waitForElement(elementPath, callBack, times = 0) {
     if ($(elementPath).length) {
       callBack(elementPath, $(elementPath));
     }
-    else if (times == 10) { 
+    else if (times == 10) {
       clearTimeout(timeout)
     }
     else {
-      console.log(times)
       waitForElement(elementPath, callBack, times+1);
     }
   }, 500)
