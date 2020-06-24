@@ -224,6 +224,7 @@ es:
     delete_ad: Borrar Anuncio
     transition: Efecto de transición
     measures: No hay medidas disponibles
+    processing: Procesando...
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
@@ -310,12 +311,15 @@ es:
     gross_earnings: Ganancias Brutas
     platform_fee: Comisión de plataforma
     net_earnings: Ganancias Netas
+    download_report_csv: Descargar CSV
     download_report_in_csv: Descargar reporte en formato CSV
     download_report_in_csv_description: Útil para que realizes tus propios cálculos, gráficas, etc. El CSV contiene información de todas las impresiones históricas de tus bilbos.
     others: Otros
     reports:
       failed_to_generate_report: Sólo esta permitido crear un reporte al día
       report_created: El reporte fue creado, se te enviará el link de descarga a tu email
+      failed_to_generate_report_campaign_one_hour: Sólo esta permitido crear un reporte por hora de esta campaña
+      failed_to_generate_report_bilbo_one_hour: Sólo esta permitido crear un reporte por hora de este Bilbo
   projects:
     project: Proyecto
     project_name: Proyecto %{parameter}
@@ -357,6 +361,10 @@ es:
         subject: Tus créditos se están agotando
         message: Las campañas de su proyecto se detendrán debido a la falta de créditos, compre más créditos para transmitir nuevamente
         url_string: Comprar Créditos
+      csv_ready:
+        subject: Tu reporte está listo para descargar
+        message: Tu reporte está listo para descargar
+        url_string: Descargar csv
     report:
       weekly_ready:
         subject: Tu reporte semanal está listo para descargar
