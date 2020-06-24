@@ -316,6 +316,8 @@ en:
     reports:
       failed_to_generate_report: You are available to generate only one report a day
       report_created: The report was created succesfully, the download link will send via email
+      failed_to_generate_report_campaign_one_hour: You are available to generate only one report per hour for this campaign
+      failed_to_generate_report_bilbo_one_hour: You are available to generate only one report per hour for this Bilbo
   projects:
     project: Project
     project_name: Project %{parameter}

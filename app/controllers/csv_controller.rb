@@ -42,17 +42,30 @@ class CsvController < ApplicationController
   end
 
   def validate_daily_hour_generation
-    @board_slug = params[:board]
+    @board_id = params[:board]
     @campaign_id = params[:campaign]
-    if @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "board_campaign", board_id: @board_slug, campaign_id: @campaign_id).exists?
-      flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report')
-      redirect_to impressions_path
-    elsif @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "campaign", campaign_id: @campaign_id).exists?
-      flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report')
-      redirect_to analytics_campaign_path(@campaign_id)
-    elsif @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "board", board_id: @board_slug).exists?
-      flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report')
-      redirect_to owned_boards_path
+
+    if @board_id.present? && @campaign_id.present?
+      if @campaign_id.present?
+        if @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "board_campaign", board_id: @board_id, campaign_id: @campaign_id).exists?
+          flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report_bilbo_one_hour')
+          redirect_to impressions_path
+        end
+      end
+
+      if !@campaign_id.present?
+        if @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "board", board_id: @board_id).exists?
+          flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report_bilbo_one_hour')
+          redirect_to owned_boards_path
+        end
+      end
+    end
+
+    if @campaign_id.present? && !@board_id.present?
+      if @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "campaign", campaign_id: @campaign_id).exists?
+        flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report_campaign_one_hour')
+        redirect_to analytics_campaign_path(@campaign_id)
+      end
     end
   end
 
