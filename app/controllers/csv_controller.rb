@@ -51,7 +51,7 @@ class CsvController < ApplicationController
           flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report_bilbo_one_hour')
           redirect_to impressions_path
         end
-      elsif !@campaign_id.present?
+      else
         if @project.reports.where(created_at: 1.hour.ago..Time.zone.now, category: "board", board_id: @board_id).exists?
           flash[:error] = I18n.t('dashboards.reports.failed_to_generate_report_bilbo_one_hour')
           redirect_to owned_boards_path
