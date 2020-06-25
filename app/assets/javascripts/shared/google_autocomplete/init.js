@@ -83,12 +83,16 @@ function getLatAndLng(autocomplete, address_name_id, lat_name_id, lng_name_id) {
   document.getElementById(lng_name_id).value = place.geometry.location.lng();
 }
 
-function waitForElement(elementPath, callBack) {
-  window.setTimeout(function() {
+function waitForElement(elementPath, callBack, times = 0) {
+  timeout = setTimeout(function() {
     if ($(elementPath).length) {
       callBack(elementPath, $(elementPath));
-    } else {
-      waitForElement(elementPath, callBack);
+    }
+    else if (times == 10) {
+      clearTimeout(timeout)
+    }
+    else {
+      waitForElement(elementPath, callBack, times+1);
     }
   }, 500)
 }

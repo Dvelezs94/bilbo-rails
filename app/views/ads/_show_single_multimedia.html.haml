@@ -6,7 +6,10 @@
       -else
         = image_tag multimedia, class: "img-inherit", :data => {lity: true}
     .card-body
-      %h6= multimedia.filename.base
+      -if (multimedia.filename.to_s.include? "mp4") || (multimedia.filename.to_s.include? "webm")
+        %h6= I18n.t('ads.processing')        
+      -else
+        %h6= multimedia.filename.base
       - if multimedia.metadata[:width].nil?
         %span= t("ads.measures")
       -else

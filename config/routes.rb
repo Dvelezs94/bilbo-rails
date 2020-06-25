@@ -77,7 +77,11 @@ Rails.application.routes.draw do
   resources :csv, controller: "csv", only: [] do
     collection do
       get :generate_provider_report
+      get :generate_campaign_report
+      get :generate_campaign_provider_report
+      get :generate_board_provider_report
       get :validate_daily_generation
+      get :download_csv
     end
   end
   resources :projects do
