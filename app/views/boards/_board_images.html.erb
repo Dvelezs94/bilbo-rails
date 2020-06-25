@@ -1,3 +1,3 @@
 <div class="carousel-item <%= "active" if image_iteration.first? %>">
-  <%= image_tag (rails_public_blob_url(image)) , class: "d-block w-100", :data => {lity: true}, alt: "No Image" %>
+  <%= image_tag image.processed.service_url , class: "d-block w-100", :data => {lity: true}, alt: "No Image" %>
 </div>
