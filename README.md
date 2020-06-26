@@ -23,7 +23,7 @@ This Readme shows how to run Bilbo locally, utilizing docker and docker compose
 
 ## Access
 
-Bilbo works as a multi-tenant application, which means you need to have a subdomain in order to access the site. for this we use `lvh.me`, that way you can use `project.lvh.me`
+Bilbo works as a multi-tenant application, which means you need to have a subdomain in order to access the site. for this we use `localhost`, that way you can use `project.localhost`
 
 ## Help
 
