@@ -5,13 +5,8 @@ class AttachmentsController < ApplicationController
 
   def create
     if @ad.campaigns.all_off
-      extension_attachment = ActiveStorage::Filename.new(params[:name]).extension_without_delimiter
-      if (extension_attachment.include? "mp4") || (extension_attachment.include? "webm")
-          @ad.multimedia.attach(params[:files]).each do |video|
-            VideoConverter.perform_async(@ad.id, video.id)
-          end
-        elsif ((!extension_attachment.include? "mp4") || (!extension_attachment.include? "webm")) && @ad.multimedia.attach(params[:files])
-      end
+      @ad.multimedia.attach(params[:files])
+      ad_to_video
       flash[:success] = "Attachment saved"
     else
       flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')
@@ -50,6 +45,15 @@ class AttachmentsController < ApplicationController
     #This is for assign multimedia updates to the ad
     @ad.multimedia_update = true
     @ad
+  end
+
+  def ad_to_video
+    @ad.multimedia.attachments.each do |video|
+      extension_attachment = ActiveStorage::Filename.new(video.filename.to_s).extension_without_delimiter
+      if (extension_attachment.include? "mp4") || (extension_attachment.include? "webm")
+        VideoConverter.perform_at(20.seconds.from_now, @ad.id, video.id)
+      end
+    end
   end
 
 end

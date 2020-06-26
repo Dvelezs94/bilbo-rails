@@ -1,5 +1,7 @@
 $(document).on('turbolinks:load', function() {
+  if ($("#bilbomap").length > 0){
     google.maps.event.addDomListener(window, 'turbolinks:load', initializeMap);
+  }
 });
 function initializeMap() {
   waitForElement("#bilbomap", function() {
