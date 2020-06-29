@@ -42,7 +42,7 @@ es:
     help_center: Centro de ayuda
     payment_methods: Metodos de pago
     purchase_credits: Comprar Créditos
-    ads: Anuncios
+    ads: Creativos
     statistics: Estadisticas
     my_bilbos: Mis Bilbos
     export_csv: EXPORTAR A CSV
@@ -111,7 +111,7 @@ es:
     active_campaigns: Campañas activas
     campaign_name: Nombre de Campaña
     bilbos_in_use: Bilbos en uso
-    ad_name: Nombre de anuncio
+    ad_name: Nombre de creativo
     start_date: Fecha de inicio
     end_date: Fecha de fin
     impressions: Impresiones
@@ -142,7 +142,7 @@ es:
     in_review_campaign: ¿Seguro de cambiar el estado a revisión?
     wizard:
       choose_bilbos: Escoge tus Bilbos
-      pick_ad: Elige tu Anuncio
+      pick_ad: Elige tu Creativo
       date_and_budget: Fecha y Presupuesto
       payment_details: Detalles de Pago
       budget: Presupuesto
@@ -155,9 +155,9 @@ es:
       summary: Resumen
       impressions_forecast: Impresiones diarias esperadas con el presupuesto elegido
     errors:
-      no_ad: La campaña no tiene asociado un anuncio
-      no_multimedia: El anuncio de la campaña no contiene multimedia
-      ad_deleted: El anuncio de la campaña ya no existe
+      no_ad: La campaña no tiene asociado un creativo
+      no_multimedia: El creativo de la campaña no contiene multimedia
+      ad_deleted: El creativo de la campaña ya no existe
       cant_update_when_active: La campaña no puede editarse cuando está activa
       no_save: La campaña no ha podido guardarse
     action:
@@ -205,8 +205,8 @@ es:
     billboard: Espectacular
     provider: Correo del proveedor
     earnings_description: Ultimos 3 meses de ganancias.
-    ads_top: anuncios del top 4 durante 3 meses
-    campaign_ads: Anuncios de campañas
+    ads_top: Creativos del top 4 durante 3 meses
+    campaign_ads: Creativos de campañas
     working_hours: Horas activas
     social_class: Clasificación
     search:
@@ -217,11 +217,11 @@ es:
       min_width: Ancho min. (mts)
       min_height: Alto min. (mts)
   ads:
-    ads: Anuncios
-    new_ad: Nuevo Anuncio
+    ads: Creativos
+    new_ad: Nuevo creativo
     upload_multimedia: Subir Archivos
     all_multimedia_files: Todos los Archivos Multimedia
-    delete_ad: Borrar Anuncio
+    delete_ad: Borrar creativo
     transition: Efecto de transición
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
@@ -237,10 +237,10 @@ es:
     action:
       media_removed: El archivo multimedia se ha eliminado con éxito
     errors:
-      wont_be_able_to_delete: Este anuncio no puede eliminarse porque tiene campañas activas
-      wont_be_able_to_update: Este anuncio no puede actualizarse porque tiene campañas activas
-    no_ad: Sin anuncio
-    new_ad_description: Crea un nuevo anuncio para tus campañas publicitarias
+      wont_be_able_to_delete: Este creativo no puede eliminarse porque tiene campañas activas
+      wont_be_able_to_update: Este creativo no puede actualizarse porque tiene campañas activas
+    no_ad: Sin creativo
+    new_ad_description: Crea un nuevo creativo para tus campañas publicitarias
   payments:
     if_it_doesnt_redirect: Si no lo redirige en 5 segundos, haga click
     processing_order: Procesando la orden...
