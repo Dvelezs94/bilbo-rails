@@ -5,7 +5,7 @@ class CsvController < ApplicationController
   before_action :validate_daily_hour_generation, only:[:generate_campaign_report, :generate_board_provider_report, :generate_campaign_provider_report]
 
   def generate_provider_report
-    ProviderImpressionsCsvWorker.perform_async(@project.slug, current_user.id)
+    ProviderImpressionsCsvWorker.perform_at(5.minutes.from_now, @project.slug, current_user.id)
     flash[:success] = I18n.t('dashboards.reports.report_created')
     redirect_to root_path
   end

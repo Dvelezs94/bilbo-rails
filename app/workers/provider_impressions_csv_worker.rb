@@ -1,7 +1,7 @@
 class ProviderImpressionsCsvWorker
     include Sidekiq::Worker
-    include NotificationsHelper
     include Rails.application.routes.url_helpers
+    include NotificationsHelper
     sidekiq_options retry: false, dead: false
 
     #optional parameters for the type of csv
