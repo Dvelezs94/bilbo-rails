@@ -20,6 +20,7 @@ en:
     sign_up_banner: It's free to signup and only takes a minute.
     already_have_account: Already have an account?
     sign_in: Sign In
+    remember_me: Remember me
     sign_in_banner: Welcome back! Please signin to continue.
     create_account: Create Account
     email_address: Email address
