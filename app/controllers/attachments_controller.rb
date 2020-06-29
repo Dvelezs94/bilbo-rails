@@ -2,11 +2,14 @@ class AttachmentsController < ApplicationController
   access user: :all, provider: :all
   before_action :get_ad, only: [:create, :destroy, :update]
   skip_before_action :verify_authenticity_token, only: [:create, :update]
-
+  
   def create
     if @ad.campaigns.all_off
       @ad.multimedia.attach(params[:files])
-      ad_to_video
+      mm = @ad.multimedia.attachments.where(blob_id: ActiveStorage::Blob.where(filename: @name)).last
+      if mm.video?
+      VideoConverterWorker.perform_async(@ad.id, mm.id)
+    end
       flash[:success] = "Attachment saved"
     else
       flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')
@@ -45,14 +48,6 @@ class AttachmentsController < ApplicationController
     #This is for assign multimedia updates to the ad
     @ad.multimedia_update = true
     @ad
-  end
-
-  def ad_to_video
-    @ad.multimedia.each do |mm|
-      if mm.video?
-        VideoConverterWorker.perform_async(@ad.id, mm.id)
-      end
-    end
   end
 
 end
