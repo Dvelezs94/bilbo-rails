@@ -224,7 +224,7 @@ en:
     no_ad: No ad attached
     transition: Effect transition
     measures: No measures available
-    processing: Processing...
+    processing: Processing %{filename}
     transitions:
       no_transition: No Transition
       fadeInDown: Fade In Down

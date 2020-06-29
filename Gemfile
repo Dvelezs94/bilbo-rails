@@ -119,3 +119,5 @@ gem 'streamio-ffmpeg', '~> 3.0', '>= 3.0.2'
 gem 'slack-notifier', '~> 2.3', '>= 2.3.2'
 # Cron jobs
 gem 'sidekiq-cron', '~> 1.1'
+# escape linux paths
+gem 'rubysl-shellwords', '~> 2.0'

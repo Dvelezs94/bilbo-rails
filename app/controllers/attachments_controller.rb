@@ -48,10 +48,9 @@ class AttachmentsController < ApplicationController
   end
 
   def ad_to_video
-    @ad.multimedia.attachments.each do |video|
-      extension_attachment = ActiveStorage::Filename.new(video.filename.to_s).extension_without_delimiter
-      if (extension_attachment.include? "mp4") || (extension_attachment.include? "webm")
-        VideoConverter.perform_at(20.seconds.from_now, @ad.id, video.id)
+    @ad.multimedia.each do |mm|
+      if mm.video?
+        VideoConverterWorker.perform_async(@ad.id, mm.id)
       end
     end
   end

@@ -224,7 +224,7 @@ es:
     delete_ad: Borrar Anuncio
     transition: Efecto de transición
     measures: No hay medidas disponibles
-    processing: Procesando...
+    processing: Procesando %{filename}
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
