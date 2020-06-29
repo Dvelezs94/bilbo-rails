@@ -10,10 +10,6 @@ class VideoConverterWorker
     mm.open do |orig_video_tmpfile|
       webp_video_tmpfile = Tempfile.new(mm.blob.key, ".webp")
 
-      File.open(orig_video_tmpfile, 'wb') do |f|
-        f.write(mm.download)
-      end
-
       movie = FFMPEG::Movie.new(orig_video_tmpfile)
       movie.transcode(webp_video_tmpfile.path, video_encoding_settings)
 
