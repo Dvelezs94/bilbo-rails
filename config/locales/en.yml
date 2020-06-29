@@ -42,7 +42,7 @@ en:
     help_center: Help Center
     payment_methods: Payment Methods
     purchase_credits: Purchase Credits
-    ads: Ads
+    ads: Creatives
     statistics: Statistics
     my_bilbos: My Bilbos
     export_csv: EXPORT TO CSV
@@ -110,7 +110,7 @@ en:
     active_campaigns: Active Campaigns
     campaign_name: Campaign Name
     bilbos_in_use: Bilbos in use
-    ad_name: Ad Name
+    ad_name: Creative Name
     start_date: Start Date
     end_date: End Date
     impressions: Impressions
@@ -140,7 +140,7 @@ en:
     in_review_campaign: Are you sure change status to in review?
     wizard:
       choose_bilbos: Choose your Bilbos
-      pick_ad: Pick Ad
+      pick_ad: Pick creative
       date_and_budget: Date and Budget
       payment_details: Payment Details
       budget: Budget
@@ -154,8 +154,8 @@ en:
       impressions_forecast: Expected daily impressions
     errors:
       no_ad: The campaign doesn't have an associated ad
-      no_multimedia: The selected ad doesn't have multimedia
-      ad_deleted: The ad of the campaign no longer exists
+      no_multimedia: The selected creative doesn't have multimedia
+      ad_deleted: The creative of the campaign no longer exists
       cant_update_when_active: Campaign can't be updated when is active
       no_save: Could not save campaign
     action:
@@ -204,8 +204,8 @@ en:
     provider: Provider email
     earnings_description: last 3 months of earnings
     impressions_count_description: last 3 months of impressions
-    ads_top: top four month ads
-    campaign_ads: Campaign ads
+    ads_top: top four month creatives
+    campaign_ads: Campaign creatives
     working_hours: Working hours
     social_class: Clasification
     search:
@@ -216,12 +216,12 @@ en:
       min_width: Min width. (mts)
       min_height: Min height. (mts)
   ads:
-    ads: Ads
-    new_ad: New Ad
+    ads: Creatives
+    new_ad: New creative
     upload_multimedia: Upload Multimedia
     all_multimedia_files: All Multimedia Files
-    delete_ad: Delete Ad
-    no_ad: No ad attached
+    delete_ad: Delete creative
+    no_ad: No creative attached
     transition: Effect transition
     measures: No measures available
     processing: Processing %{filename}
@@ -237,9 +237,9 @@ en:
     action:
       media_removed: Multimedia has been deleted succesfully
     errors:
-      wont_be_able_to_delete: This ad can't be deleted because of active campaigns
-      wont_be_able_to_update: This ad can't be updated because of active campaigns
-    new_ad_description: Create a new amazing and beautiful ad for your campaigns
+      wont_be_able_to_delete: This creative can't be deleted because of active campaigns
+      wont_be_able_to_update: This creative can't be updated because of active campaigns
+    new_ad_description: Create a new amazing and beautiful creative for your campaigns
   payments:
     if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
     processing_order: Processing order...
