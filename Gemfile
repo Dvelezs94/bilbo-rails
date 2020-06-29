@@ -68,7 +68,6 @@ gem 'devise_invitable', '~> 2.0', '>= 2.0.1'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.5'
 gem 'feathericon-sass', '~> 1.0'
-gem 'petergate', '~> 2.0', '>= 2.0.1'
 gem 'omniauth', '~> 1.9'
 #Facebook login
 gem 'omniauth-facebook', '~> 5.0'
@@ -89,7 +88,7 @@ gem 'ionicons-rails', '~> 2.0'
 gem 'rails-jquery-steps', '~> 1.0'
 gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
 gem 'activemerchant', '~> 1.96'
-gem 'sidekiq', '~> 5.2', '>= 5.2.7'
+gem 'sidekiq', '~> 6.0', '>= 6.0.7'
 # be able to do group_by_date
 gem 'groupdate', '~> 4.1', '>= 4.1.2'
 gem 'clipboard-rails', '~> 1.7', '>= 1.7.1'
@@ -118,6 +117,4 @@ gem 'streamio-ffmpeg', '~> 3.0', '>= 3.0.2'
 
 gem 'slack-notifier', '~> 2.3', '>= 2.3.2'
 # Cron jobs
-gem 'sidekiq-cron', '~> 1.1'
-# escape linux paths
-gem 'rubysl-shellwords', '~> 2.0'
+gem 'sidekiq-cron', '~> 1.2'
