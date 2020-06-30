@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api"
-    require 'sidekiq/web'
+  end
+
+  # allow sidekiq access only to admin
+  authenticate :user, lambda { |u| u.is_admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
+
   post "/api", to: "graphql#execute"
 
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", sessions: "sessions" }
