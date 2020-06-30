@@ -12,7 +12,4 @@ class ScheduleCampaignWorker
       raise StandardError.new "Exception because the campaign can't run and it will try should do it again"
     end
   end
-
-
-
 end
