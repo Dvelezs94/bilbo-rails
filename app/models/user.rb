@@ -99,9 +99,7 @@ class User < ApplicationRecord
   def resume_campaigns
     projects.select {|pr| pr.admin?(self.id) }.each do |p|
       p.campaigns.to_a.select(&:should_run?).each do |c|
-        puts c.name
         c.boards.each do |b|
-          puts b.name
           publish_campaign(c.id, b.id)
         end
       end
