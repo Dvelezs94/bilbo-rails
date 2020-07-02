@@ -34,7 +34,7 @@ class ProviderImpressionsCsvWorker
       @report.attachment.attach(io: File.open(result), filename: name, content_type: 'text/csv')
       puts report_url
       #create a notification for download a csv
-      create_notification(recipient_id: user_id, actor_id: @project.id , action: "csv ready", notifiable: User.find(user_id), reference: @project.reports.find_by_name(name))
+      create_notification(recipient_id: @project.id, actor_id: @project.id , action: "csv ready", notifiable: User.find(user_id), reference: @project.reports.find_by_name(name))
     end
 
     def report_url
