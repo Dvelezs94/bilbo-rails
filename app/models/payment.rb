@@ -2,12 +2,16 @@ class Payment < ApplicationRecord
   belongs_to :user
   has_one :invoice
   validates :express_token, uniqueness: true
-
   def purchase
     response = EXPRESS_GATEWAY.purchase(total.to_f, express_purchase_options)
     if response.success?
-      user.increment!(:balance, by = total)
-      GenerateInvoiceWorker.perform_async(id)
+      if user.balance < 5
+        user.increment!(:balance, by = total)
+        user.resume_campaigns
+      else
+        user.increment!(:balance, by = total)
+      end
+    GenerateInvoiceWorker.perform_async(id)
     else
       # for debugging
       puts response.message

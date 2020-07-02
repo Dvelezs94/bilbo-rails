@@ -111,8 +111,8 @@ Rails.application.configure do
   GoogleTagManager.gtm_id = ENV.fetch("GOOGLE_TAG_MANAGER_ID")
 
   if ENV.fetch("ENVNAME") == "local"
-    Rails.application.routes.default_url_options[:host] = "http://lvh.me"
-    config.action_mailer.default_url_options = { host: "http://lvh.me" }
+    Rails.application.routes.default_url_options[:host] = "http://localhost"
+    config.action_mailer.default_url_options = { host: "http://localhost" }
   else
     Rails.application.routes.default_url_options[:host] = "https://#{ENV.fetch("ENVNAME")}.app.bilbo.mx"
     config.action_mailer.default_url_options = { host: "https://#{ENV.fetch("ENVNAME")}.app.bilbo.mx" }

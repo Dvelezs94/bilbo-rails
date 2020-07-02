@@ -73,8 +73,8 @@ Rails.application.configure do
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
   end
   if ENV.fetch("ENVNAME") == "local"
-    Rails.application.routes.default_url_options[:host] = "http://lvh.me"
-    config.action_mailer.default_url_options = { host: "http://lvh.me" }
+    Rails.application.routes.default_url_options[:host] = "http://localhost"
+    config.action_mailer.default_url_options = { host: "http://localhost" }
   else
     Rails.application.routes.default_url_options[:host] = "https://#{ENV.fetch("ENVNAME")}.app.bilbo.mx"
     config.action_mailer.default_url_options = { host: "https://#{ENV.fetch("ENVNAME")}.app.bilbo.mx" }

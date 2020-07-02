@@ -1,6 +1,4 @@
-FROM ruby:2.5.1
-
-
+FROM ruby:2.7.1
 
 RUN apt-get update -qq && apt-get install -y sudo \
     build-essential \

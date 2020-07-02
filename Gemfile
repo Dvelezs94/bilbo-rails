@@ -1,29 +1,29 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '2.7.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 6.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 4.3', '>= 4.3.5'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 6.0'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5.2.0'
+gem 'turbolinks', '~> 5.2', '>= 5.2.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder', '~> 2.10'
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.2', '>= 4.2.1'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -40,7 +40,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Random data for seeds
-  gem 'faker', '~> 1.9', '>= 1.9.1'
+  gem 'faker', '~> 1.9.6'
 end
 
 group :development do
@@ -68,13 +68,12 @@ gem 'devise_invitable', '~> 2.0', '>= 2.0.1'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.5'
 gem 'feathericon-sass', '~> 1.0'
-gem 'petergate', '~> 2.0', '>= 2.0.1'
 gem 'omniauth', '~> 1.9'
 #Facebook login
 gem 'omniauth-facebook', '~> 5.0'
 # Google omniauth
 gem 'omniauth-google-oauth2', '~> 0.6.1'
-gem 'gravatar_image_tag', github: 'mdeering/gravatar_image_tag'
+gem 'gravatar_image_tag', '~> 1.2'
 gem "font-awesome-rails"
 #Handle images
 gem 'mini_magick', '~> 4.9', '>= 4.9.2'
@@ -85,11 +84,10 @@ gem 'material_icons', '~> 2.2', '>= 2.2.1'
 gem 'friendly_id', '~> 5.2.4'
 gem 'petergate', '~> 2.0', '>= 2.0.1'
 gem 'active_storage_validations', '~> 0.7.1'
-gem 'ionicons-rails', '~> 2.0'
 gem 'rails-jquery-steps', '~> 1.0'
 gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
 gem 'activemerchant', '~> 1.96'
-gem 'sidekiq', '~> 5.2', '>= 5.2.7'
+gem 'sidekiq', '~> 6.0', '>= 6.0.7'
 # be able to do group_by_date
 gem 'groupdate', '~> 4.1', '>= 4.1.2'
 gem 'clipboard-rails', '~> 1.7', '>= 1.7.1'
@@ -118,4 +116,5 @@ gem 'streamio-ffmpeg', '~> 3.0', '>= 3.0.2'
 
 gem 'slack-notifier', '~> 2.3', '>= 2.3.2'
 # Cron jobs
-gem 'sidekiq-cron', '~> 1.1'
+gem 'sidekiq-cron', '~> 1.2'
+gem 'font-ionicons-rails', '~> 2.0', '>= 2.0.1.6'
