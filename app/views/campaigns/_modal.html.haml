@@ -17,6 +17,14 @@
         - else
           .carousel-item.active
             = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
+        %a.carousel-control-prev{"data-slide" => "prev", href: "#carouselExample5", role: "button"}
+          %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+            %i.fe.fe-arrow-left.tx-30
+          %span.sr-only Previous
+        %a.carousel-control-next{"data-slide" => "next", href: "#carouselExample5", role: "button"}
+          %span.carousel-control-next-icon{"aria-hidden" => "true"}
+            %i.fe.fe-arrow-right.tx-30
+          %span.sr-only Next
 .modal-footer
   %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
 / modal-footer

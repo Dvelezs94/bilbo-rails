@@ -29,19 +29,17 @@ class Notification < ApplicationRecord
         { url: provider_index_campaigns_url(q: "review"),
           url_string: I18n.t("#{translation}.url_string"),
           message: I18n.t("#{translation}.message", campaign_name: notifiable.name),
-          subject: I18n.t("#{translation}.subject") }
+          subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name) }
       when "approved"
         { url: analytics_campaign_url(notifiable.slug),
           url_string: I18n.t("#{translation}.url_string"),
-          message: I18n.t("#{translation}.message",
-          campaign_name: notifiable.name, bilbo_name: reference.name),
-          subject: I18n.t("#{translation}.subject") }
+          message: I18n.t("#{translation}.message", campaign_name: notifiable.name, bilbo_name: reference.name),
+          subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name, bilbo_name: reference.name) }
       when "denied"
         { url: analytics_campaign_url(notifiable.slug),
           url_string: I18n.t("#{translation}.url_string"),
-          message: I18n.t("#{translation}.message",
-          campaign_name: notifiable.name, bilbo_name: reference.name),
-          subject: I18n.t("#{translation}.subject") }
+          message: I18n.t("#{translation}.message", campaign_name: notifiable.name, bilbo_name: reference.name),
+          subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name, bilbo_name: reference.name) }
       end
     when "User"
       case action
@@ -55,7 +53,7 @@ class Notification < ApplicationRecord
         url_string: I18n.t("#{translation}.url_string"),
         message: I18n.t("#{translation}.message"),
         subject: I18n.t("#{translation}.subject") }
-    end
+      end
     when "Report"
       case action
       when "weekly ready"
@@ -78,7 +76,7 @@ class Notification < ApplicationRecord
     notif_body = self.build_notification_body
     recipient.users.each do |user|
       NotificationMailer.new_notification(user: user, message: ActionView::Base.full_sanitizer.sanitize(notif_body[:message]),
-        subject: notif_body[:subject],
+        subject: ActionView::Base.full_sanitizer.sanitize(notif_body[:subject]),
         link: notif_body[:url], link_text: notif_body[:url_string]).deliver
     end
   end
