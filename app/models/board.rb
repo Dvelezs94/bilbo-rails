@@ -103,7 +103,7 @@ class Board < ApplicationRecord
   # get the maximum number of earnings based on base_price * 150%
   # this is so we charge 20% and they get 120% of the base earnings
   def calculate_max_earnings
-    (base_earnings * 1.5) * 9/10
+    (base_earnings * 1.5)
   end
 
   # a cycle is the total time of an impression duration
