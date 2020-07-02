@@ -5,12 +5,11 @@ class AttachmentsController < ApplicationController
 
   def create
     if @ad.campaigns.all_off
-      extension_attachment = ActiveStorage::Filename.new(params[:name]).extension_without_delimiter
-      if (extension_attachment.include? "mp4") || (extension_attachment.include? "webm")
-          @ad.multimedia.attach(params[:files]).each do |video|
-            VideoConverter.perform_async(@ad.id, video.id)
-          end
-        elsif ((!extension_attachment.include? "mp4") || (!extension_attachment.include? "webm")) && @ad.multimedia.attach(params[:files])
+      @ad.multimedia.attach(params[:files])
+      @name = params[:name]
+      mm = @ad.multimedia.attachments.where(blob_id: ActiveStorage::Blob.where(filename: @name)).last
+      if mm.video?
+        VideoConverterWorker.perform_async(@ad.id, mm.id)
       end
       flash[:success] = "Attachment saved"
     else

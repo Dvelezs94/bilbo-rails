@@ -23,13 +23,13 @@ class ImpressionsController < ApplicationController
   # here we get all the impressions
   def get_board_impressions
     @campaign_impressions = {}
-    @impressions = Board.find(impression_params[:board_id]).impressions.where(created_at: impression_params[:start_date]..impression_params[:end_date])
+    @impressions = Board.friendly.find(impression_params[:board_id]).impressions.where(created_at: impression_params[:start_date]..impression_params[:end_date])
     @impressions.group(:campaign_id).count.each do |key, value|
       @campaign_impressions[key] = {impressions_count: value, total_invested: @impressions.group(:campaign_id).sum(:total_price)[key]}
     end
     @start_date = impression_params[:start_date]
     @end_date = impression_params[:end_date]
-    @board_impression = Board.find(impression_params[:board_id]).id
+    @board_impression = Board.friendly.find(impression_params[:board_id]).id
     return @campaign_impressions
   end
 

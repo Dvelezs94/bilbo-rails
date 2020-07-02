@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   attribute :project_name
   include NotificationsHelper
+  include BroadcastConcern
   ############################################################################################
   ## PeterGate Roles                                                                        ##
   ## The :user role is added by default and shouldn't be included in this list.             ##
@@ -94,6 +95,16 @@ class User < ApplicationRecord
     end
   end
 
+  # sends the html content (images) when the user buys credits
+  def resume_campaigns
+    projects.select {|pr| pr.admin?(self.id) }.each do |p|
+      p.campaigns.to_a.select(&:should_run?).each do |c|
+        c.boards.each do |b|
+          publish_campaign(c.id, b.id)
+        end
+      end
+    end
+  end
   private
 
   def set_project
