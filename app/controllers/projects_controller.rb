@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
 
   # make sure the user doesn't delete his/her last project
   def validate_project_count
-    if current_user.projects.enabled.size == 1
+    if current_user.project_users.where(role: "owner").count == 1
       flash[:error] = I18n.t('projects.could_not_delete')
       redirect_to root_path
     end
