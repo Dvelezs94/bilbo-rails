@@ -1,7 +1,7 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toogle_status, :admin_index, :create]
+  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toggle_status, :admin_index, :create]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token]
+  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status]
   before_action :restrict_access, only: :show
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :get_provider_boards, only: :owned
@@ -62,6 +62,12 @@ class BoardsController < ApplicationController
 
   # Admin action to toggle the status of a board
   def toggle_status
+    if @board.update(status: params[:status])
+      flash[:success] = "Board status updated to: #{params[:status]}"
+    else
+      flash[:error] = "Error trying to update board #{@board.name}"
+    end
+    redirect_to request.referer
   end
 
   # this gets called when a board is selected in the map
@@ -147,7 +153,7 @@ class BoardsController < ApplicationController
   end
 
   def get_provider_boards
-    @boards = @project.boards.page(params[:page])
+    @boards = @project.boards.order(created_at: :desc).page(params[:page])
   end
 
   def get_boards
