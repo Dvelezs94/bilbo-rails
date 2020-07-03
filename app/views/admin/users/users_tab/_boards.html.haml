@@ -47,13 +47,17 @@
           / col
           .col-12.mg-t-20
             .row
-              .col-6
+              .col-4.pd-x-5
                 %a{"data-toggle" => "modal", :href => "#modalEditContact"}
                   .btn.btn-sm.btn-block.btn-outline-primary.btn-uppercase.tx-spacing-1
-                    %i.fe.fe-edit
                     %span.d-none.d-sm-inline.mg-l-5 Edit
-              .col-6
+              .col-4.pd-x-5
                 = button_to("Stats", statistics_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1")
+              .col-4.pd-x-5
+                - if board.enabled?
+                  = link_to("Disable bilbo", toggle_status_board_path(board.slug, status: "disabled"), class: "btn btn-sm btn-block btn-warning", :data => {:confirm => 'Are you sure you want to DISABLE this bilbo?'})
+                - else
+                  = link_to("Enable bilbo", toggle_status_board_path(board.slug, status: "enabled"), class: "btn btn-sm btn-block btn-info", :data => {:confirm => 'Are you sure you want to ENABLE this bilbo?'})
           / row
         / card-footer
   %end
