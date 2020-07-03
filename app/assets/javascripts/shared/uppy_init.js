@@ -3,7 +3,7 @@ $(document).on('turbolinks:load', function() {
     var create_attachment_url = document.location.protocol +"//"+ document.location.hostname + document.location.pathname + "/attachments";
     var uppy = Uppy.Core({
       restrictions: {
-        //maxFileSize: 10000000,
+        maxFileSize: 10000000,
         allowedFileTypes: ["image/png", "image/jpeg", "image/gif", "image/webp", "video/mp4", "video/webm"]
       }
     })

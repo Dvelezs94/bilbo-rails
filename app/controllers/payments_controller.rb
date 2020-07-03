@@ -22,19 +22,20 @@ class PaymentsController < ApplicationController
     @payment = Payment.new(payment_params)
     @payment.paid_with = "Paypal Express"
     details = EXPRESS_GATEWAY.details_for(payment_params["express_token"])
-    if details.params["payer_status"] == "verified"
-      if @payment.save
-        if @payment.purchase #check model for this
-          flash[:success] = "Haz comprado #{@payment.total} creditos"
-        else
-          flash[:error] = "No se pudo completar la transaccion"
-        end
+    # uncomment if to allow only verified paypal accounts
+    #if details.params["payer_status"] == "verified"
+    if @payment.save
+      if @payment.purchase #check model for this
+        flash[:success] = "Haz comprado #{@payment.total} creditos"
       else
         flash[:error] = "No se pudo completar la transaccion"
       end
     else
-      flash[:error] = "Debes utilizar una cuenta de paypal verificada"
+      flash[:error] = "No se pudo completar la transaccion"
     end
+    #else
+    #  flash[:error] = "Debes utilizar una cuenta de paypal verificada"
+    #end
     redirect_to root_path
   end
 
