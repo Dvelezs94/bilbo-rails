@@ -52,9 +52,5 @@ module AdRotationAlgorithm
       end
     end
     return cycles
-    p cycles
-    p cycles.count(:p1)
-    p cycles.count(:p2)
-    p cycles.count(:p3)
   end
 end
