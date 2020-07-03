@@ -67,9 +67,11 @@ class CsvController < ApplicationController
   end
 
   def download_csv
-
-    if @project.reports.find_by_name(params[:reference]).present?
-      send_file "tmp/#{params[:reference]}", type: 'text/csv'
+    report = @project.reports.find_by_name(params[:reference])
+    if report.present?
+      send_file ActiveStorage::Blob.service.send(:path_for, report.attachment.blob.key),
+      type: 'text/csv',
+      filename: report.attachment.blob.filename.to_s
     end
   end
 
