@@ -3,7 +3,7 @@ class Payment < ApplicationRecord
   has_one :invoice
   validates :express_token, uniqueness: true
   def purchase
-    response = EXPRESS_GATEWAY.purchase(total.to_f, express_purchase_options)
+    response = EXPRESS_GATEWAY.purchase(total * 100, express_purchase_options)
     if response.success?
       if user.balance < 5
         user.increment!(:balance, by = total)
