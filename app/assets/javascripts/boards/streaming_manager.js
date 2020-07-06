@@ -58,7 +58,8 @@ $(document).on('turbolinks:load', function() {
     // show user ad
     function showAd() {
       if (bilbo_ad_count < 10 ) {
-        ++bilbo_ad_count;
+        // don't increase count so bilbo ad is not shown every 10 ads
+        //++bilbo_ad_count;
         ads = jQuery.parseJSON($("#ads_rotation").val());
         // restart from beginning if the array was completely ran
         if (rotation_key >= ads.length) {

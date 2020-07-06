@@ -10,8 +10,8 @@ class Board < ApplicationRecord
   has_many_attached :images
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
-  enum status: { enabled: 0, disabled: 1}
-  enum social_class: {A: 0, AA: 1, AAA: 2, "AAA+": 3}
+  enum status: { enabled: 0, disabled: 1 }
+  enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
   validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
   after_create :generate_qr_code
   # slug candidates for friendly id
@@ -103,7 +103,7 @@ class Board < ApplicationRecord
   # get the maximum number of earnings based on base_price * 150%
   # this is so we charge 20% and they get 120% of the base earnings
   def calculate_max_earnings
-    (base_earnings * 1.5) * 9/10
+    (base_earnings * 1.5)
   end
 
   # a cycle is the total time of an impression duration
