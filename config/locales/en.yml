@@ -245,10 +245,15 @@ en:
     if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
     processing_order: Processing order...
     buy_credits: Buy Credits
-    credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date.
+    credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 credit equals $1 MXN.
     credit_limit: Credit purchase limit exceeded
     verification_needed: A verified profile is needed in order to buy credits. Answer the form below or click the following link to verify your profile.
     verify_account: Verify Account
+    bilbo_credits: "Bilbo Credits"
+    transaction_fee: "Transaction Fee"
+    transaction_fee_text: "Payment transaction fee."
+    purchase_success: You have purchased %{credits_number} credits.
+    purchase_error: "Something has gone wrong with the purchase. Contact Support for more information."
   invoices:
     invoice: Receipt
     invoices: Receipts
