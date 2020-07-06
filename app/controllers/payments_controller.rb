@@ -10,7 +10,7 @@ class PaymentsController < ApplicationController
       cancel_return_url: root_url,
       currency: ENV.fetch("CURRENCY"),
       no_shipping: 1,
-      allow_guest_checkout: false,
+      allow_guest_checkout: true,
       items: [
               {
                 name: I18n.t("payments.bilbo_credits"),
@@ -40,6 +40,7 @@ class PaymentsController < ApplicationController
     # if details.params["payer_status"] == "verified"
     if @payment.save
       if @payment.purchase #check model for this
+        SlackNotifyWorker.perform_async("El usuario #{current_user.email} ha comprado #{@payment.total} créditos")
         flash[:success] = I18n.t("payments.purchase_success", credits_number: @payment.total)
       else
         flash[:error] = I18n.t("payments.purchase_error")
