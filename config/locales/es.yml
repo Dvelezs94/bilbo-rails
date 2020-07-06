@@ -188,7 +188,7 @@ es:
     duration: Duracion
     seconds: segundos
     price_per_print: Precio/Impresion
-    credits_per_print: Creditos/Impresion
+    credits_per_print: Créditos/Impresion
     dimensions: Dimensiones
     expected_profit: Ganancia Esperada
     north: Norte
@@ -199,7 +199,7 @@ es:
     address: Direccion
     add_bilbo: Agregar Bilbo
     remove_bilbo: Eliminar Bilbo
-    credits: Creditos
+    credits: Créditos
     type: Tipo
     television: Television
     wallboard: Cartelon
@@ -245,11 +245,16 @@ es:
   payments:
     if_it_doesnt_redirect: Si no lo redirige en 5 segundos, haga click
     processing_order: Procesando la orden...
-    buy_credits: Comprar Creditos
-    credits_text: Los creditos son la forma en la cual tu pagas tus campañas de publicidad. Estos creditos son acumulables y puedes comprar cuantos necesites. Los creditos no cuentan con una fecha de expiracion.
-    credit_limit: Límite de compra de creditos superada
+    buy_credits: Comprar Créditos
+    credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiracion. 1 crédito equivale a $1 MXN.
+    credit_limit: Límite de compra de créditos superada
     verification_needed: Necesitas un perfil verificado para poder comprar créditos. Responde la encuesta debajo o haz click en la siguiente liga para verificar tu cuenta.
     verify_account: Verificar Cuenta
+    bilbo_credits: "Créditos de Bilbo"
+    transaction_fee: "Comisión de transacción"
+    transaction_fee_text: "Comisión de transacción de plataforma de pagos."
+    purchase_success: Haz comprado %{credits_number} créditos.
+    purchase_error: "Ocurrió un error en la transacción. Contacta a soporte para más información"
   invoices:
     invoice: Recibo
     invoices: Recibos

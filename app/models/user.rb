@@ -63,15 +63,15 @@ class User < ApplicationRecord
   end
 
   def is_admin?
-    true if roles.include?(:admin)
+    true if role == :admin
   end
 
   def is_provider?
-    true if roles.include?(:provider)
+    true if role == :provider
   end
 
   def is_user?
-    true if roles.include?(:user)
+    true if role == :user
   end
 
   def notify_credits

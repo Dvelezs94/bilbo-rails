@@ -26,4 +26,14 @@ module ApplicationHelper
     rounded = n.round(-1)
     rounded > n ? rounded : rounded + 5
   end
+
+  def payment_fee(subtotal)
+    # https://www.paypal.com/businesswallet/classic-fees
+    # percentage paypal charges per transaction
+    paypal_percentage_fee = 4.58
+    # amount in MXN of the flat fee
+    paypal_flat_fee = 4.64
+
+    return (((100 * (subtotal + paypal_flat_fee)) / (100 - paypal_percentage_fee)) - subtotal).round(3)
+  end
 end

@@ -10,15 +10,16 @@ es:
       send_instructions: "Recibirás un correo electrónico en unos minutos con instrucciones sobre cómo reestablecer tu contraseña."
       send_paranoid_instructions: "Si tu correo electrónico existe en nuestra base de datos, recibirás un correo electrónico en unos minutos con instrucciones sobre cómo reiniciar tu contraseña."
     failure:
-      already_authenticated: "Ya estás identificado."
-      inactive: "Tu cuenta aún no ha sido activada."
-      invalid: "Correo o contraseña inválidos."
-      invalid_token: "Cadena de autenticación invalida."
-      locked: "Tu cuenta está bloqueada."
-      not_found_in_database: "Correo o contraseña inválidos."
-      timeout: "Tu sesión ha expirado, por favor identifícate de nuevo para continuar."
-      unauthenticated: "Necesitas iniciar sesión o registrarte para continuar."
-      unconfirmed: "Debes de confirmar tu cuenta para continuar."
+      user:
+        already_authenticated: "Ya estás identificado."
+        inactive: "Tu cuenta aún no ha sido activada."
+        invalid: "Correo o contraseña inválidos."
+        invalid_token: "Cadena de autenticación invalida."
+        locked: "Tu cuenta está bloqueada."
+        not_found_in_database: "Correo o contraseña inválidos."
+        timeout: "Tu sesión ha expirado, por favor identifícate de nuevo para continuar."
+        unauthenticated: "Necesitas iniciar sesión o registrarte para continuar."
+        unconfirmed: "Debes de confirmar tu cuenta para continuar."
     mailer:
       confirmation_instructions:
         subject: "Instrucciones de confirmación"
@@ -74,3 +75,15 @@ es:
       not_saved:
         one: "1 error impidió que este %{resource} fuese guardado:"
         other: "%{count} errores impidieron que este %{resource} fuese guardado:"
+  invitations:
+    user:
+      send_instructions: "Una invitación de correo se ha enviado para %{email}."
+      invitation_token_invalid: "El token de invitación no es valido!"
+      updated: "Tu contraseña se ha captura con éxito, ya te encuentras dentro del sistema."
+      no_invitations_remaining: "No quedan más invitaciones"
+      new:
+        header: "Enviar Invitación"
+        submit_button: "Envia una invitación"
+      edit:
+        header: "Establecer contraseña"
+        submit_button: "Guardar mi contraseña"
