@@ -2,9 +2,10 @@ class Payment < ApplicationRecord
   belongs_to :user
   has_one :invoice
   validates :express_token, uniqueness: true
+  include ApplicationHelper
   require 'json'
   def purchase
-    response = EXPRESS_GATEWAY.purchase(total * 100, express_purchase_options)
+    response = EXPRESS_GATEWAY.purchase((total + payment_fee(total)) * 100, express_purchase_options)
     if response.success?
       if user.balance < 5
         user.increment!(:balance, by = total)
