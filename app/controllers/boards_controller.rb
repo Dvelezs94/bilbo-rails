@@ -52,7 +52,7 @@ class BoardsController < ApplicationController
 
   def create
     @board = Board.new(board_params)
-    if @board.save
+    if @board.save!
       flash[:success] = "Board saved"
     else
       flash[:error] = "Could not save board"
@@ -137,7 +137,9 @@ class BoardsController < ApplicationController
                                                         :base_earnings,
                                                         :working_hours,
                                                         :social_class,
-                                                        images: [])
+                                                        :default_image,
+                                                        images: []
+                                                        )
   end
 
   def get_all_boards
