@@ -8,6 +8,7 @@ class Board < ApplicationRecord
   has_many :campaigns, through: :board_campaigns
   has_many :impressions
   has_many_attached :images
+  has_one_attached :default_image
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
   enum status: { enabled: 0, disabled: 1 }

@@ -137,7 +137,9 @@ class BoardsController < ApplicationController
                                                         :base_earnings,
                                                         :working_hours,
                                                         :social_class,
-                                                        images: [])
+                                                        :default_image,
+                                                        images: []
+                                                        )
   end
 
   def get_all_boards
