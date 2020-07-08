@@ -58,6 +58,15 @@ class AdsController < ApplicationController
     render  'modal_action', :locals => {:obj => @objects}
   end
 end
+
+  def wizard_fetch
+    puts "x"
+    puts params[:ad_id]
+    if Ad.find(params[:ad_id]).present?
+      @ads_selected = Ad.find(params[:ad_id]).multimedia.attachments
+    render  'wizard_fetch', :locals => {:obj => @ads_selected}
+  end
+  end
   private
   def ad_params
     params.require(:ad).permit(:name, :description).merge(:project_id => @project.id)

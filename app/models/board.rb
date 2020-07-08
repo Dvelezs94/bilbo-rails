@@ -14,6 +14,8 @@ class Board < ApplicationRecord
   enum social_class: {A: 0, AA: 1, AAA: 2, "AAA+": 3}
   validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
   after_create :generate_qr_code
+  after_create :update_ad_rotation
+  after_create :aspect_ratio
   # slug candidates for friendly id
   def slug_candidates
     [
@@ -136,6 +138,14 @@ class Board < ApplicationRecord
     # build the ad rotation because the ads changed
     new_cycle = self.build_ad_rotation
     self.update(ads_rotation: new_cycle)
+  end
+
+  def aspect_ratio
+    width = (self.width * 100).round(0)
+    height = (self.height * 100).round(0)
+    mcd = width.gcd(height)
+    ar = (width/mcd).to_s + ":" + (height/mcd).to_s
+    self.update!(aspect_ratio: ar)
   end
 
   private
