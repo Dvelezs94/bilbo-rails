@@ -48,9 +48,7 @@
           .col-12.mg-t-20
             .row
               .col-4.pd-x-5
-                %a{"data-toggle" => "modal", :href => "#modalEditContact"}
-                  .btn.btn-sm.btn-block.btn-outline-primary.btn-uppercase.tx-spacing-1
-                    %span.d-none.d-sm-inline.mg-l-5 Edit
+                = link_to("Edit", edit_board_path(board.slug), class: "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1")
               .col-4.pd-x-5
                 = button_to("Stats", statistics_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1")
               .col-4.pd-x-5

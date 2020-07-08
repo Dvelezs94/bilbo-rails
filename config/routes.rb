@@ -40,7 +40,7 @@ Rails.application.routes.draw do
     end
     resource :provider_invoices, only: :create
   end
-  resources :boards, only: [:index, :show, :create] do
+  resources :boards, only: [:index, :show, :create, :edit,:update] do
     collection do
       get :map_frame
       get :get_info
@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       get :admin_index
     end
     member do
+      delete :delete_image
       get :regenerate_access_token
       get :regenerate_api_token
       # statistics of a single board
