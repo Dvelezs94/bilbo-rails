@@ -81,7 +81,6 @@ ActiveRecord::Schema.define(version: 2020_07_08_143117) do
     t.float "working_hours"
     t.string "qr"
     t.integer "social_class", default: 0
-    t.string "aspect_ratio"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
