@@ -24,11 +24,15 @@ Rails.application.routes.draw do
       member do
         get :modal_action
       end
+      collection do
+        get :wizard_fetch
+      end
   end
   resources :campaigns do
     member do
       get :analytics
       put :toggle_state
+      get :wizard_fetch
     end
     collection do
       get :provider_index
