@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       get :regenerate_api_token
       # statistics of a single board
       get :statistics
+      get :toggle_status
     end
   end
   resource :payment, only: [:new, :create] do

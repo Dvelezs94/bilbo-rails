@@ -9,15 +9,16 @@ en:
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
     failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
-      invalid: "Invalid %{authentication_keys} or password."
-      locked: "Your account is locked."
-      last_attempt: "You have one more attempt before your account is locked."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
-      timeout: "Your session expired. Please sign in again to continue."
-      unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
+      user:
+        already_authenticated: "You are already signed in."
+        inactive: "Your account is not activated yet."
+        invalid: "Invalid %{authentication_keys} or password."
+        locked: "Your account is locked."
+        last_attempt: "You have one more attempt before your account is locked."
+        not_found_in_database: "Invalid %{authentication_keys} or password."
+        timeout: "Your session expired. Please sign in again to continue."
+        unauthenticated: "You need to sign in or sign up before continuing."
+        unconfirmed: "You have to confirm your email address before continuing."
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"
@@ -79,3 +80,17 @@ en:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+  invitations:
+    user:
+      send_instructions: "An invitation email has been sent to %{email}."
+      invitation_token_invalid: "The invitation token provided is not valid!"
+      updated: "Your password was set successfully. You are now signed in."
+      updated_not_active: "Your password was set successfully."
+      no_invitations_remaining: "No invitations remaining"
+      invitation_removed: "Your invitation was removed."
+      new:
+        header: "Send invitation"
+        submit_button: "Send an invitation"
+      edit:
+        header: "Set your password"
+        submit_button: "Set my password"
