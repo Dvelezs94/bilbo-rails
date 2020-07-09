@@ -121,6 +121,7 @@ es:
     total_impressions: Total de impresiones
     history_data: Historial de datos
     month_impressions: Sus impresiones y el total invertido en los últimos 30 días
+    monthly_impressions: Impresiones del mes
     campaign_activity: Actividad de la campaña
     campaign_actived: La campaña fue activada
     campaign_deactivated: La campaña fue desactivada
