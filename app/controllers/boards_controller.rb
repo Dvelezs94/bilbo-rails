@@ -1,7 +1,7 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toggle_status, :admin_index, :create]
+  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status]
+  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image]
   before_action :restrict_access, only: :show
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :get_provider_boards, only: :owned
@@ -24,6 +24,25 @@ class BoardsController < ApplicationController
       get_boards
      }
    end
+  end
+
+  def edit
+    @board = Board.friendly.find(params[:id])
+  end
+
+  def delete_image
+    @board.with_lock do
+      image = @board.images.select { |im| im.signed_id == params[:signed_id] }[0]
+      image.purge
+    end
+  end
+
+  def update
+    @success = @board.update(board_params)
+    if @success
+      flash[:success] = "Bilbo actualizado con éxito"
+      redirect_to edit_board_path(@board.slug)
+    end
   end
 
   def admin_index
@@ -124,22 +143,22 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    @campaign_params = params.require(:board).permit(:project_id,
-                                                        :name,
-                                                        :avg_daily_views,
-                                                        :width,
-                                                        :height,
-                                                        :lat,
-                                                        :lng,
-                                                        :address,
-                                                        :category,
-                                                        :face,
-                                                        :base_earnings,
-                                                        :working_hours,
-                                                        :social_class,
-                                                        :default_image,
-                                                        images: []
-                                                        )
+    params.require(:board).permit(:project_id,
+                                  :name,
+                                  :avg_daily_views,
+                                  :width,
+                                  :height,
+                                  :lat,
+                                  :lng,
+                                  :address,
+                                  :category,
+                                  :face,
+                                  :base_earnings,
+                                  :working_hours,
+                                  :social_class,
+                                  :default_image,
+                                  images: []
+                                  )
   end
 
   def get_all_boards
