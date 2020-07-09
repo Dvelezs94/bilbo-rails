@@ -1,34 +1,40 @@
+$(document).on('turbolinks:load', function() {
+  activatePlacesSearch();
+});
+
 function activatePlacesSearch() {
-  // set default value as true because the board lat and lng were already there
-  if ($("#board_lat").val()) {
-    var IsplaceChange = true;
-  } else {
-    var IsplaceChange = false;
-  }
-  var search_input = document.getElementsByClassName('google_autocomplete')[0];
-  var Gkey = "<%= ENV.fetch('MAPS_API_KEY') %>";
-  var options = {
-    componentRestrictions: {
-      country: "mx"
+  waitForElement(".google_autocomplete", function() {
+    // set default value as true because the board lat and lng were already there
+    if ($("#board_lat").val()) {
+      var IsplaceChange = true;
+    } else {
+      var IsplaceChange = false;
     }
-  };
-  var search_autocomplete = new google.maps.places.Autocomplete(search_input, options)
-  google.maps.event.addListener(search_autocomplete, 'place_changed', function () {
-    // update lat and lng when choosing location
-    $("#board_lat").val(search_autocomplete.getPlace().geometry.location.lat);
-    $("#board_lng").val(search_autocomplete.getPlace().geometry.location.lng);
-    IsplaceChange = true;
-  });
-
-  // dont allow inputs from user
-  $(".google_autocomplete").keydown(function () {
-      IsplaceChange = false;
-  });
-
-  $("#submit_board").click(function (event) {
-      if (IsplaceChange == false) {
-          event.preventDefault()
-          alert("Enter a location from Google suggestions");
+    var search_input = document.getElementsByClassName('google_autocomplete')[0];
+    var Gkey = "<%= ENV.fetch('MAPS_API_KEY') %>";
+    var options = {
+      componentRestrictions: {
+        country: "mx"
       }
+    };
+    var search_autocomplete = new google.maps.places.Autocomplete(search_input, options)
+    google.maps.event.addListener(search_autocomplete, 'place_changed', function () {
+      // update lat and lng when choosing location
+      $("#board_lat").val(search_autocomplete.getPlace().geometry.location.lat);
+      $("#board_lng").val(search_autocomplete.getPlace().geometry.location.lng);
+      IsplaceChange = true;
+    });
+
+    // // dont allow inputs from user
+    // $(".google_autocomplete").keydown(function () {
+    //   IsplaceChange = false;
+    // });
+
+    $("#submit_board").click(function (event) {
+      if (IsplaceChange == false) {
+        event.preventDefault()
+        alert("Enter a location from Google suggestions");
+      }
+    });
   });
 }

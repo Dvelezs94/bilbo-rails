@@ -58,6 +58,10 @@
   background-color: ghostwhite;
 }
 
+.fit-content {
+  height: fit-content;
+}
+
 .flex-0-f {
   flex: 0 !important
 }
