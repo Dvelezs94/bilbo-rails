@@ -26,18 +26,18 @@ if ENV.fetch("RAILS_ENV") != "production"
           provider.projects.first.boards.create! do |board|
             board.lat = lat
             board.lng = lng
-            board.avg_daily_views = Faker::Number.number(6)
-            board.width = "#{Faker::Number.between(10, 14)}.#{Faker::Number.between(30, 90)}".to_f
-            board.height = "#{Faker::Number.between(7, 9)}.#{Faker::Number.between(30, 90)}".to_f
-            board.working_hours = Faker::Number.within(5..16)
-            board.duration = Faker::Number.within(7..10)
-            board.status = Faker::Number.between(0, 1)
+            board.avg_daily_views = Faker::Number.number(digits: 6)
+            board.width = "#{Faker::Number.between(from: 10, to: 14)}.#{Faker::Number.between(from: 30, to: 90)}".to_f
+            board.height = "#{Faker::Number.between(from: 7, to: 9)}.#{Faker::Number.between(from: 30, to: 90)}".to_f
+            board.working_hours = Faker::Number.within(range: 5..16)
+            board.duration = Faker::Number.within(range: 7..10)
+            board.status = Faker::Number.between(from: 0, to: 1)
             board.face = ["north", "south", "east", "west"].sample
             board.name = "#{x}#{y}#{Faker::Lorem.sentence}"
             board.address = Faker::Address.full_address
             board.category = ["television", "billboard", "wallboard"].sample
-            board.base_earnings = Faker::Number.between(40000, 200000)
-            board.social_class = Faker::Number.between(0, 3)
+            board.base_earnings = Faker::Number.between(from: 40000, to: 200000)
+            board.social_class = Faker::Number.between(from: 0, to: 3)
           end
         end
       end
@@ -51,7 +51,7 @@ if ENV.fetch("RAILS_ENV") != "production"
       user.password = "1234aA"
       user.project_name = Faker::Company.name
       user.confirmed_at = DateTime.now
-      user.balance = Faker::Number.between(500, 5000)
+      user.balance = Faker::Number.between(from: 500, to: 5000)
       puts user.email
       user.save
       10.times do |y|
@@ -62,12 +62,12 @@ if ENV.fetch("RAILS_ENV") != "production"
           1.times do |z|
             ad.campaigns.new do |cp|
               cp.name    = "#{Faker::Company.name} #{Faker::Commerce.product_name}"
-              cp.budget  = Faker::Number.between(5, 50)
+              cp.budget  = Faker::Number.between(from: 5, to: 50)
               cp.state   = Faker::Boolean.boolean
-              cp.status  = Faker::Number.between(0, 1)
+              cp.status  = Faker::Number.between(from: 0, to: 1)
               cp.project = ad.project
-              cp.boards  = Board.order('RANDOM()').first(Faker::Number.between(2, 7))
-              cp.board_campaigns.update(status: Faker::Number.between(0, 3))
+              cp.boards  = Board.order('RANDOM()').first(Faker::Number.between(from: 2, to: 7))
+              cp.board_campaigns.update(status: Faker::Number.between(from: 0, to: 3))
             end
           end
         end

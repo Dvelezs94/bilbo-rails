@@ -13,7 +13,7 @@ class Board < ApplicationRecord
   before_save :generate_api_token, :if => :new_record?
   enum status: { enabled: 0, disabled: 1 }
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
-  validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, :default_image, on: :create
+  validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
   after_create :generate_qr_code
   after_create :update_ad_rotation
   after_create :update_aspect_ratio
