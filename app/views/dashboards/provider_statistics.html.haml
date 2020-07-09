@@ -10,16 +10,29 @@
               = link_to t('campaign.home'), root_path
         %h4.mg-b-0.tx-spacing--1
           = t('header.statistics')
-
-      %div.tx-right
-        = link_to impressions_path, class: 'btn btn-sm  pd-x-15 btn-white mg-l-5' do
-          %i.wd-10.mg-r-5.fe.fe-list-order
-          = t('dashboards.view_impressions')
-        = link_to generate_provider_report_csv_index_path, class: 'btn btn-sm pd-x-15 btn-primary mg-l-5' do
-          %i.wd-10.mg-r-5.fe.fe-download
-          = t('dashboards.export_to_csv')
+    = form_for(:campaign, url: provider_statistics_dashboards_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
+      .d-flex.flex-row.justify-content-end 
+        -if params.has_key?(:select)
+          .form-group.col-md-5.d-flex.align-content-end 
+            = select_month(@start_date,{ use_month_name: true, prefix: 'select'},{:field_name => 'month', :id => 'start-month', value:  Date.today.strftime("%m-%d-%Y"), class: 'custom-select'})
+            = select_year(@start_date, {class: "custom-select", prefix: 'select'},{:field_name => 'year', :id => 'start-year', class: 'custom-select'})
+          .d-flex.flex-row
+            .form-group.col-md-15
+              %button.btn.btn-primary.btn-block{:type => "submit"}
+                %i.mg-l-5.fe.fe-search
+        -else
+          .form-group.col-md-5.d-flex.justify-content-end 
+            = select_month(Date.today, {use_month_name: true, prefix: 'select'},{:field_name => 'month', :id => 'start-month', class: "custom-select"})
+            = select_year(Date.today, { prefix: 'select'},{:field_name => 'year', :id => 'start-year', class: "custom-select"})
+          .d-flex.flex-row
+            .form-group.col-md-15
+              %button.btn.btn-primary.btn-block{:type => "submit"}
+                %i.mg-l-5.fe.fe-search
+          
+           
 
     .row.row-xs
+      = render 'dashboards/provider_charts/info_cards'
       = render 'dashboards/provider_charts/impressions_count'
       = render 'dashboards/provider_charts/top_campaigns'
       = render 'dashboards/provider_charts/earnings'

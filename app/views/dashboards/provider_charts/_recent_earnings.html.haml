@@ -5,8 +5,9 @@
         %h6.mg-b-5= t('dashboards.recent_earnings')
         %p.tx-13.tx-color-03.mg-b-0= t('dashboards.recent_earnings_description')
       .d-flex.mg-t-20.mg-sm-t-0
-        .btn-group.flex-fill
-          %button.btn.btn-white.btn-xs.active= t('dashboards.view_all')
+        = link_to impressions_path, class: 'btn btn-sm  pd-x-15 btn-white mg-l-5' do
+          %i.wd-10.mg-r-5.fe.fe-list-order
+          = t('dashboards.view_impressions')
     .card-body.pd-y-10
     .table-responsive
       %table.table.table-dashboard.mg-b-0

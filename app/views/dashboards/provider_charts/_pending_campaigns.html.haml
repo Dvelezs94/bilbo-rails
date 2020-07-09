@@ -10,7 +10,7 @@
       %p{ class: "tx-12 tx-uppercase tx-semibold tx-spacing-1 tx-color-02 #{'tx-danger' if danger}" }
         = t('dashboards.pending_campaigns')
       %hr
-      %p.tx-12.mg-b-0
+      %p.tx-12.mg-b-20
         = t('dashboards.pending_campaigns_description')
     .card-footer.bd-t-0.pd-t-0
       -if @project.campaigns_for_review > 0
