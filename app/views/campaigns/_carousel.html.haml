@@ -3,14 +3,11 @@
     - if @ads_selected.present?
       - @ads_selected.each.with_index do |media,i|
         %li{class: "#{'active' if i == 0}", "data-slide-to" => i, "data-target" => "#carouselExample5"}
-  .carousel-inner.bg-dark
+  .carousel-inner
     - if @ads_selected.present?
       - @ads_selected.each.with_index do |media,i|
-        %div{class: "carousel-item #{'active' if i == 0}", size:"600x400"}
-          = image_tag media, class: "center-block d-block w-100", :data => {lity: true}, height:"200px", id: "images", style: "object-fit: contain; margin-left: auto; margin-right: auto; display: block;"
-    - else
-      .carousel-item.active
-        = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
+        %div{class: "carousel-item #{'active' if i == 0} " }
+          = image_tag media, class: "center-block d-block w-100", :data => {lity: true}, width: "200px", height:"200px", id: "images", style: "object-fit: contain;"
     %a.carousel-control-prev{"data-slide" => "prev", href: "#carouselExample5", role: "button"}
       %span.carousel-control-prev-icon{"aria-hidden" => "true"}
         %i.fe.fe-arrow-left.tx-30
