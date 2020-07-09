@@ -3,8 +3,16 @@ class ChartsController < ApplicationController
   before_action :get_campaign, only: [:daily_impressions, :daily_invested, :peak_hours]
   before_action :get_board, only: [:daily_earnings, :campaign_of_day, :impressions_count, :top_campaigns]
   # Campaign Charts
+  def monthly_statistics
+    render json: @campaign.monthly_statistics
+  end 
+
   def daily_impressions
-    render json: @campaign.daily_impressions
+    render json: @campaign.daily_impressions()
+  end
+
+  def daily_impressions_month
+    render json: @campaign.daily_impressions_month
   end
 
   def daily_invested

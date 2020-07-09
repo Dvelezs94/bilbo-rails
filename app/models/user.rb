@@ -45,7 +45,8 @@ class User < ApplicationRecord
   end
 
   # get current month impressions * impression price
-  def current_month_earnings
+  def current_month_earnings(time_range = 30.days.ago..Time.now)
+    Board.last.monthly_earnings(time_range)
   end
 
   # provider methods
