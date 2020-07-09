@@ -161,6 +161,15 @@ class Board < ApplicationRecord
     @daily_earnings
   end
 
+  #this method returns the monthly earnings of a board, we use it on the provider_statistics
+  def self.monthly_earnings_by_board(project, time_range = 30.days.ago..Time.now)
+    @monthly_earnings = Impression.where(created_at: time_range).sum(:total_price).round(3)
+  end
+
+  def self.monthly_impressions(project,time_range = 30.days.ago..Time.now)
+    @monthly_impressions = Impression.where(created_at: time_range).sum(:cycles)
+  end
+
   def self.daily_provider_earnings_graph(project, time_range = 30.days.ago..Time.now)
   h = Impression.joins(:board).where(boards: {project: project}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
       h.each { |key,value| h[key] = value.round(3) }

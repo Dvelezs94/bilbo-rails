@@ -1,11 +1,11 @@
 .col-md-6.col-lg-6.mg-t-10
   .card
     .card-header.pd-b-0.bd-b-0.pd-t-20.pd-lg-t-25.pd-l-20.pd-lg-l-25
-      %h6.mg-b-5
+      %h6.mg-b-25
         = t('dashboards.earnings')
       %p.tx-12.tx-color-03.mg-b-0
         = t('dashboards.earnings_description')
-    .card-body.pd-sm-20.pd-lg-25
+    .card-body.pd-sm-25.pd-lg-25
       .chart-eight
         .flot-chart
           = column_chart @graph_earnings, colors: ["#10b759"]
