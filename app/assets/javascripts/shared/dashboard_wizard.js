@@ -38,7 +38,7 @@ $(document).on('turbolinks:load', function() {
             return true
           } else {
             show_error($("#budget_error_message").html());
-            return falsecampaignadid
+            return false
           }
           var campaignbudget = $('#campaign_budget').parsley();
           var campaignstartsat = $('#campaign_starts_at').parsley();
@@ -169,15 +169,6 @@ $(document).on('turbolinks:load', function() {
       var selected_ad = ($("#" + selected_ad_id))
       selected_ad.find("div:first-child > .card").addClass("wizard_selected_ad");
     }
-
-
     // end choose ad
-  }
-  function changesize()
-  {
-    $('.carousel-item').width(500); // Units are assumed to be pixels
-      $('.carousel-item').height(500);
-  $('.carousel-item img').width(500); // Units are assumed to be pixels
-      $('.carousel-item img').height(500);
   }
 });
