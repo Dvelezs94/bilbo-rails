@@ -1,0 +1,28 @@
+.off-canvas.wd-300#campaignWizardOffCanvas
+  %a.close{"data-ol-has-click-handler" => "", :href => "#", onclick: "event.preventDefault(); $('#campaignWizardOffCanvas').removeClass('show');"}
+    %svg.feather.feather-x{:fill => "none", :height => "24", :stroke => "currentColor", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2", :viewbox => "0 0 24 24", :width => "24", :xmlns => "http://www.w3.org/2000/svg"}
+      %line{:x1 => "18", :x2 => "6", :y1 => "6", :y2 => "18"}
+      %line{:x1 => "6", :x2 => "18", :y1 => "6", :y2 => "18"}
+  .pd-25.ht-100p.tx-13
+    %h5.tx-inverse.mg-t-25.mg-b-25= t("campaign.wizard.pick_ad")
+    %p.mg-b-25= t("campaign.wizard.offcanvas.pick_ad_desc")
+    %p.mg-b-25.tx-bold= t("campaign.wizard.offcanvas.pick_ad_try_to")
+    %p.mg-b-25= t("campaign.wizard.offcanvas.pick_ad_ad_campaign")
+    %p.mg-b-25= t("campaign.wizard.offcanvas.pick_ad_disclaimer")
+    %hr
+    %h5.tx-inverse.mg-t-25.mg-b-25= t("campaign.wizard.choose_bilbos")
+    %p.mg-b-25= t("campaign.wizard.offcanvas.choose_bilbos_desc")
+    .alert.alert-warning{role: "alert"}= t("campaign.wizard.offcanvas.choose_bilbos_disclaimer")
+    %hr
+    %h5.tx-inverse.mg-t-25.mg-b-25= t("campaign.wizard.date_and_budget")
+    %p.mg-b-5= t("campaign.wizard.offcanvas.choose_budget_desc")
+    %a{:href => "https://bilbo.freshdesk.com/support/solutions/articles/64000060135--cuantas-veces-se-va-a-mostrar-mi-campa%C3%B1a-", target: "_blank"}
+      = t("campaign.wizard.offcanvas.how_budget_works")
+      %i.fe.fe-arrow-right.valign-middle-f
+    %p.mg-t-25.mg-b-25= t("campaign.wizard.offcanvas.choose_date_desc")
+    %p.mg-b-25= t("campaign.wizard.offcanvas.schedule_campaign")
+    %hr
+    %h5.tx-inverse.mg-t-25.mg-b-25= t("campaign.wizard.summary")
+    %p.mg-b-25= t("campaign.wizard.offcanvas.summary_desc")
+    %p.tx-bold.mg-b-25= t("campaign.wizard.offcanvas.summary_disclaimer")
+    %a.btn.btn-primary.btn-block.mg-b-20{:href => "https://bilbo.freshdesk.com/support/solutions/articles/64000060120-crear-una-campa%C3%B1a", target: "_blank"}= t("campaign.wizard.offcanvas.full_guide")

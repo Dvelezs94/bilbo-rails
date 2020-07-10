@@ -9582,6 +9582,7 @@ textarea.form-control {
       transition: none; } }
   .off-canvas.show {
     transform: translate(0, 0);
+    overflow-y: scroll;
     border-right: 1px solid rgba(28, 39, 60, 0.1);
     box-shadow: 0 0 18px rgba(28, 39, 60, 0.06); }
   .off-canvas > .close {

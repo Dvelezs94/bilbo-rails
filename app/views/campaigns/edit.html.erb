@@ -16,6 +16,7 @@
         </nav>
         <h4 class="mg-b-0 tx-spacing--1"><%= @campaign.name %></h4>
       </div>
+        <a href="#campaignWizardOffCanvas" class="btn btn-outline-primary off-canvas-menu"><%= t("campaign.wizard.need_help") %></a>
     </div>
     <%= form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, class: "edit_campaign") do |f| %>
 
@@ -46,7 +47,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text pd-x-15" id="boards_counter"><%= @campaign_boards.size %></span>
             </div>
-            <%= f.select(:boards, options_for_select(@campaign_boards), {:include_blank => 'Bilbos seleccionados'}, {:class => "custom-select", id: "selected_boards"}) %>
+            <%= f.select(:boards, options_for_select(@campaign_boards), {:include_blank => t('campaign.wizard.selected_bilbos')}, {:class => "custom-select", id: "selected_boards"}) %>
           </div>
           <%= f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true %>
           <div id="boardInfo" class="col-md-12 col-xl-3 mg-t-10 order-1 d-none">
@@ -271,7 +272,8 @@
             </section>
           </div>
           <% end %>
-        </div>
 
+        </div>
+<%= render "campaign_offcanvas_wizard" %>
 <%= render partial: "ads/new" %>
 <%= render partial: "edit_map_filter" %>
