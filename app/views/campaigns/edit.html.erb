@@ -152,23 +152,15 @@
               <div class="modal-body pd-x-25 pd-sm-x-30 pd-t-40 pd-sm-t-20 pd-b-15 pd-sm-b-20">
                   <div class="nav-wrapper mg-b-20 tx-13">
                       <div>
-                        <nav class="nav tx-medium d-flex justify-content-center" style="overflow-x: auto;">
-                        <!--  <%= select_tag "",options_for_select(@campaign_boards), onchange: "console.log($('option:selected', this).attr('height_bilbo')); $('.carousel-item').width($('option:selected', this).attr('width_bilbo')); $('.carousel-item').height($('option:selected', this).attr('height_bilbo')); ", class: 'custom-select', id: "selected_board" %>-->
-                          <%= select_tag "",options_for_select(@campaign_boards), onchange: "console.log($('option:selected', this).attr('height_bilbo')); $('.carousel-item img').width(150); $('.carousel-item img').height(150); ", class: 'custom-select', id: "selected_board" %>
-                        </nav>
+                          <%= select_tag "",options_for_select(@campaign_boards), onchange: "$('#parent-carousel').width(400); $('#parent-carousel').height(400); $('#parent-carousel').width($('option:selected', this).attr('new-width')); $('#parent-carousel').height($('option:selected', this).attr('new-height'));", class: 'custom-select wd-100p', id: "aspect_ratio_select", :include_blank => 'Bilbos seleccionados'%>
                       </div>
                     </div><!-- nav-wrapper -->
 
-
-                    <div class="container bg-primary" style="width:400px; height:200px;">
-                      <div class="carousel slide carousel-fade" data-ride="carousel" id="carousel_wizard" style="max-width:400; max-height:400; width:400px; height:400px; position: relative; right:4%; margin:auto; ">
-
+                    <div class="bg-dark" id="parent-carousel" style=" margin: 0 auto; display:block !important; height: 400px; width: 400px; display: inline-block; position: relative;">
+                      <div id="carousel_wizard">
+                        <!-- javascript carousel_wizard-->
                       </div>
-
                     </div>
-                                    <div class="tab-content bg-dark h-300 w-200">
-
-                    </div><!-- tab-content -->
                   </div><!-- modal-body -->
               </div>
             </section>
