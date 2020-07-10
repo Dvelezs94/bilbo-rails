@@ -141,6 +141,18 @@ class Board < ApplicationRecord
     self.update(ads_rotation: new_cycle)
   end
 
+  def size_change
+    if self.aspect_ratio.split(':')[0].to_f > self.aspect_ratio.split(':')[1].to_f
+      m=self.aspect_ratio.split(':')[0].to_f
+      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*400
+      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*400
+    else
+      m = self.aspect_ratio.split(':')[1].to_f
+      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*400
+      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*400
+    end
+    return @new_width, @new_height
+  end
 
   private
   def update_aspect_ratio
@@ -191,8 +203,6 @@ end
     h.sort_by {|k, v| -v}
   end
   # End provider functions
-
-  private
 
   def generate_qr_code
     require 'rqrcode'

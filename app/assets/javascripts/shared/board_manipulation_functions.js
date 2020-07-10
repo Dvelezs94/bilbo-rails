@@ -30,15 +30,20 @@ $(document).on('turbolinks:load', function() {
     }
   });
 });
+
 function addBilbo(el) {
   id = $(el).attr("data-id");
   cycle_price = $(el).attr("data-price");
+  new_width = $(el).attr("new-width");
+  new_height = $(el).attr("new-height");
   buttons_container = $(el).closest(".info-board");
   address = $(el).attr("data-address");
   selected_boards = $("#selected_boards");
+  aspect_ratio_select = $("#aspect_ratio_select");
   if (selected_boards.find("option[value=" + id + "]").length == 0) {
-    build_option = "<option value='" + id + "' data-price='" + cycle_price + "'>"+ address + "</option>"
+    build_option = "<option value='" + id + "' data-price='" + cycle_price + "' new-height='" + new_height + "' new-width='" + new_width + "'>"+ address + "</option>"
     selected_boards.append(build_option);
+    aspect_ratio_select.append(build_option);
     selected_boards.val(selected_boards.find("option:last").val() );
     update_hidden_input(selected_boards);
     update_buttons("added", buttons_container);
@@ -50,8 +55,11 @@ function removeBilbo(el) {
   id = $(el).attr("data-id");
   buttons_container = $(el).closest(".info-board");
   selected_boards = $("#selected_boards");
+  aspect_ratio_select = $("#aspect_ratio_select");
   selected_boards.find("option[value=" + id + "]").remove();
   update_hidden_input(selected_boards);
+  aspect_ratio_select.find("option[value=" + id + "]").remove();
+  update_hidden_input(aspect_ratio_select);
   update_buttons("deleted", buttons_container);
   $('#boards_counter').html(parseInt($('#boards_counter').html(), 10)-1)
 }
@@ -74,4 +82,5 @@ function update_buttons(action, buttons_container) {
     buttons_container.find(".remove-bilbo").addClass("d-none");
   }
 }
+
 // end pick board
