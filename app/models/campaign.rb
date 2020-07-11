@@ -29,6 +29,8 @@ class Campaign < ApplicationRecord
   before_save :update_broadcast, if: :state_changed?
   before_save :set_in_review, :if => :ad_id_changed?
 
+  
+
   def self.running
     active.where(state: true)
   end
