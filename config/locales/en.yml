@@ -45,6 +45,7 @@ en:
     purchase_credits: Purchase Credits
     ads: Creatives
     statistics: Statistics
+    main: Home
     my_bilbos: My Bilbos
     export_csv: EXPORT TO CSV
     print: PRINT
@@ -100,7 +101,7 @@ en:
     review_campaigns: Review Campaigns
     accept: Accept campaign
     deny: Deny campaign
-    review: Review campaign
+    review: Pause campaign
     occupied: "% Occupied"
     campaign: Dashboard
     home: Home
@@ -135,14 +136,16 @@ en:
     wont_be_able_to_update_state: You will not be able to update the state until
     impressions_per_day: Impressions
     popular_hours: Most popular hours
-    approve_campaign: Are you sure change status to approved?
-    deny_campaign: Are you sure change status to denied ?
+    approve_campaign: Are you sure you want to approve this campaign?
+    deny_campaign: Are you sure you want to deny this campaign?
     status_on: "On"
     status_off: "Off"
-    in_review_campaign: Are you sure change status to in review?
+    in_review_campaign: You are about to pause this campaign. Are you sure?
     wizard:
       choose_bilbos: Choose your Bilbos
-      pick_ad: Pick creative
+      selected_bilbos: Selected Bilbos
+      pick_ad: Pick a creative
+      need_help: Need help?
       date_and_budget: Date and Budget
       payment_details: Payment Details
       budget: Budget
@@ -154,6 +157,20 @@ en:
       end_date: End Date
       summary: Summary
       impressions_forecast: Expected daily impressions
+      offcanvas:
+        pick_ad_desc: Creatives are spaces where you can store images and videos for your campaigns. These creatives can be tied to a campaign so these can be shown on the bilbos once you have it configured.
+        pick_ad_try_to: Try to create colorful and eye-catching creatives, that way you can impact the audience even more.
+        pick_ad_ad_campaign: Only one creative can be tied to a campaign, this is why all images and videos related to be on a single creative as long as they are the same size.
+        pick_ad_disclaimer: Note that all images and videos will randomly rotate on the chosen bilbos, that way all images have the same chances to be displayed.
+        choose_bilbos_desc: Bilbo has an increasing digital screens network, so you have more freedom and can reach more segments through your campaigns.
+        choose_bilbos_disclaimer: Don't forget to use our filter so you can segment even more the bilbos that you like.
+        choose_budget_desc: Set the daily budget for your campaign. The budget will be evenly divided between your bilbos. Click on the link below for more information.
+        how_budget_works: How budget works
+        choose_date_desc: By default, all campaigns are continuous, this means that they don't have an start and end date, hence they will be shown on all bilbos whenever you campaign is accepted.
+        schedule_campaign: You can schedule your campaigns by setting an start date and an end date.
+        summary_desc: Once your campaign is configured, you will see a summary for your campaign. In it you will see the chosen bilbos, budget, dates, but most importantly you will be able to visualize your creatives on the bilbos dimensions.
+        summary_disclaimer: Always visualize your creatives on all bilbos, to make sure these display correctly on all screen sizes.
+        full_guide: See full guide
     errors:
       no_ad: The campaign doesn't have an associated ad
       no_multimedia: The selected creative doesn't have multimedia
@@ -210,6 +227,7 @@ en:
     campaign_ads: Campaign creatives
     working_hours: Working hours
     social_class: Clasification
+    view_campaigns: View Campaigns
     search:
       location: Location
       classification: Classification
