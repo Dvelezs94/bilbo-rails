@@ -73,7 +73,9 @@ $(document).on('turbolinks:load', function() {
         // update summary on budget and date change
         $('#bilbosAddress').empty()
         $("#selected_boards option:not(:eq(0))").each(function() {
-          $("#bilbosAddress").append('<li>'+$(this).text()+'</li>');
+        $("#bilbosAddress").append('<li>'+$(this).text()+'</li>');
+        $('#parent-carousel').width($('#aspect_ratio_select option:selected').attr('new-width'));
+        $('#parent-carousel').height($('#aspect_ratio_select option:selected').attr('new-height'));
         });
         $("#bilbosNum").text($("#bilbosAddress li").length)
       } else if (priorIndex === 2) {
@@ -81,6 +83,7 @@ $(document).on('turbolinks:load', function() {
         if ($("#date_campaign").prop("checked")){
           $("#campaignStarts").text($("#campaign_starts_at").val());
           $("#campaignEnds").text($("#campaign_ends_at").val());
+
         } else {
           $("#campaignStarts").text("");
           $("#campaignEnds").text("");

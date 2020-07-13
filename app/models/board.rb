@@ -144,12 +144,12 @@ class Board < ApplicationRecord
   def size_change
     if self.aspect_ratio.split(':')[0].to_f > self.aspect_ratio.split(':')[1].to_f
       m=self.aspect_ratio.split(':')[0].to_f
-      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*400
-      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*400
+      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*250
+      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*250
     else
       m = self.aspect_ratio.split(':')[1].to_f
-      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*400
-      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*400
+      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*250
+      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*250
     end
     return @new_width, @new_height
   end
