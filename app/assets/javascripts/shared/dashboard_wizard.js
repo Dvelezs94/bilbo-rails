@@ -95,6 +95,11 @@ $(document).on('turbolinks:load', function() {
     $("#campaign_budget").keyup(function(){
       calculatebudget();
     });
+    $("#impressions").on("keyup", function() {
+      this.style.width = ((this.value.length + 5) * 8) + 'px';
+      calculateInvbudget(this.value);
+    });
+    $("#impressions").width( ($("#impressions").val().length +5 )*8+"px")
     // function to calculate impressions
     function calculatebudget() {
       sum = 0
@@ -107,11 +112,28 @@ $(document).on('turbolinks:load', function() {
       // max possible impressions of bilbos
       max_boards_impr = parseInt($("#max_impressions").val());
       if (maximum_impressions > max_boards_impr) {
-        $("#impressions").text(max_boards_impr);
+        $("#impressions").val(max_boards_impr);
       } else {
-        $("#impressions").text(maximum_impressions);
+        $("#impressions").val(maximum_impressions);
       }
     }
+    function calculateInvbudget(maximum_impressions) {
+      sum = 0
+      $("#selected_boards option:not(:eq(0))").each(function() {
+        sum +=  $(this).data('price') || 0;
+        avg = sum/$("#selected_boards option:not(:eq(0))").length
+      });
+      // if the impressions are greater than max possible impressions of bilbos, take the max posible
+      max_boards_impr = parseInt($("#max_impressions").val());
+      if (maximum_impressions > max_boards_impr) {
+        maximum_impressions = max_boards_impr;
+        $("#impressions").val(max_boards_impr);
+      }
+      // get the budget
+      impressions_budget = Math.round(parseFloat(maximum_impressions*avg));
+      $("#campaign_budget").val(impressions_budget);
+    }
+
 
     // calculate max impressions sum of all boards
     function calculateMaxImpressions() {
