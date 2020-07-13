@@ -22,6 +22,7 @@ $(document).on('turbolinks:load', function() {
 
         // Step 2 form validation
         if(currentIndex === 1) {
+          calculateMaxImpressions();
           calculatebudget();
           var campaignboards = $('#campaign_boards').parsley();
 
@@ -101,18 +102,32 @@ $(document).on('turbolinks:load', function() {
         sum +=  $(this).data('price') || 0;
         avg = sum/$("#selected_boards option:not(:eq(0))").length
       });
-      console.log(sum);
+      // max impressions based on the budget
       maximum_impressions = Math.round(parseFloat($("#campaign_budget").val().replace(',',''))/avg)
-      $("#impressions").text(maximum_impressions);
+      // max possible impressions of bilbos
+      max_boards_impr = parseInt($("#max_impressions").val());
+      if (maximum_impressions > max_boards_impr) {
+        $("#impressions").text(max_boards_impr);
+      } else {
+        $("#impressions").text(maximum_impressions);
+      }
     }
+
+    // calculate max impressions sum of all boards
+    function calculateMaxImpressions() {
+      max_impr = 0
+      $("#selected_boards option:not(:eq(0))").each(function() {
+        max_impr += $(this).data('max-impressions') || 0;
+      });
+      $("#max_impressions").val(max_impr);
+    }
+
     // calculate board prints
     function getadwizard() {
       $.ajax({
         url:  "/ads/wizard_fetch",
         dataType: "script",
         data: {ad_id: $("#campaign_ad_id").val()}
-
-
       });
 
     }
