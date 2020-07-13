@@ -74,6 +74,7 @@ Rails.application.routes.draw do
       member do
         get :fetch
         patch :verify
+        patch :deny
       end
     end
   end

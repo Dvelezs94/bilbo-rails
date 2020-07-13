@@ -13,6 +13,9 @@
             .btn.btn-sm.btn-outline-primary.d-flex.align-items-center.mg-r-5
               %i.fe.fe-check-circle
               %span.d-none.d-sm-inline.mg-l-5 Verify Profile
+          = link_to deny_admin_user_path(user.id), method: :patch, data: { confirm: "You sure you want to deny?" } do
+            .btn.btn-sm.btn-outline-danger.d-flex.align-items-center.mg-r-5
+              %span.d-none.d-sm-inline.mg-l-5 Denyy Profile
         - else
           %a
             .btn.btn-sm.d-flex.align-items-center.mg-r-5.btn-outline-success
@@ -40,6 +43,27 @@
       / col
     / row
     .divider-text Verification Details
+      .row.row-sm
+        .col-12.m-auto
+          = form_for(:verification, url: verification_path, method: :post, :html => { data: { parsley_validate: true } }, local: false) do |f|
+            .divider-text Datos Personales
+            .form-group.row
+              .col-sm-3
+                = f.label :name, raw("Nombre Completo <span class='tx-danger'>*</span>")
+              .col-sm-9
+                = f.text_field :name, class: "form-control", value: current_user.name, required: true
+            .form-group.row
+              .col-sm-3
+                = f.label :official_id, raw("Identificación Oficial <span class='tx-danger'>*</span>")
+              .col-sm-9
+                = f.file_field :official_id, accept:'image/*', class: "custom-file-input", required: true
+                = f.label :official_id, "Elegir Archivo", class: "custom-file-label file-input-100"
+            .form-group.row
+              .col-sm-3
+                = f.label :phone, raw("Número de teléfono <span class='tx-danger'>*</span>")
+              .col-sm-9
+                = f.text_field :phone, placeholder: "555-555-5555", class: "form-control input-phone", required: true
+            = f.submit "Enviar", class: "btn btn-primary"    
     - if verification.present?
       .row.row-sm
         .col-6.col-sm-4
