@@ -35,7 +35,7 @@
               %th{:scope => "col"} Multimedia
               %th{:scope => "col"}= t("campaign.campaign_date")
               %th{:scope => "col"} Bilbo
-              %th{:scope => "col"} $
-              %th{:scope => "col"}= t("campaign.status")
+              %th{:scope => "col"}= t("campaign.daily_budget")
+              %th{:scope => "col"}= t("campaign.campaign_status")
               %th{:scope => "col"}
             %tbody= render partial: "campaigns/status_campaign", collection: @board_campaigns, as: :board_campaign

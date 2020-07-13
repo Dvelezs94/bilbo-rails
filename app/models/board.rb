@@ -16,6 +16,7 @@ class Board < ApplicationRecord
   validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
   after_create :generate_qr_code
   after_create :update_ad_rotation
+  after_create :update_aspect_ratio
   # slug candidates for friendly id
   def slug_candidates
     [
@@ -140,7 +141,27 @@ class Board < ApplicationRecord
     self.update(ads_rotation: new_cycle)
   end
 
+  def size_change
+    if self.aspect_ratio.split(':')[0].to_f > self.aspect_ratio.split(':')[1].to_f
+      m=self.aspect_ratio.split(':')[0].to_f
+      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*400
+      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*400
+    else
+      m = self.aspect_ratio.split(':')[1].to_f
+      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*400
+      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*400
+    end
+    return @new_width, @new_height
+  end
+
   private
+  def update_aspect_ratio
+    width = (self.width * 100).round(0)
+    height = (self.height * 100).round(0)
+    mcd = width.gcd(height)
+    ar = (width/mcd).to_s + ":" + (height/mcd).to_s
+    self.update!(aspect_ratio: ar)
+  end
 
   def generate_access_token
     self.access_token = SecureRandom.hex
@@ -165,11 +186,11 @@ class Board < ApplicationRecord
 
   #this method returns the monthly earnings of a board, we use it on the provider_statistics
   def self.monthly_earnings_by_board(project, time_range = 30.days.ago..Time.now)
-    @monthly_earnings = Impression.where(created_at: time_range).sum(:total_price).round(3)
+    @monthly_earnings = Impression.joins(:board).where(boards: {project: project},created_at: time_range).sum(:total_price).round(3)
   end
 
   def self.monthly_impressions(project,time_range = 30.days.ago..Time.now)
-    @monthly_impressions = Impression.where(created_at: time_range).sum(:cycles)
+    @monthly_impressions = Impression.joins(:board).where(boards: {project: project},created_at: time_range).sum(:cycles)
   end
 
   def self.daily_provider_earnings_graph(project, time_range = 30.days.ago..Time.now)
@@ -191,8 +212,6 @@ end
     h.sort_by {|k, v| -v}
   end
   # End provider functions
-
-  private
 
   def generate_qr_code
     require 'rqrcode'

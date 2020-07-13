@@ -16,6 +16,7 @@
         </nav>
         <h4 class="mg-b-0 tx-spacing--1"><%= @campaign.name %></h4>
       </div>
+        <a href="#campaignWizardOffCanvas" class="btn btn-outline-primary off-canvas-menu"><%= t("campaign.wizard.need_help") %></a>
     </div>
     <%= form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, class: "edit_campaign") do |f| %>
 
@@ -46,7 +47,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text pd-x-15" id="boards_counter"><%= @campaign_boards.size %></span>
             </div>
-            <%= f.select(:boards, options_for_select(@campaign_boards), {:include_blank => 'Bilbos seleccionados'}, {:class => "custom-select", id: "selected_boards"}) %>
+            <%= f.select(:boards, options_for_select(@campaign_boards), {:include_blank => t('campaign.wizard.selected_bilbos')}, {:class => "custom-select", id: "selected_boards"}) %>
           </div>
           <%= f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true %>
           <div id="boardInfo" class="col-md-12 col-xl-3 mg-t-10 order-1 d-none">
@@ -152,126 +153,22 @@
               <div class="modal-body pd-x-25 pd-sm-x-30 pd-t-40 pd-sm-t-20 pd-b-15 pd-sm-b-20">
                   <div class="nav-wrapper mg-b-20 tx-13">
                       <div>
-                        <nav class="nav tx-medium d-flex justify-content-center" style="overflow-x: auto;">
-                          <a href="#c1" class="nav-link active" data-toggle="tab">350 X 150</a>
-                          <a href="#c2" class="nav-link" data-toggle="tab">200 X 150</a>
-                          <a href="#c3" class="nav-link" data-toggle="tab">150 X 150</a>
-                        </nav>
+                          <%= select_tag "",options_for_select(@campaign_boards), onchange: "$('#parent-carousel').width(400); $('#parent-carousel').height(400); $('#parent-carousel').width($('option:selected', this).attr('new-width')); $('#parent-carousel').height($('option:selected', this).attr('new-height'));", class: 'custom-select wd-100p', id: "aspect_ratio_select", :include_blank => 'Bilbos seleccionados'%>
                       </div>
                     </div><!-- nav-wrapper -->
 
-                    <div class="tab-content bg-dark h-300 w-200">
-                      <div id="c1" class="tab-pane fade active show">
-
-                        <div data-label="Example" class="df-example">
-                          <div id="carouselExample5" class="carousel slide carousel-fade" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                              <li data-target="#carouselExample5" data-slide-to="0" class="active"></li>
-                              <li data-target="#carouselExample5" data-slide-to="1"></li>
-                              <li data-target="#carouselExample5" data-slide-to="2"></li>
-                            </ol>
-                            <style media="screen">
-
-                            </style>
-                            <div class="carousel-inner bg-dark">
-                              <div class="carousel-item active d-flex justify-content-center">
-                                  <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(45).jpg" style="width:300px; height:150px;" class="d-block" alt="...">
-                              </div>
-                              <div class="carousel-item d-flex justify-content-center"">
-                                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg" style="width:300px; height:150px;" class="d-block" alt="...">
-                              </div>
-                              <div class="carousel-item d-flex justify-content-center">
-                                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(47).jpg" style="width:300px; height:150px;" class="d-block" alt="...">
-                              </div>
-                            </div>
-                            <a class="carousel-control-prev" href="#carouselExample5" role="button" data-slide="prev">
-                              <span class="carousel-control-prev-icon" aria-hidden="true"><i data-feather="chevron-left"></i></span>
-                              <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExample5" role="button" data-slide="next">
-                              <span class="carousel-control-next-icon" aria-hidden="true"><i data-feather="chevron-right"></i></span>
-                              <span class="sr-only">Next</span>
-                            </a>
-                          </div>
-                        </div><!-- df-example -->
-
-                      </div><!-- tab-pane -->
-
-                      <div id="c2" class="tab-pane fade">
-
-                        <div data-label="Examplea" class="df-exampleaq">
-                          <div id="carouselExample6" class="carousel slide carousel-fade" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                              <li data-target="#carouselExample6" data-slide-to="0" class="active"></li>
-                              <li data-target="#carouselExample6" data-slide-to="1"></li>
-                              <li data-target="#carouselExample6" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner bg-dark">
-                              <div class="carousel-item active d-flex justify-content-center">
-                                  <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(45).jpg" style="width:200px; height:150px;" class="d-block" alt="...">
-                              </div>
-                              <div class="carousel-item d-flex justify-content-center">
-                                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg" style="width:200px; height:150px;" class="d-block" alt="...">
-                              </div>
-                              <div class="carousel-item d-flex justify-content-center">
-                                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(47).jpg" style="width:200px; height:150px;" class="d-block" alt="...">
-                              </div>
-                            </div>
-                            <a class="carousel-control-prev" href="#carouselExample6" role="button" data-slide="prev">
-                              <span class="carousel-control-prev-icon" aria-hidden="true"><i data-feather="chevron-left"></i></span>
-                              <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExample6" role="button" data-slide="next">
-                              <span class="carousel-control-next-icon" aria-hidden="true"><i data-feather="chevron-right"></i></span>
-                              <span class="sr-only">Next</span>
-                            </a>
-                          </div>
-                        </div><!-- df-example -->
-
-
+                    <div class="bg-dark" id="parent-carousel" style=" margin: 0 auto; display:block !important; height: 400px; width: 400px; display: inline-block; position: relative;">
+                      <div id="carousel_wizard">
+                        <!-- javascript carousel_wizard-->
                       </div>
-
-
-                      <div id="c3" class="tab-pane fade">
-                        <div data-label="Example" class="df-examplea">
-                          <div id="carouselExample7" class="carousel slide carousel-fade" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                              <li data-target="#carouselExample7" data-slide-to="0" class="active"></li>
-                              <li data-target="#carouselExample7" data-slide-to="1"></li>
-                              <li data-target="#carouselExample7" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner bg-dark">
-                              <div class="carousel-item active d-flex justify-content-center">
-                                  <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(45).jpg" style="width:150px; height:150px;" class="d-block" alt="...">
-                              </div>
-                              <div class="carousel-item d-flex justify-content-center">
-                                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg" style="width:150px; height:150px;" class="d-block" alt="...">
-                              </div>
-                              <div class="carousel-item d-flex justify-content-center">
-                                <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(47).jpg" style="width:150px; height:150px;" class="d-block" alt="...">
-                              </div>
-                            </div>
-                            <a class="carousel-control-prev" href="#carouselExample7" role="button" data-slide="prev">
-                              <span class="carousel-control-prev-icon" aria-hidden="true"><i data-feather="chevron-left"></i></span>
-                              <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExample7" role="button" data-slide="next">
-                              <span class="carousel-control-next-icon" aria-hidden="true"><i data-feather="chevron-right"></i></span>
-                              <span class="sr-only">Next</span>
-                            </a>
-                          </div>
-                        </div><!-- df-example -->
-                      </div>
-
-
-                    </div><!-- tab-content -->
+                    </div>
                   </div><!-- modal-body -->
-                </div>
               </div>
             </section>
           </div>
           <% end %>
-        </div>
 
+        </div>
+<%= render "campaign_offcanvas_wizard" %>
 <%= render partial: "ads/new" %>
 <%= render partial: "edit_map_filter" %>

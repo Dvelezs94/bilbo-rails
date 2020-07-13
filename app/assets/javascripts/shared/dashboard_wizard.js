@@ -64,17 +64,18 @@ $(document).on('turbolinks:load', function() {
       } else { return true; }
     },
     onStepChanged: function (event, currentIndex, priorIndex) {
-      // update summary on map change
+      // update summary on ads change
       if (priorIndex === 0) {
+        $("#adName").text($(".wizard_selected_ad .card-body").text());
+        getadwizard();
+        // update summary on map change
+      } else if ( priorIndex === 1) {
+        // update summary on budget and date change
         $('#bilbosAddress').empty()
         $("#selected_boards option:not(:eq(0))").each(function() {
           $("#bilbosAddress").append('<li>'+$(this).text()+'</li>');
         });
         $("#bilbosNum").text($("#bilbosAddress li").length)
-        // update summary on ads change
-      } else if ( priorIndex === 1) {
-        $("#adName").text($(".wizard_selected_ad .card-body").text());
-        // update summary on budget and date change
       } else if (priorIndex === 2) {
         $("#dailyBudget").text($("#campaign_budget").val())
         if ($("#date_campaign").prop("checked")){
@@ -105,7 +106,16 @@ $(document).on('turbolinks:load', function() {
       $("#impressions").text(maximum_impressions);
     }
     // calculate board prints
+    function getadwizard() {
+      $.ajax({
+        url:  "/ads/wizard_fetch",
+        dataType: "script",
+        data: {ad_id: $("#campaign_ad_id").val()}
 
+
+      });
+
+    }
 
     $("#date_campaign").click(function() {
       $("#campaign_starts_at").prop('required', true);
