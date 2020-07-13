@@ -29,6 +29,8 @@ class Campaign < ApplicationRecord
   before_save :update_broadcast, if: :state_changed?
   before_save :set_in_review, :if => :ad_id_changed?
 
+
+
   def self.running
     active.where(state: true)
   end
@@ -140,7 +142,7 @@ class Campaign < ApplicationRecord
     Impression.where(campaign_id: id).sum(:total_price)
   end
 
-  def daily_impressions(time_range = (start_date..end_date) )
+  def daily_impressions(time_range = 30.days.ago..Time.now )
     impressions.where(campaign_id: id,created_at: time_range).group_by_day(:created_at).count
   end
 
