@@ -138,7 +138,10 @@ class Board < ApplicationRecord
   def update_ad_rotation
     # build the ad rotation because the ads changed
     new_cycle = self.build_ad_rotation
-    self.update(ads_rotation: new_cycle)
+    self.with_lock do
+      self.ads_rotation = new_cycle
+      self.save!
+    end
   end
 
   def size_change

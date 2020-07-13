@@ -82,7 +82,7 @@
       <section>
         <form>
           <div class="divider-text"><%= t("campaign.wizard.budget") %></div>
-
+          <%= hidden_field_tag :max_impressions, '' %>
           <label class="d-block"><%= t("campaign.wizard.daily_budget_description") %></label>
           <div class="input-group col-sm-12 col-md-6 col-xl-4 pd-x-0">
             <div class="input-group-prepend">
