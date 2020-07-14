@@ -95,7 +95,7 @@ $(document).on('turbolinks:load', function() {
     $("#campaign_budget").keyup(function(){
       calculatebudget();
     });
-    $("#impressions").on("keyup", function() {
+    $("#impressions").on("keyup change paste", function() {
       this.style.width = ((this.value.length + 5) * 8) + 'px';
       calculateInvbudget(this.value);
     });
