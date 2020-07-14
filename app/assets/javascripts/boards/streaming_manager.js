@@ -126,6 +126,7 @@ $(document).on('turbolinks:load', function() {
         if (e.keyCode === 27) {
           $(".start-stream").attr('style','display:block !important');
           $(".board-ads").hide();
+          $("#bilbo-ad").hide();
           clearInterval(rotateAds);
           $(".board-ad-inner").css({display: "none"});
         }
@@ -139,4 +140,4 @@ $(document).on('turbolinks:load', function() {
       $( ".start-stream" ).trigger( "click" );
     }
   }
-})
+});
