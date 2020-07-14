@@ -203,3 +203,6 @@ details[open] summary:after {
   vertical-align: sub !important;
   height: 0em !important;
 }
+.no-outline-focus:focus{
+  outline: none;
+}
