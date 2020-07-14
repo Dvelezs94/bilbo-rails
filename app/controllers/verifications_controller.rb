@@ -16,7 +16,8 @@ class VerificationsController < ApplicationController
 
   private
   def verification_params
-    params.require(:verification).permit(:name,
+    params.require(:verification).permit(:user_id,
+                                         :name,
                                          :official_id,
                                          :business_name,
                                          :street_1,
@@ -30,11 +31,15 @@ class VerificationsController < ApplicationController
                                          :official_business_name,
                                          :website,
                                          :phone,
-                                         :status).merge(user_id: current_user.id)
+                                         :status)
   end
   # Make sure user does not send many verifications
   def verify_previous_verification
-    if current_user.verifications.pending.present?
+    if current_user.is_admin?
+      if User.find(verification_params[:user_id]).verifications.pending.present?
+        flash[:notice] = "Ya tienes una verificatión en proceso."
+      end
+    elsif current_user.verifications.pending.present?
       flash[:notice] = "Ya tienes una verificatión en proceso."
       # resend notification to admins
       SlackNotifyWorker.perform_async("Nueva verificación pendiente del usuario #{current_user.email}.")

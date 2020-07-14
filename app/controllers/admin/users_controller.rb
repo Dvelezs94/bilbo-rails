@@ -24,7 +24,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def verify
-    @user_verification = @user.verifications.where(status: ["pending", "accepted"]).first
+    @user_verification = @user.verifications.where(status: ["denied", "pending", "accepted"]).first
     if @user_verification.accepted! && @user.update(verified: true)
       flash[:success] = "User verified"
     else
@@ -36,7 +36,7 @@ class Admin::UsersController < ApplicationController
   def deny
     @user_verification = @user.verifications.where(status: ["pending", "accepted", "denied"]).first
     if @user_verification.denied! && @user.update(verified: false)
-      flash[:success] = I18n.t('campaign.action.saved')
+      flash[:success] = "User denied"
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end

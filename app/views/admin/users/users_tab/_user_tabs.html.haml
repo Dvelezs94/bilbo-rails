@@ -8,19 +8,27 @@
           .btn.btn-sm.d-flex.align-items-center.mg-r-5.btn-outline-primary{ onclick: '$("#id_picture").click()' }
             %i.fe.fe-picture-square
             %span.d-none.d-sm-inline.mg-l-5 View ID Picture
-        - if not user.verified?
-          = link_to verify_admin_user_path(user.id), method: :patch, data: { confirm: "You sure you want to verify?" } do
-            .btn.btn-sm.btn-outline-primary.d-flex.align-items-center.mg-r-5
+        - if !user.verified? && !user.is_provider?
+          - if user.verifications.present?
+            -if user.verifications.first.pending?
+              = link_to verify_admin_user_path(user.id), method: :patch, data: { confirm: "You sure you want to verify?" } do
+                .btn.btn-sm.btn-outline-primary.d-flex.align-items-center.mg-r-5
+                  %i.fe.fe-check-circle
+                  %span.d-none.d-sm-inline.mg-l-5 Verify Profile
+              = link_to deny_admin_user_path(user.id), method: :patch, data: { confirm: "You sure you want to deny?" } do
+                .btn.btn-sm.btn-outline-danger.d-flex.align-items-center.mg-r-5
+                  %i.fe.fe-close
+                  %span.d-none.d-sm-inline.mg-l-5 Deny Profile
+          - else
+            %button.btn.btn-sm.btn-outline-primary.d-flex.align-items-center.mg-r-5{"data-target" => "#modalVerify", "data-toggle" => "modal", :type => "button" , id:'verify_id' , data: {user_id: user.id}}
               %i.fe.fe-check-circle
               %span.d-none.d-sm-inline.mg-l-5 Verify Profile
-          = link_to deny_admin_user_path(user.id), method: :patch, data: { confirm: "You sure you want to deny?" } do
-            .btn.btn-sm.btn-outline-danger.d-flex.align-items-center.mg-r-5
-              %span.d-none.d-sm-inline.mg-l-5 Denyy Profile
-        - else
-          %a
-            .btn.btn-sm.d-flex.align-items-center.mg-r-5.btn-outline-success
-              %i.fe.fe-check-verified
-              %span.d-none.d-sm-inline.mg-l-5 Verified
+        -else
+          -if user.verified?
+            %a
+              .btn.btn-sm.d-flex.align-items-center.mg-r-5.btn-outline-success
+                %i.fe.fe-check-verified
+                %span.d-none.d-sm-inline.mg-l-5 Verified
         %a{"data-toggle" => "modal", :href => "#modalEditContact"}
           .btn.btn-sm.btn-white.d-flex.align-items-center.mg-r-5
             %i.fe.fe-edit
@@ -41,66 +49,47 @@
         %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Member Since
         %p.mg-b-0= user.created_at.strftime("%A %b %d %Y")
       / col
-    / row
-    .divider-text Verification Details
-      .row.row-sm
-        .col-12.m-auto
-          = form_for(:verification, url: verification_path, method: :post, :html => { data: { parsley_validate: true } }, local: false) do |f|
-            .divider-text Datos Personales
-            .form-group.row
-              .col-sm-3
-                = f.label :name, raw("Nombre Completo <span class='tx-danger'>*</span>")
-              .col-sm-9
-                = f.text_field :name, class: "form-control", value: current_user.name, required: true
-            .form-group.row
-              .col-sm-3
-                = f.label :official_id, raw("Identificación Oficial <span class='tx-danger'>*</span>")
-              .col-sm-9
-                = f.file_field :official_id, accept:'image/*', class: "custom-file-input", required: true
-                = f.label :official_id, "Elegir Archivo", class: "custom-file-label file-input-100"
-            .form-group.row
-              .col-sm-3
-                = f.label :phone, raw("Número de teléfono <span class='tx-danger'>*</span>")
-              .col-sm-9
-                = f.text_field :phone, placeholder: "555-555-5555", class: "form-control input-phone", required: true
-            = f.submit "Enviar", class: "btn btn-primary"    
-    - if verification.present?
+      / row
+    - if user.verifications.present?
+      .divider-text Verification Details
       .row.row-sm
         .col-6.col-sm-4
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Full Name
-          %p.tx-rubik.mg-b-0= verification.name
+          %p.tx-rubik.mg-b-0= user.verifications.first.name
         .col-6.col-sm-4
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Phone
-          %p.tx-rubik.mg-b-0= verification.phone
+          %p.tx-rubik.mg-b-0= user.verifications.first.phone
         .col-6.col-sm-4.mg-t-20.mg-sm-t-0
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Country
-          %p.tx-rubik.mg-b-0= verification.country
+          %p.tx-rubik.mg-b-0= user.verifications.first.country
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Email Address
           %p.tx-primary.mg-b-0= user.email
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Company (Unofficial)
-          %p.mg-b-0= verification.business_name
+          %p.mg-b-0= user.verifications.first.business_name
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Verification Status
-          - if verification.pending?
-            %p.mg-b-0.tx-warning= verification.status
-          - else
-            %p.mg-b-0.tx-success= verification.status
+          - if user.verifications.first.pending?
+            %p.mg-b-0.tx-warning= user.verifications.first.status
+          - elsif user.verifications.first.denied?
+            %p.mg-b-0.tx-danger= user.verifications.first.status
+          -else
+            %p.mg-b-0.tx-success= user.verifications.first.status
         .col-sm-12.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Business Address
           %p.mg-b-0
-            = verification.full_address
+            = user.verifications.first.full_address
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Business Website
           %p.tx-primary.mg-b-0
-            %a{ href: verification.website, target: "_blank" }= verification.website
+            %a{ href: user.verifications.first.website, target: "_blank" }= user.verifications.first.website
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Business Code (RFC)
-          %p.mg-b-0= verification.business_code
+          %p.mg-b-0= user.verifications.first.business_code
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Official Business Name (Razon Social)
-          %p.mg-b-0= verification.official_business_name
+          %p.mg-b-0= user.verifications.first.official_business_name
         / col
         .col-sm.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Notes
@@ -129,4 +118,3 @@
       %a.btn.btn-sm.btn-white.d-flex.align-items-center{:href => "#"}
         %i.icon.ion-md-time.mg-r-5.tx-16.lh--9
         Clear History
-/ tab-content
