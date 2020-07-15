@@ -53,19 +53,21 @@ class Admin::UsersController < ApplicationController
  end
 
  def accept_verification_email
-     subject   = I18n.t('verification.subject')
-     title     = I18n.t('verification.title')
-     greeting  = subject
-     message   = I18n.t('verification.message')
-     generic_mail(subject= subject, title= title, greeting= greeting, message= message, receiver= @user.email)
+     @subject   = I18n.t('verification.subject')
+     @title     = I18n.t('verification.title')
+     @greeting  = @subject
+     @message   = I18n.t('verification.message')
+     @link      = campaigns_url(credits: "true")
+     @link_text = I18n.t('verification.link_text')
+     generic_mail(subject= @subject, title= @title, greeting= @greeting, message= @message, receiver= @user.email, link= @link, link_text= @link_text)
    end
 
    def deny_verification_email(text)
-       subject   = I18n.t('verification.subject_deny')
-       title     = I18n.t('verification.title_deny')
-       greeting  = subject
-       message   = text
-       generic_mail(subject= subject, title= title, greeting= greeting, message= message, receiver= @user.email)
+       @subject   = I18n.t('verification.subject_deny')
+       @title     = I18n.t('verification.title_deny')
+       @greeting  = @subject
+       @message   = text
+       generic_mail(subject= @subject, title= @title, greeting= @greeting, message= @message, receiver= @user.email)
      end
 
   private
