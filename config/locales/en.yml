@@ -403,6 +403,10 @@ en:
     subject: Your account has been verified
     title: Your account has been verified
     message: Your account has been verified and you can now buy credits
-    subject_deny: Your account has been denied
-    title_deny: Your account has been denied
-    message_deny: Your account has been denied
+    link_text: Purchase credits
+    subject_deny: Your account verification has been denied
+    title_deny: Your account verification has been denied
+    message_deny: Your account verification has been denied, please contact support for more details
+    reason: Reason for denied
+    profile: Deny Profile
+    reason_message: Your message
