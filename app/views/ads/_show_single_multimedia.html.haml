@@ -1,13 +1,13 @@
 .col-sm-12.col-md-4.col-lg-3.pd-b-5.pd-md-l-0
   .card.card-file
     .card-file-thumb.bg-white
-      -if (ActiveStorage::Filename.new(multimedia.filename.to_s).extension_without_delimiter.include? "webm") || (ActiveStorage::Filename.new(multimedia.filename.to_s).extension_without_delimiter.include? "mp4")
+      -if multimedia.video?
         = image_tag "construction_video.webp", class: "img-inherit", :data => {lity: true}
       -else
         = image_tag multimedia, class: "img-inherit", :data => {lity: true}
     .card-body
       -if multimedia.video?
-        %h6= I18n.t('ads.processing', filename: multimedia.filename.to_s) 
+        %h6= I18n.t('ads.processing', filename: multimedia.filename.to_s)
       -else
         %h6= multimedia.filename.base
       - if multimedia.metadata[:width].nil?
