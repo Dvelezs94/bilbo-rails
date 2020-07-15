@@ -15,10 +15,9 @@
                 .btn.btn-sm.btn-outline-primary.d-flex.align-items-center.mg-r-5
                   %i.fe.fe-check-circle
                   %span.d-none.d-sm-inline.mg-l-5 Verify Profile
-              = link_to deny_admin_user_path(user.id), method: :patch, data: { confirm: "You sure you want to deny?" } do
-                .btn.btn-sm.btn-outline-danger.d-flex.align-items-center.mg-r-5
-                  %i.fe.fe-close
-                  %span.d-none.d-sm-inline.mg-l-5 Deny Profile
+              %button.btn.btn-sm.btn-outline-danger.d-flex.align-items-center.mg-r-5{"data-target" => "#modalDeny", "data-toggle" => "modal", :type => "button" , id:'deny_id' , data: {user_id: user.id}}
+                %i.fe.fe-close
+                %span.d-none.d-sm-inline.mg-l-5 Deny Profile
           - else
             %button.btn.btn-sm.btn-outline-primary.d-flex.align-items-center.mg-r-5{"data-target" => "#modalVerify", "data-toggle" => "modal", :type => "button" , id:'verify_id' , data: {user_id: user.id}}
               %i.fe.fe-check-circle

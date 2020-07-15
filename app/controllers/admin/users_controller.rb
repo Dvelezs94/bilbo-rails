@@ -1,4 +1,5 @@
 class Admin::UsersController < ApplicationController
+  include MailerHelper
   access admin: :all
   before_action :get_user, only: [:fetch, :verify, :deny]
 
@@ -27,6 +28,7 @@ class Admin::UsersController < ApplicationController
     @user_verification = @user.verifications.where(status: ["denied", "pending", "accepted"]).first
     if @user_verification.accepted! && @user.update(verified: true)
       flash[:success] = "User verified"
+      accept_verification_email
     else
       flash[:error] = "Could not verfy user"
     end
@@ -37,12 +39,34 @@ class Admin::UsersController < ApplicationController
     @user_verification = @user.verifications.where(status: ["pending", "accepted", "denied"]).first
     if @user_verification.denied! && @user.update(verified: false)
       flash[:success] = "User denied"
+      @user.verifications.first.destroy
+      if params[:message].present?
+        deny_verification_email(params[:message])
+      else
+        text = I18n.t('verification.message_deny')
+        deny_verification_email(text)
+      end
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
   redirect_to admin_users_path(role: "user")
  end
 
+ def accept_verification_email
+     subject   = I18n.t('verification.subject')
+     title     = I18n.t('verification.title')
+     greeting  = subject
+     message   = I18n.t('verification.message')
+     generic_mail(subject= subject, title= title, greeting= greeting, message= message, receiver= @user.email)
+   end
+
+   def deny_verification_email(text)
+       subject   = I18n.t('verification.subject_deny')
+       title     = I18n.t('verification.title_deny')
+       greeting  = subject
+       message   = text
+       generic_mail(subject= subject, title= title, greeting= greeting, message= message, receiver= @user.email)
+     end
 
   private
 
