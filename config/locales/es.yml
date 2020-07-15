@@ -400,3 +400,14 @@ es:
     verify_profile: Verifica tu perfil para
     purchase_credits: Comprar créditos
     more_credits: Avise al dueño del proyecto que compre créditos
+  verification:
+    subject: Tu cuenta ha sido verificada
+    title: Tu cuenta ha sido verificada
+    message: Tu cuenta ha sido verificada y ya puede comprar créditos
+    link_text: Comprar créditos
+    subject_deny: Tu cuenta ha sido denegada
+    title_deny: Tu cuenta ha sido denegada
+    message_deny: Se ha denegado la verificación de su cuenta. Póngase en contacto con el servicio de asistencia para obtener más información.
+    reason: Motivo de denegación
+    profile: Denegar perfil
+    reason_message: Tu mensaje
