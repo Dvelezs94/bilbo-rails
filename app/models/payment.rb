@@ -34,6 +34,7 @@ class Payment < ApplicationRecord
       credits_total = JSON.pretty_generate(details.params["PaymentDetails"]["PaymentDetailsItem"])
       #puts get_bilbo_hash_quantity(JSON.parse(credits_total))
       self.total = get_bilbo_hash_quantity(JSON[credits_total]).to_i
+      self.transaction_fee = payment_fee(self.total)
       self.first_name = details.params["first_name"]
       self.last_name = details.params["last_name"]
       self.express_payer_id = details.payer_id

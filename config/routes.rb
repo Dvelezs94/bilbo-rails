@@ -127,5 +127,12 @@ Rails.application.routes.draw do
       get :fetch
     end
   end
+
+  resource :external_sources, only: [:setup] do
+    member do
+      get :setup
+      post :configure
+    end
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
