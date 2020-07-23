@@ -1,0 +1,17 @@
+= render 'devise/shared/header'
+
+.content.content-fixed.content-auth-alt
+  .container.ht-100p.tx-center
+    .ht-100p.d-flex.flex-column.align-items-center.justify-content-center
+      .wd-70p.wd-sm-250.wd-lg-300.mg-b-15.d-flex.align-items-center
+        = image_tag("humaaans/illustration_campaign.svg") 
+      = form_for("", url: configure_external_sources_path, method: :post, :html => { autocomplete: "off", class: "col-8" }) do |f|
+        .form-group
+          = f.text_field :board_slug, class: "form-control", required: true, autofocus: true, placeholder: "Introduce el ID del bilbo. Lo podrás encontrar en tu panel de administración"
+        .form-group
+          = f.password_field :board_token, class: "form-control", required: true, placeholder: "Introduce el token de acceso"
+        = f.submit "Proceder", class: "btn btn-primary pd-x-30"
+      %span.tx-12.tx-color-03.mg-t-20
+        Si tienes problemas al configurar tu pantalla haz 
+        %a{:href => "https://www.freepik.com/free-photos-vectors/business"} click aquí
+  / container

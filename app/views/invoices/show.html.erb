@@ -19,9 +19,9 @@
       <div class="col-sm-6">
         <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03">Billed From</label>
         <h6 class="tx-15 mg-b-10">Bilbo</h6>
-        <p class="mg-b-0">Manuel Perez Trevino 404, Colonia Los Pinos 4 Sector, Saltillo. Coah.</p>
+        <p class="mg-b-0">Salvador Gonzalez Lobo 529 Col. República Oriente, Saltillo. Coah.</p>
         <p class="mg-b-0">Tel No: +52 844 688 20 30</p>
-        <p class="mg-b-0">Email: info@mybilbo.com</p>
+        <p class="mg-b-0">Email: contacto@bilbo.mx</p>
       </div><!-- col -->
       <div class="col-sm-6 tx-right d-none d-md-block">
         <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03"><%= t("invoices.number") %></label>
@@ -81,17 +81,17 @@
             <span>Sub-Total</span>
             <span><%= number_to_currency_usd(@invoice.payment.total) %></span>
           </li>
-          <!-- <li class="d-flex justify-content-between">
-            <span>Tax (5%)</span>
-            <span>$287.50</span>
-          </li>
           <li class="d-flex justify-content-between">
+            <span>Transaction Fee</span>
+            <span><%= number_to_currency_usd(@invoice.payment.transaction_fee) %></span>
+          </li>
+          <!-- <li class="d-flex justify-content-between">
             <span>Discount</span>
             <span>-$50.00</span>
           </li> -->
           <li class="d-flex justify-content-between">
             <strong>Total</strong>
-            <strong><%= number_to_currency_usd(@invoice.payment.total) %></strong>
+            <strong><%= number_to_currency_usd((@invoice.payment.total + @invoice.payment.transaction_fee)) %></strong>
           </li>
         </ul>
       </div><!-- col -->
