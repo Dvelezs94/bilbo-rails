@@ -25,6 +25,14 @@ class Board < ApplicationRecord
     ]
   end
 
+  def self.search(search_board)
+    if search_board
+      where('name LIKE ?', "%#{search_board}%")
+    else
+      all
+    end
+  end
+
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
   # and the user is not able to click the marker because it is a cluster
   def self.get_map_markers
