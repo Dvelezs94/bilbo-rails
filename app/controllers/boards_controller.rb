@@ -193,7 +193,11 @@ class BoardsController < ApplicationController
   end
 
   def get_board
-    @board = @project.boards.friendly.find(params[:id])
+    if current_user.is_admin?
+      @board = Board.friendly.find(params[:id])
+    else
+      @board = @project.boards.friendly.find(params[:id])
+    end
   end
 
   def allow_iframe_requests
