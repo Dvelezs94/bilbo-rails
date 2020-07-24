@@ -29,6 +29,6 @@ class ExternalSourcesController < ApplicationController
     end
 
     def redirect_to_board
-      redirect_to board_path(cookies.signed[:board_slug], access_token: cookies.signed[:board_token])
+      redirect_to board_path(cookies.signed[:board_slug], access_token: cookies.signed[:board_token], autoplay: true)
     end
 end
