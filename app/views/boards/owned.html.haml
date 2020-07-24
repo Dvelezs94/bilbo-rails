@@ -14,6 +14,12 @@
         %h4.mg-b-0.tx-spacing--1
         = t("header.my_bilbos")
 
+      = form_tag owned_boards_path, method: 'get' do
+        .search-form
+          = text_field_tag :search_board, params[:search_board], placeholder: "#{t("input.search")} Bilbo", class: "form-control"
+          %button.btn{:type => "submit"}
+            %i.fe.fe-search
+
     .row.row-xs
       = render partial: "boards/provider/board_row", collection: @boards, as: :board
       .col-12

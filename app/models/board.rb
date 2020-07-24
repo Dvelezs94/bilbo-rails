@@ -16,13 +16,27 @@ class Board < ApplicationRecord
   validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
   after_create :generate_qr_code
   after_create :update_ad_rotation
-  after_create :update_aspect_ratio
+  before_create :calculate_aspect_ratio
+  before_save  do
+    if width_changed? || height_changed?
+      calculate_aspect_ratio
+    end
+  end
+
   # slug candidates for friendly id
   def slug_candidates
     [
       ["bilbo", :name],
       ["bilbo", :name, :address]
     ]
+  end
+
+  def self.search(search_board)
+    if search_board
+      where('name LIKE ?', "%#{search_board}%")
+    else
+      all
+    end
   end
 
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
@@ -158,12 +172,12 @@ class Board < ApplicationRecord
   end
 
   private
-  def update_aspect_ratio
+  def calculate_aspect_ratio
     width = (self.width * 100).round(0)
     height = (self.height * 100).round(0)
     mcd = width.gcd(height)
     ar = (width/mcd).to_s + ":" + (height/mcd).to_s
-    self.update!(aspect_ratio: ar)
+    self.aspect_ratio = ar
   end
 
   def generate_access_token

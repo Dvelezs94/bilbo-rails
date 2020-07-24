@@ -4,7 +4,6 @@ class BoardsController < ApplicationController
   before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image]
   before_action :restrict_access, only: :show
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
-  before_action :get_provider_boards, only: :owned
   before_action :allow_iframe_requests, only: :map_frame
 
   def index
@@ -53,6 +52,7 @@ class BoardsController < ApplicationController
 
   # provider boards
   def owned
+    @boards = @project.boards.search(params[:search_board]).order(created_at: :desc).page(params[:page])
   end
 
   def show
@@ -173,10 +173,6 @@ class BoardsController < ApplicationController
     @banned_boards = Board.banned
   end
 
-  def get_provider_boards
-    @boards = @project.boards.order(created_at: :desc).page(params[:page])
-  end
-
   def get_boards
     if current_user.is_provider?
       @boards = @project.boards
@@ -197,7 +193,11 @@ class BoardsController < ApplicationController
   end
 
   def get_board
-    @board = Board.friendly.find(params[:id])
+    if current_user.is_admin?
+      @board = Board.friendly.find(params[:id])
+    else
+      @board = @project.boards.friendly.find(params[:id])
+    end
   end
 
   def allow_iframe_requests
