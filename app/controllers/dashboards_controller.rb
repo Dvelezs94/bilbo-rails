@@ -27,7 +27,7 @@ class DashboardsController < ApplicationController
       @monthly_earnings = Board.monthly_earnings_by_board(@project, @start_date..@end_date)
       @monthly_impressions = Board.monthly_impressions(@project, @start_date..@end_date)
       @tops = Board.top_campaigns(@project, @start_date..@end_date).first(3)
-      @substraction_tops= Impression.joins(:campaign,:board).where(boards: {project: @project}, created_at: @start_date..@end_date).sum(:total_price)
+      @substraction_tops = Impression.joins(:campaign,:board).where(boards: {project: @project}, created_at: @start_date..@end_date).sum(:total_price)
       @tops_four = Board.top_campaigns(@project, @start_date..@end_date).first(4)
       @percentage = Board.top_campaigns(@project, @start_date..@end_date).each.map{|p| p[1]}.sum
       @substraction = Board.top_campaigns(@project, @start_date..@end_date).each.map{|p| p[1]}.sum-@tops.each.map{|p| p[1]}.sum
@@ -43,7 +43,7 @@ class DashboardsController < ApplicationController
       if @tops_four.length > 3
         @others = @tops.push([I18n.t('dashboards.others'), @substraction])
         @percentage_top_4 = '%.2f' %(100.to_f - @percentage_top_1.to_f - @percentage_top_2.to_f - @percentage_top_3.to_f)
-        @others_earnings=@substraction_tops - @tops.first[2]-@tops.second[2]-@tops.third[2]
+        @others_earnings = @substraction_tops - @tops.first[2] - @tops.second[2] - @tops.third[2]
       end
     else
       @daily_impressions = @project.daily_provider_board_impressions().group_by_day(:created_at).count
@@ -52,7 +52,7 @@ class DashboardsController < ApplicationController
       @monthly_earnings = Board.monthly_earnings_by_board(@project)
       @monthly_impressions = Board.monthly_impressions(@project)
       @tops = Board.top_campaigns(@project).first(3)
-      @substraction_tops= Impression.joins(:campaign,:board).where(boards: {project: @project}, created_at: 30.days.ago..Time.now).sum(:total_price)
+      @substraction_tops = Impression.joins(:campaign, :board).where(boards: {project: @project}, created_at: 30.days.ago..Time.now).sum(:total_price)
       @tops_four = Board.top_campaigns(@project).first(4)
       @percentage = Board.top_campaigns(@project).each.map{|p| p[1]}.sum
       @substraction = Board.top_campaigns(@project).each.map{|p| p[1]}.sum-@tops.each.map{|p| p[1]}.sum
@@ -68,7 +68,7 @@ class DashboardsController < ApplicationController
       if @tops_four.length > 3
         @others = @tops.push([I18n.t('dashboards.others'), @substraction])
         @percentage_top_4 = '%.2f' %(100.to_f - @percentage_top_1.to_f - @percentage_top_2.to_f - @percentage_top_3.to_f)
-        @others_earnings=@substraction_tops - @tops.first[2]-@tops.second[2]-@tops.third[2]
+        @others_earnings = @substraction_tops - @tops.first[2] - @tops.second[2] - @tops.third[2]
       end
     end
   end
