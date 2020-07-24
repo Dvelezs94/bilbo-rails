@@ -10,24 +10,24 @@
         .d-flex.align-items-center
           .wd-10.ht-10.bg-primary.rounded-circle.pos-relative.t--1
           %span.tx-medium.mg-l-10{:title => "#{@tops.first[0] rescue ""}"}= truncate(@tops.first[0], length: 12) rescue "-"
-          %span.tx-rubik.mg-l-auto= number_to_currency_usd(@tops.first[1]) rescue "-"
+          %span.tx-rubik.mg-l-auto= number_to_currency_usd(@tops.first[2]) rescue "-"
           %span.wd-60.tx-right.tx-rubik.mg-l-5.tx-success
             #{@percentage_top_1}%
         .d-flex.align-items-center.mg-t-10
           .wd-10.ht-10.bg-danger.rounded-circle.pos-relative.t--1
           %span.tx-medium.mg-l-10{:title => "#{@tops.second[0] rescue ""}"}= truncate(@tops.second[0], length: 12) rescue "-"
-          %span.tx-rubik.mg-l-auto= number_to_currency_usd(@tops.second[1]) rescue "-"
+          %span.tx-rubik.mg-l-auto= number_to_currency_usd(@tops.second[2]) rescue "-"
           %span.wd-60.tx-right.tx-rubik.mg-l-5.tx-success
             #{@percentage_top_2}%
         .d-flex.align-items-center.mg-t-10
           .wd-10.ht-10.bg-warning.rounded-circle.pos-relative.t--1
           %span.tx-medium.mg-l-10{:title => "#{@tops.third[0] rescue ""}"}= truncate(@tops.third[0], length: 12) rescue "-"
-          %span.tx-rubik.mg-l-auto= number_to_currency_usd(@tops.third[1]) rescue "-"
+          %span.tx-rubik.mg-l-auto= number_to_currency_usd(@tops.third[2]) rescue "-"
           %span.wd-60.tx-right.tx-rubik.mg-l-5.tx-success
             #{@percentage_top_3}%
         .d-flex.align-items-center.mg-t-10
           .wd-10.ht-10.bg-success.rounded-circle.pos-relative.t--1
           %span.tx-medium.mg-l-10{:title => "#{@tops.fourth[0] rescue ""}"}= truncate(@tops.fourth[0], length: 12) rescue "-"
-          %span.tx-rubik.mg-l-auto= number_to_currency_usd(@tops.fourth[1]) rescue "-"
+          %span.tx-rubik.mg-l-auto= number_to_currency_usd(@others_earnings) rescue "-"
           %span.wd-60.tx-right.tx-rubik.mg-l-5.tx-success
             #{@percentage_top_4}%
