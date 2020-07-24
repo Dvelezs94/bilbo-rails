@@ -220,13 +220,14 @@ end
   # Board.top_campaigns(@project, Time.now)
   # Board.top_campaigns(@board, Time.now)
   def self.top_campaigns(id, time_range = 30.days.ago..Time.now, type = 1)
+    model = Impression.arel_table
     if type == 1
-        h = Impression.joins(:campaign, :board).where(boards: {project: id}, created_at: time_range).group('campaigns.name').count
+      h = Impression.joins(:campaign, :board).where(boards: {project: id}, created_at: time_range).group('campaigns.name').pluck("campaigns.name", model[:id].count, model[:total_price].sum)
     end
     if type == 2
-        h = Impression.joins(:campaign, :board).where(board_id: id, created_at: time_range).group('campaigns.name').count
+      h = Impression.joins(:campaign, :board).where(board_id: id, created_at: time_range).group('campaigns.name').pluck("campaigns.name", model[:id].count, model[:total_price].sum)
     end
-    h.sort_by {|k, v| -v}
+    h.sort_by{|n, c, s| -c}
   end
   # End provider functions
 
