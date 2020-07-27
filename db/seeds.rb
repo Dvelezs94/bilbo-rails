@@ -38,7 +38,7 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.base_earnings = Faker::Number.between(from: 40000, to: 200000)
             board.social_class = Faker::Number.between(from: 0, to: 3)
             board.start_time = Time.now
-            board.end_time = Time.now + rand(8).hours
+            board.end_time = Time.now + rand(-5..8).hours
 
           end
         end
