@@ -228,6 +228,8 @@ en:
     working_hours: Working hours
     start_time: On
     end_time: Off
+    hour: Hour
+    minute: Minute
     social_class: Clasification
     view_campaigns: View Campaigns
     search:
