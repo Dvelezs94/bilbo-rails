@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_14_222737) do
+ActiveRecord::Schema.define(version: 2020_07_27_153557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,11 +78,12 @@ ActiveRecord::Schema.define(version: 2020_07_14_222737) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
-    t.float "working_hours"
     t.string "qr"
     t.integer "social_class", default: 0
     t.string "default_image"
     t.string "aspect_ratio"
+    t.time "start_time"
+    t.time "end_time"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end

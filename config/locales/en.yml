@@ -226,6 +226,8 @@ en:
     ads_top: top four month creatives
     campaign_ads: Campaign creatives
     working_hours: Working hours
+    start_time: On
+    end_time: Off
     social_class: Clasification
     view_campaigns: View Campaigns
     search:
