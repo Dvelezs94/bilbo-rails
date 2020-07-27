@@ -59,7 +59,7 @@ class AdsController < ApplicationController
   end
 end
 
-  def wizard_fetch
+  def
     if @project.ads.find(params[:ad_id]).present?
       @ads_selected = @project.ads.find(params[:ad_id]).multimedia.attachments
       render  'wizard_fetch', :locals => {:obj => @ads_selected}
