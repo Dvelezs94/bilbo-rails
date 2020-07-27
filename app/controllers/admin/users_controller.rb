@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
   include MailerHelper
   access admin: :all
-  before_action :get_user, only: [:fetch, :verify, :deny]
+  before_action :get_user, only: [:fetch, :verify, :deny, :update_credit]
 
   def index
     case params[:role]
@@ -17,11 +17,24 @@ class Admin::UsersController < ApplicationController
     @users = User.where(roles: user_role)
   end
 
+  def update
+
+  end
+
   def fetch
     @user_verification = @user.verifications.where(status: ["pending", "accepted"]).first
     respond_to do |format|
         format.js
     end
+  end
+
+  def update_credit
+      if @user.update(credit_limit: params[:credit_limit])
+        flash[:success] = "creadits changed"
+      else
+        flash[:error] = "Could not update"
+      end
+      redirect_to admin_users_path(role: "user")
   end
 
   def verify
