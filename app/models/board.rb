@@ -171,11 +171,17 @@ class Board < ApplicationRecord
     return @new_width, @new_height
   end
   def working_hours #returns hours of difference
-    (end_time - start_time)/1.hour
+    working_minutes/60.0
   end
 
   def working_minutes #returns minutes of difference
-    (end_time - start_time)/1.minute
+    start_hours = start_time.strftime("%H").to_i
+    start_mins = start_time.strftime("%M").to_i
+    start_mins = start_hours * 60 + start_mins
+    end_hours = end_time.strftime("%H").to_i
+    end_mins = end_time.strftime("%M").to_i
+    end_mins = end_hours * 60 + end_mins
+    (end_mins - start_mins)
   end
   private
   def calculate_aspect_ratio
