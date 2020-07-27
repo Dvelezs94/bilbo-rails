@@ -229,6 +229,8 @@ es:
     working_hours: Horas activas
     start_time: Encendido
     end_time: Apagado
+    hour: Hora
+    minute: Minuto
     social_class: Clasificación
     view_campaigns: Ver Campañas
     search:

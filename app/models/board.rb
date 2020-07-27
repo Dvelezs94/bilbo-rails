@@ -175,14 +175,21 @@ class Board < ApplicationRecord
   end
 
   def working_minutes #returns minutes of difference
+    # if end time is less than the start time, i assume that the board is on until the next day
+    # if they are equal i assume is all day on
     start_hours = start_time.strftime("%H").to_i
     start_mins = start_time.strftime("%M").to_i
     start_mins = start_hours * 60 + start_mins
     end_hours = end_time.strftime("%H").to_i
     end_mins = end_time.strftime("%M").to_i
     end_mins = end_hours * 60 + end_mins
+    end_mins = end_mins + 1440 if end_mins <= start_mins # 1440 are the minutes in a day
     (end_mins - start_mins)
   end
+  def time_h_m(time)
+    time.strftime("%H:%M")
+  end
+
   private
   def total_cycles
     working_minutes*6
