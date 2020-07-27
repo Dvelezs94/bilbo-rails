@@ -13,7 +13,7 @@ class Board < ApplicationRecord
   before_save :generate_api_token, :if => :new_record?
   enum status: { enabled: 0, disabled: 1 }
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
-  validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
+  validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
   after_create :generate_qr_code
   after_create :update_ad_rotation
   before_create :calculate_aspect_ratio
@@ -127,7 +127,7 @@ class Board < ApplicationRecord
   # example a cycle could be of 10 seconds
   # this gives the price of a cycle in a bilbo
   def cycle_price(date = Time.now)
-    daily_seconds = working_hours * 3600
+    daily_seconds = working_minutes * 60
     total_days_in_month = date.end_of_month.day
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = calculate_max_earnings
@@ -170,7 +170,13 @@ class Board < ApplicationRecord
     end
     return @new_width, @new_height
   end
+  def working_hours #returns hours of difference
+    (end_time - start_time)/1.hour
+  end
 
+  def working_minutes #returns minutes of difference
+    (end_time - start_time)/1.minute
+  end
   private
   def calculate_aspect_ratio
     width = (self.width * 100).round(0)
@@ -255,6 +261,5 @@ end
   def to_s
     name
   end
-
 
 end
