@@ -184,6 +184,9 @@ class Board < ApplicationRecord
     (end_mins - start_mins)
   end
   private
+  def total_cycles
+    working_minutes*6
+  end
   def calculate_aspect_ratio
     width = (self.width * 100).round(0)
     height = (self.height * 100).round(0)
