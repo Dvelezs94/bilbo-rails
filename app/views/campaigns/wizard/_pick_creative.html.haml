@@ -1,0 +1,9 @@
+#dashboardWizard
+  %h3= t("campaign.wizard.pick_ad")
+  %section
+    = f.text_field :ad_id, :class => "d-none", required: true, readonly: true
+    %hr
+      .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+        .row.wizard-height
+          = render partial: "ads/new_ad_card"
+          = render partial: 'ads/overview_card', collection: @ads, as: :ad
