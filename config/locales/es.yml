@@ -153,6 +153,11 @@ es:
       budget: Presupuesto
       daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto se dividirá entre todos los bilbos equitativamente.
       campaign_duration: Duracion de la campaña
+      campaign_minute: Campaña por minuto 
+      campaign_minute_description: Esta opcion te permite escoger las impresiones que quieres que se muestren por minuto
+      campaign_hour: Campaña por hora 
+      campaign_hour_description: Con la opcion campaña por hora puedes escoger la hora en la que se muestran tus campañas
+      campaign_clasification: Tipo de campaña 
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha
       start_date: Fecha de Inicio
