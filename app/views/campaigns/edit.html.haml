@@ -16,7 +16,7 @@
       #dashboardWizard
         = render partial: "campaigns/wizard/pick_creative", locals: {f: f}
         = render partial: "campaigns/wizard/choose_bilbo", locals: {f: f}
-        = render partial: "campaigns/wizard/date_and_budget_provider", locals: {f: f}
+        = render partial: "campaigns/wizard/#{@campaign.clasification}", locals: {f: f}
         = render partial: "campaigns/wizard/summary", locals: {f: f}
 = render partial: "ads/new"
 = render 'campaign_offcanvas_wizard'
