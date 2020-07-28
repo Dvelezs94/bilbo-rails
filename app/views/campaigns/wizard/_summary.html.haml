@@ -1,0 +1,45 @@
+%h3= t('campaign.wizard.summary')
+%section
+    %hr
+    .row
+        .col-xl-6
+        %details{:open => "open"}
+            %summary
+            %strong
+                Bilbos (
+                %span#bilbosNum>
+                )
+            %ul#bilbosAddress{:style => "list-style: none;"}
+        %hr
+            %p
+            %strong Anuncio:
+            %br
+                %span#adName Ad Name
+                / <a href="/" target="_blank" id=""> <i class="fe fe-link-external tx-20"></i> </a>
+            %hr
+                %p
+                %strong Presupuesto Diario:
+                %br
+                    %span#dailyBudget Budget
+                    %i.fe.fe-wallet
+                %hr
+                    %p
+                    %strong Duracion de la campa&#xF1;a:
+                    %br
+                        %span#campaignStarts
+                        \-
+                        %span#campaignEnds
+        .divider-text.divider-vertical{"data-text" => "and"} Preview
+        .col-xl-5
+        .modal-body.pd-x-25.pd-sm-x-30.pd-t-40.pd-sm-t-20.pd-b-15.pd-sm-b-20
+            .nav-wrapper.mg-b-20.tx-13
+            %div
+                = select_tag "",options_for_select(@campaign_boards), onchange: "$('#parent-carousel').width(250); $('#parent-carousel').height(250); $('#parent-carousel').width($('option:selected', this).attr('new-width')); $('#parent-carousel').height($('option:selected', this).attr('new-height'));", class: 'custom-select wd-100p', id: "aspect_ratio_select"
+            / nav-wrapper
+            #parent-carousel.bg-dark{:style => " margin: 0 auto; display:block !important; height: 250px; width: 250px; display: inline-block; position: relative;"}
+            #carousel_wizard
+                / javascript carousel_wizard
+        / modal-body
+    = render 'campaign_offcanvas_wizard'
+    = render partial: 'ads/new'
+    = render partial: 'edit_map_filter'
