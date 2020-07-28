@@ -13,6 +13,7 @@ class Campaign < ApplicationRecord
   has_many :provider_invoices
   # status is for the
   enum status: { active: 0, inactive: 1 }
+  enum clasification: {budget: 0, per_minute: 1, per_hour: 2}
 
   # 'state' is for user desired state ser by the user, enabled or disabled
 

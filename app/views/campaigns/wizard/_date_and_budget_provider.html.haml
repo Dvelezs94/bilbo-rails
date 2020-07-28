@@ -1,20 +1,23 @@
 %h3= t('campaign.wizard.date_and_budget')
 %section
   %form
-    .divider-text= t('campaign.wizard.budget')
-    = hidden_field_tag :max_impressions, ''
-    %label.d-block= t('campaign.wizard.daily_budget_description')
-    .input-group.col-sm-12.col-md-6.col-xl-4.pd-x-0
-      .input-group-prepend
-        %span.input-group-text
-          %i.fe.fe-wallet
-      = f.text_field :budget, :class => "form-control input-number", required: true
-      %span#budget_error_message.d-none= t('campaign.minimum_budget_per_bilbo')
-      .input-group-append
-        %span.input-group-text.pd-t-0.pd-b-0.pd-l-0.pd-r-10{"data-placement" => "top", "data-toggle" => "tooltip", :title => ""}
-          = t('campaign.wizard.impressions_forecast')
-          %input#impressions.input-group-text.border-0.text-center.no-outline-focus.pd-l-0.pd-r-0.input-number_integer{:min => "1", :step => "1", :type => "number"}
-            %i.pd-l-5.fe.fe-desktop
+    .row.justify-content-xl-center
+      .card-deck
+        .card
+          .card-body
+            %h5.card-title= t('campaign.wizard.budget')
+            %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.daily_budget_description')
+            %button.btn.btn-outline-primary{type: "button"} Button
+        .card
+          .card-body
+            %h5.card-title= t('campaign.wizard.campaign_minute')
+            %h6.card-subtitle.mb-2.text-muted=t('campaign.wizard.campaign_minute_description')
+            %button.btn.btn-outline-primary{type: "button"} Button
+        .card
+          .card-body
+            %h5.card-title= t('campaign.wizard.campaign_hour')
+            %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.campaign_hour_description')
+            %button.btn.btn-outline-primary{type: "button"} Button
     .col-4
     .divider-text= t('campaign.wizard.campaign_duration')
     .form-row
