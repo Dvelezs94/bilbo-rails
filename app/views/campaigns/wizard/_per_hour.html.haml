@@ -4,12 +4,12 @@
     .row.justify-content-xl-center
     .divider-text= 'selecciona en que horas deseas que se muestren tus creativos' 
     .col-12.form-row.justify-content-xl-center
-      .quantity.col-3
+      .quantity{style: "margin-right: 10px;margin-left: 10px;"}
         %input#per_minute{:max => "9", :min => "1", :step => "1", :type => "number", :value => "1", :class => "form-control"}
-      = t('campaign.wizard.impresions_hour')
+      %span{style: "margin-top:10px;"}= t('campaign.wizard.impresions_hour')
       .quantity{style: "margin-right: 10px;margin-left: 20px;"}
         %input{:type => "time", :class => "form-control"}
-      = 'to'
+      %span{style: "margin-top:10px;"}= 'to'
       .quantity{style: "margin-right: 10px;margin-left: 20px;"}
         %input{:type => "time", :class => "form-control"}
     .col-4
