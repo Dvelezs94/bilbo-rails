@@ -35,7 +35,7 @@ module MailerHelper
         "email": "noreply@mybilbo.mx",
         "name": "Bilbo"
       },
-      "template_id": "d-d810424f384a47c1a187f980299f18d4"
+      "template_id": "d-dd5ac982aa61460a8ee8a8697839e46d"
     }
     dynamic_template_data_hash = data[:personalizations][0][:dynamic_template_data]
     merge_to_hash(dynamic_template_data_hash, :link, link) if link.present?
