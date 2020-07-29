@@ -1,20 +1,22 @@
 .divider-text= t('campaign.wizard.campaign_clasification')
-%a.link-02.col-sm-6.col-md-6.col-lg-4.col-xl-3.mg-b-20.pd-0.card-ad-link{:href => "#", :id => "budget"}
-  .actions.col-sm-12.col-md-15.pd-t-10
+%a.link-02.col-sm-12.col-md-6.col-lg-4.col-xl-3.mg-b-20.pd-0.card-ad-link{:href => "#", :id => "budget"}
+  .actions.col-sm-15.col-md-15.pd-t-10
     .card{:id => "budget_card"}
       .card-body
-        %h5.card-title= t('campaign.wizard.budget')
+        .marker.marker-ribbon.marker-primary.pos-absolute.t-10.l-0= t('campaign.wizard.most_popular')
+        %h5.card-title.mg-t-30= t('campaign.wizard.budget')
         %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.daily_budget_description')
 %a.link-02.col-sm-6.col-md-6.col-lg-4.col-xl-3.mg-b-20.pd-0.card-ad-link{:href => "#", :id => "per_minute"}
-  .actions.col-sm-12.col-md-15.pd-t-10
+  .actions.col-sm-15.col-md-15.pd-t-10
     .card
       .card-body
         %h5.card-title= t('campaign.wizard.campaign_minute')
         %h6.card-subtitle.mb-2.text-muted=t('campaign.wizard.campaign_minute_description')
 %a.link-02.col-sm-6.col-md-6.col-lg-4.col-xl-3.mg-b-20.pd-0.card-ad-link{:href => "#", :id => "per_hour"}
-  .actions.col-sm-12.col-md-15.pd-t-10
+  .actions.col-sm-15.col-md-15.pd-t-10
     .card
       .card-body
         %h5.card-title= t('campaign.wizard.campaign_hour')
         %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.campaign_hour_description')
         = f.hidden_field :clasification, {:value => "budget", :id => "typeCampaign"}
+

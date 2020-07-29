@@ -1,23 +1,17 @@
-%h3= t('campaign.wizard.date_and_budget')
+%h3= t('campaign.wizard.budget')
 %section
   %form
     .row.justify-content-xl-center
-      .card-deck
-        .card
-          .card-body
-            %h5.card-title= t('campaign.wizard.budget')
-            %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.daily_budget_description')
-            %button.btn.btn-outline-primary{type: "button"} PER_HOUR
-        .card
-          .card-body
-            %h5.card-title= t('campaign.wizard.campaign_minute')
-            %h6.card-subtitle.mb-2.text-muted=t('campaign.wizard.campaign_minute_description')
-            %button.btn.btn-outline-primary{type: "button"} PER_HOUR
-        .card
-          .card-body
-            %h5.card-title= t('campaign.wizard.campaign_hour')
-            %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.campaign_hour_description')
-            %button.btn.btn-outline-primary{type: "button"} PER_HOUR
+    .divider-text= 'selecciona en que horas deseas que se muestren tus creativos' 
+    .col-12.form-row.justify-content-xl-center
+      .quantity.col-3
+        %input#per_minute{:max => "9", :min => "1", :step => "1", :type => "number", :value => "1", :class => "form-control"}
+      = t('campaign.wizard.impresions_hour')
+      .quantity{style: "margin-right: 10px;margin-left: 20px;"}
+        %input{:type => "time", :class => "form-control"}
+      = 'to'
+      .quantity{style: "margin-right: 10px;margin-left: 20px;"}
+        %input{:type => "time", :class => "form-control"}
     .col-4
     .divider-text= t('campaign.wizard.campaign_duration')
     .form-row

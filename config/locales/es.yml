@@ -149,8 +149,13 @@ es:
       pick_ad: Elige tu Creativo
       need_help: ¿Necesitas Ayuda?
       date_and_budget: Fecha y Presupuesto
+      per_hour: Por Hora
+      per_minute: Por minuto
+      impresions: Impresiones cada
+      minute: Minutos
       payment_details: Detalles de Pago
       budget: Presupuesto
+      most_popular: Más popular
       daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto se dividirá entre todos los bilbos equitativamente.
       campaign_duration: Duracion de la campaña
       campaign_minute: Campaña por minuto 
