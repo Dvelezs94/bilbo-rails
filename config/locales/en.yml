@@ -153,7 +153,7 @@ en:
       campaign_duration: Campaign Duration
       campaign_minute: Campaign per minute 
       campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
-      campaign_hour: Campaña per hour
+      campaign_hour: Campaign per hour
       campaign_hour_description: With this option, you can program you're campaigns in an specific hour 
       campaign_clasification: Type of campaign 
       ongoing_campaign: Ongoing Campaign
