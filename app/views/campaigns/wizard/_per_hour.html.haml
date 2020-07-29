@@ -1,0 +1,33 @@
+%h3= t('campaign.wizard.date_and_budget')
+%section
+  %form
+    .row.justify-content-xl-center
+      .card-deck
+        .card
+          .card-body
+            %h5.card-title= t('campaign.wizard.budget')
+            %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.daily_budget_description')
+            %button.btn.btn-outline-primary{type: "button"} PER_HOUR
+        .card
+          .card-body
+            %h5.card-title= t('campaign.wizard.campaign_minute')
+            %h6.card-subtitle.mb-2.text-muted=t('campaign.wizard.campaign_minute_description')
+            %button.btn.btn-outline-primary{type: "button"} PER_HOUR
+        .card
+          .card-body
+            %h5.card-title= t('campaign.wizard.campaign_hour')
+            %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.campaign_hour_description')
+            %button.btn.btn-outline-primary{type: "button"} PER_HOUR
+    .col-4
+    .divider-text= t('campaign.wizard.campaign_duration')
+    .form-row
+      .col-12
+        .custom-control.custom-radio
+          %input#date_campaign.custom-control-input{:name => "customRadio", :type => "radio", :checked => "#{'true' if !@campaign.ongoing?}"}/
+          %label.custom-control-label{:for => "date_campaign"}= t('campaign.wizard.pick_date')
+        .custom-control.custom-radio
+          %input#ongoing_campaign.custom-control-input{:name => "customRadio", :type => "radio", :checked => "#{'true' if @campaign.ongoing?}"}/
+          %label.custom-control-label{:for => "ongoing_campaign"}= t('campaign.wizard.ongoing_campaign')
+      .col-12.form-row
+        .col-6= f.text_field :starts_at, :class => "form-control", placeholder: t('campaign.wizard.start_date')
+        .col-6= f.text_field :ends_at, :class => "form-control", placeholder: t('campaign.wizard.end_date')

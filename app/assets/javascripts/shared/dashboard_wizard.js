@@ -39,16 +39,17 @@ $(document).on('turbolinks:load', function () {
 
           if (currentIndex === 2) {
             // check if the user set a minimum of 50 per board
-            if (
-              parseInt($('#campaign_budget').val().replace(',', '')) /
-                parseInt($('#boards_counter').html()) >=
-              50
-            ) {
-              return true;
-            } else {
-              show_error($('#budget_error_message').html());
-              return false;
-            }
+            if($('#campaign_budget').length){
+              if (parseInt($('#campaign_budget').val().replace(',', '')) /
+                  parseInt($('#boards_counter').html()) >=
+                50
+              ) {
+                return true;
+              } else {
+                show_error($('#budget_error_message').html());
+                return false;
+              }
+
             var campaignbudget = $('#campaign_budget').parsley();
             var campaignstartsat = $('#campaign_starts_at').parsley();
             var campaignendsat = $('#campaign_ends_at').parsley();
@@ -70,6 +71,23 @@ $(document).on('turbolinks:load', function () {
               } else {
                 campaignbudget.validate();
               }
+            }}else {
+              //inicio
+              var campaignstartsat = $('#campaign_starts_at').parsley();
+              var campaignendsat = $('#campaign_ends_at').parsley();
+              if ($('#date_campaign').prop('checked')) {
+                if (
+                  campaignstartsat.isValid() &&
+                  campaignendsat.isValid()
+                ) {
+                  return true;
+                } else {
+                  campaignstartsat.validate();
+                  campaignendsat.validate();
+                }
+              }else{return true;}
+
+
             }
           }
           // Always allow step back to the previous step even if the current step is not valid.

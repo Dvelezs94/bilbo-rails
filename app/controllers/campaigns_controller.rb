@@ -124,12 +124,16 @@ class CampaignsController < ApplicationController
     @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?)) if @campaign_params[:boards].present?
     @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
     @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
-    @campaign_params[:budget] = @campaign_params[:budget].tr(",","").to_f
+    if @campaign_params[:budget].nil?
+      @campaign_params[:budget] = nil
+    else
+      @campaign_params[:budget] = @campaign_params[:budget].tr(",","").to_f
+    end
     @campaign_params
   end
 
   def create_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :clasification).merge(:project_id => @project.id)
     @campaign_params[:provider_campaign] = @project.owner.is_provider?.present?
     @campaign_params
   end
