@@ -100,7 +100,7 @@
             = form_tag update_credit_admin_user_path(user), method: "put" do
               .form-inline
                 .form-group
-                  = number_field_tag :credit_limit, nil, placeholder: '2000', class: 'form-control align-center', style:'width: 30%;'
+                  = number_field_tag :credit_limit, nil, placeholder: '2000', class: 'form-control', style:'width: 30%;'
                   = submit_tag "Update", class: 'btn btn-sm btn-outline-dark d-flex align-items-center mg-r-5 mg-l-10'
         .col-sm.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Notes
