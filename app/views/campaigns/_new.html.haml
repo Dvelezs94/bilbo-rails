@@ -1,4 +1,3 @@
-
 #modalNewCampaign.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document"}
     .modal-content
@@ -18,23 +17,9 @@
                   = f.label t("general_inputs.description")
                   %br/
                   = f.text_area :description, class: "form-control", value: "", autocomplete: "off", placeholder: t("general_inputs.description")
-                .divider-text= t('campaign.wizard.campaign_clasification') 
-                .actions.col-sm-12.col-md-15.pd-t-10
-                  .card
-                    .card-body
-                      %h5.card-title= t('campaign.wizard.budget')
-                      %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.daily_budget_description')
-                .actions.col-sm-12.col-md-15.pd-t-10      
-                  .card
-                    .card-body
-                      %h5.card-title= t('campaign.wizard.campaign_minute')
-                      %h6.card-subtitle.mb-2.text-muted=t('campaign.wizard.campaign_minute_description')
-                .actions.col-sm-12.col-md-15.pd-t-10      
-                  .card
-                    .card-body
-                      %h5.card-title= t('campaign.wizard.campaign_hour')
-                      %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.campaign_hour_description')
-                  .actions.col-sm-12.col-md-6.m-auto.pd-t-50
-                  = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block"
+                -if current_user.is_provider?
+                  = render partial: "campaigns/clasification", locals:{f: f }
+                .actions.col-sm-12.col-md-6.m-auto.pd-t-10
+                = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block"
       .modal-footer
         %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
