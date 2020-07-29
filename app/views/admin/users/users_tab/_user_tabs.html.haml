@@ -93,20 +93,18 @@
         .col-sm-6.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Credit limit
           %p.mg-b-0
-            = user.credit_limit
+            $#{user.credit_limit}
         .col-sm-6.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Credit limit
           %p.mg-b-0
             = form_tag update_credit_admin_user_path(user), method: "put" do
               .form-inline
-                .form-group.mx-sm-3.mb-2
-                  = number_field_tag :credit_limit, nil, placeholder: '2000', class: 'form-control', style:'width: 50%;'
-                  = submit_tag "Update", class: 'btn btn-sm btn-outline-info d-flex align-items-center mg-r-5 mg-l-10'
+                .form-group
+                  = number_field_tag :credit_limit, nil, placeholder: '2000', class: 'form-control align-center', style:'width: 30%;'
+                  = submit_tag "Update", class: 'btn btn-sm btn-outline-dark d-flex align-items-center mg-r-5 mg-l-10'
         .col-sm.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Notes
           %p.tx-13.mg-b-0 It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
-
-
   - if user.is_provider?
     .divider-text Boards
     .row.row-xs
