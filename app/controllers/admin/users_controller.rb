@@ -17,10 +17,6 @@ class Admin::UsersController < ApplicationController
     @users = User.where(roles: user_role)
   end
 
-  def update
-
-  end
-
   def fetch
     @user_verification = @user.verifications.where(status: ["pending", "accepted"]).first
     respond_to do |format|
