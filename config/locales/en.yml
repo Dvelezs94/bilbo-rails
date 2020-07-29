@@ -147,7 +147,14 @@ en:
       pick_ad: Pick a creative
       need_help: Need help?
       date_and_budget: Date and Budget
+      per_hour: Per hour 
+      per_minute: Per minute
+      impresions: Impressions every
+      impresions_hour: Impressions from
+      minute: Minutes
+      Budget: Budget
       payment_details: Payment Details
+      most_popular: Most popular
       budget: Budget
       daily_budget_description: Budget for your chosen Bilbos. The budget will be dividided equally between all Bilbos.
       campaign_duration: Campaign Duration
