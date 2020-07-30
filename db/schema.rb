@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_28_185721) do
+ActiveRecord::Schema.define(version: 2020_07_30_170949) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,11 +119,11 @@ ActiveRecord::Schema.define(version: 2020_07_28_185721) do
     t.string "slug"
     t.datetime "state_updated_at"
     t.boolean "provider_campaign"
+    t.integer "clasification", default: 0
     t.integer "minutes"
-    t.integer "impressions"
+    t.integer "imp"
     t.time "hour_start"
     t.time "hour_finish"
-    t.integer "clasification", default: 0
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
