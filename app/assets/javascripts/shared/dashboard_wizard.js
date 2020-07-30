@@ -86,22 +86,10 @@ $(document).on('turbolinks:load', function () {
               //inicio
               var campaignstartsat = $('#campaign_starts_at').parsley();
               var campaignendsat = $('#campaign_ends_at').parsley();
-              var campaignimpressions = $('#impressionsPerMinute').parsley();
-              var campaignstarthour = $('#timePickerStart').parsley();
-              var campaignendshour = $('#timePickerEnd').parsley();
               if ($('#date_campaign').prop('checked')) {
-                if (
-                  campaignstartsat.isValid() &&
-                  campaignendsat.isValid() &&
-                  campaignimpressions.isValid() &&
-                  campaignstarthour.isValid() &&
-                  campaignendshour.isValid()
-                ) {
+                if (campaignstartsat.isValid() && campaignendsat.isValid()) {
                   return true;
                 } else {
-                  campaignimpressions.validate();
-                  campaignstarthour.validate();
-                  campaignendshour.validate();
                   campaignstartsat.validate();
                   campaignendsat.validate();
                 }
