@@ -21,7 +21,12 @@ class Notification < ApplicationRecord
   # notification.build_notification_body[:url] or notification.build_notification_body[:message]
   def build_notification_body
     translation = "notifications.#{notifiable_type}.#{action}".tr(' ', '_').downcase
-
+    if I18n.default_locale ==  :":es"
+      translate = :es
+    else
+      translate = :en
+    end
+    I18n.with_locale(translate) do
     case notifiable_type
     when "Campaign"
       case action
@@ -64,7 +69,7 @@ class Notification < ApplicationRecord
       end
     end
   end
-
+end
   def read!
     self.update(read_at: Time.now)
   end
