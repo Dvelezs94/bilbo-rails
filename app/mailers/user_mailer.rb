@@ -14,6 +14,7 @@ class UserMailer  < Devise::Mailer
   end
 
   def reset_password_instructions(record, token, opts={})
+    I18n.with_locale(I18n.default_locale) do
     @subject   = I18n.t('devise.mailer.reset_password_instructions.subject')
     @title     = @subject
     @greeting  = @subject
@@ -22,6 +23,7 @@ class UserMailer  < Devise::Mailer
     @message   = I18n.t('devise.mailer.reset_password_instructions.message', user_name: record.name, link: @link)
 
     generic_mail(subject=@subject, title=@title, greeting=@greeting, message=@message, receiver=record.email, link=@link, link_text=@link_text)
+  end
   end
 
   def invitation_instructions(record, token, opts={})

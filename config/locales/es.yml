@@ -50,7 +50,6 @@ es:
     export_csv: EXPORTAR A CSV
     print: IMPRIMIR
 
-
   nav_headers:
     users: Usuarios
     configuration: Configuración
@@ -86,8 +85,8 @@ es:
     description: Descripción
     created_at: Creado hace
     dimensions: Dimensiones
-    expected_profit: Ganancia Esperada
     size: Tamaño
+    expected_profit: Ganancia Esperada
     delete_confirmation: Seguro que quieres borrar este elemento?
     items_page: elementos/pagina
     edit: Editar Campaña
@@ -223,7 +222,8 @@ es:
     wallboard: Cartelon
     billboard: Espectacular
     provider: Correo del proveedor
-    earnings_description: Ultimos 3 meses de ganancias.
+    earnings_description: Ultimos 3 meses de ganancias
+    impressions_count_description: Ultimos 3 meses de impresiones
     ads_top: Creativos del top 4 durante 3 meses
     campaign_ads: Creativos de campañas
     working_hours: Horas activas
@@ -242,6 +242,7 @@ es:
     upload_multimedia: Subir Archivos
     all_multimedia_files: Todos los Archivos Multimedia
     delete_ad: Borrar creativo
+    no_ad: Ninguna creativo adjunto
     transition: Efecto de transición
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
@@ -309,11 +310,6 @@ es:
       go_to_invoices: Go to my Invoices
       invoice_subject: New invoice created for your campaign %{campaign_name}
       invoice_message: You have a new invoice for your campaign %{campaign_name} which is on your project %{project_name}. Click on the button below to view your invoices
-  notifications:
-    notifications: Notificaciones
-    view_all: Ver Todas
-    clear: Borrar
-    mark_as_read: Marcar como leído
   dashboards:
     export_to_csv: Exportar a CSV
     view_impressions: Ver Impresiones
