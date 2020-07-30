@@ -120,14 +120,18 @@ class CampaignsController < ApplicationController
 
   private
   def campaign_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :hour_start, :hour_finish, :imp, :minutes ).merge(:project_id => @project.id)
     @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?)) if @campaign_params[:boards].present?
     @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
     @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
-    if @campaign_params[:budget].nil?
-      @campaign_params[:budget] = nil
-    else
+    @campaign_params[:hour_start] = @campaign_params[:hour_start]
+    @campaign_params[:hour_finish] = @campaign_params[:hour_finish]
+
+    if @campaign_params[:budget].present?
       @campaign_params[:budget] = @campaign_params[:budget].tr(",","").to_f
+     
+    #else
+     # @campaign_params[:budget] = nil 
     end
     @campaign_params
   end

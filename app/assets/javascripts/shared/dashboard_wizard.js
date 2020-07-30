@@ -24,6 +24,15 @@ $(document).on('turbolinks:load', function () {
 
           // Step 2 form validation
           if (currentIndex === 1) {
+            if ($('#timePicker').length) {
+              var d = new Date(),
+                h = d.getHours(),
+                m = d.getMinutes();
+              if (h < 10) h = '0' + h;
+              if (m < 10) m = '0' + m;
+
+              $('#timePicker').attr({ value: h + ':' + m });
+            }
             calculateMaxImpressions();
             if ($('#impressions').length) {
               calculatebudget();
@@ -39,8 +48,9 @@ $(document).on('turbolinks:load', function () {
 
           if (currentIndex === 2) {
             // check if the user set a minimum of 50 per board
-            if($('#campaign_budget').length){
-              if (parseInt($('#campaign_budget').val().replace(',', '')) /
+            if ($('#campaign_budget').length) {
+              if (
+                parseInt($('#campaign_budget').val().replace(',', '')) /
                   parseInt($('#boards_counter').html()) >=
                 50
               ) {
@@ -50,44 +60,54 @@ $(document).on('turbolinks:load', function () {
                 return false;
               }
 
-            var campaignbudget = $('#campaign_budget').parsley();
-            var campaignstartsat = $('#campaign_starts_at').parsley();
-            var campaignendsat = $('#campaign_ends_at').parsley();
-            if ($('#date_campaign').prop('checked')) {
-              if (
-                campaignbudget.isValid() &&
-                campaignstartsat.isValid() &&
-                campaignendsat.isValid()
-              ) {
-                return true;
-              } else {
-                campaignbudget.validate();
-                campaignstartsat.validate();
-                campaignendsat.validate();
-              }
-            } else {
-              if (campaignbudget.isValid()) {
-                return true;
-              } else {
-                campaignbudget.validate();
-              }
-            }}else {
-              //inicio
+              var campaignbudget = $('#campaign_budget').parsley();
               var campaignstartsat = $('#campaign_starts_at').parsley();
               var campaignendsat = $('#campaign_ends_at').parsley();
               if ($('#date_campaign').prop('checked')) {
                 if (
+                  campaignbudget.isValid() &&
                   campaignstartsat.isValid() &&
                   campaignendsat.isValid()
                 ) {
                   return true;
                 } else {
+                  campaignbudget.validate();
                   campaignstartsat.validate();
                   campaignendsat.validate();
                 }
-              }else{return true;}
-
-
+              } else {
+                if (campaignbudget.isValid()) {
+                  return true;
+                } else {
+                  campaignbudget.validate();
+                }
+              }
+            } else {
+              //inicio
+              var campaignstartsat = $('#campaign_starts_at').parsley();
+              var campaignendsat = $('#campaign_ends_at').parsley();
+              var campaignimpressions = $('#impressionsPerMinute').parsley();
+              var campaignstarthour = $('#timePickerStart').parsley();
+              var campaignendshour = $('#timePickerEnd').parsley();
+              if ($('#date_campaign').prop('checked')) {
+                if (
+                  campaignstartsat.isValid() &&
+                  campaignendsat.isValid() &&
+                  campaignimpressions.isValid() &&
+                  campaignstarthour.isValid() &&
+                  campaignendshour.isValid()
+                ) {
+                  return true;
+                } else {
+                  campaignimpressions.validate();
+                  campaignstarthour.validate();
+                  campaignendshour.validate();
+                  campaignstartsat.validate();
+                  campaignendsat.validate();
+                }
+              } else {
+                return true;
+              }
             }
           }
           // Always allow step back to the previous step even if the current step is not valid.
