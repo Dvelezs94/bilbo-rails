@@ -81,12 +81,12 @@
 
 <div class="form-group">
   <%= f.label t("bilbos.start_time") %><br/>
-  <%= f.time_select :start_time, required: true, prompt: {hour:  t("bilbos.hour"), minute: t("bilbos.minute")}%>
+  <%= f.time_field :start_time, class: "form-control", required: true %>
 </div>
 
 <div class="form-group">
   <%= f.label t("bilbos.end_time") %><br/>
-  <%= f.time_select :end_time, required: true, prompt: {hour:  t("bilbos.hour"), minute: t("bilbos.minute")} %>
+  <%= f.time_field :end_time, class: "form-control", required: true %>
 </div>
 
 

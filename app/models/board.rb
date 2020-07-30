@@ -127,7 +127,7 @@ class Board < ApplicationRecord
   # example a cycle could be of 10 seconds
   # this gives the price of a cycle in a bilbo
   def cycle_price(date = Time.now)
-    daily_seconds = working_minutes * 60
+    daily_seconds = working_minutes(start_time, end_time) * 60
     total_days_in_month = date.end_of_month.day
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = calculate_max_earnings
@@ -170,20 +170,21 @@ class Board < ApplicationRecord
     end
     return @new_width, @new_height
   end
-  def working_hours #returns hours of difference
-    working_minutes/60.0
+  def working_hours(st,et, zero_if_equal = false) #returns hours of difference
+    working_minutes(st,et,zero_if_equal)/60.0
   end
 
-  def working_minutes #returns minutes of difference
+  def working_minutes(st,et, zero_if_equal = false) #returns minutes of difference
     # if end time is less than the start time, i assume that the board is on until the next day
     # if they are equal i assume is all day on
-    start_hours = start_time.strftime("%H").to_i
-    start_mins = start_time.strftime("%M").to_i
+    start_hours = st.strftime("%H").to_i
+    start_mins = st.strftime("%M").to_i
     start_mins = start_hours * 60 + start_mins
-    end_hours = end_time.strftime("%H").to_i
-    end_mins = end_time.strftime("%M").to_i
+    end_hours = et.strftime("%H").to_i
+    end_mins = et.strftime("%M").to_i
     end_mins = end_hours * 60 + end_mins
-    end_mins = end_mins + 1440 if end_mins <= start_mins # 1440 are the minutes in a day
+    end_mins = end_mins + 1440 if end_mins < start_mins
+    end_mins = end_mins + 1440 if !zero_if_equal && end_mins == start_mins # 1440 are the minutes in a day
     (end_mins - start_mins)
   end
   def time_h_m(time)
