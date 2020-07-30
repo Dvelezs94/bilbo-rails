@@ -29,7 +29,6 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.avg_daily_views = Faker::Number.number(digits: 6)
             board.width = "#{Faker::Number.between(from: 10, to: 14)}.#{Faker::Number.between(from: 30, to: 90)}".to_f
             board.height = "#{Faker::Number.between(from: 7, to: 9)}.#{Faker::Number.between(from: 30, to: 90)}".to_f
-            board.working_hours = Faker::Number.within(range: 5..16)
             board.duration = Faker::Number.within(range: 7..10)
             board.status = Faker::Number.between(from: 0, to: 1)
             board.face = ["north", "south", "east", "west"].sample
@@ -38,6 +37,9 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.category = ["television", "billboard", "wallboard"].sample
             board.base_earnings = Faker::Number.between(from: 40000, to: 200000)
             board.social_class = Faker::Number.between(from: 0, to: 3)
+            board.start_time = Time.now
+            board.end_time = Time.now + rand(-300..480).minutes
+
           end
         end
       end

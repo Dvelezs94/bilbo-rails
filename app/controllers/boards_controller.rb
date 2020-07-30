@@ -152,9 +152,10 @@ class BoardsController < ApplicationController
                                   :lng,
                                   :address,
                                   :category,
+                                  :start_time,
+                                  :end_time,
                                   :face,
                                   :base_earnings,
-                                  :working_hours,
                                   :social_class,
                                   :default_image,
                                   images: []

@@ -237,6 +237,10 @@ es:
     ads_top: Creativos del top 4 durante 3 meses
     campaign_ads: Creativos de campañas
     working_hours: Horas activas
+    start_time: Encendido
+    end_time: Apagado
+    hour: Hora
+    minute: Minuto
     social_class: Clasificación
     view_campaigns: Ver Campañas
     search:

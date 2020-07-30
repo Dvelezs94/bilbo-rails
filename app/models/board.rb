@@ -13,7 +13,7 @@ class Board < ApplicationRecord
   before_save :generate_api_token, :if => :new_record?
   enum status: { enabled: 0, disabled: 1 }
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
-  validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
+  validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
   after_create :generate_qr_code
   after_create :update_ad_rotation
   before_create :calculate_aspect_ratio
@@ -127,7 +127,7 @@ class Board < ApplicationRecord
   # example a cycle could be of 10 seconds
   # this gives the price of a cycle in a bilbo
   def cycle_price(date = Time.now)
-    daily_seconds = working_hours * 3600
+    daily_seconds = working_minutes(start_time, end_time) * 60
     total_days_in_month = date.end_of_month.day
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = calculate_max_earnings
@@ -170,8 +170,31 @@ class Board < ApplicationRecord
     end
     return @new_width, @new_height
   end
+  def working_hours(st,et, zero_if_equal = false) #returns hours of difference
+    working_minutes(st,et,zero_if_equal)/60.0
+  end
+
+  def working_minutes(st,et, zero_if_equal = false) #returns minutes of difference
+    # if end time is less than the start time, i assume that the board is on until the next day
+    # if they are equal i assume is all day on
+    start_hours = st.strftime("%H").to_i
+    start_mins = st.strftime("%M").to_i
+    start_mins = start_hours * 60 + start_mins
+    end_hours = et.strftime("%H").to_i
+    end_mins = et.strftime("%M").to_i
+    end_mins = end_hours * 60 + end_mins
+    end_mins = end_mins + 1440 if end_mins < start_mins
+    end_mins = end_mins + 1440 if !zero_if_equal && end_mins == start_mins # 1440 are the minutes in a day
+    (end_mins - start_mins)
+  end
+  def time_h_m(time)
+    time.strftime("%H:%M")
+  end
 
   private
+  def total_cycles
+    working_minutes*6
+  end
   def calculate_aspect_ratio
     width = (self.width * 100).round(0)
     height = (self.height * 100).round(0)
@@ -255,6 +278,5 @@ end
   def to_s
     name
   end
-
 
 end

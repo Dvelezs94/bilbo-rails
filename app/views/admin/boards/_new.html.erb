@@ -107,8 +107,13 @@
               </div>
 
               <div class="form-group">
-                <%= f.label t("bilbos.working_hours") %><br/>
-                <%= f.text_field :working_hours, class: "form-control", autocomplete: "off", required: true, placeholder: "12" %>
+                <%= f.label t("bilbos.start_time") %><br/>
+                <%= f.time_field :start_time, class: "form-control", required: true %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label t("bilbos.end_time") %><br/>
+                <%= f.time_field :end_time, class: "form-control", required: true %>
               </div>
 
                <div class="form-group">
