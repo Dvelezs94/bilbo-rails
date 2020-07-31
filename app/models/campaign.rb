@@ -2,6 +2,7 @@ class Campaign < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include BroadcastConcern
   extend FriendlyId
+  attr_accessor :boards_new
   friendly_id :name, use: :slugged
 
   belongs_to :project
@@ -24,7 +25,7 @@ class Campaign < ApplicationRecord
   # validates :ad, presence: true, on: :update
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
-  validate :test_ad_rotation
+  validate :test_for_valid_settings
   #validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
@@ -53,7 +54,11 @@ class Campaign < ApplicationRecord
 
   # distribute budget evenly between all bilbos
   def budget_per_bilbo
-    self.budget / boards.count
+    puts "BOARDS NEW"*10
+    puts boards_new.inspect
+    puts "BOARDS OLD"
+    puts boards.inspect
+    self.budget / boards.length
   end
 
   def should_run?
@@ -163,16 +168,16 @@ class Campaign < ApplicationRecord
     name
   end
 
-  def test_ad_rotation
+  def test_for_valid_settings
     if provider_campaign && state
-      new_c = self
-      new_c[:id] = "test"
       boards.each do |b|
-        _,err = b.build_ad_rotation(new_c)
-        err.each do |e|
-          errors.add(:base, e)
+        valid,err = b.test_ad_rotation(self)
+        if !valid
+          err.each do |e|
+            errors.add(:base, e)
+          end
+          break
         end
-        break if err.any?
       end
     end
   end
