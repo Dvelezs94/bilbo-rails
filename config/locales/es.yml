@@ -158,11 +158,11 @@ es:
       most_popular: Más popular
       daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto se dividirá entre todos los bilbos equitativamente.
       campaign_duration: Duracion de la campaña
-      campaign_minute: Campaña por minuto 
+      campaign_minute: Campaña por minuto
       campaign_minute_description: Esta opcion te permite escoger las impresiones que quieres que se muestren por minuto
-      campaign_hour: Campaña por hora 
+      campaign_hour: Campaña por hora
       campaign_hour_description: Con la opcion campaña por hora puedes escoger la hora en la que se muestran tus campañas
-      campaign_clasification: Tipo de campaña 
+      campaign_clasification: Tipo de campaña
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha
       start_date: Fecha de Inicio
@@ -243,6 +243,15 @@ es:
     minute: Minuto
     social_class: Clasificación
     view_campaigns: Ver Campañas
+    ads_rotation_error:
+      max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo %{name}
+      max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
+      max_hour_impressions: No se pueden hacer más de %{number} impresiones dentro de tus horas seleccionadas
+      before_power_on: La hora de inicio de la campaña no puede estar programada antes de que el bilbo %{name} encienda
+      after_power_off: La hora límite sobrepasa la hora a la que el bilbo %{name} se apaga
+      hour_campaign_space: No hay espacio para las campañas por hora en %{name}
+      minute_campaign_space: No hay espacio para las campañas por minutos en %{name}
+      budget_campaign_space: No hay espacio para las campañas requeridas por presupuesto en %{name}
     search:
       location: Ubicación
       classification: Clasificación

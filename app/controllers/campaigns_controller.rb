@@ -92,7 +92,6 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = Campaign.new(create_params)
-    current_user.with_lock do
       if @campaign.save
         track_activity( action: 'campaign.campaign_created', activeness: @campaign)
         flash[:success] = I18n.t('campaign.action.saved')
@@ -100,7 +99,6 @@ class CampaignsController < ApplicationController
         flash[:error] = I18n.t('campaign.errors.no_save')
       end
       redirect_to edit_campaign_path(@campaign)
-    end
   end
 
   def destroy
@@ -127,7 +125,11 @@ class CampaignsController < ApplicationController
   private
   def campaign_params
     @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :hour_start, :hour_finish, :imp, :minutes ).merge(:project_id => @project.id)
-    @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?)) if @campaign_params[:boards].present?
+    if @campaign_params[:boards].present?
+      @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
+      @campaign_params[:boards_new] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
+    end
+
     @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
     @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
     @campaign_params[:hour_start] = @campaign_params[:hour_start]

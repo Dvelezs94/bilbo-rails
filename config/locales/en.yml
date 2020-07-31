@@ -147,7 +147,7 @@ en:
       pick_ad: Pick a creative
       need_help: Need help?
       date_and_budget: Date and Budget
-      per_hour: Per hour 
+      per_hour: Per hour
       per_minute: Per minute
       impressions: Impressions every
       impresions_hour: Impressions from
@@ -158,11 +158,11 @@ en:
       budget: Budget
       daily_budget_description: Budget for your chosen Bilbos. The budget will be dividided equally between all Bilbos.
       campaign_duration: Campaign Duration
-      campaign_minute: Campaign per minute 
+      campaign_minute: Campaign per minute
       campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
       campaign_hour: Campaign per hour
-      campaign_hour_description: With this option, you can program you're campaigns in an specific hour 
-      campaign_clasification: Type of campaign 
+      campaign_hour_description: With this option, you can program you're campaigns in an specific hour
+      campaign_clasification: Type of campaign
       ongoing_campaign: Ongoing Campaign
       pick_date: Choose Date
       start_date: Start Date
@@ -244,6 +244,15 @@ en:
     minute: Minute
     social_class: Clasification
     view_campaigns: View Campaigns
+    ads_rotation_error:
+      max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
+      max_minutes_impressions: No more than %{number} prints can be made in the given time
+      max_hour_impressions: No more tha n%{number} impressions can be made within your selected hours
+      before_power_on: Campaign start time cannot be scheduled before bilbo %{name} turns on
+      after_power_off: The cutoff time exceeds the time at which the bilbo %{name} turns off
+      hour_campaign_space: No space for hourly campaigns in %{name}
+      minute_campaign_space: No space for campaigns by minutes in %{name}
+      budget_campaign_space: No space for campaigns required by budget in %{name}
     search:
       location: Location
       classification: Classification
