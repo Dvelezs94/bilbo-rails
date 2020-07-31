@@ -81,12 +81,12 @@
 
 <div class="form-group">
   <%= f.label t("bilbos.start_time") %><br/>
-  <%= f.time_field :start_time, class: "form-control", required: true %>
+  <%= f.time_field :start_time, class: "form-control", required: true, value: board.start_time.strftime("%H:%M") %>
 </div>
 
 <div class="form-group">
   <%= f.label t("bilbos.end_time") %><br/>
-  <%= f.time_field :end_time, class: "form-control", required: true %>
+  <%= f.time_field :end_time, class: "form-control", required: true, value: board.end_time.strftime("%H:%M") %>
 </div>
 
 
