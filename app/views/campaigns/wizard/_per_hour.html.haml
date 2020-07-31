@@ -2,10 +2,10 @@
 %section
   %form
     .row.justify-content-xl-center
-    .divider-text= 'selecciona en que horas deseas que se muestren tus creativos' 
+    .divider-text= 'selecciona en que horas deseas que se muestren tus creativos'
     .col-12.form-row.justify-content-xl-center
       .quantity{style: "margin-right: 10px;margin-left: 10px;"}
-        = f.number_field :imp, {:id => "impressionsPerMinute", :max => "360", :min => "1", :step => "1", :class => "form-control", :required => true}
+        = f.number_field :imp, {:id => "impressionsPerMinute", :min => "1", :step => "1", :class => "form-control", :required => true}
       %span{style: "margin-top:10px;"}= t('campaign.wizard.impresions_hour')
       .quantity{style: "margin-right: 10px;margin-left: 20px;"}
         = f.time_field :hour_start, {:id => "timePickerStart", :class => "form-control", :required => true }

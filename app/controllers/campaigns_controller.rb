@@ -7,6 +7,7 @@ class CampaignsController < ApplicationController
   before_action :campaign_not_active, only: [:edit]
 
   def index
+
   end
 
   def provider_index
@@ -72,15 +73,15 @@ class CampaignsController < ApplicationController
           ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id)
         end
       end
-        format.html {
+        format.js {
           flash[:success] = I18n.t('campaign.action.updated')
           redirect_to campaigns_path
          }
         format.json { head :no_content }
       else
-        format.html {
-          flash[:error] = @campaign.errors.full_messages.first
-          redirect_to campaigns_path }
+        format.js {
+          #nothing, just view
+           }
         format.json { render json: @campaign.errors, status: :unprocessable_entity }
       end
     end
@@ -88,13 +89,17 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = Campaign.new(create_params)
-    if @campaign.save
-      track_activity( action: 'campaign.campaign_created', activeness: @campaign)
-      flash[:success] = I18n.t('campaign.action.saved')
-    else
-      flash[:error] = I18n.t('campaign.errors.no_save')
+    c_board_ids = @campaign.boards.pluck(:id)
+    Board.transaction do
+      boards = Board.lock.where(id: c_board_ids)
+      if @campaign.save
+        track_activity( action: 'campaign.campaign_created', activeness: @campaign)
+        flash[:success] = I18n.t('campaign.action.saved')
+      else
+        flash[:error] = I18n.t('campaign.errors.no_save')
+      end
+      redirect_to edit_campaign_path(@campaign)
     end
-    redirect_to edit_campaign_path(@campaign)
   end
 
   def destroy
@@ -129,9 +134,9 @@ class CampaignsController < ApplicationController
 
     if @campaign_params[:budget].present?
       @campaign_params[:budget] = @campaign_params[:budget].tr(",","").to_f
-     
+
     #else
-     # @campaign_params[:budget] = nil 
+     # @campaign_params[:budget] = nil
     end
     @campaign_params
   end

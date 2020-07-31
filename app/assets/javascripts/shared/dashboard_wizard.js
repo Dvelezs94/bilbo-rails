@@ -8,7 +8,7 @@ $(document).on('turbolinks:load', function () {
       titleTemplate:
         '<span class="number">#index#</span> <span class="title">#title#</span>',
       onFinished: function (event, currentIndex) {
-        $('.edit_campaign').submit();
+        $('.edit_campaign input[type=submit]').click();
       },
       onStepChanging: function (event, currentIndex, newIndex) {
         if (currentIndex < newIndex) {
