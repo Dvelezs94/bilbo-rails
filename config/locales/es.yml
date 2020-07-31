@@ -407,3 +407,10 @@ es:
     reason: Motivo de denegación
     profile: Denegar perfil
     reason_message: Tu mensaje
+  message:
+    title_generic: Campañas digitales en publicidad exterior.
+    message_generic: Bilbo es la plataforma de anuncios en medios out-of-home que te permite crear campañas y anuncios en cualquier pantalla digital con unos cuantos clicks.
+    social_networks: Redes Sociales.
+    contact: Contacto.
+    conditions: Recibiste este email porque te registraste a Bilbo.mx y aceptaste recibir correos electrónicos de nosotros sobre notificaciones y noticias.
+    home: Inicio

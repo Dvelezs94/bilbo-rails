@@ -84,6 +84,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  
+
   def get_locale_from_db
    if user_signed_in?
      current_user.locale.to_sym rescue false
