@@ -27,6 +27,12 @@ module MailerHelper
             "title": title,
             "greeting": greeting,
             "message": message,
+            "home": "#{t("message.home")}",
+            "message_generic": "#{t('message.message_generic')}",
+            "title_generic": "#{t('message.title_generic')}",
+            "social_networks": "#{t('message.social_networks')}",
+            "contact": "#{t('message.contact')}",
+            "conditions": "#{t('message.conditions')}",
             "preheader": preheader
           }
         }
