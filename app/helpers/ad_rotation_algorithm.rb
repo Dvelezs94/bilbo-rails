@@ -17,19 +17,21 @@ module AdRotationAlgorithm
     r_cps = self.campaigns.where(provider_campaign: true).to_a.select(&:should_run?).map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     r_cycles = []
 
-    per_time_cps = self.campaigns.where(provider_campaign: true).where.not(imp: nil, minutes: nil).to_a.select(&:should_run?).map{ |c| [ c.id,[c.imp, c.minutes] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
+    per_time_cps = self.campaigns.where(provider_campaign: true).where.not( minutes: nil).where.not(imp: nil).to_a.select(&:should_run?).map{ |c| [ c.id,[c.imp, c.minutes] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
-    h_cps = self.campaigns.where(provider_campaign: true).where.not(hour_start: nil, hour_finish: nil, imp: nil).to_a.select(&:should_run?).map{ |c| [ c.id,[c.imp, c.hour_start, c.hour_finish] ]}.to_h
+    h_cps = self.campaigns.where(provider_campaign: true).where.not(hour_start: nil).where.not(hour_finish: nil).where.not(imp: nil).to_a.select(&:should_run?).map{ |c| [ c.id,[c.imp, c.hour_start, c.hour_finish] ]}.to_h
     h_cps = sort_by_min_time(h_cps)
 
     #check if validation with new campaign (OPTIONAL!!)
-    if new_campaign.present? && new_campaign.hour_start.present?
-      err << ("La hora de inicio de la campaña no puede estar programada antes de que el bilbo "+ self.name + " encienda") if (self.start_time < self.end_time && new_campaign.hour_start.between?(self.start_time, self.end_time)) || ( self.start_time > self.end_time ) && !new_campaign.hour_start.between?(self.start_time, self.end_time)
-    end
+
     if new_campaign.present?
       if new_campaign.minutes.present?
         per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
       elsif new_campaign.hour_start.present?
+        if (self.start_time < self.end_time && !new_campaign.hour_start.between?(self.start_time, self.end_time)) || ( self.start_time > self.end_time ) && new_campaign.hour_start.between?(self.end_time, self.start_time)
+          err << ("La hora de inicio de la campaña no puede estar programada antes de que el bilbo "+ self.name + " encienda")
+          return output, err
+        end
         h_cps[new_campaign.id] = [new_campaign.imp, new_campaign.hour_start, new_campaign.hour_finish]
       elsif new_campaign.provider_campaign
         r_cps[new_campaign.id] = new_campaign.budget_per_bilbo/self.cycle_price
@@ -68,14 +70,18 @@ module AdRotationAlgorithm
 
        if la > t_cycles
           err << "La hora límite sobrepasa la hora a la que el bilbo " + self.name + " se apaga"
+          return output, err
            p "LA HORA FINAL DE LA campaña SOBREPASA LA HORA A LA QUE EL BILBO SE APAGA"
        end
-
-       err << ("No se pueden hacer más de " + reps.to_s + " impresiones en " + working_minutes(start_t, end_t).to_s + " minutos") if reps > working_minutes(start_t, end_t) * 6
-
+       wm = working_minutes(start_t, end_t)
+       if reps > wm * 6
+         err << ("No se pueden hacer más de " + (6*wm).to_s + " impresiones en " + wm.to_s + " minutos")
+         return output, err
+       end
        while c < reps do
             if fi==la
                 err << "No hay espacio para las campañas por hora en " + self.name
+                return output, err
                 p "NO HAY ESPACIO PARA LAS campañaS POR HORA"
                 break
             end
@@ -100,6 +106,7 @@ module AdRotationAlgorithm
 
     if sum + total_h> t_cycles
         err << "No hay espacio suficiente para las campañas por minutos en " + self.name
+        return output, err
         p "No hay espacio suficiente para las campañas por minutos"
         #abort
     end
@@ -131,12 +138,14 @@ module AdRotationAlgorithm
                       displays-=1
                     elsif arr.length<displays
                       err << "No hay espacio suficiente para las campañas por minutos en " + self.name
+                      return output, err
                       p "No se pudo mover ninguna campaña de h_cps"
                       break
                     end
                 end
                 if arr.length == 0 and displays > 0
                     err << "No hay espacio suficiente para las campañas por minutos en " + self.name
+                    return output, err
                     p "No hay espacio para los per_time_cps"
                 end
             end
@@ -148,7 +157,8 @@ module AdRotationAlgorithm
 
     if free_spaces < r_cycles.length
       err << "No hay espacio para las campañas requeridas por presupuesto en" + self.name
-        p "No hay espacio para las campañas requeridas por presupuesto"
+      return output, err
+      p "No hay espacio para las campañas requeridas por presupuesto"
     else
         n = [cycles.length, free_spaces - r_cycles.length].min
         cycles.shuffle!
@@ -174,6 +184,7 @@ module AdRotationAlgorithm
 
     ###### AUTOMATICALLY CHECK IF THE PROGRAM RAN CORRECTLY ##########
     # Check scheduled cps
+    p "FINAL DE EJECUCION"
     p "LA EJECUCION FUE EXITOSA" if err.empty?
     return output, err
   end
