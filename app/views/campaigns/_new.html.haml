@@ -8,7 +8,7 @@
         .row
           .col-12.m-auto
             .pd-20
-              = form_with(model: Campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, local: false) do |f|
+              = form_with(model: Campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, remote: true) do |f|
                 .form-group
                   = f.label t("general_inputs.name")
                   %br/

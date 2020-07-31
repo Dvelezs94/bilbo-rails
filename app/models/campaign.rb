@@ -24,6 +24,7 @@ class Campaign < ApplicationRecord
   # validates :ad, presence: true, on: :update
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
+  validate :test_ad_rotation
   #validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
@@ -66,6 +67,8 @@ class Campaign < ApplicationRecord
     project_ids = ProjectUser.joins(:user).where(role: "owner").where("balance > ?", 5 ).pluck(:project_id)
     budget_count= Impression.where(campaign:self, created_at: Date.today.beginning_of_day..Date.today.at_end_of_day).sum(:total_price)
     if (self.status == "active" && self.state && (board_campaigns.approved.pluck(:campaign_id).include? self.id) && self.budget > 0 && budget_count < self.budget && (self.project.users[0].is_provider? || (project_ids.include? self.project.id)) && (self.starts_at.nil? || (self.starts_at <= Time.zone.now && self.ends_at > Time.zone.now)))
+      true
+    elsif imp.present?
       true
     else
       false
@@ -158,6 +161,20 @@ class Campaign < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def test_ad_rotation
+    if provider_campaign && state
+      new_c = self
+      new_c[:id] = "test"
+      boards.each do |b|
+        _,err = b.build_ad_rotation(new_c)
+        err.each do |e|
+          errors.add(:base, e)
+        end
+        break if err.any?
+      end
+    end
   end
 
 end
