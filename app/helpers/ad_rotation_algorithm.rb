@@ -1,10 +1,10 @@
 module AdRotationAlgorithm
   extend ActiveSupport::Concern
 
-  def build_ad_rotation
-    hours = self.working_hours
+  def build_ad_rotation(new_campaign = nil)
+    err = []
 
-    t_cycles = total_cycles  #total of cycles of the bilbo
+    t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
     output = []  #array to store the displays in the correct order
 
     t_cycles.times do   # Initialize the output
@@ -17,11 +17,25 @@ module AdRotationAlgorithm
     r_cps = self.campaigns.where(provider_campaign: true).to_a.select(&:should_run?).map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     r_cycles = []
 
-    per_time_cps = {t1: [1,1], t2: [2,4]}  #Input hash for the x_campaings/y_minutes mode
+    per_time_cps = self.campaigns.where(provider_campaign: true).where.not(imp: nil, minutes: nil).to_a.select(&:should_run?).map{ |c| [ c.id,[c.imp, c.minutes] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
-    #self.campaigns.where(provider_campaign: false).to_a.select(&:should_run?).map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h
-    h_cps = {h1: [30, "12:00", "13:00"], h2: [50, "12:00", "13:00"]}  #Input hash with the scheduled campaigns
+    h_cps = self.campaigns.where(provider_campaign: true).where.not(hour_start: nil, hour_finish: nil, imp: nil).to_a.select(&:should_run?).map{ |c| [ c.id,[c.imp, c.hour_start, c.hour_finish] ]}.to_h
     h_cps = sort_by_min_time(h_cps)
+
+    #check if validation with new campaign (OPTIONAL!!)
+    if new_campaign.present? && new_campaign.hour_start.present?
+      err << ("La hora de inicio de la campaña no puede estar programada antes de que el bilbo "+ self.name + " encienda") if (self.start_time < self.end_time && new_campaign.hour_start.between?(self.start_time, self.end_time)) || ( self.start_time > self.end_time ) && !new_campaign.hour_start.between?(self.start_time, self.end_time)
+    end
+    if new_campaign.present?
+      if new_campaign.minutes.present?
+        per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
+      elsif new_campaign.hour_start.present?
+        h_cps[new_campaign.id] = [new_campaign.imp, new_campaign.hour_start, new_campaign.hour_finish]
+      elsif new_campaign.provider_campaign
+        r_cps[new_campaign.id] = new_campaign.budget_per_bilbo/self.cycle_price
+      end
+    end
+    #####################################
 
     cps.each do |name, value|              # Fill the cycles array
        value.times do                      # with the names of the
@@ -44,8 +58,8 @@ module AdRotationAlgorithm
     ########## PLACE THE H_CPS AT THE START OF THEIR RESPECTIVE HOURS ##############
     h_cps.each do |name, value|
        reps = value[0]
-       start_t = Time.parse(value[1])
-       end_t = Time.parse(value[2])
+       start_t = value[1]
+       end_t = value[2]
        fi = working_minutes(start_time,start_t,true)*6
        la = working_minutes(start_time,end_t,true)*6
        h_cps[name][1] = fi
@@ -53,12 +67,16 @@ module AdRotationAlgorithm
        c = 0
 
        if la > t_cycles
-           p "LA HORA FINAL DE LA CAMPANA SOBREPASA LA HORA A LA QUE EL BILBO SE APAGA"
+          err << "La hora límite sobrepasa la hora a la que el bilbo " + self.name + " se apaga"
+           p "LA HORA FINAL DE LA campaña SOBREPASA LA HORA A LA QUE EL BILBO SE APAGA"
        end
+
+       err << ("No se pueden hacer más de " + reps.to_s + " impresiones en " + working_minutes(start_t, end_t).to_s + " minutos") if reps > working_minutes(start_t, end_t) * 6
 
        while c < reps do
             if fi==la
-                p "NO HAY ESPACIO PARA LAS CAMPANAS POR HORA"
+                err << "No hay espacio para las campañas por hora en " + self.name
+                p "NO HAY ESPACIO PARA LAS campañaS POR HORA"
                 break
             end
             if output[fi] == '-'
@@ -81,7 +99,8 @@ module AdRotationAlgorithm
     per_time_cps_cp.each {|key,value| sum+=value}
 
     if sum + total_h> t_cycles
-        p "No hay espacio suficiente para las campanas por minutos"
+        err << "No hay espacio suficiente para las campañas por minutos en " + self.name
+        p "No hay espacio suficiente para las campañas por minutos"
         #abort
     end
 
@@ -111,11 +130,13 @@ module AdRotationAlgorithm
                       output[inf+pos] = name
                       displays-=1
                     elsif arr.length<displays
-                      p "No se pudo mover ninguna campana de h_cps"
+                      err << "No hay espacio suficiente para las campañas por minutos en " + self.name
+                      p "No se pudo mover ninguna campaña de h_cps"
                       break
                     end
                 end
                 if arr.length == 0 and displays > 0
+                    err << "No hay espacio suficiente para las campañas por minutos en " + self.name
                     p "No hay espacio para los per_time_cps"
                 end
             end
@@ -126,7 +147,8 @@ module AdRotationAlgorithm
     free_spaces = output.count('-')
 
     if free_spaces < r_cycles.length
-        p "No hay espacio para las campanas requeridas por presupuesto"
+      err << "No hay espacio para las campañas requeridas por presupuesto en" + self.name
+        p "No hay espacio para las campañas requeridas por presupuesto"
     else
         n = [cycles.length, free_spaces - r_cycles.length].min
         cycles.shuffle!
@@ -152,31 +174,8 @@ module AdRotationAlgorithm
 
     ###### AUTOMATICALLY CHECK IF THE PROGRAM RAN CORRECTLY ##########
     # Check scheduled cps
-    h_cps.each do |name, value|
-        x = output[value[1]...value[2]]
-        if x.count(name) != value[0]
-            p "Ocurrio un error en h_cps"
-            abort
-        end
-    end
-    #Check per_time_cps
-    per_time_cps.each do |name, value|
-       c = 0
-       output.each_slice(6*value[1]) do |line|
-            c+=1
-            if line.count(name) != value[0] and line.length == 6*value[1]
-                p "Ocurrio un error en per_time_cps", line.count(name), name, c
-                abort
-            end
-       end
-    end
-    r_cps.each do |name, displays|
-       if output.count(name) != displays
-           p "Ocurrio un error en r_cps"
-           abort
-       end
-    end
-    p "LA EJECUCION FUE EXITOSA"
+    p "LA EJECUCION FUE EXITOSA" if err.empty?
+    return output, err
   end
 
 
