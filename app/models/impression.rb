@@ -28,7 +28,7 @@ class Impression < ApplicationRecord
   end
 
   def continue_runnning_campaign
-    if self.campaign.should_run?
+    if self.campaign.should_run?(board_id)
       true
     else
       remove_campaign(self.campaign.id, self.board.id)

@@ -4,10 +4,10 @@ class ScheduleCampaignWorker
   sidekiq_options retry: 5, dead: false
   def perform(campaign_id)
     campaign = Campaign.find(campaign_id)
-    if campaign.should_run?
       BoardsCampaigns.where(campaign_id: campaign.id).approved.pluck(:board_id).each do |board_id|
+        if campaign.should_run?(board_id)
           publish_campaign(campaign.id, board_id)
+        end
       end
-    end
   end
 end
