@@ -57,7 +57,7 @@ es:
       update_needs_confirmation: "Actualizaste tu cuenta correctamente, pero necesitamos verificar tu nueva cuenta de correo. Por favor revisa tu correo electrónico y visita el enlace para finalizar la confirmación de tu nueva dirección de correo electrónico."
       updated: "Has actualizado tu cuenta correctamente."
     sessions:
-      signed_in: "Has ingresado iniciado sesión."
+      signed_in: "Has iniciado sesión."
       signed_out: "Has cerrado la sesión."
       confirmation_instructions: "¿No recibió las instrucciones de confirmación?"
       resend_confirmation_instructions: "Reenviar instrucciones de confirmación"

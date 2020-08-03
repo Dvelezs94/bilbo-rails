@@ -2,7 +2,6 @@ class Campaign < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include BroadcastConcern
   extend FriendlyId
-  attr_accessor :boards_new
   friendly_id :name, use: :slugged
 
   belongs_to :project
@@ -25,7 +24,7 @@ class Campaign < ApplicationRecord
   # validates :ad, presence: true, on: :update
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
-  validate :test_for_valid_settings
+  validate :test_for_valid_settings,  if: :state_changed?
   #validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
@@ -54,10 +53,6 @@ class Campaign < ApplicationRecord
 
   # distribute budget evenly between all bilbos
   def budget_per_bilbo
-    puts "BOARDS NEW"*10
-    puts boards_new.inspect
-    puts "BOARDS OLD"
-    puts boards.inspect
     self.budget / boards.length
   end
 

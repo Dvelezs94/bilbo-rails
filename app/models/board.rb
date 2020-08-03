@@ -149,12 +149,17 @@ class Board < ApplicationRecord
     campaigns.to_a.select(&:should_run?)
   end
 
-  def update_ad_rotation
+  def update_ad_rotation(new_campaign = nil)
     # build the ad rotation because the ads changed
-    new_cycle = self.build_ad_rotation
-    self.with_lock do
-      self.ads_rotation = new_cycle
-      self.save!
+    new_cycle, err = self.build_ad_rotation(new_campaign)
+    if err.empty?
+      self.with_lock do
+        self.ads_rotation = new_cycle
+        self.save!
+        return true, err
+      end
+    else
+      return false, err
     end
   end
 

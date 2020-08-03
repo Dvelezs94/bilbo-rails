@@ -35,7 +35,7 @@ module AdRotationAlgorithm
         return valid, err
       end
 
-    elsif new_campaign.provider_campaign
+    elsif new_campaign.provider_campaign && new_campaign.clasification == "budget"
        imp = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
        if imp > t_cycles
          err << I18n.t("bilbos.ads_rotation_error.max_budget_impressions", name: self.name)
@@ -59,7 +59,7 @@ module AdRotationAlgorithm
     cps  = self.campaigns.where(provider_campaign: false).to_a.select(&:should_run?).map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
     cycles = []                            # array to store the name of the bilbo users the required times
 
-    r_cps = self.campaigns.where(provider_campaign: true).to_a.select(&:should_run?).map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    r_cps = self.campaigns.where(provider_campaign: true, clasification: "budget").to_a.select(&:should_run?).map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     r_cycles = []
 
     per_time_cps = self.campaigns.where(provider_campaign: true).where.not( minutes: nil).where.not(imp: nil).to_a.select(&:should_run?).map{ |c| [ c.id,[c.imp, c.minutes] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
@@ -180,7 +180,6 @@ module AdRotationAlgorithm
     end
 
     free_spaces = output.count('-')
-
     if free_spaces < r_cycles.length
       err << I18n.t("bilbos.ads_rotation_error.budget_campaign_space", name: self.name)
       return output, err
@@ -211,7 +210,7 @@ module AdRotationAlgorithm
     # Check scheduled cps
     p "FINAL DE EJECUCION"
     p "LA EJECUCION FUE EXITOSA" if err.empty?
-    (new_campaign.present?)? (return output, err): (return output)
+    return output, err
 
   end
 
