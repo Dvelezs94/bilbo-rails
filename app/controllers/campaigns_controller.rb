@@ -45,17 +45,18 @@ class CampaignsController < ApplicationController
   end
 
   def toggle_state
-    @campaign.with_lock do
-      @success = @campaign.update(state: !@campaign.state)
+    current_user.with_lock do
+      @campaign.with_lock do
+        @success = @campaign.update(state: !@campaign.state)
+      end
+      if @success
+        if @campaign.state
+          track_activity( action: "campaign.campaign_actived", activeness: @campaign)
+        else
+          track_activity( action: "campaign.campaign_deactivated", activeness: @campaign)
+        end
+      end
     end
-    if @success
-      if @campaign.state
-        track_activity( action: "campaign.campaign_actived", activeness: @campaign)
-      else
-        track_activity( action: "campaign.campaign_deactivated", activeness: @campaign)
-      end  
-    end
-
   end
 
 
