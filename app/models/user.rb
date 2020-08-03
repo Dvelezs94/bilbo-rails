@@ -99,9 +99,11 @@ class User < ApplicationRecord
   # sends the html content (images) when the user buys credits
   def resume_campaigns
     projects.select {|pr| pr.admin?(self.id) }.each do |p|
-      p.campaigns.to_a.select(&:should_run?).each do |c|
+      p.campaigns.to_a.each do |c|
         c.boards.each do |b|
-          publish_campaign(c.id, b.id)
+          if c.should_run?(b.id)
+            publish_campaign(c.id, b.id)
+          end
         end
       end
     end

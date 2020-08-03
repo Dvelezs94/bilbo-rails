@@ -56,15 +56,15 @@ module AdRotationAlgorithm
     t_cycles.times do   # Initialize the output
         output << '-'       # array with only bilbo
     end                     # ads
-    cps  = self.campaigns.where(provider_campaign: false).to_a.select(&:should_run?).map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
+    cps  = self.campaigns.where(provider_campaign: false).to_a.select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
     cycles = []                            # array to store the name of the bilbo users the required times
 
-    r_cps = self.campaigns.where(provider_campaign: true, clasification: "budget").to_a.select(&:should_run?).map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    r_cps = self.campaigns.where(provider_campaign: true, clasification: "budget").to_a.select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     r_cycles = []
 
-    per_time_cps = self.campaigns.where(provider_campaign: true).where.not( minutes: nil).where.not(imp: nil).to_a.select(&:should_run?).map{ |c| [ c.id,[c.imp, c.minutes] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
+    per_time_cps = self.campaigns.where(provider_campaign: true).where.not( minutes: nil).where.not(imp: nil).to_a.select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id,[c.imp, c.minutes] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
-    h_cps = self.campaigns.where(provider_campaign: true).where.not(hour_start: nil).where.not(hour_finish: nil).where.not(imp: nil).to_a.select(&:should_run?).map{ |c| [ c.id,[c.imp, c.hour_start, c.hour_finish] ]}.to_h
+    h_cps = self.campaigns.where(provider_campaign: true).where.not(hour_start: nil).where.not(hour_finish: nil).where.not(imp: nil).to_a.select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id,[c.imp, c.hour_start, c.hour_finish] ]}.to_h
     h_cps = sort_by_min_time(h_cps)
 
     #check if validation with new campaign (OPTIONAL!!)
@@ -222,7 +222,7 @@ def sort_by_max_repetitions(hash)
     return hash
 end
 def sort_by_min_time(hash)
-    hash.sort_by {|key, value| working_minutes(to_time(value[1]),to_time(value[2]))}
+    hash.sort_by {|key, value| working_minutes(value[1],value[2])}
     return hash
 end
 

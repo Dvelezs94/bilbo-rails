@@ -141,6 +141,8 @@ en:
     status_on: "On"
     status_off: "Off"
     in_review_campaign: You are about to pause this campaign. Are you sure?
+    ads_rotation_error:
+      accepted_but_error: The campaign was accepted but %{error}
     wizard:
       choose_bilbos: Choose your Bilbos
       selected_bilbos: Selected Bilbos
@@ -198,6 +200,7 @@ en:
       ad_deleted: The creative of the campaign no longer exists
       cant_update_when_active: Campaign can't be updated when is active
       no_save: Could not save campaign
+      not_accepted: Could not accept campaign
     action:
       deleted: The campaign has been successfully deleted
       updated: The campaign has been successfully updated
