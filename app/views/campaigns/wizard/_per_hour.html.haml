@@ -2,7 +2,7 @@
 %section
   %form
     .row.justify-content-xl-center
-    .divider-text= 'selecciona en que horas deseas que se muestren tus creativos'
+    .divider-text= t('campaign.wizard.title_impressions_per_hour')
     .col-12.form-row.justify-content-xl-center
       .quantity{style: "margin-right: 10px;margin-left: 10px;"}
         = f.number_field :imp, {:id => "impressionsPerMinute", :min => "1", :step => "1", :class => "form-control", :required => true}

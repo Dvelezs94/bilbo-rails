@@ -207,11 +207,13 @@ $(document).on('turbolinks:load', function () {
       $('#campaign_ends_at').prop('required', true);
       $('#campaign_starts_at')
         .datepicker({
+          minDate: 0,
           dateFormat: 'yy-mm-dd',
         })
         .val();
       $('#campaign_ends_at')
         .datepicker({
+          minDate: 0,
           dateFormat: 'yy-mm-dd',
         })
         .val();
