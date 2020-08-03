@@ -169,6 +169,8 @@ en:
       end_date: End Date
       summary: Summary
       impressions_forecast: Expected daily impressions
+      title_impressions_per_minute: Select how many impressions per minute you want to be displayed
+      title_impressions_per_hour: Select what time you want your creatives to show
       offcanvas:
         pick_ad_desc: Creatives are spaces where you can store images and videos for your campaigns. These creatives can be tied to a campaign so these can be shown on the bilbos once you have it configured.
         pick_ad_try_to: Try to create colorful and eye-catching creatives, that way you can impact the audience even more.
@@ -177,11 +179,17 @@ en:
         choose_bilbos_desc: Bilbo has an increasing digital screens network, so you have more freedom and can reach more segments through your campaigns.
         choose_bilbos_disclaimer: Don't forget to use our filter so you can segment even more the bilbos that you like.
         choose_budget_desc: Set the daily budget for your campaign. The budget will be evenly divided between your bilbos. Click on the link below for more information.
+        choose_per_minute_desc: Choose the number of times your campaign will be shown per minute. Click on the link below for more information.
+        choose_per_hour_desc: Choose the start and end time of your campaign. Each Bilbo has a start and end time, with them you can select what time your campaign starts and ends between that time interval. Click on the link below for more information.
         how_budget_works: How budget works
+        how_per_hour_works: How time selection works
+        how_per_minute_works: How Impressions Per Minute Works
         choose_date_desc: By default, all campaigns are continuous, this means that they don't have an start and end date, hence they will be shown on all bilbos whenever you campaign is accepted.
         schedule_campaign: You can schedule your campaigns by setting an start date and an end date.
         summary_desc: Once your campaign is configured, you will see a summary for your campaign. In it you will see the chosen bilbos, budget, dates, but most importantly you will be able to visualize your creatives on the bilbos dimensions.
         summary_disclaimer: Always visualize your creatives on all bilbos, to make sure these display correctly on all screen sizes.
+        date_and_per_minute: Date and Impressions per minute
+        date_and_per_hour: Date and Time(s)
         full_guide: See full guide
     errors:
       no_ad: The campaign doesn't have an associated ad
