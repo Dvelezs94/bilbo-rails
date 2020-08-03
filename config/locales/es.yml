@@ -153,7 +153,7 @@ es:
       date_and_budget: Fecha y Presupuesto
       per_hour: Por Hora
       per_minute: Por minuto
-      impresions: Impresiones cada
+      impressions: Impresiones cada
       minute: Minutos
       payment_details: Detalles de Pago
       budget: Presupuesto
@@ -171,6 +171,8 @@ es:
       end_date: Fecha de Fin
       summary: Resumen
       impressions_forecast: Impresiones diarias esperadas con el presupuesto elegido
+      title_impressions_per_minute: Selecciona cuantas impresiones por minuto deseas que se muestren
+      title_impressions_per_hour: Selecciona en que horas deseas que se muestren tus creativos
       offcanvas:
         pick_ad_desc: Los cretivos son espacios en donde tu almacenas imagenes y videos para tus campañas. Los creativos se ligan a una campaña para que éstos se muestren en los bilbos una vez configurada la misma.
         pick_ad_try_to: Intenta elegir creativos que capten la atención del público para que así tu campaña tenga más impacto.
@@ -179,11 +181,17 @@ es:
         choose_bilbos_desc: Bilbo cuenta con una creciente oferta de pantallas digitales, por lo que podrás elegir en el mapa todas las que se acomoden al segmento al que estés dirigiendo tu campaña.
         choose_bilbos_disclaimer: No olvides utilizar los filtros para segmentar aún más los bilbos que más te gusten.
         choose_budget_desc: Escoge el presupuesto diario que desees para tu campaña. El presupuesto se dividirá entre todos tus bilbos equitativamente. Puedes encontrar más información en la liga debajo
+        choose_per_minute_desc: Escoge la cantidad de veces que se mostrara tu campaña por minuto. Puedes encontrar más información en la liga debajo
+        choose_per_hour_desc: Escoge la hora de inicio y de fin de tu campaña. Cada Bilbo tiene una hora de inicio y una final, con ellas puedes seleccionar a que hora inicia y termina tu campaña entre ese intervalo de tiempo. Puedes encontrar más información en la liga debajo
         how_budget_works: Cómo funciona el presupuesto
+        how_per_hour_works: Cómo funciona la selección de horas
+        how_per_minute_works: Cómo funciona las impresiones por minuto
         choose_date_desc: Por defecto las campañas en bilbo son continuas, esto quiere decir que no tienen una fecha de inicio ni de fin, por lo que en cuanto tu campaña sea aceptada, se va a mostrar en el/los bilbos
         schedule_campaign: Si requieres agendar tus campañas, puedes definir una fecha de inicio y fin.
         summary_desc: Una vez tengas tu campaña configurada, se te presentará un resumen que desplegará toda la configuración elegida. En el podrás ver los bilbos que elegisgte, el presupuesto, la fecha pero sobre todo podrás previsualizar tus creativos en los bilbos.
         summary_disclaimer: Siempre previsualiza tus creativos en todos los bilbos, para asegurarte que se vean del tamaño y forma correcta.
+        date_and_per_minute: Fecha e Impresiones por minuto
+        date_and_per_hour: Fecha y Hora(s)
         full_guide: Ver guía extendida
     errors:
       no_ad: La campaña no tiene asociado un creativo
