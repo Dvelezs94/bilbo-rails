@@ -48,13 +48,14 @@ class CampaignsController < ApplicationController
     @campaign.with_lock do
       @success = @campaign.update(state: !@campaign.state)
     end
-    if @success == true
-      if !@campaign.state == false
+    if @success
+      if @campaign.state
         track_activity( action: "campaign.campaign_actived", activeness: @campaign)
-      elsif !@campaign.state == true
+      else
         track_activity( action: "campaign.campaign_deactivated", activeness: @campaign)
-      end
+      end  
     end
+
   end
 
 
@@ -127,7 +128,6 @@ class CampaignsController < ApplicationController
     @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :hour_start, :hour_finish, :imp, :minutes ).merge(:project_id => @project.id)
     if @campaign_params[:boards].present?
       @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
-      @campaign_params[:boards_new] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
     end
 
     @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
