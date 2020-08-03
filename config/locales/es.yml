@@ -143,6 +143,8 @@ es:
     approve_campaign: ¿Seguro que quieres aceptar esta campaña?
     deny_campaign: ¿Estás seguro de denegar esta campaña?
     in_review_campaign: Estás a punto de pausar esta campaña. ¿Estás seguro?
+    ads_rotation_error:
+      accepted_but_error: La campaña fue aceptada pero %{error}
     wizard:
       choose_bilbos: Escoge tus Bilbos
       selected_bilbos: Bilbos seleccionados
@@ -189,6 +191,7 @@ es:
       ad_deleted: El creativo de la campaña ya no existe
       cant_update_when_active: La campaña no puede editarse cuando está activa
       no_save: La campaña no ha podido guardarse
+      not_accepted: La campaña no ha podido aceptarse
     action:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente

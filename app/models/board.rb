@@ -16,6 +16,7 @@ class Board < ApplicationRecord
   validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
   after_create :generate_qr_code
   after_create :update_ad_rotation
+  after_update :update_campaign_state
   before_create :calculate_aspect_ratio
   before_save  do
     if width_changed? || height_changed?
@@ -23,12 +24,25 @@ class Board < ApplicationRecord
     end
   end
 
+  ################ DEMO FIX ##########################
+  def start_time
+    super.nil?? Time.parse("8:00")  : super
+  end
+  def end_time
+    super.nil?? Time.parse("2:00")  : super
+  end
+  ###################################################
+
   # slug candidates for friendly id
   def slug_candidates
     [
       ["bilbo", :name],
       ["bilbo", :name, :address]
     ]
+  end
+
+  def update_campaign_state
+
   end
 
   def self.search(search_board)
@@ -146,18 +160,16 @@ class Board < ApplicationRecord
 
   # Return campaigns active
   def active_campaigns
-    campaigns.to_a.select(&:should_run?)
+    campaigns.to_a.select{ |c| c.should_run?(self.id) }
   end
 
-  def update_ad_rotation(new_campaign = nil)
+  def update_ad_rotation
     # build the ad rotation because the ads changed
-    new_cycle, err = self.build_ad_rotation(new_campaign)
+    new_cycle, err = self.build_ad_rotation
     if err.empty?
-      self.with_lock do
-        self.ads_rotation = new_cycle
-        self.save!
-        return true, err
-      end
+      self.ads_rotation = new_cycle
+      self.save!
+      return true, err
     else
       return false, err
     end
