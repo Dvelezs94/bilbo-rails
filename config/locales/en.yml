@@ -151,9 +151,10 @@ en:
       date_and_budget: Date and Budget
       per_hour: Per hour
       per_minute: Per minute
-      impressions: Impressions every
-      impresions_hour: Impressions from
-      minute: Minutes
+      impressions: impressions every
+      impressions_hour: impressions from
+      to: to
+      minute: minutes
       Budget: Budget
       payment_details: Payment Details
       most_popular: Most popular
