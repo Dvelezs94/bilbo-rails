@@ -7,8 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 if ENV.fetch("RAILS_ENV") != "production"
 
-  Project
-
   5.times do |x|
     User.create! do |provider|
       provider.name = Faker::Name.first_name

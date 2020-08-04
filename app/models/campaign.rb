@@ -24,11 +24,12 @@ class Campaign < ApplicationRecord
   # validates :ad, presence: true, on: :update
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
-  validate :test_ad_rotation
+  validate :test_for_valid_settings
+  validate :check_build_ad_rotation, if: :state_is_true?
   #validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
-  before_save :update_broadcast, if: :state_changed?
+  after_update :update_broadcast
   before_save :set_in_review, :if => :ad_id_changed?
 
 
@@ -53,30 +54,56 @@ class Campaign < ApplicationRecord
 
   # distribute budget evenly between all bilbos
   def budget_per_bilbo
-    self.budget / boards.count
+    self.budget / boards.length
   end
-
-  def should_run?
-    #project_ids look for users with projects that have a balance greater than 5 credits and are the owner
-    #self.state check the state of campaign
-    #self.status == "active" check the status of campaign
-    #self.budget > 0 Check that the budget is greater than 0 of campaign
-    #self.project.users[0].is_provider? check if this user is a provider
-    #project_ids.include? self.project.id Check if the user's project is included in the user array with available credits
-    #self.starts_at.nil? || (self.starts_at <= Time.now && self.ends_at > Time.now check if the project has a null date or if that start date was less than today and if that end date was greater than today
-    project_ids = ProjectUser.joins(:user).where(role: "owner").where("balance > ?", 5 ).pluck(:project_id)
-    budget_count= Impression.where(campaign:self, created_at: Date.today.beginning_of_day..Date.today.at_end_of_day).sum(:total_price)
-    if (self.status == "active" && self.state && (board_campaigns.approved.pluck(:campaign_id).include? self.id) && self.budget > 0 && budget_count < self.budget && (self.project.users[0].is_provider? || (project_ids.include? self.project.id)) && (self.starts_at.nil? || (self.starts_at <= Time.zone.now && self.ends_at > Time.zone.now)))
-      true
-    elsif imp.present?
-      true
-    else
-      false
+  def check_build_ad_rotation
+    boards.each do |b|
+      _, err = b.build_ad_rotation(self)
+      if err.any?
+        errors.add(:base, err.first)
+        break
+      end
     end
   end
 
+  def should_run?(board_id)
+    #self.state check the state of campaign
+    #self.status == "active" check the status of campaign
+    #self.budget > 0 Check that the budget is greater than 0 of campaign
+    if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?
+      if clasification == "budget" && self.budget > 0 && !campaign_budget_spent?
+        return true
+      elsif clasification == "per_minute"
+        return true
+      elsif clasification == "per_hour"
+        return true
+      end
+    end
+    return false
+  end
+
+  def user_has_budget?
+    #look for users with projects that have a balance greater than 5 credits and are the owner
+    # if its provider then it doesnt need budget
+    self.project.users[0].is_provider? || ProjectUser.where(project_id: project.id, role: "owner").joins(:user).where("balance > ?", 5 ).any?
+  end
+
+  def campaign_budget_spent?
+    budget_spent= Impression.where(campaign:self, created_at: Date.today.beginning_of_day..Date.today.at_end_of_day).sum(:total_price)
+    budget_spent >= self.budget
+  end
+
+  def campaign_active_in_board?(board_id)
+    board_campaigns.approved.where(board_id: board_id).any?
+  end
+
+  def time_to_run?
+    (self.starts_at.nil? && self.ends_at.nil?) || (self.starts_at <= Time.zone.now && self.ends_at > Time.zone.now)
+  end
+
+
   def update_broadcast
-    if state.present?
+    if state
       board_campaigns.approved.pluck(:board_id).each do |board_id|
         publish_campaign(id, board_id)
       end
@@ -120,7 +147,7 @@ class Campaign < ApplicationRecord
     errors.add(:base, I18n.t('campaign.errors.ad_deleted')) if self.ad.deleted?
   end
 
-  def state_changed_to_true?
+  def state_is_true?
     self.state
   end
 
@@ -163,16 +190,16 @@ class Campaign < ApplicationRecord
     name
   end
 
-  def test_ad_rotation
+  def test_for_valid_settings
     if provider_campaign && state
-      new_c = self
-      new_c[:id] = "test"
       boards.each do |b|
-        _,err = b.build_ad_rotation(new_c)
-        err.each do |e|
-          errors.add(:base, e)
+        valid,err = b.test_ad_rotation(self)
+        if !valid
+          err.each do |e|
+            errors.add(:base, e)
+          end
+          break
         end
-        break if err.any?
       end
     end
   end
