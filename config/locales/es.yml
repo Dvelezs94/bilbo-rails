@@ -153,8 +153,10 @@ es:
       date_and_budget: Fecha y Presupuesto
       per_hour: Por Hora
       per_minute: Por minuto
-      impressions: Impresiones cada
-      minute: Minutos
+      impressions: impresiones cada
+      impressions_hour: impresiones de
+      to: a
+      minute: minutos
       payment_details: Detalles de Pago
       budget: Presupuesto
       most_popular: Más popular
