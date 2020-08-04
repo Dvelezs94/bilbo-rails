@@ -158,12 +158,12 @@ en:
       Budget: Budget
       payment_details: Payment Details
       most_popular: Most popular
-      budget: Budget
+      budget: Daily budget
       daily_budget_description: Budget for your chosen Bilbos. The budget will be dividided equally between all Bilbos.
       campaign_duration: Campaign Duration
-      campaign_minute: Campaign per minute
+      campaign_minute: Impression per minute
       campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
-      campaign_hour: Campaign per hour
+      campaign_hour: Impression per hour
       campaign_hour_description: With this option, you can program you're campaigns in an specific hour
       campaign_clasification: Type of campaign
       ongoing_campaign: Ongoing Campaign

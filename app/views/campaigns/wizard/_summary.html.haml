@@ -18,15 +18,25 @@
               / <a href="/" target="_blank" id=""> <i class="fe fe-link-external tx-20"></i> </a>
             %hr
               %p
-                %strong= t('campaign.wizard.campaign_clasification') 
                 %br
                 -if "#{@campaign.clasification}" == "per_hour"
-                  %span#perHour Campana por hora
-                  %i.fe.fe-wallet
+                  %strong Rango de hora 
+                  %br
+                    %strong#impPerHour
+                    %span= t('campaign.wizard.impressions_hour')
+                    %strong#timeStart
+                    %span= t('campaign.wizard.to')
+                    %strong#timeEnd
+                    %i.fe.fe-clock
                 %end
                 -if "#{@campaign.clasification}" == "per_minute"
-                  %span#perMinute Campana por minuto
-                  %i.fe.fe-wallet
+                  %strong Rango de hora
+                  %br
+                    %strong#perMinute
+                    %span= t('campaign.wizard.impressions')
+                    %strong#perMinuteEnd
+                    %span= t('campaign.wizard.minute')
+                    %i.fe.fe-clock
                 %end
                 -if "#{@campaign.clasification}" == "budget"
                   %p Budget
