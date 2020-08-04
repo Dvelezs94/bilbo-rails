@@ -1,3 +1,4 @@
+require 'slack-notifier'
 SLACK_NOTIFIER = Slack::Notifier.new ENV.fetch("SLACK_WEBHOOK_URL") {""} do
   defaults channel: "#support",
            username: "bilbo-app",
