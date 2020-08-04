@@ -13,7 +13,7 @@ class Board < ApplicationRecord
   before_save :generate_api_token, :if => :new_record?
   enum status: { enabled: 0, disabled: 1 }
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
-  validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
+  validates_presence_of :lat, :lng, :utc_offset,:avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
   after_create :generate_qr_code
   after_create :update_ad_rotation
   before_update :update_campaign_state
@@ -31,6 +31,9 @@ class Board < ApplicationRecord
   end
   def end_time
     super.nil?? Time.parse("2:00")  : super
+  end
+  def utc_offset
+    super.nil?? 0  : super
   end
   ###################################################
 
@@ -209,6 +212,20 @@ class Board < ApplicationRecord
     working_minutes(st,et,zero_if_equal)/60.0
   end
 
+  def ads_rotation_with_start_time
+    st = time_h_m_s(start_time)
+    {st => ads_rotation}.to_h
+  end
+
+  def ads_rotation_hash
+    output = {}
+    JSON.parse(self.ads_rotation).each_with_index do |name, idx|
+      current_time = start_time + (10*idx).seconds
+      output[time_h_m_s(current_time)] = name
+    end
+    return output
+  end
+
   def working_minutes(st,et, zero_if_equal = false) #returns minutes of difference
     # if end time is less than the start time, i assume that the board is on until the next day
     # if they are equal i assume is all day on
@@ -222,8 +239,8 @@ class Board < ApplicationRecord
     end_mins = end_mins + 1440 if !zero_if_equal && end_mins == start_mins # 1440 are the minutes in a day
     (end_mins - start_mins)
   end
-  def time_h_m(time)
-    time.strftime("%H:%M")
+  def time_h_m_s(time)
+    time.strftime("%H:%M:%S")
   end
 
   private
