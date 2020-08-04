@@ -70,7 +70,7 @@ class Campaign < ApplicationRecord
     #self.state check the state of campaign
     #self.status == "active" check the status of campaign
     #self.budget > 0 Check that the budget is greater than 0 of campaign
-    if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?
+    if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?(board_id)
       if clasification == "budget" && self.budget > 0 && !campaign_budget_spent?
         return true
       elsif clasification == "per_minute"
@@ -97,8 +97,16 @@ class Campaign < ApplicationRecord
     board_campaigns.approved.where(board_id: board_id).any?
   end
 
-  def time_to_run?
-    (self.starts_at.nil? && self.ends_at.nil?) || (self.starts_at <= Time.zone.now && self.ends_at > Time.zone.now)
+  def to_utc(time,utc_offset)
+    time - utc_offset
+  end
+
+  def time_to_run?(board_id)
+    # if set start and end to august 4, it runs all august 4 day
+    # if set from 4 aug to 5 aug, it runs entire both days
+    #utc is used to compare dates correctly
+    brd = Board.find(board_id)
+    (self.starts_at.nil? && self.ends_at.nil?) || (to_utc(self.starts_at,brd.utc_offset).to_date <= Time.now.utc.to_date && to_utc(self.ends_at,brd.utc_offset).to_date  >= Time.now.utc.to_date)
   end
 
 

@@ -159,6 +159,7 @@ class BoardsController < ApplicationController
                                   :base_earnings,
                                   :social_class,
                                   :default_image,
+                                  :utc_offset,
                                   images: []
                                   )
   end
