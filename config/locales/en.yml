@@ -141,34 +141,39 @@ en:
     status_on: "On"
     status_off: "Off"
     in_review_campaign: You are about to pause this campaign. Are you sure?
+    ads_rotation_error:
+      accepted_but_error: The campaign was accepted but %{error}
     wizard:
       choose_bilbos: Choose your Bilbos
       selected_bilbos: Selected Bilbos
       pick_ad: Pick a creative
       need_help: Need help?
       date_and_budget: Date and Budget
-      per_hour: Per hour 
+      per_hour: Per hour
       per_minute: Per minute
-      impressions: Impressions every
-      impresions_hour: Impressions from
-      minute: Minutes
+      impressions: impressions every
+      impressions_hour: impressions from
+      to: to
+      minute: minutes
       Budget: Budget
       payment_details: Payment Details
       most_popular: Most popular
       budget: Budget
       daily_budget_description: Budget for your chosen Bilbos. The budget will be dividided equally between all Bilbos.
       campaign_duration: Campaign Duration
-      campaign_minute: Campaign per minute 
+      campaign_minute: Campaign per minute
       campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
       campaign_hour: Campaign per hour
-      campaign_hour_description: With this option, you can program you're campaigns in an specific hour 
-      campaign_clasification: Type of campaign 
+      campaign_hour_description: With this option, you can program you're campaigns in an specific hour
+      campaign_clasification: Type of campaign
       ongoing_campaign: Ongoing Campaign
       pick_date: Choose Date
       start_date: Start Date
       end_date: End Date
       summary: Summary
       impressions_forecast: Expected daily impressions
+      title_impressions_per_minute: Select how many impressions per minute you want to be displayed
+      title_impressions_per_hour: Select what time you want your creatives to show
       offcanvas:
         pick_ad_desc: Creatives are spaces where you can store images and videos for your campaigns. These creatives can be tied to a campaign so these can be shown on the bilbos once you have it configured.
         pick_ad_try_to: Try to create colorful and eye-catching creatives, that way you can impact the audience even more.
@@ -177,11 +182,17 @@ en:
         choose_bilbos_desc: Bilbo has an increasing digital screens network, so you have more freedom and can reach more segments through your campaigns.
         choose_bilbos_disclaimer: Don't forget to use our filter so you can segment even more the bilbos that you like.
         choose_budget_desc: Set the daily budget for your campaign. The budget will be evenly divided between your bilbos. Click on the link below for more information.
+        choose_per_minute_desc: Choose the number of times your campaign will be shown per minute. Click on the link below for more information.
+        choose_per_hour_desc: Choose the start and end time of your campaign. Each Bilbo has a start and end time, with them you can select what time your campaign starts and ends between that time interval. Click on the link below for more information.
         how_budget_works: How budget works
+        how_per_hour_works: How time selection works
+        how_per_minute_works: How Impressions Per Minute Works
         choose_date_desc: By default, all campaigns are continuous, this means that they don't have an start and end date, hence they will be shown on all bilbos whenever you campaign is accepted.
         schedule_campaign: You can schedule your campaigns by setting an start date and an end date.
         summary_desc: Once your campaign is configured, you will see a summary for your campaign. In it you will see the chosen bilbos, budget, dates, but most importantly you will be able to visualize your creatives on the bilbos dimensions.
         summary_disclaimer: Always visualize your creatives on all bilbos, to make sure these display correctly on all screen sizes.
+        date_and_per_minute: Date and Impressions per minute
+        date_and_per_hour: Date and Time(s)
         full_guide: See full guide
     errors:
       no_ad: The campaign doesn't have an associated ad
@@ -189,6 +200,7 @@ en:
       ad_deleted: The creative of the campaign no longer exists
       cant_update_when_active: Campaign can't be updated when is active
       no_save: Could not save campaign
+      not_accepted: Could not accept campaign
     action:
       deleted: The campaign has been successfully deleted
       updated: The campaign has been successfully updated
@@ -244,6 +256,15 @@ en:
     minute: Minute
     social_class: Clasification
     view_campaigns: View Campaigns
+    ads_rotation_error:
+      max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
+      max_minutes_impressions: No more than %{number} prints can be made in the given time
+      max_hour_impressions: No more tha n%{number} impressions can be made within your selected hours
+      before_power_on: Campaign start time cannot be scheduled before bilbo %{name} turns on
+      after_power_off: The cutoff time exceeds the time at which the bilbo %{name} turns off
+      hour_campaign_space: No space for hourly campaigns in %{name}
+      minute_campaign_space: No space for campaigns by minutes in %{name}
+      budget_campaign_space: No space for campaigns required by budget in %{name}
     search:
       location: Location
       classification: Classification
