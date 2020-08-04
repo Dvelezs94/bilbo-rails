@@ -1,7 +1,7 @@
 class PaymentsController < ApplicationController
   access user: :all
   before_action :user_verified_for_purchase?, only: [:create, :express]
-  before_action :verify_credit_limit_user, only: [:create, :express]
+  before_action :verify_user_credit_limit, only: [:create, :express]
   include ApplicationHelper
   def express
     order_total = (payment_params_express[:total].to_i + payment_fee(payment_params_express[:total].to_i)) * 100
@@ -55,9 +55,8 @@ class PaymentsController < ApplicationController
     redirect_to root_path
   end
 
-  def verify_credit_limit_user
-    #this method check if user try to purchase more than your limit
-
+  def verify_user_credit_limit
+    #This method checks if the user has exceeded the credit limit for the current day
     previous_purchases = current_user.payments.where(created_at: Time.now.beginning_of_day..Time.now.end_of_day).sum(:total)
     credit_limit = current_user.credit_limit
     credit_purchase = payment_params_express[:total].to_i
