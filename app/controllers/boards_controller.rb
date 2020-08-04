@@ -40,6 +40,7 @@ class BoardsController < ApplicationController
     @success = @board.update(board_params)
     if @success
       flash[:success] = "Bilbo actualizado con éxito"
+      flash[:error] = @board.deactivated_campaigns if @board.deactivated_campaigns.present?
       redirect_to edit_board_path(@board.slug)
     end
   end
