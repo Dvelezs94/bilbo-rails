@@ -13,7 +13,7 @@ class Payment < ApplicationRecord
       else
         user.increment!(:balance, by = total)
       end
-    GenerateInvoiceWorker.perform_async(id)
+    #GenerateInvoiceWorker.perform_async(id)
     else
       # for debugging
       puts response.message
