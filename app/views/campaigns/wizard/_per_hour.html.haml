@@ -11,7 +11,7 @@
         = f.time_field :hour_start, {:id => "timePickerStart", :class => "form-control", :required => true }
       %span{style: "margin-top:10px;"}= 'to'
       .quantity{style: "margin-right: 10px;margin-left: 20px;"}
-        =f.time_field :hour_finish, {:id => "timePickerEnd", :class => "form-control", :placeholder => '00:00'}
+        =f.time_field :hour_finish, {:id => "timePickerEnd", :class => "form-control", :required => true}
     .col-4
     .divider-text= t('campaign.wizard.campaign_duration')
     .form-row
