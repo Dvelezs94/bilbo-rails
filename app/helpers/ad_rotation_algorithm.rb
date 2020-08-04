@@ -161,13 +161,16 @@ module AdRotationAlgorithm
                     elsif h_cps.keys.include? output[inf+pos]
                       val = output[inf+pos]
                       idx = output[h_cps[val][1]...h_cps[val][2]].index('-')
+                      if idx.nil?
+                        err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", name: self.name)
+                        return output, err
+                      end
                       output[idx] = val
                       output[inf+pos] = name
                       displays-=1
                     elsif arr.length<displays
                       err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", name: self.name)
                       return output, err
-                      break
                     end
                 end
                 if arr.length == 0 and displays > 0

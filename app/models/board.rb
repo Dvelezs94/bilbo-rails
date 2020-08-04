@@ -16,8 +16,9 @@ class Board < ApplicationRecord
   validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
   after_create :generate_qr_code
   after_create :update_ad_rotation
-  after_update :update_campaign_state
+  before_update :update_campaign_state
   before_create :calculate_aspect_ratio
+  attr_accessor :deactivated_campaigns
   before_save  do
     if width_changed? || height_changed?
       calculate_aspect_ratio
@@ -41,8 +42,25 @@ class Board < ApplicationRecord
     ]
   end
 
-  def update_campaign_state
+  def active_campaigns_on_board
+    #ordered by default provider campaigns first
+    campaign_ids = board_campaigns.approved.pluck(:campaign_id)
+    active_campaigns_on_board = Campaign.where(id: campaign_ids ,state: true).order(provider_campaign: :desc)
+  end
 
+  def update_campaign_state
+    #check if needs to deactivate campaigns
+    active_provider_campaigns = active_campaigns_on_board.where(provider_campaign: true)
+    deactivated = 0
+    active_campaigns.each do |cpn|
+      success, err = self.update_ad_rotation(false)
+      break if success
+      cpn.update(state: false)
+      deactivated +=1
+    end
+    if deactivated > 0
+      self.deactivated_campaigns = "Se han desactivado " << deactivated.to_s  << " campañas de proveedor en el Bilbo, ¡Verifícalas!"
+    end
   end
 
   def self.search(search_board)
@@ -163,12 +181,12 @@ class Board < ApplicationRecord
     campaigns.to_a.select{ |c| c.should_run?(self.id) }
   end
 
-  def update_ad_rotation
+  def update_ad_rotation(save_when_finish = true)
     # build the ad rotation because the ads changed
     new_cycle, err = self.build_ad_rotation
     if err.empty?
       self.ads_rotation = new_cycle
-      self.save!
+      self.save! if save_when_finish
       return true, err
     else
       return false, err
