@@ -7,6 +7,7 @@ class CampaignsController < ApplicationController
   before_action :campaign_not_active, only: [:edit]
 
   def index
+
   end
 
   def provider_index
@@ -44,57 +45,63 @@ class CampaignsController < ApplicationController
   end
 
   def toggle_state
-    @campaign.with_lock do
-      @success = @campaign.update(state: !@campaign.state)
-    end
-    if @success == true
-      if !@campaign.state == false
-        track_activity( action: "campaign.campaign_actived", activeness: @campaign)
-      elsif !@campaign.state == true
-        track_activity( action: "campaign.campaign_deactivated", activeness: @campaign)
+    current_user.with_lock do
+      @campaign.with_lock do
+        @success = @campaign.update(state: !@campaign.state)
+      end
+      if @success
+        if @campaign.state
+          track_activity( action: "campaign.campaign_actived", activeness: @campaign)
+        else
+          track_activity( action: "campaign.campaign_deactivated", activeness: @campaign)
+        end
       end
     end
   end
 
 
   def update
-    respond_to do |format|
-      if @campaign.update_attributes(campaign_params.merge(state: true))
-        track_activity( action: "campaign.campaign_updated", activeness: @campaign)
-        # move campaign to in review since it was changed
-        @campaign.set_in_review
-        # Create a notification per project
-        @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
-          create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
-                              action: "created", notifiable: @campaign)
-        if @campaign_params[:starts_at].present?
-          difference_in_seconds = (Time.zone.parse(@campaign_params[:starts_at]) - Time.zone.now).to_i
-          ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id)
+    current_user.with_lock do
+      respond_to do |format|
+        if @campaign.update_attributes(campaign_params.merge(state: true))
+          track_activity( action: "campaign.campaign_updated", activeness: @campaign)
+          # move campaign to in review since it was changed
+          @campaign.set_in_review
+          # Create a notification per project
+          @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
+            create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
+                                action: "created", notifiable: @campaign)
+          if @campaign.starts_at.present? && @campaign.ends_at.present?
+            @campaign.boards.each do |b|
+              difference_in_minutes = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
+              ScheduleCampaignWorker.perform_at(difference_in_minutes.seconds.from_now, @campaign.id, b.id)
+            end
+          end
         end
-      end
-        format.html {
-          flash[:success] = I18n.t('campaign.action.updated')
-          redirect_to campaigns_path
-         }
-        format.json { head :no_content }
-      else
-        format.html {
-          flash[:error] = @campaign.errors.full_messages.first
-          redirect_to campaigns_path }
-        format.json { render json: @campaign.errors, status: :unprocessable_entity }
+          format.js {
+            flash[:success] = I18n.t('campaign.action.updated')
+            redirect_to campaigns_path
+           }
+          format.json { head :no_content }
+        else
+          format.js {
+            #nothing, just view
+             }
+          format.json { render json: @campaign.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
 
   def create
     @campaign = Campaign.new(create_params)
-    if @campaign.save
-      track_activity( action: 'campaign.campaign_created', activeness: @campaign)
-      flash[:success] = I18n.t('campaign.action.saved')
-    else
-      flash[:error] = I18n.t('campaign.errors.no_save')
-    end
-    redirect_to edit_campaign_path(@campaign)
+      if @campaign.save
+        track_activity( action: 'campaign.campaign_created', activeness: @campaign)
+        flash[:success] = I18n.t('campaign.action.saved')
+      else
+        flash[:error] = I18n.t('campaign.errors.no_save')
+      end
+      redirect_to edit_campaign_path(@campaign)
   end
 
   def destroy
@@ -120,16 +127,27 @@ class CampaignsController < ApplicationController
 
   private
   def campaign_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget).merge(:project_id => @project.id)
-    @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?)) if @campaign_params[:boards].present?
+    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :hour_start, :hour_finish, :imp, :minutes ).merge(:project_id => @project.id)
+    if @campaign_params[:boards].present?
+      @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
+    end
+
     @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
     @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
-    @campaign_params[:budget] = @campaign_params[:budget].tr(",","").to_f
+    @campaign_params[:hour_start] = @campaign_params[:hour_start]
+    @campaign_params[:hour_finish] = @campaign_params[:hour_finish]
+
+    if @campaign_params[:budget].present?
+      @campaign_params[:budget] = @campaign_params[:budget].tr(",","").to_f
+
+    #else
+     # @campaign_params[:budget] = nil
+    end
     @campaign_params
   end
 
   def create_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :clasification).merge(:project_id => @project.id)
     @campaign_params[:provider_campaign] = @project.owner.is_provider?.present?
     @campaign_params
   end

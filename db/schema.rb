@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_14_222737) do
+ActiveRecord::Schema.define(version: 2020_08_04_152428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,11 +78,14 @@ ActiveRecord::Schema.define(version: 2020_07_14_222737) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "slug"
-    t.float "working_hours"
     t.string "qr"
     t.integer "social_class", default: 0
     t.string "default_image"
     t.string "aspect_ratio"
+    t.time "start_time"
+    t.time "end_time"
+    t.string "time_zone"
+    t.integer "utc_offset"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -119,6 +122,11 @@ ActiveRecord::Schema.define(version: 2020_07_14_222737) do
     t.string "slug"
     t.datetime "state_updated_at"
     t.boolean "provider_campaign"
+    t.integer "clasification", default: 0
+    t.integer "minutes"
+    t.integer "imp"
+    t.time "hour_start"
+    t.time "hour_finish"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true

@@ -5,19 +5,18 @@ class AdBroadcastWorker
   include Rails.application.routes.url_helpers
 
   def perform(campaign_id, board_id,action)
-    campaign = Campaign.find(campaign_id)
     board = Board.find(board_id)
-    board.update_ad_rotation
-
-    # build html to append
-    ad = campaign.ad
-    append_msg = ""
-    ad.multimedia.each do |mm|
-      html_code = "<img class='board-ad-inner' src='#{polymorphic_path(mm)}' data-campaign='#{campaign.slug}' data-campaign-id='#{campaign.id}' data-budget='#{campaign.budget}'>"
-      append_msg.insert(-1, html_code)
+    board.with_lock do
+      campaign = Campaign.find(campaign_id)
+      # build html to append
+      ad = campaign.ad
+      append_msg = ""
+      ad.multimedia.each do |mm|
+        html_code = "<img class='board-ad-inner' src='#{polymorphic_path(mm)}' data-campaign='#{campaign.slug}' data-campaign-id='#{campaign.id}' data-budget='#{campaign.budget}'>"
+        append_msg.insert(-1, html_code)
+      end
+      broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.ads_rotation)
     end
-
-    broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.ads_rotation)
   end
 
   private

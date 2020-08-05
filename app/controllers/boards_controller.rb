@@ -37,11 +37,25 @@ class BoardsController < ApplicationController
   end
 
   def update
-    @success = @board.update(board_params)
+    @success = @board.update(board_params.merge(admin_edit: true))
+    #check if needs to deactivate campaigns when updates from admin form
     if @success
-      flash[:success] = "Bilbo actualizado con éxito"
-      redirect_to edit_board_path(@board.slug)
+      active_provider_campaigns = @board.active_campaigns("provider")
+      deactivated = 0
+      active_provider_campaigns.each do |cpn|
+        err = @board.update_ads_rotation(nil, true, false)
+        break if err.empty?
+        cpn.update!(state: false) #after cp turns off it updates rotations and broadcasts to all boards (including this board)
+        deactivated +=1
+      end
+      if deactivated > 0
+        flash[:notice] = "Se han desactivado " << deactivated.to_s  << " campañas de proveedor que usaban este Bilbo, ¡Verifícalas!"
+      end
+        flash[:success] = "Bilbo actualizado con éxito"
+    else
+      flash[:error] = @board.errors.full_messages.first
     end
+    redirect_to edit_board_path(@board.slug)
   end
 
   def admin_index
@@ -152,11 +166,13 @@ class BoardsController < ApplicationController
                                   :lng,
                                   :address,
                                   :category,
+                                  :start_time,
+                                  :end_time,
                                   :face,
                                   :base_earnings,
-                                  :working_hours,
                                   :social_class,
                                   :default_image,
+                                  :utc_offset,
                                   images: []
                                   )
   end
