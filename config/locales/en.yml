@@ -109,7 +109,6 @@ en:
     to_inactive: The campaign has been deactivated
     new_campaign: New Campaign
     destroy: Remove Campaign
-    active_campaigns: Active Campaigns
     campaign_name: Campaign Name
     bilbos_in_use: Bilbos in use
     ad_name: Creative Name
@@ -365,6 +364,7 @@ en:
     review_now: Review now
     view_all: View All
     active_campaigns: Active Campaigns
+    approved_campaigns: Approved Campaigns
     active_campaigns_description: Total number of marketing campaigns that are currently running on your Bilbos.
     recent_earnings: Most Recent Earnings
     recent_earnings_description: Impressions and earnings of all your Bilbos over the last 30 days
