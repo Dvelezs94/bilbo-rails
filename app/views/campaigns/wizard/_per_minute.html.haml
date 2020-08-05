@@ -1,0 +1,26 @@
+%h3= t('campaign.wizard.date_and_budget')
+%section
+  %form
+    .row.justify-content-xl-center
+    .divider-text= t('campaign.wizard.title_impressions_per_minute')
+    .form-row
+      .col-12.form-row.justify-content-xl-center
+        .quantity{style: "margin-right: 10px;margin-left: 10px;"}
+          = f.number_field :imp ,{:min => "1", :step => "1", :type => "number", :placeholder => "1", :class => "form-control", :required => true}
+        %span{style: "margin-top:10px;"}= t('campaign.wizard.impressions')
+        .quantity{style: "margin-right: 10px;margin-left: 10px;"}
+          = f.number_field :minutes,{:min => "1", :step => "1", :type => "number", :placeholder => "1", :class => "form-control", :required => true}
+        %span{style: "margin-top:10px;"}= t('campaign.wizard.minute')
+    .col-4
+    .divider-text= t('campaign.wizard.campaign_duration')
+    .form-row
+      .col-12
+        .custom-control.custom-radio
+          = radio_button_tag "customRadio", "", @campaign.ongoing?, class: "custom-control-input", id: "ongoing_campaign"
+          %label.custom-control-label{:for => "ongoing_campaign"}= t('campaign.wizard.ongoing_campaign')
+        .custom-control.custom-radio
+          = radio_button_tag "customRadio", "", !@campaign.ongoing?, class: "custom-control-input", id: "date_campaign"
+          %label.custom-control-label{:for => "date_campaign"}= t('campaign.wizard.pick_date')
+      .col-12.form-row
+        .col-6= f.text_field :starts_at, :class => "form-control", placeholder: t('campaign.wizard.start_date')
+        .col-6= f.text_field :ends_at, :class => "form-control", placeholder: t('campaign.wizard.end_date')
