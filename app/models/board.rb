@@ -1,12 +1,15 @@
 class Board < ApplicationRecord
   include AdRotationAlgorithm
+  include BroadcastConcern
   include Rails.application.routes.url_helpers
   extend FriendlyId
+  attr_accessor :new_ads_rotation, :admin_edit
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :campaigns, through: :board_campaigns
   has_many :impressions
+  validate :dont_edit_online, if: :connected?
   has_many_attached :images
   has_one_attached :default_image
   before_save :generate_access_token, :if => :new_record?
@@ -15,10 +18,8 @@ class Board < ApplicationRecord
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
   validates_presence_of :lat, :lng, :utc_offset,:avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
   after_create :generate_qr_code
-  after_create :update_ad_rotation
-  before_update :update_campaign_state
+  after_create :update_ads_rotation
   before_create :calculate_aspect_ratio
-  attr_accessor :deactivated_campaigns
   before_save  do
     if width_changed? || height_changed?
       calculate_aspect_ratio
@@ -51,20 +52,8 @@ class Board < ApplicationRecord
     active_campaigns_on_board = Campaign.where(id: campaign_ids ,state: true).order(provider_campaign: :desc)
   end
 
-  def update_campaign_state
-    #check if needs to deactivate campaigns
-    active_provider_campaigns = active_campaigns_on_board.where(provider_campaign: true)
-    deactivated = 0
-    active_campaigns.each do |cpn|
-      success, err = self.update_ad_rotation(false)
-      break if success
-      cpn.update(state: false)
-      deactivated +=1
-    end
-    if deactivated > 0
-      self.deactivated_campaigns = "Se han desactivado " << deactivated.to_s  << " campañas de proveedor en el Bilbo, ¡Verifícalas!"
-    end
-  end
+
+
 
   def self.search(search_board)
     if search_board
@@ -174,25 +163,42 @@ class Board < ApplicationRecord
     Redis.new(url: ENV.fetch("REDIS_URL_ACTIONCABLE")).pubsub("channels", slug)[0].present?
   end
 
+  def dont_edit_online
+    #new ad rotation nil
+    errors.add(:base, "No puedes editar un bilbo en línea") if admin_edit
+  end
+
   # Returns how many times a single board should play it
   def rep_times(campaign)
     cycle_price(DateTime.now)
   end
 
   # Return campaigns active
-  def active_campaigns
-    campaigns.to_a.select{ |c| c.should_run?(self.id) }
+  def active_campaigns(type="all")
+    if type == "all"
+      campaigns.select{ |c| c.should_run?(self.id) }
+    elsif type == "provider"
+      campaigns.where(provider_campaign: true).select{ |c| c.should_run?(self.id) }
+    elsif type == "no_provider"
+      campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }      
+    end
   end
 
-  def update_ad_rotation(save_when_finish = true)
-    # build the ad rotation because the ads changed
-    new_cycle, err = self.build_ad_rotation
-    if err.empty?
-      self.ads_rotation = new_cycle
-      self.save! if save_when_finish
-      return true, err
+  def update_ads_rotation(camp=nil, force_generate = false, broadcast_to_board = true)
+    err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
+    return err if err.present?
+    self.ads_rotation = self.new_ads_rotation
+    @success = self.save
+    return self.errors if !@success
+    update_campaign_broadcast(camp) if broadcast_to_board
+    return [] #means no errors
+  end
+
+  def update_campaign_broadcast(camp)
+    if camp.state
+      publish_campaign(camp.id, self.id)
     else
-      return false, err
+      remove_campaign(camp.id, self.id)
     end
   end
 

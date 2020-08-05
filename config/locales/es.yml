@@ -110,7 +110,6 @@ es:
     to_inactive: La campaña se ha desactivado
     new_campaign: Nueva Campaña
     destroy: Remover Campaña
-    active_campaigns: Campañas activas
     campaign_name: Nombre de Campaña
     bilbos_in_use: Bilbos en uso
     ad_name: Nombre de creativo
@@ -365,6 +364,7 @@ es:
     review_now: Revisar
     view_all: Ver todas
     active_campaigns: Campañas activas
+    approved_campaigns: Campañas aprobadas
     active_campaigns_description: Todas las campañas corriendo a éste momento en tus bilbos
     recent_earnings: Ganancias Recientes
     recent_earnings_description: Impresiones y ganancias de tus bilbos en los últimos 30 días

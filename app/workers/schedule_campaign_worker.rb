@@ -2,12 +2,13 @@ class ScheduleCampaignWorker
   include Sidekiq::Worker
   include BroadcastConcern
   sidekiq_options retry: 5, dead: false
-  def perform(campaign_id)
-    campaign = Campaign.find(campaign_id)
-      BoardsCampaigns.where(campaign_id: campaign.id).approved.pluck(:board_id).each do |board_id|
-        if campaign.should_run?(board_id)
-          publish_campaign(campaign.id, board_id)
-        end
-      end
+  def perform(campaign_id, board_id)
+    bc = BoardsCampaigns.where(campaign_id: campaign_id, board_id: board_id, status: "approved")
+    if bc.any?
+      campaign = bc.campaign
+      board = bc.board
+      err = board.update_ads_rotation(campaign)
+      #maybe put a notification for user if fails (err.any?)
+    end
   end
 end

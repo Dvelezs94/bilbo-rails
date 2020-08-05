@@ -8,6 +8,7 @@ $(document).on('turbolinks:load', function() {
         // Called when the subscription has been terminated by the server
       },
       received: function(data) {
+        console.log(0);
         // Called when there's incoming data on the websocket for this channel
         if( data['action'] == "enable" ) {
           $('.board-ads').append(data['ad']);
