@@ -139,6 +139,7 @@ $(document).on('turbolinks:load', function () {
 
     // calculate budget when input is updated
     $('#campaign_budget').keyup(function () {
+      $("#impressions")[0].style.width = (this.value.length + 5) * 8 + 'px';
       calculatebudget();
     });
     if ($('#impressions').length) {

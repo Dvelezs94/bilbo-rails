@@ -37,6 +37,7 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.social_class = Faker::Number.between(from: 0, to: 3)
             board.start_time = Time.now
             board.end_time = Time.now + rand(-300..480).minutes
+            board.utc_offset = rand(-300..0)
 
           end
         end
