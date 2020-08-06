@@ -4,7 +4,7 @@ class Impression < ApplicationRecord
 
   validate :validate_api_token
   validates :created_at, uniqueness: { scope: :board }
-  validate :ten_seconds_board_campaign
+  validate :ten_seconds_validate_board_campaign
   belongs_to :board
   belongs_to :campaign, optional: true
   before_create :set_total_price
