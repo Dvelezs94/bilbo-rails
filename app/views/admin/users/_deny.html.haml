@@ -11,7 +11,7 @@
         %i.fe.fe-pencil
         %textarea#message.md-textarea.form-control{:rows => "4", :type => "text"}
       .modal-footer.d-flex.justify-content-center
-        = link_to '#', method: :patch,id: "user", data: {  confirm: "You sure you want to deny?" } do
+        = link_to '#', method: :patch, id: "user", data: {  confirm: "You sure you want to deny?" } do
           .btn.btn-sm.btn-outline-danger.d-flex.align-items-center.mg-r-5
             %i.fe.fe-close
             %span.d-none.d-sm-inline.mg-l-5= t('verification.profile')

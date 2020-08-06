@@ -50,7 +50,6 @@ es:
     export_csv: EXPORTAR A CSV
     print: IMPRIMIR
 
-
   nav_headers:
     users: Usuarios
     configuration: Configuración
@@ -86,8 +85,8 @@ es:
     description: Descripción
     created_at: Creado hace
     dimensions: Dimensiones
-    expected_profit: Ganancia Esperada
     size: Tamaño
+    expected_profit: Ganancia Esperada
     delete_confirmation: Seguro que quieres borrar este elemento?
     items_page: elementos/pagina
     edit: Editar Campaña
@@ -153,18 +152,20 @@ es:
       per_hour: Por Hora
       per_minute: Por minuto
       impressions: impresiones cada
+      minutes: minutos
       impressions_hour: impresiones de
+      impressions_hour_range: impresiones en un rango de
       to: a
       minute: minutos
       payment_details: Detalles de Pago
-      budget: Presupuesto
+      budget: Presupuesto diario
       most_popular: Más popular
       daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto se dividirá entre todos los bilbos equitativamente.
       campaign_duration: Duracion de la campaña
-      campaign_minute: Campaña por minuto
+      campaign_minute: Impresion por minuto
       campaign_minute_description: Esta opcion te permite escoger las impresiones que quieres que se muestren por minuto
-      campaign_hour: Campaña por hora
-      campaign_hour_description: Con la opcion campaña por hora puedes escoger la hora en la que se muestran tus campañas
+      campaign_hour: Rango de hora 
+      campaign_hour_description: Con la opcion rango de hora puedes escoger la hora en la que se muestran tus campañas
       campaign_clasification: Tipo de campaña
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha
@@ -206,6 +207,8 @@ es:
       updated: La campaña se ha actualizado exitosamente
       saved: La campaña se ha guardado con éxito
   bilbos:
+    hour_end: Hora de apagado
+    hour_start: Hora de encendido
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
     state: Estado
@@ -245,7 +248,8 @@ es:
     wallboard: Cartelon
     billboard: Espectacular
     provider: Correo del proveedor
-    earnings_description: Ultimos 3 meses de ganancias.
+    earnings_description: Ultimos 3 meses de ganancias
+    impressions_count_description: Ultimos 3 meses de impresiones
     ads_top: Creativos del top 4 durante 3 meses
     campaign_ads: Creativos de campañas
     working_hours: Horas activas
@@ -277,6 +281,7 @@ es:
     upload_multimedia: Subir Archivos
     all_multimedia_files: Todos los Archivos Multimedia
     delete_ad: Borrar creativo
+    no_ad: Ninguna creativo adjunto
     transition: Efecto de transición
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
@@ -344,11 +349,6 @@ es:
       go_to_invoices: Go to my Invoices
       invoice_subject: New invoice created for your campaign %{campaign_name}
       invoice_message: You have a new invoice for your campaign %{campaign_name} which is on your project %{project_name}. Click on the button below to view your invoices
-  notifications:
-    notifications: Notificaciones
-    view_all: Ver Todas
-    clear: Borrar
-    mark_as_read: Marcar como leído
   dashboards:
     export_to_csv: Exportar a CSV
     view_impressions: Ver Impresiones
@@ -447,3 +447,10 @@ es:
     reason: Motivo de denegación
     profile: Denegar perfil
     reason_message: Tu mensaje
+  message:
+    title_generic: Campañas digitales en publicidad exterior.
+    message_generic: Bilbo es la plataforma de anuncios en medios out-of-home que te permite crear campañas y anuncios en cualquier pantalla digital con unos cuantos clicks.
+    social_networks: Redes Sociales.
+    contact: Contacto.
+    conditions: Recibiste este email porque te registraste a Bilbo.mx y aceptaste recibir correos electrónicos de nosotros sobre notificaciones y noticias.
+    home: Inicio
