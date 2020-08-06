@@ -13,12 +13,7 @@
     %h5.tx-inverse.mg-t-25.mg-b-25= t("campaign.wizard.choose_bilbos")
     %p.mg-b-25= t("campaign.wizard.offcanvas.choose_bilbos_desc")
     .alert.alert-warning{role: "alert"}= t("campaign.wizard.offcanvas.choose_bilbos_disclaimer")
-    %hr
-    %h5.tx-inverse.mg-t-25.mg-b-25= t("campaign.wizard.date_and_budget")
-    %p.mg-b-5= t("campaign.wizard.offcanvas.choose_budget_desc")
-    %a{:href => "https://bilbo.freshdesk.com/support/solutions/articles/64000060135--cuantas-veces-se-va-a-mostrar-mi-campa%C3%B1a-", target: "_blank"}
-      = t("campaign.wizard.offcanvas.how_budget_works")
-      %i.fe.fe-arrow-right.valign-middle-f
+    = render partial: "campaigns/guide/#{@campaign.clasification}"
     %p.mg-t-25.mg-b-25= t("campaign.wizard.offcanvas.choose_date_desc")
     %p.mg-b-25= t("campaign.wizard.offcanvas.schedule_campaign")
     %hr

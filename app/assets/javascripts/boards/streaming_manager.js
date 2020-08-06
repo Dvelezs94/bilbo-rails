@@ -1,5 +1,52 @@
 $(document).on('turbolinks:load', function() {
   if ($("#api_token").length) {
+    // initiate graphql
+    var graph = graphql("/api")
+    var rotateAds;
+    displayedAds = [];
+    var api_token = $("#api_token").val();
+    var board_slug = $(location).attr('pathname').split('/')[2]
+    // counter for bilbo ad to be shown
+    var bilbo_ad_count = 0
+    // starts depending on the hour
+    var rotation_key = 0
+    // create the impressions every 60 seconds
+    setInterval(createImpression, 60000);
+    // Convert seconds to milliseconds
+    board_duration = parseInt($("#duration").val()) * 1000;
+
+    // Start stream
+    $(".start-stream").click(function(){
+      rotation_key = getIndex($("#start_time").val());
+      $(".start-stream").hide();
+      $(".board-ads").attr('style','display:block !important');
+      rotateAds = setInterval(showAd, board_duration);
+    });
+
+  // Stop stream
+    $("body").keyup(function (e) {
+      // Stop option only if its started
+      if ($(".start-stream").is(":hidden")) {
+        // stop if Escape key is pressed
+        if (e.keyCode === 27) {
+          $(".start-stream").attr('style','display:block !important');
+          $(".board-ads").hide();
+          $("#bilbo-ad").hide();
+          clearInterval(rotateAds);
+          $(".board-ad-inner").css({display: "none"});
+        }
+      }
+    });
+
+    // auto start
+    // &autoplay=true should be added to the params on the url
+    if ($.urlParam('autoplay') == "true") {
+      console.log("starting autoplay");
+      $( ".start-stream" ).trigger( "click" );
+    }
+
+    ///////////////////// FUNCTIONS  /////////////////////
+
     function createImpression() {
       // build the query
       var impressionMutation = graph.mutate(`
@@ -49,12 +96,6 @@ $(document).on('turbolinks:load', function() {
       }).catch( (error) => console.log(error))
     }
 
-    // show bilbo ad
-    function showBilboAd() {
-      $(".board-ads").hide();
-      $("#bilbo-ad").attr('style','display:block !important');
-    }
-
     // show user ad
     function showAd() {
       if (bilbo_ad_count < 10 ) {
@@ -95,49 +136,44 @@ $(document).on('turbolinks:load', function() {
       // increase rotation key
       ++rotation_key;
     }
+    // show bilbo ad
+    function showBilboAd() {
+      $(".board-ads").hide();
+      $("#bilbo-ad").attr('style','display:block !important');
+    }
+    function getIndex(start_time) {
+      start_date = new Date(start_time);
+      start_hours = start_date.getHours();
+      start_minutes = start_date.getMinutes();
+      start_seconds = start_date.getSeconds();
 
-    // initiate graphql
-    var graph = graphql("/api")
-    var rotateAds;
-    var displayedAds = [];
-    var api_token = $("#api_token").val();
-    var board_slug = $(location).attr('pathname').split('/')[2]
-    // counter for bilbo ad to be shown
-    var bilbo_ad_count = 0
-    // start from first item on the array for ads rotation
-    var rotation_key = 5755
-    // create the impressions every 60 seconds
-    setInterval(createImpression, 60000);
-    // Convert seconds to milliseconds
-    board_duration = parseInt($("#duration").val()) * 1000;
+      start_seconds = start_hours*3600 + start_minutes*60 + start_seconds;
 
-    // Start stream
-    $(".start-stream").click(function(){
-      $(".start-stream").hide();
-      $(".board-ads").attr('style','display:block !important');
-      rotateAds = setInterval(showAd, board_duration);
-    });
+      current_hours = new Date().getHours();
+      current_minutes = new Date().getMinutes();
+      current_seconds = new Date().getSeconds();
 
-  // Stop stream
-    $("body").keyup(function (e) {
-      // Stop option only if its started
-      if ($(".start-stream").is(":hidden")) {
-        // stop if Escape key is pressed
-        if (e.keyCode === 27) {
-          $(".start-stream").attr('style','display:block !important');
-          $(".board-ads").hide();
-          $("#bilbo-ad").hide();
-          clearInterval(rotateAds);
-          $(".board-ad-inner").css({display: "none"});
-        }
+      current_seconds = current_hours*3600 + current_minutes*60 + current_seconds;
+      if (current_seconds < start_seconds) { //fixes when bilbo changes day
+        current_seconds += 86400; //plus one day (seconds)
       }
-    });
+      index_seconds = current_seconds - start_seconds
 
-    // auto start
-    // &autoplay=true should be added to the params on the url
-    if ($.urlParam('autoplay') == "true") {
-      console.log("starting autoplay");
-      $( ".start-stream" ).trigger( "click" );
+      current_seconds = index_seconds - index_seconds%10 // go to the previous index
+
+      current_index = parseInt(current_seconds/10);
+      return current_index;
     }
   }
 });
+
+function updateQueryStringParameter(uri, key, value) {
+  var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+  var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+  if (uri.match(re)) {
+    return uri.replace(re, '$1' + key + "=" + value + '$2');
+  }
+  else {
+    return uri + separator + key + "=" + value;
+  }
+}

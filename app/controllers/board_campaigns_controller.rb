@@ -5,9 +5,24 @@ class BoardCampaignsController < ApplicationController
 
   def approve_campaign
     if @board_campaign.approved!
-      flash[:success] = I18n.t('campaign.action.saved')
+      @board = @board_campaign.board
+      @board.with_lock do
+        @campaign = @board_campaign.campaign
+        # if @campaign.starts_at.present? && @campaign.ends_at.present?
+        #
+        # end
+        err = @board.update_ads_rotation(@campaign)
+        if err.empty?
+          flash[:success] = I18n.t('campaign.to_active')
+        else
+          @campaign.update(state: false)
+          flash[:error] = I18n.t('campaign.ads_rotation_error.accepted_but_error',error: err.first)
+        end
+      end
+      #flash[:success] = I18n.t('campaign.action.saved')
     else
-      flash[:error] = I18n.t('campaign.errors.no_save')
+      #flash[:error] = I18n.t('campaign.errors.no_save')
+      flash[:error] = I18n.t('campaign.errors.not_accepted')
     end
   redirect_to provider_index_campaigns_path(q:"review")
  end

@@ -1,27 +1,42 @@
 class Board < ApplicationRecord
   include AdRotationAlgorithm
+  include BroadcastConcern
   include Rails.application.routes.url_helpers
   extend FriendlyId
+  attr_accessor :new_ads_rotation, :admin_edit
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :campaigns, through: :board_campaigns
   has_many :impressions
+  validate :dont_edit_online, if: :connected?
   has_many_attached :images
   has_one_attached :default_image
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
   enum status: { enabled: 0, disabled: 1 }
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
-  validates_presence_of :lat, :lng, :avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :working_hours, on: :create
+  validates_presence_of :lat, :lng, :utc_offset,:avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
   after_create :generate_qr_code
-  after_create :update_ad_rotation
+  after_create :update_ads_rotation
   before_create :calculate_aspect_ratio
   before_save  do
     if width_changed? || height_changed?
       calculate_aspect_ratio
     end
   end
+
+  ################ DEMO FIX ##########################
+  def start_time
+    super.nil?? Time.parse("8:00")  : super
+  end
+  def end_time
+    super.nil?? Time.parse("2:00")  : super
+  end
+  def utc_offset
+    super.nil?? 0  : super
+  end
+  ###################################################
 
   # slug candidates for friendly id
   def slug_candidates
@@ -30,6 +45,15 @@ class Board < ApplicationRecord
       ["bilbo", :name, :address]
     ]
   end
+
+  def active_campaigns_on_board
+    #ordered by default provider campaigns first
+    campaign_ids = board_campaigns.approved.pluck(:campaign_id)
+    active_campaigns_on_board = Campaign.where(id: campaign_ids ,state: true).order(provider_campaign: :desc)
+  end
+
+
+
 
   def self.search(search_board)
     if search_board
@@ -127,7 +151,7 @@ class Board < ApplicationRecord
   # example a cycle could be of 10 seconds
   # this gives the price of a cycle in a bilbo
   def cycle_price(date = Time.now)
-    daily_seconds = working_hours * 3600
+    daily_seconds = working_minutes(start_time, end_time) * 60
     total_days_in_month = date.end_of_month.day
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = calculate_max_earnings
@@ -139,22 +163,42 @@ class Board < ApplicationRecord
     Redis.new(url: ENV.fetch("REDIS_URL_ACTIONCABLE")).pubsub("channels", slug)[0].present?
   end
 
+  def dont_edit_online
+    #new ad rotation nil
+    errors.add(:base, "No puedes editar un bilbo en línea") if admin_edit
+  end
+
   # Returns how many times a single board should play it
   def rep_times(campaign)
     cycle_price(DateTime.now)
   end
 
   # Return campaigns active
-  def active_campaigns
-    campaigns.to_a.select(&:should_run?)
+  def active_campaigns(type="all")
+    if type == "all"
+      campaigns.select{ |c| c.should_run?(self.id) }
+    elsif type == "provider"
+      campaigns.where(provider_campaign: true).select{ |c| c.should_run?(self.id) }
+    elsif type == "no_provider"
+      campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }      
+    end
   end
 
-  def update_ad_rotation
-    # build the ad rotation because the ads changed
-    new_cycle = self.build_ad_rotation
-    self.with_lock do
-      self.ads_rotation = new_cycle
-      self.save!
+  def update_ads_rotation(camp=nil, force_generate = false, broadcast_to_board = true)
+    err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
+    return err if err.present?
+    self.ads_rotation = self.new_ads_rotation
+    @success = self.save
+    return self.errors if !@success
+    update_campaign_broadcast(camp) if broadcast_to_board
+    return [] #means no errors
+  end
+
+  def update_campaign_broadcast(camp)
+    if camp.state
+      publish_campaign(camp.id, self.id)
+    else
+      remove_campaign(camp.id, self.id)
     end
   end
 
@@ -170,8 +214,45 @@ class Board < ApplicationRecord
     end
     return @new_width, @new_height
   end
+  def working_hours(st,et, zero_if_equal = false) #returns hours of difference
+    working_minutes(st,et,zero_if_equal)/60.0
+  end
+
+  def ads_rotation_with_start_time
+    st = time_h_m_s(start_time)
+    {st => ads_rotation}.to_h
+  end
+
+  def ads_rotation_hash
+    output = {}
+    JSON.parse(self.ads_rotation).each_with_index do |name, idx|
+      current_time = start_time + (10*idx).seconds
+      output[time_h_m_s(current_time)] = name
+    end
+    return output
+  end
+
+  def working_minutes(st,et, zero_if_equal = false) #returns minutes of difference
+    # if end time is less than the start time, i assume that the board is on until the next day
+    # if they are equal i assume is all day on
+    start_hours = st.strftime("%H").to_i
+    start_mins = st.strftime("%M").to_i
+    start_mins = start_hours * 60 + start_mins
+    end_hours = et.strftime("%H").to_i
+    end_mins = et.strftime("%M").to_i
+    end_mins = end_hours * 60 + end_mins
+    end_mins = end_mins + 1440 if end_mins < start_mins
+    end_mins = end_mins + 1440 if !zero_if_equal && end_mins == start_mins # 1440 are the minutes in a day
+    (end_mins - start_mins)
+  end
+  def time_h_m_s(time)
+    time.strftime("%H:%M:%S")
+  end
 
   private
+  def total_cycles(st,et,zero_if_equal = false )
+    working_minutes(st,et,zero_if_equal)*6
+  end
   def calculate_aspect_ratio
     width = (self.width * 100).round(0)
     height = (self.height * 100).round(0)
@@ -255,6 +336,5 @@ end
   def to_s
     name
   end
-
 
 end
