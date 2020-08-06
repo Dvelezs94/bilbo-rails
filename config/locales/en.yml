@@ -386,6 +386,10 @@ en:
         subject: Your report is ready to be downloaded
         message: Your report is ready to be downloaded
         url_string: Download csv
+      new_invite:
+        subject: The user <strong>%{user_name}</strong> was added to the project
+        message: The user <strong>%{user_name}</strong> was added to the project
+        url_string: New user 
     report:
       weekly_ready:
         subject: Your weekly report is ready to be downloaded

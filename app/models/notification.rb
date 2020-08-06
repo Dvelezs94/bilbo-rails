@@ -53,6 +53,11 @@ class Notification < ApplicationRecord
         url_string: I18n.t("#{translation}.url_string"),
         message: I18n.t("#{translation}.message"),
         subject: I18n.t("#{translation}.subject") }
+      when "new invite"
+        { url: project_url(notifiable.slug),
+          url_string: I18n.t("#{translation}.url_string"),
+          message: I18n.t("#{translation}.message"),
+          subject: I18n.t("#{translation}.subject") }
       end
     when "Report"
       case action
