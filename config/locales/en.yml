@@ -150,6 +150,7 @@ en:
       need_help: Need help?
       date_and_budget: Date and Budget
       per_hour: Per hour
+      campaign_hour: Hour range 
       per_minute: Per minute
       impressions: impressions every
       impressions_hour: impressions from
@@ -158,12 +159,11 @@ en:
       Budget: Budget
       payment_details: Payment Details
       most_popular: Most popular
-      budget: Budget
+      budget: Daily budget
       daily_budget_description: Budget for your chosen Bilbos. The budget will be dividided equally between all Bilbos.
       campaign_duration: Campaign Duration
-      campaign_minute: Campaign per minute
+      campaign_minute: Impression per minute
       campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
-      campaign_hour: Campaign per hour
       campaign_hour_description: With this option, you can program you're campaigns in an specific hour
       campaign_clasification: Type of campaign
       ongoing_campaign: Ongoing Campaign
@@ -206,6 +206,8 @@ en:
       updated: The campaign has been successfully updated
       saved: The campaign has been saved successfully
   bilbos:
+    hour_end: Hour End
+    hour_start: Hour Start
     new_bilbo: New Bilbo
     name: Bilbo name
     state: State
