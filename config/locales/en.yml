@@ -150,6 +150,7 @@ en:
       need_help: Need help?
       date_and_budget: Date and Budget
       per_hour: Per hour
+      campaign_hour: Hour range 
       per_minute: Per minute
       impressions: impressions every
       impressions_hour: impressions from
@@ -163,7 +164,6 @@ en:
       campaign_duration: Campaign Duration
       campaign_minute: Impression per minute
       campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
-      campaign_hour: Impression per hour
       campaign_hour_description: With this option, you can program you're campaigns in an specific hour
       campaign_clasification: Type of campaign
       ongoing_campaign: Ongoing Campaign
