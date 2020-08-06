@@ -46,15 +46,6 @@ class Board < ApplicationRecord
     ]
   end
 
-  def active_campaigns_on_board
-    #ordered by default provider campaigns first
-    campaign_ids = board_campaigns.approved.pluck(:campaign_id)
-    active_campaigns_on_board = Campaign.where(id: campaign_ids ,state: true).order(provider_campaign: :desc)
-  end
-
-
-
-
   def self.search(search_board)
     if search_board
       where('name LIKE ?', "%#{search_board}%")
@@ -180,11 +171,11 @@ class Board < ApplicationRecord
     elsif type == "provider"
       campaigns.where(provider_campaign: true).select{ |c| c.should_run?(self.id) }
     elsif type == "no_provider"
-      campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }      
+      campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }
     end
   end
 
-  def update_ads_rotation(camp=nil, force_generate = false, broadcast_to_board = true)
+  def update_ads_rotation(camp, force_generate = false, broadcast_to_board = true)
     err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
     return err if err.present?
     self.ads_rotation = self.new_ads_rotation

@@ -63,10 +63,8 @@ class CampaignsController < ApplicationController
   def update
     current_user.with_lock do
       respond_to do |format|
-        if @campaign.update_attributes(campaign_params.merge(state: true))
+        if @campaign.update(campaign_params.merge(state: true, provider_update: true))
           track_activity( action: "campaign.campaign_updated", activeness: @campaign)
-          # move campaign to in review since it was changed
-          @campaign.set_in_review
           # Create a notification per project
           @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
             create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
