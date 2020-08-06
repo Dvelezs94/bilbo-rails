@@ -38,8 +38,12 @@ class Impression < ApplicationRecord
   end
 
   def ten_seconds_validate
-    impression = Impression.find_by(board_id: self.board.id, campaign_id: self.campaign.id)
+    impression = Impression.order(created_at: :desc).find_by(board_id: self.board.id, campaign_id: self.campaign.id)
     if impression.present?
+      p self.created_at
+      p impression.created_at
+      p (self.created_at - impression.created_at).abs.round
+      p (self.created_at - impression.created_at).abs.round < 10
       if ((self.created_at - impression.created_at).abs.round < 10)
         return errors.add :base, "Impression duplicate in less ten seconds"
       end
