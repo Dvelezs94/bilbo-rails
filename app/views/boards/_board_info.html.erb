@@ -78,6 +78,20 @@
         </tr>
         <tr>
           <td>
+            <i class="fe fe-clock ic-primary pd-r-5-f"></i>
+          </td>
+          <td class="tx-medium"><%= t("bilbos.hour_start") %></td>
+          <td class="text-right"><%= board.start_time.to_s(:time) %></td>
+        </tr>
+        <tr>
+          <td>
+            <i class="fe fe-clock ic-red pd-r-5-f"></i>
+          </td>
+          <td class="tx-medium"><%= t("bilbos.hour_end") %></td>
+          <td class="text-right"><%= board.end_time.to_s(:time) %></td>
+        </tr>
+        <tr>
+          <td>
             <i class="fe fe-line-chart ic-primary pd-r-5-f"></i>
           </td>
           <td class="tx-medium"><%= t('campaign.occupied') %></td>
