@@ -20,7 +20,7 @@
               %p
                 %br
                 -if "#{@campaign.clasification}" == "per_hour"
-                  %strong Rango de hora 
+                  %strong= t('campaign.wizard.campaign_hour')
                   %br
                     %strong#impPerHour
                     %span= t('campaign.wizard.impressions_hour')
@@ -30,7 +30,7 @@
                     %i.fe.fe-clock
                 %end
                 -if "#{@campaign.clasification}" == "per_minute"
-                  %strong Rango de hora
+                  %strong= t('campaign.wizard.campaign_minute') 
                   %br
                     %strong#perMinute
                     %span= t('campaign.wizard.impressions')
@@ -39,9 +39,10 @@
                     %i.fe.fe-clock
                 %end
                 -if "#{@campaign.clasification}" == "budget"
-                  %p Budget
-                  %span#dailyBudget 
-                  %i.fe.fe-wallet
+                  %strong= t('campaign.wizard.daily_budget') 
+                  %br
+                    %span#dailyBudget 
+                    %i.fe.fe-wallet
                 %end
                 %hr
                   %p
