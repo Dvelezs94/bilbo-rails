@@ -1,17 +1,17 @@
-%h3= t('campaign.wizard.budget')
+%h3= t('campaign.wizard.campaign_hour')
 %section
   %form
     .row.justify-content-xl-center
     .divider-text= t('campaign.wizard.title_impressions_per_hour')
     .col-12.form-row.justify-content-xl-center
       .quantity{style: "margin-right: 10px;margin-left: 10px;"}
-        = f.number_field :imp, {:id => "impressionsPerMinute", :min => "1", :step => "1", :class => "form-control", :required => true}
+        = f.number_field :imp, {:id => "impressionsPerHour", :min => "1", :step => "1", :class => "form-control", :required => true}
       %span{style: "margin-top:10px;"}= t('campaign.wizard.impressions_hour')
       .quantity{style: "margin-right: 10px;margin-left: 20px;"}
         = f.time_field :hour_start, {:id => "timePickerStart", :class => "form-control", :required => true }
       %span{style: "margin-top:10px;"}= t('campaign.wizard.to')
       .quantity{style: "margin-right: 10px;margin-left: 20px;"}
-        =f.time_field :hour_finish, {:id => "timePickerEnd", :class => "form-control", :placeholder => '00:00'}
+        =f.time_field :hour_finish, {:id => "timePickerEnd", :class => "form-control", :required => true}
     .col-4
     .divider-text= t('campaign.wizard.campaign_duration')
     .form-row

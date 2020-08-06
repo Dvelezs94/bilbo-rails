@@ -76,6 +76,7 @@ Rails.application.routes.draw do
         get :index
       end
       member do
+        put :update_credit
         get :fetch
         patch :verify
         patch :deny

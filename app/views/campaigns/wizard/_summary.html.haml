@@ -18,10 +18,32 @@
               / <a href="/" target="_blank" id=""> <i class="fe fe-link-external tx-20"></i> </a>
             %hr
               %p
-                %strong Presupuesto Diario:
                 %br
-                  %span#dailyBudget Budget
-                  %i.fe.fe-wallet
+                -if "#{@campaign.clasification}" == "per_hour"
+                  %strong= t('campaign.wizard.campaign_hour')
+                  %br
+                    %strong#impPerHour
+                    %span= t('campaign.wizard.impressions_hour')
+                    %strong#timeStart
+                    %span= t('campaign.wizard.to')
+                    %strong#timeEnd
+                    %i.fe.fe-clock
+                %end
+                -if "#{@campaign.clasification}" == "per_minute"
+                  %strong= t('campaign.wizard.campaign_minute') 
+                  %br
+                    %strong#perMinute
+                    %span= t('campaign.wizard.impressions')
+                    %strong#perMinuteEnd
+                    %span= t('campaign.wizard.minute')
+                    %i.fe.fe-clock
+                %end
+                -if "#{@campaign.clasification}" == "budget"
+                  %strong= t('campaign.wizard.daily_budget') 
+                  %br
+                    %span#dailyBudget 
+                    %i.fe.fe-wallet
+                %end
                 %hr
                   %p
                     %strong Duracion de la campa&#xF1;a:
