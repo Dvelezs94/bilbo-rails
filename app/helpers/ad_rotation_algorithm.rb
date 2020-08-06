@@ -44,6 +44,33 @@ module AdRotationAlgorithm
     return err
   end
  #################################################################################33
+  def add_bilbo_campaigns
+    output = JSON.parse(self.ads_rotation)
+
+    cps  = self.campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
+    cycles = []                            # array to store the name of the bilbo users the required times
+
+    cps.each do |name, value|              # Fill the cycles array
+       value.times do                      # with the names of the
+           cycles << name                  # bilbo users
+       end
+    end
+
+    free_idxs = free_indexes(output)
+    free_idxs.shuffle!
+
+    cycles.each_with_index do |user, idx|
+        x = free_idxs[idx]
+        if x != nil
+          output[x] = user
+        else
+          break
+        end
+    end
+    return output
+
+  end
+
   def build_ad_rotation(new_campaign = nil)
 
     err = []
@@ -54,8 +81,6 @@ module AdRotationAlgorithm
     t_cycles.times do   # Initialize the output
         output << '-'       # array with only bilbo
     end                     # ads
-    cps  = self.campaigns.where(provider_campaign: false).to_a.select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
-    cycles = []                            # array to store the name of the bilbo users the required times
 
     r_cps = self.campaigns.where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     r_cycles = []
@@ -86,11 +111,6 @@ module AdRotationAlgorithm
     end
     #####################################
 
-    cps.each do |name, value|              # Fill the cycles array
-       value.times do                      # with the names of the
-           cycles << name                  # bilbo users
-       end
-    end
     r_cps.each do |name, displays|
         displays.times do
             r_cycles << name
@@ -122,7 +142,6 @@ module AdRotationAlgorithm
             end
             if output[fi] == '-'
                 c+=1
-
                 output[fi] = name
             end
             fi+=1
@@ -151,7 +170,6 @@ module AdRotationAlgorithm
         minutes = displays_minutes[1]
         size = minutes*6
         inf = 0
-
         while inf < t_cycles do
             arr = (0...size).to_a
             displays = displays_minutes[0]
@@ -171,7 +189,7 @@ module AdRotationAlgorithm
                         err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", name: self.name)
                         return err
                       end
-                      output[idx] = val
+                      output[h_cps[val][1]+idx] = val
                       output[inf+pos] = name
                       displays-=1
                     elsif arr.length<displays
@@ -192,12 +210,6 @@ module AdRotationAlgorithm
     if free_spaces < r_cycles.length
       err << I18n.t("bilbos.ads_rotation_error.budget_campaign_space", name: self.name)
       return err
-    else
-        n = [cycles.length, free_spaces - r_cycles.length].min
-        cycles.shuffle!
-        for i in 0...n
-            r_cycles << cycles[i]
-        end
     end
 
     free_idxs = free_indexes(output)
@@ -206,7 +218,9 @@ module AdRotationAlgorithm
     r_cycles.each_with_index do |user, idx|
         x = free_idxs[idx]
         if x != nil
-            output[x] = user
+          output[x] = user
+        else
+          break
         end
     end
 
@@ -215,10 +229,6 @@ module AdRotationAlgorithm
     #     p [line, index+1]
     # end
 
-    ###### AUTOMATICALLY CHECK IF THE PROGRAM RAN CORRECTLY ##########
-    # Check scheduled cps
-    p "FINAL DE EJECUCION"
-    p "LA EJECUCION FUE EXITOSA"
     self.new_ads_rotation = output
     return err
 

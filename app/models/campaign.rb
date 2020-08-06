@@ -25,7 +25,7 @@ class Campaign < ApplicationRecord
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
   validate :test_for_valid_settings
-  validate :check_build_ad_rotation, if: :state_is_true?
+  validate :check_build_ad_rotation, if: :provider_campaign
   #validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
@@ -57,7 +57,7 @@ class Campaign < ApplicationRecord
     self.budget / boards.length
   end
   def check_build_ad_rotation
-    if !provider_update
+    if (state_changed? && state)
       boards.each do |b|
         err = b.build_ad_rotation(self)
         if err.any?
@@ -113,9 +113,8 @@ class Campaign < ApplicationRecord
 
 
   def update_rotation_on_boards
-    #this uses the new_ads_rotation generated in validation of each board
     boards.each do |b|
-      err = b.update_ads_rotation(self) if campaign_active_in_board?(b.id)
+      err = b.update_ads_rotation(self)
       #currently no use for errors here
     end
   end

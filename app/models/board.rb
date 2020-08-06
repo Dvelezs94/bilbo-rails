@@ -175,13 +175,13 @@ class Board < ApplicationRecord
     end
   end
 
-  def update_ads_rotation(camp, force_generate = false, broadcast_to_board = true)
+  def update_ads_rotation(camp=nil, force_generate = false, broadcast_to_board = true)
     err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
     return err if err.present?
     self.ads_rotation = self.new_ads_rotation
     @success = self.save
     return self.errors if !@success
-    update_campaign_broadcast(camp) if broadcast_to_board
+    update_campaign_broadcast(camp) if broadcast_to_board && camp.present?
     return [] #means no errors
   end
 
@@ -214,9 +214,9 @@ class Board < ApplicationRecord
     {st => ads_rotation}.to_h
   end
 
-  def ads_rotation_hash
+  def ads_rotation_hash(rot)
     output = {}
-    JSON.parse(self.ads_rotation).each_with_index do |name, idx|
+    rot.each_with_index do |name, idx|
       current_time = start_time + (10*idx).seconds
       output[time_h_m_s(current_time)] = name
     end
