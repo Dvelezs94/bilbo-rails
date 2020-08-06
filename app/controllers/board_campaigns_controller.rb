@@ -38,9 +38,9 @@ class BoardCampaignsController < ApplicationController
 
   def in_review_campaign
     if @board_campaign.in_review!
-     flash[:success] = I18n.t('campaign.action.saved')
+     flash[:success] = I18n.t('campaign.action.to_review', locale: current_user.locale)
     else
-     flash[:error] = I18n.t('campaign.errors.no_save')
+     flash[:error] = I18n.t('campaign.errors.no_save', locale: current_user.locale)
     end
    redirect_to provider_index_campaigns_path
   end

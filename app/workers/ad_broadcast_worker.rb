@@ -4,7 +4,6 @@ class AdBroadcastWorker
   include Rails.application.routes.url_helpers
 
   def perform(campaign_id, board_id,action)
-    p "LLEGO"*100
     board = Board.find(board_id)
     board.with_lock do
       campaign = Campaign.find(campaign_id)
@@ -15,7 +14,7 @@ class AdBroadcastWorker
         html_code = "<img class='board-ad-inner' src='#{polymorphic_path(mm)}' data-campaign='#{campaign.slug}' data-campaign-id='#{campaign.id}' data-budget='#{campaign.budget}'>"
         append_msg.insert(-1, html_code)
       end
-      broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.add_bilbo_campaigns)
+      broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.add_bilbo_campaigns.to_s)
     end
   end
 

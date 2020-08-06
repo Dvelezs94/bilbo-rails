@@ -186,7 +186,7 @@ class Board < ApplicationRecord
   end
 
   def update_campaign_broadcast(camp)
-    if camp.state
+    if camp.state && camp.campaign_active_in_board?(self.id)
       publish_campaign(camp.id, self.id)
     else
       remove_campaign(camp.id, self.id)
