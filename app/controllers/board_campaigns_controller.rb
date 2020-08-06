@@ -13,10 +13,10 @@ class BoardCampaignsController < ApplicationController
         # end
         err = @board.update_ads_rotation(@campaign)
         if err.empty?
-          flash[:success] = I18n.t('campaign.to_active')
+          flash[:success] = I18n.t('campaign.to_active', locale: current_user.locale)
         else
           @campaign.update(state: false)
-          flash[:error] = I18n.t('campaign.ads_rotation_error.accepted_but_error',error: err.first)
+          flash[:error] = I18n.t('campaign.ads_rotation_error.accepted_but_error',error: err.first, locale: current_user.locale)
         end
       end
       #flash[:success] = I18n.t('campaign.action.saved')
