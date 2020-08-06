@@ -207,6 +207,8 @@ es:
       updated: La campaña se ha actualizado exitosamente
       saved: La campaña se ha guardado con éxito
   bilbos:
+    hour_end: Hora de apagado
+    hour_start: Hora de encendido
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
     state: Estado
