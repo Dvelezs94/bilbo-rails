@@ -152,18 +152,20 @@ es:
       per_hour: Por Hora
       per_minute: Por minuto
       impressions: impresiones cada
+      minutes: minutos
       impressions_hour: impresiones de
+      impressions_hour_range: impresiones en un rango de
       to: a
       minute: minutos
       payment_details: Detalles de Pago
-      budget: Presupuesto
+      budget: Presupuesto diario
       most_popular: Más popular
       daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto se dividirá entre todos los bilbos equitativamente.
       campaign_duration: Duracion de la campaña
-      campaign_minute: Campaña por minuto
+      campaign_minute: Impresion por minuto
       campaign_minute_description: Esta opcion te permite escoger las impresiones que quieres que se muestren por minuto
-      campaign_hour: Campaña por hora
-      campaign_hour_description: Con la opcion campaña por hora puedes escoger la hora en la que se muestran tus campañas
+      campaign_hour: Rango de hora 
+      campaign_hour_description: Con la opcion rango de hora puedes escoger la hora en la que se muestran tus campañas
       campaign_clasification: Tipo de campaña
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha
@@ -205,6 +207,8 @@ es:
       updated: La campaña se ha actualizado exitosamente
       saved: La campaña se ha guardado con éxito
   bilbos:
+    hour_end: Hora de apagado
+    hour_start: Hora de encendido
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
     state: Estado

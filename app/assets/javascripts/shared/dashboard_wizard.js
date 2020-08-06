@@ -124,6 +124,11 @@ $(document).on('turbolinks:load', function () {
           });
           $('#bilbosNum').text($('#bilbosAddress li').length);
         } else if (priorIndex === 2) {
+          $('#perMinute').text($('#imp_minute').val());
+          $('#perMinuteEnd').text($('#campaign_minutes').val());
+          $('#impPerHour').text($('#impressionsPerHour').val());
+          $('#timeStart').text($('#timePickerStart').val());
+          $('#timeEnd').text($('#timePickerEnd').val());
           $('#dailyBudget').text($('#campaign_budget').val());
           if ($('#date_campaign').prop('checked')) {
             $('#campaignStarts').text($('#campaign_starts_at').val());
