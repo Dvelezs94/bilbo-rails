@@ -206,6 +206,8 @@ en:
       updated: The campaign has been successfully updated
       saved: The campaign has been saved successfully
   bilbos:
+    hour_end: Hour End
+    hour_start: Hour Start
     new_bilbo: New Bilbo
     name: Bilbo name
     state: State
