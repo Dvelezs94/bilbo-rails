@@ -98,14 +98,23 @@ class User < ApplicationRecord
 
   # sends the html content (images) when the user buys credits
   def resume_campaigns
+    camp_ids = []
     projects.select {|pr| pr.admin?(self.id) }.each do |p|
-      p.campaigns.to_a.each do |c|
-        c.boards.each do |b|
-          if c.should_run?(b.id)
-            publish_campaign(c.id, b.id)
-          end
-        end
+      camp_ids << p.campaigns.pluck(:id)
+    end
+    bc = BoardsCampaigns.where(status: "approved", campaign_id: camp_ids)
+
+    bd_ids = bc.pluck(:board_id)
+    bds = Board.find(bd_ids)
+    bds.each do |b|
+      b.with_lock do
+        b.update_ads_rotation
       end
+    end
+    accepted_c_ids = bc.pluck(:campaign_id)
+    accepted_campaigns = Campaign.find(accepted_c_ids)
+    accepted_campaigns.each do |c|
+      publish_campaign(c.id, b.id)
     end
   end
   private

@@ -3,7 +3,6 @@ class Campaign < ApplicationRecord
   include BroadcastConcern
   extend FriendlyId
   friendly_id :name, use: :slugged
-
   belongs_to :project
   has_many :impressions
   has_many :campaign_denials
@@ -29,7 +28,7 @@ class Campaign < ApplicationRecord
   #validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
-  after_update :update_broadcast
+  after_update :update_rotation_on_boards
   before_save :set_in_review, :if => :ad_id_changed?
 
 
@@ -58,7 +57,7 @@ class Campaign < ApplicationRecord
   end
   def check_build_ad_rotation
     boards.each do |b|
-      _, err = b.build_ad_rotation(self)
+      err = b.build_ad_rotation(self)
       if err.any?
         errors.add(:base, err.first)
         break
@@ -70,8 +69,9 @@ class Campaign < ApplicationRecord
     #self.state check the state of campaign
     #self.status == "active" check the status of campaign
     #self.budget > 0 Check that the budget is greater than 0 of campaign
-    if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?
-      if clasification == "budget" && self.budget > 0 && !campaign_budget_spent?
+    brd = Board.find(board_id)
+    if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?(brd)
+      if clasification == "budget" && self.budget > 50 && !campaign_budget_spent? && ( provider_campaign || project.owner.balance >= 5 )
         return true
       elsif clasification == "per_minute"
         return true
@@ -97,20 +97,23 @@ class Campaign < ApplicationRecord
     board_campaigns.approved.where(board_id: board_id).any?
   end
 
-  def time_to_run?
-    (self.starts_at.nil? && self.ends_at.nil?) || (self.starts_at <= Time.zone.now && self.ends_at > Time.zone.now)
+  def to_utc(time,utc_offset)
+    time - utc_offset
+  end
+
+  def time_to_run?(brd)
+    # if set start and end to august 4, it runs all august 4 day
+    # if set from 4 aug to 5 aug, it runs entire both days
+    #utc is used to compare dates correctly
+    (self.starts_at.nil? && self.ends_at.nil?) || (to_utc(self.starts_at,brd.utc_offset).to_date <= Time.now.utc.to_date && to_utc(self.ends_at,brd.utc_offset).to_date  >= Time.now.utc.to_date)
   end
 
 
-  def update_broadcast
-    if state
-      board_campaigns.approved.pluck(:board_id).each do |board_id|
-        publish_campaign(id, board_id)
-      end
-    else
-      board_campaigns.approved.pluck(:board_id).each do |board_id|
-        remove_campaign(id, board_id)
-      end
+  def update_rotation_on_boards
+    #this uses the new_ads_rotation generated in validation of each board
+    boards.each do |b|
+      err = b.update_ads_rotation(self) if campaign_active_in_board?(b.id)
+      #currently no use for errors here
     end
   end
 
@@ -193,8 +196,8 @@ class Campaign < ApplicationRecord
   def test_for_valid_settings
     if provider_campaign && state
       boards.each do |b|
-        valid,err = b.test_ad_rotation(self)
-        if !valid
+        err = b.test_ad_rotation(self)
+        if err.any?
           err.each do |e|
             errors.add(:base, e)
           end

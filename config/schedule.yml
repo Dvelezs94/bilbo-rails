@@ -1,3 +1,0 @@
-regerate_ads_rotation_job:
-  cron: "0 * * * *"
-  class: "RegerateAdsRotationWorker"

@@ -64,7 +64,6 @@ class CampaignsController < ApplicationController
     current_user.with_lock do
       respond_to do |format|
         if @campaign.update_attributes(campaign_params.merge(state: true))
-          p "DESPUES DE UPDATE_ATTRIBUTES"
           track_activity( action: "campaign.campaign_updated", activeness: @campaign)
           # move campaign to in review since it was changed
           @campaign.set_in_review
@@ -72,9 +71,11 @@ class CampaignsController < ApplicationController
           @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
             create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
                                 action: "created", notifiable: @campaign)
-          if @campaign_params[:starts_at].present?
-            difference_in_seconds = (Time.zone.parse(@campaign_params[:starts_at]) - Time.zone.now).to_i
-            ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id)
+          if @campaign.starts_at.present? && @campaign.ends_at.present?
+            @campaign.boards.each do |b|
+              difference_in_minutes = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
+              ScheduleCampaignWorker.perform_at(difference_in_minutes.seconds.from_now, @campaign.id, b.id)
+            end
           end
         end
           format.js {

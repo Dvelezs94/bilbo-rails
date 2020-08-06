@@ -66,7 +66,6 @@ en:
     update: Update
     company_web_page: Company web page
     company_address: Company Address
-
     idiom: Language
   general_inputs:
     confirm_submit: Are you sure?
@@ -87,6 +86,7 @@ en:
     created_at: Created at
     dimensions: Dimensions
     size: Size
+    expected_profit: Expected profit
     delete_confirmation: Are you sure you want to delete this element?
     items_page: items/page
     edit: Edit Campaign
@@ -109,7 +109,6 @@ en:
     to_inactive: The campaign has been deactivated
     new_campaign: New Campaign
     destroy: Remove Campaign
-    active_campaigns: Active Campaigns
     campaign_name: Campaign Name
     bilbos_in_use: Bilbos in use
     ad_name: Creative Name
@@ -135,11 +134,12 @@ en:
     campaign_date: Date
     wont_be_able_to_update_state: You will not be able to update the state until
     impressions_per_day: Impressions
+    invested: Daily investment
     popular_hours: Most popular hours
-    approve_campaign: Are you sure you want to approve this campaign?
-    deny_campaign: Are you sure you want to deny this campaign?
     status_on: "On"
     status_off: "Off"
+    approve_campaign: Are you sure you want to approve this campaign?
+    deny_campaign: Are you sure you want to deny this campaign?
     in_review_campaign: You are about to pause this campaign. Are you sure?
     ads_rotation_error:
       accepted_but_error: The campaign was accepted but %{error}
@@ -297,6 +297,7 @@ en:
       wont_be_able_to_delete: This creative can't be deleted because of active campaigns
       wont_be_able_to_update: This creative can't be updated because of active campaigns
     new_ad_description: Create a new amazing and beautiful creative for your campaigns
+    No_ad: No creative
   payments:
     if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
     processing_order: Processing order...
@@ -345,11 +346,6 @@ en:
       go_to_invoices: Go to my Invoices
       invoice_subject: New invoice created for your campaign %{campaign_name}
       invoice_message: You have a new invoice for your campaign %{campaign_name} which is on your project %{project_name}. Click on the button below to view your invoices
-  notifications:
-    notifications: Notifications
-    view_all: View All
-    clear: Clear
-    mark_as_read: Mark as read
   dashboards:
     export_to_csv: Export to CSV
     view_impressions: View All Impressions
@@ -365,6 +361,7 @@ en:
     review_now: Review now
     view_all: View All
     active_campaigns: Active Campaigns
+    approved_campaigns: Approved Campaigns
     active_campaigns_description: Total number of marketing campaigns that are currently running on your Bilbos.
     recent_earnings: Most Recent Earnings
     recent_earnings_description: Impressions and earnings of all your Bilbos over the last 30 days
@@ -447,3 +444,10 @@ en:
     reason: Reason for denied
     profile: Deny Profile
     reason_message: Your message
+  message:
+    title_generic: Digital campaigns in outdoor advertising.
+    message_generic: Bilbo is the out-of-home media ad platform that allows you to create campaigns and ads on any digital screen with a few clicks.
+    social_networks: Social networks.
+    contact: Contact.
+    conditions: You received this email because you registered at Bilbo.mx and agreed to receive emails from us about notifications and news.
+    home: Home

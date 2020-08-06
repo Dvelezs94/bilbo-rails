@@ -50,7 +50,6 @@ es:
     export_csv: EXPORTAR A CSV
     print: IMPRIMIR
 
-
   nav_headers:
     users: Usuarios
     configuration: Configuración
@@ -86,8 +85,8 @@ es:
     description: Descripción
     created_at: Creado hace
     dimensions: Dimensiones
-    expected_profit: Ganancia Esperada
     size: Tamaño
+    expected_profit: Ganancia Esperada
     delete_confirmation: Seguro que quieres borrar este elemento?
     items_page: elementos/pagina
     edit: Editar Campaña
@@ -110,7 +109,6 @@ es:
     to_inactive: La campaña se ha desactivado
     new_campaign: Nueva Campaña
     destroy: Remover Campaña
-    active_campaigns: Campañas activas
     campaign_name: Nombre de Campaña
     bilbos_in_use: Bilbos en uso
     ad_name: Nombre de creativo
@@ -248,7 +246,8 @@ es:
     wallboard: Cartelon
     billboard: Espectacular
     provider: Correo del proveedor
-    earnings_description: Ultimos 3 meses de ganancias.
+    earnings_description: Ultimos 3 meses de ganancias
+    impressions_count_description: Ultimos 3 meses de impresiones
     ads_top: Creativos del top 4 durante 3 meses
     campaign_ads: Creativos de campañas
     working_hours: Horas activas
@@ -280,6 +279,7 @@ es:
     upload_multimedia: Subir Archivos
     all_multimedia_files: Todos los Archivos Multimedia
     delete_ad: Borrar creativo
+    no_ad: Ninguna creativo adjunto
     transition: Efecto de transición
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
@@ -347,11 +347,6 @@ es:
       go_to_invoices: Go to my Invoices
       invoice_subject: New invoice created for your campaign %{campaign_name}
       invoice_message: You have a new invoice for your campaign %{campaign_name} which is on your project %{project_name}. Click on the button below to view your invoices
-  notifications:
-    notifications: Notificaciones
-    view_all: Ver Todas
-    clear: Borrar
-    mark_as_read: Marcar como leído
   dashboards:
     export_to_csv: Exportar a CSV
     view_impressions: Ver Impresiones
@@ -367,6 +362,7 @@ es:
     review_now: Revisar
     view_all: Ver todas
     active_campaigns: Campañas activas
+    approved_campaigns: Campañas aprobadas
     active_campaigns_description: Todas las campañas corriendo a éste momento en tus bilbos
     recent_earnings: Ganancias Recientes
     recent_earnings_description: Impresiones y ganancias de tus bilbos en los últimos 30 días
@@ -449,3 +445,10 @@ es:
     reason: Motivo de denegación
     profile: Denegar perfil
     reason_message: Tu mensaje
+  message:
+    title_generic: Campañas digitales en publicidad exterior.
+    message_generic: Bilbo es la plataforma de anuncios en medios out-of-home que te permite crear campañas y anuncios en cualquier pantalla digital con unos cuantos clicks.
+    social_networks: Redes Sociales.
+    contact: Contacto.
+    conditions: Recibiste este email porque te registraste a Bilbo.mx y aceptaste recibir correos electrónicos de nosotros sobre notificaciones y noticias.
+    home: Inicio

@@ -19,9 +19,9 @@ class Notification < ApplicationRecord
   # builds the url and message for the notification
   # you can call a single element like this
   # notification.build_notification_body[:url] or notification.build_notification_body[:message]
-  def build_notification_body
+  def build_notification_body(lang: ENV.fetch("RAILS_LOCALE") )
+    I18n.locale = lang
     translation = "notifications.#{notifiable_type}.#{action}".tr(' ', '_').downcase
-
     case notifiable_type
     when "Campaign"
       case action
@@ -64,7 +64,6 @@ class Notification < ApplicationRecord
       end
     end
   end
-
   def read!
     self.update(read_at: Time.now)
   end
