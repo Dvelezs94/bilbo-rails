@@ -6,12 +6,16 @@ class BoardsCampaigns < ApplicationRecord
 
     enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3 }
     before_save :notify_users, if: :will_save_change_to_status?
+    after_update :stop_campaign
 
     private
-
+    def stop_campaign
+      board.update_ads_rotation(campaign)
+    end
 
     def notify_users
       if in_review?
+
         campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
           create_notification(recipient_id: provider.id, actor_id: campaign.project.id,
                               action: "created", notifiable: campaign)

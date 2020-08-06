@@ -49,7 +49,6 @@ es:
     my_bilbos: Mis Bilbos
     export_csv: EXPORTAR A CSV
     print: IMPRIMIR
-
   nav_headers:
     users: Usuarios
     configuration: Configuración
@@ -103,7 +102,7 @@ es:
     occupied: "% Ocupado"
     deny: Denegar campaña
     review: Pausar campaña
-    campaign: Campañas
+    campaigns: Campañas
     home: Inicio
     to_active: La campaña se ha activado
     to_inactive: La campaña se ha desactivado
@@ -130,7 +129,6 @@ es:
     metrics: Metricas
     campaign: Campaña
     campaign_status: Estado
-    campaign_name: Nombre
     campaign_date: Fecha
     wont_be_able_to_update_state: No podrás actualizar el estado hasta dentro de
     impressions_per_day: Impresiones
@@ -164,7 +162,7 @@ es:
       campaign_duration: Duracion de la campaña
       campaign_minute: Impresion por minuto
       campaign_minute_description: Esta opcion te permite escoger las impresiones que quieres que se muestren por minuto
-      campaign_hour: Rango de hora 
+      campaign_hour: Rango de hora
       campaign_hour_description: Con la opcion rango de hora puedes escoger la hora en la que se muestran tus campañas
       campaign_clasification: Tipo de campaña
       ongoing_campaign: Campaña continua
@@ -206,6 +204,7 @@ es:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente
       saved: La campaña se ha guardado con éxito
+      to_review: La campaña se ha enviado a revisión
   bilbos:
     hour_end: Hora de apagado
     hour_start: Hora de encendido
@@ -281,7 +280,6 @@ es:
     upload_multimedia: Subir Archivos
     all_multimedia_files: Todos los Archivos Multimedia
     delete_ad: Borrar creativo
-    no_ad: Ninguna creativo adjunto
     transition: Efecto de transición
     measures: No hay medidas disponibles
     processing: Procesando %{filename}

@@ -49,7 +49,6 @@ en:
     my_bilbos: My Bilbos
     export_csv: EXPORT TO CSV
     print: PRINT
-
   nav_headers:
     users: Users
     configuration: Configuration
@@ -103,7 +102,6 @@ en:
     deny: Deny campaign
     review: Pause campaign
     occupied: "% Occupied"
-    campaign: Dashboard
     home: Home
     to_active: The campaign has been activated
     to_inactive: The campaign has been deactivated
@@ -130,7 +128,6 @@ en:
     metrics: Metrics
     campaign: Campaign
     campaign_status: Status
-    campaign_name: Name
     campaign_date: Date
     wont_be_able_to_update_state: You will not be able to update the state until
     impressions_per_day: Impressions
@@ -150,7 +147,7 @@ en:
       need_help: Need help?
       date_and_budget: Date and Budget
       per_hour: Per hour
-      campaign_hour: Hour range 
+      campaign_hour: Hour range
       per_minute: Per minute
       impressions: impressions every
       impressions_hour: impressions from
@@ -205,6 +202,7 @@ en:
       deleted: The campaign has been successfully deleted
       updated: The campaign has been successfully updated
       saved: The campaign has been saved successfully
+      to_review: The campaign has been sent to review
   bilbos:
     hour_end: Hour End
     hour_start: Hour Start

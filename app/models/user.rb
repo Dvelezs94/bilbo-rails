@@ -59,6 +59,9 @@ class User < ApplicationRecord
     Impression.joins(:board).where(boards: {user_id: id}, created_at: time_range)
   end
 
+  def locale
+    super.nil?? "es".to_sym : super.to_sym
+  end
   def name_or_email
     name || email
   end
