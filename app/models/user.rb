@@ -104,17 +104,10 @@ class User < ApplicationRecord
     end
     bc = BoardsCampaigns.where(status: "approved", campaign_id: camp_ids)
 
-    bd_ids = bc.pluck(:board_id)
-    bds = Board.find(bd_ids)
-    bds.each do |b|
-      b.with_lock do
-        b.update_ads_rotation
-      end
-    end
-    accepted_c_ids = bc.pluck(:campaign_id)
-    accepted_campaigns = Campaign.find(accepted_c_ids)
-    accepted_campaigns.each do |c|
-      publish_campaign(c.id, b.id)
+    bc.each do |obj|
+      brd = obj.board
+      camp = obj.camp
+      err = brd.update_ads_rotation(camp, true)
     end
   end
   private

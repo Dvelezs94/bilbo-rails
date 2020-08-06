@@ -2,6 +2,7 @@ class Campaign < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include BroadcastConcern
   extend FriendlyId
+  attr_accessor :provider_update
   friendly_id :name, use: :slugged
   belongs_to :project
   has_many :impressions
@@ -29,7 +30,7 @@ class Campaign < ApplicationRecord
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
   after_update :update_rotation_on_boards
-  before_save :set_in_review, :if => :ad_id_changed?
+  before_save :set_in_review
 
 
 
@@ -48,7 +49,7 @@ class Campaign < ApplicationRecord
   end
 
   def set_in_review
-    self.board_campaigns.update_all(status: "in_review")
+    self.board_campaigns.update_all(status: "in_review") if ad_id_changed? || provider_update
   end
 
   # distribute budget evenly between all bilbos
@@ -56,11 +57,13 @@ class Campaign < ApplicationRecord
     self.budget / boards.length
   end
   def check_build_ad_rotation
-    boards.each do |b|
-      err = b.build_ad_rotation(self)
-      if err.any?
-        errors.add(:base, err.first)
-        break
+    if !provider_update
+      boards.each do |b|
+        err = b.build_ad_rotation(self)
+        if err.any?
+          errors.add(:base, err.first)
+          break
+        end
       end
     end
   end

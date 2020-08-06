@@ -40,7 +40,7 @@ class BoardsController < ApplicationController
     @success = @board.update(board_params.merge(admin_edit: true))
     #check if needs to deactivate campaigns when updates from admin form
     if @success
-      active_provider_campaigns = @board.active_campaigns("provider")
+      active_provider_campaigns = @board.active_campaigns("provider").sort_by { |c| (c.clasification == "per_hour")? 0 : 1}
       deactivated = 0
       active_provider_campaigns.each do |cpn|
         err = @board.update_ads_rotation(nil, true, false)
