@@ -8,6 +8,8 @@ class Projects::ProjectUsersController < ApplicationController
     project_user = @current_project.project_users.new(project_user_params)
 
     if project_user.save
+      puts "X" * 400
+      create_notification(recipient_id: @current_project.id, actor_id: @project.id, action: "new invite", notifiable: @project_user)
       flash[:success] = I18n.t('projects.member_invited')
     else
       flash[:error] = I18n.t('projects.member_invited_error')
