@@ -1,4 +1,3 @@
-
 #modalNewCampaign.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document"}
     .modal-content
@@ -9,7 +8,7 @@
         .row
           .col-12.m-auto
             .pd-20
-              = form_with(model: Campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, local: false) do |f|
+              = form_with(model: Campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, remote: true) do |f|
                 .form-group
                   = f.label t("general_inputs.name")
                   %br/
@@ -18,7 +17,9 @@
                   = f.label t("general_inputs.description")
                   %br/
                   = f.text_area :description, class: "form-control", value: "", autocomplete: "off", placeholder: t("general_inputs.description")
-                .actions.col-sm-12.col-md-6.m-auto
-                  = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block"
-      .modal-footer
-        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+                -if current_user.is_provider?
+                  = render partial: "campaigns/clasification", locals:{f: f }
+                .actions.col-sm-12.col-md-6.m-auto.pd-t-10.mg-t-30
+                = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block", style: "margin-top: 20px"
+      .modal-footer.mg-t-10
+        %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")

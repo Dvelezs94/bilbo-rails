@@ -10,4 +10,5 @@ module BroadcastConcern
   def remove_campaign(campaign_id, board_id)
     AdBroadcastWorker.perform_async(campaign_id, board_id, "disable")
   end
+
 end
