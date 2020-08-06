@@ -84,7 +84,6 @@ ActiveRecord::Schema.define(version: 2020_08_04_152428) do
     t.string "aspect_ratio"
     t.time "start_time"
     t.time "end_time"
-    t.string "time_zone"
     t.integer "utc_offset"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
