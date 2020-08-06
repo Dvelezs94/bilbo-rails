@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_07_30_170949) do
+=======
+ActiveRecord::Schema.define(version: 2020_08_04_152428) do
+>>>>>>> ac35b4e759f53588e3f03440dee4e940a71f4081
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +88,8 @@ ActiveRecord::Schema.define(version: 2020_07_30_170949) do
     t.string "aspect_ratio"
     t.time "start_time"
     t.time "end_time"
+    t.string "time_zone"
+    t.integer "utc_offset"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end

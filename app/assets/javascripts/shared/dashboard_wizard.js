@@ -160,7 +160,7 @@ $(document).on('turbolinks:load', function () {
           avg = sum / $('#selected_boards option:not(:eq(0))').length;
         });
         // max impressions based on the budget
-        maximum_impressions = Math.round(
+        maximum_impressions = Math.floor(
           parseFloat($('#campaign_budget').val().replace(',', '')) / avg
         );
         // max possible impressions of bilbos
@@ -185,7 +185,7 @@ $(document).on('turbolinks:load', function () {
         $('#impressions').val(max_boards_impr);
       }
       // get the budget
-      impressions_budget = Math.round(parseFloat(maximum_impressions * avg));
+      impressions_budget = Math.ceil(parseFloat(maximum_impressions * avg));
       $('#campaign_budget').val(impressions_budget);
     }
 

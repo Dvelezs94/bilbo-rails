@@ -1,5 +1,6 @@
-= link_to(notification.build_notification_body[:url], class: "dropdown-item mg-b-5-f #{!notification.read_at? ? 'unread-notif' : ''}") do
+- notify = notification.build_notification_body(lang: current_user.locale)
+= link_to(notify[:url], class: "dropdown-item mg-b-5-f #{!notification.read_at? ? 'unread-notif' : ''}") do
   .media
     .media-body.mg-l-15
-      %p= raw(notification.build_notification_body[:message])
+      %p= raw(notify[:message])
       %span= format_time(notification.created_at)
