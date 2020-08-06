@@ -180,7 +180,7 @@ class Board < ApplicationRecord
     elsif type == "provider"
       campaigns.where(provider_campaign: true).select{ |c| c.should_run?(self.id) }
     elsif type == "no_provider"
-      campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }      
+      campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }
     end
   end
 
@@ -190,7 +190,7 @@ class Board < ApplicationRecord
     self.ads_rotation = self.new_ads_rotation
     @success = self.save
     return self.errors if !@success
-    update_campaign_broadcast(camp) if broadcast_to_board
+    update_campaign_broadcast(camp) if broadcast_to_board && camp.present?
     return [] #means no errors
   end
 
