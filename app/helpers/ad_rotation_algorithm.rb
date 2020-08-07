@@ -49,7 +49,6 @@ module AdRotationAlgorithm
 
     cps  = self.campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
     cycles = []                            # array to store the name of the bilbo users the required times
-
     cps.each do |name, value|              # Fill the cycles array
        value.times do                      # with the names of the
            cycles << name                  # bilbo users
@@ -57,6 +56,7 @@ module AdRotationAlgorithm
     end
 
     free_idxs = free_indexes(output)
+    cycles.shuffle!
     free_idxs.shuffle!
 
     cycles.each_with_index do |user, idx|
