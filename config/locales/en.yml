@@ -139,7 +139,7 @@ en:
     deny_campaign: Are you sure you want to deny this campaign?
     in_review_campaign: You are about to pause this campaign. Are you sure?
     ads_rotation_error:
-      accepted_but_error: The campaign was accepted but %{error}
+      accepted_but_error: The campaign was accepted but deactivated because %{error}
     wizard:
       choose_bilbos: Choose your Bilbos
       selected_bilbos: Selected Bilbos
@@ -259,12 +259,13 @@ en:
     ads_rotation_error:
       max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time
-      max_hour_impressions: No more tha n%{number} impressions can be made within your selected hours
+      max_hour_impressions: No more than %{number} impressions can be made within your selected hours
       before_power_on: Campaign start time cannot be scheduled before bilbo %{name} turns on
       after_power_off: The cutoff time exceeds the time at which the bilbo %{name} turns off
-      hour_campaign_space: No space for hourly campaigns in %{name}
-      minute_campaign_space: No space for campaigns by minutes in %{name}
-      budget_campaign_space: No space for campaigns required by budget in %{name}
+      hour_campaign_time: The hour of the campaign is not within the active time of the bilbo %{name}
+      hour_campaign_space: There is no space for the hourly campaign %{campaign_name} in the bilbo %{bilbo_name}
+      minute_campaign_space: There is no space for the minute campaign %{campaign_name} in the bilbo %{bilbo_name}
+      budget_campaign_space: There is no space for the budget campaign %{campaign_name} in the bilbo %{bilbo_name}
     search:
       location: Location
       classification: Classification

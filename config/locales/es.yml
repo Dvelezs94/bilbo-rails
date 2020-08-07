@@ -140,7 +140,7 @@ es:
     deny_campaign: ¿Estás seguro de denegar esta campaña?
     in_review_campaign: Estás a punto de pausar esta campaña. ¿Estás seguro?
     ads_rotation_error:
-      accepted_but_error: La campaña fue aceptada pero %{error}
+      accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
     wizard:
       choose_bilbos: Escoge tus Bilbos
       selected_bilbos: Bilbos seleccionados
@@ -264,9 +264,10 @@ es:
       max_hour_impressions: No se pueden hacer más de %{number} impresiones dentro de tus horas seleccionadas
       before_power_on: La hora de inicio de la campaña no puede estar programada antes de que el bilbo %{name} encienda
       after_power_off: La hora límite sobrepasa la hora a la que el bilbo %{name} se apaga
-      hour_campaign_space: No hay espacio para las campañas por hora en %{name}
-      minute_campaign_space: No hay espacio para las campañas por minutos en %{name}
-      budget_campaign_space: No hay espacio para las campañas requeridas por presupuesto en %{name}
+      hour_campaign_time: La hora de la campaña no está dentro del tiempo activo del bilbo %{name}
+      hour_campaign_space: No hay espacio para la campaña por hora %{campaign_name} en el bilbo %{bilbo_name}
+      minute_campaign_space: No hay espacio para la campaña por minutos %{campaign_name} en el bilbo %{bilbo_name}
+      budget_campaign_space: No hay espacio para la campaña por presupuesto %{campaign_name} en el bilbo %{bilbo_name}
     search:
       location: Ubicación
       classification: Clasificación
