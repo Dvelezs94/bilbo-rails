@@ -71,7 +71,7 @@ class User < ApplicationRecord
   end
 
   def is_provider?
-    true if role == :provider
+    role == :provider
   end
 
   def is_user?

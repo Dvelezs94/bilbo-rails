@@ -29,7 +29,7 @@ class Campaign < ApplicationRecord
   #validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
-  after_update :update_rotation_on_boards
+  after_commit :update_rotation_on_boards
   before_save :set_in_review
 
 
@@ -74,7 +74,7 @@ class Campaign < ApplicationRecord
     #self.budget > 0 Check that the budget is greater than 0 of campaign
     brd = Board.find(board_id)
     if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?(brd)
-      if clasification == "budget" && self.budget > 50 && !campaign_budget_spent? && ( provider_campaign || project.owner.balance >= 5 )
+      if clasification == "budget" && self.budget >= 50 && !campaign_budget_spent? && ( provider_campaign || project.owner.balance >= 5 )
         return true
       elsif clasification == "per_minute"
         return true
