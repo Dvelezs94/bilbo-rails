@@ -8,9 +8,6 @@ class BoardCampaignsController < ApplicationController
       @board = @board_campaign.board
       @board.with_lock do
         @campaign = @board_campaign.campaign
-        # if @campaign.starts_at.present? && @campaign.ends_at.present?
-        #
-        # end
         err = @board.update_ads_rotation(@campaign)
         if err.empty?
           flash[:success] = I18n.t('campaign.to_active', locale: current_user.locale)

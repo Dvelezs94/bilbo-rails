@@ -408,6 +408,10 @@ es:
         subject: La campaña <strong>%{campaign_name}</strong> ha sido creada para tus Bilbos
         message: La campaña <strong>%{campaign_name}</strong> ha sido creada para tus Bilbos
         url_string: Revisar Campaña
+      time_campaign_error:
+        subject: La campaña programada <strong>%{campaign_name}</strong> se desactivó
+        message: La campaña programada <strong>%{campaign_name}</strong> se desactivó
+        url_string: Ir a la campaña
       approved:
         subject: Tu campaña <strong>%{campaign_name}</strong> ha sido aceptada en el Bilbo <strong>%{bilbo_name}</strong>
         message: Tu campaña <strong>%{campaign_name}</strong> ha sido aceptada en el Bilbo <strong>%{bilbo_name}</strong>

@@ -407,6 +407,10 @@ en:
         subject: The campaign <strong>%{campaign_name}</strong> is waiting for your review.
         message: The campaign <strong>%{campaign_name}</strong> is waiting for your review.
         url_string: Review Campaigns
+      time_campaign_error:
+        subject: The scheduled campaign <strong>%{campaign_name}</strong> has been deactivated
+        message: The scheduled campaign <strong>%{campaign_name}</strong> has been deactivated
+        url_string: Go to my Campaign
       approved:
         subject: Your campaign <strong>%{campaign_name}</strong> has been approved on bilbo <strong>%{bilbo_name}</strong>
         message: Your campaign <strong>%{campaign_name}</strong> has been approved on bilbo <strong>%{bilbo_name}</strong>
