@@ -71,8 +71,8 @@ class CampaignsController < ApplicationController
                                 action: "created", notifiable: @campaign)
           if @campaign.starts_at.present? && @campaign.ends_at.present?
             @campaign.boards.each do |b|
-              difference_in_minutes = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
-              ScheduleCampaignWorker.perform_at(difference_in_minutes.seconds.from_now, @campaign.id, b.id)
+              difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
+              ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id, b.id) if difference_in_seconds > 0
             end
           end
         end

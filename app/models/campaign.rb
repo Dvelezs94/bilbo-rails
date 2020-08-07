@@ -26,7 +26,7 @@ class Campaign < ApplicationRecord
   validate :cant_update_when_active, on: :update
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
-  #validate :validate_ad_stuff, on: :update
+  validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
   after_commit :update_rotation_on_boards
@@ -59,7 +59,7 @@ class Campaign < ApplicationRecord
   def check_build_ad_rotation
     if (state)
       boards.each do |b|
-        err = b.build_ad_rotation(self) if campaign_active_in_board?(b.id)
+        err = b.build_ad_rotation(self) if !provider_update
         if err.present?
           errors.add(:base, err.first)
           break
