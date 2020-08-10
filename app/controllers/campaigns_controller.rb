@@ -63,18 +63,16 @@ class CampaignsController < ApplicationController
   def update
     current_user.with_lock do
       respond_to do |format|
-        if @campaign.update_attributes(campaign_params.merge(state: true))
+        if @campaign.update(campaign_params.merge(state: true, provider_update: current_user.is_provider?))
           track_activity( action: "campaign.campaign_updated", activeness: @campaign)
-          # move campaign to in review since it was changed
-          @campaign.set_in_review
           # Create a notification per project
           @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
             create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
                                 action: "created", notifiable: @campaign)
           if @campaign.starts_at.present? && @campaign.ends_at.present?
             @campaign.boards.each do |b|
-              difference_in_minutes = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
-              ScheduleCampaignWorker.perform_at(difference_in_minutes.seconds.from_now, @campaign.id, b.id)
+              difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
+              ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id, b.id) if difference_in_seconds > 0
             end
           end
         end
@@ -148,7 +146,7 @@ class CampaignsController < ApplicationController
 
   def create_params
     @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :clasification).merge(:project_id => @project.id)
-    @campaign_params[:provider_campaign] = @project.owner.is_provider?.present?
+    @campaign_params[:provider_campaign] = @project.owner.is_provider?
     @campaign_params
   end
 
