@@ -4,7 +4,7 @@ class BoardsCampaigns < ApplicationRecord
     belongs_to :campaign
     belongs_to :board
 
-    enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3 }
+    enum status: { in_review: 0, approved: 1, denied: 2 }
     before_save :notify_users, if: :will_save_change_to_status?
     after_update :stop_campaign
 
