@@ -3,6 +3,8 @@ class Impression < ApplicationRecord
   attribute :api_token
 
   validate :validate_api_token
+  validates :created_at, uniqueness: { scope: :board }
+  validate :ten_seconds_validate_board_campaign
   belongs_to :board
   belongs_to :campaign, optional: true
   before_create :set_total_price
@@ -32,6 +34,16 @@ class Impression < ApplicationRecord
       true
     else
       remove_campaign(self.campaign.id, self.board.id)
+    end
+  end
+
+  def ten_seconds_validate_board_campaign
+    #this method obtains the last impression made on the board with the campaign to validate the rank is not less than ten seconds
+    impression = Impression.order(created_at: :desc).find_by(board_id: self.board.id, campaign_id: self.campaign.id)
+    if impression.present?
+      if ((self.created_at - impression.created_at).abs.round < 10)
+        return errors.add :base, "Impression duplicate in less ten seconds"
+      end
     end
   end
 end
