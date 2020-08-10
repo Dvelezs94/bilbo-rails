@@ -2,6 +2,7 @@ class Campaign < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include BroadcastConcern
   extend FriendlyId
+  attr_accessor :provider_update
   friendly_id :name, use: :slugged
   belongs_to :project
   has_many :impressions
@@ -24,12 +25,12 @@ class Campaign < ApplicationRecord
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
   validate :test_for_valid_settings
-  validate :check_build_ad_rotation, if: :state_is_true?
-  #validate :validate_ad_stuff, on: :update
+  validate :check_build_ad_rotation, if: :provider_campaign
+  validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
-  after_update :update_rotation_on_boards
-  before_save :set_in_review, :if => :ad_id_changed?
+  after_commit :update_rotation_on_boards
+  before_save :set_in_review
 
 
 
@@ -48,7 +49,7 @@ class Campaign < ApplicationRecord
   end
 
   def set_in_review
-    self.board_campaigns.update_all(status: "in_review")
+    self.board_campaigns.update_all(status: "in_review") if ad_id_changed? || provider_update
   end
 
   # distribute budget evenly between all bilbos
@@ -56,11 +57,13 @@ class Campaign < ApplicationRecord
     self.budget / boards.length
   end
   def check_build_ad_rotation
-    boards.each do |b|
-      err = b.build_ad_rotation(self)
-      if err.any?
-        errors.add(:base, err.first)
-        break
+    if (state)
+      boards.each do |b|
+        err = b.build_ad_rotation(self) if !provider_update
+        if err.present?
+          errors.add(:base, err.first)
+          break
+        end
       end
     end
   end
@@ -71,7 +74,7 @@ class Campaign < ApplicationRecord
     #self.budget > 0 Check that the budget is greater than 0 of campaign
     brd = Board.find(board_id)
     if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?(brd)
-      if clasification == "budget" && self.budget > 50 && !campaign_budget_spent? && ( provider_campaign || project.owner.balance >= 5 )
+      if clasification == "budget" && self.budget >= 50 && !campaign_budget_spent? && ( provider_campaign || project.owner.balance >= 5 )
         return true
       elsif clasification == "per_minute"
         return true
@@ -110,9 +113,12 @@ class Campaign < ApplicationRecord
 
 
   def update_rotation_on_boards
-    #this uses the new_ads_rotation generated in validation of each board
     boards.each do |b|
-      err = b.update_ads_rotation(self) if campaign_active_in_board?(b.id)
+      if provider_campaign && campaign_active_in_board?(b.id)#needs to update provider campaigns
+        err = b.update_ads_rotation(self)
+      elsif campaign_active_in_board?(b.id) #if user, worker adds the campaign in real time
+        b.update_campaign_broadcast(self)
+      end
       #currently no use for errors here
     end
   end

@@ -59,6 +59,9 @@ class User < ApplicationRecord
     Impression.joins(:board).where(boards: {user_id: id}, created_at: time_range)
   end
 
+  def locale
+    super.nil?? "es".to_sym : super.to_sym
+  end
   def name_or_email
     name || email
   end
@@ -68,7 +71,7 @@ class User < ApplicationRecord
   end
 
   def is_provider?
-    true if role == :provider
+    role == :provider
   end
 
   def is_user?
@@ -104,17 +107,10 @@ class User < ApplicationRecord
     end
     bc = BoardsCampaigns.where(status: "approved", campaign_id: camp_ids)
 
-    bd_ids = bc.pluck(:board_id)
-    bds = Board.find(bd_ids)
-    bds.each do |b|
-      b.with_lock do
-        b.update_ads_rotation
-      end
-    end
-    accepted_c_ids = bc.pluck(:campaign_id)
-    accepted_campaigns = Campaign.find(accepted_c_ids)
-    accepted_campaigns.each do |c|
-      publish_campaign(c.id, b.id)
+    bc.each do |obj|
+      brd = obj.board
+      camp = obj.camp
+      err = brd.update_ads_rotation(camp, true)
     end
   end
   private
