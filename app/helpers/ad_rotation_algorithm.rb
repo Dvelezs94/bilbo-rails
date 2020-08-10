@@ -57,6 +57,10 @@ module AdRotationAlgorithm
 
     free_idxs = free_indexes(output)
     cycles.shuffle!
+    p "CYCLES!"*100
+    p cycles
+    p cycles.count(36)
+    p cycles.count(37)
     free_idxs.shuffle!
 
     cycles.each_with_index do |user, idx|

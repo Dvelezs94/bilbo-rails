@@ -123,6 +123,7 @@ $(document).on('turbolinks:load', function () {
             );
           });
           $('#bilbosNum').text($('#bilbosAddress li').length);
+          $("#impressions")[0].style.width = ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
         } else if (priorIndex === 2) {
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());
