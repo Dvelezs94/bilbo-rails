@@ -46,15 +46,6 @@ class Board < ApplicationRecord
     ]
   end
 
-  def active_campaigns_on_board
-    #ordered by default provider campaigns first
-    campaign_ids = board_campaigns.approved.pluck(:campaign_id)
-    active_campaigns_on_board = Campaign.where(id: campaign_ids ,state: true).order(provider_campaign: :desc)
-  end
-
-
-
-
   def self.search(search_board)
     if search_board
       where('name LIKE ?', "%#{search_board}%")
@@ -195,7 +186,7 @@ class Board < ApplicationRecord
   end
 
   def update_campaign_broadcast(camp)
-    if camp.state
+    if camp.state && camp.campaign_active_in_board?(self.id)
       publish_campaign(camp.id, self.id)
     else
       remove_campaign(camp.id, self.id)
@@ -223,9 +214,9 @@ class Board < ApplicationRecord
     {st => ads_rotation}.to_h
   end
 
-  def ads_rotation_hash
+  def ads_rotation_hash(rot)
     output = {}
-    JSON.parse(self.ads_rotation).each_with_index do |name, idx|
+    rot.each_with_index do |name, idx|
       current_time = start_time + (10*idx).seconds
       output[time_h_m_s(current_time)] = name
     end
