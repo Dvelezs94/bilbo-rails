@@ -209,7 +209,7 @@ class BoardsController < ApplicationController
   end
 
   def get_board
-    if current_user.is_admin?
+    if !(user_signed_in?) || current_user.is_admin?
       @board = Board.friendly.find(params[:id])
     else
       @board = @project.boards.friendly.find(params[:id])
