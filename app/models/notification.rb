@@ -53,11 +53,12 @@ class Notification < ApplicationRecord
         url_string: I18n.t("#{translation}.url_string"),
         message: I18n.t("#{translation}.message"),
         subject: I18n.t("#{translation}.subject") }
+      end
+    when "Project"
+      case action
       when "new invite"
-        { url: project_url(notifiable.slug),
-          url_string: I18n.t("#{translation}.url_string"),
-          message: I18n.t("#{translation}.message"),
-          subject: I18n.t("#{translation}.subject") }
+          {message: I18n.t("#{translation}.message", user_name: notifiable.name),
+          subject: I18n.t("#{translation}.subject", user_name: notifiable.name)}
       end
     when "Report"
       case action
@@ -66,6 +67,7 @@ class Notification < ApplicationRecord
           url_string: I18n.t("#{translation}.url_string"),
           message: I18n.t("#{translation}.message"),
         subject: I18n.t("#{translation}.subject") }
+      end
       end
     end
   end
@@ -84,4 +86,3 @@ class Notification < ApplicationRecord
         link: notif_body[:url], link_text: notif_body[:url_string]).deliver
     end
   end
-end
