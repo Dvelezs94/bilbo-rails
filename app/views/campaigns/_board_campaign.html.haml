@@ -1,2 +1,5 @@
 - campaign.ad.multimedia.each do |media|
+  -if media.video?
+    = video_tag(url_for(media), class: "board-ad-inner animated #{Ad.transitions.key(media.transition)}", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }, autoplay:true, loop:true)
+  -else
     = image_tag media, class: "board-ad-inner animated #{Ad.transitions.key(media.transition)}", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }
