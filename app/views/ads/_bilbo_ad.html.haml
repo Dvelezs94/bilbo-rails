@@ -1,1 +1,4 @@
-= image_tag @board.default_image, class: "bilbo-official-ad"
+-if @board.default_image.video?
+  = video_tag(url_from_media(@board.default_image.attachment), class: "bilbo-official-ad", loop:true, preload: "auto")
+-else
+  = image_tag @board.default_image, class: "bilbo-official-ad"
