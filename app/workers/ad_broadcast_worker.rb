@@ -1,6 +1,5 @@
 class AdBroadcastWorker
   include Sidekiq::Worker
-  include AdRotationAlgorithm
   sidekiq_options retry: false, dead: false
   include Rails.application.routes.url_helpers
 
@@ -15,7 +14,7 @@ class AdBroadcastWorker
         html_code = "<img class='board-ad-inner' src='#{polymorphic_path(mm)}' data-campaign='#{campaign.slug}' data-campaign-id='#{campaign.id}' data-budget='#{campaign.budget}'>"
         append_msg.insert(-1, html_code)
       end
-      broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.ads_rotation)
+      broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.add_bilbo_campaigns.to_s)
     end
   end
 
