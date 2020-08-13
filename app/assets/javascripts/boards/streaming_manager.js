@@ -111,14 +111,19 @@ $(document).on('turbolinks:load', function() {
           if ($("#bilbo-ad").is(":visible")) {
               $("#bilbo-ad").hide();
               $(".board-ads").attr('style','display:block !important');
+
           }
           if (typeof newAd !== 'undefined') {
+            newpause.pause();
             oldAd = newAd;
             oldAd.css({display: "none"});
           }
           newAdLength = $('[data-campaign-id="' + chosen + '"]').length;
           newAdChosen = Math.floor(Math.random() * newAdLength);
           newAd = $($('[data-campaign-id="' + chosen + '"]')[newAdChosen]).css({display: "block"});
+          newpause = $('[data-campaign-id="' + chosen + '"]')[newAdChosen]
+          console.log($('[data-campaign-id="' + chosen + '"]')[newAdChosen]);
+        newpause.play();
           // build map for new ad displayed and merge it to displayedAds
           newAdMap = { campaign_id: chosen.toString(), created_at: new Date(Date.now()).toISOString() }
           if (typeof newAdMap["campaign_id"] !== 'undefined') {

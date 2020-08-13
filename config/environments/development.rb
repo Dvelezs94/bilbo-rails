@@ -79,5 +79,4 @@ Rails.application.configure do
     Rails.application.routes.default_url_options[:host] = "https://#{ENV.fetch("ENVNAME")}.app.bilbo.mx"
     config.action_mailer.default_url_options = { host: "https://#{ENV.fetch("ENVNAME")}.app.bilbo.mx" }
   end
-  config.hosts << "e782891a6e9e.ngrok.io"
 end
