@@ -2,7 +2,7 @@
   .card.card-file
     .card-file-thumb.bg-white
       -if multimedia.video?
-        = image_tag "construction_video.webp", class: "img-inherit", :data => {lity: true}
+        = video_tag(url_for(multimedia), style: "width:100%;height:auto", :controls => true)
       -else
         = image_tag multimedia, class: "img-inherit", :data => {lity: true}
     .card-body
