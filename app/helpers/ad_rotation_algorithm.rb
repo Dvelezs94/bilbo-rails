@@ -134,19 +134,30 @@ module AdRotationAlgorithm
 
        h_cps[name][1] = fi
        h_cps[name][2] = la
+
+       subarr = output[fi...la]
+       free = free_indexes(subarr)
+
+       free.each do |val|
+         val = val+fi
+       end
+       free.shuffle!
+
        c = 0
+       pos = 0
        while c < reps do
 
-            if fi==la
+            if fi==la || free[pos].nil?
                 err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: h_cps_first.find(id: name).name,bilbo_name: self.name)
                 return err
                 break
             end
-            if output[fi] == '-'
+            if output[free[pos]] == '-'
                 c+=1
-                output[fi] = name
+                output[free[pos]] = name
             end
             fi+=1
+            pos+=1
        end
     end
     ################################################################################
