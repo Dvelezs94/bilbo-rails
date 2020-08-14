@@ -2,14 +2,11 @@
   .card.card-file
     .card-file-thumb.bg-white
       -if multimedia.video?
-        = video_tag(url_for(multimedia), style: "width:100%;height:auto", :controls => true)
+        = video_tag(url_from_media(multimedia), class: "img-inherit", :controls => true, :controlslist => "nodownload" , autoplay: true, loop: true, muted: 'muted')
       -else
         = image_tag multimedia, class: "img-inherit", :data => {lity: true}
     .card-body
-      -if multimedia.video?
-        %h6.mmtitle= I18n.t('ads.processing', filename: multimedia.filename.to_s)
-      -else
-        %h6.mmtitle= multimedia.filename.base
+      %h6.mmtitle= multimedia.filename.base
       - if multimedia.metadata[:width].nil?
         %span= t("ads.measures")
       -else

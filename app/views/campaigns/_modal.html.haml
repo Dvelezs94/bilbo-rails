@@ -6,14 +6,14 @@
   .df-example{"data-label" => "Example"}
     #carouselExample5.carousel.slide.carousel-fade{"data-ride" => "carousel"}
       %ol.carousel-indicators
-        - if @objects.present?
-          - @objects.each.with_index do |media,i|
-            %li{class: "#{'active' if i == 0}", "data-slide-to" => i, "data-target" => "#carouselExample5"}
       .carousel-inner.bg-dark
         - if @objects.present?
           - @objects.each.with_index do |media,i|
             %div{class: "carousel-item #{'active' if i == 0}"}
-              = image_tag media, size:"600x300", class: "d-block w-100", :data => {lity: true}
+              -if media.video?
+                = video_tag(url_from_media(media), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted')
+              -else
+                = image_tag media, size:"600x300", class: "d-block w-100", :data => {lity: true}
         - else
           .carousel-item.active
             = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
