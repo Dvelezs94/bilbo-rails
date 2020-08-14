@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load', function() {
+ $(document).on('turbolinks:load', function() {
   if ($("#api_token").length) {
     // initiate graphql
     var graph = graphql("/api")
@@ -111,19 +111,26 @@ $(document).on('turbolinks:load', function() {
           if ($("#bilbo-ad").is(":visible")) {
               $("#bilbo-ad").hide();
               $(".board-ads").attr('style','display:block !important');
-
+              if($(".bilbo-official-ad").is("video")){
+              $(".bilbo-official-ad")[0].pause();
+              $(".bilbo-official-ad")[0].currentTime = 0;
+            }
           }
           if (typeof newAd !== 'undefined') {
-            newpause.pause();
             oldAd = newAd;
             oldAd.css({display: "none"});
+            if($(adPausePlay).is("video")){
+            adPausePlay.pause();
+            adPausePlay.currentTime = 0;
+            }
           }
           newAdLength = $('[data-campaign-id="' + chosen + '"]').length;
           newAdChosen = Math.floor(Math.random() * newAdLength);
           newAd = $($('[data-campaign-id="' + chosen + '"]')[newAdChosen]).css({display: "block"});
-          newpause = $('[data-campaign-id="' + chosen + '"]')[newAdChosen]
-          console.log($('[data-campaign-id="' + chosen + '"]')[newAdChosen]);
-        newpause.play();
+          adPausePlay = $('[data-campaign-id="' + chosen + '"]')[newAdChosen]
+          if($(adPausePlay).is("video")){
+            adPausePlay.play();
+          }
           // build map for new ad displayed and merge it to displayedAds
           newAdMap = { campaign_id: chosen.toString(), created_at: new Date(Date.now()).toISOString() }
           if (typeof newAdMap["campaign_id"] !== 'undefined') {
@@ -132,9 +139,17 @@ $(document).on('turbolinks:load', function() {
           console.log(displayedAds);
           // else it is empty, so we need to show the bilbo hire
         } else {
+          if($('[data-campaign-id="' + chosen + '"]').length && $(adPausePlay).is("video")){
+            adPausePlay.pause();
+            adPausePlay.currentTime = 0;
+          }
           showBilboAd();
         }
       } else {
+        if($('[data-campaign-id="' + chosen + '"]').length && $(adPausePlay).is("video")){
+          adPausePlay.pause();
+          adPausePlay.currentTime = 0;
+        }
         showBilboAd();
         bilbo_ad_count = 0
       }
@@ -145,6 +160,9 @@ $(document).on('turbolinks:load', function() {
     function showBilboAd() {
       $(".board-ads").hide();
       $("#bilbo-ad").attr('style','display:block !important');
+      if($(".bilbo-official-ad").is("video")){
+      $(".bilbo-official-ad")[0].play();
+    }
     }
     function getIndex(start_time) {
       start_date = new Date(start_time);
