@@ -7,6 +7,13 @@ module ApplicationHelper
       gravatar_image_url(user.email, size: size)
     end
   end
+  def url_from_media(media)
+    if Rails.env.production?
+      "https://#{ENV.fetch('CDN_HOST')}/#{media.blob.key}"
+    else
+      url_for(media)
+    end
+  end
   # standard way to format times
   def format_time(time)
     l(time, format: "%B %d %Y, %-I:%M %p")
