@@ -10,7 +10,7 @@ case $CI_COMMIT_REF_NAME in
     ecs deploy bilbo-demo sidekiq --image bilbo-demo-sidekiq $DOCKER_IMAGE_CI --region us-east-2 --timeout 600
   ;;
   staging)
-    ecs deploy bilbo-staging rails --image bilbo-staging $DOCKER_IMAGE_CI --region us-west-1 --timeout 600
+    ecs deploy bilbo-staging webapp --image bilbo-staging $DOCKER_IMAGE_CI --region us-west-1 --timeout 600
     ecs deploy bilbo-staging sidekiq --image bilbo-staging-sidekiq $DOCKER_IMAGE_CI --region us-west-1 --timeout 600
   ;;
 esac
