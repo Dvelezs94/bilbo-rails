@@ -139,7 +139,7 @@
           console.log(displayedAds);
           // else it is empty, so we need to show the bilbo hire
         } else {
-          if($(adPausePlay).length && $(adPausePlay).is("video")){
+          if($('[data-campaign-id="' + chosen + '"]').length && $(adPausePlay).is("video")){
             adPausePlay.pause();
             adPausePlay.currentTime = 0;
           }
