@@ -12,7 +12,9 @@
     </div><!-- row -->
   </div><!-- container -->
   <div class="board-ads">
-    <%= render partial: "campaigns/board_campaign", collection: @active_campaigns, as: :campaign %>
+    <% @active_campaigns.each do |campaign| %>
+      <%= render partial: "campaigns/board_campaign", collection: campaign.ad.multimedia, locals: {campaign: campaign},as: :media %>
+    <% end %>
   </div>
   <div id="bilbo-ad">
     <%= render partial: "ads/bilbo_ad" %>
