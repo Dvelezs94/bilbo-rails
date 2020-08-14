@@ -146,7 +146,7 @@
           showBilboAd();
         }
       } else {
-        if($(adPausePlay).length && $(adPausePlay).is("video")){
+        if($('[data-campaign-id="' + chosen + '"]').length && $(adPausePlay).is("video")){
           adPausePlay.pause();
           adPausePlay.currentTime = 0;
         }
