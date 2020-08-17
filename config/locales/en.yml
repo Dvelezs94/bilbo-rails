@@ -388,8 +388,8 @@ en:
         url_string: Download csv
     project:
       new_invite:
-        subject: The user <strong>%{user_name}</strong> was added to the project
-        message: The user <strong>%{user_name}</strong> was added to the project
+        subject: New user <strong>%{user_name}</strong> was added to the project
+        message: New user <strong>%{user_name}</strong> was added to the project
         url_string: New user 
     report:
       weekly_ready:

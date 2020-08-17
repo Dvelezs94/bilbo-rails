@@ -57,7 +57,9 @@ class Notification < ApplicationRecord
     when "Project"
       case action
       when "new invite"
-          {message: I18n.t("#{translation}.message", user_name: notifiable.name),
+          { url: provider_index_campaigns_url(q: "review"),
+            url_string: I18n.t("#{translation}.url_string"),
+            message: I18n.t("#{translation}.message", user_name: reference),
           subject: I18n.t("#{translation}.subject", user_name: notifiable.name)}
       end
     when "Report"
