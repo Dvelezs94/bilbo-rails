@@ -11,7 +11,6 @@ class NotificationMailer < ApplicationMailer
     link      = link
     link_text = link_text
     message   = message
-
     generic_mail(subject=subject, title=title, greeting=greeting, message=message, receiver=recipient_email, link=link, link_text=link_text)
   end
 end

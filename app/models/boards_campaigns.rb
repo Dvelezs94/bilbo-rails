@@ -4,21 +4,18 @@ class BoardsCampaigns < ApplicationRecord
     belongs_to :campaign
     belongs_to :board
 
-    enum status: { just_created: 0, in_review: 1, approved: 2, denied: 3 }
-    before_save :notify_users, :update_broadcast, if: :will_save_change_to_status?
+    enum status: { in_review: 0, approved: 1, denied: 2 }
+    before_save :notify_users, if: :will_save_change_to_status?
+    after_update :stop_campaign
 
     private
-
-    def update_broadcast
-      if approved? && campaign.status.present?
-        publish_campaign(campaign_id, board_id)
-      else in_review? || denied?
-        remove_campaign(campaign_id, board_id)
-      end
+    def stop_campaign
+      board.update_ads_rotation(campaign)
     end
 
     def notify_users
       if in_review?
+
         campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
           create_notification(recipient_id: provider.id, actor_id: campaign.project.id,
                               action: "created", notifiable: campaign)

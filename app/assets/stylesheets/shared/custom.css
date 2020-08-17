@@ -2,6 +2,10 @@
   color: #0168fa !important;
 }
 
+.ic-white {
+  color: #ffffff !important;
+}
+
 .ic-teal {
   color: #00cccc;
 }
@@ -19,7 +23,7 @@
 }
 
 .ic-success {
-  color: #10b759 !important
+  color: #10b759 !important;
 }
 
 .fnt-md {
@@ -42,13 +46,18 @@
 }
 
 .new-ad-thumb {
-  height: 107px !important; }
-  @media (max-width: 991.98px) {
-    .new-ad-thumb {
-      height: 103px !important; } }
-  @media (max-width: 767.98px) {
-    .new-ad-thumb {
-      height: 88px !important; } }
+  height: 107px !important;
+}
+@media (max-width: 991.98px) {
+  .new-ad-thumb {
+    height: 103px !important;
+  }
+}
+@media (max-width: 767.98px) {
+  .new-ad-thumb {
+    height: 88px !important;
+  }
+}
 
 .bg-white {
   background: white !important;
@@ -63,7 +72,7 @@
 }
 
 .flex-0-f {
-  flex: 0 !important
+  flex: 0 !important;
 }
 
 .card-body h6 {
@@ -89,7 +98,6 @@ td {
   border-color: #10b759 !important;
 }
 
-
 .multi-line-truncate-2 {
   overflow: hidden;
   display: -webkit-box;
@@ -114,7 +122,7 @@ td {
 
 /* change summary dropdown */
 summary::-webkit-details-marker {
-  display: none
+  display: none;
 }
 
 summary:after {
@@ -132,18 +140,18 @@ details[open] summary:after {
 
 /* traffic light for provider */
 @keyframes up-right {
-    0% {
-        transform: scale(1);
-        opacity: .25
-    }
-    50% {
-        transform: scale (1, 5);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1);
-        opacity: .25;
-    }
+  0% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale (1, 5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
 }
 
 .traffic-light {
@@ -157,7 +165,7 @@ details[open] summary:after {
 
 /* fix google maps z-indes */
 .pac-container {
-    z-index: 10000 !important;
+  z-index: 10000 !important;
 }
 /*  */
 
@@ -186,15 +194,17 @@ details[open] summary:after {
 
 .btn-primary-custom {
   color: white;
-  background-color: #2B78FB;
-} .btn-primary-custom:hover {
+  background-color: #2b78fb;
+}
+.btn-primary-custom:hover {
   color: white;
 }
 
 .btn-secondary-custom {
   color: white;
-  background-color:  #A5B8D7;
-} .btn-secondary-custom:hover {
+  background-color: #a5b8d7;
+}
+.btn-secondary-custom:hover {
   color: white;
 }
 
@@ -203,6 +213,6 @@ details[open] summary:after {
   vertical-align: sub !important;
   height: 0em !important;
 }
-.no-outline-focus:focus{
+.no-outline-focus:focus {
   outline: none;
 }

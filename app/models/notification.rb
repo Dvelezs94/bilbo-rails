@@ -40,6 +40,11 @@ class Notification < ApplicationRecord
           url_string: I18n.t("#{translation}.url_string"),
           message: I18n.t("#{translation}.message", campaign_name: notifiable.name, bilbo_name: reference.name),
           subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name, bilbo_name: reference.name) }
+      when "time campaign error"
+        { url: campaigns_url,
+          url_string: I18n.t("#{translation}.url_string"),
+          message: I18n.t("#{translation}.message", campaign_name: notifiable.name),
+          subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name) }
       end
     when "User"
       case action
