@@ -98,7 +98,7 @@
          }).catch((error) => console.log(error))
        } catch (value) {
          if (value.message == "You cannot commit the merge buildImpression without creating it first.") {
-           console.log("There aren't an any ad to show")
+           console.log("There aren't impressions")
          } else {
            throw value;
          }
