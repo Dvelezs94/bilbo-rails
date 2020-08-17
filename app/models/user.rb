@@ -59,6 +59,9 @@ class User < ApplicationRecord
     Impression.joins(:board).where(boards: {user_id: id}, created_at: time_range)
   end
 
+  def locale
+    super.nil?? "es".to_sym : super.to_sym
+  end
   def name_or_email
     name || email
   end
@@ -68,7 +71,7 @@ class User < ApplicationRecord
   end
 
   def is_provider?
-    true if role == :provider
+    role == :provider
   end
 
   def is_user?
@@ -98,12 +101,16 @@ class User < ApplicationRecord
 
   # sends the html content (images) when the user buys credits
   def resume_campaigns
+    camp_ids = []
     projects.select {|pr| pr.admin?(self.id) }.each do |p|
-      p.campaigns.to_a.select(&:should_run?).each do |c|
-        c.boards.each do |b|
-          publish_campaign(c.id, b.id)
-        end
-      end
+      camp_ids << p.campaigns.pluck(:id)
+    end
+    bc = BoardsCampaigns.where(status: "approved", campaign_id: camp_ids)
+
+    bc.each do |obj|
+      brd = obj.board
+      camp = obj.camp
+      err = brd.update_ads_rotation(camp, true)
     end
   end
   private
