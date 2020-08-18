@@ -11,7 +11,7 @@
      // starts depending on the hour
      var rotation_key = 0
      // create the impressions every 60 seconds
-     setInterval(createImpression, 20000);
+     setInterval(createImpression, 60000);
      // Convert seconds to milliseconds
      board_duration = parseInt($("#duration").val()) * 1000;
 
