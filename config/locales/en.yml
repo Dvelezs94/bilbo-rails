@@ -101,7 +101,7 @@ en:
     accept: Accept campaign
     deny: Deny campaign
     review: Pause campaign
-    occupied: "% Occupied"
+    occupied: '% Occupied'
     home: Home
     to_active: The campaign has been activated
     to_inactive: The campaign has been deactivated
@@ -133,8 +133,8 @@ en:
     impressions_per_day: Impressions
     invested: Daily investment
     popular_hours: Most popular hours
-    status_on: "On"
-    status_off: "Off"
+    status_on: 'On'
+    status_off: 'Off'
     approve_campaign: Are you sure you want to approve this campaign?
     deny_campaign: Are you sure you want to deny this campaign?
     in_review_campaign: You are about to pause this campaign. Are you sure?
@@ -307,11 +307,11 @@ en:
     credit_limit: Credit purchase limit exceeded
     verification_needed: A verified profile is needed in order to buy credits. Answer the form below or click the following link to verify your profile.
     verify_account: Verify Account
-    bilbo_credits: "Bilbo Credits"
-    transaction_fee: "Transaction Fee"
-    transaction_fee_text: "Payment transaction fee."
+    bilbo_credits: 'Bilbo Credits'
+    transaction_fee: 'Transaction Fee'
+    transaction_fee_text: 'Payment transaction fee.'
     purchase_success: You have purchased %{credits_number} credits.
-    purchase_error: "Something has gone wrong with the purchase. Contact Support for more information."
+    purchase_error: 'Something has gone wrong with the purchase. Contact Support for more information.'
   invoices:
     invoice: Receipt
     invoices: Receipts
@@ -432,7 +432,11 @@ en:
       new_invite:
         subject: New user <strong>%{user_name}</strong> was added to the project
         message: New user <strong>%{user_name}</strong> was added to the project
-        url_string: New user 
+        url_string: Go to the project
+      invite_removed:
+        subject: A user was removed from the project <strong>%{user_name}</strong>
+        message: A user was removed from the project <strong>%{user_name}</strong>
+        url_string: Go to bilbo
     report:
       weekly_ready:
         subject: Your weekly report is ready to be downloaded
