@@ -8,7 +8,11 @@ class Projects::ProjectUsersController < ApplicationController
     project_user = @current_project.project_users.new(project_user_params)
 
     if project_user.save
+<<<<<<< HEAD
       create_notification(recipient_id: @current_project.id, actor_id: @current_project.id, action: "new invite", notifiable: @current_project, reference: @project_user)
+=======
+      create_notification(recipient_id: @current_project.id, actor_id: @current_project.id, action: "new invite", notifiable: @project, reference: @project_user )
+>>>>>>> 4a9fb17da9b1c448963c0f381d7148dd3383f3b9
       flash[:success] = I18n.t('projects.member_invited')
     else
       flash[:error] = I18n.t('projects.member_invited_error')
