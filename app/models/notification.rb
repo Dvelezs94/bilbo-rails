@@ -16,6 +16,10 @@ class Notification < ApplicationRecord
 
   after_commit :notificate_by_email, on: :create
 
+  def read!
+    self.update(read_at: Time.now)
+  end
+
   # builds the url and message for the notification
   # you can call a single element like this
   # notification.build_notification_body[:url] or notification.build_notification_body[:message]
@@ -57,10 +61,10 @@ class Notification < ApplicationRecord
     when "Project"
       case action
       when "new invite"
-          { url: provider_index_campaigns_url(q: "review"),
-            url_string: I18n.t("#{translation}.url_string"),
-            message: I18n.t("#{translation}.message", user_name: reference),
-          subject: I18n.t("#{translation}.subject", user_name: notifiable.name)}
+        { url: provider_index_campaigns_url(q: "review"),
+          url_string: I18n.t("#{translation}.url_string"),
+          message: I18n.t("#{translation}.message", user_name: reference),
+         subject: I18n.t("#{translation}.subject", user_name: notifiable.name) }
       end
     when "Report"
       case action
@@ -70,11 +74,8 @@ class Notification < ApplicationRecord
           message: I18n.t("#{translation}.message"),
         subject: I18n.t("#{translation}.subject") }
       end
-      end
     end
-  end
-  def read!
-    self.update(read_at: Time.now)
+    end
   end
 
   private
