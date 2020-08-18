@@ -56,6 +56,7 @@
           apiToken: $api_token,
           boardSlug: $board_slug,
           campaignId: $campaign_id,
+          mutationid: $mutation_id,
           cycles: 1,
           createdAt: $created_at
         }) {
@@ -64,6 +65,7 @@
             totalPrice
             createdAt
           }
+          mutationid
           errors
         }
       `);
@@ -73,7 +75,8 @@
            api_token: api_token,
            board_slug: board_slug,
            campaign_id: value["campaign_id"],
-           created_at: value["created_at"]
+           created_at: value["created_at"],
+           mutation_id: value["mutationid"]
          }).then((response) => {
            return response;
          }).catch(function(e) {
@@ -88,7 +91,7 @@
              //console.log(value["impression"]["createdAt"]);
              try {
                displayedAds = displayedAds.filter((impression) => {
-                 return impression.createdAt === value["impression"]["createdAt"];
+                 return impression.mutationid != value["mutationid"]
                });
              } catch (value) {
                console.log("error")
@@ -98,7 +101,7 @@
          }).catch((error) => console.log(error))
        } catch (value) {
          if (value.message == "You cannot commit the merge buildImpression without creating it first.") {
-           console.log("There aren't impressions to add")
+           console.log("There aren't impressions to add");
          } else {
            throw value;
          }
@@ -147,12 +150,13 @@
            // build map for new ad displayed and merge it to displayedAds
            newAdMap = {
              campaign_id: chosen.toString(),
-             created_at: new Date(Date.now()).toISOString()
+             created_at: new Date(Date.now()).toISOString(),
+             mutationid: Array(15).fill(null).map(() => Math.random().toString(36).substr(2)).join('')
            }
            if (typeof newAdMap["campaign_id"] !== 'undefined') {
              displayedAds.push(newAdMap);
            }
-           console.log(displayedAds);
+           //console.log(displayedAds);
            // else it is empty, so we need to show the bilbo hire
          } else {
            if ($('[data-campaign-id="' + chosen + '"]').length && $(adPausePlay).is("video")) {

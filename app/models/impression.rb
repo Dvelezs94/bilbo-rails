@@ -1,7 +1,6 @@
 class Impression < ApplicationRecord
   include BroadcastConcern
   attribute :api_token
-
   validate :validate_api_token
   validates_uniqueness_of :created_at, scope: [:board_id, :campaign_id]
   validate :ten_seconds_validate_board_campaign
