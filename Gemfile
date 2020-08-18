@@ -118,3 +118,4 @@ gem 'slack-notifier', '~> 2.3', '>= 2.3.2'
 # Cron jobs
 gem 'sidekiq-cron', '~> 1.2'
 gem 'font-ionicons-rails', '~> 2.0', '>= 2.0.1.6'
+gem 'blazer', '~> 2.2', '>= 2.2.6'
