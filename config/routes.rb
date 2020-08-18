@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   end
 
   # allow sidekiq access only to admin
-  authenticate :user, lambda { |u| u.is_admin? } do
+  authenticated :user, lambda { |u| u.is_admin? } do
     mount Sidekiq::Web => '/sidekiq'
+    mount Blazer::Engine, at: "blazer"
   end
 
   post "/api", to: "graphql#execute"
