@@ -99,7 +99,7 @@ es:
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
-    occupied: "% Ocupado"
+    occupied: '% Ocupado'
     deny: Denegar campaña
     review: Pausar campaña
     campaigns: Campañas
@@ -308,11 +308,11 @@ es:
     credit_limit: Límite de compra de créditos superada
     verification_needed: Necesitas un perfil verificado para poder comprar créditos. Responde la encuesta debajo o haz click en la siguiente liga para verificar tu cuenta.
     verify_account: Verificar Cuenta
-    bilbo_credits: "Créditos de Bilbo"
-    transaction_fee: "Comisión de transacción"
-    transaction_fee_text: "Comisión de transacción de plataforma de pagos."
+    bilbo_credits: 'Créditos de Bilbo'
+    transaction_fee: 'Comisión de transacción'
+    transaction_fee_text: 'Comisión de transacción de plataforma de pagos.'
     purchase_success: Haz comprado %{credits_number} créditos.
-    purchase_error: "Ocurrió un error en la transacción. Contacta a soporte para más información"
+    purchase_error: 'Ocurrió un error en la transacción. Contacta a soporte para más información'
   invoices:
     invoice: Recibo
     invoices: Recibos
@@ -431,9 +431,13 @@ es:
         url_string: Descargar csv
     project:
       new_invite:
-          subject: Nuevo usuario <strong>%{user_name}</strong> agregado al proyecto
-          message: Nuevo usuario <strong>%{user_name}</strong> agregado al proyecto
-          url_string: Aceptar invitacion
+        subject: Nuevo usuario agregado al proyecto <strong>%{user_name}</strong>
+        message: Nuevo usuario agregado al proyecto <strong>%{user_name}</strong>
+        url_string: Ir al proyecto
+      invite_removed:
+        subject: Un usuario fue eliminado del proyecto <strong>%{user_name}</strong>
+        message: Un usuario fue eliminado del proyecto <strong>%{user_name}</strong>
+        url_string: Ir al Bilbo
     report:
       weekly_ready:
         subject: Tu reporte semanal está listo para descargar
