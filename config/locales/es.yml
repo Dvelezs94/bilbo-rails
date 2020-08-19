@@ -30,7 +30,7 @@ es:
     password_confirmation: Repite tu contraseña
     password_confirmation_hint: Introduce tu contraseña
     forgot_password_question: Olvide mi contraseña
-    terms_of_service_agreement: al registrarte estas de acuerdo con nuestros términos y condiciones al igual que nuestra politica de privacidad.
+    terms_of_service_agreement: al registrarte estas de acuerdo con nuestros términos y condiciones al igual que nuestra política de privacidad.
   header:
     account_settings: Ajustes de cuenta
     invoices: Recibos
