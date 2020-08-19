@@ -1,6 +1,5 @@
 class ProjectUser < ApplicationRecord
   attribute :email, :string
-  #before_create :user_invited_provider?
 
   belongs_to :project
   belongs_to :user
@@ -10,6 +9,7 @@ class ProjectUser < ApplicationRecord
   before_validation :set_user_id, if: :email?
   validates_uniqueness_of :project_id, :scope => :user_id, :message => "Duplicate"
   validate :user_invited_provider?
+  
   def set_user_id
     self.user = User.invite!(email: email, project_name: email)
   end
