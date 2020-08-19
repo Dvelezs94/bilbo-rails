@@ -15,29 +15,29 @@ es:
     reset_password: Recuperar tu contraseña
     reset_password_banner: Introduce tu Email y nosotros te enviaremos un link para que recuperes tu contraseña
     reset_password_hint: Introduce tu Email
-    reset_password_submit: Enviar instrucciones de restauracion
+    reset_password_submit: Enviar instrucciones de restauración
     sign_up: Crear Nueva Cuenta
     sign_up_banner: El regisro es gratis y solo te tomara 1 minuto.
     already_have_account: Ya tienes una cuenta?
-    sign_in: Iniciar Sesion
+    sign_in: Iniciar Sesión
     remember_me: Mantener sesión Iniciada
-    sign_in_banner: Bienvenido de nuevo! Por favor inicia sesion para continuar
+    sign_in_banner: Bienvenido de nuevo! Por favor inicia sesión para continuar
     create_account: Crear Cuenta
-    email_address: Direccion Email
+    email_address: Dirección Email
     email_address_sample: tunombre@email.com
     password: Contraseña
     password_hint: Introduce tu contraseña
     password_confirmation: Repite tu contraseña
     password_confirmation_hint: Introduce tu contraseña
     forgot_password_question: Olvide mi contraseña
-    terms_of_service_agreement: al registrarte estas de acuerdo con nuestros terminos y condiciones al igual que nuestra politica de privacidad.
+    terms_of_service_agreement: al registrarte estas de acuerdo con nuestros términos y condiciones al igual que nuestra politica de privacidad.
   header:
     account_settings: Ajustes de cuenta
     invoices: Recibos
     manage_team: Equipo
     manage_projects: Proyectos
     view_profile: Ver perfil
-    logout: Cerrar sesion
+    logout: Cerrar sesión
     dashboard: Inicio
     campaigns: Campañas
     help_center: Centro de ayuda
@@ -53,22 +53,22 @@ es:
     users: Usuarios
     configuration: Configuración
   account_settings:
-    general_information_divider: Informacion General
-    company_information: Informacion de Empresa
+    general_information_divider: Información General
+    company_information: Información de Empresa
     name: Nombre Completo
     company_name: Nombre de Compañía
     password_divider: Contraseña
     password_hint: Contraseña (Dejar en blanco si no quieres cambiarla)
-    password_confirmation: Confirmacion de contraseña
+    password_confirmation: Confirmación de contraseña
     current_password: Contraseña actual (necesitamos comprobar que eres tu)
     minimum_characters: caracteres minimos
     update: Actualizar
     company_web_page: Pagina Wep de la Empresa
-    company_address: Dirrecion de la empresa
+    company_address: Dirreción de la empresa
     idiom: Idioma
   general_inputs:
-    confirm_submit: Estas seguro?
-    confirm_deletion: Estas seguro que quieres borrar este elemento?
+    confirm_submit: ¿Estás seguro?
+    confirm_deletion: ¿Estás seguro que quieres borrar este elemento?
     close: Cerrar
     search: Buscar
     apply_filter: Aplicar Filtro
@@ -80,14 +80,14 @@ es:
     create: Crear
     update: Actualizar
     name: Nombre
-    address: Direccion
+    address: Dirección
     description: Descripción
     created_at: Creado hace
     dimensions: Dimensiones
     size: Tamaño
     expected_profit: Ganancia Esperada
-    delete_confirmation: Seguro que quieres borrar este elemento?
-    items_page: elementos/pagina
+    delete_confirmation: ¿Seguro que quieres borrar este elemento?
+    items_page: elementos/página
     edit: Editar Campaña
     pay_with: Pagar con
     please_wait: Por favor espera...
@@ -159,11 +159,11 @@ es:
       budget: Presupuesto diario
       most_popular: Más popular
       daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto se dividirá entre todos los bilbos equitativamente.
-      campaign_duration: Duracion de la campaña
-      campaign_minute: Impresion por minuto
-      campaign_minute_description: Esta opcion te permite escoger las impresiones que quieres que se muestren por minuto
+      campaign_duration: Duración de la campaña
+      campaign_minute: Impresión por minuto
+      campaign_minute_description: Esta opción te permite escoger las impresiones que quieres que se muestren por minuto
       campaign_hour: Rango de hora
-      campaign_hour_description: Con la opcion rango de hora puedes escoger la hora en la que se muestran tus campañas
+      campaign_hour_description: Con la opción rango de hora puedes escoger la hora en la que se muestran tus campañas
       campaign_clasification: Tipo de campaña
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha
@@ -213,7 +213,7 @@ es:
     state: Estado
     enabled: Habilitado
     filter: Filtros del Mapa
-    in_review: En revision
+    in_review: En revisión
     disabled: Desactivado
     banned: Bloqueado
     category: Categoria
@@ -223,14 +223,14 @@ es:
     month_impressions: Impresiones Mensuales
     start_stream: Empezar a emitir
     not_streaming: No emitiendo
-    stream_status: Estado de la emicion
+    stream_status: Estado de la emisión
     streaming: Emitiendo
     avg_views: Vistas Promedio/día
     day: Dia
-    duration: Duracion
+    duration: Duración
     seconds: segundos
-    price_per_print: Precio/Impresion
-    credits_per_print: Créditos/Impresion
+    price_per_print: Precio/Impresión
+    credits_per_print: Créditos/Impresión
     dimensions: Dimensiones
     expected_profit: Ganancia Esperada
     north: Norte
@@ -238,12 +238,12 @@ es:
     east: Este
     west: Oeste
     face: Cara
-    address: Direccion
+    address: Dirección
     add_bilbo: Agregar Bilbo
     remove_bilbo: Eliminar Bilbo
     credits: Créditos
     type: Tipo
-    television: Television
+    television: Televisión
     wallboard: Cartelon
     billboard: Espectacular
     provider: Correo del proveedor
@@ -304,7 +304,7 @@ es:
     if_it_doesnt_redirect: Si no lo redirige en 5 segundos, haga click
     processing_order: Procesando la orden...
     buy_credits: Comprar Créditos
-    credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiracion. 1 crédito equivale a $1 MXN.
+    credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiración. 1 crédito equivale a $1 MXN.
     credit_limit: Límite de compra de créditos superada
     verification_needed: Necesitas un perfil verificado para poder comprar créditos. Responde la encuesta debajo o haz click en la siguiente liga para verificar tu cuenta.
     verify_account: Verificar Cuenta
@@ -316,13 +316,13 @@ es:
   invoices:
     invoice: Recibo
     invoices: Recibos
-    issued_at: Fecha de emision
+    issued_at: Fecha de emisión
     beneficiary_name: Nombre del beneficiario
     total_amount: Cantidad total
     go_to_invoice: Ir al Recibo
     number: Numero de Recibo
     billed_to: Emitido a
-    information: Informacion de recibo
+    information: Información de recibo
     type: Tipo
     description: Descripción
     quantity: Cantidad
@@ -397,6 +397,9 @@ es:
     deleted_project: Proyecto eliminado
     could_not_delete: Error al borrar proyecto, intenta de nuevo más tarde
     new_project: Nuevo proyecto
+    user: Usuario
+    administrator: Administrador
+    owner: Propietario
   notifications:
     notifications: Notificaciones
     new_notification: Tienes una nueva notificación para tu proyecto %{project_name}
