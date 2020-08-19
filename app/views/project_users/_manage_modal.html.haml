@@ -13,7 +13,12 @@
                   = image_tag user_avatar(u.user, 500), class: "rounded-circle"
                 .media-body.pd-l-15
                   %h6mg-b-3= u.user.name_or_email
-                  %span.d-block.tx-13.tx-color-03= u.role
+                  -if u.role == "owner"
+                    %span.d-block.tx-13.tx-color-03= t('projects.owner')
+                  - elsif u.role == "administrator"
+                    %span.d-block.tx-13.tx-color-03= t('projects.administrator')
+                  -else
+                    %span.d-block.tx-13.tx-color-03= t('projects.user')
                 - if @project.admins.include? current_user.id
                   %span.d-none.d-sm-block.tx-12.tx-color-03.align-self-start
                   - if u.role != "owner"
@@ -25,8 +30,7 @@
                 .input-group
                   = f.email_field :email, required: true, class: "form-control", placeholder: "john-doe@mail.com"
                   .input-group-append{title: t('projects.role')}
-                    = f.select(:role, ["user", "administrator"], {:include_blank => false}, {:class => "custom-select", style: "border-radius: 0px 0.25rem 0.25rem 0px;"})
-
+                    = f.select(:role, options_for_select([["#{t('projects.user')}", "user"],["#{t('projects.administrator')}", "administrator"]]), {:include_blank => false}, {:class => "custom-select", style: "border-radius: 0px 0.25rem 0.25rem 0px;"})
               = f.submit  t('projects.send_invite'), class: "btn btn-primary float-right"
       .modal-footer
         %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
