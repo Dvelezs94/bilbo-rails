@@ -104,7 +104,8 @@ class CampaignsController < ApplicationController
 
   def destroy
     if !@campaign.state?
-      @campaign.inactive!
+      # Skip validations because the campaign is already disabled
+      @campaign.update_attribute(:status, "inactive")
       respond_to do |format|
         format.html {
           flash[:success] = I18n.t('campaign.action.deleted')
