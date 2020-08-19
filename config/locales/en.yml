@@ -396,6 +396,9 @@ en:
     deleted_project: Project removed
     could_not_delete: Could not delete report, try again later
     new_project: New project
+    user: User
+    administrator: Administrator
+    owner: Owner
   notifications:
     notifications: Notifications
     new_notification: You have a new notification for your project %{project_name}
