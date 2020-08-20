@@ -116,6 +116,8 @@ es:
     impressions: Impresiones
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
+    invested_on: inversion diaria en
+    popular_hours: Horas populares 
     total_impressions: Total de impresiones
     history_data: Historial de datos
     month_impressions: Sus impresiones y el total invertido en los últimos 30 días
@@ -355,6 +357,8 @@ es:
     settings: Configuración
     impressions_count: Cuenta de impresiones
     impressions_count_description: Últimos 30 días de impresiones. Cada punto es la suma de todas las impresiones de tus bilbos en un mismo dia
+    campaign_day: Campaña del dia
+    campaign_day_description: Impresiones de la campaña en el dia
     top_campaigns: Campañas sobresalientes
     earnings: Ganancias
     earnings_description: Últimos 30 días de ganancias

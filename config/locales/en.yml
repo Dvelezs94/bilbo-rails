@@ -115,6 +115,8 @@ en:
     impressions: Impressions
     daily_budget: Daily Budget
     total_invested: Total Invested
+    invested_on: Daily invested on
+    popular_hours: Popular hours
     total_impressions: Total impressions
     history_data: History data
     month_impressions: Your impressions and total invested over the last 30 days
@@ -354,6 +356,8 @@ en:
     settings: Settings
     impressions_count: Impressions Count
     impressions_count_description: last 30 days of impressions. The impressions are a sum of all your board impressions combined
+    campaign_day: Campaign of day
+    campaign_day_description: Campaign impression by day
     top_campaigns: Top Campaigns
     earnings: Earnings
     earnings_description: Last 30 days of earnings.
@@ -430,12 +434,12 @@ en:
         url_string: Download csv
     project:
       new_invite:
-        subject: New user <strong>%{user_name}</strong> was added to the project
-        message: New user <strong>%{user_name}</strong> was added to the project
+        subject: New user was added to the project
+        message: New user was added to the project
         url_string: Go to the project
       invite_removed:
-        subject: A user was removed from the project <strong>%{user_name}</strong>
-        message: A user was removed from the project <strong>%{user_name}</strong>
+        subject: <strong>%{user_name}</strong> was removed from the project 
+        message: <strong>%{user_name}</strong> was removed from the project 
         url_string: Go to bilbo
     report:
       weekly_ready:
