@@ -141,7 +141,6 @@ ActiveRecord::Schema.define(version: 2020_08_19_231932) do
     t.time "end_time"
     t.integer "utc_offset"
     t.boolean "images_only", default: false
-    t.integer "min_time_per_ad", default: 10
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
