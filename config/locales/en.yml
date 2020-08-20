@@ -269,6 +269,7 @@ en:
       hour_campaign_space: There is no space for the hourly campaign %{campaign_name} in the bilbo %{bilbo_name}
       minute_campaign_space: There is no space for the minute campaign %{campaign_name} in the bilbo %{bilbo_name}
       budget_campaign_space: There is no space for the budget campaign %{campaign_name} in the bilbo %{bilbo_name}
+      duration_is_not_ten: The bilbo %{name} doesn't allow campaings per minute because the ad duration is different from ten seconds
     search:
       location: Location
       classification: Classification
