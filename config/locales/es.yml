@@ -206,8 +206,7 @@ es:
       saved: La campaña se ha guardado con éxito
       to_review: La campaña se ha enviado a revisión
   bilbos:
-    hour_end: Hora de apagado
-    hour_start: Hora de encendido
+    hour_start: Horario
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
     state: Estado
@@ -225,7 +224,7 @@ es:
     not_streaming: No emitiendo
     stream_status: Estado de la emisión
     streaming: Emitiendo
-    avg_views: Vistas Promedio/día
+    avg_views: Vistas por día
     day: Dia
     duration: Duración
     seconds: segundos
@@ -238,6 +237,7 @@ es:
     east: Este
     west: Oeste
     face: Cara
+    images_only: Este bilbo solo acepta imágenes
     address: Dirección
     add_bilbo: Agregar Bilbo
     remove_bilbo: Eliminar Bilbo
