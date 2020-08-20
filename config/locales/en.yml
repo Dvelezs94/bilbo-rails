@@ -204,8 +204,7 @@ en:
       saved: The campaign has been saved successfully
       to_review: The campaign has been sent to review
   bilbos:
-    hour_end: Hour End
-    hour_start: Hour Start
+    hour_start: Playing schedule
     new_bilbo: New Bilbo
     name: Bilbo name
     state: State
@@ -236,6 +235,7 @@ en:
     east: East
     west: West
     face: Face
+    images_only: This bilbo only display images
     address: Address
     add_bilbo: Add Bilbo
     remove_bilbo: Remove Bilbo
