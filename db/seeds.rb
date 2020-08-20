@@ -8,7 +8,7 @@
 if ENV.fetch("RAILS_ENV") != "production"
 
   5.times do |x|
-    User.create! do |provider|
+    User.new do |provider|
       provider.name = Faker::Name.first_name
       provider.email = "provider#{x}@bilbo.mx"
       provider.password = "1234aA"
@@ -21,7 +21,7 @@ if ENV.fetch("RAILS_ENV") != "production"
         lat = Faker::Address.latitude
         lng = Faker::Address.longitude
         4.times do |y|
-          provider.projects.first.boards.create! do |board|
+          provider.projects.first.boards.new do |board|
             board.lat = lat
             board.lng = lng
             board.avg_daily_views = Faker::Number.number(digits: 6)
@@ -36,9 +36,11 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.base_earnings = Faker::Number.between(from: 40000, to: 200000)
             board.social_class = Faker::Number.between(from: 0, to: 3)
             board.start_time = Time.now
+            board.images_only = Faker::Boolean.boolean(true_ratio: 0.5)
             board.end_time = Time.now + rand(-300..480).minutes
             board.utc_offset = rand(-300..0)
-
+            board.default_image.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'placeholder.png', content_type: 'image/png')
+            board.save
           end
         end
       end
