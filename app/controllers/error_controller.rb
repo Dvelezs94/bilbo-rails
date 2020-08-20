@@ -6,12 +6,6 @@ class ErrorController < ApplicationController
       end
     end
   
-    def unacceptable
-      respond_to do |format|
-        format.html { render status: 422 }
-      end
-    end
-  
     def internal_error
       respond_to do |format|
         format.html { render status: 500 }
