@@ -434,8 +434,8 @@ en:
         url_string: Download csv
     project:
       new_invite:
-        subject: New user was added to the project
-        message: New user was added to the project
+        subject: <strong>%{user_name}</strong> was added to the project
+        message: <strong>%{user_name}</strong> was added to the project
         url_string: Go to the project
       invite_removed:
         subject: <strong>%{user_name}</strong> was removed from the project 
