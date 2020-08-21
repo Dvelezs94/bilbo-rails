@@ -1,4 +1,4 @@
-- if @board.images_only
+- if board.images_only?
   = image_tag url_for(media), class: "board-ad-inner animated #{Ad.transitions.key(media.transition)}", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }
 - else
   -if media.video?

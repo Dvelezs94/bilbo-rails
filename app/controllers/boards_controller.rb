@@ -173,6 +173,7 @@ class BoardsController < ApplicationController
                                   :social_class,
                                   :default_image,
                                   :utc_offset,
+                                  :duration,
                                   images: []
                                   )
   end

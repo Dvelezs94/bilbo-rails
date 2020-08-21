@@ -1,5 +1,4 @@
 class ExternalSourcesController < ApplicationController
-    skip_before_action :verify_authenticity_token
     before_action :verify_cookies, only: :setup
 
     def setup
