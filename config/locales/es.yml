@@ -435,12 +435,12 @@ es:
         url_string: Descargar csv
     project:
       new_invite:
-        subject: Nuevo usuario agregado al proyecto <strong>%{user_name}</strong>
-        message: Nuevo usuario agregado al proyecto <strong>%{user_name}</strong>
+        subject: <strong>%{user_name}</strong> fue agregado al proyecto 
+        message: <strong>%{user_name}</strong> fue agregado al proyecto 
         url_string: Ir al proyecto
       invite_removed:
-        subject: Un usuario fue eliminado del proyecto <strong>%{user_name}</strong>
-        message: Un usuario fue eliminado del proyecto <strong>%{user_name}</strong>
+        subject: <strong>%{user_name}</strong> fue eliminado del proyecto 
+        message: <strong>%{user_name}</strong> fue eliminado del proyecto 
         url_string: Ir al Bilbo
     report:
       weekly_ready:
