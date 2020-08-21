@@ -11,6 +11,9 @@ module Bilbo
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
+    # disable authenticity token
+    config.action_controller.default_protect_from_forgery = false
+
     # default time zone
     config.time_zone = ENV.fetch("TIME_ZONE") { "Mexico City" }
 

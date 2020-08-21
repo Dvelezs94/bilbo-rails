@@ -216,6 +216,7 @@ en:
     in_review: In review
     disabled: Disabled
     banned: Banned
+    ad_duration: Ad Duration (seconds)
     category: Category
     copy_stream_url: Copy stream URL
     regenerate_token: Regenerate access token

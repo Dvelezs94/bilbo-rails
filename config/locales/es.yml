@@ -218,6 +218,7 @@ es:
     in_review: En revisión
     disabled: Desactivado
     banned: Bloqueado
+    ad_duration: Duración de anuncio (segundos)
     category: Categoria
     copy_stream_url: Copiar URL
     regenerate_token: Regenerar token de acceso

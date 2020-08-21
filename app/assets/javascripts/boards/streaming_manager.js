@@ -20,7 +20,12 @@
        rotation_key = getIndex($("#start_time").val());
        $(".start-stream").hide();
        $(".board-ads").attr('style', 'display:block !important');
-       rotateAds = setInterval(showAd, board_duration);
+       // give 5 seconds to load all images and videos
+       setTimeout(function(){
+         showAd();
+         rotateAds = setInterval(showAd, board_duration);
+       }, 5000);
+
      });
 
      // Stop stream
