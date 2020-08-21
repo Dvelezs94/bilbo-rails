@@ -400,6 +400,7 @@ es:
     user: Usuario
     administrator: Administrador
     owner: Propietario
+    user_has_an_invitation: El usuario ya tiene una invitación.
   notifications:
     notifications: Notificaciones
     new_notification: Tienes una nueva notificación para tu proyecto %{project_name}

@@ -8,15 +8,12 @@ class ProjectUser < ApplicationRecord
 
   before_validation :set_user_id, if: :email?
   validates_uniqueness_of :project_id, :scope => :user_id, :message => "Duplicate"
-  validate :user_invited_provider?
-  
-  def set_user_id
-    self.user = User.invite!(email: email, project_name: email)
-  end
 
-  def user_invited_provider?
-    if self.user.is_provider?
-      return errors.add :base, "Can't invite providers users"
+  def set_user_id
+    if User.find_by(email: email).present? && User.find_by(email: email).is_provider? && User.find_by(email: email).projects.present?
+        return errors.add :base, "Can't invite providers users"
+    else
+      self.user = User.invite!(email: email, project_name: email)
     end
   end
 end
