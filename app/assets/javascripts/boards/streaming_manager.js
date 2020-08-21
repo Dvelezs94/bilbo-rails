@@ -115,7 +115,6 @@
 
      // show user ad
      function showAd() {
-       console.log("new ad")
        if (bilbo_ad_count < 10) {
          // don't increase count so bilbo ad is not shown every 10 ads
          //++bilbo_ad_count;
@@ -125,8 +124,6 @@
            rotation_key = 0
          }
          chosen = ads[rotation_key];
-         console.log(chosen,rotation_key)
-         console.log(ads[rotation_key+1],ads[rotation_key+2],ads[rotation_key+3],ads[rotation_key+4])
          if (chosen !== "-") {
            if ($("#bilbo-ad").is(":visible")) {
              $("#bilbo-ad").hide();
