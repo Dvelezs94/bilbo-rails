@@ -436,6 +436,15 @@ en:
         subject: Your weekly report is ready to be downloaded
         message: Your weekly report is ready to be downloaded
         url_string: Download Report
+  error:
+    404_page:
+      404_main: 404 Page not found
+      message: Oopps. The page you were looking for doesn't exist.
+      404_description: You may have mistyped the address or the page may have moved. Try searching below.
+    500_page:
+      500_main: Internal Server Error
+      message: Oopps. There was an error, please try again later.
+      500_description: The server encountered an internal server error and was unable to complete your request.
   alert:
     project_out_of_credits: Your project is running out of credits
     verify_profile: Verify your profile to
