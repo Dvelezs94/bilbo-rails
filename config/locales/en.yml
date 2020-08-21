@@ -399,6 +399,7 @@ en:
     user: User
     administrator: Administrator
     owner: Owner
+    user_has_an_invitation: User already has an invitation
   notifications:
     notifications: Notifications
     new_notification: You have a new notification for your project %{project_name}
