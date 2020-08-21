@@ -101,7 +101,7 @@ en:
     accept: Accept campaign
     deny: Deny campaign
     review: Pause campaign
-    occupied: "% Occupied"
+    occupied: '% Occupied'
     home: Home
     to_active: The campaign has been activated
     to_inactive: The campaign has been deactivated
@@ -115,6 +115,8 @@ en:
     impressions: Impressions
     daily_budget: Daily Budget
     total_invested: Total Invested
+    invested_on: Daily invested on
+    popular_hours: Popular hours
     total_impressions: Total impressions
     history_data: History data
     month_impressions: Your impressions and total invested over the last 30 days
@@ -133,8 +135,8 @@ en:
     impressions_per_day: Impressions
     invested: Daily investment
     popular_hours: Most popular hours
-    status_on: "On"
-    status_off: "Off"
+    status_on: 'On'
+    status_off: 'Off'
     approve_campaign: Are you sure you want to approve this campaign?
     deny_campaign: Are you sure you want to deny this campaign?
     in_review_campaign: You are about to pause this campaign. Are you sure?
@@ -307,11 +309,11 @@ en:
     credit_limit: Credit purchase limit exceeded
     verification_needed: A verified profile is needed in order to buy credits. Answer the form below or click the following link to verify your profile.
     verify_account: Verify Account
-    bilbo_credits: "Bilbo Credits"
-    transaction_fee: "Transaction Fee"
-    transaction_fee_text: "Payment transaction fee."
+    bilbo_credits: 'Bilbo Credits'
+    transaction_fee: 'Transaction Fee'
+    transaction_fee_text: 'Payment transaction fee.'
     purchase_success: You have purchased %{credits_number} credits.
-    purchase_error: "Something has gone wrong with the purchase. Contact Support for more information."
+    purchase_error: 'Something has gone wrong with the purchase. Contact Support for more information.'
   invoices:
     invoice: Receipt
     invoices: Receipts
@@ -354,6 +356,8 @@ en:
     settings: Settings
     impressions_count: Impressions Count
     impressions_count_description: last 30 days of impressions. The impressions are a sum of all your board impressions combined
+    campaign_day: Campaign of day
+    campaign_day_description: Campaign impression by day
     top_campaigns: Top Campaigns
     earnings: Earnings
     earnings_description: Last 30 days of earnings.
@@ -432,6 +436,15 @@ en:
         subject: Your report is ready to be downloaded
         message: Your report is ready to be downloaded
         url_string: Download csv
+    project:
+      new_invite:
+        subject: <strong>%{user_name}</strong> was added to the project
+        message: <strong>%{user_name}</strong> was added to the project
+        url_string: Go to the project
+      invite_removed:
+        subject: <strong>%{user_name}</strong> was removed from the project 
+        message: <strong>%{user_name}</strong> was removed from the project 
+        url_string: Go to bilbo
     report:
       weekly_ready:
         subject: Your weekly report is ready to be downloaded
