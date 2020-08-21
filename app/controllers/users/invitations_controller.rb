@@ -1,4 +1,4 @@
-class Devise::InvitationsController < DeviseController
+class Users::InvitationsController < Devise::InvitationsController
   before_action :have_a_user_invitation?, only: [:create, :update]
   # GET /resource/invitation/new
   def new
