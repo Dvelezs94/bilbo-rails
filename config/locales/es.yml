@@ -216,6 +216,7 @@ es:
     disabled: Desactivado
     banned: Bloqueado
     ad_duration: Duración de anuncio (segundos)
+    images_only_form: Sólamente aceptar imágenes en este bilbo
     category: Categoria
     copy_stream_url: Copiar URL
     regenerate_token: Regenerar token de acceso
