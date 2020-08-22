@@ -203,6 +203,7 @@ es:
       cant_update_when_active: La campaña no puede editarse cuando está activa
       no_save: La campaña no ha podido guardarse
       not_accepted: La campaña no ha podido aceptarse
+      no_images: Tu creativo no cuenta con imágenes para correr en los bilbos que no admiten video
     action:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente

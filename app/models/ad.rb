@@ -2,9 +2,7 @@ class Ad < ApplicationRecord
   #attr accessor is for trigger the changes on the multimedia
   attr_accessor :multimedia_update
   extend FriendlyId
-
   friendly_id :name, use: :slugged
-
   belongs_to :project
 
   has_many :campaigns
@@ -18,10 +16,28 @@ class Ad < ApplicationRecord
   validate :check_if_can_delete, if: :status_changed_to_deleted?
   #this is executed when the ad update the multimedia
   before_commit :change_status
+  # get all images of ad
+
 
   def check_if_can_delete
     if self.campaigns.select_active.size > 0
       errors.add(:base, I18n.t('ads.errors.wont_be_able_to_delete'))
+    end
+  end
+  ## get images and videos only
+  def images
+    multimedia.select(&:image?)
+  end
+
+  def videos
+    multimedia.select(&:video?)
+  end
+  ## detect if the ad has images
+  def has_images?
+    if images.count > 0
+      return true
+    else
+      return false
     end
   end
 

@@ -25,6 +25,7 @@ class Board < ApplicationRecord
       calculate_aspect_ratio
     end
   end
+  scope :images_only, -> { where(images_only: true) }
 
   ################ DEMO FIX ##########################
   def start_time
