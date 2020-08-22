@@ -4,7 +4,8 @@ es:
   input:
     search: Buscar
     submit: Enviar
-  home: Ir al Inicio
+  home: Inicio
+  go_to_home: Ir al Inicio
   meta_tags:
     description: Espacios publicitarios para negocios
   authentication:

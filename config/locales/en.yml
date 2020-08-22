@@ -5,6 +5,7 @@ en:
     search: Search
     submit: Submit
   home: Home
+  go_to_home: Go to main page
   meta_tags:
     description: Advertising spaces for businesses
   authentication:
@@ -442,8 +443,8 @@ en:
         message: <strong>%{user_name}</strong> was added to the project
         url_string: Go to the project
       invite_removed:
-        subject: <strong>%{user_name}</strong> was removed from the project 
-        message: <strong>%{user_name}</strong> was removed from the project 
+        subject: <strong>%{user_name}</strong> was removed from the project
+        message: <strong>%{user_name}</strong> was removed from the project
         url_string: Go to bilbo
     report:
       weekly_ready:
