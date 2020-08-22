@@ -31,6 +31,6 @@
           %a.tx-color-04{:href => "#{generate_campaign_report_csv_index_path(campaign: @campaign.id)}"}
             %i.ht-60.fe.fe-download.tx-50
         .media-body.mg-l-20
-          %h6.mg-b-10 Download your earnings in CSV format.
+          %h6.mg-b-10= t('dashboards.download_report_in_csv')
           %p.tx-color-03.mg-b-0
-            Open it in a spreadsheet and perform your own calculations, graphing etc. The CSV file contains additional details, such as the buyer location.
+            = t('dashboards.download_report_in_csv_description')
