@@ -451,6 +451,15 @@ es:
         subject: Tu reporte semanal está listo para descargar
         message: Tu reporte semanal está listo para descargar
         url_string: Descargar Reporte
+  error:
+    404_page:
+      404_main: 404 Página no encontrada
+      message: Oops. La página que estas buscando no existe 
+      404_description: Creemos que te equivocaste escribiendo la dirección o la pagina se movió 
+    500_page:
+      500_main: Error interno del servidor
+      message: Oops. Ocurrió un error, veulve a intentarlo 
+      500_description: El servidor encontró un error interno del servidor y no pudo completar su solicitud.
   alert:
     project_out_of_credits: Tu proyecto se esta quedando sin créditos
     verify_profile: Verifica tu perfil para
