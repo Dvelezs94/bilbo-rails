@@ -3,6 +3,11 @@ Rails.application.routes.draw do
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api"
   end
+#Show error custom pages only in production
+  if Rails.env.production?
+    get '/500', to: "error#internal_error"
+    get '/404', to: "error#not_found"
+  end
 
   # allow sidekiq access only to admin
   authenticated :user, lambda { |u| u.is_admin? } do
@@ -136,5 +141,6 @@ Rails.application.routes.draw do
       post :configure
     end
   end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
