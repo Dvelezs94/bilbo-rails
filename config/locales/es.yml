@@ -4,7 +4,7 @@ es:
   input:
     search: Buscar
     submit: Enviar
-  home: Inicio
+  home: Ir al Inicio
   meta_tags:
     description: Espacios publicitarios para negocios
   authentication:
@@ -117,7 +117,7 @@ es:
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
     invested_on: inversion diaria en
-    popular_hours: Horas populares 
+    popular_hours: Horas populares
     total_impressions: Total de impresiones
     history_data: Historial de datos
     month_impressions: Sus impresiones y el total invertido en los últimos 30 días
@@ -439,12 +439,12 @@ es:
         url_string: Descargar csv
     project:
       new_invite:
-        subject: <strong>%{user_name}</strong> fue agregado al proyecto 
-        message: <strong>%{user_name}</strong> fue agregado al proyecto 
+        subject: <strong>%{user_name}</strong> fue agregado al proyecto
+        message: <strong>%{user_name}</strong> fue agregado al proyecto
         url_string: Ir al proyecto
       invite_removed:
-        subject: <strong>%{user_name}</strong> fue eliminado del proyecto 
-        message: <strong>%{user_name}</strong> fue eliminado del proyecto 
+        subject: <strong>%{user_name}</strong> fue eliminado del proyecto
+        message: <strong>%{user_name}</strong> fue eliminado del proyecto
         url_string: Ir al Bilbo
     report:
       weekly_ready:
@@ -454,11 +454,11 @@ es:
   error:
     404_page:
       404_main: 404 Página no encontrada
-      message: Oops. La página que estas buscando no existe 
-      404_description: Creemos que te equivocaste escribiendo la dirección o la pagina se movió 
+      message: Oops. La página que estas buscando no existe
+      404_description: Creemos que te equivocaste escribiendo la dirección o la pagina se movió
     500_page:
       500_main: Error interno del servidor
-      message: Oops. Ocurrió un error, veulve a intentarlo 
+      message: Oops. Ocurrió un error, veulve a intentarlo
       500_description: El servidor encontró un error interno del servidor y no pudo completar su solicitud.
   alert:
     project_out_of_credits: Tu proyecto se esta quedando sin créditos
