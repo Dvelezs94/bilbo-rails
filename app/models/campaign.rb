@@ -152,6 +152,12 @@ class Campaign < ApplicationRecord
       errors.add(:base, I18n.t('campaign.errors.no_ad'))
       return
     end
+    if boards.images_only.count > 0
+      if !ad.has_images?
+        errors.add(:base, I18n.t('campaign.errors.no_images'))
+        return
+      end
+    end
     errors.add(:base, I18n.t('campaign.errors.no_multimedia')) if self.ad.multimedia.empty?
     errors.add(:base, I18n.t('campaign.errors.ad_deleted')) if self.ad.deleted?
   end
