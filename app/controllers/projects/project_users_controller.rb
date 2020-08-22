@@ -6,8 +6,8 @@ class Projects::ProjectUsersController < ApplicationController
   include CookiesProject
   def create
     project_user = @current_project.project_users.new(project_user_params)
-
     if project_user.save
+      create_notification(recipient_id: @project.id, actor_id: @current_project.id, action: "new invite", notifiable: @project, reference: @project_user )
       flash[:success] = I18n.t('projects.member_invited')
     else
       flash[:error] = I18n.t('projects.member_invited_error')
@@ -19,6 +19,7 @@ class Projects::ProjectUsersController < ApplicationController
   def destroy
     @project_user = ProjectUser.where(project: @current_project, user_id: params[:id])
     if @project_user.destroy_all
+      create_notification(recipient_id: @current_project.id , actor_id: @project.id , action: "invite removed", notifiable: @project)
       flash[:success] = I18n.t('projects.member_deleted')
     else
       flash[:error] = I18n.t('projects.member_deletion_error')

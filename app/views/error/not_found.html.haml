@@ -1,0 +1,13 @@
+= render 'shared/header', menu: ""
+.content.content-fixed.content-auth-alt    
+    .container.ht-100p.tx-center
+        .ht-100p.d-flex.flex-column.align-items-center.justify-content-center
+            .wd-70p.wd-sm-250.wd-lg-300.mg-b-15
+                = image_tag image_path("error/img19.png"), class: "img-fluid"
+            %h1.tx-color-01.tx-24.tx-sm-32.tx-lg-36.mg-xl-b-5= t("error.404_page.404_main")
+            %h5.tx-16.tx-sm-18.tx-lg-20.tx-normal.mg-b-20= t("error.404_page.message")
+            %p.tx-color-03.mg-b-30= t("error.404_page.404_description")
+            .d-flex.mg-b-40
+                = link_to campaigns_path, id: "user", data: {  confirm: "You will be redirected to home" } do
+                    %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5= t("Home")
+/ container
