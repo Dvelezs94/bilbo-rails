@@ -1,4 +1,6 @@
 class SessionsController < Devise::SessionsController
+  protect_from_forgery prepend: true
+
   def create
     super
   end
