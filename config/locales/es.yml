@@ -216,7 +216,9 @@ es:
     state: Estado
     enabled: Habilitado
     filter: Filtros del Mapa
+    approved: Aprovado
     in_review: En revisión
+    denied: Denegado
     disabled: Desactivado
     banned: Bloqueado
     ad_duration: Duración de anuncio (segundos)
