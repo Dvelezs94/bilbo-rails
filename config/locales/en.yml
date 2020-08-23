@@ -292,6 +292,7 @@ en:
     transition: Effect transition
     measures: No measures available
     processing: Processing %{filename}
+    view: View creative
     transitions:
       no_transition: No Transition
       fadeInDown: Fade In Down
