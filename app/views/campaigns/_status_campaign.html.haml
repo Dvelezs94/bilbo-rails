@@ -1,7 +1,7 @@
 %tr
   %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip", title: ""}= board_campaign.campaign.name
   %td
-    = link_to modal_action_ad_path(board_campaign.campaign_id),  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'} do
+    = link_to modal_action_ad_path(board_campaign.campaign_id, images_only: board_campaign.board.images_only),  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'} do
       %i.fa.fa-picture-o
       = t("ads.view")
   #modal-window.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "adViewModal", role: "dialog", tabindex: "-1"}
