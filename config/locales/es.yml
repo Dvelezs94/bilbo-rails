@@ -214,7 +214,7 @@ es:
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
     state: Estado
-    enabled: Habilitado
+    enabled: Habilitadod
     filter: Filtros del Mapa
     approved: Aprovado
     in_review: En revisión
@@ -293,6 +293,7 @@ es:
     transition: Efecto de transición
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
+    view: Ver creativo
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
