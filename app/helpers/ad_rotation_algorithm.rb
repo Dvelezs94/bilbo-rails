@@ -38,7 +38,7 @@ module AdRotationAlgorithm
         return err
       end
 
-    elsif new_campaign.provider_campaign && new_campaign.clasification == "budget"
+    elsif new_campaign.provider_campaign && new_campaign.clasification == "budget" && new_campaign.budget.present?
        imp = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
        if imp > t_cycles
          err << I18n.t("bilbos.ads_rotation_error.max_budget_impressions", name: self.name)
@@ -111,7 +111,7 @@ module AdRotationAlgorithm
         per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
       elsif new_campaign.hour_start.present?
         h_cps[new_campaign.id] = [new_campaign.imp, new_campaign.hour_start, new_campaign.hour_finish]
-      elsif new_campaign.provider_campaign
+      elsif new_campaign.budget.present?
         r_cps[new_campaign.id] = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
       end
     end
