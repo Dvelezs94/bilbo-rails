@@ -8,7 +8,7 @@ class ScheduleCampaignWorker
     if bc.present?
       campaign = bc.campaign
       campaign.with_lock do
-        if campaign.state
+        if campaign.state && campaign.time_to_run?(bc.board)
           board = bc.board
           err = board.update_ads_rotation(campaign)
           if err.present?
