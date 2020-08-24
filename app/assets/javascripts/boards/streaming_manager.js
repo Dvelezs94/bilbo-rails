@@ -11,7 +11,7 @@
      // starts depending on the hour
      var rotation_key = 0
      // create the impressions every 60 seconds
-     setInterval(createImpression, 60000);
+     setInterval(createImpression, 10000);
      // Convert seconds to milliseconds
      board_duration = parseInt($("#duration").val()) * 1000;
 
@@ -67,6 +67,7 @@
           }
           mutationid
           errors
+          action
         }
       `);
 
@@ -87,17 +88,20 @@
          graph.commit('buildImpression').then(function(response) {
            // All base fields will be in response return.
            //console.log(response);
+           console.log("DisplayedAdsAntes");
+           console.log(displayedAds);
+           console.log(displayedAds.length);
            response["createImpression"].forEach((value, index) => {
-             //console.log(value["impression"]["createdAt"]);
-             try {
-               displayedAds = displayedAds.filter((impression) => {
-                 return impression.mutationid != value["mutationid"]
-               });
-             } catch (value) {
-               console.log("error")
-               console.log(value);
-             }
+             console.log("ACTION");
+             console.log(value["action"]);
+             if ( value["action"] != "delete") return
+             displayedAds = displayedAds.filter((impression) => {
+               return impression.mutationid != value["mutationid"]
+             });
            });
+           console.log("DisplayedAdsDespues");
+           console.log(displayedAds);
+           console.log(displayedAds.length);
          }).catch((error) => console.log(error))
        } catch (value) {
          if (value.message == "You cannot commit the merge buildImpression without creating it first.") {
