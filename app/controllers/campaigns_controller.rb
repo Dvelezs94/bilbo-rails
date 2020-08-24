@@ -22,7 +22,11 @@ class CampaignsController < ApplicationController
 
   def getAds
     campaign = Campaign.find(params[:id])
-    @append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: campaign.ad.multimedia, locals: {campaign: campaign},as: :media)
+    if campaign.should_run?(params[:board_id].to_i)
+      @append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: campaign.ad.multimedia, locals: {campaign: campaign},as: :media)
+    else
+      @append_msg = ""
+    end
   end
 
   def analytics
