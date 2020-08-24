@@ -106,6 +106,7 @@ es:
     campaigns: Campañas
     home: Inicio
     to_active: La campaña se ha activado
+    accepted: La campaña se ha aceptado
     to_inactive: La campaña se ha desactivado
     new_campaign: Nueva Campaña
     destroy: Remover Campaña

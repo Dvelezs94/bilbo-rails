@@ -59,7 +59,7 @@ class Campaign < ApplicationRecord
   def check_build_ad_rotation
     if (state)
       boards.each do |b|
-        err = b.build_ad_rotation(self) if !provider_update
+        err = b.build_ad_rotation(self) if !provider_update && self.should_run?(b.id)
         if err.present?
           errors.add(:base, err.first)
           break
@@ -114,7 +114,7 @@ class Campaign < ApplicationRecord
 
   def update_rotation_on_boards
     boards.each do |b|
-      if provider_campaign && should_run?(b.id)#needs to update provider campaigns
+      if provider_campaign && campaign_active_in_board?(b.id)#needs to update provider campaigns
         err = b.update_ads_rotation(self)
       elsif campaign_active_in_board?(b.id) #if user, worker adds the campaign in real time
         b.update_campaign_broadcast(self)
