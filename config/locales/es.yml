@@ -204,22 +204,26 @@ es:
       cant_update_when_active: La campaña no puede editarse cuando está activa
       no_save: La campaña no ha podido guardarse
       not_accepted: La campaña no ha podido aceptarse
+      no_images: Tu creativo no cuenta con imágenes para correr en los bilbos que no admiten video
     action:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente
       saved: La campaña se ha guardado con éxito
       to_review: La campaña se ha enviado a revisión
   bilbos:
-    hour_end: Hora de apagado
-    hour_start: Hora de encendido
+    hour_start: Horario
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
     state: Estado
     enabled: Habilitado
     filter: Filtros del Mapa
+    approved: Aprovado
     in_review: En revisión
+    denied: Denegado
     disabled: Desactivado
     banned: Bloqueado
+    ad_duration: Duración de anuncio (segundos)
+    images_only_form: Sólamente aceptar imágenes en este bilbo
     category: Categoria
     copy_stream_url: Copiar URL
     regenerate_token: Regenerar token de acceso
@@ -229,7 +233,7 @@ es:
     not_streaming: No emitiendo
     stream_status: Estado de la emisión
     streaming: Emitiendo
-    avg_views: Vistas Promedio/día
+    avg_views: Vistas por día
     day: Dia
     duration: Duración
     seconds: segundos
@@ -242,6 +246,7 @@ es:
     east: Este
     west: Oeste
     face: Cara
+    images_only: Este bilbo solo acepta imágenes
     address: Dirección
     add_bilbo: Agregar Bilbo
     remove_bilbo: Eliminar Bilbo
@@ -272,6 +277,7 @@ es:
       hour_campaign_space: No hay espacio para la campaña por hora %{campaign_name} en el bilbo %{bilbo_name}
       minute_campaign_space: No hay espacio para la campaña por minutos %{campaign_name} en el bilbo %{bilbo_name}
       budget_campaign_space: No hay espacio para la campaña por presupuesto %{campaign_name} en el bilbo %{bilbo_name}
+      duration_is_not_ten: El bilbo %{name} no admite campañas por minuto porque la duracion de los anuncios es diferente de diez segundos
     search:
       location: Ubicación
       classification: Clasificación
@@ -288,6 +294,7 @@ es:
     transition: Efecto de transición
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
+    view: Ver creativo
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo

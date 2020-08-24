@@ -54,10 +54,14 @@ class AdsController < ApplicationController
 
   def modal_action
     if Campaign.find_by_id(params[:id]).ad.present?
-      @objects = Campaign.find_by_id(params[:id]).ad.multimedia.attachments
-    render  'modal_action', :locals => {:obj => @objects}
+      if params[:images_only] == "true"
+        @objects = Campaign.find_by_id(params[:id]).ad.images
+      else
+        @objects = Campaign.find_by_id(params[:id]).ad.multimedia.attachments
+      end
+      render  'modal_action', :locals => {:obj => @objects}
+    end
   end
-end
 
   def wizard_fetch
     if @project.ads.find(params[:ad_id]).present?
