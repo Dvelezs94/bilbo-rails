@@ -187,10 +187,11 @@
        }
      }
      function requestAds(campaign_id) {
+       board_id = $("#board_id").val()
        Rails.ajax({
         url: "/campaigns/" + String(campaign_id) + "/getAds",
         type: "get",
-        data: "",
+        data: "board_id="+String(board_id),
         success: function(data) {
           console.log("retrieved ads for campaign " + String(campaign_id));
         },
