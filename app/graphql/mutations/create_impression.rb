@@ -7,6 +7,7 @@ class Mutations::CreateImpression < Mutations::BaseMutation
   argument :created_at, GraphQL::Types::ISO8601DateTime, required: true
 
   field :impression, Types::ImpressionType, null: false
+  field :action, String, null: false
   field :mutationid, String, null: false
   field :errors, [String], null: false
 
@@ -19,15 +20,13 @@ class Mutations::CreateImpression < Mutations::BaseMutation
       created_at: created_at,
       api_token: api_token
     )
-
-    if impression.save
+    success = impression.save
       {
         impression: impression,
         mutationid: mutationid,
-        errors: []
+        action: impression.action,
+        errors: [impression.errors.full_messages.join(", ")]
       }
-    else
-      raise GraphQL::ExecutionError, impression.errors.full_messages.join(", ")
-    end
+
   end
 end

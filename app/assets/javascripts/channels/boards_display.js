@@ -16,6 +16,7 @@ $(document).on('turbolinks:load', function() {
         }
         // ad rotation replacement
         $("#ads_rotation").val(data['ads_rotation']);
+        console.log("Update received");
       }
     });
   }

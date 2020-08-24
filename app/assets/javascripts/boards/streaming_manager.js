@@ -6,8 +6,6 @@
      displayedAds = [];
      var api_token = $("#api_token").val();
      var board_slug = $(location).attr('pathname').split('/')[2]
-     // counter for bilbo ad to be shown
-     var bilbo_ad_count = 0
      // starts depending on the hour
      var rotation_key = 0
      // create the impressions every 60 seconds
@@ -67,6 +65,7 @@
           }
           mutationid
           errors
+          action
         }
       `);
 
@@ -87,17 +86,20 @@
          graph.commit('buildImpression').then(function(response) {
            // All base fields will be in response return.
            //console.log(response);
+           // console.log("DisplayedAdsAntes");
+           // console.log(displayedAds);
+           // console.log(displayedAds.length);
            response["createImpression"].forEach((value, index) => {
-             //console.log(value["impression"]["createdAt"]);
-             try {
-               displayedAds = displayedAds.filter((impression) => {
-                 return impression.mutationid != value["mutationid"]
-               });
-             } catch (value) {
-               console.log("error")
-               console.log(value);
-             }
+             // console.log("ACTION");
+             // console.log(value["action"]);
+             if ( value["action"] != "delete") return
+             displayedAds = displayedAds.filter((impression) => {
+               return impression.mutationid != value["mutationid"]
+             });
            });
+           // console.log("DisplayedAdsDespues");
+           // console.log(displayedAds);
+           // console.log(displayedAds.length);
          }).catch((error) => console.log(error))
        } catch (value) {
          if (value.message == "You cannot commit the merge buildImpression without creating it first.") {
@@ -110,35 +112,32 @@
 
      // show user ad
      function showAd() {
-       if (bilbo_ad_count < 10) {
-         // don't increase count so bilbo ad is not shown every 10 ads
-         //++bilbo_ad_count;
-         ads = jQuery.parseJSON($("#ads_rotation").val());
-         // restart from beginning if the array was completely ran
-         if (rotation_key >= ads.length) {
-           rotation_key = 0
+       ads = jQuery.parseJSON($("#ads_rotation").val());
+       // restart from beginning if the array was completely ran
+       if (rotation_key >= ads.length) rotation_key = 0;
+
+       chosen = ads[rotation_key];
+
+       if (chosen == "-"){
+         showBilboAd();
+         check_next_campaign_ads_present();
+       }
+       else {
+         hideBilboAd();
+         //hide the old ad and pause it if its video
+         if (typeof newAd !== 'undefined') {
+           oldAd = newAd;
+           oldAd.css({
+             display: "none"
+           });
+           if ($(adPausePlay).is("video")) {
+             adPausePlay.pause();
+             adPausePlay.currentTime = 0;
+           }
          }
-         chosen = ads[rotation_key];
-         if (chosen !== "-") {
-           if ($("#bilbo-ad").is(":visible")) {
-             $("#bilbo-ad").hide();
-             $(".board-ads").attr('style', 'display:block !important');
-             if ($(".bilbo-official-ad").is("video")) {
-               $(".bilbo-official-ad")[0].pause();
-               $(".bilbo-official-ad")[0].currentTime = 0;
-             }
-           }
-           if (typeof newAd !== 'undefined') {
-             oldAd = newAd;
-             oldAd.css({
-               display: "none"
-             });
-             if ($(adPausePlay).is("video")) {
-               adPausePlay.pause();
-               adPausePlay.currentTime = 0;
-             }
-           }
-           newAdLength = $('[data-campaign-id="' + chosen + '"]').length;
+         //display new ad
+         newAdLength = $('[data-campaign-id="' + chosen + '"]').length;
+         if (newAdLength > 0) { // means there is an ad for that campaign on view
            newAdChosen = Math.floor(Math.random() * newAdLength);
            newAd = $($('[data-campaign-id="' + chosen + '"]')[newAdChosen]).css({
              display: "block"
@@ -156,22 +155,14 @@
            if (typeof newAdMap["campaign_id"] !== 'undefined') {
              displayedAds.push(newAdMap);
            }
-           //console.log(displayedAds);
-           // else it is empty, so we need to show the bilbo hire
-         } else {
-           if ($('[data-campaign-id="' + chosen + '"]').length && $(adPausePlay).is("video")) {
-             adPausePlay.pause();
-             adPausePlay.currentTime = 0;
-           }
+           check_next_campaign_ads_present();
+         } else { //no ad so i need to display bilbo ad and ask for the ad
+           console.log("no ads for campaign " +  String(chosen) + ", requesting them and showing bilbo ad for this time");
            showBilboAd();
+           requestAds(chosen);
          }
-       } else {
-         if ($('[data-campaign-id="' + chosen + '"]').length && $(adPausePlay).is("video")) {
-           adPausePlay.pause();
-           adPausePlay.currentTime = 0;
-         }
-         showBilboAd();
-         bilbo_ad_count = 0
+         //console.log(displayedAds);
+         // else it is empty, so we need to show the bilbo hire
        }
        // increase rotation key
        ++rotation_key;
@@ -182,6 +173,41 @@
        $("#bilbo-ad").attr('style', 'display:block !important');
        if ($(".bilbo-official-ad").is("video")) {
          $(".bilbo-official-ad")[0].play();
+       }
+     }
+     function check_next_campaign_ads_present() {
+        //check if next campaign has ads to download them
+       next_chosen = (rotation_key >= ads.length)?  ads[0] : ads[rotation_key+1];
+       if (next_chosen != "-"){
+         nextAdLength = $('[data-campaign-id="' + next_chosen + '"]').length;
+         if (nextAdLength == 0) {
+           console.log("next campaign with id "+next_chosen+" has no ads, requesting them");
+           requestAds(next_chosen);
+         }
+       }
+     }
+     function requestAds(campaign_id) {
+       board_id = $("#board_id").val()
+       Rails.ajax({
+        url: "/campaigns/" + String(campaign_id) + "/getAds",
+        type: "get",
+        data: "board_id="+String(board_id),
+        success: function(data) {
+          console.log("retrieved ads for campaign " + String(campaign_id));
+        },
+        error: function(data) {
+          console.log("error retrieving ads for campaign "+ String(campaign_id));
+        }
+      })
+     }
+     function hideBilboAd(){
+       if ($("#bilbo-ad").is(":visible")) {
+         $("#bilbo-ad").hide();
+         $(".board-ads").attr('style', 'display:block !important');
+         if ($(".bilbo-official-ad").is("video")) {
+           $(".bilbo-official-ad")[0].pause();
+           $(".bilbo-official-ad")[0].currentTime = 0;
+         }
        }
      }
 
