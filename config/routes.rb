@@ -78,6 +78,11 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :main, only: [:index]
+    resources :board_actions, only: [] do
+      member do
+        get :provider_statistics
+      end
+    end
     resources :users, only: [] do
       collection do
         get :index

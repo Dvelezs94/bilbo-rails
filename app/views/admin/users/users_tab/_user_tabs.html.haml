@@ -23,11 +23,10 @@
               %i.fe.fe-check-circle
               %span.d-none.d-sm-inline.mg-l-5 Verify Profile
         -else
-          -if user.verified?
-            %a
-              .btn.btn-sm.d-flex.align-items-center.mg-r-5.btn-outline-success
-                %i.fe.fe-check-verified
-                %span.d-none.d-sm-inline.mg-l-5 Verified
+          %a{href: provider_statistics_admin_board_action_path(user)}
+            .btn.btn-sm.btn-success.d-flex.align-items-center.mg-r-5
+              %i.fe.fe-bar-chart
+              %span.d-none.d-sm-inline.mg-l-5 Monthly reports
         %a{"data-toggle" => "modal", :href => "#modalEditContact"}
           .btn.btn-sm.btn-white.d-flex.align-items-center.mg-r-5
             %i.fe.fe-edit
