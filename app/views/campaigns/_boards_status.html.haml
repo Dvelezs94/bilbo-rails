@@ -1,0 +1,7 @@
+- if board.in_review?
+  = "#{board.board.name} - <span class='tx-warning'>#{t('bilbos.' + board.status)}</span>"
+- elsif board.approved?
+  = "#{board.board.name} - <span class='tx-success'>#{t('bilbos.' + board.status)}</span>"
+- elsif board.denied?
+  = "#{board.board.name} - <span class='tx-danger'>#{t('bilbos.' + board.status)}</span>"
+%br

@@ -370,7 +370,7 @@
   .table-dashboard-two tr + tr td {
     border-top: 1px solid #e5e9f2; }
   .table-dashboard-two td {
-    vertical-align: top;
+    /* vertical-align: top; */
     line-height: 1;
     padding: 8px 0; }
     .table-dashboard-two td:first-child {
