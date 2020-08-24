@@ -214,7 +214,7 @@ es:
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
     state: Estado
-    enabled: Habilitadod
+    enabled: Habilitado
     filter: Filtros del Mapa
     approved: Aprovado
     in_review: En revisión
