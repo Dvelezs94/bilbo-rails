@@ -25,6 +25,7 @@ class Board < ApplicationRecord
       calculate_aspect_ratio
     end
   end
+  scope :images_only, -> { where(images_only: true) }
 
   ################ DEMO FIX ##########################
   def start_time
@@ -186,7 +187,7 @@ class Board < ApplicationRecord
   end
 
   def update_campaign_broadcast(camp)
-    if camp.should_run?(self.id) 
+    if camp.should_run?(self.id)
       publish_campaign(camp.id, self.id)
     else
       remove_campaign(camp.id, self.id)
@@ -242,7 +243,7 @@ class Board < ApplicationRecord
 
   private
   def total_cycles(st,et,zero_if_equal = false )
-    working_minutes(st,et,zero_if_equal)*6
+    (working_minutes(st,et,zero_if_equal)*60/self.duration).to_i
   end
   def calculate_aspect_ratio
     width = (self.width * 100).round(0)

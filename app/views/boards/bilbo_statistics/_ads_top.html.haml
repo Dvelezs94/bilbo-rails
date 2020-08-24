@@ -11,12 +11,17 @@
       #adsCarousel.carousel.slide{"data-ride" => "carousel"}
         .carousel-inner
           -if @board.campaigns.present? && @board.campaigns.find_by_name(@bilbo_top[0]).present? && @board.campaigns.find_by_name(@bilbo_top[0]).has_multimedia?
-            - @board.campaigns.find_by_name(@bilbo_top[0]).ad.multimedia.each.with_index do |media_first,i|
-              %div{class: "carousel-item #{'active' if i == 0}"}
-                -if media_first.video?
-                  = video_tag(url_from_media(media_first), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted', style: "object-fit: contain;")
-                -else
+            - if @board.images_only
+              - @board.campaigns.find_by_name(@bilbo_top[0]).ad.images.each.with_index do |media_first,i|
+                %div{class: "carousel-item #{'active' if i == 0}"}
                   = image_tag media_first, size:"600x300", class: "d-block w-100 obj-fit-scale-down", data: {lity: true}
+            - else
+              - @board.campaigns.find_by_name(@bilbo_top[0]).ad.multimedia.each.with_index do |media_first,i|
+                %div{class: "carousel-item #{'active' if i == 0}"}
+                  -if media_first.video?
+                    = video_tag(url_from_media(media_first), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted', style: "object-fit: contain;")
+                  -else
+                    = image_tag media_first, size:"600x300", class: "d-block w-100 obj-fit-scale-down", data: {lity: true}
             = render partial: "boards/bilbo_statistics/board_top", collection: @board.campaigns.where(name: @bilbo_top.map{|sub| sub.values_at(0)}.join(",").split(",").values_at(1,2,3)), as: :campaign
           -else
             .carousel-item.active

@@ -91,13 +91,31 @@
 </div>
 
 <div class="form-group">
-  <%= f.label t("bilbos.start_time") %><br/>
-  <%= f.time_field :start_time, class: "form-control", required: true, value: board.start_time.strftime("%H:%M") %>
+  <div class="row">
+    <div class="col-6">
+      <%= f.label t("bilbos.start_time") %><br/>
+      <%= f.time_field :start_time, class: "form-control", required: true, value: board.start_time.strftime("%H:%M") %>
+    </div>
+    <div class="col-6">
+      <%= f.label t("bilbos.end_time") %><br/>
+      <%= f.time_field :end_time, class: "form-control", required: true, value: board.end_time.strftime("%H:%M") %>
+    </div>
+  </div>
 </div>
 
 <div class="form-group">
-  <%= f.label t("bilbos.end_time") %><br/>
-  <%= f.time_field :end_time, class: "form-control", required: true, value: board.end_time.strftime("%H:%M") %>
+  <div class="row">
+    <div class="col-6">
+      <%= f.label t("bilbos.ad_duration") %><br/>
+      <%= f.text_field :duration, class: "form-control", required: true%>
+    </div>
+    <div class="col-6">
+      <div class="custom-control custom-checkbox">
+        <%= f.check_box :images_only, class: "custom-control-input" %>
+        <%= f.label :images_only, t("bilbos.images_only_form"), class: "custom-control-label" %>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -123,7 +141,14 @@
 <div class="form-group">
  <%= f.label :default_image %>
  <%= f.file_field :default_image, class: "form-control"%>
- <%= image_tag board.default_image, class: "img-thumbnail", width: "200px", id: "board-default-img" if board.default_image.present?%>
+ <% if board.default_image.present? %>
+  <% if board.default_image.video? %>
+    <%= video_tag url_from_media(board.default_image), class: "img-thumbnail", width: "200px", id: "board-default-img", muted: "muted", autoplay: true, loop: "" %>
+  <% else %>
+    <%= image_tag board.default_image, class: "img-thumbnail", width: "200px", id: "board-default-img" %>
+  <% end %>
+ <% end %>
+
 </div>
 
 <div class="actions col-sm-12 col-md-6 m-auto">

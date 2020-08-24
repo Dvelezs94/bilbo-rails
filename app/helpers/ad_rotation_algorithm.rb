@@ -6,7 +6,11 @@ module AdRotationAlgorithm
 
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
 
-    if new_campaign.minutes.present?
+    if new_campaign.minutes.present? and self.duration != 10
+      err << I18n.t("bilbos.ads_rotation_error.duration_is_not_ten", name: self.name)
+      return err
+
+    elsif new_campaign.minutes.present?
       displays, minutes = new_campaign.imp, new_campaign.minutes
       if minutes*6 < displays
         err << I18n.t("bilbos.ads_rotation_error.max_minutes_impressions", number: 6*minutes)
@@ -21,20 +25,20 @@ module AdRotationAlgorithm
       reps = new_campaign.imp
       start_t = new_campaign.hour_start
       end_t = new_campaign.hour_finish
-      fi = working_minutes(start_time,start_t,true)*6
-      la = working_minutes(start_time,end_t,true)*6
+      fi = (working_minutes(start_time,start_t,true)*60/self.duration).to_i
+      la = (working_minutes(start_time,end_t,true)*60/self.duration).to_i
 
       if la > t_cycles
          err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
          return err
       end
       wm = working_minutes(start_t, end_t)
-      if reps > wm * 6
-        err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: 6*wm)
+      if reps > (wm * 60/self.duration).to_i
+        err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (60*wm/self.duration).to_i)
         return err
       end
 
-    elsif new_campaign.provider_campaign && new_campaign.clasification == "budget"
+    elsif new_campaign.provider_campaign && new_campaign.clasification == "budget" && new_campaign.budget.present?
        imp = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
        if imp > t_cycles
          err << I18n.t("bilbos.ads_rotation_error.max_budget_impressions", name: self.name)
@@ -107,7 +111,7 @@ module AdRotationAlgorithm
         per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
       elsif new_campaign.hour_start.present?
         h_cps[new_campaign.id] = [new_campaign.imp, new_campaign.hour_start, new_campaign.hour_finish]
-      elsif new_campaign.provider_campaign
+      elsif new_campaign.budget.present?
         r_cps[new_campaign.id] = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
       end
     end
@@ -129,8 +133,8 @@ module AdRotationAlgorithm
        reps = value[0]
        start_t = value[1]
        end_t = value[2]
-       fi = working_minutes(start_time,start_t,true)*6
-       la = working_minutes(start_time,end_t,true)*6
+       fi = (working_minutes(start_time,start_t,true)*60/self.duration).to_i
+       la = (working_minutes(start_time,end_t,true)*60/self.duration).to_i
 
        h_cps[name][1] = fi
        h_cps[name][2] = la

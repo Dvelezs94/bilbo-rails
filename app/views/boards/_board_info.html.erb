@@ -20,6 +20,13 @@
   </div>
     <table class="table-dashboard-two">
       <tbody>
+        <% if board.images_only %>
+        <tr>
+          <div class="alert pd-5-f alert-solid alert-warning mg-t-5 mg-b-5 tx-center" role="alert">
+            <%= t("bilbos.images_only") %>
+          </div>
+        </tr>
+        <% end %>
         <tr>
           <td>
             <i class="fe fe-eye ic-teal pd-r-5-f"></i>
@@ -81,14 +88,7 @@
             <i class="fe fe-clock ic-primary pd-r-5-f"></i>
           </td>
           <td class="tx-medium"><%= t("bilbos.hour_start") %></td>
-          <td class="text-right"><%= board.start_time.to_s(:time) %></td>
-        </tr>
-        <tr>
-          <td>
-            <i class="fe fe-clock ic-red pd-r-5-f"></i>
-          </td>
-          <td class="tx-medium"><%= t("bilbos.hour_end") %></td>
-          <td class="text-right"><%= board.end_time.to_s(:time) %></td>
+          <td class="text-right"><%= "#{board.start_time.to_s(:time)} - #{board.end_time.to_s(:time)}" %></td>
         </tr>
         <tr>
           <td>

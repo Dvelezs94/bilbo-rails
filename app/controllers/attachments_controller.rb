@@ -1,7 +1,6 @@
 class AttachmentsController < ApplicationController
   access user: :all, provider: :all
   before_action :get_ad, only: [:create, :destroy, :update]
-  skip_before_action :verify_authenticity_token, only: [:create, :update]
 
   def create
     if @ad.campaigns.all_off

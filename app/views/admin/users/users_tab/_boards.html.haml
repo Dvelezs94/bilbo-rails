@@ -49,8 +49,8 @@
             .row
               .col-4.pd-x-5
                 = link_to("Edit", edit_board_path(board.slug), class: "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1")
-              .col-4.pd-x-5
-                = button_to("Stats", statistics_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1")
+              -# .col-4.pd-x-5
+              -#   = button_to("Stats", statistics_admin_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1")
               .col-4.pd-x-5
                 - if board.enabled?
                   = link_to("Disable bilbo", toggle_status_board_path(board.slug, status: "disabled"), class: "btn btn-sm btn-block btn-warning", :data => {:confirm => 'Are you sure you want to DISABLE this bilbo?'})
