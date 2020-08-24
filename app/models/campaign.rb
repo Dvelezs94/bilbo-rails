@@ -59,7 +59,7 @@ class Campaign < ApplicationRecord
   def check_build_ad_rotation
     if (state)
       boards.each do |b|
-        err = b.build_ad_rotation(self) if !provider_update
+        err = b.build_ad_rotation(self) if !provider_update && self.should_run?(b.id)
         if err.present?
           errors.add(:base, err.first)
           break
