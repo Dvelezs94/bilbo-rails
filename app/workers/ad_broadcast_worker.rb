@@ -7,7 +7,12 @@ class AdBroadcastWorker
     board = Board.find(board_id)
     board.with_lock do
       campaign = Campaign.find(campaign_id)
-      append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: campaign.ad.multimedia, locals: {campaign: campaign},as: :media)
+      if board.images_only
+        append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: campaign.ad.images, as: :media, locals: {campaign: campaign, board: board})
+      else
+        append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: campaign.ad.multimedia, as: :media, locals: {campaign: campaign, board: board})
+      end
+
       # build html to append
       broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.add_bilbo_campaigns.to_s)
     end

@@ -45,7 +45,7 @@
 
         / col
         .col-6.mg-t-20
-          = link_to(t('bilbos.view_campaigns'), provider_index_campaigns_path(:bilbo => board.name), method: :get, :class => "btn btn-sm btn-block btn-outline-secondary btn-uppercase tx-spacing-1")
+          = link_to(t('bilbos.view_campaigns'), provider_index_campaigns_path(:bilbo => board.slug), method: :get, :class => "btn btn-sm btn-block btn-outline-secondary btn-uppercase tx-spacing-1")
         .col-6.mg-t-20
           = button_to("Stats", statistics_board_path(board), method: :get, :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase tx-spacing-1")
       / row

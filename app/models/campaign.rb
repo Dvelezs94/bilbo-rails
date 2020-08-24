@@ -24,9 +24,9 @@ class Campaign < ApplicationRecord
   # validates :ad, presence: true, on: :update
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
+  validate :validate_ad_stuff, on: :update
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
-  validate :validate_ad_stuff, on: :update
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
   after_commit :update_rotation_on_boards
@@ -151,6 +151,12 @@ class Campaign < ApplicationRecord
     if self.ad.nil?
       errors.add(:base, I18n.t('campaign.errors.no_ad'))
       return
+    end
+    if boards.images_only.count > 0
+      if !ad.has_images?
+        errors.add(:base, I18n.t('campaign.errors.no_images'))
+        return
+      end
     end
     errors.add(:base, I18n.t('campaign.errors.no_multimedia')) if self.ad.multimedia.empty?
     errors.add(:base, I18n.t('campaign.errors.ad_deleted')) if self.ad.deleted?

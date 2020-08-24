@@ -18,7 +18,12 @@
        rotation_key = getIndex($("#start_time").val());
        $(".start-stream").hide();
        $(".board-ads").attr('style', 'display:block !important');
-       rotateAds = setInterval(showAd, board_duration);
+       // give 5 seconds to load all images and videos
+       setTimeout(function(){
+         showAd();
+         rotateAds = setInterval(showAd, board_duration);
+       }, 5000);
+
      });
 
      // Stop stream
@@ -228,10 +233,10 @@
          current_seconds += 86400; //plus one day (seconds)
        }
        index_seconds = current_seconds - start_seconds
+       b_duration = parseInt(board_duration/1000)
+       current_seconds = index_seconds - index_seconds % b_duration; // go to the previous index
 
-       current_seconds = index_seconds - index_seconds % 10 // go to the previous index
-
-       current_index = parseInt(current_seconds / 10);
+       current_index = parseInt(current_seconds / b_duration);
        return current_index;
      }
    }
