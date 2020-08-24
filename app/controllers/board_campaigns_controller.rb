@@ -6,7 +6,7 @@ class BoardCampaignsController < ApplicationController
   def approve_campaign
     if @board_campaign.approved!
       if @board_campaign.board_errors.nil?
-        flash[:success] = I18n.t('campaign.to_active', locale: current_user.locale)
+        flash[:success] = I18n.t('campaign.accepted', locale: current_user.locale)
       else
         flash[:error] = I18n.t('campaign.ads_rotation_error.accepted_but_error',error: @board_campaign.board_errors.first, locale: current_user.locale)
       end
