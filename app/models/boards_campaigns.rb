@@ -1,16 +1,21 @@
 class BoardsCampaigns < ApplicationRecord
     include BroadcastConcern
     include NotificationsHelper
+    attr_accessor :board_errors
     belongs_to :campaign
     belongs_to :board
 
     enum status: { in_review: 0, approved: 1, denied: 2 }
     before_save :notify_users, if: :will_save_change_to_status?
-    after_update :stop_campaign
+    after_update :add_or_stop_campaign
 
     private
-    def stop_campaign
-      board.update_ads_rotation(campaign)
+    def add_or_stop_campaign
+      err = board.update_ads_rotation(campaign)
+      if err.present?
+        campaign.update(state: false)
+        self.board_errors = err
+      end
     end
 
     def notify_users

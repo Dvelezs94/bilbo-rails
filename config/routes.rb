@@ -3,15 +3,21 @@ Rails.application.routes.draw do
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api"
   end
+#Show error custom pages only in production
+  if Rails.env.production?
+    get '/500', to: "error#internal_error"
+    get '/404', to: "error#not_found"
+  end
 
   # allow sidekiq access only to admin
-  authenticate :user, lambda { |u| u.is_admin? } do
+  authenticated :user, lambda { |u| u.is_admin? } do
     mount Sidekiq::Web => '/sidekiq'
+    mount Blazer::Engine, at: "blazer"
   end
 
   post "/api", to: "graphql#execute"
 
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", sessions: "sessions" }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", sessions: "sessions", invitations: "users/invitations" }
   root :to => 'dashboards#index'
   resources :dashboards, only: [:index] do
     collection do
@@ -34,6 +40,7 @@ Rails.application.routes.draw do
       get :analytics
       put :toggle_state
       get :wizard_fetch
+      get :getAds
     end
     collection do
       get :provider_index
@@ -135,5 +142,6 @@ Rails.application.routes.draw do
       post :configure
     end
   end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
