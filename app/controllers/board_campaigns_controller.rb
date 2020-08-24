@@ -5,16 +5,10 @@ class BoardCampaignsController < ApplicationController
 
   def approve_campaign
     if @board_campaign.approved!
-      @board = @board_campaign.board
-      @board.with_lock do
-        @campaign = @board_campaign.campaign
-        err = @board.update_ads_rotation(@campaign)
-        if err.empty?
-          flash[:success] = I18n.t('campaign.to_active', locale: current_user.locale)
-        else
-          @campaign.update(state: false)
-          flash[:error] = I18n.t('campaign.ads_rotation_error.accepted_but_error',error: err.first, locale: current_user.locale)
-        end
+      if @board_campaign.board_errors.nil?
+        flash[:success] = I18n.t('campaign.to_active', locale: current_user.locale)
+      else
+        flash[:error] = I18n.t('campaign.ads_rotation_error.accepted_but_error',error: @board_campaign.board_errors.first, locale: current_user.locale)
       end
       #flash[:success] = I18n.t('campaign.action.saved')
     else

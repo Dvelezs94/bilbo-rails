@@ -28,9 +28,9 @@
           .form-group
             .custom-control.custom-radio
               = f.radio_button :role, "user", value: "user", checked: true, class: "custom-control-input"
-              = f.label :role_user, 'User', class: "custom-control-label"
+              = f.label :role_user, t('projects.user'), class: "custom-control-label"
             .custom-control.custom-radio
               = f.radio_button :role, "administrator", value: "administrator",  class: "custom-control-input"
-              = f.label :role_administrator, 'Administrator', class: "custom-control-label"
+              = f.label :role_administrator, t('projects.administrator'), class: "custom-control-label"
 
           = f.submit  t('projects.send_invite'), class: "btn btn-primary float-right"

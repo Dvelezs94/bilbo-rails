@@ -20,6 +20,11 @@ class CampaignsController < ApplicationController
     end
   end
 
+  def getAds
+    campaign = Campaign.find(params[:id])
+    @append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: campaign.ad.multimedia, locals: {campaign: campaign},as: :media)
+  end
+
   def analytics
     @history_campaign = UserActivity.where( activeness: @campaign).order(created_at: :desc)
     @campaign_impressions = {}
@@ -104,7 +109,8 @@ class CampaignsController < ApplicationController
 
   def destroy
     if !@campaign.state?
-      @campaign.inactive!
+      # Skip validations because the campaign is already disabled
+      @campaign.update_attribute(:status, "inactive")
       respond_to do |format|
         format.html {
           flash[:success] = I18n.t('campaign.action.deleted')

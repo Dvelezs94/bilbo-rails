@@ -6,7 +6,7 @@ class Impression < ApplicationRecord
   validates_uniqueness_of :created_at, scope: [:board_id, :campaign_id]
   validate :ten_seconds_validate_board_campaign
   belongs_to :board
-  belongs_to :campaign, optional: true
+  belongs_to :campaign
   before_create :set_total_price
   after_create :update_balance
   after_create :continue_runnning_campaign
