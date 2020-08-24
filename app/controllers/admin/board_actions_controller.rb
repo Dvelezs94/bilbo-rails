@@ -14,8 +14,6 @@ class Admin::BoardActionsController < ApplicationController
     @monthly_earnings = Board.monthly_earnings_by_board(@project, @start_date..@end_date)
     @monthly_impressions = Board.monthly_impressions(@project, @start_date..@end_date)
     @earnings = Board.daily_provider_earnings_by_boards(@project, @start_date..@end_date)
-    puts "x" * 500
-    puts @start_date..@end_date
   end
 
 
