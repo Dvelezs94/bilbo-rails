@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       get :analytics
       put :toggle_state
       get :wizard_fetch
+      get :getAds
     end
     collection do
       get :provider_index

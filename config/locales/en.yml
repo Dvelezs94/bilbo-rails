@@ -105,6 +105,7 @@ en:
     occupied: '% Occupied'
     home: Home
     to_active: The campaign has been activated
+    accepted: The campaign has been accepted
     to_inactive: The campaign has been deactivated
     new_campaign: New Campaign
     destroy: Remove Campaign
