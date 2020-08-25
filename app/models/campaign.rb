@@ -2,6 +2,7 @@ class Campaign < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include BroadcastConcern
   extend FriendlyId
+  serialize :schedule, Hash
   attr_accessor :provider_update
   friendly_id :name, use: :slugged
   belongs_to :project
