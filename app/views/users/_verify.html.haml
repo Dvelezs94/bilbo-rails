@@ -13,10 +13,10 @@
           .col-12.m-auto
             .pd-20
               = form_for(:verification, url: verification_path, method: :post, :html => { data: { parsley_validate: true } }, local: false) do |f|
-                .divider-text Datos Personales
+                .divider-text= t("payments.personal_info")
                 .form-group.row
                   .col-sm-3
-                    = f.label :name, raw("Nombre Completo <span class='tx-danger'>*</span>")
+                    = f.label :name, raw("#{t("payments.full_name")} <span class='tx-danger'>*</span>")
                     -if current_user.is_admin?
                       = f.hidden_field :user_id, id:"user-id", :value => ""
                     -else
@@ -25,54 +25,54 @@
                     = f.text_field :name, class: "form-control", value: current_user.name, required: true
                 .form-group.row
                   .col-sm-3
-                    = f.label :official_id, raw("Identificación Oficial <span class='tx-danger'>*</span>")
+                    = f.label :official_id, raw("#{t("payments.official_identification")} <span class='tx-danger'>*</span>")
                   .col-sm-9
                     = f.file_field :official_id, accept:'image/*', class: "custom-file-input", required: true
-                    = f.label :official_id, "Elegir Archivo", class: "custom-file-label file-input-100"
+                    = f.label :official_id, t("payments.select_file"), class: "custom-file-label file-input-100"
                 .form-group.row
                   .col-sm-3
-                    = f.label :phone, raw("Número de teléfono <span class='tx-danger'>*</span>")
+                    = f.label :phone, raw("#{t("payments.phone_number")} <span class='tx-danger'>*</span>")
                   .col-sm-9
                     = f.text_field :phone, placeholder: "555-555-5555", class: "form-control input-phone", required: true
-                .divider-text Datos de la Empresa
+                .divider-text= t("payments.company_data")
                 .form-group.row
                   .col-sm-3
-                    = f.label :business_name, raw("Nombre <span class='tx-danger'>*</span>")
+                    = f.label :business_name, raw("#{t("payments.name")} <span class='tx-danger'>*</span>")
                   .col-sm-9
                     = f.text_field :business_name, class: "form-control", required: true
                 .form-group.row
                   .col-sm-3
-                    = f.label :business_address, raw("Dirección <span class='tx-danger'>*</span>")
+                    = f.label :business_address, raw("#{t("payments.address")} <span class='tx-danger'>*</span>")
                   .col-sm-9
                     .form-group
-                      = f.label :street_1, "Calle"
-                      = f.text_field :street_1, class: "form-control", placeholder: "Paseo de la Reforma #400 ", required: true
+                      = f.label :street_1, t("payments.street")
+                      = f.text_field :street_1, class: "form-control", placeholder: t("payments.place_holder_street"), required: true
                     .form-group
-                      = f.label :street_2, "Colonia"
-                      = f.text_field :street_2, class: "form-control", placeholder: "Colonia Juarez", required: true
+                      = f.label :street_2, t("payments.suburb")
+                      = f.text_field :street_2, class: "form-control", placeholder: t("payments.place_holder_suburb"), required: true
                     .form-row
                       .form-group.col-md-6
-                        = f.label :zip_code, "Código Postal"
+                        = f.label :zip_code, t("payments.zip_code")
                         = f.text_field :zip_code, class: "form-control", required: true
                       .form-group.col-md-6
-                        = f.label :city, "Ciudad"
+                        = f.label :city, t("payments.city")
                         = f.text_field :city, class: "form-control", required: true
                     .form-row
                       .form-group.col-md-6
-                        = f.label :state, "Estado"
+                        = f.label :state, t("payments.state")
                         = f.text_field :state, class: "form-control", required: true
                       .form-group.col-md-6
-                        = f.label :country, "País"
+                        = f.label :country, t("payments.country")
                         = f.country_select( :country, { priority_countries: ["MX", "US"], selected: "MX" }, { class: "custom-select", required: true })
                 .form-group.row
                   .col-sm-3
-                    = f.label :website, raw("Página web <span class='tx-danger'>*</span>")
+                    = f.label :website, raw("#{t("payments.web_page")} <span class='tx-danger'>*</span>")
                   .col-sm-9
                     = f.text_field :website, class: "form-control input-website"
-                .divider-text Datos Fiscales
+                .divider-text= t("payments.fiscal_data")
                 %p
-                  Si requieres que se emitan facturas para tus campañas llena los datos fiscales. Para más información haz click en la siguiente liga.
-                  %a{:href => "https://bilbo.freshdesk.com/support/solutions/articles/64000060132-como-funciona-la-facturaci%C3%B3n", :target => "_blank"} Como funciona la facturación de Campañas
+                  = t("payments.require_invoices")
+                  %a{:href => "https://bilbo.freshdesk.com/support/solutions/articles/64000060132-como-funciona-la-facturaci%C3%B3n", :target => "_blank"}= t("payments.campaign_billing_works")
                 .form-group.row
                   .col-sm-3
                     = f.label :business_code, "RFC"
@@ -80,10 +80,10 @@
                     = f.text_field :business_code, class: "form-control"
                 .form-group.row
                   .col-sm-3
-                    = f.label :official_business_name, "Razón Social"
+                    = f.label :official_business_name, t("payments.business_name")
                   .col-sm-9
                     = f.text_field :official_business_name, class: "form-control"
-                = f.submit "Enviar", class: "btn btn-primary"
+                = f.submit t("payments.send"), class: "btn btn-primary"
       .modal-footer
         %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
       / modal-footer
