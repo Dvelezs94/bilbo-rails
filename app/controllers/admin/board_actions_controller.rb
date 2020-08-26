@@ -7,7 +7,7 @@ class Admin::BoardActionsController < ApplicationController
   def provider_statistics
     ##we need to secure this in case the user has more than 1 project in the future
     @project = @user.projects.first
-    @chosen_month = (params[:select][:year] + "-" + Date::MONTHNAMES[params[:select][:month].to_i]).to_datetime rescue Date.current.beginning_of_month
+    @chosen_month = Time.zone.parse(params[:select][:year] + "-" + Date::MONTHNAMES[params[:select][:month].to_i]) rescue Time.zone.now
     @start_date = @chosen_month - 1.month + 25.days
     @end_date = @chosen_month + 25.days
     # end date goes first because we have to check the previous month first
