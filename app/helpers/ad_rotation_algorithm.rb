@@ -6,32 +6,36 @@ module AdRotationAlgorithm
 
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
 
-    if new_campaign.minutes.present?
+    if new_campaign.clasification=="per_minute"
       displays, minutes = new_campaign.imp, new_campaign.minutes
       if minutes*6 < displays
         err << I18n.t("bilbos.ads_rotation_error.max_minutes_impressions", number: 6*minutes)
         return err
       end
 
-    elsif new_campaign.hour_start.present?
-      if !hour_inside_board_time?(self, new_campaign)
-        err << I18n.t("bilbos.ads_rotation_error.before_power_on", name: self.name)
-        return err
-      end
-      reps = new_campaign.imp
-      start_t = new_campaign.hour_start
-      end_t = new_campaign.hour_finish
-      fi = working_minutes(start_time,start_t,true)*6
-      la = working_minutes(start_time,end_t,true)*6
+    elsif new_campaign.clasification=="per_hour"
+      new_campaign.schedule.keys.each do |day|
+        new_campaign.schedule[day].each do |cpn|
+          if !hour_inside_board_time?(self, cpn)
+            err << I18n.t("bilbos.ads_rotation_error.before_power_on", name: self.name)
+            return err
+          end
+          reps = cpn["imp"]
+          start_t = cpn["hour_start"]
+          end_t = cpn["hour_finish"]
+          fi = working_minutes(start_time,start_t,true)*6
+          la = working_minutes(start_time,end_t,true)*6
 
-      if la > t_cycles
-         err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
-         return err
-      end
-      wm = working_minutes(start_t, end_t)
-      if reps > wm * 6
-        err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: 6*wm)
-        return err
+          if la > t_cycles
+             err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
+             return err
+          end
+          wm = working_minutes(start_t, end_t)
+          if reps > wm * 6
+            err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: 6*wm)
+            return err
+          end
+        end
       end
 
     elsif new_campaign.provider_campaign && new_campaign.clasification == "budget"
@@ -89,15 +93,29 @@ module AdRotationAlgorithm
     per_time_cps_first = self.campaigns.where(provider_campaign: true).where.not( minutes: nil).where.not(imp: nil).to_a.select{ |c| c.should_run?(self.id) }
     per_time_cps = per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
-    h_cps_first = self.campaigns.where(provider_campaign: true).where.not(hour_start: nil).where.not(hour_finish: nil).where.not(imp: nil).select{ |c| c.should_run?(self.id) }
+    h_cps_first = self.campaigns.where(provider_campaign: true).where.not(schedule: nil).select{ |c| c.should_run?(self.id) }
     h_cps_first.each do |c|
-      if !hour_inside_board_time?(self,c)
-        err << I18n.t("bilbos.ads_rotation_error.hour_campaign_time", name: self.name)
-        return err
+      c.schedule.keys.each do |day|
+        c.schedule[day].each do |cpn|
+          if !hour_inside_board_time?(self,cpn.transform_keys(&:to_s))
+            err << I18n.t("bilbos.ads_rotation_error.hour_campaign_time", name: self.name)
+            return err
+          end
+        end
       end
     end
 
-    h_cps = h_cps_first.map{ |c| [ c.id,[c.imp, c.hour_start, c.hour_finish] ]}.to_h
+    h_campaigns = h_cps_first.map{ |c| [ c.id,c.schedule ]}.to_h
+    h_cps = []
+
+    h_campaigns.each do |name, sch|
+      sch.keys.each do |day|
+        sch[day].each do |val|
+          h_cps.append([name,day],val)
+        end
+      end
+    end
+
     h_cps = sort_by_min_time(h_cps)
 
     #check if validation with new campaign (OPTIONAL!!)
@@ -125,7 +143,12 @@ module AdRotationAlgorithm
     end
 
     ########## PLACE THE H_CPS AT THE START OF THEIR RESPECTIVE HOURS ##############
-    h_cps.each do |name, value|
+    h_cps.each do |name_day, value|
+       name = name_day[0]
+       day = name_day[1]
+       if day.downcase != Time.now().strftime("%A").downcase and day.downcase != "everyday"
+         next
+       end
        reps = value[0]
        start_t = value[1]
        end_t = value[2]
@@ -247,7 +270,7 @@ module AdRotationAlgorithm
         end
     end
 
-    #PRINT THE RESULT ARRAY
+    # PRINT THE RESULT ARRAY
     # output.each_slice(6).each_slice(5).each_with_index do |line, index|
     #     p [line, index+1]
     # end
@@ -264,9 +287,9 @@ def sort_by_max_repetitions(hash)
     hash.sort_by {|key, value| -value[0]/value[1]}
     return hash
 end
-def sort_by_min_time(hash)
-    hash.sort_by {|key, value| working_minutes(value[1],value[2])}
-    return hash
+def sort_by_min_time(arr)
+    arr.each_slice(2).sort_by {|key, value| working_minutes(value[1],value[2])}
+    return arr
 end
 
 def translate_hash(per_time_cps,t_cycles)
@@ -299,8 +322,9 @@ def hour_inside_board_time?(brd, c)
   st = get_time(brd.start_time)
   et = get_time(brd.end_time)
   return true if et == st
-  cst = get_time(c.hour_start)
-  cet = get_time(c.hour_finish)
+  c = c.transform_keys(&:to_s)
+  cst = get_time(c["hour_start"])
+  cet = get_time(c["hour_finish"])
   if et > st && cst.between?(st,et) &&  cet.between?(st,et)
     return true
   elsif et < st && !cst.between?(et,st) &&  !cet.between?(et,st)
