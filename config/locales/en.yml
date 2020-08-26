@@ -317,6 +317,28 @@ en:
     credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 credit equals $1 MXN.
     credit_limit: Credit purchase limit exceeded
     verification_needed: A verified profile is needed in order to buy credits. Answer the form below or click the following link to verify your profile.
+    require_invoices: If you require invoices to be issued for your campaigns, fill in the fiscal data. For more information click on the following link.
+    campaign_billing_works: How Campaign billing works
+    fiscal_data: FISCAL DATA
+    business_name: Business Name
+    full_name: Full Name
+    official_identification: Official Identification
+    address: Address
+    name: Name
+    phone_number: Phone Number
+    select_file: Choose File
+    company_data: Company Data
+    street: Street
+    place_holder_street: 1 Maple St
+    suburb: Suburb
+    place_holder_suburb: New York Mills
+    zip_code: Zip Code
+    city: City
+    state: State
+    country: Country
+    web_page: Web page
+    send: Send
+    personal_info: PERSONAL INFORMATION 
     verify_account: Verify Account
     bilbo_credits: 'Bilbo Credits'
     transaction_fee: 'Transaction Fee'

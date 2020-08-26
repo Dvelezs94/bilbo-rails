@@ -64,8 +64,8 @@ es:
     current_password: Contraseña actual (necesitamos comprobar que eres tu)
     minimum_characters: caracteres minimos
     update: Actualizar
-    company_web_page: Pagina Wep de la Empresa
-    company_address: Dirreción de la empresa
+    company_web_page: Página Web de la Empresa
+    company_address: Dirección de la empresa
     idiom: Idioma
   general_inputs:
     confirm_submit: ¿Estás seguro?
@@ -318,6 +318,28 @@ es:
     credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiración. 1 crédito equivale a $1 MXN.
     credit_limit: Límite de compra de créditos superada
     verification_needed: Necesitas un perfil verificado para poder comprar créditos. Responde la encuesta debajo o haz click en la siguiente liga para verificar tu cuenta.
+    require_invoices: Si requieres que se emitan facturas para tus campañas llena los datos fiscales. Para más información haz click en la siguiente liga.
+    campaign_billing_works: Cómo funciona la facturación de Campañas
+    fiscal_data: DATOS FISCALES
+    business_name: Razón Social
+    full_name: Nombre Completo
+    official_identification: Identificación Oficial
+    address: Dirección
+    name: Nombre
+    phone_number: Número de teléfono
+    select_file: Elegir Archivo
+    company_data: Datos de la Empresa
+    street: Calle
+    place_holder_street: "Paseo de la Reforma #400"
+    suburb: Colonia
+    place_holder_suburb: Colonia Juarez
+    zip_code: Código Postal
+    city: Ciudad
+    state: Estado
+    country: País
+    web_page: Página Web
+    send: Enviar
+    personal_info: DATOS PERSONALES
     verify_account: Verificar Cuenta
     bilbo_credits: 'Créditos de Bilbo'
     transaction_fee: 'Comisión de transacción'
