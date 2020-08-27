@@ -39,8 +39,6 @@ class Admin::UsersController < ApplicationController
     if @user.add_credits(params[:total])
       flash[:success] = I18n.t("payments.purchase_success", credits_number: params[:total])
     else
-      puts "x" * 500
-      puts @user.errors.full_messages
       flash[:error] = @user.errors.full_messages.to_sentence
     end
     redirect_to admin_users_path(role: "user")
