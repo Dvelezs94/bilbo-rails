@@ -41,7 +41,6 @@ class PaymentsController < ApplicationController
     # if details.params["payer_status"] == "verified"
     if @payment.save
       if @payment.purchase #check model for this
-        SlackNotifyWorker.perform_async("El usuario #{current_user.email} ha comprado #{@payment.total} créditos")
         flash[:success] = I18n.t("payments.purchase_success", credits_number: @payment.total)
       else
         flash[:error] = I18n.t("payments.purchase_error")
