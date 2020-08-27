@@ -8,10 +8,10 @@ class Payment < ApplicationRecord
     response = EXPRESS_GATEWAY.purchase((total + payment_fee(total)) * 100, express_purchase_options)
     if response.success?
       if user.balance < 5
-        user.increment!(:balance, by = total)
+        user.add_credits(total)
         user.resume_campaigns
       else
-        user.increment!(:balance, by = total)
+        user.add_credits(total)
       end
     GenerateInvoiceWorker.perform_async(id)
     else
