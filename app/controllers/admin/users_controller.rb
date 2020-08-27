@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
   include MailerHelper
   access admin: :all
-  before_action :get_user, only: [:fetch, :verify, :deny, :update_credit]
+  before_action :get_user, only: [:fetch, :verify, :deny, :update_credit, :increase_credits]
 
   def index
     case params[:role]
@@ -24,6 +24,7 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  # used to edit credit limit purchase per day
   def update_credit
       if @user.update(credit_limit: params[:credit_limit])
         flash[:success] = "creadits changed"
@@ -34,9 +35,16 @@ class Admin::UsersController < ApplicationController
   end
 
 
-  def increase_credits(total)
-    self.update(:balance, by = total)
-  end 
+  def increase_credits
+    if @user.add_credits(params[:total])
+      flash[:success] = I18n.t("payments.purchase_success", credits_number: params[:total])
+    else
+      puts "x" * 500
+      puts @user.errors.full_messages
+      flash[:error] = @user.errors.full_messages.to_sentence
+    end
+    redirect_to admin_users_path(role: "user")
+  end
 
   def verify
     @user_verification = @user.verifications.where(status: ["denied", "pending", "accepted"]).first
