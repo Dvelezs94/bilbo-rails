@@ -14,8 +14,12 @@ module AdRotationAlgorithm
       end
 
     elsif new_campaign.clasification=="per_hour"
+      if !new_campaign.schedule.present?
+        new_campaign.update!(schedule: {"everyday": [{imp:new_campaign.imp,hour_start: new_campaign.hour_start, hour_finish: new_campaign.hour_finish}]})
+      end
       new_campaign.schedule.keys.each do |day|
         new_campaign.schedule[day].each do |cpn|
+          cpn = cpn.transform_keys(&:to_s)
           if !hour_inside_board_time?(self, cpn)
             err << I18n.t("bilbos.ads_rotation_error.before_power_on", name: self.name)
             return err
@@ -94,10 +98,24 @@ module AdRotationAlgorithm
     per_time_cps = per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
     h_cps_first = self.campaigns.where(provider_campaign: true).where.not(schedule: nil).select{ |c| c.should_run?(self.id) }
+
+    #check if validation with new campaign (OPTIONAL!!)
+    if new_campaign.present?
+      if new_campaign.minutes.present?
+        per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
+      elsif new_campaign.schedule.present?
+        h_cps_first.append(new_campaign)
+      elsif new_campaign.provider_campaign
+        r_cps[new_campaign.id] = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
+      end
+    end
+    #####################################
     h_cps_first.each do |c|
+      c.schedule.transform_keys!(&:to_s)
       c.schedule.keys.each do |day|
         c.schedule[day].each do |cpn|
-          if !hour_inside_board_time?(self,cpn.transform_keys(&:to_s))
+          cpn.transform_keys!(&:to_s)
+          if !hour_inside_board_time?(self,cpn)
             err << I18n.t("bilbos.ads_rotation_error.hour_campaign_time", name: self.name)
             return err
           end
@@ -111,25 +129,12 @@ module AdRotationAlgorithm
     h_campaigns.each do |name, sch|
       sch.keys.each do |day|
         sch[day].each do |val|
-          h_cps.append([name,day],val)
+          h_cps.append([[name,day],val])
         end
       end
     end
 
     h_cps = sort_by_min_time(h_cps)
-
-    #check if validation with new campaign (OPTIONAL!!)
-
-    if new_campaign.present?
-      if new_campaign.minutes.present?
-        per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
-      elsif new_campaign.hour_start.present?
-        h_cps[new_campaign.id] = [new_campaign.imp, new_campaign.hour_start, new_campaign.hour_finish]
-      elsif new_campaign.provider_campaign
-        r_cps[new_campaign.id] = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
-      end
-    end
-    #####################################
 
     r_cps.each do |name, displays|
         displays.times do
@@ -143,20 +148,23 @@ module AdRotationAlgorithm
     end
 
     ########## PLACE THE H_CPS AT THE START OF THEIR RESPECTIVE HOURS ##############
-    h_cps.each do |name_day, value|
+    p h_cps
+    h_cps.each do |name_day, sch|
        name = name_day[0]
+       sch2 = Marshal.load(Marshal.dump(sch))
        day = name_day[1]
        if day.downcase != Time.now().strftime("%A").downcase and day.downcase != "everyday"
          next
        end
+       value = sch.values
        reps = value[0]
        start_t = value[1]
        end_t = value[2]
        fi = working_minutes(start_time,start_t,true)*6
        la = working_minutes(start_time,end_t,true)*6
 
-       h_cps[name][1] = fi
-       h_cps[name][2] = la
+       sch2["hour_start"] = fi
+       sch2["hour_finish"] = la
 
        free = (fi...la).to_a
 
@@ -176,8 +184,8 @@ module AdRotationAlgorithm
             else
 
                 val = output[free[pos]]
-                first = h_cps[val][1]
-                last = h_cps[val][2]
+                first = sch2["hour_start"]
+                last = sch2["hour_finish"]
                 aux = output[first...last].index('-')
                 if aux.nil?
                   err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: h_cps_first.find(id: name).name,bilbo_name: self.name)
@@ -196,7 +204,7 @@ module AdRotationAlgorithm
     ################################################################################
 
     total_h = 0                                 # compute the number of spaces used
-    h_cps.each {|name, val| total_h+=val[0]}    # to know the free spaces left
+    h_cps.each {|name, val| total_h+=val["imp"]}    # to know the free spaces left
 
     per_time_cps_cp = Marshal.load(Marshal.dump(per_time_cps))
     per_time_cps_cp = translate_hash(per_time_cps_cp,t_cycles)
@@ -288,7 +296,7 @@ def sort_by_max_repetitions(hash)
     return hash
 end
 def sort_by_min_time(arr)
-    arr.each_slice(2).sort_by {|key, value| working_minutes(value[1],value[2])}
+    arr.sort_by {|key, value| working_minutes(value["hour_start"],value["hour_finish"])}
     return arr
 end
 
@@ -322,7 +330,8 @@ def hour_inside_board_time?(brd, c)
   st = get_time(brd.start_time)
   et = get_time(brd.end_time)
   return true if et == st
-  c = c.transform_keys(&:to_s)
+  # c = c.transform_keys(&:to_s)
+  p c
   cst = get_time(c["hour_start"])
   cet = get_time(c["hour_finish"])
   if et > st && cst.between?(st,et) &&  cet.between?(st,et)
