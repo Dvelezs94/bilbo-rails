@@ -89,6 +89,7 @@ Rails.application.routes.draw do
       end
       member do
         put :update_credit
+        put :increase_credits
         get :fetch
         patch :verify
         patch :deny
