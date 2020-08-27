@@ -33,6 +33,11 @@ class Admin::UsersController < ApplicationController
       redirect_to admin_users_path(role: "user")
   end
 
+
+  def increase_credits(total)
+    self.update(:balance, by = total)
+  end 
+
   def verify
     @user_verification = @user.verifications.where(status: ["denied", "pending", "accepted"]).first
     if @user_verification.accepted! && @user.update(verified: true)
