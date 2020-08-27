@@ -79,11 +79,11 @@ class User < ApplicationRecord
   end
 
   def add_credits(total)
-    if self.is_user? && self.verified
+    if self.is_user? && self.verified && (total.to_i >= 50)
       self.increment!(:balance, by = total.to_i)
       SlackNotifyWorker.perform_async("El usuario #{self.email} ha comprado #{total.to_i} créditos")
     else
-      self.errors.add(:base, "User is not verified or cannot purchase credits")
+      self.errors.add(:base, "You have to give 50 or more credits")
       false
     end
   end
