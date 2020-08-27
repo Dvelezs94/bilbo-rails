@@ -71,12 +71,24 @@ class User < ApplicationRecord
   end
 
   def is_provider?
-    role == :provider
+    true if role == :provider
   end
 
   def is_user?
     true if role == :user
   end
+
+  def add_credits(total)
+    if self.is_user? && self.verified
+      self.increment!(:balance, by = total.to_i)
+      SlackNotifyWorker.perform_async("El usuario #{self.email} ha comprado #{total.to_i} créditos")
+    else
+      self.errors.add(:base, "User is not verified or cannot purchase credits")
+      false
+    end
+  end
+
+
 
   def notify_credits
     if self.balance < 5 && self.is_user?.present?
