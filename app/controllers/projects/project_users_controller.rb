@@ -5,9 +5,9 @@ class Projects::ProjectUsersController < ApplicationController
   before_action :avoid_owner_deletion, only: :destroy
   include CookiesProject
   def create
-    project_user = @current_project.project_users.new(project_user_params)
-    if project_user.save
-      create_notification(recipient_id: @project.id, actor_id: @current_project.id, action: "new invite", notifiable: @project, reference: @project_user )
+    @project_user = @current_project.project_users.new(project_user_params)
+    if @project_user.save
+      create_notification(recipient_id: @project.id, actor_id: @current_project.id, action: "new invite", notifiable: @project, reference: @project_user.user )
       flash[:success] = I18n.t('projects.member_invited')
     else
       flash[:error] = I18n.t('projects.member_invited_error')
@@ -17,9 +17,10 @@ class Projects::ProjectUsersController < ApplicationController
   end
 
   def destroy
-    @project_user = ProjectUser.where(project: @current_project, user_id: params[:id])
-    if @project_user.destroy_all
-      create_notification(recipient_id: @current_project.id , actor_id: @project.id , action: "invite removed", notifiable: @project)
+    @project_user = ProjectUser.find_by(project: @current_project, user_id: params[:id])
+    @deleted_user = @project_user.user
+    if @project_user.destroy
+      create_notification(recipient_id: @current_project.id , actor_id: @project.id , action: "invite removed", notifiable: @project, reference: @deleted_user)
       flash[:success] = I18n.t('projects.member_deleted')
     else
       flash[:error] = I18n.t('projects.member_deletion_error')
