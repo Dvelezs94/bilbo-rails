@@ -2,7 +2,7 @@ class Campaign < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include BroadcastConcern
   extend FriendlyId
-  attr_accessor :provider_update
+  attr_accessor :owner_updated_campaign
   friendly_id :name, use: :slugged
   belongs_to :project
   has_many :impressions
@@ -29,8 +29,8 @@ class Campaign < ApplicationRecord
   validate :check_build_ad_rotation, if: :provider_campaign
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
-  after_commit :update_rotation_on_boards
   before_save :set_in_review
+  after_commit :broadcast_to_all_boards
 
 
 
@@ -48,8 +48,12 @@ class Campaign < ApplicationRecord
    ad.present? && ad.multimedia.first.present?
   end
 
+  def have_to_set_in_review_on_boards
+    return ad_id_changed? || owner_updated_campaign
+  end
+
   def set_in_review
-    self.board_campaigns.update_all(status: "in_review") if ad_id_changed? || provider_update
+    self.board_campaigns.update_all(status: "in_review") if have_to_set_in_review_on_boards
   end
 
   # distribute budget evenly between all bilbos
@@ -57,9 +61,9 @@ class Campaign < ApplicationRecord
     self.budget / boards.length
   end
   def check_build_ad_rotation
-    if (state)
+    if ( state && !have_to_set_in_review_on_boards )
       boards.each do |b|
-        err = b.build_ad_rotation(self) if !provider_update && self.should_run?(b.id)
+        err = b.build_ad_rotation(self) if state_changed? && self.should_run?(b.id)
         if err.present?
           errors.add(:base, err.first)
           break
@@ -112,13 +116,9 @@ class Campaign < ApplicationRecord
   end
 
 
-  def update_rotation_on_boards
+  def broadcast_to_all_boards
     boards.each do |b|
-      if provider_campaign && campaign_active_in_board?(b.id)#needs to update provider campaigns
-        err = b.update_ads_rotation(self)
-      elsif campaign_active_in_board?(b.id) #if user, worker adds the campaign in real time
-        b.update_campaign_broadcast(self)
-      end
+      err = b.broadcast_to_board(self)
       #currently no use for errors here
     end
   end

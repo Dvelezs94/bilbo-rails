@@ -122,7 +122,7 @@ class User < ApplicationRecord
     bc.each do |obj|
       brd = obj.board
       camp = obj.camp
-      err = brd.update_ads_rotation(camp, true)
+      err = brd.broadcast_to_board(camp, true)
     end
   end
   private
