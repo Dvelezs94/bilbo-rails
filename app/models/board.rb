@@ -176,14 +176,22 @@ class Board < ApplicationRecord
     end
   end
 
-  def update_ads_rotation(camp=nil, force_generate = false, broadcast_to_board = true)
+  def broadcast_to_board(camp, force_generate = false, make_broadcast = true)
+    if camp.provider_campaign
+      err = update_ads_rotation(force_generate)
+      return err if err.present?
+    end
+    update_campaign_broadcast(camp) if make_broadcast
+    return []
+  end
+
+  def update_ads_rotation(force_generate = false)
     err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
     return err if err.present?
     self.ads_rotation = self.new_ads_rotation
     @success = self.save
     return self.errors if !@success
-    update_campaign_broadcast(camp) if broadcast_to_board && camp.present?
-    return [] #means no errors
+    return []
   end
 
   def update_campaign_broadcast(camp)

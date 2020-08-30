@@ -72,7 +72,7 @@ class CampaignsController < ApplicationController
   def update
     current_user.with_lock do
       respond_to do |format|
-        if @campaign.update(campaign_params.merge(state: true, provider_update: current_user.is_provider?))
+        if @campaign.update(campaign_params.merge(state: true, owner_updated_campaign: true))
           track_activity( action: "campaign.campaign_updated", activeness: @campaign)
           # Create a notification per project
           @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
