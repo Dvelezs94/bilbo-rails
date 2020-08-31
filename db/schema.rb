@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(version: 2020_08_25_200409) do
     t.integer "imp"
     t.time "hour_start"
     t.time "hour_finish"
+    t.text "schedule"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
