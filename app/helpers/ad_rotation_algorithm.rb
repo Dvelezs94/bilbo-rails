@@ -147,7 +147,7 @@ module AdRotationAlgorithm
        while c < reps do
 
             if fi==la || free[pos].nil?
-                err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: h_cps_first.find(id: name).name,bilbo_name: self.name)
+                err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: h_cps_first.find(id: name).first.name,bilbo_name: self.name)
                 return err
                 break
             end
