@@ -67,15 +67,15 @@ class User < ApplicationRecord
   end
 
   def is_admin?
-    true if role == :admin
+    role == :admin
   end
 
   def is_provider?
-    true if role == :provider
+   role == :provider
   end
 
   def is_user?
-    true if role == :user
+    role == :user
   end
 
   def add_credits(total)
