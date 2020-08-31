@@ -3,6 +3,7 @@ class Campaign < ApplicationRecord
   include BroadcastConcern
   extend FriendlyId
   attr_accessor :owner_updated_campaign
+  serialize :schedule, Hash
   friendly_id :name, use: :slugged
   belongs_to :project
   has_many :impressions
