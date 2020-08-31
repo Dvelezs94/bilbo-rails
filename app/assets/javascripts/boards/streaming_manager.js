@@ -97,7 +97,7 @@
            response["createImpression"].forEach((value, index) => {
              // console.log("ACTION");
              // console.log(value["action"]);
-             if ( value["action"] != "delete") return
+             if ( value["action"] != "delete") return;
              displayedAds = displayedAds.filter((impression) => {
                return impression.mutationid != value["mutationid"]
              });
