@@ -81,6 +81,8 @@ Rails.application.routes.draw do
     resources :board_actions, only: [] do
       member do
         get :provider_statistics
+        get :get_ads_rotation_build
+        post :regenerate_ads_rotation
       end
     end
     resources :users, only: [] do
