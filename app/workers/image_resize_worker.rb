@@ -14,17 +14,16 @@ class ImageResizeWorker
       orig_img_tmpfile = Tempfile.new(["#{mm.blob.key}", ".png"])
       file_extension = "png"
     end
-    p "AAAAAAAAAAAAA"*100
     File.open(orig_img_tmpfile, 'wb') do |f|
       f.write(mm.download)
     end
     image = MiniMagick::Image.open(orig_img_tmpfile.path)
-    p image.dimensions
+
     if image.dimensions[1]>1080
       p image.dimensions
       image.resize "x1080"
     end
-    p image.dimensions
+
 
     image.write(orig_img_tmpfile.path)
     ad.multimedia.attach(io: File.open(orig_img_tmpfile), filename: "#{mm.blob.filename.base}."+file_extension, content_type: 'image/'+file_extension)
