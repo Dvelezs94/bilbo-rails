@@ -6,10 +6,14 @@ class AttachmentsController < ApplicationController
     if @ad.campaigns.all_off
       @ad.multimedia.attach(params[:files])
       @name = params[:name]
-      #mm = @ad.multimedia.attachments.where(blob_id: ActiveStorage::Blob.where(filename: @name)).last
+      mm = @ad.multimedia.attachments.where(blob_id: ActiveStorage::Blob.where(filename: @name)).last
       #if mm.video?
       #  VideoConverterWorker.perform_async(@ad.id, mm.id)
       #end
+      if mm.image?
+        ImageResizeWorker.perform_async(@ad.id,mm.id)
+      end
+
       flash[:success] = "Attachment saved"
     else
       flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')
