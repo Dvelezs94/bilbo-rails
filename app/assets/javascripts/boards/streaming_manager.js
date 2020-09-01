@@ -185,6 +185,8 @@
        next_chosen = (rotation_key >= ads.length)?  ads[0] : ads[rotation_key+1];
        if (next_chosen != "-"){
          nextAdLength = $('[data-campaign-id="' + next_chosen + '"]').length;
+         console.log("helo");
+         console.log(nextAdLength);
          if (nextAdLength == 0) {
            console.log("next campaign with id "+next_chosen+" has no ads, requesting them");
            requestAds(next_chosen);
