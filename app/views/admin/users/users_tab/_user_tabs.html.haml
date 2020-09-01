@@ -35,15 +35,18 @@
           %i.fe.fe-disabled
           %span.d-none.d-sm-inline.mg-l-5 Ban
     .row
-      .col-4.col-sm
+      .col-3.col-sm
+        %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Email
+        %p.mg-b-0= user.email
+      .col-3.col-sm
         %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Name
         %p.mg-b-0= user.name
       / col
-      .col-4.col-sm
+      .col-3.col-sm
         %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Balance
         %p.mg-b-0= user.balance.round(2)
       / col
-      .col-4.mg-t-20.mg-sm-t-0
+      .col-3.mg-t-20.mg-sm-t-0
         %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Member Since
         %p.mg-b-0= user.created_at.strftime("%A %b %d %Y")
       / col
