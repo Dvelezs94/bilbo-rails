@@ -1,2 +1,3 @@
 $(".contact-content-body").html("<%= escape_javascript(render partial: 'admin/users/users_tab/user_tabs', locals: { user: @user, verification: @user_verification } ) %>");
 $(".contact-content-sidebar").html("<%= escape_javascript(render partial: 'admin/users/users_tab/contact_sidebar', locals: { user: @user, verification: @user_verification } ) %>");
+$('[data-toggle="tooltip"]').tooltip();
