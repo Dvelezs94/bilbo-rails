@@ -6,7 +6,10 @@
           -if (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "mp4") || (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "webm")
             = video_tag(url_from_media(ad.multimedia.first), class: "img-inherit", autoplay: true, loop: true, muted: 'muted')
           -else
-            = image_tag ad.multimedia.first, class: "img-inherit"
+            -if ad.multimedia.first.metadata[:height] <= 1080
+              = image_tag ad.multimedia.first, class: "img-inherit"
+            -else
+              = image_tag "construction_video.webp", class: "img-inherit", :data => {lity: true}
       .card-body
         %h6= ad.name
       .card-footer
