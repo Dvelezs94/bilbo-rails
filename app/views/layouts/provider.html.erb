@@ -31,6 +31,12 @@
     <%= google_tag_manager %>
     <%= render :partial => 'flash/flash'%>
     <%= yield %>
+    <% if current_user != true_user %>
+    <div class="alert alert-danger alert-server" role="alert">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <strong>WARNING</strong> You are impersonating a user, so be very careful. <a href="<%= stop_impersonating_admin_users_path %>">Stop impersonating</a>
+    </div>
+    <% end %>
     <%= render 'shared/spinner' %>
   </body>
 </html>
