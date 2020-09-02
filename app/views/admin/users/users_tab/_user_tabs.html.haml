@@ -34,6 +34,9 @@
         = link_to verify_admin_user_path(user.id), method: :patch,class: "btn btn-sm btn-white d-flex align-items-center mg-r-5", data: { confirm: "You sure you want to ban?" } do
           %i.fe.fe-disabled
           %span.d-none.d-sm-inline.mg-l-5 Ban
+        = link_to impersonate_admin_user_path(user.id), method: :post,class: "btn btn-sm btn-dark d-flex align-items-center mg-r-5", data: { confirm: "You sure you want to impersonate as #{user.name}?" } do
+          %i.fe.fe-users
+          %span.d-none.d-sm-inline.mg-l-5 Impersonate
     .row
       .col-3.col-sm
         %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Email

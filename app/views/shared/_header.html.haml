@@ -117,7 +117,10 @@
               %i.fe.fe-gear.pd-r-5
               = t('header.account_settings')
           %hr/
-          = link_to(("<i class='fe fe-logout pd-r-5'></i>" + t('header.logout')).html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item")
+          - if current_user != true_user
+            = link_to(("<i class='fe fe-logout pd-r-5'></i>" + 'Stop impersonate').html_safe, stop_impersonating_admin_users_path, method: :get, class: "dropdown-item")
+          - else
+            = link_to(("<i class='fe fe-logout pd-r-5'></i>" + t('header.logout')).html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item")
         / dropdown-menu
       / dropdown
     / navbar-right
