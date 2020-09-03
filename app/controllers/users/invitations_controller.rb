@@ -28,7 +28,7 @@ class Users::InvitationsController < Devise::InvitationsController
   protected
 
     def invite_params
-      devise_parameter_sanitizer.permit(:invite, keys: [:role, :name, :project_name])
+      devise_parameter_sanitizer.permit(:invite, keys: [:role, :name, :project_name, :phone_number])
       devise_parameter_sanitizer.sanitize(:invite)
     end
 
