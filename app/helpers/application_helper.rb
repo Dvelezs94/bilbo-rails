@@ -43,4 +43,12 @@ module ApplicationHelper
 
     return (((100 * (subtotal + paypal_flat_fee)) / (100 - paypal_percentage_fee)) - subtotal).round(3)
   end
+
+  def get_image_size_from_metadata(image)
+    if image.metadata[:height].present?
+      image.metadata
+    else
+      ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
+    end
+  end
 end
