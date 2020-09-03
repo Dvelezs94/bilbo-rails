@@ -1,0 +1,31 @@
+{
+  "name": "Bilbo",
+  "short_name": "Bilbo",
+  "display": "fullscreen",
+  "start_url": "/external_sources/setup",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/72x72.png",
+      "type": "image/png", "sizes": "72x72"
+    },
+    {
+      "src": "/assets/96x96.png",
+      "type": "image/png", "sizes": "96x96"
+    },
+    {
+      "src": "/assets/144x144.png",
+      "type": "image/png", "sizes": "144x144"
+    },
+    {
+      "src": "/assets/192x192.png",
+      "type": "image/png", "sizes": "192x192"
+    },
+    {
+      "src": "/assets/512x512.png",
+      "type": "image/png", "sizes": "512x512"
+    }
+  ]
+}
