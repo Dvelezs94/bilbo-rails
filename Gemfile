@@ -121,3 +121,5 @@ gem 'font-ionicons-rails', '~> 2.0', '>= 2.0.1.6'
 gem 'blazer', '~> 2.2', '>= 2.2.6'
 # facebook pixel
 gem 'rack-tracker', '~> 1.12', '>= 1.12.1'
+# pwa
+gem 'serviceworker-rails', '~> 0.6.0'
