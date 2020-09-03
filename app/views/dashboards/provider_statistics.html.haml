@@ -13,23 +13,23 @@
       = form_for(:campaign, url: provider_statistics_dashboards_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
         .d-flex.flex-row
           -if params.has_key?(:select)
-            .form-group.col-md-10.d-flex.justify-content-end 
-              = select_month(@start_date,{ use_month_name: true, prefix: 'select'},{:field_name => 'month', :id => 'start-month', value:  Date.today.strftime("%m-%d-%Y"), class: 'custom-select'})
-              = select_year(@start_date, {class: "custom-select", prefix: 'select'},{:field_name => 'year', :id => 'start-year', class: 'custom-select'})
+            .form-group.col-md-10.d-flex.justify-content-end
+              = select_month(@chosen_month,{ use_month_name: true, prefix: 'select'},{:field_name => 'month', :id => 'start-month', value:  Date.today.strftime("%m-%d-%Y"), class: 'custom-select'})
+              = select_year(@chosen_month, {class: "custom-select", prefix: 'select'},{:field_name => 'year', :id => 'start-year', class: 'custom-select'})
             .d-flex.flex-row
               .form-group.col-md-15
                 %button.btn.btn-primary.btn-block{:type => "submit"}
                   %i.mg-l-5.fe.fe-search
           -else
-            .form-group.col-md-10.d-flex.justify-content-end 
+            .form-group.col-md-10.d-flex.justify-content-end
               = select_month(Date.today, {use_month_name: true, prefix: 'select'},{:field_name => 'month', :id => 'start-month', class: "custom-select"})
               = select_year(Date.today, { prefix: 'select'},{:field_name => 'year', :id => 'start-year', class: "custom-select"})
             .d-flex.flex-row
               .form-group.col-md-15
                 %button.btn.btn-primary.btn-block{:type => "submit"}
                   %i.mg-l-5.fe.fe-search
-          
-           
+
+
 
     .row.row-xs
       = render 'dashboards/provider_charts/info_cards'
