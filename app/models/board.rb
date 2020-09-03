@@ -97,7 +97,10 @@ class Board < ApplicationRecord
 
   # Get the total impressions from a certain month
   def monthly_impressions_count(start = Time.now)
-    impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:cycles)
+    @chosen_month = Time.zone.now.beginning_of_month
+    @start_date = @chosen_month - 1.month + 25.days
+    @end_date = @chosen_month + 25.days
+    impressions.where(created_at: @start_date..@end_date).sum(:cycles)
   end
 
   def daily_impressions_count(day = Time.now)
@@ -111,7 +114,10 @@ class Board < ApplicationRecord
   end
 
   def monthly_earnings(start = Time.now)
-      impressions.where(created_at: start.beginning_of_month..start.end_of_month).sum(:total_price)
+      @chosen_month = Time.zone.now.beginning_of_month
+      @start_date = @chosen_month - 1.month + 25.days
+      @end_date = @chosen_month + 25.days
+      impressions.where(created_at: @start_date..@end_date).sum(:total_price)
   end
 
   def impressions_single
