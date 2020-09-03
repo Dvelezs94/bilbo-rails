@@ -9,7 +9,7 @@
             -if ad.multimedia.first.metadata[:height] <= 1080
               = image_tag ad.multimedia.first, class: "img-inherit"
             -else
-              = image_tag "construction_video.webp", class: "img-inherit", :data => {lity: true}
+              = image_tag "construction_video.webp", class: "img-inherit"
       .card-body
         %h6= ad.name
       .card-footer
