@@ -77,7 +77,7 @@ class CampaignsController < ApplicationController
           # Create a notification per project
           @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
             create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
-                                action: "created", notifiable: @campaign)
+                                action: "created", notifiable: @campaign, sms: current_user.is_provider? ? false : true)
           if @campaign.starts_at.present? && @campaign.ends_at.present?
             @campaign.boards.each do |b|
               difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i

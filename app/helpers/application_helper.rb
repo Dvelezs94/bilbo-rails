@@ -43,4 +43,10 @@ module ApplicationHelper
 
     return (((100 * (subtotal + paypal_flat_fee)) / (100 - paypal_percentage_fee)) - subtotal).round(3)
   end
+
+  def send_sms(phone_number, message)
+    if phone_number.present? && message.present?
+      SNS.publish(phone_number: phone_number, message: message)
+    end
+  end
 end

@@ -70,6 +70,8 @@ en:
   general_inputs:
     confirm_submit: Are you sure?
     confirm_deletion: Are you sure you want to delete this item?
+    phone_number: Phone Number
+    phone_number_desc: International phone number (525522334455)
     close: Close
     search: Search
     apply_filter: Apply filter
@@ -338,7 +340,7 @@ en:
     country: Country
     web_page: Web page
     send: Send
-    personal_info: PERSONAL INFORMATION 
+    personal_info: PERSONAL INFORMATION
     verify_account: Verify Account
     bilbo_credits: 'Bilbo Credits'
     transaction_fee: 'Transaction Fee'
