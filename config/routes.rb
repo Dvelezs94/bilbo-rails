@@ -88,6 +88,7 @@ Rails.application.routes.draw do
     resources :users, only: [] do
       collection do
         get :index
+        get :stop_impersonating
       end
       member do
         put :update_credit
@@ -95,6 +96,7 @@ Rails.application.routes.draw do
         get :fetch
         patch :verify
         patch :deny
+        post :impersonate
       end
     end
   end
