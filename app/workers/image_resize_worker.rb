@@ -5,10 +5,8 @@ class ImageResizeWorker
 
   def perform(ad_id)
     ad = Ad.find(ad_id)
-    #mm = ad.multimedia.find(mm_id)
 
     ad.images.each do |img|
-
       meta = get_image_size_from_metadata(img)
       if meta[:height]>1080 && !img.processed
         if img.blob.filename.to_s.ends_with?(".jpg") || img.blob.filename.to_s.ends_with?(".jpeg")
@@ -40,5 +38,5 @@ class ImageResizeWorker
       mm.destroy!
     end
   end
-
+  
 end
