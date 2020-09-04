@@ -51,4 +51,10 @@ module ApplicationHelper
       ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
     end
   end
+
+  def send_sms(phone_number, message)
+    if phone_number.present? && message.present?
+      SNS.publish(phone_number: phone_number, message: message)
+    end
+  end
 end
