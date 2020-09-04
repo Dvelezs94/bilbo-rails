@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_03_215829) do
+ActiveRecord::Schema.define(version: 2020_09_04_202412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_215829) do
     t.time "end_time"
     t.integer "utc_offset"
     t.boolean "images_only", default: false
+    t.integer "extra_percentage_earnings", default: 20
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
