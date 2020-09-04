@@ -230,6 +230,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_215829) do
     t.string "reference_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "sms", default: false
   end
 
   create_table "payments", force: :cascade do |t|
@@ -333,6 +334,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_215829) do
     t.boolean "verified", default: false
     t.integer "failed_attempts", default: 0, null: false
     t.datetime "locked_at"
+    t.string "phone_number"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

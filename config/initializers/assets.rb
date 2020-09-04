@@ -17,3 +17,4 @@ Rails.application.config.assets.precompile += %w( provider.js )
 Rails.application.config.assets.precompile += %w( provider.js )
 # add missing assets
 Rails.application.config.assets.precompile += %w( config/* images/* fonts/* )
+Rails.configuration.assets.precompile += %w[serviceworker.js manifest.json]
