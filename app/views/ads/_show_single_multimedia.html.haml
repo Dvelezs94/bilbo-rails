@@ -8,7 +8,7 @@
         -if meta[:height] <= 1080
           = image_tag multimedia, class: "img-inherit", :data => {lity: true}
         -else
-          = image_tag "construction_video.webp", class: "img-inherit", :data => {lity: true}
+          = image_tag "construction_video.webp", class: "img-inherit"
     .card-body
       -if meta[:height] <= 1080
         %h6.mmtitle= multimedia.filename.base
