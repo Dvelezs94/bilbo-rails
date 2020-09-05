@@ -139,10 +139,13 @@ class Board < ApplicationRecord
     h.sort_by { |key,value| h[key] = value.round(3) }
   end
 
-  # get the maximum number of earnings based on base_price * 150%
-  # this is so we charge 20% and they get 120% of the base earnings
-  def calculate_max_earnings
-    (base_earnings * 1.5)
+  # get the maximum number of earnings based on base_price + extra earnings percentage form the provider
+  # this is so we charge 20% and they get their corresponding extra % of the base earnings
+  def calculate_max_earnings(bilbo_percentage: 20)
+    # (base_earnings * 1.5)
+    bilbo_percentage_earnings = bilbo_percentage/100.0
+    provider_extra_percentage = extra_percentage_earnings/100.0
+    (base_earnings * ((1+provider_extra_percentage)/(1-bilbo_percentage_earnings))).round(2)
   end
 
   # a cycle is the total time of an impression duration
