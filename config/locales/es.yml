@@ -217,6 +217,7 @@ es:
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
     state: Estado
+    extra_percentage_earnings: ganancias extras
     enabled: Habilitado
     filter: Filtros del Mapa
     approved: Aprovado
