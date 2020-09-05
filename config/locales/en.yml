@@ -215,6 +215,7 @@ en:
     new_bilbo: New Bilbo
     name: Bilbo name
     state: State
+    extra_percentage_earnings: extra earnings
     enabled: Enabled
     filter: Map filters
     approved: Approved
