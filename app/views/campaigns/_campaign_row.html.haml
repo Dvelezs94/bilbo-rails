@@ -23,5 +23,8 @@
           %a.dropdown-item.tx-primary{:href => analytics_campaign_path(campaign)}
             %i.fe.fe-activity.mg-r-5
             = t("campaign.metrics")
+          %a.clipboard-btn.dropdown-item.tx-success{"data-clipboard-text" => campaign_shortened_url(campaign.analytics_token), :href => ""}
+            %i.fe.fe-share.mg-r-5
+            = t("campaign.share")
           .dropdown-divider
           = link_to raw("<i class='fe fe-trash mg-r-5'></i>#{t("campaign.destroy")}"), campaign_path(campaign), method: "delete", class: "dropdown-item tx-danger", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
