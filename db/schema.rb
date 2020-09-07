@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_04_202412) do
+ActiveRecord::Schema.define(version: 2020_09_07_165507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 2020_09_04_202412) do
     t.integer "imp"
     t.time "hour_start"
     t.time "hour_finish"
+    t.string "analytics_token"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
