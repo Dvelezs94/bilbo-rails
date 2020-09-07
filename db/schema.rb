@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_02_220813) do
+ActiveRecord::Schema.define(version: 2020_09_07_165507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2020_09_02_220813) do
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.integer "transition", default: 0
+    t.boolean "processed", default: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -141,6 +142,7 @@ ActiveRecord::Schema.define(version: 2020_09_02_220813) do
     t.time "end_time"
     t.integer "utc_offset"
     t.boolean "images_only", default: false
+    t.integer "extra_percentage_earnings", default: 20
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -182,6 +184,7 @@ ActiveRecord::Schema.define(version: 2020_09_02_220813) do
     t.integer "imp"
     t.time "hour_start"
     t.time "hour_finish"
+    t.string "analytics_token"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true

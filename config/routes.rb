@@ -153,5 +153,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'c/:id', to: "campaigns#shortened_analytics", as: "campaign_shortened"
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
