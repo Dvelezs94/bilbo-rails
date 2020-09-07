@@ -103,6 +103,7 @@ en:
     review_campaigns: Review Campaigns
     accept: Accept campaign
     deny: Deny campaign
+    share: Share Campaign
     review: Pause campaign
     occupied: '% Occupied'
     home: Home
@@ -215,6 +216,7 @@ en:
     new_bilbo: New Bilbo
     name: Bilbo name
     state: State
+    extra_percentage_earnings: extra earnings
     enabled: Enabled
     filter: Map filters
     approved: Approved

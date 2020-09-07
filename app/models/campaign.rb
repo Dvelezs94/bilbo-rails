@@ -21,6 +21,8 @@ class Campaign < ApplicationRecord
   before_destroy :remove_campaign
 
   validates :name, presence: true
+  before_save :generate_analytics_token, :if => :new_record?
+  validates_uniqueness_of :analytics_token, conditions: -> { where.not(analytics_token: nil) }
   # validates :ad, presence: true, on: :update
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
@@ -33,6 +35,9 @@ class Campaign < ApplicationRecord
   before_save :set_in_review
 
 
+  def generate_analytics_token
+    self.analytics_token = SecureRandom.hex(4).first(7)
+  end
 
   def self.running
     active.where(state: true)
