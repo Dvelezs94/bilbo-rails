@@ -1,11 +1,11 @@
 class ChartsController < ApplicationController
-  access user: :all
+  access user: :all, all: [:daily_impressions, :daily_invested, :peak_hours]
   before_action :get_campaign, only: [:daily_impressions, :daily_invested, :peak_hours]
   before_action :get_board, only: [:daily_earnings, :campaign_of_day, :impressions_count, :top_campaigns]
   # Campaign Charts
   def monthly_statistics
     render json: @campaign.monthly_statistics
-  end 
+  end
 
   def daily_impressions
     render json: @campaign.daily_impressions()
@@ -49,5 +49,5 @@ class ChartsController < ApplicationController
   def get_board
     @board = Board.find_by_slug(params[:id])
   end
-  
+
 end

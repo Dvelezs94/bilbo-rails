@@ -103,6 +103,7 @@ en:
     review_campaigns: Review Campaigns
     accept: Accept campaign
     deny: Deny campaign
+    share: Share Campaign
     review: Pause campaign
     occupied: '% Occupied'
     home: Home
