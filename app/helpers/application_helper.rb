@@ -7,6 +7,17 @@ module ApplicationHelper
       gravatar_image_url(user.email, size: size)
     end
   end
+
+  # formats the number as +52-(844) 352-1674
+  # the input should be a 12 digit phone without special chars, like 528443521674
+  def phone_formatter(phone)
+    # remove the + from the phone number
+    if phone.include? "+"
+      phone = phone.scan(/\d/).join('')
+    end
+    number_to_phone(phone.last(10), country_code: phone.first(2))
+  end
+  
   def url_from_media(media)
     if Rails.env.production?
       "https://#{ENV.fetch('CDN_HOST')}/#{media.blob.key}"

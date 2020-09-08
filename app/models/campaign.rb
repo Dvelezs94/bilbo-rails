@@ -11,6 +11,11 @@ class Campaign < ApplicationRecord
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :boards, through: :board_campaigns
   has_many :provider_invoices
+
+  # instead of doing campaign.campaign_subscribers you can do campaign.subscribers
+  alias_attribute :subscribers, :campaign_subscribers
+  has_many :campaign_subscribers
+  
   # status is for the
   enum status: { active: 0, inactive: 1 }
   enum clasification: {budget: 0, per_minute: 1, per_hour: 2}

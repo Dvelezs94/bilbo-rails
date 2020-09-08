@@ -5,6 +5,7 @@ function show_notice(text) {
 function show_success(text) {
   toastr.success(text);
 }
+
 function show_error(text) {
   toastr.error(text);
 }

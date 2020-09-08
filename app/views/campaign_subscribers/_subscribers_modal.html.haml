@@ -1,0 +1,37 @@
+#modalCampaignSubscribers.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h5.tx-18.tx-sm-20= t("campaign.subscribers.subscriber")
+        %p.tx-14= "#{@campaign.name}"
+        %span.tx-13.tx-color-03= t("campaign.subscribers.description")
+        %hr
+        .row
+          .col-12.m-auto
+            - @campaign.subscribers.each do |s|
+              .media.align-items-center.mg-b-20
+                .media-body
+                  %h6mg-b-3= s.name
+                  %span.d-block.tx-13.tx-color-03= phone_formatter(s.phone)
+                - if @project.admins.include? current_user.id
+                  %span.d-none.d-sm-block.tx-12.tx-color-03.align-self-start
+                    = link_to raw("<i class='fe fe-trash'></i> "),  campaign_subscriber_path(@campaign.id, s.id), method: :delete, remote: true, class: "tx-danger tx-15 confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
+
+            = form_with model: @campaign.subscribers.new, url: campaign_subscribers_path(@campaign), remote: true do |f|
+              .form-group
+                .form-row
+                  .form-group.col-md-6
+                    = f.label t("general_inputs.name")
+                    = f.text_field :name, required: true, class: "form-control", placeholder: "Juan Pérez"
+                  .form-group.col-md-6
+                    = f.label t("general_inputs.phone_number")
+                    = f.text_field :phone, required: true, class: "form-control input-number_integer", placeholder: "+525522334455", minlength: 11, maxlength: 13
+              = f.submit t('campaign.subscribers.register'), class: "btn btn-primary float-right"
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+      / modal-footer
+    / modal-content
+  / modal-dialog
+/ modal
