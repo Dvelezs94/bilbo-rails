@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_25_200409) do
+ActiveRecord::Schema.define(version: 2020_09_07_231608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,7 +182,6 @@ ActiveRecord::Schema.define(version: 2020_08_25_200409) do
     t.integer "imp"
     t.time "hour_start"
     t.time "hour_finish"
-    t.text "schedule"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
@@ -197,6 +196,16 @@ ActiveRecord::Schema.define(version: 2020_08_25_200409) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "impression_hours", force: :cascade do |t|
+    t.time "start"
+    t.time "end"
+    t.integer "imp"
+    t.bigint "campaign_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id"], name: "index_impression_hours_on_campaign_id"
   end
 
   create_table "impressions", force: :cascade do |t|
@@ -370,6 +379,7 @@ ActiveRecord::Schema.define(version: 2020_08_25_200409) do
   add_foreign_key "campaign_denials", "campaigns"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "projects"
+  add_foreign_key "impression_hours", "campaigns"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
   add_foreign_key "invoices", "payments"
