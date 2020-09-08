@@ -12,6 +12,10 @@
       %span{style: "margin-top:10px;"}= t('campaign.wizard.to')
       .quantity{style: "margin-right: 10px;margin-left: 20px;"}
         =f.time_field :hour_finish, {:id => "timePickerEnd", :class => "form-control", :required => true}
+      = f.fields_for :impression_hours do |imp|
+        = render 'hour_fields', f: imp
+      .links
+        = link_to_add_association 'add task', f, :impression_hours
     .col-4
     .divider-text= t('campaign.wizard.campaign_duration')
     .form-row
