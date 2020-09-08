@@ -22,7 +22,7 @@ class User < ApplicationRecord
   # project related methods
   has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
-  after_commit :set_project, on: :create
+  after_commit :set_project, on: :create, if: :user_banned?
   before_save :notify_credits, if: :balance_changed?
   has_many :payments
   has_many :invoices
@@ -76,6 +76,19 @@ class User < ApplicationRecord
 
   def is_user?
     true if role == :user
+  end
+
+  def owner_project
+    self.project_users.where(role: "owner")
+  end
+
+  def ban!   
+    if self.banned?
+      update_attribute :banned, false
+    else
+      update_attribute :banned, true
+      errors.add(:base, "Could not ban user")
+    end 
   end
 
   def add_credits(total)

@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
   include MailerHelper
   access admin: :all
-  before_action :get_user, only: [:fetch, :verify, :deny, :update_credit, :increase_credits]
+  before_action :get_user, only: [:fetch, :verify, :deny, :update_credit, :increase_credits, :toggle_ban]
 
   def index
     case params[:role]
@@ -34,6 +34,12 @@ class Admin::UsersController < ApplicationController
       redirect_to admin_users_path(role: "user")
   end
 
+  def toggle_ban
+    if @user.ban!
+      flash[:success] = "User #{@user.name} banned"
+    end
+    redirect_to admin_users_path
+  end
 
   def increase_credits
     if @user.add_credits(params[:total])
