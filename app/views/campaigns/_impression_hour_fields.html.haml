@@ -1,0 +1,12 @@
+.row.mg-b-10.nested-fields
+  .quantity{style: "margin-right: 10px;margin-left: 10px;"}
+    = f.select :day, options_for_select([['Todos los días', 'everyday'], ['Lunes', 'monday'], ['Martes', 'tuesday'], ['Miercoles', 'wednesday'], ['Jueves', 'thursday'], ['Viernes', 'friday'], ['Sábado', 'saturday'], ['Domingo', 'sunday']], f.object.day),{include_blank: "Días"} ,class: "custom-select", :required => true
+  .quantity{style: "margin-right: 10px;margin-left: 10px;"}
+    = f.number_field :imp, {:id => "impressionsPerHour", :min => "1", :step => "1", :class => "form-control", :required => true}
+  %span{style: "margin-top:10px;"}= t('campaign.wizard.impressions_hour')
+  .quantity{style: "margin-right: 10px;margin-left: 20px;"}
+    = f.time_field :start, {:id => "timePickerStart", :class => "form-control", :required => true }
+  %span{style: "margin-top:10px;"}= t('campaign.wizard.to')
+  .quantity{style: "margin-right: 10px;margin-left: 20px;"}
+    =f.time_field :end, {:id => "timePickerEnd", :class => "form-control", :required => true}
+  = link_to_remove_association "<i class='fe fe-trash tx-danger fnt-md mg-t-5'></i>".html_safe, f
