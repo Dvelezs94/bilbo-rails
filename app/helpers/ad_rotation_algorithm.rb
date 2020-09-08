@@ -1,9 +1,8 @@
 module AdRotationAlgorithm
   extend ActiveSupport::Concern
 
-  def test_ad_rotation(new_campaign)
+  def test_ad_rotation(new_campaign, new_campaign_hours = nil)
     err = []
-    p "AA"*100
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
 
     if new_campaign.minutes.present? and self.duration != 10
@@ -18,7 +17,9 @@ module AdRotationAlgorithm
       end
 
     elsif new_campaign.clasification == "per_hour"
-      new_campaign.impression_hours.each do |cpn|
+      new_campaign_hours.each do |cpn|
+        p "CARLOS"*100
+        p cpn
         if !hour_inside_board_time?(self, cpn)
           err << I18n.t("bilbos.ads_rotation_error.before_power_on", name: self.name)
           return err
@@ -33,6 +34,7 @@ module AdRotationAlgorithm
            err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
            return err
         end
+        p "PASO"
         wm = working_minutes(start_t, end_t)
         if reps > (wm * 60/self.duration).to_i
           err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (60*wm/self.duration).to_i)
@@ -41,7 +43,7 @@ module AdRotationAlgorithm
       end
       week = ImpressionHour.days.keys - ["everyday"]
       week.each do |week_day|
-        items = new_campaign.impression_hours.where(day: "everyday").or(new_campaign.impression_hours.where(day: week_day))
+        items = new_campaign_hours.where(day: "everyday").or(new_campaign_hours.where(day: week_day))
         if items.length > 1
           items.each_with_index do |item1,idx1|
             items.each_with_index do |item2,idx2|

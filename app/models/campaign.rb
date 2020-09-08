@@ -211,7 +211,7 @@ class Campaign < ApplicationRecord
   def test_for_valid_settings
     if provider_campaign && state
       boards.each do |b|
-        err = b.test_ad_rotation(self)
+        err = b.test_ad_rotation(self, impression_hours)
         if err.any?
           err.each do |e|
             errors.add(:base, e)
