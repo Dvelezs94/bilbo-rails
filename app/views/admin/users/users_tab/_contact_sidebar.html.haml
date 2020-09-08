@@ -1,7 +1,7 @@
 .clearfix.mg-b-25
   #contactAvatar.pos-relative.float-left
     .avatar.avatar-xl
-      %span.avatar-initial.rounded-circle.bg-gray-700.tx-normal= image_tag user_avatar(user, 500), class: "rounded-circle"
+      %span.rounded-circle.bg-gray-700.tx-normal= image_tag user_avatar(user, 500), class: "rounded-circle"
 %h5#contactName.tx-18.tx-xl-20.mg-b-5= user.name
 %p.tx-13.tx-lg-12.tx-xl-13.tx-color-03.mg-b-20= user.projects.pluck(:name).join(', ')
 %nav.contact-call-nav.mg-b-20
