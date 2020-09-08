@@ -36,6 +36,11 @@ Rails.application.routes.draw do
       end
   end
   resources :campaigns do
+    resources :campaign_subscribers, path: "subscribers", as: :subscribers, except: [:edit] do
+      collection do
+        get :edit
+      end
+    end
     member do
       get :analytics
       put :toggle_state

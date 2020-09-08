@@ -14,15 +14,19 @@
   %td
     %ul.nav.float-right
       %li.nav-item
-        %a.nav-link.tx-primary.p-0{"data-toggle" => "dropdown", :href => "#"}
+        %a.nav-link.p-0{"data-toggle" => "dropdown", :href => "#"}
           %i.fe.fe-elipsis-v.wd-15.ht-15
         .dropdown-menu
-          %a.dropdown-item.tx-primary{:href => edit_campaign_path(campaign)}
+          %a.dropdown-item{:href => edit_campaign_path(campaign)}
             %i.fe.fe-edit.mg-r-5
             = t("general_inputs.edit")
-          %a.dropdown-item.tx-primary{:href => analytics_campaign_path(campaign)}
+          %a.dropdown-item{:href => analytics_campaign_path(campaign)}
             %i.fe.fe-activity.mg-r-5
             = t("campaign.metrics")
+          - if @project.admins.include? current_user.id
+            = link_to edit_campaign_subscribers_path(campaign.slug), remote: true, method: :get, class: "dropdown-item" do
+              %i.fe.fe-users.mg-r-5
+              = t("campaign.subscribers.edit")
           %a.clipboard-btn.dropdown-item.tx-success{"data-clipboard-text" => campaign_shortened_url(campaign.analytics_token), :href => ""}
             %i.fe.fe-share.mg-r-5
             = t("campaign.share")

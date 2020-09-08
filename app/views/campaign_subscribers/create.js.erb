@@ -1,0 +1,6 @@
+<% if flash[:success].present? %>
+  show_success('<%= j (flash[:success]) %>');
+<% else %>
+  show_error('<%= j (flash[:error]) %>');
+<% end %>
+$("#modalCampaignSubscribers").modal('hide');
