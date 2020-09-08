@@ -9,6 +9,7 @@ class Campaign < ApplicationRecord
   has_many :impressions
   has_many :campaign_denials
   has_many :impression_hours
+  accepts_nested_attributes_for :impression_hours, reject_if: :all_blank, allow_destroy: true
   belongs_to :ad, optional: true
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :boards, through: :board_campaigns

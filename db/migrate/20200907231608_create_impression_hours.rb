@@ -4,6 +4,7 @@ class CreateImpressionHours < ActiveRecord::Migration[6.0]
       t.time :start
       t.time :end
       t.integer :imp
+      t.integer :day
       t.references :campaign, null: false, foreign_key: true
 
       t.timestamps

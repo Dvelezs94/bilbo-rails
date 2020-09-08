@@ -1,8 +1,0 @@
-.quantity{style: "margin-right: 10px;margin-left: 10px;"}
-  = f.number_field :imp, {:id => "impressionsPerHour", :min => "1", :step => "1", :class => "form-control", :required => true}
-%span{style: "margin-top:10px;"}= t('campaign.wizard.impressions_hour')
-.quantity{style: "margin-right: 10px;margin-left: 20px;"}
-  = f.time_field :start, {:id => "timePickerStart", :class => "form-control", :required => true }
-%span{style: "margin-top:10px;"}= t('campaign.wizard.to')
-.quantity{style: "margin-right: 10px;margin-left: 20px;"}
-  =f.time_field :end, {:id => "timePickerEnd", :class => "form-control", :required => true}
