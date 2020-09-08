@@ -52,6 +52,10 @@ class Campaign < ApplicationRecord
     self.board_campaigns.update_all(status: "in_review") if ad_id_changed? || provider_update
   end
 
+  def project_status
+    errors.add(:base, I18n.t('campaign.errors.no_images')) if self.project.status
+  end
+
   # distribute budget evenly between all bilbos
   def budget_per_bilbo
     self.budget / boards.length

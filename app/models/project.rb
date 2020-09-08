@@ -15,6 +15,7 @@ class Project < ApplicationRecord
   has_many :reports
   # the project has notifications so all users in the project can see them
   has_many :notifications, foreign_key: :recipient_id
+  after_commit :disable_campaigns!, if: :user_banned?
 
   # useful when you want to retrieve a collection of certain users that have permissions for the project
   # current_user.projects.admins -> will get the admins of all the projects
@@ -30,6 +31,18 @@ class Project < ApplicationRecord
 
   def admins
     project_users.where(role: ["owner", "administrator"]).pluck(:user_id)
+  end
+
+  def user_banned?
+   if project_users.find_by_role("owner").user.banned?
+    true
+   else
+    false
+   end
+  end
+
+  def disable_campaigns!
+      self.campaigns.update_all(state: false)
   end
   #
   # def users
