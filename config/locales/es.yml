@@ -514,3 +514,13 @@ es:
     contact: Contacto.
     conditions: Recibiste este email porque te registraste a Bilbo.mx y aceptaste recibir correos electrónicos de nosotros sobre notificaciones y noticias.
     home: Inicio
+  week_days:
+    mon: Lunes
+    tue: Martes
+    wed: Miércoles
+    thu: Jueves
+    fri: Viernes
+    sat: Sábado
+    sun: Domingo
+    everyday: Todos los días
+    days: Días
