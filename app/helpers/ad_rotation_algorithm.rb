@@ -1,7 +1,7 @@
 module AdRotationAlgorithm
   extend ActiveSupport::Concern
 
-  def test_ad_rotation(new_campaign, new_campaign_hours = nil)
+  def test_ad_rotation(new_campaign, new_campaign_hours)
     err = []
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
 
@@ -18,8 +18,6 @@ module AdRotationAlgorithm
 
     elsif new_campaign.clasification == "per_hour"
       new_campaign_hours.each do |cpn|
-        p "CARLOS"*100
-        p cpn
         if !hour_inside_board_time?(self, cpn)
           err << I18n.t("bilbos.ads_rotation_error.before_power_on", name: self.name)
           return err
@@ -34,7 +32,6 @@ module AdRotationAlgorithm
            err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
            return err
         end
-        p "PASO"
         wm = working_minutes(start_t, end_t)
         if reps > (wm * 60/self.duration).to_i
           err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (60*wm/self.duration).to_i)
@@ -43,12 +40,14 @@ module AdRotationAlgorithm
       end
       week = ImpressionHour.days.keys - ["everyday"]
       week.each do |week_day|
-        items = new_campaign_hours.where(day: "everyday").or(new_campaign_hours.where(day: week_day))
+        items = new_campaign_hours.select{|c| c.day == "everyday" || c.day == week_day}
         if items.length > 1
           items.each_with_index do |item1,idx1|
             items.each_with_index do |item2,idx2|
               next if idx2 <= idx1
-              if item1.start < item2.end and item1.end > item2.start
+              start1, end1 = parse_hours(item1.start,item1.end)
+              start2, end2 = parse_hours(item2.start,item2.end)
+              if start1 < end2 and end1 > start2
                 err << "Las horas se traslapan"
                 return err
               end
@@ -342,5 +341,17 @@ end
 def get_time(the_time)
   t = the_time.strftime("%H:%M")
   t = Time.parse(t)
+end
+def parse_hours(start_t,end_t)
+  start_t = get_time(start_t)
+  board_start = get_time(start_time)
+  end_t = get_time(end_t)
+  if start_t < board_start
+    start_t += 1.day
+  end
+  if start_t >= end_t
+    end_t += 1.day
+  end
+  return start_t,end_t
 end
 end
