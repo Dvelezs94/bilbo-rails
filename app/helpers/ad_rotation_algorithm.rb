@@ -18,17 +18,15 @@ module AdRotationAlgorithm
 
     elsif new_campaign.clasification == "per_hour"
       new_campaign_hours.each do |cpn|
-        if !hour_inside_board_time?(self, cpn)
+        if !valid_start(self, cpn)
           err << I18n.t("bilbos.ads_rotation_error.before_power_on", name: self.name)
           return err
         end
         reps = cpn.imp
         start_t = cpn.start
         end_t = cpn.end
-        fi = (working_minutes(start_time,start_t,true)*60/self.duration).to_i
-        la = (working_minutes(start_time,end_t,true)*60/self.duration).to_i
-
-        if la > t_cycles
+        
+        if !valid_end(self,cpn)
            err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
            return err
         end
@@ -326,17 +324,25 @@ def free_indexes(array)
     return result #gets the indexes of the empty cells of the array
 end
 def hour_inside_board_time?(brd, c)
+  return (valid_start(brd,c) && valid_end(brd,c))
+end
+def valid_start(brd,c)
   st = get_time(brd.start_time)
   et = get_time(brd.end_time)
   return true if et == st
+  et+=1.day if et<st
+  cst = get_time(c.start)
+  return cst.between?(st,et)
+end
+def valid_end(brd,c)
+  st = get_time(brd.start_time)
+  et = get_time(brd.end_time)
+  return true if et == st
+  et+=1.day if et<st
   cst = get_time(c.start)
   cet = get_time(c.end)
-  if et > st && cst.between?(st,et) &&  cet.between?(st,et)
-    return true
-  elsif et < st && !cst.between?(et,st) &&  !cet.between?(et,st)
-    return true
-  end
-  return false
+  cet+=1.day if cet<cst
+  return cet.between?(st,et)
 end
 def get_time(the_time)
   t = the_time.strftime("%H:%M")

@@ -338,7 +338,7 @@ en:
     country: Country
     web_page: Web page
     send: Send
-    personal_info: PERSONAL INFORMATION 
+    personal_info: PERSONAL INFORMATION
     verify_account: Verify Account
     bilbo_credits: 'Bilbo Credits'
     transaction_fee: 'Transaction Fee'
@@ -513,3 +513,13 @@ en:
     contact: Contact.
     conditions: You received this email because you registered at Bilbo.mx and agreed to receive emails from us about notifications and news.
     home: Home
+  week_days:
+    mon: Monday
+    tue: Tuesday
+    wed: Wednesday
+    thu: Thursday
+    fri: Friday
+    sat: Saturday
+    sun: Sunday
+    everyday: Everyday
+    days: Days
