@@ -346,12 +346,8 @@ def parse_hours(start_t,end_t)
   start_t = get_time(start_t)
   board_start = get_time(start_time)
   end_t = get_time(end_t)
-  if start_t < board_start
-    start_t += 1.day
-  end
-  if start_t >= end_t
-    end_t += 1.day
-  end
+  start_t += 1.day if start_t < board_start
+  end_t += 1.day if start_t >= end_t
   return start_t,end_t
 end
 end
