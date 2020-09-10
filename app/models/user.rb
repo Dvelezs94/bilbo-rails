@@ -84,9 +84,9 @@ class User < ApplicationRecord
 
   def ban!   
     if self.banned?
-      update_attribute :banned, false
-    else
       update_attribute :banned, true
+    else
+      update_attribute :banned, false
       errors.add(:base, "Could not ban user")
     end 
   end
