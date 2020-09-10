@@ -14,7 +14,7 @@
           %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
             %i.wd-10.mg-r-5.fe.fe-plus
             = t("campaign.new_campaign")
-    - if !@project.owner.verified
+    - if !@project.owner.verified && !@project.users.first.is_provider?
       .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
         %i.mg-r-10{class: "fe fe-warning"}
         = t('alert.verify_profile')

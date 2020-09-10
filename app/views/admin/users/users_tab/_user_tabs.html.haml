@@ -32,7 +32,7 @@
             %i.fe.fe-edit
             %span.d-none.d-sm-inline.mg-l-5 Edit
 
-        -if user.banned?
+        -if !user.banned?
           = link_to toggle_ban_admin_user_path(user_id: @user), method: :post,class: "btn btn-sm btn-white d-flex align-items-center mg-r-5", data: { confirm: "You sure you want to ban?" } do
             %i.fe.fe-disabled
             %span.d-none.d-sm-inline.mg-l-5 Ban
