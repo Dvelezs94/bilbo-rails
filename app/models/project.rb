@@ -35,7 +35,6 @@ class Project < ApplicationRecord
 
   def user_banned?
    if project_users.find_by_role("owner").user.banned?
-    true
    else
     false
    end
