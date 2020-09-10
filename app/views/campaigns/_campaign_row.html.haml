@@ -27,7 +27,7 @@
             = link_to edit_campaign_subscribers_path(campaign.slug), remote: true, method: :get, class: "dropdown-item" do
               %i.fe.fe-users.mg-r-5
               = t("campaign.subscribers.edit")
-          %a.clipboard-btn.dropdown-item.tx-success{"data-clipboard-text" => campaign_shortened_url(campaign.analytics_token), :href => ""}
+          %a.clipboard-btn.dropdown-item.tx-success{"data-clipboard-text" => shorten_link(analytics_campaign_url(campaign.slug)), :href => ""}
             %i.fe.fe-share.mg-r-5
             = t("campaign.share")
           .dropdown-divider

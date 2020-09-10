@@ -8,6 +8,8 @@ es:
   go_to_home: Ir al Inicio
   meta_tags:
     description: Espacios publicitarios para negocios
+  mailer:
+    hi: Hola %{name}
   authentication:
     name: Nombre
     name_hint: Introduce tu Nombre
