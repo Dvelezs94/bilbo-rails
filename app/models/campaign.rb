@@ -1,9 +1,11 @@
 class Campaign < ApplicationRecord
+  include Rails.application.routes.url_helpers
   include ActionView::Helpers::DateHelper
   include BroadcastConcern
+  include ShortenerHelper
   extend FriendlyId
   attr_accessor :provider_update
-  friendly_id :name, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :impressions
   has_many :campaign_denials
@@ -12,10 +14,16 @@ class Campaign < ApplicationRecord
   has_many :boards, through: :board_campaigns
   has_many :provider_invoices
 
+  def slug_candidates
+    [
+      [:name, :friendly_uuid]
+    ]
+  end
+
   # instead of doing campaign.campaign_subscribers you can do campaign.subscribers
   alias_attribute :subscribers, :campaign_subscribers
   has_many :campaign_subscribers
-  
+
   # status is for the
   enum status: { active: 0, inactive: 1 }
   enum clasification: {budget: 0, per_minute: 1, per_hour: 2}
@@ -26,8 +34,6 @@ class Campaign < ApplicationRecord
   before_destroy :remove_campaign
 
   validates :name, presence: true
-  before_save :generate_analytics_token, :if => :new_record?
-  validates_uniqueness_of :analytics_token, conditions: -> { where.not(analytics_token: nil) }
   # validates :ad, presence: true, on: :update
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
@@ -38,10 +44,15 @@ class Campaign < ApplicationRecord
   before_save :update_state_updated_at, if: :state_changed?
   after_commit :update_rotation_on_boards
   before_save :set_in_review
+  after_commit :generate_shorten_url, on: :create
 
 
-  def generate_analytics_token
-    self.analytics_token = SecureRandom.hex(4).first(7)
+  def generate_shorten_url
+    shorten_link(analytics_campaign_url(slug))
+  end
+
+  def friendly_uuid
+    SecureRandom.uuid
   end
 
   def self.running
