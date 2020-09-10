@@ -21,7 +21,7 @@
             .form-group
               .d-flex.justify-content-between.mg-b-5
                 %label.mg-b-0-f= t('authentication.name')
-              = f.text_field :name, class: "form-control", placeholder: t('authentication.name_hint')
+              = f.text_field :name, class: "form-control", required: true, placeholder: t('authentication.name_hint')
             .form-group.tx-12
               = t('authentication.terms_of_service_agreement')
             %button.btn.btn-brand-02.btn-block= t('authentication.create_account')
