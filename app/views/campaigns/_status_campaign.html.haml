@@ -7,13 +7,11 @@
   #modal-window.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "adViewModal", role: "dialog", tabindex: "-1"}
     .modal-dialog.modal-dialog-centered{role: "document"}
       .modal-content.tx-14
-  %td.text-between= board_campaign.campaign.created_at.strftime("%d/%m/%Y")
+  %td.text-between= l(board_campaign.campaign.starts_at, format: "%d %b %Y") rescue l(board_campaign.campaign.created_at, format: "%d %b %Y")
+  %td.text-between= l(board_campaign.campaign.ends_at, format: "%d %b %Y") rescue t("campaign.wizard.ongoing_campaign")
   %td.text-between= link_to(board_campaign.board.name, statistics_board_path(board_campaign.board))
   %td.text-between= number_to_currency_usd(board_campaign.campaign.budget)
-  -if board_campaign.campaign.state.to_s == "true"
-    %td.text-between= t('campaign.status_on')
-  -else
-    %td.text-between= t('campaign.status_off')
+  %td.text-between= board_campaign.campaign.state.to_s == "true" ? t('campaign.status_on') : t('campaign.status_off')
   %td.d-flex.justify-content-between.align-center
     -if params[:q] == "review"
       = link_to '', campaign_board_approve_campaign_path(board_campaign.campaign_id,board_campaign.board_id), class: 'fe fe-check', title: t('campaign.accept'), data: { toggle: 'tooltip', placement: 'top', method: :put, confirm: t('campaign.approve_campaign') }

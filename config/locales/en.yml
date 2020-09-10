@@ -8,6 +8,8 @@ en:
   go_to_home: Go to main page
   meta_tags:
     description: Advertising spaces for businesses
+  mailer:
+    hi: Hi %{name}
   authentication:
     name: Name
     name_hint: Enter your name
