@@ -25,7 +25,7 @@ module AdRotationAlgorithm
         reps = cpn.imp
         start_t = cpn.start
         end_t = cpn.end
-        
+
         if !valid_end(self,cpn)
            err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
            return err
@@ -39,6 +39,7 @@ module AdRotationAlgorithm
       week = ImpressionHour.days.keys - ["everyday"]
       week.each do |week_day|
         items = new_campaign_hours.select{|c| c.day == "everyday" || c.day == week_day}
+        p *items
         if items.length > 1
           items.each_with_index do |item1,idx1|
             items.each_with_index do |item2,idx2|
@@ -46,7 +47,9 @@ module AdRotationAlgorithm
               start1, end1 = parse_hours(item1.start,item1.end)
               start2, end2 = parse_hours(item2.start,item2.end)
               if start1 < end2 and end1 > start2
-                err << "Las horas se traslapan"
+                k1 = new_campaign_hours.index(item1)+1
+                k2 = new_campaign_hours.index(item2)+1
+                err << I18n.t("bilbos.ads_rotation_error.overlapping_schedules", n1: k1, n2: k2)
                 return err
               end
             end
