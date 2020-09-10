@@ -22,7 +22,7 @@ class User < ApplicationRecord
   # project related methods
   has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
-  after_commit :set_project, on: :update
+  after_commit :set_project, on: :create
   before_save :notify_credits, if: :balance_changed?
   has_many :payments
   has_many :invoices
@@ -47,6 +47,11 @@ class User < ApplicationRecord
   # get current month impressions * impression price
   def current_month_earnings(time_range = 30.days.ago..Time.now)
     Board.last.monthly_earnings(time_range)
+  end
+
+  # make sure to log in if user is not banned
+  def active_for_authentication?
+    super and !self.banned?
   end
 
   # provider methods
@@ -82,14 +87,14 @@ class User < ApplicationRecord
     self.project_users.where(role: "owner")
   end
 
-  def toggle_ban!   
+  def toggle_ban!
     if self.banned?
       update_attribute :banned, false
       @status = "enabled"
     else
       update_attribute :banned, true
       @status = "disabled"
-    end 
+    end
     self.projects.where(id: ProjectUser.where(user_id: id, role: "owner").pluck(:project_id)).update_all(status: @status)
   end
 
