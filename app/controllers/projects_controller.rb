@@ -16,10 +16,10 @@ class ProjectsController < ApplicationController
 
     if @new_project.save
       flash[:success] = I18n.t('projects.successfully_created')
+      change_project_cookie(@new_project.slug)
     else
       flash[:error] = I18n.t('error.error_ocurrred')
     end
-    change_project_cookie(@new_project.slug)
     redirect_to root_url()
   end
 

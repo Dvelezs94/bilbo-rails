@@ -18,6 +18,7 @@ class User < ApplicationRecord
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
 
   validates :email, presence: true, format: Devise.email_regexp
+  validates :name, format: { :with => /\A[^0-9`!@#\$%\^&*+_=]+\z/, multiline: false, message: 'Invalid name' }
   has_many :boards
   # project related methods
   has_many :project_users, dependent: :destroy

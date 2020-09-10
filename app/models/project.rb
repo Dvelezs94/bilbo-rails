@@ -3,7 +3,7 @@ class Project < ApplicationRecord
   friendly_id :name, use: :slugged
 
   validates :name, presence: true, exclusion: { in: %w(www app admin),
-    message: "%{value} is reserved." }
+    message: "%{value} is reserved." }, format: { :with => /\A[^0-9`!@#\$%\^&*+_=]+\z/, multiline: false, message: 'Invalid name' }
 
   enum status: { enabled: 0, disabled: 1 }
 
