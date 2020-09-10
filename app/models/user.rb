@@ -22,7 +22,7 @@ class User < ApplicationRecord
   # project related methods
   has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
-  after_commit :set_project, on: :create, if: :user_banned?
+  after_commit :set_project, on: :update
   before_save :notify_credits, if: :balance_changed?
   has_many :payments
   has_many :invoices
@@ -82,13 +82,15 @@ class User < ApplicationRecord
     self.project_users.where(role: "owner")
   end
 
-  def ban!   
+  def toggle_ban!   
     if self.banned?
-      update_attribute :banned, true
-    else
       update_attribute :banned, false
-      errors.add(:base, "Could not ban user")
+      @status = "enabled"
+    else
+      update_attribute :banned, true
+      @status = "disabled"
     end 
+    self.projects.where(id: ProjectUser.where(user_id: id, role: "owner").pluck(:project_id)).update_all(status: @status)
   end
 
   def add_credits(total)

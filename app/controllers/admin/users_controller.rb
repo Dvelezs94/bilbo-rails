@@ -35,8 +35,8 @@ class Admin::UsersController < ApplicationController
   end
 
   def toggle_ban
-    if @user.ban!
-      flash[:success] = "User #{@user.name} banned"
+    if @user.toggle_ban!
+      flash[:success] = "User #{@user.name} updated"
     end
     redirect_to admin_users_path
   end
