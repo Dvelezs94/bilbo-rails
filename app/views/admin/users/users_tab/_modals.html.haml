@@ -21,6 +21,10 @@
             / form-group
             %h6.mg-t-20.mg-b-10= t("general_inputs.name")
             = f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name")
+
+            %h6.mg-t-20.mg-b-10= t("general_inputs.phone_number")
+            = f.text_field :phone_number, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.phone_number_desc")
+
             %h6.mg-t-20.mg-b-10
             %div.actions.col-sm-12.col-md-8.m-auto
               = f.submit t("projects.send_invite"), class: "btn btn-primary btn-block"

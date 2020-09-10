@@ -1,4 +1,10 @@
-= render 'shared/header', menu: "dashboard"
+- if user_signed_in?
+  - if current_user.is_admin?
+    = render 'shared/header_admin', menu: "account"
+  - else
+    = render 'shared/header', menu: "dashboard"
+- else
+  = render 'devise/shared/header'
 .content.content-fixed
   .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
     .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30

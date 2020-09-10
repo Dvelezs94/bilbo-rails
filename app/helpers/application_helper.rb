@@ -7,6 +7,17 @@ module ApplicationHelper
       gravatar_image_url(user.email, size: size)
     end
   end
+
+  # formats the number as +52-(844) 352-1674
+  # the input should be a 12 digit phone without special chars, like 528443521674
+  def phone_formatter(phone)
+    # remove the + from the phone number
+    if phone.include? "+"
+      phone = phone.scan(/\d/).join('')
+    end
+    number_to_phone(phone.last(10), country_code: phone.first(2))
+  end
+  
   def url_from_media(media)
     if Rails.env.production?
       "https://#{ENV.fetch('CDN_HOST')}/#{media.blob.key}"
@@ -42,5 +53,19 @@ module ApplicationHelper
     paypal_flat_fee = 4.64
 
     return (((100 * (subtotal + paypal_flat_fee)) / (100 - paypal_percentage_fee)) - subtotal).round(3)
+  end
+
+  def get_image_size_from_metadata(image)
+    if image.metadata[:height].present?
+      image.metadata
+    else
+      ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
+    end
+  end
+
+  def send_sms(phone_number, message)
+    if phone_number.present? && message.present?
+      SNS.publish(phone_number: phone_number, message: message)
+    end
   end
 end

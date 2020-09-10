@@ -16,3 +16,4 @@
 //= require_tree ./global_dependencies
 
 //= require turbolinks
+//= require serviceworker-companion
