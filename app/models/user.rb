@@ -95,7 +95,8 @@ class User < ApplicationRecord
       update_attribute :banned, true
       @status = "disabled"
     end
-    self.projects.where(id: ProjectUser.where(user_id: id, role: "owner").pluck(:project_id)).update_all(status: @status)
+    @project_ids = ProjectUser.where(user_id: id, role: "owner").pluck(:project_id)
+    self.projects.where(id: [@project_ids]).update(status: @status)
   end
 
   def add_credits(total)

@@ -42,7 +42,7 @@ class Project < ApplicationRecord
   end
 
   def disable_campaigns!
-    if owner.banned
+    if self.disabled?
       self.campaigns.update_all(state: false)
     end
   end
