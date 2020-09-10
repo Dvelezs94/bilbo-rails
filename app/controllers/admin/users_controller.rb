@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
   include MailerHelper
-  access admin: :all
-  before_action :get_user, only: [:fetch, :verify, :deny, :update_credit, :increase_credits, :toggle_ban]
+  access admin: :all, all: [:stop_impersonating]
+  before_action :get_user, only: [:fetch, :verify, :deny, :update_credit, :increase_credits, :impersonate, :toggle_ban]
 
   def index
     case params[:role]
@@ -75,26 +75,40 @@ class Admin::UsersController < ApplicationController
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
-  redirect_to admin_users_path(role: "user")
- end
+    redirect_to admin_users_path(role: "user")
+  end
 
  def accept_verification_email
-     @subject   = I18n.t('verification.subject')
-     @title     = I18n.t('verification.title')
-     @greeting  = @subject
-     @message   = I18n.t('verification.message')
-     @link      = campaigns_url(credits: "true")
-     @link_text = I18n.t('verification.link_text')
-     generic_mail(subject= @subject, title= @title, greeting= @greeting, message= @message, receiver= @user.email, link= @link, link_text= @link_text)
-   end
+   @subject   = I18n.t('verification.subject')
+   @title     = I18n.t('verification.title')
+   @greeting  = @subject
+   @message   = I18n.t('verification.message')
+   @link      = campaigns_url(credits: "true")
+   @link_text = I18n.t('verification.link_text')
+   generic_mail(subject= @subject, title= @title, greeting= @greeting, message= @message, receiver= @user.email, link= @link, link_text= @link_text)
+ end
 
-   def deny_verification_email(text)
-       @subject   = I18n.t('verification.subject_deny')
-       @title     = I18n.t('verification.title_deny')
-       @greeting  = @subject
-       @message   = text
-       generic_mail(subject= @subject, title= @title, greeting= @greeting, message= @message, receiver= @user.email)
-     end
+  def deny_verification_email(text)
+   @subject   = I18n.t('verification.subject_deny')
+   @title     = I18n.t('verification.title_deny')
+   @greeting  = @subject
+   @message   = text
+   generic_mail(subject= @subject, title= @title, greeting= @greeting, message= @message, receiver= @user.email)
+  end
+
+  # impersonates
+
+  def impersonate
+    impersonate_user(@user)
+    redirect_to root_path
+  end
+
+  def stop_impersonating
+    stop_impersonating_user
+    redirect_to root_path
+  end
+
+  # end impersonates
 
   private
 

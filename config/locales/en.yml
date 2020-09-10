@@ -70,6 +70,8 @@ en:
   general_inputs:
     confirm_submit: Are you sure?
     confirm_deletion: Are you sure you want to delete this item?
+    phone_number: Phone Number
+    phone_number_desc: International phone number (525522334455)
     close: Close
     search: Search
     apply_filter: Apply filter
@@ -101,6 +103,7 @@ en:
     review_campaigns: Review Campaigns
     accept: Accept campaign
     deny: Deny campaign
+    share: Share Campaign
     review: Pause campaign
     occupied: '% Occupied'
     home: Home
@@ -208,11 +211,25 @@ en:
       updated: The campaign has been successfully updated
       saved: The campaign has been saved successfully
       to_review: The campaign has been sent to review
+    subscribers:
+      subscriber: Subscribers
+      description: Subscribers will receive SMS messages about the campaign
+      new: New subscriber
+      register: Register subscriber
+      edit: Edit Subscriptions
+      added: Subscriber added succesfully
+      could_not_add: Could not add subscriber
+      updated: Subscriber updated
+      could_not_update: Error when updating subscriber
+      deleted: Subscriber removed
+      could_not_delete: An error ocurred while deleting subscriber
+      maximum_number_reached: You reached the maximum number of subscribers allowed for this campaign
   bilbos:
     hour_start: Playing schedule
     new_bilbo: New Bilbo
     name: Bilbo name
     state: State
+    extra_percentage_earnings: extra earnings
     enabled: Enabled
     filter: Map filters
     approved: Approved
@@ -316,6 +333,7 @@ en:
     buy_credits: Buy Credits
     credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 credit equals $1 MXN.
     credit_limit: Credit purchase limit exceeded
+    daily_credit_limit: Your daily credit limit is %{credit_limit} credits
     verification_needed: A verified profile is needed in order to buy credits. Answer the form below or click the following link to verify your profile.
     require_invoices: If you require invoices to be issued for your campaigns, fill in the fiscal data. For more information click on the following link.
     campaign_billing_works: How Campaign billing works
@@ -338,7 +356,7 @@ en:
     country: Country
     web_page: Web page
     send: Send
-    personal_info: PERSONAL INFORMATION 
+    personal_info: PERSONAL INFORMATION
     verify_account: Verify Account
     bilbo_credits: 'Bilbo Credits'
     transaction_fee: 'Transaction Fee'
@@ -513,3 +531,5 @@ en:
     contact: Contact.
     conditions: You received this email because you registered at Bilbo.mx and agreed to receive emails from us about notifications and news.
     home: Home
+  validations:
+    only_numbers_for_phone: "Only numbers allowed for phone. e.g. 15577883344"

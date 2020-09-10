@@ -31,13 +31,13 @@
                   <div class="col-12 mg-b-10">
                     <%= f.text_field :address, class: "form-control google_autocomplete", value: "", required: true, autocomplete: "off",placeholder: t("general_inputs.address")%>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4 pd-r-5">
                     <%= f.text_field :lat, class: "form-control", placeholder: "Latitud", required: true %>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4 pd-x-5">
                     <%= f.text_field :lng, class: "form-control", placeholder: "Longitud", required: true %>
                   </div>
-                  <div class="col-6">
+                  <div class="col-4 pd-l-5">
                     <%= f.text_field :utc_offset, class: "form-control", placeholder: "Minutos con UTC", required: true %>
                   </div>
                 </div>
@@ -71,6 +71,15 @@
                     </div>
                   </div>
 
+                  <div class="col-sm-12 col-md-6">
+                    <%= f.label t('bilbos.extra_percentage_earnings') %>
+                    <div class="input-group mg-b-10">
+                      <%= f.text_field :extra_percentage_earnings, class: "form-control", required: true, placeholder: "0" %>
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
