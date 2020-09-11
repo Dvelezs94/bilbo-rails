@@ -9,11 +9,12 @@ class ExternalSourcesController < ApplicationController
       p "x"*800
       p params[:mac_address]
       if params[:mac_address].present?
-        Board.find_by(slug: params[:board_slug], access_token: params[:board_token], mac_address: params[:mac_address]).present?
+        if Board.find_by(slug: params[:board_slug], access_token: params[:board_token], mac_address: params[:mac_address]).present?
           cookies.permanent.signed[:board_slug] = params[:board_slug]
           cookies.permanent.signed[:board_token] = params[:board_token]
           cookies.permanent.signed[:mac_address] = params[:mac_address]
           redirect_to_board
+        end
       elsif Board.find_by(slug: params[:board_slug], access_token: params[:board_token]).present?
         cookies.permanent.signed[:board_slug] = params[:board_slug]
         cookies.permanent.signed[:board_token] = params[:board_token]
