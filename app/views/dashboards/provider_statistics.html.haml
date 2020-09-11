@@ -2,33 +2,32 @@
 
 .content.content-fixed
   .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
-    -if !@project.owner.banned  
-      .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-25.mg-xl-b-30
-        .d-none.d-md-block
-          %nav{ 'aria-label' => 'breadcrumb' }
-            %ol.breadcrumb.breadcrumb-style1.mg-b-10
-              %li.breadcrumb-item
-                = link_to t('campaign.home'), root_path
-          %h4.mg-b-0.tx-spacing--1
-            = t('header.statistics')
-        = form_for(:campaign, url: provider_statistics_dashboards_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
-          .d-flex.flex-row
-            -if params.has_key?(:select)
-              .form-group.col-md-10.d-flex.justify-content-end
-                = select_month(@chosen_month,{ use_month_name: true, prefix: 'select'},{:field_name => 'month', :id => 'start-month', value:  Date.today.strftime("%m-%d-%Y"), class: 'custom-select'})
-                = select_year(@chosen_month, {class: "custom-select", prefix: 'select'},{:field_name => 'year', :id => 'start-year', class: 'custom-select'})
-              .d-flex.flex-row
-                .form-group.col-md-15
-                  %button.btn.btn-primary.btn-block{:type => "submit"}
-                    %i.mg-l-5.fe.fe-search
-            -else
-              .form-group.col-md-10.d-flex.justify-content-end
-                = select_month(Date.today, {use_month_name: true, prefix: 'select'},{:field_name => 'month', :id => 'start-month', class: "custom-select"})
-                = select_year(Date.today, { prefix: 'select'},{:field_name => 'year', :id => 'start-year', class: "custom-select"})
-              .d-flex.flex-row
-                .form-group.col-md-15
-                  %button.btn.btn-primary.btn-block{:type => "submit"}
-                    %i.mg-l-5.fe.fe-search
+    .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-25.mg-xl-b-30
+      .d-none.d-md-block
+        %nav{ 'aria-label' => 'breadcrumb' }
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              = link_to t('campaign.home'), root_path
+        %h4.mg-b-0.tx-spacing--1
+          = t('header.statistics')
+      = form_for(:campaign, url: provider_statistics_dashboards_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
+        .d-flex.flex-row
+          -if params.has_key?(:select)
+            .form-group.col-md-10.d-flex.justify-content-end
+              = select_month(@chosen_month,{ use_month_name: true, prefix: 'select'},{:field_name => 'month', :id => 'start-month', value:  Date.today.strftime("%m-%d-%Y"), class: 'custom-select'})
+              = select_year(@chosen_month, {class: "custom-select", prefix: 'select'},{:field_name => 'year', :id => 'start-year', class: 'custom-select'})
+            .d-flex.flex-row
+              .form-group.col-md-15
+                %button.btn.btn-primary.btn-block{:type => "submit"}
+                  %i.mg-l-5.fe.fe-search
+          -else
+            .form-group.col-md-10.d-flex.justify-content-end
+              = select_month(Date.today, {use_month_name: true, prefix: 'select'},{:field_name => 'month', :id => 'start-month', class: "custom-select"})
+              = select_year(Date.today, { prefix: 'select'},{:field_name => 'year', :id => 'start-year', class: "custom-select"})
+            .d-flex.flex-row
+              .form-group.col-md-15
+                %button.btn.btn-primary.btn-block{:type => "submit"}
+                  %i.mg-l-5.fe.fe-search
 
 
 
@@ -40,9 +39,6 @@
         = render 'dashboards/provider_charts/pending_campaigns'
         = render 'dashboards/provider_charts/active_campaigns'
         = render 'dashboards/provider_charts/recent_earnings'
-    -else 
-      .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
-        %i.mg-r-10{class: "fe fe-warning"}
-        = t('Fuiste suspendido, llama a soporte para recibir asistencia')
+
 
         
