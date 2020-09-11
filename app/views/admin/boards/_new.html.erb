@@ -142,6 +142,7 @@
                       <%= f.check_box :images_only, class: "custom-control-input" %>
                       <%= f.label :images_only, t("bilbos.images_only_form"), class: "custom-control-label" %>
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -154,6 +155,12 @@
                <%= f.label :default_image %>
                <%= f.file_field :default_image, required: true, class: "form-control"%>
              </div>
+             <div class="form-group">
+               <div class="col-12">
+                 <%= f.label t("bilbos.mac_address") %><br/>
+                 <%= f.text_field :mac_address, class: "form-control", required: true%>
+               </div>
+              </div>
 
               <div class="actions col-sm-12 col-md-6 m-auto">
                 <%= f.submit t("general_inputs.create"), class: "btn btn-primary btn-block", id: "submit_board" %>

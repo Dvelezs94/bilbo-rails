@@ -176,6 +176,7 @@ class BoardsController < ApplicationController
                                   :duration,
                                   :images_only,
                                   :extra_percentage_earnings,
+                                  :mac_address,
                                   images: []
                                   )
   end
@@ -207,8 +208,19 @@ class BoardsController < ApplicationController
 
   #validate access token when trying to access a board
   def restrict_access
-    board_access_token = Board.find_by_access_token(params[:access_token])
-    redirect_to root_path unless board_access_token == @board
+    if @board.mac_address.present?
+      board_access_token = Board.find_by_access_token(params[:access_token])
+      #board_mac_address = Board.find_by_access_token(params[:mac_address])
+      board_mac_address = params[:mac_address]
+      p "w"*800
+      p board_mac_address == @board.mac_address
+      p params[:mac_address]
+      p @board
+      redirect_to "#{"/404"}" unless (board_mac_address == @board.mac_address) && (board_access_token == @board)
+    else
+      board_access_token = Board.find_by_access_token(params[:access_token])
+      redirect_to root_path unless board_access_token == @board
+  end
   end
 
   def get_board
