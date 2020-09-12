@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_202319) do
+ActiveRecord::Schema.define(version: 2020_09_10_151558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -303,6 +303,14 @@ ActiveRecord::Schema.define(version: 2020_09_07_202319) do
     t.index ["board_id"], name: "index_reports_on_board_id"
     t.index ["campaign_id"], name: "index_reports_on_campaign_id"
     t.index ["project_id"], name: "index_reports_on_project_id"
+  end
+
+  create_table "shorteners", force: :cascade do |t|
+    t.string "target_url"
+    t.string "token"
+    t.datetime "expires_at", default: "2025-09-10 15:41:34"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "user_activities", force: :cascade do |t|
