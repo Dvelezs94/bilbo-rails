@@ -17,7 +17,7 @@ module ApplicationHelper
     end
     number_to_phone(phone.last(10), country_code: phone.first(2))
   end
-  
+
   def url_from_media(media)
     if Rails.env.production?
       "https://#{ENV.fetch('CDN_HOST')}/#{media.blob.key}"
@@ -63,9 +63,15 @@ module ApplicationHelper
     end
   end
 
+  # remove non valid characters for SMS like ñ, á, etc... and replace with similar
+  # versions like ñ => n, á => a, etc..
+  def convert_message_to_sms_format(msg)
+    return I18n.transliterate("[Bilbo]#{msg}")
+  end
+
   def send_sms(phone_number, message)
     if phone_number.present? && message.present?
-      SNS.publish(phone_number: phone_number, message: message)
+      SNS.publish(phone_number: phone_number, message: convert_message_to_sms_format(message))
     end
   end
 end

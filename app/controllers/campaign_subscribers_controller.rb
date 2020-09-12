@@ -39,7 +39,6 @@ class CampaignSubscribersController < ApplicationController
   private
   def get_campaign
     @campaign = @project.campaigns.friendly.find(params[:campaign_id])
-    puts @campaign.name
   end
 
   def get_subscriber
