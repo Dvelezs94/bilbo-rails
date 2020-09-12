@@ -96,6 +96,7 @@ Rails.application.routes.draw do
         get :stop_impersonating
       end
       member do
+        post :toggle_ban
         put :update_credit
         put :increase_credits
         get :fetch

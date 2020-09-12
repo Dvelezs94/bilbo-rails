@@ -1,6 +1,7 @@
 class Campaign < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include BroadcastConcern
+  include ProjectConcern
   extend FriendlyId
   attr_accessor :provider_update
   friendly_id :name, use: :slugged
@@ -15,7 +16,7 @@ class Campaign < ApplicationRecord
   # instead of doing campaign.campaign_subscribers you can do campaign.subscribers
   alias_attribute :subscribers, :campaign_subscribers
   has_many :campaign_subscribers
-  
+
   # status is for the
   enum status: { active: 0, inactive: 1 }
   enum clasification: {budget: 0, per_minute: 1, per_hour: 2}
@@ -29,6 +30,7 @@ class Campaign < ApplicationRecord
   before_save :generate_analytics_token, :if => :new_record?
   validates_uniqueness_of :analytics_token, conditions: -> { where.not(analytics_token: nil) }
   # validates :ad, presence: true, on: :update
+  validate :project_enabled?
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
   validate :validate_ad_stuff, on: :update
@@ -38,7 +40,6 @@ class Campaign < ApplicationRecord
   before_save :update_state_updated_at, if: :state_changed?
   after_commit :update_rotation_on_boards
   before_save :set_in_review
-
 
   def generate_analytics_token
     self.analytics_token = SecureRandom.hex(4).first(7)
@@ -60,6 +61,10 @@ class Campaign < ApplicationRecord
 
   def set_in_review
     self.board_campaigns.update_all(status: "in_review") if ad_id_changed? || provider_update
+  end
+
+  def project_status
+    errors.add(:base, I18n.t('campaign.errors.no_images')) if self.project.status
   end
 
   # distribute budget evenly between all bilbos
