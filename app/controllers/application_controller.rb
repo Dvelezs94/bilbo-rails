@@ -65,7 +65,8 @@ class ApplicationController < ActionController::Base
 
   # add extra registration fields for devise
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :project_name])
+    # users do not give phone numbers on registration, it is to detect bots
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :project_name, :phone_number])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale])
     devise_parameter_sanitizer.permit(:accept_invitation, keys: [:name])
     devise_parameter_sanitizer.permit(:invite, keys: [:role, :name, :project_name])
