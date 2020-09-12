@@ -354,6 +354,7 @@ ActiveRecord::Schema.define(version: 2020_09_10_151558) do
     t.integer "failed_attempts", default: 0, null: false
     t.datetime "locked_at"
     t.string "phone_number"
+    t.boolean "banned", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

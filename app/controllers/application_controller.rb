@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_project_cookie
   before_action :set_project
+  before_action :banned?
 
   def set_project_cookie
     if user_signed_in? && cookies[:project].nil? && !current_user.is_admin?
@@ -16,6 +17,14 @@ class ApplicationController < ActionController::Base
         domain: :all,
         expires: 1.day
       }
+    end
+  end
+
+  def banned?
+    if current_user.present? && current_user.banned?
+      sign_out current_user
+      flash[:error] = "This account has been suspended...."
+      root_path
     end
   end
 

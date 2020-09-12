@@ -3,6 +3,7 @@ class Campaign < ApplicationRecord
   include ActionView::Helpers::DateHelper
   include BroadcastConcern
   include ShortenerHelper
+  include ProjectConcern
   extend FriendlyId
   attr_accessor :provider_update
   friendly_id :slug_candidates, use: :slugged
@@ -35,6 +36,7 @@ class Campaign < ApplicationRecord
 
   validates :name, presence: true
   # validates :ad, presence: true, on: :update
+  validate :project_enabled?
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
   validate :validate_ad_stuff, on: :update
@@ -71,6 +73,10 @@ class Campaign < ApplicationRecord
 
   def set_in_review
     self.board_campaigns.update_all(status: "in_review") if ad_id_changed? || provider_update
+  end
+
+  def project_status
+    errors.add(:base, I18n.t('campaign.errors.no_images')) if self.project.status
   end
 
   # distribute budget evenly between all bilbos
