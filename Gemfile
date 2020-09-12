@@ -125,3 +125,4 @@ gem 'rack-tracker', '~> 1.12', '>= 1.12.1'
 gem 'serviceworker-rails', '~> 0.6.0'
 # impersonate as another user
 gem 'pretender', '~> 0.3.4'
+gem 'invisible_captcha', '~> 1.1'
