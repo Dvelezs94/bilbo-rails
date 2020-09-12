@@ -2,6 +2,7 @@ class Ad < ApplicationRecord
   #attr accessor is for trigger the changes on the multimedia
   attr_accessor :multimedia_update
   extend FriendlyId
+  include ProjectConcern
   friendly_id :name, use: :slugged
   belongs_to :project
 
@@ -9,6 +10,7 @@ class Ad < ApplicationRecord
   has_many_attached :multimedia
   enum status: { active: 0, deleted: 1 }
   enum transition: { no_transition: 0, fadeInDown: 1, fadeInUp: 2, fadeInLeft: 3, fadeInRight: 4}
+  validate :project_enabled?
   validates :name, presence: true
 
   validates :multimedia, content_type: ["image/png", "image/jpeg", "video/mp4"]

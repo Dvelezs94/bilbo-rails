@@ -18,6 +18,7 @@ class User < ApplicationRecord
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
 
   validates :email, presence: true, format: Devise.email_regexp
+  validates :name, format: { :with => /\A[^0-9`!@#\$%\^&*+_=]+\z/, multiline: false, message: 'Invalid name' }
   has_many :boards
   # project related methods
   has_many :project_users, dependent: :destroy
@@ -49,6 +50,11 @@ class User < ApplicationRecord
     Board.last.monthly_earnings(time_range)
   end
 
+  # make sure to log in if user is not banned
+  def active_for_authentication?
+    super and !self.banned?
+  end
+
   # provider methods
 
 
@@ -76,6 +82,22 @@ class User < ApplicationRecord
 
   def is_user?
     role == :user
+  end
+
+  def owner_project
+    self.project_users.where(role: "owner")
+  end
+
+  def toggle_ban!
+    if self.banned?
+      update_attribute :banned, false
+      @status = "enabled"
+    else
+      update_attribute :banned, true
+      @status = "disabled"
+    end
+    @project_ids = ProjectUser.where(user_id: id, role: "owner").pluck(:project_id)
+    self.projects.where(id: [@project_ids]).update(status: @status)
   end
 
   def add_credits(total)
