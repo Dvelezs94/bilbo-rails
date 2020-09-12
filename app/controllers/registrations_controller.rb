@@ -1,4 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
+  # we use phone number field as captcha
+  invisible_captcha only: [:create], honeypot: :phone_number, scope: "user"
+
   protected
   def update_resource(resource, params)
     # Require current password if user is trying to change password.
