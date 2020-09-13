@@ -56,10 +56,18 @@ module ApplicationHelper
   end
 
   def get_image_size_from_metadata(image)
-    if image.metadata[:height].present?
-      image.metadata
-    else
-      ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
+    begin
+      if image.metadata[:height].present?
+        image.metadata
+      else
+        ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
+      end
+    # this is a fix for images that cannot be analyzed, like webp images
+    rescue
+      meta = {}
+      meta[:height] = 0
+      meta[:width] = 0
+      meta
     end
   end
 
