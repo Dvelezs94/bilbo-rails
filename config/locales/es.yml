@@ -101,6 +101,7 @@ es:
     width: Largo
     height: Alto
   campaign:
+    add_schedule: Agregar Horario
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
@@ -297,6 +298,7 @@ es:
       minute_campaign_space: No hay espacio para la campaña por minutos %{campaign_name} en el bilbo %{bilbo_name}
       budget_campaign_space: No hay espacio para la campaña por presupuesto %{campaign_name} en el bilbo %{bilbo_name}
       duration_is_not_ten: El bilbo %{name} no admite campañas por minuto porque la duracion de los anuncios es diferente de diez segundos
+      overlapping_schedules: Los horarios %{n1} y %{n2} de esta campaña se traslapan. Realiza los cambios necesarios e intenta nuevamente
     search:
       location: Ubicación
       classification: Clasificación
@@ -534,5 +536,15 @@ es:
     contact: Contacto.
     conditions: Recibiste este email porque te registraste a Bilbo.mx y aceptaste recibir correos electrónicos de nosotros sobre notificaciones y noticias.
     home: Inicio
+  week_days:
+    mon: Lunes
+    tue: Martes
+    wed: Miércoles
+    thu: Jueves
+    fri: Viernes
+    sat: Sábado
+    sun: Domingo
+    everyday: Todos los días
+    days: Días
   validations:
     only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 525577883344"

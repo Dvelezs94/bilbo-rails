@@ -123,13 +123,14 @@ $(document).on('turbolinks:load', function () {
             );
           });
           $('#bilbosNum').text($('#bilbosAddress li').length);
-          $("#impressions")[0].style.width = ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
+          if ($("#impressions").length == 1) $("#impressions")[0].style.width = ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
         } else if (priorIndex === 2) {
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());
-          $('#impPerHour').text($('#impressionsPerHour').val());
-          $('#timeStart').text($('#timePickerStart').val());
-          $('#timeEnd').text($('#timePickerEnd').val());
+          make_summary_selected_hours();
+          // $('#impPerHour').text($('#impressionsPerHour').val());
+          // $('#timeStart').text($('#timePickerStart').val());
+          // $('#timeEnd').text($('#timePickerEnd').val());
           $('#dailyBudget').text($('#campaign_budget').val());
           if ($('#date_campaign').prop('checked')) {
             $('#campaignStarts').text($('#campaign_starts_at').val());
@@ -271,3 +272,23 @@ $(document).on('turbolinks:load', function () {
     // end choose ad
   }
 });
+function make_summary_selected_hours(){
+  hour_rows = $("[hour_row]");
+  partial = $("#hours_summary");
+  $(".current_row_hours").remove();
+  $.each(hour_rows, function( index, elem ) {
+    new_partial = partial.clone();
+    new_partial.removeClass("d-none");
+    new_partial.addClass("current_row_hours");
+    new_partial.removeAttr("id");
+    dayOfWeek = new_partial.find(".dayOfWeek");
+    impPerHour = new_partial.find(".impPerHour");
+    timeStart = new_partial.find(".timeStart");
+    timeEnd = new_partial.find(".timeEnd");
+    dayOfWeek.text($(elem).find('.days_of_week :selected').html()+" - ");
+    impPerHour.text($(elem).find('.impressionsPerHour').val());
+    timeStart.text($(elem).find('.timePickerStart').val());
+    timeEnd.text($(elem).find('.timePickerEnd').val());
+    $("#current_row_hours").append(new_partial);
+  });
+}
