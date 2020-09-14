@@ -129,7 +129,6 @@ module AdRotationAlgorithm
         per_time_cps_first.append(new_campaign) if new_campaign.state
       elsif new_campaign.impression_hours.present?
         new_campaign.impression_hours.each do |c|
-          p (Time.now.utc - self.utc_offset.minutes).strftime("%A").downcase
           if c.day == "everyday" || c.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
             h_cps_first.append(c)
           end
@@ -251,8 +250,6 @@ module AdRotationAlgorithm
                       val = output[inf+pos]
                       idx = output[h_cps[val][1]...h_cps[val][2]].index('-')
                       if idx.nil?
-                        p "JAJAJAJAJA"
-                        p per_time_cps_first.inspect
                         err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
                         return err
                       end
