@@ -118,14 +118,14 @@
       <%= f.text_field :duration, class: "form-control", required: true%>
     </div>
     <div class="col-6">
+      <%= f.label t("bilbos.mac_address") %><br/>
+      <%= f.text_field :mac_address, class: "form-control", required: true, placeholder: "aa:bb:cc:dd:ee:ff"%>
+    </div>
+    <div class="col-6">
       <div class="custom-control custom-checkbox">
-        <%= f.check_box :images_only, class: "custom-control-input" %>
+        <%= f.check_box :images_only, class: "custom-control-input" %><br/>
         <%= f.label :images_only, t("bilbos.images_only_form"), class: "custom-control-label" %><br/>
       </div>
-    </div>
-    <div class="col-12">
-      <%= f.label t("bilbos.mac_address") %><br/>
-      <%= f.text_field :mac_address, class: "form-control", required: true%>
     </div>
   </div>
 </div>

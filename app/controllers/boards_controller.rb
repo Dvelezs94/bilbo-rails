@@ -216,6 +216,7 @@ class BoardsController < ApplicationController
       p board_mac_address == @board.mac_address
       p params[:mac_address]
       p @board
+
       redirect_to "#{"/404"}" unless (board_mac_address == @board.mac_address) && (board_access_token == @board)
     else
       board_access_token = Board.find_by_access_token(params[:access_token])
