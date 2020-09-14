@@ -175,6 +175,7 @@ class BoardsController < ApplicationController
                                   :utc_offset,
                                   :duration,
                                   :images_only,
+                                  :extra_percentage_earnings,
                                   images: []
                                   )
   end

@@ -3,7 +3,7 @@ class Project < ApplicationRecord
   friendly_id :name, use: :slugged
 
   validates :name, presence: true, exclusion: { in: %w(www app admin),
-    message: "%{value} is reserved." }
+    message: "%{value} is reserved." }, format: { :with => /\A[^0-9`!@#\$%\^&*+_=]+\z/, multiline: false, message: 'Invalid name' }
 
   enum status: { enabled: 0, disabled: 1 }
 
@@ -15,6 +15,7 @@ class Project < ApplicationRecord
   has_many :reports
   # the project has notifications so all users in the project can see them
   has_many :notifications, foreign_key: :recipient_id
+  after_commit :disable_campaigns!, on: :update
 
   # useful when you want to retrieve a collection of certain users that have permissions for the project
   # current_user.projects.admins -> will get the admins of all the projects
@@ -30,6 +31,20 @@ class Project < ApplicationRecord
 
   def admins
     project_users.where(role: ["owner", "administrator"]).pluck(:user_id)
+  end
+
+  def project_enabled?
+   if self.enabled?
+    true
+   else
+    false
+   end
+  end
+
+  def disable_campaigns!
+    if self.disabled?
+      self.campaigns.update_all(state: false)
+    end
   end
   #
   # def users

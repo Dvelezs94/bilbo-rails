@@ -1,10 +1,12 @@
 class Campaign < ApplicationRecord
+  include Rails.application.routes.url_helpers
   include ActionView::Helpers::DateHelper
   include BroadcastConcern
+  include ShortenerHelper
+  include ProjectConcern
   extend FriendlyId
   attr_accessor :owner_updated_campaign
-  serialize :schedule, Hash
-  friendly_id :name, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :impressions
   has_many :campaign_denials
@@ -14,6 +16,17 @@ class Campaign < ApplicationRecord
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :boards, through: :board_campaigns
   has_many :provider_invoices
+
+  def slug_candidates
+    [
+      [:name, :friendly_uuid]
+    ]
+  end
+
+  # instead of doing campaign.campaign_subscribers you can do campaign.subscribers
+  alias_attribute :subscribers, :campaign_subscribers
+  has_many :campaign_subscribers
+
   # status is for the
   enum status: { active: 0, inactive: 1 }
   enum clasification: {budget: 0, per_minute: 1, per_hour: 2}
@@ -25,6 +38,7 @@ class Campaign < ApplicationRecord
 
   validates :name, presence: true
   # validates :ad, presence: true, on: :update
+  validate :project_enabled?
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
   validate :validate_ad_stuff, on: :update
@@ -34,8 +48,16 @@ class Campaign < ApplicationRecord
   before_save :update_state_updated_at, if: :state_changed?
   before_save :set_in_review
   after_commit :broadcast_to_all_boards
+  after_commit :generate_shorten_url, on: :create
 
 
+  def generate_shorten_url
+    shorten_link(analytics_campaign_url(slug))
+  end
+
+  def friendly_uuid
+    SecureRandom.uuid
+  end
 
   def self.running
     active.where(state: true)
@@ -57,6 +79,10 @@ class Campaign < ApplicationRecord
 
   def set_in_review
     self.board_campaigns.update_all(status: "in_review") if have_to_set_in_review_on_boards
+  end
+
+  def project_status
+    errors.add(:base, I18n.t('campaign.errors.no_images')) if self.project.status
   end
 
   # distribute budget evenly between all bilbos

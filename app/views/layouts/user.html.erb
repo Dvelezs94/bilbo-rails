@@ -26,6 +26,10 @@
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY")+"&libraries=places", :defer => true, 'data-turbolinks-eval': 'false' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <% if !user_signed_in? && request.fullpath == "/external_sources/setup" %>
+      <link rel="manifest" href="/manifest.json" />
+    <% end %>
+
 
     <title>Bilbo</title>
 
@@ -37,6 +41,12 @@
     <%= google_tag_manager %>
     <%= render :partial => 'flash/flash'%>
     <%= yield %>
+    <% if current_user != true_user %>
+    <div class="alert alert-danger alert-server" role="alert">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <strong>WARNING</strong> You are impersonating a user, so be very careful. <a href="<%= stop_impersonating_admin_users_path %>">Stop impersonating</a>
+    </div>
+    <% end %>
     <%= render 'shared/spinner' %>
   </body>
 </html>

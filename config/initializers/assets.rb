@@ -14,6 +14,6 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.precompile += %w( admin.js )
 Rails.application.config.assets.precompile += %w( board.js )
 Rails.application.config.assets.precompile += %w( provider.js )
-Rails.application.config.assets.precompile += %w( provider.js )
 # add missing assets
 Rails.application.config.assets.precompile += %w( config/* images/* fonts/* )
+Rails.configuration.assets.precompile += %w[serviceworker.js manifest.json]
