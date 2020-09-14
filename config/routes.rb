@@ -36,6 +36,11 @@ Rails.application.routes.draw do
       end
   end
   resources :campaigns do
+    resources :campaign_subscribers, path: "subscribers", as: :subscribers, except: [:edit] do
+      collection do
+        get :edit
+      end
+    end
     member do
       get :analytics
       put :toggle_state
@@ -81,18 +86,23 @@ Rails.application.routes.draw do
     resources :board_actions, only: [] do
       member do
         get :provider_statistics
+        get :get_ads_rotation_build
+        post :regenerate_ads_rotation
       end
     end
     resources :users, only: [] do
       collection do
         get :index
+        get :stop_impersonating
       end
       member do
+        post :toggle_ban
         put :update_credit
         put :increase_credits
         get :fetch
         patch :verify
         patch :deny
+        post :impersonate
       end
     end
   end
@@ -148,6 +158,9 @@ Rails.application.routes.draw do
       post :configure
     end
   end
+
+  get 'c/:id', to: "campaigns#shortened_analytics", as: "campaign_shortened"
+  get 's/:id', to: "shorteners#show", as: "shorten"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

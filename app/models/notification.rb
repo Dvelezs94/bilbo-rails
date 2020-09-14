@@ -1,5 +1,6 @@
 class Notification < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include ApplicationHelper
   # the project has notifications so all users in the project can see them
   belongs_to :recipient, class_name: "Project"
   belongs_to :actor, class_name: "Project"
@@ -14,7 +15,7 @@ class Notification < ApplicationRecord
   # return all notifications by default on descending order by date
   default_scope { order("created_at DESC") }
 
-  after_commit :notificate_by_email, on: :create
+  after_commit :notificate_recipients, on: :create
 
   def read!
     self.update(read_at: Time.now)
@@ -68,8 +69,8 @@ class Notification < ApplicationRecord
       when "new invite"
         { url: analytics_campaign_url(notifiable.id),
           url_string: I18n.t("#{translation}.url_string"),
-          message: I18n.t("#{translation}.message", user_name: reference.email),
-         subject: I18n.t("#{translation}.subject", user_name: reference.email) }
+          message: I18n.t("#{translation}.message", user_name: reference.name_or_email),
+         subject: I18n.t("#{translation}.subject", user_name: reference.name_or_email) }
       when "invite removed"
         { url: analytics_campaign_url(notifiable.id),
           url_string: I18n.t("#{translation}.url_string"),
@@ -90,12 +91,16 @@ class Notification < ApplicationRecord
 
   private
 
-  def notificate_by_email
+  def notificate_recipients
     # notify each user by email
     notif_body = self.build_notification_body
     recipient.users.each do |user|
       NotificationMailer.new_notification(user: user, message: ActionView::Base.full_sanitizer.sanitize(notif_body[:message]),
         subject: ActionView::Base.full_sanitizer.sanitize(notif_body[:subject]),
         link: notif_body[:url], link_text: notif_body[:url_string]).deliver
+
+      if user.is_provider? && user.phone_number.present? && sms
+        send_sms(user.phone_number, "#{ActionView::Base.full_sanitizer.sanitize(notif_body[:message])}. #{notifications_url}")
+      end
     end
   end

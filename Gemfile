@@ -123,3 +123,8 @@ gem 'blazer', '~> 2.2', '>= 2.2.6'
 gem 'rack-tracker', '~> 1.12', '>= 1.12.1'
 #forms
 gem 'cocoon', '~> 1.2', '>= 1.2.9'
+# pwa
+gem 'serviceworker-rails', '~> 0.6.0'
+# impersonate as another user
+gem 'pretender', '~> 0.3.4'
+gem 'invisible_captcha', '~> 1.1'

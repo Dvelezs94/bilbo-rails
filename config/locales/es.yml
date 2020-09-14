@@ -8,6 +8,8 @@ es:
   go_to_home: Ir al Inicio
   meta_tags:
     description: Espacios publicitarios para negocios
+  mailer:
+    hi: Hola %{name}
   authentication:
     name: Nombre
     name_hint: Introduce tu Nombre
@@ -70,6 +72,8 @@ es:
   general_inputs:
     confirm_submit: ¿Estás seguro?
     confirm_deletion: ¿Estás seguro que quieres borrar este elemento?
+    phone_number: Número de teléfono
+    phone_number_desc: Número de teléfono con lada (525522334455)
     close: Cerrar
     search: Buscar
     apply_filter: Aplicar Filtro
@@ -103,6 +107,7 @@ es:
     accept: Aceptar campaña
     occupied: '% Ocupado'
     deny: Denegar campaña
+    share: Compartir Campaña
     review: Pausar campaña
     campaigns: Campañas
     home: Inicio
@@ -131,7 +136,7 @@ es:
     campaign_updated: La campaña fue actualizada
     campaign_created: La campaña fue creada
     minimum_budget_per_bilbo: El mínimo por bilbo es de $50 al día.
-    metrics: Metricas
+    metrics: Métricas
     campaign: Campaña
     campaign_status: Estado
     campaign_date: Fecha
@@ -211,11 +216,25 @@ es:
       updated: La campaña se ha actualizado exitosamente
       saved: La campaña se ha guardado con éxito
       to_review: La campaña se ha enviado a revisión
+    subscribers:
+      subscriber: Subscriptores
+      description: Los subscriptores recibirán notificaciones SMS acerca de la campaña
+      new: Nuevo Subscriptor
+      register: Registrar subscriptor
+      edit: Editar Subscripciones
+      added: Subscriptor Agregado con éxito
+      could_not_add: Error al agregar subscriptor
+      updated: Subscriptor actualizado con éxito
+      could_not_update: Ocurrió un error al agregar subscriptor
+      deleted: Subscriptor Eliminado
+      could_not_delete: Ocurrió un error al intentar eliminar el subscriptor
+      maximum_number_reached: Ya haz alcanzado el máximo número de subscriptores para esta campaña
   bilbos:
     hour_start: Horario
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
     state: Estado
+    extra_percentage_earnings: ganancias extras
     enabled: Habilitado
     filter: Filtros del Mapa
     approved: Aprovado
@@ -319,6 +338,7 @@ es:
     buy_credits: Comprar Créditos
     credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiración. 1 crédito equivale a $1 MXN.
     credit_limit: Límite de compra de créditos superada
+    daily_credit_limit: Tu límite de compra diario es de %{credit_limit} créditos
     verification_needed: Necesitas un perfil verificado para poder comprar créditos. Responde la encuesta debajo o haz click en la siguiente liga para verificar tu cuenta.
     require_invoices: Si requieres que se emitan facturas para tus campañas llena los datos fiscales. Para más información haz click en la siguiente liga.
     campaign_billing_works: Cómo funciona la facturación de Campañas
@@ -494,7 +514,7 @@ es:
       message: Oops. Ocurrió un error, veulve a intentarlo
       500_description: El servidor encontró un error interno del servidor y no pudo completar su solicitud.
   alert:
-    project_out_of_credits: Tu proyecto se esta quedando sin créditos
+    project_out_of_credits: Tu proyecto se quedó sin créditos para correr tus campañas!
     verify_profile: Verifica tu perfil para
     purchase_credits: Comprar créditos
     more_credits: Avise al dueño del proyecto que compre créditos
@@ -526,3 +546,5 @@ es:
     sun: Domingo
     everyday: Todos los días
     days: Días
+  validations:
+    only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 525577883344"
