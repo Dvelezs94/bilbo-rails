@@ -6,8 +6,6 @@ class ExternalSourcesController < ApplicationController
 
     def configure
       # make sure the board exists before setting the cookies
-      p "x"*800
-      p params[:mac_address]
       if params[:mac_address].present? && Board.find_by(slug: params[:board_slug], access_token: params[:board_token], mac_address: params[:mac_address]).present?
           cookies.permanent.signed[:board_slug] = params[:board_slug]
           cookies.permanent.signed[:board_token] = params[:board_token]
