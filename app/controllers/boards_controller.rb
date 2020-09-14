@@ -212,11 +212,6 @@ class BoardsController < ApplicationController
       board_access_token = Board.find_by_access_token(params[:access_token])
       #board_mac_address = Board.find_by_access_token(params[:mac_address])
       board_mac_address = params[:mac_address]
-      p "w"*800
-      p board_mac_address == @board.mac_address
-      p params[:mac_address]
-      p @board
-
       redirect_to "#{"/404"}" unless (board_mac_address == @board.mac_address) && (board_access_token == @board)
     else
       board_access_token = Board.find_by_access_token(params[:access_token])
