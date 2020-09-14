@@ -126,6 +126,7 @@ module AdRotationAlgorithm
     if new_campaign.present?
       if new_campaign.minutes.present?
         per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
+        per_time_cps_first.append(new_campaign) if new_campaign.state
       elsif new_campaign.impression_hours.present?
         new_campaign.impression_hours.each do |c|
           p (Time.now.utc - self.utc_offset.minutes).strftime("%A").downcase
@@ -135,6 +136,7 @@ module AdRotationAlgorithm
         end
       elsif new_campaign.budget.present?
         r_cps[new_campaign.id] = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
+        r_cps_first.append(new_campaign)
       end
     end
     #####################################
@@ -147,9 +149,8 @@ module AdRotationAlgorithm
 
     h_cps = {}
     h_cps_first.each_with_index do |c,idx|
-      p c
-      p idx
       name = c.campaign_id.to_s << '/' << idx.to_s
+      h_cps_first[idx][:campaign_id] = name
       h_cps[name] = [c.imp,c.start,c.end]
     end
     h_cps = sort_by_min_time(h_cps)
@@ -184,7 +185,7 @@ module AdRotationAlgorithm
        while c < reps do
 
             if fi==la || free[pos].nil?
-                err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: h_cps_first.find(id: name).name,bilbo_name: self.name)
+                err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: h_cps_first.find(campaign_id: name).first.name,bilbo_name: self.name)
                 return err
                 break
             end
@@ -198,7 +199,7 @@ module AdRotationAlgorithm
                 last = h_cps[val][2]
                 aux = output[first...last].index('-')
                 if aux.nil?
-                  err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: h_cps_first.find(id: name).name,bilbo_name: self.name)
+                  err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: h_cps_first.find(campaign_id: name).first.name,bilbo_name: self.name)
                   return err
                   break
                 else
@@ -250,19 +251,21 @@ module AdRotationAlgorithm
                       val = output[inf+pos]
                       idx = output[h_cps[val][1]...h_cps[val][2]].index('-')
                       if idx.nil?
-                        err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).name, bilbo_name: self.name)
+                        p "JAJAJAJAJA"
+                        p per_time_cps_first.inspect
+                        err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
                         return err
                       end
                       output[h_cps[val][1]+idx] = val
                       output[inf+pos] = name
                       displays-=1
                     elsif arr.length<displays
-                      err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).name, bilbo_name: self.name)
+                      err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
                       return err
                     end
                 end
                 if arr.length == 0 and displays > 0
-                    err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).name, bilbo_name: self.name)
+                    err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
                     return err
                 end
             end
