@@ -7,8 +7,8 @@ namespace :update_hour_campaign_format do
       end_t = c.hour_finish
       impressions = c.imp
       ImpressionHour.create(start: start_t, end: end_t, imp: impresions, campaign_id: c.id, day: "everyday")
-      p "Campaign with id #{c.id} was updated"
+      puts "Campaign with id #{c.id} was updated"
     end
-    p "All hour campaigns have been updated"
+    puts "All hour campaigns have been updated"
   end
 end

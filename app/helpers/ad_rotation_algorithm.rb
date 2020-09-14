@@ -39,7 +39,6 @@ module AdRotationAlgorithm
       week = ImpressionHour.days.keys - ["everyday"]
       week.each do |week_day|
         items = new_campaign_hours.select{|c| c.day == "everyday" || c.day == week_day}
-        p *items
         if items.length > 1
           items.each_with_index do |item1,idx1|
             items.each_with_index do |item2,idx2|
@@ -116,11 +115,29 @@ module AdRotationAlgorithm
 
     self.campaigns.where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
       c.impression_hours.each do |cpn|
-        if cpn.day == "everyday" || cpn.day == (Time.now.utc - self.utc_offset.minutes).strftime("%A").downcase
+        if cpn.day == "everyday" || cpn.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
           h_cps_first.append(cpn)
         end
       end
     end
+
+    #check if validation with new campaign (OPTIONAL!!)
+
+    if new_campaign.present?
+      if new_campaign.minutes.present?
+        per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
+      elsif new_campaign.impression_hours.present?
+        new_campaign.impression_hours.each do |c|
+          p (Time.now.utc - self.utc_offset.minutes).strftime("%A").downcase
+          if c.day == "everyday" || c.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
+            h_cps_first.append(c)
+          end
+        end
+      elsif new_campaign.budget.present?
+        r_cps[new_campaign.id] = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
+      end
+    end
+    #####################################
     h_cps_first.each do |c|
       if !hour_inside_board_time?(self,c)
         err << I18n.t("bilbos.ads_rotation_error.hour_campaign_time", name: self.name)
@@ -128,21 +145,14 @@ module AdRotationAlgorithm
       end
     end
 
-    h_cps = h_cps_first.map{ |c| [ c.id,[c.imp, c.start, c.end] ]}.to_h
-    h_cps = sort_by_min_time(h_cps)
-
-    #check if validation with new campaign (OPTIONAL!!)
-
-    if new_campaign.present?
-      if new_campaign.minutes.present?
-        per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
-      elsif new_campaign.start.present?
-        h_cps[new_campaign.id] = [new_campaign.imp, new_campaign.start, new_campaign.end]
-      elsif new_campaign.budget.present?
-        r_cps[new_campaign.id] = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
-      end
+    h_cps = {}
+    h_cps_first.each_with_index do |c,idx|
+      p c
+      p idx
+      name = c.campaign_id.to_s << '/' << idx.to_s
+      h_cps[name] = [c.imp,c.start,c.end]
     end
-    #####################################
+    h_cps = sort_by_min_time(h_cps)
 
     r_cps.each do |name, displays|
         displays.times do
@@ -163,8 +173,8 @@ module AdRotationAlgorithm
        fi = (working_minutes(start_time,start_t,true)*60/self.duration).to_i
        la = (working_minutes(start_time,end_t,true)*60/self.duration).to_i
 
-       h_cps[name][1] = fi
-       h_cps[name][2] = la
+       value[1] = fi
+       value[2] = la
 
        free = (fi...la).to_a
 
@@ -282,6 +292,13 @@ module AdRotationAlgorithm
     # output.each_slice(6).each_slice(5).each_with_index do |line, index|
     #     p [line, index+1]
     # end
+
+    output.each_with_index do |item,idx|
+      if item.is_a?(String) && item.index('/').present?
+        item = item.split('/')[0].to_i
+        output[idx]=item
+      end
+    end
 
     self.new_ads_rotation = output
     return err
