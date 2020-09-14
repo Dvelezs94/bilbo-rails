@@ -101,6 +101,7 @@ en:
     width: width
     height: height
   campaign:
+    add_schedule: Add Schedule
     active_campaigns: Active Campaigns
     review_campaigns: Review Campaigns
     accept: Accept campaign
@@ -295,6 +296,7 @@ en:
       minute_campaign_space: There is no space for the minute campaign %{campaign_name} in the bilbo %{bilbo_name}
       budget_campaign_space: There is no space for the budget campaign %{campaign_name} in the bilbo %{bilbo_name}
       duration_is_not_ten: The bilbo %{name} doesn't allow campaings per minute because the ad duration is different from ten seconds
+      overlapping_schedules: Schedules %{n1} and %{n2} of this campaign overlap. Make the necesssary changes and try again
     search:
       location: Location
       classification: Classification
@@ -535,3 +537,13 @@ en:
     home: Home
   validations:
     only_numbers_for_phone: "Only numbers allowed for phone. e.g. 15577883344"
+  week_days:
+    mon: Monday
+    tue: Tuesday
+    wed: Wednesday
+    thu: Thursday
+    fri: Friday
+    sat: Saturday
+    sun: Sunday
+    everyday: Everyday
+    days: Days    

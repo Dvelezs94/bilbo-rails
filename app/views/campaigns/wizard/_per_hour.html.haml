@@ -4,14 +4,10 @@
     .row.justify-content-xl-center
     .divider-text= t('campaign.wizard.title_impressions_per_hour')
     .col-12.form-row.justify-content-xl-center
-      .quantity{style: "margin-right: 10px;margin-left: 10px;"}
-        = f.number_field :imp, {:id => "impressionsPerHour", :min => "1", :step => "1", :class => "form-control", :required => true}
-      %span{style: "margin-top:10px;"}= t('campaign.wizard.impressions_hour')
-      .quantity{style: "margin-right: 10px;margin-left: 20px;"}
-        = f.time_field :hour_start, {:id => "timePickerStart", :class => "form-control", :required => true }
-      %span{style: "margin-top:10px;"}= t('campaign.wizard.to')
-      .quantity{style: "margin-right: 10px;margin-left: 20px;"}
-        =f.time_field :hour_finish, {:id => "timePickerEnd", :class => "form-control", :required => true}
+      = f.fields_for :impression_hours do |imp|
+        = render 'impression_hour_fields', f: imp
+      .links.w-100.d-flex.justify-content-center.mg-t-10
+        = link_to_add_association I18n.t('campaign.add_schedule'), f, :impression_hours, class: "text-light btn btn-primary"
     .col-4
     .divider-text= t('campaign.wizard.campaign_duration')
     .form-row

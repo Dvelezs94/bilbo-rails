@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_09_10_151558) do
+=======
+ActiveRecord::Schema.define(version: 2020_09_08_193657) do
+>>>>>>> cbbf635f0b320f9102bbaf4bb45b360edad39549
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -210,6 +214,17 @@ ActiveRecord::Schema.define(version: 2020_09_10_151558) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "impression_hours", force: :cascade do |t|
+    t.time "start"
+    t.time "end"
+    t.integer "imp"
+    t.bigint "campaign_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "day"
+    t.index ["campaign_id"], name: "index_impression_hours_on_campaign_id"
+  end
+
   create_table "impressions", force: :cascade do |t|
     t.bigint "campaign_id"
     t.bigint "board_id"
@@ -393,6 +408,7 @@ ActiveRecord::Schema.define(version: 2020_09_10_151558) do
   add_foreign_key "campaign_subscribers", "campaigns"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "projects"
+  add_foreign_key "impression_hours", "campaigns"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
   add_foreign_key "invoices", "payments"
