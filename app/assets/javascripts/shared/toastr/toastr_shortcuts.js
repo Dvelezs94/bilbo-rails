@@ -1,11 +1,11 @@
-function show_notice(text) {
-  toastr.info(text);
+function show_notice(text, title = "", params = {}) {
+  toastr.info(text, title, params);
 }
 
-function show_success(text) {
-  toastr.success(text);
+function show_success(text, title = "", params = {}) {
+  toastr.success(text, title, params);
 }
 
-function show_error(text) {
-  toastr.error(text);
+function show_error(text, title = "", params = {}) {
+  toastr.error(text, title, params);
 }

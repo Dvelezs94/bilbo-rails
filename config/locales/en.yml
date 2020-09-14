@@ -282,6 +282,7 @@ en:
     minute: Minute
     social_class: Clasification
     view_campaigns: View Campaigns
+    mac_address: MAC address
     ads_rotation_error:
       max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time
