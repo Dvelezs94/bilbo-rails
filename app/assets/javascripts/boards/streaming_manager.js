@@ -90,14 +90,15 @@
        try {
          graph.commit('buildImpression').then(function(response) {
            // All base fields will be in response return.
-           //console.log(response);
+           // console.log("Response");
+           // console.log(response);
            // console.log("DisplayedAdsAntes");
            // console.log(displayedAds);
            // console.log(displayedAds.length);
            response["createImpression"].forEach((value, index) => {
              // console.log("ACTION");
              // console.log(value["action"]);
-             if ( value["action"] != "delete") return
+             if ( value["action"] != "delete") return;
              displayedAds = displayedAds.filter((impression) => {
                return impression.mutationid != value["mutationid"]
              });
