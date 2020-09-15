@@ -96,6 +96,7 @@ module AdRotationAlgorithm
   def build_ad_rotation(new_campaign = nil)
 
     err = []
+    campaign_names = {}
 
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
     output = []  #array to store the displays in the correct order
@@ -119,11 +120,13 @@ module AdRotationAlgorithm
           h_cps_first.append(cpn)
         end
       end
+      campaign_names[c.id] = c.name
     end
 
     #check if validation with new campaign (OPTIONAL!!)
 
     if new_campaign.present?
+      campaign_names[new_campaign.id] = new_campaign.name
       if new_campaign.minutes.present?
         per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
         per_time_cps_first.append(new_campaign) if new_campaign.state
@@ -184,7 +187,8 @@ module AdRotationAlgorithm
        while c < reps do
 
             if fi==la || free[pos].nil?
-                err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: h_cps_first.find(campaign_id: name).first.name,bilbo_name: self.name)
+                id = name.split('/')[0].to_i
+                err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
                 return err
                 break
             end
@@ -198,7 +202,8 @@ module AdRotationAlgorithm
                 last = h_cps[val][2]
                 aux = output[first...last].index('-')
                 if aux.nil?
-                  err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: h_cps_first.find(campaign_id: name).first.name,bilbo_name: self.name)
+                  id = name.split('/')[0].to_i
+                  err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
                   return err
                   break
                 else
@@ -214,7 +219,7 @@ module AdRotationAlgorithm
     ################################################################################
 
     total_h = 0                                 # compute the number of spaces used
-    h_cps.each {|name, val| total_h+=val[0]}    # to know the free spaces left
+    h_cps.each {|name, val| total_h+=val[0]}    # to know the free spaces remaining
 
     per_time_cps_cp = Marshal.load(Marshal.dump(per_time_cps))
     per_time_cps_cp = translate_hash(per_time_cps_cp,t_cycles)
@@ -225,7 +230,6 @@ module AdRotationAlgorithm
     if sum + total_h> t_cycles
         err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.last.name, bilbo_name: self.name)
         return err
-        #abort
     end
 
     per_time_cps = sort_by_max_repetitions(per_time_cps)
