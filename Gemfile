@@ -128,5 +128,3 @@ gem 'serviceworker-rails', '~> 0.6.0'
 # impersonate as another user
 gem 'pretender', '~> 0.3.4'
 gem 'invisible_captcha', '~> 1.1'
-#forms
-gem 'cocoon', '~> 1.2', '>= 1.2.9'
