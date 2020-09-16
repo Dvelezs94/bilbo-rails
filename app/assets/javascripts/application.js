@@ -13,6 +13,7 @@
 //= require clipboard
 //= require data-confirm-modal
 //= require autocomplete-rails
+//= require cocoon
 //= require_tree ./global_dependencies
 
 //= require turbolinks
