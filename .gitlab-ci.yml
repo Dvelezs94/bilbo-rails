@@ -12,7 +12,7 @@ services:
 - docker:dind
 
 before_script:
-  - apk add --no-cache curl jq py-pip python gcc build-base
+  - apk add --no-cache curl jq py-pip python-dev gcc build-base
   - pip install awscli ecs-deploy docker-compose
 
 stages:
@@ -40,7 +40,7 @@ build:
 test:
   stage: test
   script:
-    - docker-compose up -d --build --force-recreate
+    - docker-compose up -d
     - bash bilbo path
     - bilbo create-db
     - bilbo test
