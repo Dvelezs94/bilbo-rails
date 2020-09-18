@@ -19,10 +19,8 @@ stages:
   - deploy
 
 build:
-  stage: build
   script:
     - $(aws ecr get-login --no-include-email --region $AWS_REGION)
-    - rm -f .env
     - docker pull $REPOSITORY_URL:latest || true
     #- docker build --cache-from $REPOSITORY_URL:latest -t $DOCKER_IMAGE_CI --build-arg CI_AGENT="${CI_AGENT}" .
     - docker build --cache-from $REPOSITORY_URL:latest -t $DOCKER_IMAGE_CI --build-arg CI_AGENT="${CI_AGENT}" --build-arg ENVNAME="production" --build-arg PAYPAL_USERNAME="$PAYPAL_USERNAME" --build-arg PAYPAL_PASSWORD="$PAYPAL_PASSWORD" --build-arg PAYPAL_SIGNATURE="$PAYPAL_SIGNATURE" --build-arg MAPS_API_KEY="$MAPS_API_KEY"  .
@@ -36,8 +34,14 @@ build:
   tags:
     - docker
 
+test:
+  script:
+    - docker-compose up -d --build --force-recreate
+    - bash bilbo path
+    - bilbo create-db
+    - bilbo test
+
 deploy:
-  stage: deploy
   script:
     - sh ecs-deploy.sh
   only:

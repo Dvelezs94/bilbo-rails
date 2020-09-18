@@ -41,6 +41,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Random data for seeds
   gem 'faker', '~> 2.13'
+  gem 'factory_bot_rails', '~> 6.1'
 end
 
 group :development do
