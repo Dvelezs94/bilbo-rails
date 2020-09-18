@@ -46,6 +46,7 @@ build:
 test:
   stage: test
   script:
+    - docker images
     - docker-compose -f docker-compose-cicd.yml up -d 
     - bash bilbo path
     - bilbo create-db
