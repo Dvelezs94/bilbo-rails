@@ -11,7 +11,7 @@ en:
   mailer:
     hi: Hi %{name}
   authentication:
-    or: or
+    social_media: Sign in with social media
     name: Name
     name_hint: Enter your name
     project: Project

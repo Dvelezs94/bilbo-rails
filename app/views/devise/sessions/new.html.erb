@@ -35,14 +35,15 @@
         </div>
         <button class="btn btn-brand-02 btn-block" data-disable-with="Conectando..."><%= t('authentication.sign_in') %></button>
       <% end %>
-      <!-- <div class="divider-text"><%# t('devise.generic.or') %></div>
-      <button onclick="window.location.href = '<%= user_facebook_omniauth_authorize_path %>';" class="btn btn-outline-facebook btn-block"><%= t('devise.generic.connect_with') %>
+      <div class="divider-text"><%= t('authentication.social_media') %></div>
+      <button onclick="window.location.href = '<%= user_facebook_omniauth_authorize_path %>';" class="btn btn-outline-facebook btn-block"><i class="fe fe-facebook mg-r-5"></i><%= t('devise.generic.connect_with') %>
         Facebook</button>
+      <!--
       <button onclick="window.location.href = '<%= user_google_oauth2_omniauth_authorize_path %>';" class="btn btn-outline-google btn-block"><%= t('devise.generic.connect_with') %>
         Google</button> -->
       <div class="tx-14 mg-t-20 tx-center">
         <div class="col-12 pd-x-0">
-          <div class="divider-text"><%= t('authentication.or') %></div>
+          <div class="divider-text"><%= t('devise.generic.or') %></div>
           <%= link_to t('devise.registrations.register_now'), new_user_registration_path, class: "btn btn-outline-primary btn-block" %>
         </div>
     </div>
