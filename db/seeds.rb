@@ -13,7 +13,7 @@ if ENV.fetch("RAILS_ENV") != "production"
       provider.email = "provider#{x}@bilbo.mx"
       provider.password = "1234aA"
       provider.role = :provider
-      provider.project_name = Faker::Company.name
+      provider.project_name = "provider#{x}"
       provider.confirmed_at = DateTime.now
       provider.save
       puts provider.email
@@ -52,7 +52,7 @@ if ENV.fetch("RAILS_ENV") != "production"
       user.name = Faker::Name.first_name
       user.email = "user#{x}@bilbo.mx"
       user.password = "1234aA"
-      user.project_name = Faker::Company.name
+      user.project_name = "user#{x}"
       user.confirmed_at = DateTime.now
       user.balance = Faker::Number.between(from: 500, to: 5000)
       puts user.email

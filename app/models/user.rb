@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :confirmable, :invitable, :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :lockable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
 
@@ -82,6 +82,11 @@ class User < ApplicationRecord
 
   def is_user?
     role == :user
+  end
+
+  # get enabled projects that the user owns
+  def owned_projects
+    Project.where(id: project_users.where(role: "owner").pluck(:id)).enabled
   end
 
   def owner_project
