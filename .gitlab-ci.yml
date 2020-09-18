@@ -36,7 +36,7 @@ build_and_test:
     - docker-compose -f docker-compose-cicd.yml up -d
     - docker-compose exec -T app rails db:create
     - docker-compose exec -T app rails db:migrate
-    - docker-compose exec -T app rails test
+    - docker-compose exec -T app rails test -f
     - docker push $DOCKER_IMAGE_CI
     - docker push ${REPOSITORY_URL}:latest
   tags:
