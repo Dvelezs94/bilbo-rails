@@ -21,6 +21,7 @@ stages:
   - deploy
 
 build:
+  stage: build
   script:
     - $(aws ecr get-login --no-include-email --region $AWS_REGION)
     - docker pull $REPOSITORY_URL:latest || true
@@ -37,6 +38,7 @@ build:
     - docker
 
 test:
+  state: test
   script:
     - docker-compose up -d --build --force-recreate
     - bash bilbo path
@@ -47,6 +49,7 @@ test:
     - staging
 
 deploy:
+  stage: deploy
   script:
     - sh ecs-deploy.sh
   only:
