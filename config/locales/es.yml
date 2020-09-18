@@ -1,6 +1,6 @@
 es:
   error:
-    error_ocurrred: Parece que hemos tenido un error, favor de intentar mas tarde
+    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
   input:
     search: Buscar
     submit: Enviar
@@ -11,6 +11,7 @@ es:
   mailer:
     hi: Hola %{name}
   authentication:
+    social_media: Identificarme con redes sociales
     name: Nombre
     name_hint: Introduce tu Nombre
     project: Proyecto
