@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_193657) do
+ActiveRecord::Schema.define(version: 2020_09_18_201753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -214,10 +214,10 @@ ActiveRecord::Schema.define(version: 2020_09_08_193657) do
     t.time "start"
     t.time "end"
     t.integer "imp"
+    t.integer "day"
     t.bigint "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "day"
     t.index ["campaign_id"], name: "index_impression_hours_on_campaign_id"
   end
 
@@ -319,7 +319,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_193657) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-09-14 21:30:28"
+    t.datetime "expires_at", default: "2030-09-18 14:10:23"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -366,6 +366,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_193657) do
     t.datetime "locked_at"
     t.string "phone_number"
     t.boolean "banned", default: false
+    t.string "uid"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

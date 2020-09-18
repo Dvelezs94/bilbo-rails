@@ -28,3 +28,14 @@ Bilbo works as a multi-tenant application, which means you need to have a subdom
 ## Help
 
 1. `bilbo help`
+
+## Auto test on push
+
+You can set up auto testing before any push you make by placing the content below on your project path `.git/hooks/pre-push`
+
+``` bash
+#!/bin/bash
+
+bash bilbo test
+
+```
