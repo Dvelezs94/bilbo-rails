@@ -29,13 +29,18 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     assert_equal ["Gohan", @new_project_name], @user.projects.pluck(:name)
   end
 
-  test "can remove project but not last project" do
+  test "can remove project" do
     assert 2, @user.projects.count
     delete project_url(@user.projects.last)
 
     assert 1, @user.projects.count
-    # make sure the project doesn't get deleted
-    delete project_url(@user.projects.first)
+  end
+
+  test "cannot remove last project" do
+    sign_out :user
+    @user2 = create(:user, name: "Trunks" )
+    sign_in @user2
+    delete project_url(@user2.projects.first)
     assert 1, @user.projects.count
   end
 
