@@ -7,8 +7,6 @@ services:
       POSTGRES_PASSWORD: dbpass
 
   app:
-    build:
-      context: .
     image: 167732392816.dkr.ecr.us-east-1.amazonaws.com/bilbo:latest
     command: web
     volumes:

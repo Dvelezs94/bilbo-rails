@@ -11,6 +11,7 @@ es:
   mailer:
     hi: Hola %{name}
   authentication:
+    or: o
     name: Nombre
     name_hint: Introduce tu Nombre
     project: Proyecto
