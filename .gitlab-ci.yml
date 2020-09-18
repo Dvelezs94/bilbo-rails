@@ -12,7 +12,7 @@ services:
 - docker:dind
 
 before_script:
-  - apk add --no-cache curl jq py-pip python-dev gcc build-base
+  - apk add --no-cache curl jq py-pip python-dev build-base
   - pip install awscli ecs-deploy docker-compose
 
 stages:
