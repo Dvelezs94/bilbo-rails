@@ -21,11 +21,11 @@ before_script:
   - pip install awscli ecs-deploy docker-compose
 
 stages:
-  - build and test
+  - build_and_test
   - deploy
 
-build:
-  stage: build and deploy
+build_and_test:
+  stage: build_and_test
   script:
     - $(aws ecr get-login --no-include-email --region $AWS_REGION)
     - docker pull $REPOSITORY_URL:latest || true
@@ -38,10 +38,6 @@ build:
     - bilbo test
     - docker push $DOCKER_IMAGE_CI
     - docker push ${REPOSITORY_URL}:latest
-
-  only:
-    - master
-    - staging
   tags:
     - docker
 
