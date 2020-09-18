@@ -41,7 +41,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
     @user2 = create(:user, name: "Trunks" )
     sign_in @user2
     delete project_url(@user2.projects.first)
-    assert 1, @user.projects.count
+    assert 1, @user2.projects.count
   end
 
   test "deny access without log in" do
