@@ -65,7 +65,7 @@ function clear-tmp {
 }
 
 function test {
-  $BASE_NAME run rails test -f
+  docker-compose exec -T app rails test -f
 }
 
 function logs() {
