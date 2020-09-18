@@ -15,7 +15,7 @@ before_script:
   - docker info
   - apk update
   - apk upgrade
-  - apk add curl jq python python-dev py-pip build-base
+  - apk add python python-dev py-pip build-base
   - pip install awscli ecs-deploy docker-compose
 
 stages:
