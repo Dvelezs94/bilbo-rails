@@ -38,7 +38,7 @@ build:
     - docker
 
 test:
-  state: test
+  stage: test
   script:
     - docker-compose up -d --build --force-recreate
     - bash bilbo path
