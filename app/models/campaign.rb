@@ -40,6 +40,7 @@ class Campaign < ApplicationRecord
   # validates :ad, presence: true, on: :update
   validate :project_enabled?
   validate :state_change_time, on: :update,  if: :state_changed?
+  validate :check_user_verified, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
   validate :validate_ad_stuff, on: :update
   validate :test_for_valid_settings
@@ -50,6 +51,9 @@ class Campaign < ApplicationRecord
   after_commit :broadcast_to_all_boards
   after_commit :generate_shorten_url, on: :create
 
+  def owner
+    self.project.owner
+  end
 
   def generate_shorten_url
     shorten_link(analytics_campaign_url(slug))
@@ -202,6 +206,13 @@ class Campaign < ApplicationRecord
 
   def update_state_updated_at
     self.state_updated_at = Time.now
+  end
+
+  # make sure the owner of the project is verified when enabling a campaign
+  def check_user_verified
+    if self.project.owner.is_user? && !self.project.owner.verified
+      errors.add(:base, I18n.t('campaign.errors.verification_required'))
+    end
   end
 
   def cant_update_when_active
