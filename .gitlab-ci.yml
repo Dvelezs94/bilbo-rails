@@ -43,7 +43,7 @@ build_and_test:
     - docker
   only:
     - master
-    -staging
+    - staging
 
 deploy:
   stage: deploy
