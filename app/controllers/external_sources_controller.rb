@@ -6,7 +6,7 @@ class ExternalSourcesController < ApplicationController
 
     def configure
       # make sure the board exists before setting the cookies
-      if params[:mac_address].present? && Board.find_by(slug: params[:board_slug], access_token: params[:board_token], mac_address: params[:mac_address]).present?
+      if params[:mac_address].present? && Board.find_by(slug: params[:board_slug], access_token: params[:board_token], mac_address: params[:mac_address].downcase).present?
           cookies.permanent.signed[:board_slug] = params[:board_slug]
           cookies.permanent.signed[:board_token] = params[:board_token]
           cookies.permanent.signed[:mac_address] = params[:mac_address]
@@ -25,12 +25,12 @@ class ExternalSourcesController < ApplicationController
     # if the cookies exist, then redirect to board
     def verify_cookies
       if cookies.signed[:board_slug] && cookies.signed[:board_token] && cookies.signed[:mac_address]
-        if Board.find_by(slug: cookies.signed[:board_slug], access_token: cookies.signed[:board_token]).present?
+        if Board.find_by(slug: cookies.signed[:board_slug], access_token: cookies.signed[:board_token], mac_address: cookies.signed[:mac_address].downcase).present?
           redirect_to_board
         end
       elsif cookies.signed[:board_slug] && cookies.signed[:board_token]
         # even if the cookies are set, we need to make sure the board exists with those parameters
-        if Board.find_by(slug: cookies.signed[:board_slug], access_token: cookies.signed[:board_token], mac_address: cookies.signed[:mac_address]).present?
+        if Board.find_by(slug: cookies.signed[:board_slug], access_token: cookies.signed[:board_token]).present?
           redirect_to_board
         end
       end
