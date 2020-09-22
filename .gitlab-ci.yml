@@ -41,6 +41,9 @@ build_and_test:
     - docker push ${REPOSITORY_URL}:latest
   tags:
     - docker
+  only:
+    - master
+    - staging
 
 deploy:
   stage: deploy
@@ -51,3 +54,6 @@ deploy:
     - staging
   tags:
     - docker
+  only:
+    - master
+    - staging
