@@ -3,11 +3,11 @@ class NotificationMailer < ApplicationMailer
 
   def new_notification(user:, subject:, message:, link:, link_text:)
     recipient_email = user.email
-    recipient_name  = user.name
+    recipient_name  = user.name_or_email
 
     subject   = subject
     title     = subject
-    greeting  = subject
+    greeting  = t('mailer.hi', name: recipient_name)
     link      = link
     link_text = link_text
     message   = message

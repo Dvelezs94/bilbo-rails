@@ -41,6 +41,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Random data for seeds
   gem 'faker', '~> 2.13'
+  gem 'factory_bot_rails', '~> 6.1'
 end
 
 group :development do
@@ -121,7 +122,10 @@ gem 'font-ionicons-rails', '~> 2.0', '>= 2.0.1.6'
 gem 'blazer', '~> 2.2', '>= 2.2.6'
 # facebook pixel
 gem 'rack-tracker', '~> 1.12', '>= 1.12.1'
+#forms
+gem 'cocoon', '~> 1.2', '>= 1.2.9'
 # pwa
 gem 'serviceworker-rails', '~> 0.6.0'
 # impersonate as another user
 gem 'pretender', '~> 0.3.4'
+gem 'invisible_captcha', '~> 1.1'

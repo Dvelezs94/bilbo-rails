@@ -17,40 +17,38 @@
               %span#adName Ad Name
               / <a href="/" target="_blank" id=""> <i class="fe fe-link-external tx-20"></i> </a>
             %hr
-              %p
+              -if "#{@campaign.clasification}" == "per_hour"
+                %strong= t('campaign.wizard.campaign_hour')
                 %br
-                -if "#{@campaign.clasification}" == "per_hour"
-                  %strong= t('campaign.wizard.campaign_hour')
-                  %br
-                    %strong#impPerHour
+                %div#current_row_hours
+                  %div.d-none#hours_summary
+                    %strong.dayOfWeek
+                    %strong.impPerHour
                     %span= t('campaign.wizard.impressions_hour')
-                    %strong#timeStart
+                    %strong.timeStart
                     %span= t('campaign.wizard.to')
-                    %strong#timeEnd
+                    %strong.timeEnd
                     %i.fe.fe-clock
-                %end
-                -if "#{@campaign.clasification}" == "per_minute"
-                  %strong= t('campaign.wizard.campaign_minute') 
+              -if "#{@campaign.clasification}" == "per_minute"
+                %strong= t('campaign.wizard.campaign_minute')
+                %br
+                  %strong#perMinute
+                  %span= t('campaign.wizard.impressions')
+                  %strong#perMinuteEnd
+                  %span= t('campaign.wizard.minute')
+                  %i.fe.fe-clock
+              -if "#{@campaign.clasification}" == "budget"
+                %strong= t('campaign.wizard.daily_budget')
+                %br
+                  %span#dailyBudget
+                  %i.fe.fe-wallet
+              %hr
+                %p
+                  %strong Duracion de la campa&#xF1;a:
                   %br
-                    %strong#perMinute
-                    %span= t('campaign.wizard.impressions')
-                    %strong#perMinuteEnd
-                    %span= t('campaign.wizard.minute')
-                    %i.fe.fe-clock
-                %end
-                -if "#{@campaign.clasification}" == "budget"
-                  %strong= t('campaign.wizard.daily_budget') 
-                  %br
-                    %span#dailyBudget 
-                    %i.fe.fe-wallet
-                %end
-                %hr
-                  %p
-                    %strong Duracion de la campa&#xF1;a:
-                    %br
-                      %span#campaignStarts
-                      \-
-                      %span#campaignEnds
+                    %span#campaignStarts
+                    \-
+                    %span#campaignEnds
       .divider-text.divider-vertical{"data-text" => "and"} Preview
       .col-xl-5
         .modal-body.pd-x-25.pd-sm-x-30.pd-t-40.pd-sm-t-20.pd-b-15.pd-sm-b-20
@@ -62,4 +60,3 @@
             #carousel_wizard
               / javascript carousel_wizard
         / modal-body
-  

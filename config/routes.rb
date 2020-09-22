@@ -96,6 +96,7 @@ Rails.application.routes.draw do
         get :stop_impersonating
       end
       member do
+        post :toggle_ban
         put :update_credit
         put :increase_credits
         get :fetch
@@ -159,6 +160,7 @@ Rails.application.routes.draw do
   end
 
   get 'c/:id', to: "campaigns#shortened_analytics", as: "campaign_shortened"
+  get 's/:id', to: "shorteners#show", as: "shorten"
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
