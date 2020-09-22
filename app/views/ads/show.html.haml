@@ -2,10 +2,11 @@
 .filemgr-wrapper
   = render "ads/show_sidebar"
   #multimediaTab.filemgr-content
-    .filemgr-content-header.white-background
-      %i.fe.fe-search.pd-r-5.fnt-md
-      .search-form.w-25
+    .filemgr-content-header.white-background.d-flex.align-items-center.justify-content-between
+      .search-form.w-50p
+        %i.fe.fe-search.pd-r-5.fnt-md
         %input#searchMultimedia.form-control{:placeholder => t("general_inputs.search"), :type => "search"}/
+      .btn.btn-xs.btn-primary.d-block.d-sm-none{"data-toggle" => "modal", :href => "#modalUploadMultimedia"}= t("ads.upload_multimedia")
       / search-form
     / filemgr-content-header
     .filemgr-content-body
