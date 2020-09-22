@@ -10,6 +10,13 @@ en:
     description: Advertising spaces for businesses
   mailer:
     hi: Hi %{name}
+  main_wizard:
+    pending_items: Pending Items
+    upload_ad: Upload Ad
+    create_campaign: Create Campaign
+    verify_profile: Verify Profile
+    purchase_credits: Purchase Credits
+    hide_message: Hide message
   authentication:
     social_media: Sign in with social media
     already_exists_from_external_provider: A user with this %{provider} email already exists. Sign in with your email and password.

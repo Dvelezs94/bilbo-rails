@@ -10,6 +10,13 @@ es:
     description: Espacios publicitarios para negocios
   mailer:
     hi: Hola %{name}
+  main_wizard:
+    pending_items: Lista de Pendientes
+    upload_ad: Subir creativo
+    create_campaign: Crear campaña
+    verify_profile: Verifica tu perfil
+    purchase_credits: Comprar créditos
+    hide_message: Esconder mensaje
   authentication:
     social_media: Identificarme con redes sociales
     already_exists_from_external_provider: Ya existe un usuario con este email de %{provider}. Ingresa con tu email y contraseña de Bilbo.

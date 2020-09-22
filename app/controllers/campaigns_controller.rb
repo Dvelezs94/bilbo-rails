@@ -7,7 +7,11 @@ class CampaignsController < ApplicationController
   before_action :campaign_not_active, only: [:edit]
 
   def index
-
+    @created_ads = @project.ads.present?
+    @created_campaigns = @project.campaigns.present?
+    @purchased_credits = current_user.payments.present?
+    @verified_profile = current_user.verified
+    @show_hint = !(@created_ads && @created_campaigns && @purchased_credits && @verified_profile && @project.owned?(current_user.id) && current_user.is_user?)
   end
 
   def provider_index
