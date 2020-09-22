@@ -46,7 +46,7 @@ class User < ApplicationRecord
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0,20]
-      user.name = auth.info.name   # assuming the user model has a name
+      user.name = auth.info.name
       user.project_name = auth.info.name
     end
   end
@@ -124,7 +124,7 @@ class User < ApplicationRecord
   end
 
   def add_credits(total)
-    if self.is_user? && self.verified && (total.to_i >= 50)
+    if self.is_user? && (total.to_i >= 50)
       self.increment!(:balance, by = total.to_i)
       SlackNotifyWorker.perform_async("El usuario #{self.email} ha comprado #{total.to_i} créditos")
     else
