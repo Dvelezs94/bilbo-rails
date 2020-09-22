@@ -1,6 +1,6 @@
 class PaymentsController < ApplicationController
   access user: :all
-  before_action :user_verified_for_purchase?, only: [:create, :express]
+  # before_action :user_verified_for_purchase?, only: [:create, :express]
   before_action :verify_user_credit_limit, only: [:create, :express]
   include ApplicationHelper
   def express
@@ -48,9 +48,6 @@ class PaymentsController < ApplicationController
     else
       flash[:error] = I18n.t("payments.purchase_error")
     end
-    #else
-    #  flash[:error] = "Debes utilizar una cuenta de paypal verificada"
-    #end
     redirect_to root_path
   end
 
