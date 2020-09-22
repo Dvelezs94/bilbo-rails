@@ -12,7 +12,7 @@ en:
     hi: Hi %{name}
   main_wizard:
     pending_items: Pending Items
-    upload_ad: Upload Ad
+    upload_ad: Upload creative
     create_campaign: Create Campaign
     verify_profile: Verify Profile
     purchase_credits: Purchase Credits

@@ -210,7 +210,7 @@ class Campaign < ApplicationRecord
 
   # make sure the owner of the project is verified when enabling a campaign
   def check_user_verified
-    if self.project.owner.is_user? && !self.project.owner.verified
+    if owner.is_user? && !owner.verified
       errors.add(:base, I18n.t('campaign.errors.verification_required'))
     end
   end
