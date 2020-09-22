@@ -216,3 +216,23 @@ details[open] summary:after {
 .no-outline-focus:focus {
   outline: none;
 }
+
+.bottom-right {
+     position: fixed;
+     bottom: 10px;
+     right: 10px;
+}
+
+.card-link-underline {
+  color: white;
+  font-size: 11px;
+  text-decoration-line: underline;
+  font-weight: 200;
+} .card-link-underline:hover {
+  color: white;
+}
+
+.hr-border-white {
+  opacity: 30%;
+  border-bottom: 0.5px solid white !important;
+}

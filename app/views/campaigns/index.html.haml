@@ -59,4 +59,7 @@
             = t("campaign.new_campaign")
   / container
 / content
+- if @show_hint
+  = render partial: "notifications/missing_steps"
+  = render partial: "ads/new"
 = render partial: "campaigns/new"
