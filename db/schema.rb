@@ -211,6 +211,17 @@ ActiveRecord::Schema.define(version: 2020_09_11_165453) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "impression_hours", force: :cascade do |t|
+    t.time "start"
+    t.time "end"
+    t.integer "imp"
+    t.integer "day"
+    t.bigint "campaign_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id"], name: "index_impression_hours_on_campaign_id"
+  end
+
   create_table "impressions", force: :cascade do |t|
     t.bigint "campaign_id"
     t.bigint "board_id"
@@ -306,6 +317,14 @@ ActiveRecord::Schema.define(version: 2020_09_11_165453) do
     t.index ["project_id"], name: "index_reports_on_project_id"
   end
 
+  create_table "shorteners", force: :cascade do |t|
+    t.string "target_url"
+    t.string "token"
+    t.datetime "expires_at", default: "2030-09-19 20:49:52"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "user_activities", force: :cascade do |t|
     t.string "activity"
     t.integer "activeness_id"
@@ -347,6 +366,8 @@ ActiveRecord::Schema.define(version: 2020_09_11_165453) do
     t.integer "failed_attempts", default: 0, null: false
     t.datetime "locked_at"
     t.string "phone_number"
+    t.boolean "banned", default: false
+    t.string "uid"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
@@ -385,6 +406,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_165453) do
   add_foreign_key "campaign_subscribers", "campaigns"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "projects"
+  add_foreign_key "impression_hours", "campaigns"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
   add_foreign_key "invoices", "payments"

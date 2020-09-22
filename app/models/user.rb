@@ -13,11 +13,12 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :confirmable, :invitable, :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :lockable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
 
   validates :email, presence: true, format: Devise.email_regexp
+  validates :name, format: { :with => /\A[^0-9`!@#\$%\^&*+_=]+\z/, multiline: false, message: 'Invalid name' }
   has_many :boards
   # project related methods
   has_many :project_users, dependent: :destroy
@@ -31,6 +32,24 @@ class User < ApplicationRecord
   has_one_attached :avatar
   attr_readonly :email
   has_many :verifications
+
+  # omniauth functions
+  def self.new_with_session(params, session)
+    super.tap do |user|
+      if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
+        user.email = data["email"] if user.email.blank?
+      end
+    end
+  end
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0,20]
+      user.name = auth.info.name
+      user.project_name = auth.info.name
+    end
+  end
 
   # returns a hash of total prints per day, WITHOUT grouping the boards
   # def total_board_impressions(start = 4.weeks.ago)
@@ -47,6 +66,11 @@ class User < ApplicationRecord
   # get current month impressions * impression price
   def current_month_earnings(time_range = 30.days.ago..Time.now)
     Board.last.monthly_earnings(time_range)
+  end
+
+  # make sure to log in if user is not banned
+  def active_for_authentication?
+    super and !self.banned?
   end
 
   # provider methods
@@ -78,8 +102,29 @@ class User < ApplicationRecord
     role == :user
   end
 
+  # get enabled projects that the user owns
+  def owned_projects
+    Project.where(id: project_users.where(role: "owner").pluck(:id)).enabled
+  end
+
+  def owner_project
+    self.project_users.where(role: "owner")
+  end
+
+  def toggle_ban!
+    if self.banned?
+      update_attribute :banned, false
+      @status = "enabled"
+    else
+      update_attribute :banned, true
+      @status = "disabled"
+    end
+    @project_ids = ProjectUser.where(user_id: id, role: "owner").pluck(:project_id)
+    self.projects.where(id: [@project_ids]).update(status: @status)
+  end
+
   def add_credits(total)
-    if self.is_user? && self.verified && (total.to_i >= 50)
+    if self.is_user? && (total.to_i >= 50)
       self.increment!(:balance, by = total.to_i)
       SlackNotifyWorker.perform_async("El usuario #{self.email} ha comprado #{total.to_i} créditos")
     else
@@ -122,7 +167,7 @@ class User < ApplicationRecord
     bc.each do |obj|
       brd = obj.board
       camp = obj.camp
-      err = brd.update_ads_rotation(camp, true)
+      err = brd.broadcast_to_board(camp, true)
     end
   end
   private

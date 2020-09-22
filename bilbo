@@ -63,6 +63,11 @@ function path {
 function clear-tmp {
   $BASE_NAME run rails tmp:cache:clear
 }
+
+function test {
+  docker-compose exec -T app rails test -f
+}
+
 function logs() {
   docker-compose logs -f --tail=50
 }
@@ -115,6 +120,9 @@ case $1 in
   ;;
   seed)
     seed
+  ;;
+  test)
+    test
   ;;
   expose)
     expose
