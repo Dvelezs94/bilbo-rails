@@ -13,11 +13,12 @@
             <div class="pd-20">
               <%= form_with(url: express_payment_path, method: :post, :html => { data: { parsley_validate: true } }, local: false) do |f| %>
               <span class="tx-13 tx-color-03 mg-b-0"><%= t("payments.daily_credit_limit", credit_limit: current_user.credit_limit) %></span>
-              <div class="form-group">
+              <div class="form-group tx-right">
                 <%= f.text_field :total, class: "form-control input-number_integer", placeholder: "500", required: true, min: "50", max: current_user.credit_limit %>
+                <a href="https://bilbo.freshdesk.com/support/tickets/new" target="_blank" class="tx-13 mg-b-0"><%= t('payments.request_limit_increase') %></a>
               </div>
 
-              <div class="actions col-sm-12 col-md-6 m-auto">
+              <div class="actions">
                 <%= button_tag type: 'submit', class: "btn btn-outline-paypal btn-block", data: { disable_with: t("general_inputs.please_wait") } do %>
                     <i class="fa fa-paypal" aria-hidden="true"></i> <%= t("general_inputs.pay_with") %> Paypal
                 <% end %>
