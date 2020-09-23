@@ -1,6 +1,6 @@
 es:
   error:
-    error_ocurrred: Parece que hemos tenido un error, favor de intentar mas tarde
+    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
   input:
     search: Buscar
     submit: Enviar
@@ -8,7 +8,18 @@ es:
   go_to_home: Ir al Inicio
   meta_tags:
     description: Espacios publicitarios para negocios
+  mailer:
+    hi: Hola %{name}
+  main_wizard:
+    pending_items: Lista de Pendientes
+    upload_ad: Subir creativo
+    create_campaign: Crear campaña
+    verify_profile: Verifica tu perfil
+    purchase_credits: Comprar créditos
+    hide_message: Esconder mensaje
   authentication:
+    social_media: Identificarme con redes sociales
+    already_exists_from_external_provider: Ya existe un usuario con este email de %{provider}. Ingresa con tu email y contraseña de Bilbo.
     name: Nombre
     name_hint: Introduce tu Nombre
     project: Proyecto
@@ -99,6 +110,7 @@ es:
     width: Largo
     height: Alto
   campaign:
+    add_schedule: Agregar Horario
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
@@ -108,6 +120,7 @@ es:
     review: Pausar campaña
     campaigns: Campañas
     home: Inicio
+    enable_campaigns: Habilitar campañas
     to_active: La campaña se ha activado
     accepted: La campaña se ha aceptado
     to_inactive: La campaña se ha desactivado
@@ -208,6 +221,7 @@ es:
       no_save: La campaña no ha podido guardarse
       not_accepted: La campaña no ha podido aceptarse
       no_images: Tu creativo no cuenta con imágenes para correr en los bilbos que no admiten video
+      verification_required: Verifica tu perfil para activar tu campaña
     action:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente
@@ -296,6 +310,7 @@ es:
       minute_campaign_space: No hay espacio para la campaña por minutos %{campaign_name} en el bilbo %{bilbo_name}
       budget_campaign_space: No hay espacio para la campaña por presupuesto %{campaign_name} en el bilbo %{bilbo_name}
       duration_is_not_ten: El bilbo %{name} no admite campañas por minuto porque la duracion de los anuncios es diferente de diez segundos
+      overlapping_schedules: Los horarios %{n1} y %{n2} de esta campaña se traslapan. Realiza los cambios necesarios e intenta nuevamente
     search:
       location: Ubicación
       classification: Clasificación
@@ -332,11 +347,13 @@ es:
   payments:
     if_it_doesnt_redirect: Si no lo redirige en 5 segundos, haga click
     processing_order: Procesando la orden...
-    buy_credits: Comprar Créditos
+    buy_credits: Comprar creditos
+    verify_account: Verificar mi Cuenta
     credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiración. 1 crédito equivale a $1 MXN.
     credit_limit: Límite de compra de créditos superada
     daily_credit_limit: Tu límite de compra diario es de %{credit_limit} créditos
-    verification_needed: Necesitas un perfil verificado para poder comprar créditos. Responde la encuesta debajo o haz click en la siguiente liga para verificar tu cuenta.
+    verification_text: Para que una cuenta pueda habilitar sus campañas publicitarias primero debe verificar su perfil. Esto es para verificar la identidad del comprador y la legitimidad del contenido a mostrar en los medios.
+    verification_needed: Si tienes dudas de como verificar tu cuenta o si deseas hablar con un representante. Por favor dirigete al siguiente link
     require_invoices: Si requieres que se emitan facturas para tus campañas llena los datos fiscales. Para más información haz click en la siguiente liga.
     campaign_billing_works: Cómo funciona la facturación de Campañas
     fiscal_data: DATOS FISCALES
@@ -533,5 +550,15 @@ es:
     contact: Contacto.
     conditions: Recibiste este email porque te registraste a Bilbo.mx y aceptaste recibir correos electrónicos de nosotros sobre notificaciones y noticias.
     home: Inicio
+  week_days:
+    mon: Lunes
+    tue: Martes
+    wed: Miércoles
+    thu: Jueves
+    fri: Viernes
+    sat: Sábado
+    sun: Domingo
+    everyday: Todos los días
+    days: Días
   validations:
     only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 525577883344"

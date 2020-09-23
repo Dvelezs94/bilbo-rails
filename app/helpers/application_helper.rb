@@ -17,7 +17,7 @@ module ApplicationHelper
     end
     number_to_phone(phone.last(10), country_code: phone.first(2))
   end
-  
+
   def url_from_media(media)
     if Rails.env.production?
       "https://#{ENV.fetch('CDN_HOST')}/#{media.blob.key}"
@@ -56,16 +56,30 @@ module ApplicationHelper
   end
 
   def get_image_size_from_metadata(image)
-    if image.metadata[:height].present?
-      image.metadata
-    else
-      ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
+    begin
+      if image.metadata[:height].present?
+        image.metadata
+      else
+        ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
+      end
+    # this is a fix for images that cannot be analyzed, like webp images
+    rescue
+      meta = {}
+      meta[:height] = 0
+      meta[:width] = 0
+      meta
     end
+  end
+
+  # remove non valid characters for SMS like ñ, á, etc... and replace with similar
+  # versions like ñ => n, á => a, etc..
+  def convert_message_to_sms_format(msg)
+    return I18n.transliterate("[Bilbo]#{msg}")
   end
 
   def send_sms(phone_number, message)
     if phone_number.present? && message.present?
-      SNS.publish(phone_number: phone_number, message: message)
+      SNS.publish(phone_number: phone_number, message: convert_message_to_sms_format(message))
     end
   end
 end

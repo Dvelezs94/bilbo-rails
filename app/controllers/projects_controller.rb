@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   include CookiesProject
   access user: :all
-  before_action :set_current_project, only: :destroy
+  before_action :set_selected_project, only: :destroy
   before_action :verify_identity, only: [:update]
   before_action :validate_owner, only: :destroy
   before_action :validate_project_count, only: :destroy
@@ -16,17 +16,17 @@ class ProjectsController < ApplicationController
 
     if @new_project.save
       flash[:success] = I18n.t('projects.successfully_created')
+      change_project_cookie(@new_project.slug)
     else
-      flash[:error] = I18n.t('error.error_ocurrred')
+      flash[:error] = @new_project.errors.full_messages.to_sentence
     end
-    change_project_cookie(@new_project.slug)
     redirect_to root_url()
   end
 
   def destroy
     # attempt to stop all campaigns before deleting (disabling) the project
-    if @current_project.campaigns.update_all(state: false)
-      @current_project.update(status: "disabled")
+    if @selected_project.campaigns.update(state: false)
+      @selected_project.update(status: "disabled")
       respond_to do |format|
         format.html { flash[:success] = I18n.t('projects.deleted_project')
           redirect_to(after_sign_in_path_for(current_user)) }
@@ -44,19 +44,19 @@ class ProjectsController < ApplicationController
     params.require(:project).permit(:name)
   end
 
-  def set_current_project
-    @current_project = current_user.projects.friendly.find(params[:id])
+  def set_selected_project
+    @selected_project = current_user.projects.friendly.find(params[:id])
   end
 
   def validate_owner
-    raise_not_found if not @current_project.owned?(current_user.id)
+    raise_not_found if not @selected_project.owned?(current_user.id)
   end
 
   # make sure the user doesn't delete his/her last project
   def validate_project_count
-    if current_user.project_users.where(role: "owner").count == 1
+    if current_user.owned_projects.count == 1
       flash[:error] = I18n.t('projects.could_not_delete')
-      redirect_to root_path
+      redirect_to projects_path
     end
   end
 end

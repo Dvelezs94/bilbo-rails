@@ -1,6 +1,7 @@
 class CampaignSubscriber < ApplicationRecord
-  include ApplicationHelper
   include Rails.application.routes.url_helpers
+  include ShortenerHelper
+  include ApplicationHelper
   include ActionView::Helpers
   # campaign subscribers are people that will get SMS/Whatsapp messages with
   # notifications regarding their referenced campaign
@@ -22,6 +23,6 @@ class CampaignSubscriber < ApplicationRecord
   end
 
   def send_welcome_sms
-    send_sms(phone, "Te han registrado para la campana en bilbo #{truncate(campaign.name, length: 10)} link: #{campaign_shortened_url(campaign.analytics_token)}")
+    send_sms(phone, "Te han registrado para la campaña #{truncate(campaign.name, length: 18)} link: #{shorten_link(analytics_campaign_url(campaign.slug))}")
   end
 end
