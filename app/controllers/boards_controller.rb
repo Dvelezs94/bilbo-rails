@@ -153,7 +153,6 @@ class BoardsController < ApplicationController
     end
   end
 
-
   private
 
   def board_params
@@ -208,15 +207,17 @@ class BoardsController < ApplicationController
 
   #validate access token when trying to access a board
   def restrict_access
+    board_access_token = Board.find_by_access_token(params[:access_token])
     if @board.mac_address.present?
-      board_access_token = Board.find_by_access_token(params[:access_token].downcase)
-      #board_mac_address = Board.find_by_access_token(params[:mac_address])
-      board_mac_address = params[:mac_address].downcase
-      redirect_to "#{"/404"}" unless (board_mac_address == @board.mac_address) && (board_access_token == @board)
+      if params[:mac_address].present?
+        board_mac_address = params[:mac_address].downcase
+        redirect_to root_path unless (board_mac_address == @board.mac_address) && (board_access_token == @board)
+      else
+        redirect_to root_path
+      end
     else
-      board_access_token = Board.find_by_access_token(params[:access_token])
       redirect_to root_path unless board_access_token == @board
-  end
+    end
   end
 
   def get_board
