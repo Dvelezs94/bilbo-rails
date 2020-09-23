@@ -69,8 +69,8 @@ class Notification < ApplicationRecord
       when "new invite"
         { url: analytics_campaign_url(notifiable.id),
           url_string: I18n.t("#{translation}.url_string"),
-          message: I18n.t("#{translation}.message", user_name: reference.email),
-         subject: I18n.t("#{translation}.subject", user_name: reference.email) }
+          message: I18n.t("#{translation}.message", user_name: reference.name_or_email),
+         subject: I18n.t("#{translation}.subject", user_name: reference.name_or_email) }
       when "invite removed"
         { url: analytics_campaign_url(notifiable.id),
           url_string: I18n.t("#{translation}.url_string"),

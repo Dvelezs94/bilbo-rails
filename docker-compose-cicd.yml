@@ -1,0 +1,32 @@
+version: '3'
+services:
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dbpass
+
+  app:
+    image: 167732392816.dkr.ecr.us-east-1.amazonaws.com/bilbo:latest
+    command: web
+    volumes:
+      - .:/home/bilbo/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  sidekiq:
+    image: 167732392816.dkr.ecr.us-east-1.amazonaws.com/bilbo:latest
+    command: sidekiq
+    depends_on:
+      - redis
+      - db
+      - app
+    volumes:
+      - .:/home/bilbo/app
+    env_file:
+      - .env
+
+  redis:
+    image: redis

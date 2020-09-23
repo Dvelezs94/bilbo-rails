@@ -1,7 +1,24 @@
 require 'test_helper'
 
 class ProjectTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  setup do
+    @project_name = "Number Seventeen"
+    @project = create(:project, name: @project_name)
+  end
+
+  test "has name" do
+    assert_equal @project_name, @project.name
+  end
+
+  test "cannot use invalid name" do
+    assert_raise(ActiveRecord::RecordInvalid) do
+      create(:project, name: "www")
+    end
+    assert_not @project.update(name: "hello this is https://mynewproject.com")
+  end
+
+  test "can disable project" do
+    assert @project.disabled!
+    assert_equal "disabled", @project.status
+  end
 end
