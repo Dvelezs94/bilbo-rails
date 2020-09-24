@@ -319,6 +319,10 @@ en:
       min_height: Min height. (mts)
   ads:
     ads: Creatives
+    name: Name
+    description: Description
+    duration: Duration
+    duration_hint: Specify the minimum duration for the multimedia on your bilbos
     new_ad: New creative
     upload_multimedia: Upload Multimedia
     all_multimedia_files: All Multimedia Files
@@ -342,6 +346,7 @@ en:
     errors:
       wont_be_able_to_delete: This creative can't be deleted because of active campaigns
       wont_be_able_to_update: This creative can't be updated because of active campaigns
+      is_not_multiple_of_10: Duration is not multiple of 10
     new_ad_description: Create a new amazing and beautiful creative for your campaigns
     No_ad: No creative
   payments:
