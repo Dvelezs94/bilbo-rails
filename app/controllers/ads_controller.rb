@@ -20,7 +20,10 @@ class AdsController < ApplicationController
         format.html { redirect_to @ad, notice: 'Ad was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "show" }
+        format.html {
+          flash[:error] = @ad.errors.full_messages.to_sentence
+          render action: "show"
+        }
         format.json { render json: @ad.errors, status: :unprocessable_entity }
       end
     end

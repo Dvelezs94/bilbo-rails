@@ -11,6 +11,7 @@ class Ad < ApplicationRecord
   enum status: { active: 0, deleted: 1 }
   enum transition: { no_transition: 0, fadeInDown: 1, fadeInUp: 2, fadeInLeft: 3, fadeInRight: 4}
   validate :project_enabled?
+  validate :campaigns_off, on: :update
   validates :name, presence: true
   validates :multimedia, content_type: ["image/png", "image/jpeg", "video/mp4"]
   validate :duration_multiple_of_10, if: :duration_changed?
@@ -46,6 +47,13 @@ class Ad < ApplicationRecord
   def duration_multiple_of_10
     if (duration % 10) != 0
       errors.add(:base, I18n.t('ads.errors.is_not_multiple_of_10'))
+    end
+  end
+
+  # make sure the campaigns are disabled before updating the ad params
+  def campaigns_off
+    if !self.campaigns.all_off
+      errors.add(:base, I18n.t('ads.errors.wont_be_able_to_update'))
     end
   end
 
