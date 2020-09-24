@@ -180,7 +180,7 @@ module AdRotationAlgorithm
        value[1] = fi
        value[2] = la
 
-       roi = (fi...la).to_a
+       roi = (fi...la-ad_duration/10+1).to_a
 
        roi.shuffle!
        c = 0
@@ -193,13 +193,10 @@ module AdRotationAlgorithm
                 return err
                 break
             end
-            if output[ roi[pos] ] == '-'
-              success, roi_l, roi_r  = check_space(output, roi[pos], ad_duration)
-              if success
-                c+=1
-                output[roi_l] = name
-                output[roi_l+1..roi_r] = ["."]*(ad_duration/10 - 1)
-              end
+            if output[ roi[pos]...roi[pos]+ad_duration/10 ] == ["-"]*(ad_duration/10)
+              c+=1
+              output[roi[pos]] = name
+              output[roi[pos]+1...roi[pos]+ad_duration/10] = ["."]*(ad_duration/10 - 1)
             else
                 val = output[roi[pos]]
                 first = h_cps[val][1]
