@@ -5,8 +5,8 @@ module AdRotationAlgorithm
     err = []
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
 
-    if new_campaign.minutes.present? and self.duration != 10
-      err << I18n.t("bilbos.ads_rotation_error.duration_is_not_ten", name: self.name)
+    if new_campaign.minutes.present? and new_campaign.ad.duration > 60
+      err << I18n.t("bilbos.ads_rotation_error.duration_exceeds_60", name: self.name)
       return err
 
     elsif new_campaign.minutes.present?
@@ -187,7 +187,7 @@ module AdRotationAlgorithm
        pos = 0
        while c < reps do
 
-            if fi==la || roi[pos].nil?
+            if pos+fi==la || roi[pos].nil?
                 id = name.split('/')[0].to_i
                 err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
                 return err
@@ -201,6 +201,7 @@ module AdRotationAlgorithm
                 val = output[roi[pos]]
                 first = h_cps[val][1]
                 last = h_cps[val][2]
+                ad_duration2 = h_cps[val][3]
                 aux = output[first...last].index('-')
                 if aux.nil?
                   id = name.split('/')[0].to_i
@@ -213,7 +214,6 @@ module AdRotationAlgorithm
                   output[roi[pos]] = name
                 end
             end
-            fi+=1
             pos+=1
        end
     end
