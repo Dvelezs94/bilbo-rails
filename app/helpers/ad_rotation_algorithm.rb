@@ -31,8 +31,8 @@ module AdRotationAlgorithm
            return err
         end
         wm = working_minutes(start_t, end_t)
-        if reps > (wm * 60/self.duration).to_i
-          err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (60*wm/self.duration).to_i)
+        if reps > (wm*60/new_campaign.ad.duration).to_i
+          err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (wm*60/new_campaign.ad.duration).to_i)
           return err
         end
       end
@@ -105,16 +105,16 @@ module AdRotationAlgorithm
         output << '-'       # array with only bilbo
     end                     # ads
 
-    r_cps_first = self.campaigns.where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
+    r_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
     r_cps = r_cps_first.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     r_cycles = []
 
-    per_time_cps_first = self.campaigns.where(provider_campaign: true).where.not(minutes: nil,imp: nil).to_a.select{ |c| c.should_run?(self.id) }
+    per_time_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true).where.not(minutes: nil,imp: nil).to_a.select{ |c| c.should_run?(self.id) }
     per_time_cps = per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
     h_cps_first = []
 
-    self.campaigns.where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
+    self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
       c.impression_hours.each do |cpn|
         if cpn.day == "everyday" || cpn.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
           h_cps_first.append(cpn)
@@ -153,7 +153,7 @@ module AdRotationAlgorithm
     h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
       h_cps_first[idx][:campaign_id] = name
-      h_cps[name] = [c.imp,c.start,c.end]
+      h_cps[name] = [c.imp,c.start,c.end, c.ad.duration]
     end
     h_cps = sort_by_min_time(h_cps)
 
@@ -173,31 +173,35 @@ module AdRotationAlgorithm
        reps = value[0]
        start_t = value[1]
        end_t = value[2]
-       fi = (working_minutes(start_time,start_t,true)*60/self.duration).to_i
-       la = (working_minutes(start_time,end_t,true)*60/self.duration).to_i
+       ad_duration = value[3]
+       fi = (working_minutes(start_time,start_t,true)*6).to_i
+       la = (working_minutes(start_time,end_t,true)*6).to_i
 
        value[1] = fi
        value[2] = la
 
-       free = (fi...la).to_a
+       roi = (fi...la).to_a
 
-       free.shuffle!
+       roi.shuffle!
        c = 0
        pos = 0
        while c < reps do
 
-            if fi==la || free[pos].nil?
+            if fi==la || roi[pos].nil?
                 id = name.split('/')[0].to_i
                 err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
                 return err
                 break
             end
-            if output[free[pos]] == '-'
+            if output[ roi[pos] ] == '-'
+              success, roi_l, roi_r  = check_space(output, roi[pos], ad_duration)
+              if success
                 c+=1
-                output[free[pos]] = name
+                output[roi_l] = name
+                output[roi_l+1..roi_r] = ["."]*(ad_duration/10 - 1)
+              end
             else
-
-                val = output[free[pos]]
+                val = output[roi[pos]]
                 first = h_cps[val][1]
                 last = h_cps[val][2]
                 aux = output[first...last].index('-')
@@ -209,7 +213,7 @@ module AdRotationAlgorithm
                 else
                   output[aux+first] = val
                   c+=1
-                  output[free[pos]] = name
+                  output[roi[pos]] = name
                 end
             end
             fi+=1
@@ -312,6 +316,24 @@ module AdRotationAlgorithm
 
   private
   ############# HELP FUNCTIONS #########################
+  def check_space(output, idx, duration)
+    spaces_needed = duration/10
+    padding_right = -1
+    padding_left = 0
+    (spaces_needed).times do |counter|
+      break if output[idx+counter] != "-"
+      padding_right+=1
+    end
+    (spaces_needed-1).times do |counter|
+      break if output[idx-1-counter] != "-"  || padding_right - padding_left == spaces_needed || idx-1-counter < 0
+      padding_left-=1
+    end
+    if padding_right - padding_left == spaces_needed -1
+      return true, idx + padding_left, idx + padding_right
+    else
+      return false, 0 , 0
+    end
+  end
 def sort_by_max_repetitions(hash)
     hash.sort_by {|key, value| -value[0]/value[1]}
     return hash
