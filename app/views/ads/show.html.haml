@@ -36,13 +36,20 @@
           .pd-0
             = form_for(@ad) do |f|
               .form-group
-                = f.label :name
+                = f.label t("ads.name")
                 %br/
                 = f.text_field :name, class: "form-control", required: true
               .form-group
-                = f.label :description
+                = f.label t("ads.description")
                 %br/
                 = f.text_area :description, class: "form-control"
+              - if current_user.is_provider?
+                .form-group
+                  = f.label t("ads.duration")
+                  %br/
+                  %span.tx-13.tx-color-03.mg-b-0
+                    = t("ads.duration_hint")
+                  = f.number_field :duration, min: 10, max: 60, step: 10, required: true, class: "form-control"
               .form-group
                 = link_to raw("<i class='fe fe-trash'></i> " + t("ads.delete_ad")), ad_path(@ad), method: :delete, class: "tx-danger tx-15 confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
               .actions

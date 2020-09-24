@@ -12,8 +12,8 @@ class Ad < ApplicationRecord
   enum transition: { no_transition: 0, fadeInDown: 1, fadeInUp: 2, fadeInLeft: 3, fadeInRight: 4}
   validate :project_enabled?
   validates :name, presence: true
-
   validates :multimedia, content_type: ["image/png", "image/jpeg", "video/mp4"]
+  validate :duration_multiple_of_10, if: :duration_changed?
   #this is executed when user is trying to delete the ad
   validate :check_if_can_delete, if: :status_changed_to_deleted?
   #this is executed when the ad update the multimedia
@@ -40,6 +40,12 @@ class Ad < ApplicationRecord
       return true
     else
       return false
+    end
+  end
+
+  def duration_multiple_of_10
+    if (duration % 10) != 0
+      errors.add(:base, I18n.t('ads.errors.is_not_multiple_of_10'))
     end
   end
 

@@ -73,7 +73,7 @@ class AdsController < ApplicationController
 
   private
   def ad_params
-    params.require(:ad).permit(:name, :description).merge(:project_id => @project.id)
+    params.require(:ad).permit(:name, :description, :duration).merge(:project_id => @project.id)
   end
 
   def get_ads
