@@ -322,7 +322,7 @@ en:
     name: Name
     description: Description
     duration: Duration
-    duration_hint: Specify the minimum duration for the multimedia on your bilbos
+    duration_hint: Set the minimum duration for images and videos on your bilbos
     new_ad: New creative
     upload_multimedia: Upload Multimedia
     all_multimedia_files: All Multimedia Files

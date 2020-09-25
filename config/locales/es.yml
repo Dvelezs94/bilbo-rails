@@ -324,7 +324,7 @@ es:
     name: Nombre
     description: Descripción
     duration: Duración
-    duration_hint: Especifica la duración mínima de la multimedia para tus bilbos
+    duration_hint: Especifica la duración mínima de las imágenes y videos para tus bilbos
     new_ad: Nuevo creativo
     upload_multimedia: Subir Archivos
     all_multimedia_files: Todos los Archivos Multimedia
