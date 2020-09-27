@@ -309,6 +309,7 @@ en:
       budget_campaign_space: There is no space for the budget campaign %{campaign_name} in the bilbo %{bilbo_name}
       duration_is_not_ten: The bilbo %{name} doesn't allow campaings per minute because the ad duration is different from ten seconds
       duration_exceeds_60: The ad duration can't exceed 60 seconds
+      ad_duration_less_than_required: The ad duration is invalid for bilbo %{name}
       overlapping_schedules: Schedules %{n1} and %{n2} of this campaign overlap. Make the necesssary changes and try again
     search:
       location: Location
