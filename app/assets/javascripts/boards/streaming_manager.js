@@ -128,7 +128,7 @@
          showBilboAd();
          check_next_campaign_ads_present();
        }
-       else {
+       else if (chosen != "."){
          hideBilboAd();
          //hide the old ad and pause it if its video
          if (typeof newAd !== 'undefined') {
@@ -184,7 +184,7 @@
      function check_next_campaign_ads_present() {
         //check if next campaign has ads to download them
        next_chosen = (rotation_key >= ads.length)?  ads[0] : ads[rotation_key+1];
-       if (next_chosen != "-"){
+       if (next_chosen != "-" && next_chosen != "."){
          nextAdLength = $('[data-campaign-id="' + next_chosen + '"]').length;
          if (nextAdLength == 0) {
            console.log("next campaign with id "+next_chosen+" has no ads, requesting them");
