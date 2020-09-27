@@ -311,6 +311,7 @@ es:
       budget_campaign_space: No hay espacio para la campaña por presupuesto %{campaign_name} en el bilbo %{bilbo_name}
       duration_is_not_ten: El bilbo %{name} no admite campañas por minuto porque la duración de los anuncios es diferente de diez segundos
       duration_exceeds_60: La duración del anuncio no puede ser mayor a 60 segundos
+      ad_duration_less_than_required: La duración del anuncio es inválida en el bilbo %{name}
       overlapping_schedules: Los horarios %{n1} y %{n2} de esta campaña se traslapan. Realiza los cambios necesarios e intenta nuevamente
     search:
       location: Ubicación
