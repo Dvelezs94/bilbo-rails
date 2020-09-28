@@ -19,7 +19,7 @@ class CampaignSubscriber < ApplicationRecord
   private
   # allow a maximum of 3 subscribers per campaign
   def max_number_of_subscribers
-    errors.add(:base, "#{I18n.t('campaign.subscribers.maximum_number_reached')}") if self.campaign.subscribers.count >= 3
+    errors.add(:base, "#{I18n.t('campaign.subscribers.maximum_number_reached')}") if self.campaign.subscribers.count >= 5
   end
 
   def send_welcome_sms
