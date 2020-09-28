@@ -77,7 +77,7 @@ class CampaignsController < ApplicationController
   def update
     current_user.with_lock do
       respond_to do |format|
-        if @campaign.update(campaign_params.merge(owner_updated_campaign: true))
+        if @campaign.update(campaign_params.merge(state: is_state, owner_updated_campaign: true))
           track_activity( action: "campaign.campaign_updated", activeness: @campaign)
           # Create a notification per project
           @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
@@ -190,6 +190,23 @@ class CampaignsController < ApplicationController
     if @campaign.state
       flash[:error] = I18n.t('campaign.errors.cant_update_when_active')
       redirect_back fallback_location: root_path
+    end
+  end
+
+  # sets the campaign state automatically
+  def is_state
+    if current_user.is_user?
+      # if owner is verified, then enable campaign automatically
+      if @campaign.owner.verified
+        true
+      else
+        false
+      end
+    # always enable campaigns automatically by providers
+    elsif current_user.is_provider?
+      return true
+    else
+      return false
     end
   end
 end

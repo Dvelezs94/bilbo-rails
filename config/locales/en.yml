@@ -296,6 +296,7 @@ en:
     minute: Minute
     social_class: Clasification
     view_campaigns: View Campaigns
+    mac_address: MAC address
     ads_rotation_error:
       max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time
@@ -343,6 +344,7 @@ en:
     new_ad_description: Create a new amazing and beautiful creative for your campaigns
     No_ad: No creative
   payments:
+    request_limit_increase: Request limit increase
     if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
     processing_order: Processing order...
     buy_credits: Purchase credits

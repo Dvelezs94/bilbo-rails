@@ -1,4 +1,8 @@
-.card.tx-white.bg-primary.bottom-right
+.card.tx-white.bg-primary.bottom-right.cursor-pointer.animated.fadeOutRightBig#showHint
+  .card-header.tx-bold
+    %i.tx-16.fe.fe-arrow-left
+
+.card.tx-white.bg-primary.bottom-right.animated.fadeInRightBig
   .card-header.tx-bold
     = t('main_wizard.pending_items')
     .card-body.pd-x-0.pd-y-5.mg-t-10.cursor-pointer
@@ -46,4 +50,4 @@
         .col-2
           %i.fe.fe-arrow-right
 
-      %a.card-link-underline.mg-t-10{:href => "#", :onclick => 'event.preventDefault(); $(this).closest("div.card").hide()'}= t('main_wizard.hide_message')
+      %a.card-link-underline.mg-t-10#hideHint{:href => "#"}= t('main_wizard.hide_message')
