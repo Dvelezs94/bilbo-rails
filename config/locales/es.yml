@@ -345,6 +345,7 @@ es:
         error: Error al actualizar transición
     action:
       media_removed: El archivo multimedia se ha eliminado con éxito
+      update_duration: El creativo se ha actualizado exitosamente.
     errors:
       wont_be_able_to_delete: Este creativo no puede eliminarse porque tiene campañas activas
       wont_be_able_to_update: Este creativo no puede actualizarse porque tiene campañas activas
