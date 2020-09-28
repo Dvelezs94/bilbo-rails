@@ -137,7 +137,7 @@ module AdRotationAlgorithm
       campaign_names[new_campaign.id] = new_campaign.name
       if new_campaign.minutes.present?
         per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes, new_campaign.ad.duration]
-        per_time_cps_first.append(new_campaign) if new_campaign.state
+        per_time_cps_first.append(new_campaign)
       elsif new_campaign.impression_hours.present?
         new_campaign.impression_hours.each do |c|
           if c.day == "everyday" || c.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
