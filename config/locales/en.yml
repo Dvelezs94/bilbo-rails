@@ -344,6 +344,7 @@ en:
         error: Could not update transition
     action:
       media_removed: Multimedia has been deleted succesfully
+      update_duration: Ad was successfully updated.
     errors:
       wont_be_able_to_delete: This creative can't be deleted because of active campaigns
       wont_be_able_to_update: This creative can't be updated because of active campaigns
