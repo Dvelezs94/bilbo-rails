@@ -13,7 +13,7 @@ class Ad < ApplicationRecord
   validate :project_enabled?
   validates :name, presence: true
 
-  validates :multimedia, content_type: ["image/png", "image/jpeg", "video/mp4"]
+  validates :multimedia, content_type: ["image/png", "image/jpeg", "video/mp4", "video/x-msvideo", "video/msvideo", "video/avi", "video/vnd.avi"]
   #this is executed when user is trying to delete the ad
   validate :check_if_can_delete, if: :status_changed_to_deleted?
   #this is executed when the ad update the multimedia
