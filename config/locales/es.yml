@@ -309,7 +309,9 @@ es:
       hour_campaign_space: No hay espacio para la campaña por hora %{campaign_name} en el bilbo %{bilbo_name}
       minute_campaign_space: No hay espacio para la campaña por minutos %{campaign_name} en el bilbo %{bilbo_name}
       budget_campaign_space: No hay espacio para la campaña por presupuesto %{campaign_name} en el bilbo %{bilbo_name}
-      duration_is_not_ten: El bilbo %{name} no admite campañas por minuto porque la duracion de los anuncios es diferente de diez segundos
+      duration_is_not_ten: El bilbo %{name} no admite campañas por minuto porque la duración de los anuncios es diferente de diez segundos
+      duration_exceeds_60: La duración del anuncio no puede ser mayor a 60 segundos
+      ad_duration_less_than_required: La duración del anuncio es inválida en el bilbo %{name}
       overlapping_schedules: Los horarios %{n1} y %{n2} de esta campaña se traslapan. Realiza los cambios necesarios e intenta nuevamente
     search:
       location: Ubicación
@@ -320,6 +322,10 @@ es:
       min_height: Alto min. (mts)
   ads:
     ads: Creativos
+    name: Nombre
+    description: Descripción
+    duration: Duración
+    duration_hint: Especifica la duración mínima de las imágenes y videos para tus bilbos
     new_ad: Nuevo creativo
     upload_multimedia: Subir Archivos
     all_multimedia_files: Todos los Archivos Multimedia
@@ -339,9 +345,11 @@ es:
         error: Error al actualizar transición
     action:
       media_removed: El archivo multimedia se ha eliminado con éxito
+      update_duration: El creativo se ha actualizado exitosamente.
     errors:
       wont_be_able_to_delete: Este creativo no puede eliminarse porque tiene campañas activas
       wont_be_able_to_update: Este creativo no puede actualizarse porque tiene campañas activas
+      is_not_multiple_of_10: La duración no es múltiplo de 10
     no_ad: Sin creativo
     new_ad_description: Crea un nuevo creativo para tus campañas publicitarias
   payments:

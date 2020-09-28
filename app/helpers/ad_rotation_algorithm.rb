@@ -5,14 +5,21 @@ module AdRotationAlgorithm
     err = []
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
 
-    if new_campaign.minutes.present? and self.duration != 10
-      err << I18n.t("bilbos.ads_rotation_error.duration_is_not_ten", name: self.name)
+    if new_campaign.ad.duration < self.duration
+      err << I18n.t("bilbos.ads_rotation_error.ad_duration_less_than_required", name: self.name)
+      return err
+
+    elsif new_campaign.minutes.present? and new_campaign.ad.duration > 60
+      err << I18n.t("bilbos.ads_rotation_error.duration_exceeds_60", name: self.name)
       return err
 
     elsif new_campaign.minutes.present?
-      displays, minutes = new_campaign.imp, new_campaign.minutes
-      if minutes*6 < displays
-        err << I18n.t("bilbos.ads_rotation_error.max_minutes_impressions", number: 6*minutes)
+      displays, minutes, ad_duration = new_campaign.imp, new_campaign.minutes, new_campaign.ad.duration
+      block_size = ad_duration/10
+      needed_blocks = displays* block_size
+      current_blocks = minutes*6
+      if needed_blocks > current_blocks
+        err << I18n.t("bilbos.ads_rotation_error.max_minutes_impressions", number: (current_blocks/block_size).to_i)
         return err
       end
 
@@ -31,8 +38,8 @@ module AdRotationAlgorithm
            return err
         end
         wm = working_minutes(start_t, end_t)
-        if reps > (wm * 60/self.duration).to_i
-          err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (60*wm/self.duration).to_i)
+        if reps > (wm*60/new_campaign.ad.duration).to_i
+          err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (wm*60/new_campaign.ad.duration).to_i)
           return err
         end
       end
@@ -77,17 +84,16 @@ module AdRotationAlgorithm
        end
     end
 
-    free_idxs = free_indexes(output)
     cycles.shuffle!
-    free_idxs.shuffle!
+    block_size = self.duration/10
 
-    cycles.each_with_index do |user, idx|
-        x = free_idxs[idx]
-        if x != nil
-          output[x] = user
-        else
-          break
-        end
+    cycles.each do |name|
+      place_index = find_substring_index(output,["-"]*(block_size))
+      if place_index != -1
+        output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
+      else
+        break
+      end
     end
     return output
 
@@ -105,16 +111,17 @@ module AdRotationAlgorithm
         output << '-'       # array with only bilbo
     end                     # ads
 
-    r_cps_first = self.campaigns.where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
-    r_cps = r_cps_first.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    r_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
+    r_cps = r_cps_first.map{ |c| [ c.id, [(c.budget_per_bilbo/self.cycle_price).to_i, (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     r_cycles = []
+    total_r_cps_spaces = 0
 
-    per_time_cps_first = self.campaigns.where(provider_campaign: true).where.not(minutes: nil,imp: nil).to_a.select{ |c| c.should_run?(self.id) }
-    per_time_cps = per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
+    per_time_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true).where.not(minutes: nil,imp: nil).to_a.select{ |c| c.should_run?(self.id) }
+    per_time_cps = per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes, c.ad.duration] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
     h_cps_first = []
 
-    self.campaigns.where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
+    self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
       c.impression_hours.each do |cpn|
         if cpn.day == "everyday" || cpn.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
           h_cps_first.append(cpn)
@@ -128,8 +135,8 @@ module AdRotationAlgorithm
     if new_campaign.present?
       campaign_names[new_campaign.id] = new_campaign.name
       if new_campaign.minutes.present?
-        per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes]
-        per_time_cps_first.append(new_campaign) if new_campaign.state
+        per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes, new_campaign.ad.duration]
+        per_time_cps_first.append(new_campaign)
       elsif new_campaign.impression_hours.present?
         new_campaign.impression_hours.each do |c|
           if c.day == "everyday" || c.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
@@ -137,7 +144,7 @@ module AdRotationAlgorithm
           end
         end
       elsif new_campaign.budget.present?
-        r_cps[new_campaign.id] = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
+        r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/self.cycle_price).to_i, (new_campaign.ad.duration/10).to_i]
         r_cps_first.append(new_campaign)
       end
     end
@@ -153,14 +160,17 @@ module AdRotationAlgorithm
     h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
       h_cps_first[idx][:campaign_id] = name
-      h_cps[name] = [c.imp,c.start,c.end]
+      h_cps[name] = [c.imp,c.start,c.end, c.campaign.ad.duration]
     end
     h_cps = sort_by_min_time(h_cps)
 
-    r_cps.each do |name, displays|
+    r_cps.each do |name, displays_block_size|
+        displays = displays_block_size[0]
+        block_size = displays_block_size[1]
         displays.times do
-            r_cycles << name
+            r_cycles << [name, block_size]
         end
+        total_r_cps_spaces += block_size*displays
     end
     per_time_cps.each do |name, value|
         r = Rational(value[0],value[1])
@@ -173,61 +183,37 @@ module AdRotationAlgorithm
        reps = value[0]
        start_t = value[1]
        end_t = value[2]
-       fi = (working_minutes(start_time,start_t,true)*60/self.duration).to_i
-       la = (working_minutes(start_time,end_t,true)*60/self.duration).to_i
-
+       ad_duration = value[3]
+       block_size = ad_duration/10
+       fi = (working_minutes(start_time,start_t,true)*6).to_i
+       la = (working_minutes(start_time,end_t,true)*6).to_i
        value[1] = fi
        value[2] = la
-
-       free = (fi...la).to_a
-
-       free.shuffle!
-       c = 0
-       pos = 0
-       while c < reps do
-
-            if fi==la || free[pos].nil?
-                id = name.split('/')[0].to_i
-                err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
-                return err
-                break
-            end
-            if output[free[pos]] == '-'
-                c+=1
-                output[free[pos]] = name
-            else
-
-                val = output[free[pos]]
-                first = h_cps[val][1]
-                last = h_cps[val][2]
-                aux = output[first...last].index('-')
-                if aux.nil?
-                  id = name.split('/')[0].to_i
-                  err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
-                  return err
-                  break
-                else
-                  output[aux+first] = val
-                  c+=1
-                  output[free[pos]] = name
-                end
-            end
-            fi+=1
-            pos+=1
+       index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
+       if index_array.length < reps
+         id = name.split('/')[0].to_i
+         err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
+         return err
+         break
+       end
+       reps.times do |rep|
+         sample_index = index_array.sample
+         index_array.delete(sample_index)
+         output[ fi + sample_index ...fi + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
        end
     end
     ################################################################################
 
     total_h = 0                                 # compute the number of spaces used
-    h_cps.each {|name, val| total_h+=val[0]}    # to know the free spaces remaining
+    h_cps.each {|name, val| total_h+=val[0]*val[3]/10}    # to know the free spaces remaining
 
     per_time_cps_cp = Marshal.load(Marshal.dump(per_time_cps))
     per_time_cps_cp = translate_hash(per_time_cps_cp,t_cycles)
 
-    sum = 0
-    per_time_cps_cp.each {|key,value| sum+=value}
+    total_p = 0
+    per_time_cps_cp.each {|key,value| total_p+=value}
 
-    if sum + total_h> t_cycles
+    if total_p + total_h> t_cycles
         err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.last.name, bilbo_name: self.name)
         return err
     end
@@ -235,61 +221,60 @@ module AdRotationAlgorithm
     per_time_cps = sort_by_max_repetitions(per_time_cps)
 
     per_time_cps.each do |name, displays_minutes|
+        displays = displays_minutes[0]
         minutes = displays_minutes[1]
+        ad_duration = displays_minutes[2]
+        block_size = ad_duration/10
         size = minutes*6
         inf = 0
-        while inf < t_cycles do
-            arr = (0...size).to_a
-            displays = displays_minutes[0]
-            if inf+size <= t_cycles
-                x = output[inf...inf+size]
-                while displays>0
-                    arr.shuffle!
-                    pos = arr[0]
-                    arr.delete_at(0)
-                    if output[inf+pos] == '-'
-                      output[inf+pos] = name
-                      displays-=1
-                    elsif h_cps.keys.include? output[inf+pos]
-                      val = output[inf+pos]
-                      idx = output[h_cps[val][1]...h_cps[val][2]].index('-')
-                      if idx.nil?
-                        err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
-                        return err
-                      end
-                      output[h_cps[val][1]+idx] = val
-                      output[inf+pos] = name
-                      displays-=1
-                    elsif arr.length<displays
-                      err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
-                      return err
-                    end
-                end
-                if arr.length == 0 and displays > 0
-                    err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
-                    return err
-                end
+        while inf+size <= t_cycles do
+          index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
+          if index_array.length<displays
+            block_size.times do |index|
+              h_start, h_end = find_campaign(output, inf+index)
+              next if h_start == -1
+              next if !h_cps.keys.include? output[h_start] #means this is other minute campaign, i dont know how to move it
+              hour_campaign = output[h_start]
+              fi, la, h_ad_duration = h_cps[hour_campaign][1], h_cps[hour_campaign][2], h_cps[hour_campaign][3]
+              h_c_blocks = h_ad_duration/10
+              output[h_start..h_end] = ["-"]*h_c_blocks #i change this here because some dots of this campaign can be outside my region of interest inf-inf+size, so it can be used for the solution.
+              place_index = find_substring_index(output[fi...la],["-"]*(h_c_blocks), (inf-fi...inf+size-fi).to_a)
+
+              if place_index != -1
+                output[ fi + place_index ...fi + place_index + h_c_blocks ] = [hour_campaign] + ["."]*(h_c_blocks - 1)
+              else
+                output[h_start..h_end] = [hour_campaign]+["-"]*(h_c_blocks-1)
+              end
+            end #end times
+            index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
+            if index_array.length<displays
+              p "ERROR"
+              p output
+              err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
+              return err
             end
-            inf+=size
+          end
+
+          displays.times do |rep|
+            sample_index = index_array.sample
+            index_array.delete(sample_index)
+            output[ inf + sample_index ...inf + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
+          end
+          inf+=size
         end
     end
 
-    free_spaces = output.count('-')
-    if free_spaces < r_cycles.length
-      err << I18n.t("bilbos.ads_rotation_error.budget_campaign_space", campaign_name: r_cps_first.last.name, bilbo_name: self.name)
-      return err
-    end
-
-    free_idxs = free_indexes(output)
-    free_idxs.shuffle!
-
-    r_cycles.each_with_index do |user, idx|
-        x = free_idxs[idx]
-        if x != nil
-          output[x] = user
-        else
-          break
-        end
+    r_cycles = r_cycles.sort_by{|name, block_size| -block_size} #first put the biggest blocks
+    r_cycles.each do |elem|
+      name = elem[0]
+      block_size = elem[1]
+      place_index = find_substring_index(output,["-"]*(block_size))
+      if place_index != -1
+        output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
+      else
+        err << I18n.t("bilbos.ads_rotation_error.budget_campaign_space", campaign_name: r_cps_first.last.name, bilbo_name: self.name)
+        return err
+      end
     end
 
     #PRINT THE RESULT ARRAY
@@ -312,6 +297,33 @@ module AdRotationAlgorithm
 
   private
   ############# HELP FUNCTIONS #########################
+  def find_free_indexes(string, substring)
+    iterable = (0..string.count-substring.count+1).to_a
+    index_array = []
+    skip = 0
+    iterable.each do |index|
+      if skip > 0
+        skip-=1
+        next
+      end
+      if string[index...index+substring.count] == substring
+        index_array << index
+        skip = substring.count - 1
+      end
+    end
+    return index_array
+  end
+
+  def find_substring_index(string, substring, unpermitted_indexes = [])
+    indexes = (0..string.count-substring.count+1).to_a
+    random_start = indexes.sample
+    iterable = indexes[random_start..-1] + indexes[0...random_start]
+    iterable.each do |index|
+      return index if string[index...index+substring.count] == substring && (index...index+substring.count).to_a & unpermitted_indexes == []
+    end
+    return -1
+  end
+
 def sort_by_max_repetitions(hash)
     hash.sort_by {|key, value| -value[0]/value[1]}
     return hash
@@ -321,12 +333,26 @@ def sort_by_min_time(hash)
     return hash
 end
 
+def find_campaign(array, index)
+  return -1, -1 if array[index] == "-"
+  if array[index] == "."
+    index2 =index -1
+    while array[index2] == "." do index2-=1 end
+    return index2, index
+  end
+  index2 =index + 1
+  while array[index2] == "." do index2+=1 end
+  return index, index2-1
+end
+
 def translate_hash(per_time_cps,t_cycles)
 
     per_time_cps.each do |name, displays_minutes|      #Translate the per_time_cps format
         displays = displays_minutes[0]                  #to make it similar to the cps and r_cps
         minutes = displays_minutes[1]
-        reps = t_cycles*displays/(minutes*6)
+        ad_duration = displays_minutes[2]
+        c_blocks = ad_duration/10
+        reps = t_cycles/(minutes*6)*(displays*c_blocks)
         per_time_cps[name] = reps
     end
     per_time_cps_aux = per_time_cps.sort_by{|key, value| -value}
@@ -338,6 +364,7 @@ def translate_hash(per_time_cps,t_cycles)
     per_time_cps = Hash[*per_time_cps]
     return per_time_cps
 end
+
 def free_indexes(array)
     result = []
     array.each_with_index do |item, index|
