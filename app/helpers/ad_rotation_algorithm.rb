@@ -84,17 +84,16 @@ module AdRotationAlgorithm
        end
     end
 
-    free_idxs = free_indexes(output)
     cycles.shuffle!
-    free_idxs.shuffle!
+    block_size = self.duration/10
 
-    cycles.each_with_index do |user, idx|
-        x = free_idxs[idx]
-        if x != nil
-          output[x] = user
-        else
-          break
-        end
+    cycles.each do |name|
+      place_index = find_substring_index(output,["-"]*(block_size))
+      if place_index != -1
+        output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
+      else
+        break
+      end
     end
     return output
 
