@@ -113,7 +113,7 @@ module AdRotationAlgorithm
     end                     # ads
 
     r_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
-    r_cps = r_cps_first.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i, (c.ad.duration/10).to_i ] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    r_cps = r_cps_first.map{ |c| [ c.id, [(c.budget_per_bilbo/self.cycle_price).to_i, (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     r_cycles = []
     total_r_cps_spaces = 0
 
@@ -145,7 +145,7 @@ module AdRotationAlgorithm
           end
         end
       elsif new_campaign.budget.present?
-        r_cps[new_campaign.id] = [new_campaign.id, (new_campaign.budget_per_bilbo/self.cycle_price).to_i, (new_campaign.ad.duration/10).to_i]
+        r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/self.cycle_price).to_i, (new_campaign.ad.duration/10).to_i]
         r_cps_first.append(new_campaign)
       end
     end
@@ -165,7 +165,9 @@ module AdRotationAlgorithm
     end
     h_cps = sort_by_min_time(h_cps)
 
-    r_cps.each do |name, displays, block_size|
+    r_cps.each do |name, displays_block_size|
+        displays = displays_block_size[0]
+        block_size = displays_block_size[1]
         displays.times do
             r_cycles << [name, block_size]
         end
@@ -232,18 +234,23 @@ module AdRotationAlgorithm
             block_size.times do |index|
               h_start, h_end = find_campaign(output, inf+index)
               next if h_start == -1
-              break if !h_cps.keys.include? output[h_start] #means this is other minute campaign, i dont know how to move it
+              next if !h_cps.keys.include? output[h_start] #means this is other minute campaign, i dont know how to move it
               hour_campaign = output[h_start]
               fi, la, h_ad_duration = h_cps[hour_campaign][1], h_cps[hour_campaign][2], h_cps[hour_campaign][3]
               h_c_blocks = h_ad_duration/10
+              output[h_start..h_end] = ["-"]*h_c_blocks
               place_index = find_substring_index(output[fi...la],["-"]*(h_c_blocks), (inf-fi...inf+size-fi).to_a)
+
               if place_index != -1
                 output[ fi + place_index ...fi + place_index + h_c_blocks ] = [hour_campaign] + ["."]*(h_c_blocks - 1)
-                output[h_start..h_end] == ["-"]*h_c_blocks
+              else
+                output[h_start..h_end] = [hour_campaign]+["-"]*(h_c_blocks-1)
               end
             end #end times
             empty_array, index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
             if index_array.length<displays
+              p "ERROR"
+              p output
               err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
               return err
             end
