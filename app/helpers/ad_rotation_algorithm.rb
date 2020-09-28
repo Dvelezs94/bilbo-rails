@@ -190,7 +190,7 @@ module AdRotationAlgorithm
        la = (working_minutes(start_time,end_t,true)*6).to_i
        value[1] = fi
        value[2] = la
-       empty_array, index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
+       index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
        if index_array.length < reps
          id = name.split('/')[0].to_i
          err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
@@ -229,7 +229,7 @@ module AdRotationAlgorithm
         size = minutes*6
         inf = 0
         while inf+size <= t_cycles do
-          empty_array, index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
+          index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
           if index_array.length<displays
             block_size.times do |index|
               h_start, h_end = find_campaign(output, inf+index)
@@ -247,7 +247,7 @@ module AdRotationAlgorithm
                 output[h_start..h_end] = [hour_campaign]+["-"]*(h_c_blocks-1)
               end
             end #end times
-            empty_array, index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
+            index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
             if index_array.length<displays
               p "ERROR"
               p output
@@ -312,8 +312,7 @@ module AdRotationAlgorithm
         skip = substring.count - 1
       end
     end
-    empty_array = ["-"]*index_array.length
-    return empty_array, index_array
+    return index_array
   end
 
   def find_substring_index(string, substring, unpermitted_indexes = [])
