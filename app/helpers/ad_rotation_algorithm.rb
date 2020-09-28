@@ -238,7 +238,7 @@ module AdRotationAlgorithm
               hour_campaign = output[h_start]
               fi, la, h_ad_duration = h_cps[hour_campaign][1], h_cps[hour_campaign][2], h_cps[hour_campaign][3]
               h_c_blocks = h_ad_duration/10
-              output[h_start..h_end] = ["-"]*h_c_blocks
+              output[h_start..h_end] = ["-"]*h_c_blocks #i change this here because some dots of this campaign can be outside my region of interest inf-inf+size, so it can be used for the solution.
               place_index = find_substring_index(output[fi...la],["-"]*(h_c_blocks), (inf-fi...inf+size-fi).to_a)
 
               if place_index != -1
