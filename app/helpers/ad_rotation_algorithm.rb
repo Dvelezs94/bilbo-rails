@@ -174,7 +174,11 @@ module AdRotationAlgorithm
         total_r_cps_spaces += block_size*displays
     end
     r_cycles = r_cycles.sort_by{|name, block_size| -block_size} #first put the biggest blocks
-    max_block_size = r_cycles[0][1]
+    if r_cycles.present?
+      max_block_size = r_cycles[0][1]
+    else
+      max_block_size = (self.duration/10).to_i
+    end
     per_time_cps.each do |name, value|
         r = Rational(value[0],value[1])
         value[0] = r.numerator
