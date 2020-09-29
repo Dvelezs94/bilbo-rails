@@ -216,4 +216,3 @@ class CampaignsController < ApplicationController
     end
   end
 end
-#Ad.where(id: Campaign.active.where.not(ad_id: nil).uniq.pluck(:ad_id)).each
