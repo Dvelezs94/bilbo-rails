@@ -27,6 +27,8 @@ class ImageResizeWorker
         new_attachment = ad.multimedia.attach(io: File.open(orig_img_tmpfile), filename: "#{img.blob.filename.base}."+file_extension, content_type: 'image/'+file_extension)
         ad.multimedia.last.update(processed: true)
         delete_img(orig_img_tmpfile,img)
+      else
+        img.update(processed: true)
       end
     end
   end
@@ -38,5 +40,5 @@ class ImageResizeWorker
       mm.destroy!
     end
   end
-  
+
 end

@@ -52,5 +52,9 @@ class Ad < ApplicationRecord
     if multimedia_update
       BoardsCampaigns.approved.where(campaign: campaigns.active).update_all(status: "in_review")
     end
-   end
+  end
+
+  def processed?
+    !self.multimedia.attachments.where(processed: false).present?
+  end
 end
