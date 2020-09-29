@@ -328,6 +328,7 @@ es:
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
     view: Ver creativo
+    attachment_saved: Archivo adjunto guardado
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
