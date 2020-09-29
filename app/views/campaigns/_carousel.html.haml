@@ -5,7 +5,10 @@
       - @ads_selected.each.with_index do |media,i|
         %div{class: "carousel-item #{'active' if i == 0} ", style: "position: static !important;" }
           -if media.video?
-            = video_tag(url_from_media(media), class: "center-block d-block w-100 h-100", autoplay: true, loop: true, muted: 'muted', controls: false, style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;")
+            -if ActiveStorage::Filename.new(media.filename.to_s).extension_without_delimiter.include? "avi"
+              = image_tag "construction_video.webp", class: "center-block d-block w-100 h-100", :data => {lity: true}, id: "images", style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;"
+            -else
+              = video_tag(url_from_media(media), class: "center-block d-block w-100 h-100", autoplay: true, loop: true, muted: 'muted', controls: false, style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;")
           -else
             = image_tag media, class: "center-block d-block w-100 h-100", :data => {lity: true}, id: "images", style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;"
     %a.carousel-control-prev{"data-slide" => "prev", href: "#carouselExample5", role: "button"}
