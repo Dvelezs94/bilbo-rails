@@ -248,7 +248,7 @@ es:
     extra_percentage_earnings: ganancias extras
     enabled: Habilitado
     filter: Filtros del Mapa
-    approved: Aprovado
+    approved: Aprobado
     in_review: En revisión
     denied: Denegado
     disabled: Desactivado
@@ -334,6 +334,7 @@ es:
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
     view: Ver creativo
+    attachment_saved: Archivo adjunto guardado
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
