@@ -13,7 +13,7 @@ class Ad < ApplicationRecord
   validate :project_enabled?
   validates :name, presence: true
 
-  validates :multimedia, content_type: ["image/png", "image/jpeg", "video/mp4"]
+  validates :multimedia, content_type: ["image/png", "image/jpeg", "video/mp4", "video/x-msvideo", "video/msvideo", "video/avi", "video/vnd.avi"]
   #this is executed when user is trying to delete the ad
   validate :check_if_can_delete, if: :status_changed_to_deleted?
   #this is executed when the ad update the multimedia
@@ -52,5 +52,9 @@ class Ad < ApplicationRecord
     if multimedia_update
       BoardsCampaigns.approved.where(campaign: campaigns.active).update_all(status: "in_review")
     end
-   end
+  end
+
+  def processed?
+    !self.multimedia.attachments.where(processed: false).present?
+  end
 end
