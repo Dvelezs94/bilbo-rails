@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2020_09_10_151558) do
-=======
-ActiveRecord::Schema.define(version: 2020_09_08_193657) do
->>>>>>> cbbf635f0b320f9102bbaf4bb45b360edad39549
+ActiveRecord::Schema.define(version: 2020_09_24_193645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +47,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_193657) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.integer "status", default: 0
+    t.integer "duration", default: 10
     t.index ["project_id"], name: "index_ads_on_project_id"
     t.index ["slug"], name: "index_ads_on_slug", unique: true
   end
@@ -147,6 +144,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_193657) do
     t.integer "utc_offset"
     t.boolean "images_only", default: false
     t.integer "extra_percentage_earnings", default: 20
+    t.string "mac_address"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -218,10 +216,10 @@ ActiveRecord::Schema.define(version: 2020_09_08_193657) do
     t.time "start"
     t.time "end"
     t.integer "imp"
+    t.integer "day"
     t.bigint "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "day"
     t.index ["campaign_id"], name: "index_impression_hours_on_campaign_id"
   end
 
@@ -323,7 +321,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_193657) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-09-14 21:33:14"
+    t.datetime "expires_at", default: "2030-09-24 19:20:33"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -370,6 +368,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_193657) do
     t.datetime "locked_at"
     t.string "phone_number"
     t.boolean "banned", default: false
+    t.string "uid"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

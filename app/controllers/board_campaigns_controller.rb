@@ -24,7 +24,7 @@ class BoardCampaignsController < ApplicationController
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
-  redirect_to provider_index_campaigns_path
+  redirect_to provider_index_campaigns_path(q:"review")
  end
 
   def in_review_campaign

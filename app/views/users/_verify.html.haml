@@ -4,8 +4,8 @@
       .modal-body.pd-20.pd-sm-30
         %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
-        %h5.tx-18.tx-sm-20.mg-b-30= t("payments.buy_credits")
-        %p= t("payments.credits_text")
+        %h5.tx-18.tx-sm-20.mg-b-30= t("payments.verify_account")
+        %p= t("payments.verification_text")
         %p
           = t("payments.verification_needed")
           %a{:href => "https://bilbo.freshdesk.com/support/solutions/articles/64000068621-verificar-cuenta", :target => "_blank"}= t("payments.verify_account")
@@ -83,7 +83,7 @@
                     = f.label :official_business_name, t("payments.business_name")
                   .col-sm-9
                     = f.text_field :official_business_name, class: "form-control"
-                = f.submit t("payments.send"), class: "btn btn-primary"
+                = f.submit t("payments.send"), class: "btn btn-primary btn-block"
       .modal-footer
         %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
       / modal-footer
