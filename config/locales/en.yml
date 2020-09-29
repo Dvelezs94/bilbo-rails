@@ -308,6 +308,8 @@ en:
       minute_campaign_space: There is no space for the minute campaign %{campaign_name} in the bilbo %{bilbo_name}
       budget_campaign_space: There is no space for the budget campaign %{campaign_name} in the bilbo %{bilbo_name}
       duration_is_not_ten: The bilbo %{name} doesn't allow campaings per minute because the ad duration is different from ten seconds
+      duration_exceeds_60: The ad duration can't exceed 60 seconds
+      ad_duration_less_than_required: The ad duration is invalid for bilbo %{name}
       overlapping_schedules: Schedules %{n1} and %{n2} of this campaign overlap. Make the necesssary changes and try again
     search:
       location: Location
@@ -318,6 +320,10 @@ en:
       min_height: Min height. (mts)
   ads:
     ads: Creatives
+    name: Name
+    description: Description
+    duration: Duration
+    duration_hint: Set the minimum duration for images and videos on your bilbos
     new_ad: New creative
     upload_multimedia: Upload Multimedia
     all_multimedia_files: All Multimedia Files
@@ -339,9 +345,11 @@ en:
         error: Could not update transition
     action:
       media_removed: Multimedia has been deleted succesfully
+      update_duration: Ad was successfully updated.
     errors:
       wont_be_able_to_delete: This creative can't be deleted because of active campaigns
       wont_be_able_to_update: This creative can't be updated because of active campaigns
+      is_not_multiple_of_10: Duration is not multiple of 10
     new_ad_description: Create a new amazing and beautiful creative for your campaigns
     No_ad: No creative
   payments:
