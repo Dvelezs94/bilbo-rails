@@ -327,6 +327,7 @@ en:
     measures: No measures available
     processing: Processing %{filename}
     view: View creative
+    attachment_saved: Attachment saved
     transitions:
       no_transition: No Transition
       fadeInDown: Fade In Down
