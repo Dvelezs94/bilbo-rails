@@ -16,11 +16,14 @@ class AdsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @ad.update_attributes(ad_params)
-        format.html { redirect_to @ad, notice: 'Ad was successfully updated.' }
+      if @ad.update(ad_params)
+        format.html { redirect_to @ad, notice: I18n.t('ads.action.update_duration') }
         format.json { head :no_content }
       else
-        format.html { render action: "show" }
+        format.html {
+          flash[:error] = @ad.errors.full_messages.to_sentence
+          render action: "show"
+        }
         format.json { render json: @ad.errors, status: :unprocessable_entity }
       end
     end
@@ -73,7 +76,7 @@ class AdsController < ApplicationController
 
   private
   def ad_params
-    params.require(:ad).permit(:name, :description).merge(:project_id => @project.id)
+    params.require(:ad).permit(:name, :description, :duration).merge(:project_id => @project.id)
   end
 
   def get_ads

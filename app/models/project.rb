@@ -3,7 +3,7 @@ class Project < ApplicationRecord
   friendly_id :name, use: :slugged
 
   validates :name, presence: true, exclusion: { in: %w(www app admin),
-    message: "%{value} is reserved." }, format: { :with => /\A[^0-9`!@#\$%\^&*+_=]+\z/, multiline: false, message: 'Invalid name' }
+    message: "%{value} is reserved." }, format: { :with => /\A[A-Za-z0-9-\/\.\s]+\z/, multiline: false, message: 'Invalid' }
 
   enum status: { enabled: 0, disabled: 1 }
 
@@ -78,7 +78,13 @@ class Project < ApplicationRecord
 
   # campaigns that require provider feedback to be aither approved or denied
   def campaigns_for_review
-    BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: Campaign.active.where.not(ad_id: nil).joins(:boards).merge(self.boards).pluck(:id)).in_review.count
+    Campaign.active.where.not(ad_id: nil).joins(:boards).merge(self.boards).pluck(:id).each do |c|
+      #Search for ads that haven't been processed
+       if Ad.find(Campaign.find(c).ad_id).processed?
+          @camp = Array(@camp).push(c)
+       end
+     end
+    BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: @camp).in_review.count
   end
 
   def active_campaigns

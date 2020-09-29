@@ -1,0 +1,53 @@
+.card.tx-white.bg-primary.bottom-right.cursor-pointer.animated.fadeOutRightBig#showHint
+  .card-header.tx-bold
+    %i.tx-16.fe.fe-arrow-left
+
+.card.tx-white.bg-primary.bottom-right.animated.fadeInRightBig
+  .card-header.tx-bold
+    = t('main_wizard.pending_items')
+    .card-body.pd-x-0.pd-y-5.mg-t-10.cursor-pointer
+      .row{"data-toggle" => "modal", :href => "#modalVerify"}
+        .col-10
+          %span.tx-normal
+            - if @verified_profile
+              %i.tx-16.fe.fe-check-circle
+            - else
+              %i.tx-16.fe.fe-check-circle-o
+            = t('main_wizard.verify_profile')
+        .col-2
+          %i.fe.fe-arrow-right
+      %hr.hr-border-white
+      .row{"data-toggle" => "modal", :href => "#modalNewPayment"}
+        .col-10
+          %span.tx-normal
+            - if @purchased_credits
+              %i.tx-16.fe.fe-check-circle
+            - else
+              %i.tx-16.fe.fe-check-circle-o
+            = t('main_wizard.purchase_credits')
+        .col-2
+          %i.fe.fe-arrow-right
+      %hr.hr-border-white
+      .row{"data-toggle" => "modal", :href => "#modalNewAd"}
+        .col-10
+          %span.tx-normal
+            - if @created_ads
+              %i.tx-16.fe.fe-check-circle
+            - else
+              %i.tx-16.fe.fe-check-circle-o
+            = t('main_wizard.upload_ad')
+        .col-2
+          %i.fe.fe-arrow-right
+      %hr.hr-border-white
+      .row.mg-b-10{"data-toggle" => "modal", :href => "#modalNewCampaign"}
+        .col-10
+          %span.tx-normal
+            - if @created_campaigns
+              %i.tx-16.fe.fe-check-circle
+            - else
+              %i.tx-16.fe.fe-check-circle-o
+            = t('main_wizard.create_campaign')
+        .col-2
+          %i.fe.fe-arrow-right
+
+      %a.card-link-underline.mg-t-10#hideHint{:href => "#"}= t('main_wizard.hide_message')

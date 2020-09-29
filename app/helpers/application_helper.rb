@@ -79,7 +79,11 @@ module ApplicationHelper
 
   def send_sms(phone_number, message)
     if phone_number.present? && message.present?
-      SNS.publish(phone_number: phone_number, message: convert_message_to_sms_format(message))
+      begin
+        SNS.publish(phone_number: phone_number, message: convert_message_to_sms_format(message))
+      rescue Aws::SNS::Errors::InvalidClientTokenId
+        true
+      end
     end
   end
 end
