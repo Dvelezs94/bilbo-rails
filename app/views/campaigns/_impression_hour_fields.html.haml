@@ -2,7 +2,7 @@
   .quantity{style: "margin-right: 10px;margin-left: 10px;"}
     = f.select :day, options_for_select([[I18n.t('week_days.everyday'), 'everyday'], [I18n.t('week_days.mon'), 'monday'], [I18n.t('week_days.tue'), 'tuesday'], [I18n.t('week_days.wed'), 'wednesday'], [I18n.t('week_days.thu'), 'thursday'], [I18n.t('week_days.fri'), 'friday'], [I18n.t('week_days.sat'), 'saturday'], [I18n.t('week_days.sun'), 'sunday']], f.object.day),{include_blank: I18n.t("week_days.days")} ,class: "custom-select days_of_week", :required => true
   .quantity{style: "margin-right: 10px;margin-left: 10px;"}
-    = f.number_field :imp, { :min => "1", :step => "1", :class => "form-control impressionsPerHour", :required => true}
+    = f.number_field :imp, { :min => "1", :step => "1", :class => "form-control impressionsPerHour", :required => true, placeholder: 300}
   %span{style: "margin-top:10px;"}= t('campaign.wizard.impressions_hour')
   .quantity{style: "margin-right: 10px;margin-left: 20px;"}
     = f.time_field :start, { :class => "form-control timePickerStart", :required => true }
