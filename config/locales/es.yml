@@ -222,6 +222,7 @@ es:
       not_accepted: La campaña no ha podido aceptarse
       no_images: Tu creativo no cuenta con imágenes para correr en los bilbos que no admiten video
       verification_required: Verifica tu perfil para activar tu campaña
+      processing_creatives: Procesando videos e imágenes
     action:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente
