@@ -3,8 +3,8 @@ $(document).on('turbolinks:load', function() {
     var create_attachment_url = document.location.protocol +"//"+ document.location.hostname + document.location.pathname + "/attachments";
     var uppy = Uppy.Core({
       restrictions: {
-        maxFileSize: 10000000,
-        allowedFileTypes: ["image/png", "image/jpeg", "video/mp4"]
+        maxFileSize: 55000000,
+        allowedFileTypes: ["image/png", "image/jpeg", "video/mp4", "video/x-msvideo", "video/msvideo", "video/avi", "video/vnd.avi"]
       }
     })
     .use(Uppy.Dashboard, {
@@ -13,7 +13,9 @@ $(document).on('turbolinks:load', function() {
     })
     .use(Uppy.XHRUpload, {
       endpoint: create_attachment_url,
-      bundle: true
+      bundle: true,
+      limit: 0,
+      timeout: 0
     })
     // uppy.use(Uppy.Dropbox, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
     // uppy.use(Uppy.GoogleDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
