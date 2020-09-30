@@ -205,7 +205,7 @@ module AdRotationAlgorithm
        end
        reps.times do |rep|
          sample_index = index_array.sample
-         sample_index = push_to_left(output,sample_index,max_block_size)
+         #sample_index = push_to_left(output,sample_index,max_block_size)
          index_array.delete(sample_index)
          output[ fi + sample_index ...fi + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
        end
@@ -247,9 +247,8 @@ module AdRotationAlgorithm
               h_c_blocks = h_ad_duration/10
               output[h_start..h_end] = ["-"]*h_c_blocks #i change this here because some dots of this campaign can be outside my region of interest inf-inf+size, so it can be used for the solution.
               place_index = find_substring_index(output[fi...la],["-"]*(h_c_blocks), (inf-fi...inf+size-fi).to_a)
-
               if place_index != -1
-                place_index = push_to_left(output,place_index,max_block_size)
+                #place_index = push_to_left(output,place_index,max_block_size)
                 output[ fi + place_index ...fi + place_index + h_c_blocks ] = [hour_campaign] + ["."]*(h_c_blocks - 1)
               else
                 output[h_start..h_end] = [hour_campaign]+["-"]*(h_c_blocks-1)
@@ -266,7 +265,7 @@ module AdRotationAlgorithm
 
           displays.times do |rep|
             sample_index = index_array.sample
-            sample_index = push_to_left(output,sample_index,max_block_size)
+            #sample_index = push_to_left(output,sample_index,max_block_size)
             index_array.delete(sample_index)
             output[ inf + sample_index ...inf + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
           end

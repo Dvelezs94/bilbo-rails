@@ -4,7 +4,6 @@ class VideoConverterWorker
   require 'streamio-ffmpeg'
   def perform(ad_id)
     ad = Ad.find(ad_id)
-
     ad.videos.each do |video|
       if !video.processed && video.content_type == "video/x-msvideo" || video.content_type == "video/msvideo" || video.content_type == "video/avi"
         orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".avi"])
