@@ -13,7 +13,8 @@ $(document).on('turbolinks:load', function() {
     })
     .use(Uppy.XHRUpload, {
       endpoint: create_attachment_url,
-      bundle: true
+      bundle: true,
+      limit: 0
     })
     // uppy.use(Uppy.Dropbox, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
     // uppy.use(Uppy.GoogleDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })

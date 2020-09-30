@@ -1,12 +1,18 @@
 class VideoConverterWorker
   include Sidekiq::Worker
+  include ApplicationHelper
   sidekiq_options retry: 3, dead: false
   require 'streamio-ffmpeg'
   def perform(ad_id)
     ad = Ad.find(ad_id)
     ad.videos.each do |video|
-      if !video.processed && video.content_type == "video/x-msvideo" || video.content_type == "video/msvideo" || video.content_type == "video/avi"
-        orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".avi"])
+      meta = get_video_size_from_metadata(video)
+      if !video.processed && video.content_type == "video/x-msvideo" || video.content_type == "video/msvideo" || video.content_type == "video/avi" || meta[:height] > 1080
+        if video.content_type == "video/mp4"
+          orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"])
+        else
+          orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".avi"])
+        end
         mp4_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"])
 
         File.open(orig_video_tmpfile, 'wb') do |f|
@@ -23,7 +29,7 @@ class VideoConverterWorker
         ad.multimedia.attach(io: File.open(mp4_video_tmpfile), filename: "#{video.blob.filename.base}.mp4", content_type: 'video/mp4')
         ad.multimedia.last.update(processed: true)
         delete_video(mp4_video_tmpfile, video, orig_video_tmpfile)
-      else
+      elsif video.content_type= "video/mp4" && meta[:height] <= 1080
         video.update(processed: true)
       end
     end
