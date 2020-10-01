@@ -10,6 +10,7 @@ $(document).on('turbolinks:load', function() {
     .use(Uppy.Dashboard, {
       inline: true,
       target: '#drag-drop-area',
+      showProgressDetails: true
     })
     .use(Uppy.XHRUpload, {
       endpoint: create_attachment_url,
