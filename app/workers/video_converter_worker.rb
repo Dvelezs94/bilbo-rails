@@ -6,7 +6,7 @@ class VideoConverterWorker
   def perform(ad_id)
     ad = Ad.find(ad_id)
     ad.videos.each do |video|
-      meta = get_video_size_from_metadata(video)
+      meta = get_image_size_from_metadata(video)
       if !video.processed && video.content_type == "video/x-msvideo" || video.content_type == "video/msvideo" || video.content_type == "video/avi" || meta[:height] > 1080
         if video.content_type == "video/mp4"
           orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"])
