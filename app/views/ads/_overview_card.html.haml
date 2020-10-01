@@ -4,14 +4,17 @@
       .card.card-file
         .card-file-thumb.bg-white
           - if ad.multimedia.first
-            -if (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "mp4") && ad.multimedia.first.metadata[:height] <= 1080
+            - meta = get_image_size_from_metadata(ad.multimedia.first)
+            -if (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "mp4") && meta[:height] <= 1080
               = video_tag(url_from_media(ad.multimedia.first), class: "img-inherit", autoplay: false, loop: true, muted: 'muted')
-            -elsif (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "avi") || ad.multimedia.first.metadata[:height] > 1080
+            -elsif (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "avi") || meta[:height] > 1080
               = image_tag "construction_video.webp", class: "img-inherit"
-            -elsif get_image_size_from_metadata(ad.multimedia.first)[:height] <= 1080
+            -elsif meta[:height] <= 1080
               = image_tag ad.multimedia.first, class: "img-inherit"
             -else
               = image_tag "construction_video.webp", class: "img-inherit"
+          - else
+            = image_tag image_path("placeholder_sm"), class: "img-inherit"
         .card-body
           %h6= ad.name
         .card-footer

@@ -71,14 +71,6 @@ module ApplicationHelper
     end
   end
 
-  def get_video_size_from_metadata(video)
-    if video.metadata[:height].present?
-      video.metadata
-    else
-      ActiveStorage::Analyzer::VideoAnalyzer.new(video).metadata
-    end
-  end
-
   # remove non valid characters for SMS like ñ, á, etc... and replace with similar
   # versions like ñ => n, á => a, etc..
   def convert_message_to_sms_format(msg)
