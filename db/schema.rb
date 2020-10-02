@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_193645) do
+ActiveRecord::Schema.define(version: 2020_09_30_220000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -269,6 +269,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_193645) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "transaction_fee"
+    t.integer "status", default: 0
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
@@ -321,7 +322,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_193645) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-09-29 23:42:20"
+    t.datetime "expires_at", default: "2030-10-01 15:12:45"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

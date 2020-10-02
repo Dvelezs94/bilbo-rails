@@ -82,7 +82,7 @@
             <span><%= number_to_currency_usd(@invoice.payment.total) %></span>
           </li>
           <li class="d-flex justify-content-between">
-            <span>Transaction Fee</span>
+            <span><%= t("payments.transaction_fee") %></span>
             <span><%= number_to_currency_usd(@invoice.payment.transaction_fee) %></span>
           </li>
           <!-- <li class="d-flex justify-content-between">
