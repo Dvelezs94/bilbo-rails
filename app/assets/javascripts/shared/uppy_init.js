@@ -3,14 +3,14 @@ $(document).on('turbolinks:load', function() {
     var create_attachment_url = document.location.protocol +"//"+ document.location.hostname + document.location.pathname + "/attachments";
     var uppy = Uppy.Core({
       restrictions: {
-        maxFileSize: 55000000,
+        maxFileSize: 50000000,
         allowedFileTypes: ["image/png", "image/jpeg", "video/mp4", "video/x-msvideo", "video/msvideo", "video/avi", "video/vnd.avi"]
       }
     })
     .use(Uppy.Dashboard, {
       inline: true,
       target: '#drag-drop-area',
-      showProgressDetails: true
+      showProgressDetails: false
     })
     .use(Uppy.XHRUpload, {
       endpoint: create_attachment_url,

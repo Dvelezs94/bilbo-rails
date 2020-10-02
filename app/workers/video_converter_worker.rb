@@ -5,7 +5,7 @@ class VideoConverterWorker
   require 'streamio-ffmpeg'
   def perform(ad_id)
     ad = Ad.find(ad_id)
-    
+
     ad.videos.each do |video|
       meta = get_image_size_from_metadata(video)
       if !video.processed && video.content_type == "video/x-msvideo" || video.content_type == "video/msvideo" || video.content_type == "video/avi" || meta[:height] > 1080
@@ -13,11 +13,11 @@ class VideoConverterWorker
             retries ||= 0
             puts "attempt to convert video number ##{ retries }"
           if video.content_type == "video/mp4"
-            orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"])
+            orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"], "tmp/multimedia")
           else
-            orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".avi"])
+            orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".avi"], "tmp/multimedia")
           end
-          mp4_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"])
+          mp4_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"], "tmp/multimedia")
 
           File.open(orig_video_tmpfile, 'wb') do |f|
             f.write(video.download)
@@ -33,12 +33,14 @@ class VideoConverterWorker
           ad.multimedia.attach(io: File.open(mp4_video_tmpfile), filename: "#{video.blob.filename.base}.mp4", content_type: 'video/mp4')
           ad.multimedia.last.update(processed: true)
           delete_video(mp4_video_tmpfile, video, orig_video_tmpfile)
+
         rescue
-          retry if (retries += 1) < 4
           delete_video(mp4_video_tmpfile, video, orig_video_tmpfile)
+          retry if (retries += 1) < 4
           puts "Conversion video failed"
+          delete_video(mp4_video_tmpfile, video, orig_video_tmpfile)
         end
-      elsif video.content_type= "video/mp4" && meta[:height] <= 1080
+      elsif video.content_type = "video/mp4" && meta[:height] <= 1080
         video.update(processed: true)
       end
     end
