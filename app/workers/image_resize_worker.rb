@@ -13,7 +13,7 @@ class ImageResizeWorker
           retries ||= 0
           puts "attempt to convert image number ##{ retries }"
           if img.blob.filename.to_s.ends_with?(".jpg") || img.blob.filename.to_s.ends_with?(".jpeg")
-            orig_img_tmpfile = Tempfile.new(["#{img.blob.key}", ".jpeg"])
+            orig_img_tmpfile = Tempfile.new(["#{img.blob.key}", ".jpeg"], "tmp/multimedia")
             file_extension = "jpeg"
           elsif img.blob.filename.to_s.ends_with?(".png")
             orig_img_tmpfile = Tempfile.new(["#{img.blob.key}", ".png"])
@@ -29,10 +29,11 @@ class ImageResizeWorker
 
           new_attachment = ad.multimedia.attach(io: File.open(orig_img_tmpfile), filename: "#{img.blob.filename.base}."+file_extension, content_type: 'image/'+file_extension)
           ad.multimedia.last.update(processed: true)
-          delete_img(orig_img_tmpfile,img)
+          delete_img(orig_img_tmpfile, img)
         rescue
+          delete_img(orig_img_tmpfile, img)
           retry if (retries += 1) < 4
-          delete_img(orig_img_tmpfile,img)
+          delete_img(orig_img_tmpfile, img)
           puts "Conversion image failed"
         end
       else
@@ -41,7 +42,7 @@ class ImageResizeWorker
     end
   end
 
-  def delete_img(orig_img_tmpfile,mm)
+  def delete_img(orig_img_tmpfile, mm)
     orig_img_tmpfile.close
     orig_img_tmpfile.unlink
     if mm.present?
