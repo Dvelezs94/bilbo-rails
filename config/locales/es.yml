@@ -104,6 +104,7 @@ es:
     items_page: elementos/página
     edit: Editar Campaña
     pay_with: Pagar con
+    generate_payment_sheet: Generar ficha de pago
     please_wait: Por favor espera...
     here: aqui
     nothing_to_see_here: No hay nada aqui...
@@ -361,7 +362,7 @@ es:
     verify_account: Verificar mi Cuenta
     credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiración. 1 crédito equivale a $1 MXN.
     credit_limit: Límite de compra de créditos superada
-    daily_credit_limit: Tu límite de compra diario es de %{credit_limit} créditos
+    daily_credit_limit: Tu límite de compra diario es de %{credit_limit} créditos, puedes
     verification_text: Para que una cuenta pueda habilitar sus campañas publicitarias primero debe verificar su perfil. Esto es para verificar la identidad del comprador y la legitimidad del contenido a mostrar en los medios.
     verification_needed: Si tienes dudas de como verificar tu cuenta o si deseas hablar con un representante. Por favor dirigete al siguiente link
     require_invoices: Si requieres que se emitan facturas para tus campañas llena los datos fiscales. Para más información haz click en la siguiente liga.
@@ -378,6 +379,7 @@ es:
     street: Calle
     place_holder_street: "Paseo de la Reforma #400"
     suburb: Colonia
+    enter_desired_payment: Introduce la cantidad con la que deseas generar tu ficha de pago para el depósito SPEI
     place_holder_suburb: Colonia Juarez
     zip_code: Código Postal
     city: Ciudad
@@ -388,18 +390,38 @@ es:
     personal_info: DATOS PERSONALES
     verify_account: Verificar Cuenta
     bilbo_credits: 'Créditos de Bilbo'
+    choose_payment_method: Elige tu método de pago
+    bank_transfer: Transf. bancaria
     transaction_fee: 'Comisión de transacción'
     transaction_fee_text: 'Comisión de transacción de plataforma de pagos.'
     purchase_success: Haz comprado %{credits_number} créditos.
+    purchase_spei_success: Se ha generado tu ficha de pago.
+    payment_sheet: Ficha de pago
     purchase_error: 'Ocurrió un error en la transacción. Contacta a soporte para más información'
+    pick_another_payment_method: Elegir otro método de pago
+    waiting_for_payment: Esperando el pago
+    reviewing_payment: En revisión
+    paid: Pagado
+    rejected: Rechazado
+    cancelled: Cancelado
+    pending_payment: Pago pendiente
+    actions: Acciones
+    cancel: Cancelar pago
+    confirm_cancel: ¿Seguro que quieres cancelar tu pago?
+    status_update_error: Ocurrió un error al intentar actualizar tu pago
+    status_update_success: El estado de tu pago ha sido actualizado
+    paid_with: Método de pago
+    errors:
+      already_one_payment: Ya tienes un pago en proceso. Puedes cancelarlo en la sección de recibos.
   invoices:
     invoice: Recibo
     invoices: Recibos
     issued_at: Fecha de emisión
     beneficiary_name: Nombre del beneficiario
     total_amount: Cantidad total
+    status: Estado
     go_to_invoice: Ir al Recibo
-    number: Numero de Recibo
+    number: Número de Recibo
     billed_to: Emitido a
     information: Información de recibo
     type: Tipo

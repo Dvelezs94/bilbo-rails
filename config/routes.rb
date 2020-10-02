@@ -73,9 +73,14 @@ Rails.application.routes.draw do
       get :toggle_status
     end
   end
-  resource :payment, only: [:new, :create] do
-    member do
+  resources :payments, only: [:new, :create] do
+    collection do
       post :express
+      post :create_spei
+      get :generate_sheet
+    end
+    member do
+      delete :cancel_spei
     end
   end
   resources :invoices, only: [:index, :show]

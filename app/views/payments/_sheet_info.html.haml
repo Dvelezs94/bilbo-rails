@@ -1,0 +1,6 @@
+.alert.alert-success.tx-center
+  %h4.alert-heading Ficha de pago generada
+  .fe.fe-download
+  = link_to "Obtén tu ficha aquí", @pdf_url, target: "_blank"
+  .tx-right.tx-11
+    = link_to "Ir a Recibos <i class='fe fe-arrow-right'></i>".html_safe, invoices_path

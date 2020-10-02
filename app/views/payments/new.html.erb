@@ -5,7 +5,7 @@
   <div class="spinner-border" role="status">
     <span class="sr-only">Loading...</span>
   </div>
-  <%= form_with(model: Payment, url: payment_path, method: :post, id: "process_payment", local: false) do |f| %>
+  <%= form_with(model: Payment, url: payments_path, method: :post, id: "process_payment", local: false) do |f| %>
   <%= f.hidden_field :express_token, value: params[:token] %>
   <% end %>
   <br><br>
