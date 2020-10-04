@@ -29,6 +29,7 @@ class User < ApplicationRecord
   has_many :invoices
   has_many :provider_invoices
   has_many :reports
+  has_many :notifications, through: :projects
   has_one_attached :avatar
   attr_readonly :email
   has_many :verifications
@@ -128,7 +129,7 @@ class User < ApplicationRecord
       self.increment!(:balance, by = total.to_i)
       SlackNotifyWorker.perform_async("El usuario #{self.email} ha comprado #{total.to_i} créditos")
     else
-      self.errors.add(:base, "You have to give 50 or more credits")
+      self.errors.add(:base, "You have to purchase 50 or more credits")
       false
     end
   end
