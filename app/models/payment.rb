@@ -10,6 +10,7 @@ class Payment < ApplicationRecord
   enum status: { waiting_for_payment: 0, reviewing_payment: 1, paid: 2, rejected: 3, cancelled: 4  }
 
   scope :pending_payments, -> { where(status: "waiting_for_payment") }
+  after_commit :generate_invoice, on: :create
 
   def purchase
     if paid_with == "Paypal Express"
@@ -22,7 +23,6 @@ class Payment < ApplicationRecord
         else
           user.add_credits(total)
         end
-      GenerateInvoiceWorker.perform_async(id)
       else
         self.rejected!
         # for debugging
@@ -74,12 +74,16 @@ class Payment < ApplicationRecord
   end
 
   def one_payment_at_a_time
-    if self.paid_with == "SPEI" && Payment.where(user_id: self.user_id, status: 0).present?
+    if self.paid_with == "SPEI" && self.user.payments.where(status: 0).present?
       errors.add(:base, I18n.t('payments.errors.already_one_payment'))
     end
   end
 
   def notify_on_slack
     SlackNotifyWorker.perform_async("Revisar referencia de pago '#{self.spei_reference}' por la cantidad de #{self.total_in_cents}.")
+  end
+
+  def generate_invoice
+    Invoice.create(payment_id: self.id, user_id: self.user_id)
   end
 end

@@ -19,7 +19,7 @@
             <%= link_to t("payments.cancel"), cancel_spei_payment_path(invoice.payment.id), class: "dropdown-item", method: :delete, data: { confirm: t("payments.confirm_cancel"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") } %>
               <a class="dropdown-item" href="<%= generate_sheet_payments_url(price: invoice.payment.total_in_cents, format: :pdf) %>" target="_blank"><%= t("payments.payment_sheet") %> <i class="fe fe-link-external"></i></a>
           <% end %>
-          <% if invoice.payment.paid? || invoice.payment.reviewing_payment? %>
+          <% if invoice.payment.reviewing_payment? %>
             <a class="dropdown-item" href="<%= invoice_path(invoice) %>" target="_blank"><%= t("invoices.go_to_invoice") %> <i class="fe fe-link-external"></i></a>
           <% end %>
         </div>
