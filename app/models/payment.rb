@@ -3,6 +3,7 @@ class Payment < ApplicationRecord
   has_one :invoice, :dependent => :destroy
   validates :express_token, uniqueness: true, if: -> { paid_with == "Paypal Express" }
   validate :one_payment_at_a_time, on: :create
+  before_save :notify_on_slack, if: :will_save_change_to_spei_reference?
   include ApplicationHelper
   require 'json'
 
@@ -76,5 +77,9 @@ class Payment < ApplicationRecord
     if self.paid_with == "SPEI" && Payment.where(user_id: self.user_id, status: 0).present?
       errors.add(:base, I18n.t('payments.errors.already_one_payment'))
     end
+  end
+
+  def notify_on_slack
+    SlackNotifyWorker.perform_async("Revisar referencia de pago '#{self.spei_reference}' por la cantidad de #{self.total_in_cents}.")
   end
 end

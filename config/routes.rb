@@ -81,6 +81,8 @@ Rails.application.routes.draw do
     end
     member do
       delete :cancel_spei
+      get :check_payment
+      post :update_reference
     end
   end
   resources :invoices, only: [:index, :show]
@@ -108,6 +110,15 @@ Rails.application.routes.draw do
         patch :verify
         patch :deny
         post :impersonate
+      end
+    end
+    resources :payments, only: [] do
+      collection do
+        get :index
+      end
+      member do
+        post :approve
+        post :deny
       end
     end
   end
