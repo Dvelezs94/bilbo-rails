@@ -411,8 +411,15 @@ es:
     status_update_error: Ocurrió un error al intentar actualizar tu pago
     status_update_success: El estado de tu pago ha sido actualizado
     paid_with: Método de pago
+    reference_field: Número de Referencia ó Clave de Rastreo
+    check_payment: Comprobar pago
+    check_payment_description: Introduce tu Referencia o Clave de rastreo para comprobar tu pago. Una vez lo verifiquemos recibirás tus créditos en tu cuenta.
+    check_payment_submit: Enviar referencia
     errors:
       already_one_payment: Ya tienes un pago en proceso. Puedes cancelarlo en la sección de recibos.
+      reference_failed: Ocurrió un error al actualizar la referencia de pago
+    success:
+      reference_sent: La referencia ha sido actualizada. En breve revisaremos tu pago.
   invoices:
     invoice: Recibo
     invoices: Recibos

@@ -1,8 +1,8 @@
 class PaymentsController < ApplicationController
   access user: :all
   # before_action :user_verified_for_purchase?, only: [:create, :express]
-  before_action :verify_user_credit_limit, only: [:create, :express]
-  before_action :get_payment, only: [:cancel_spei]
+  before_action :verify_user_credit_limit, only: [:create, :express, :update_reference]
+  before_action :get_payment, only: [:cancel_spei, :check_payment, :update_reference]
   before_action :identify_user, only: [:cancel_spei]
   include ApplicationHelper
   def express
@@ -63,6 +63,21 @@ class PaymentsController < ApplicationController
     else
       flash[:error] = @payment.errors.full_messages.first
     end
+  end
+
+  # display modal for checking the payment
+  def check_payment
+  end
+
+  # update the reference id to check the payment
+  def update_reference
+    if @payment.update(params.require(:payment).permit(:spei_reference))
+      @payment.reviewing_payment!
+      flash[:success] = I18n.t("payments.success.reference_sent")
+    else
+      flash[:error] = I18n.t("payments.errors.reference_failed")
+    end
+    redirect_to invoices_path
   end
 
   def cancel_spei

@@ -15,7 +15,7 @@
         </span>
         <div class="dropdown-menu">
           <% if invoice.payment.waiting_for_payment? %>
-            <a class="dropdown-item" href="#">Comprobar pago</a>
+            <%= link_to t("payments.check_payment"),  check_payment_payment_path(invoice.payment.id), class: "dropdown-item", remote: true %>
             <%= link_to t("payments.cancel"), cancel_spei_payment_path(invoice.payment.id), class: "dropdown-item", method: :delete, data: { confirm: t("payments.confirm_cancel"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") } %>
               <a class="dropdown-item" href="<%= generate_sheet_payments_url(price: invoice.payment.total_in_cents, format: :pdf) %>" target="_blank"><%= t("payments.payment_sheet") %> <i class="fe fe-link-external"></i></a>
           <% end %>

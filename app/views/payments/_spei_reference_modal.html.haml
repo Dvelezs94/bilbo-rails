@@ -1,0 +1,23 @@
+#modalPaymentSpei.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h5.tx-18.tx-sm-20= t("payments.check_payment")
+        %p.tx-14= "#{@payment.paid_with}"
+        %span.tx-13.tx-color-03= t("payments.check_payment_description")
+        %hr
+        = form_with model: @payment, url: update_reference_payment_path(@payment), remote: true, method: :post do |f|
+          .form-group
+            .form-row
+              .form-group.col-md-12
+                = f.label t("payments.reference_field")
+                = f.text_field :spei_reference, required: true, class: "form-control", placeholder: "Número de Referencia ó Clave de Rastreo"
+          = f.submit t('payments.check_payment_submit'), class: "btn btn-primary float-right"
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+      / modal-footer
+    / modal-content
+  / modal-dialog
+/ modal

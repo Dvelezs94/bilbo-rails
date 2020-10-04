@@ -270,6 +270,7 @@ ActiveRecord::Schema.define(version: 2020_09_30_220000) do
     t.datetime "updated_at", null: false
     t.float "transaction_fee"
     t.integer "status", default: 0
+    t.string "spei_reference"
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 

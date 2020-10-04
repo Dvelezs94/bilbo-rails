@@ -410,8 +410,15 @@ en:
     status_update_error: We had an error updating your payment
     status_update_success: Your payment status has been updated
     paid_with: Payment method
+    reference_field: Reference number
+    check_payment: Check payment
+    check_payment_description: Enter the payment reference to complete your payment. Once we verify it you will receive the credits on your account.
+    check_payment_submit: Send reference
     errors:
       already_one_payment: You already have a payment in process. You can cancel it on the receipts section
+      reference_failed: An error has occurred while updating your payment reference
+    success:
+      reference_sent: The payment reference has been updated. We will review your payment in short.
   invoices:
     invoice: Receipt
     invoices: Receipts
