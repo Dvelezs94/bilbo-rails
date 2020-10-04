@@ -4,6 +4,7 @@ class Payment < ApplicationRecord
   validates :express_token, uniqueness: true, if: -> { paid_with == "Paypal Express" }
   validate :one_payment_at_a_time, on: :create
   before_save :notify_on_slack, if: :will_save_change_to_spei_reference?
+  before_save :assign_credits, if: :will_save_change_to_status?
   include ApplicationHelper
   require 'json'
 
@@ -76,6 +77,12 @@ class Payment < ApplicationRecord
   def one_payment_at_a_time
     if self.paid_with == "SPEI" && self.user.payments.where(status: 0).present?
       errors.add(:base, I18n.t('payments.errors.already_one_payment'))
+    end
+  end
+
+  def assign_credits
+    if paid_with == "SPEI" && paid?
+      user.add_credits(total)
     end
   end
 
