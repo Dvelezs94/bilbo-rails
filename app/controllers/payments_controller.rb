@@ -57,7 +57,6 @@ class PaymentsController < ApplicationController
     @payment = Payment.new(spei_payment_params)
     @payment.paid_with = "SPEI"
     if @payment.save
-      GenerateInvoiceWorker.perform_async(@payment.id)
       flash[:success] = I18n.t("payments.purchase_spei_success")
       @pdf_url = generate_sheet_payments_url(price: @payment.total_in_cents, format: :pdf)
     else

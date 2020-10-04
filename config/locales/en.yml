@@ -354,6 +354,7 @@ en:
     new_ad_description: Create a new amazing and beautiful creative for your campaigns
     No_ad: No creative
   payments:
+    payments: Pagos
     request_limit_increase: Request limit increase
     if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
     processing_order: Processing order...

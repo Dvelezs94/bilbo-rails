@@ -1,0 +1,14 @@
+%tr
+  %td.tx-medium= format_time(payment.created_at)
+  %td.tx-medium= format_time(payment.updated_at)
+  %td.text-center
+    %span{class: "badge badge-#{payment.status} tx-12"}= t("payments.#{payment.status}")
+  %td= payment.total_in_cents
+  %td.tx-medium= payment.spei_reference
+  - if !payment.paid?
+    %td
+      .dropdown
+        %span.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+          = t("payments.actions")
+  - else
+    %td= link_to t("invoices.go_to_invoice"), invoice_path(payment.invoice)

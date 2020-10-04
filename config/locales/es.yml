@@ -355,6 +355,7 @@ es:
     no_ad: Sin creativo
     new_ad_description: Crea un nuevo creativo para tus campañas publicitarias
   payments:
+    payments: Pagos
     request_limit_increase: Solicitar incremento de límite
     if_it_doesnt_redirect: Si no lo redirige en 5 segundos, haga click
     processing_order: Procesando la orden...
@@ -420,6 +421,9 @@ es:
       reference_failed: Ocurrió un error al actualizar la referencia de pago
     success:
       reference_sent: La referencia ha sido actualizada. En breve revisaremos tu pago.
+    admin:
+      created_at: Fecha de generacion de recibo
+      paid_at: Fecha de pago
   invoices:
     invoice: Recibo
     invoices: Recibos
