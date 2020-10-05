@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api"
   end
 #Show error custom pages only in production
-  if Rails.env.production?
+  if Rails.env.production? || Rails.env.staging?
     get '/500', to: "error#internal_error"
     get '/404', to: "error#not_found"
   end
@@ -73,9 +73,16 @@ Rails.application.routes.draw do
       get :toggle_status
     end
   end
-  resource :payment, only: [:new, :create] do
-    member do
+  resources :payments, only: [:new, :create] do
+    collection do
       post :express
+      post :create_spei
+      get :generate_sheet
+    end
+    member do
+      delete :cancel_spei
+      get :check_payment
+      post :update_reference
     end
   end
   resources :invoices, only: [:index, :show]
@@ -103,6 +110,15 @@ Rails.application.routes.draw do
         patch :verify
         patch :deny
         post :impersonate
+      end
+    end
+    resources :payments, only: [] do
+      collection do
+        get :index
+      end
+      member do
+        post :approve
+        post :deny
       end
     end
   end
