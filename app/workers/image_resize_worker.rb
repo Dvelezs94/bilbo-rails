@@ -13,7 +13,7 @@ class ImageResizeWorker
           retries ||= 0
           puts "attempt to convert image number ##{ retries }"
           if img.blob.filename.to_s.ends_with?(".jpg") || img.blob.filename.to_s.ends_with?(".jpeg")
-            orig_img_tmpfile = Tempfile.new(["#{img.blob.key}", ".jpeg"], "tmp/multimedia")
+            orig_img_tmpfile = Tempfile.new(["#{img.blob.key}", ".jpeg"])
             file_extension = "jpeg"
           elsif img.blob.filename.to_s.ends_with?(".png")
             orig_img_tmpfile = Tempfile.new(["#{img.blob.key}", ".png"])

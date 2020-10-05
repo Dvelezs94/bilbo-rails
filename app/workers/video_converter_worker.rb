@@ -13,11 +13,11 @@ class VideoConverterWorker
             retries ||= 0
             puts "attempt to convert video number ##{ retries }"
           if video.content_type == "video/mp4"
-            orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"], "tmp/multimedia")
+            orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"])
           else
-            orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".avi"], "tmp/multimedia")
+            orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".avi"])
           end
-          mp4_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"], "tmp/multimedia")
+          mp4_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"])
 
           File.open(orig_video_tmpfile, 'wb') do |f|
             f.write(video.download)
