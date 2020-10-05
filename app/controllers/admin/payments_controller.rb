@@ -8,7 +8,7 @@ class Admin::PaymentsController < ApplicationController
 
   def approve
     if @payment.paid!
-      flash[:success] = "Pago aceptado, se entregaron los creditos al usuario"
+      flash[:success] = "Pago aceptado, se entregaron los créditos al usuario"
     else
       flash[:error] = I18n.t("payments.status_update_error")
     end

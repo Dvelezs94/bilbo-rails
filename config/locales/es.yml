@@ -422,7 +422,7 @@ es:
     success:
       reference_sent: La referencia ha sido actualizada. En breve revisaremos tu pago.
     admin:
-      created_at: Fecha de generacion de recibo
+      created_at: Fecha de generación de recibo
       paid_at: Fecha de pago
   invoices:
     invoice: Recibo
