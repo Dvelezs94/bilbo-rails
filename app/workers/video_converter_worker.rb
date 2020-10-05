@@ -1,7 +1,7 @@
 class VideoConverterWorker
   include Sidekiq::Worker
   include ApplicationHelper
-  sidekiq_options retry: false, dead: false
+  sidekiq_options retry: 3, dead: false
   require 'streamio-ffmpeg'
   def perform(ad_id)
     ad = Ad.find(ad_id)
@@ -51,11 +51,15 @@ class VideoConverterWorker
       custom: %w(-vf scale=-1:1080)
     }
   end
-  def delete_video(mp4_video_tmpfile, mm ,orig_video_tmpfile)
-    orig_video_tmpfile.close
-    orig_video_tmpfile.unlink
-    mp4_video_tmpfile.close
-    mp4_video_tmpfile.unlink
+  def delete_video(mp4_video_tmpfile, mm, orig_video_tmpfile)
+    if orig_video_tmpfile.present?
+      orig_video_tmpfile.close
+      orig_video_tmpfile.unlink
+    end
+    if mp4_video_tmpfile.present?
+      mp4_video_tmpfile.close
+      mp4_video_tmpfile.unlink
+    end
     if mm.present?
       mm.destroy!
     end

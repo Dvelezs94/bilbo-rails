@@ -43,8 +43,10 @@ class ImageResizeWorker
   end
 
   def delete_img(orig_img_tmpfile, mm)
-    orig_img_tmpfile.close
-    orig_img_tmpfile.unlink
+    if orig_img_tmpfile.present?
+      orig_img_tmpfile.close
+      orig_img_tmpfile.unlink
+    end
     if mm.present?
       mm.destroy!
     end
