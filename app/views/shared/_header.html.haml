@@ -79,7 +79,7 @@
           %p.tx-12.tx-color-03= @project.name
           - if current_user.role == :user
             - if not current_user.verified
-              .alert.alert-danger.pd-y-5.tx-center.cursor-pointer{"data-toggle" => "modal", :href => "#modalVerify"}
+              .alert.alert-solid.alert-danger.pd-y-5.tx-center.cursor-pointer{"data-toggle" => "modal", :href => "#modalVerify"}
                 = t('payments.verify_account')
             %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
               %i.fe.fe-wallet.mg-r-10.tx-success
@@ -98,6 +98,9 @@
             %a.dropdown-item{:href => invoices_path}
               %i.fe.fe-document.mg-r-10
               = t('header.invoices')
+              - if current_user.payments.pending_payments.count > 0
+                %span.badge.badge-warning.mg-l-5
+                  = t("payments.pending_payment")
             %a.dropdown-item{:href => provider_invoices_path}
               %i.fe.fe-document.mg-r-10
               = t('provider_invoices.provider_invoices')

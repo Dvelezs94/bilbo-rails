@@ -58,6 +58,9 @@
     height: 88px !important;
   }
 }
+.new_ad_hover:hover {
+  background-color: #005de1 !important;
+}
 
 .bg-white {
   background: white !important;
@@ -279,4 +282,37 @@ details[open] summary:after {
 }
 .btn-group-fab .btn-sub:nth-child(5) {
   bottom: 210px;
+}
+
+.tx-underline {
+  text-decoration: underline;
+}
+
+table.dataTable tbody tr:hover {
+  background-color: #f7f7f7;
+}
+
+.badge-waiting_for_payment {
+    color: #fff;
+    background-color: #ffc107;
+}
+
+.badge-reviewing_payment {
+    color: #fff;
+    background-color: #00b8d4;
+}
+
+.badge-paid {
+    color: #fff;
+    background-color: #10b759;
+}
+
+.badge-rejected {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.badge-cancelled {
+    color: #fff;
+    background-color: #7987a1;
 }

@@ -19,7 +19,7 @@ module ApplicationHelper
   end
 
   def url_from_media(media)
-    if Rails.env.production?
+    if Rails.env.production? || Rails.env.staging?
       "https://#{ENV.fetch('CDN_HOST')}/#{media.blob.key}"
     else
       url_for(media)
