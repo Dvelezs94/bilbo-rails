@@ -13,7 +13,7 @@ class ApplicationRecord < ActiveRecord::Base
         csv << attributes.map{ |attr| item.send(attr) }
       end
     end
-    return "tmp//multimedia/#{name}"
+    return "tmp/multimedia/#{name}"
   end
 
 end
