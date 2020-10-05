@@ -220,6 +220,7 @@ en:
       no_save: Could not save campaign
       not_accepted: Could not accept campaign
       no_images: Your creative doesn't have an image to display on the bilbos that don't play videos
+      processing_creatives: Processing videos and images
       verification_required: In order to enable your campaign you need to verify your profile
     action:
       deleted: The campaign has been successfully deleted

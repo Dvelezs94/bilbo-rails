@@ -1,29 +1,46 @@
 class VideoConverterWorker
   include Sidekiq::Worker
-  sidekiq_options retry: 3, dead: false
+  include ApplicationHelper
+  sidekiq_options retry: false, dead: false
   require 'streamio-ffmpeg'
   def perform(ad_id)
     ad = Ad.find(ad_id)
+
     ad.videos.each do |video|
-      if !video.processed && video.content_type == "video/x-msvideo" || video.content_type == "video/msvideo" || video.content_type == "video/avi"
-        orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".avi"])
-        mp4_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"])
+      meta = get_image_size_from_metadata(video)
+      if !video.processed && video.content_type == "video/x-msvideo" || video.content_type == "video/msvideo" || video.content_type == "video/avi" || meta[:height] > 1080
+        begin
+            retries ||= 0
+            puts "attempt to convert video number ##{ retries }"
+          if video.content_type == "video/mp4"
+            orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"], "tmp/multimedia")
+          else
+            orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".avi"], "tmp/multimedia")
+          end
+          mp4_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"], "tmp/multimedia")
 
-        File.open(orig_video_tmpfile, 'wb') do |f|
-          f.write(video.download)
+          File.open(orig_video_tmpfile, 'wb') do |f|
+            f.write(video.download)
+          end
+
+          movie = FFMPEG::Movie.new(orig_video_tmpfile.path)
+          if meta[:height] > 1080
+            movie.transcode(mp4_video_tmpfile.path, video_encoding_settings)
+          else
+            movie.transcode(mp4_video_tmpfile.path)
+          end
+
+          ad.multimedia.attach(io: File.open(mp4_video_tmpfile), filename: "#{video.blob.filename.base}.mp4", content_type: 'video/mp4')
+          ad.multimedia.last.update(processed: true)
+          delete_video(mp4_video_tmpfile, video, orig_video_tmpfile)
+
+        rescue
+          delete_video(mp4_video_tmpfile, video, orig_video_tmpfile)
+          retry if (retries += 1) < 4
+          puts "Conversion video failed"
+          delete_video(mp4_video_tmpfile, video, orig_video_tmpfile)
         end
-
-        movie = FFMPEG::Movie.new(orig_video_tmpfile.path)
-        if movie.height.to_i > 1080
-          movie.transcode(mp4_video_tmpfile.path, video_encoding_settings)
-        else
-          movie.transcode(mp4_video_tmpfile.path)
-        end
-
-        ad.multimedia.attach(io: File.open(mp4_video_tmpfile), filename: "#{video.blob.filename.base}.mp4", content_type: 'video/mp4')
-        ad.multimedia.last.update(processed: true)
-        delete_video(mp4_video_tmpfile, video, orig_video_tmpfile)
-      else
+      elsif video.content_type = "video/mp4" && meta[:height] <= 1080
         video.update(processed: true)
       end
     end
