@@ -34,7 +34,8 @@ class VideoConverterWorker
           ad.multimedia.last.update(processed: true)
           delete_video(mp4_video_tmpfile, video, orig_video_tmpfile)
 
-        rescue
+        rescue => e
+          Bugsnag.notify(e)
           delete_video(mp4_video_tmpfile, video, orig_video_tmpfile)
           retry if (retries += 1) < 4
           puts "Conversion video failed"
