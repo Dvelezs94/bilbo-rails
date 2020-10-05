@@ -5,7 +5,7 @@ class AttachmentsController < ApplicationController
   def create
     if @ad.campaigns.all_off
       @ad.multimedia.attach(params[:files])
-      VideoConverterWorker.perform_async(@ad.id)
+      # VideoConverterWorker.perform_async(@ad.id)
       ImageResizeWorker.perform_async(@ad.id)
       flash[:success] = I18n.t('ads.attachment_saved')
     else

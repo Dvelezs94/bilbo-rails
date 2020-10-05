@@ -4,8 +4,8 @@ $(document).on('turbolinks:load', function() {
     const ProgressBar = Uppy.ProgressBar
     var uppy = Uppy.Core({
       restrictions: {
-        maxFileSize: 50000000,
-        allowedFileTypes: ["image/png", "image/jpeg", "video/mp4", "video/x-msvideo", "video/msvideo", "video/avi", "video/vnd.avi"]
+        maxFileSize: 20971520,
+        allowedFileTypes: ["image/png", "image/jpeg", "video/mp4"]
       }
     })
     .use(Uppy.Dashboard, {

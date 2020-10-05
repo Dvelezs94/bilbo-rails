@@ -336,6 +336,7 @@ en:
     processing: Processing %{filename}
     view: View creative
     attachment_saved: Attachment saved
+    convert_video_external: Convert your video to mp4 at 1080p here
     transitions:
       no_transition: No Transition
       fadeInDown: Fade In Down
