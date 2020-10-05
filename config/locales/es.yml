@@ -337,6 +337,7 @@ es:
     processing: Procesando %{filename}
     view: Ver creativo
     attachment_saved: Archivo adjunto guardado
+    convert_video_external: Convierte tu video a formato mp4 a 1080p aquí
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
