@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-Rails.application.configure do
-  config.serviceworker.routes.draw do
+#Rails.application.configure do
+#  config.serviceworker.routes.draw do
     # map to assets implicitly
-    match "/serviceworker.js"
-    match "/manifest.json"
+#    match "/serviceworker.js"
+#    match "/manifest.json"
 
     # Examples
     #
@@ -24,5 +24,5 @@ Rails.application.configure do
     #
     # anonymous glob exposes `paths` variable for interpolation
     # match "/*/serviceworker.js" => "%{paths}/serviceworker.js"
-  end
-end
+#  end
+#end
