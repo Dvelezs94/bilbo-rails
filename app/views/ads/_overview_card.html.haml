@@ -5,10 +5,8 @@
         .card-file-thumb.bg-white
           - if ad.multimedia.first
             - meta = get_image_size_from_metadata(ad.multimedia.first)
-            -if (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "mp4") && meta[:height] <= 1080
+            -if (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "mp4")
               = video_tag(url_from_media(ad.multimedia.first), class: "img-inherit", autoplay: false, loop: true, muted: 'muted')
-            -elsif (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "avi") || meta[:height] > 1080
-              = image_tag "construction_video.webp", class: "img-inherit"
             -elsif meta[:height] <= 1080
               = image_tag ad.multimedia.first, class: "img-inherit"
             -else

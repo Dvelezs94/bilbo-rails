@@ -6,6 +6,12 @@ class ImageResizeWorker
   def perform(ad_id)
     ad = Ad.find(ad_id)
 
+    ad.videos.each do |video|
+      if !video.processed
+        video.update(processed: true)
+      end
+    end
+
     ad.images.each do |img|
       meta = get_image_size_from_metadata(img)
       if meta[:height]>1080 && !img.processed
