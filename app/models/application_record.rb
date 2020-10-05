@@ -6,7 +6,7 @@ class ApplicationRecord < ActiveRecord::Base
   # current_user.boards.to_csv(attributes = ["id", "base_earnings", "status"])
   def self.to_csv(name, attributes = ["id"])
     require 'csv'
-    CSV.open("tmp/#{name}", "w") do |csv|
+    CSV.open("tmp/multimedia/#{name}", "w") do |csv|
       csv << attributes
 
       all.each do |item|

@@ -4,17 +4,19 @@ $(document).on('turbolinks:load', function() {
     const ProgressBar = Uppy.ProgressBar
     var uppy = Uppy.Core({
       restrictions: {
-        maxFileSize: 55000000,
+        maxFileSize: 50000000,
         allowedFileTypes: ["image/png", "image/jpeg", "video/mp4", "video/x-msvideo", "video/msvideo", "video/avi", "video/vnd.avi"]
       }
     })
     .use(Uppy.Dashboard, {
       inline: true,
       target: '#drag-drop-area',
+      showProgressDetails: false
     })
     .use(Uppy.XHRUpload, {
       endpoint: create_attachment_url,
-      bundle: true
+      bundle: true,
+      timeout: 0
     })
     // uppy.use(Uppy.Dropbox, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
     // uppy.use(Uppy.GoogleDrive, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })

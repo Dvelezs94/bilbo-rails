@@ -10,7 +10,7 @@ class RemoveScheduleCampaignWorker
       bc = BoardsCampaigns.includes(:board).where(campaign_id: campaign_id,status: "approved")
       bc.each do |element|
         board = element.board
-        if campaign.should_run?(board)
+        if campaign.should_run?(board.id)
           return #end execution, dont turn off because at least in one board is active
         end
       end
