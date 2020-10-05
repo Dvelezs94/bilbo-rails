@@ -10,8 +10,10 @@ class VideoConverterWorker
       meta = get_image_size_from_metadata(video)
       if !video.processed && video.content_type == "video/x-msvideo" || video.content_type == "video/msvideo" || video.content_type == "video/avi" || meta[:height] > 1080
         begin
-            retries ||= 0
-            puts "attempt to convert video number ##{ retries }"
+          retries ||= 0
+          puts "attempt to convert video number ##{ retries }"
+          tmp_dir = "tmp/multimedia"
+          Dir.mkdir(tmp_dir) unless Dir.exist?(tmp_dir)
           if video.content_type == "video/mp4"
             orig_video_tmpfile = Tempfile.new(["#{video.blob.key}", ".mp4"], "tmp/multimedia")
           else
