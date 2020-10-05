@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api"
   end
 #Show error custom pages only in production
-  if Rails.env.production?
+  if Rails.env.production? || Rails.env.staging?
     get '/500', to: "error#internal_error"
     get '/404', to: "error#not_found"
   end
