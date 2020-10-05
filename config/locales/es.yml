@@ -561,6 +561,10 @@ es:
         subject: Tu reporte semanal está listo para descargar
         message: Tu reporte semanal está listo para descargar
         url_string: Descargar Reporte
+    credits:
+      assigned:
+        subject: Se te han abonado %{credits} créditos
+        message: Tu cuenta ha sido abonada con %{credits} créditos, los cuales puedes utilizar para tus campañas publicitarias. Los créditos no son transferibles ni tienen una fecha de caducidad.
   error:
     404_page:
       404_main: 404 Página no encontrada

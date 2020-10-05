@@ -45,7 +45,7 @@ class Ad < ApplicationRecord
   end
 
   def duration_multiple_of_10
-    if (duration % 10) != 0 || duration <= 0 || duration >= 60
+    if (duration % 10) != 0 || duration <= 0 || duration > 60
       errors.add(:base, I18n.t('ads.errors.is_not_multiple_of_10'))
     end
   end

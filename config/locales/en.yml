@@ -557,6 +557,10 @@ en:
         subject: Your weekly report is ready to be downloaded
         message: Your weekly report is ready to be downloaded
         url_string: Download Report
+    credits:
+      assigned:
+        subject: You have acquired %{credits} credits
+        message: You account has been assigned %{credits} credits, you can use these for your advertisign campaigns. Credits do not have an expiration date nor can be transfered.
   error:
     404_page:
       404_main: 404 Page not found

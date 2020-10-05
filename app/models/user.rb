@@ -128,6 +128,8 @@ class User < ApplicationRecord
     if self.is_user? && (total.to_i >= 50)
       self.increment!(:balance, by = total.to_i)
       SlackNotifyWorker.perform_async("El usuario #{self.email} ha comprado #{total.to_i} créditos")
+      NotificationMailer.new_notification(user: self, message: I18n.t("notifications.credits.assigned.message", credits: total.to_i),
+        subject: I18n.t("notifications.credits.assigned.subject", credits: total.to_i)).deliver
     else
       self.errors.add(:base, "You have to purchase 50 or more credits")
       false
