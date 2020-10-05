@@ -21,6 +21,10 @@ class Notification < ApplicationRecord
     self.update(read_at: Time.now)
   end
 
+  def user
+    recipient.owner
+  end
+
   # builds the url and message for the notification
   # you can call a single element like this
   # notification.build_notification_body[:url] or notification.build_notification_body[:message]
