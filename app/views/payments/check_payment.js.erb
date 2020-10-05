@@ -1,0 +1,3 @@
+$("#modalPaymentSpei").remove();
+$('body').append('<%= j (render "payments/spei_reference_modal",  object: { payment: @payment }) %>');
+$("#modalPaymentSpei").modal('show');

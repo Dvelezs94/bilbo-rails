@@ -1,6 +1,7 @@
 $(document).on('turbolinks:load', function() {
   if ($("#drag-drop-area").length) {
     var create_attachment_url = document.location.protocol +"//"+ document.location.hostname + document.location.pathname + "/attachments";
+    const ProgressBar = Uppy.ProgressBar
     var uppy = Uppy.Core({
       restrictions: {
         maxFileSize: 50000000,
