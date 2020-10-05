@@ -10,10 +10,13 @@
         <div id="carouselPayment" class="carousel slide" data-interval="false">
           <div class="carousel-inner">
             <div class="carousel-item carousel-item-fast">
-              <%= image_tag image_path("paypal.svg"), class: "img-fluid" %>
+              <div class="text-center">
+                <%= image_tag image_path("paypal.svg"), class: "img-fluid-50" %>
+              </div>
+
               <div class="row">
                 <div class="col-12 m-auto">
-                  <div class="pd-md-20 pd-xs-10">
+                  <div class="pd-md-20 pd-xs-10 pd-b-0-f">
                     <%= form_with(url: express_payments_path, method: :post, :html => { data: { parsley_validate: true } }, local: false) do |f| %>
                     <span class="tx-13 tx-color-03 mg-b-0"><%= t("payments.daily_credit_limit", credit_limit: current_user.credit_limit) %> <a href="https://bilbo.freshdesk.com/support/tickets/new" target="_blank" class="tx-color-03 tx-underline"><%= t('payments.request_limit_increase').downcase %></a></span>
                     <div class="form-group tx-right">
@@ -50,10 +53,12 @@
             </div>
           </div>
           <div class="carousel-item">
-            <%= image_tag image_path("spei OPT.svg"), class: "img-fluid" %>
+            <div class="text-center">
+              <%= image_tag image_path("spei OPT.svg"), class: "img-fluid-50" %>
+            </div>
             <div class="row">
               <div class="col-12 m-auto" id="spei_div">
-                <div class="pd-md-20 pd-xs-10">
+                <div class="pd-md-20 pd-xs-10 pd-b-0-f">
                   <%= form_with(model: Payment.new, url: create_spei_payments_path, method: :post, :html => { data: { parsley_validate: true } }, remote: true, id: "spei_payment") do |f| %>
                   <span class="tx-13 tx-color-03 mg-b-0"><%= t("payments.enter_desired_payment") %></span>
                   <div class="form-group tx-right">
