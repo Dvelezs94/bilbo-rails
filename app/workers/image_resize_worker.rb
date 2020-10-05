@@ -30,7 +30,8 @@ class ImageResizeWorker
           new_attachment = ad.multimedia.attach(io: File.open(orig_img_tmpfile), filename: "#{img.blob.filename.base}."+file_extension, content_type: 'image/'+file_extension)
           ad.multimedia.last.update(processed: true)
           delete_img(orig_img_tmpfile, img)
-        rescue
+        rescue => e
+          Bugsnag.notify(e)
           delete_img(orig_img_tmpfile, img)
           retry if (retries += 1) < 4
           delete_img(orig_img_tmpfile, img)
