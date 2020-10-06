@@ -87,8 +87,21 @@ class User < ApplicationRecord
   def locale
     super.nil?? ENV.fetch("RAILS_LOCALE").to_sym : super.to_sym
   end
+
   def name_or_email
-    name || email
+    begin
+      name.split.first
+    rescue
+      email
+    end
+  end
+
+  def name_or_none
+    begin
+      name.split.first
+    rescue
+      ""
+    end
   end
 
   def is_admin?
