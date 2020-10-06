@@ -51,7 +51,8 @@
         .dropdown-menu{"aria-labelledby" => "teamMenuButton"}
           - current_user.projects.enabled.each do |pr|
             = link_to pr.name, change_project_project_path(pr.slug), class: "dropdown-item"
-      = link_to "#{number_to_currency_usd(current_user.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap", data: { toggle: "modal", }
+      - if current_user.is_user?
+        = link_to "#{number_to_currency_usd(current_user.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap", data: { toggle: "modal", }
       / notifications
       .dropdown.dropdown-notification
         %a.dropdown-link.new-indicator{"data-toggle" => "dropdown", :href => ""}
