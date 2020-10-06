@@ -161,6 +161,8 @@ es:
     approve_campaign: ¿Seguro que quieres aceptar esta campaña?
     deny_campaign: ¿Estás seguro de denegar esta campaña?
     in_review_campaign: Estás a punto de pausar esta campaña. ¿Estás seguro?
+    bilbos_used: Bilbos utilizados
+    view_bilbos_used: Ver bilbos utilizados
     ads_rotation_error:
       accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
     wizard:
@@ -558,7 +560,7 @@ es:
       invite_removed:
         subject: <strong>%{user_name}</strong> fue eliminado del proyecto
         message: <strong>%{user_name}</strong> fue eliminado del proyecto
-        url_string: Ir al Bilbo
+        url_string: Ir al proyecto
     report:
       weekly_ready:
         subject: Tu reporte semanal está listo para descargar
