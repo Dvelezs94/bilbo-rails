@@ -1,7 +1,7 @@
 class NotificationMailer < ApplicationMailer
   include MailerHelper
 
-  def new_notification(user:, subject:, message:, link:, link_text:)
+  def new_notification(user:, subject:, message:, link: nil, link_text: nil)
     recipient_email = user.email
     recipient_name  = user.name_or_email
 

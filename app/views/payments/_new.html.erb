@@ -6,28 +6,81 @@
           <span aria-hidden="true">&times;</span>
         </button>
 
-        <h5 class="tx-18 tx-sm-20 mg-b-30"><%= t("payments.buy_credits") %></h5>
-        <p><%= t("payments.credits_text") %></p>
-        <div class="row">
-          <div class="col-12 m-auto">
-            <div class="pd-20">
-              <%= form_with(url: express_payment_path, method: :post, :html => { data: { parsley_validate: true } }, local: false) do |f| %>
-              <span class="tx-13 tx-color-03 mg-b-0"><%= t("payments.daily_credit_limit", credit_limit: current_user.credit_limit) %></span>
-              <div class="form-group tx-right">
-                <%= f.text_field :total, class: "form-control input-number_integer", placeholder: "500", required: true, min: "50", max: current_user.credit_limit %>
-                <a href="https://bilbo.freshdesk.com/support/tickets/new" target="_blank" class="tx-13 mg-b-0"><%= t('payments.request_limit_increase') %></a>
+        <h5 class="tx-18 tx-sm-20 mg-b-10"><%= t("payments.buy_credits") %></h5>
+        <div id="carouselPayment" class="carousel slide" data-interval="false">
+          <div class="carousel-inner">
+            <div class="carousel-item carousel-item-fast">
+              <div class="text-center">
+                <%= image_tag image_path("paypal.svg"), class: "img-fluid-50" %>
               </div>
 
-              <div class="actions">
-                <%= button_tag type: 'submit', class: "btn btn-outline-paypal btn-block", data: { disable_with: t("general_inputs.please_wait") } do %>
-                    <i class="fa fa-paypal" aria-hidden="true"></i> <%= t("general_inputs.pay_with") %> Paypal
-                <% end %>
+              <div class="row">
+                <div class="col-12 m-auto">
+                  <div class="pd-md-20 pd-xs-10 pd-b-0-f">
+                    <%= form_with(url: express_payments_path, method: :post, :html => { data: { parsley_validate: true } }, local: false) do |f| %>
+                    <span class="tx-13 tx-color-03 mg-b-0"><%= t("payments.daily_credit_limit", credit_limit: current_user.credit_limit) %> <a href="https://bilbo.freshdesk.com/support/tickets/new" target="_blank" class="tx-color-03 tx-underline"><%= t('payments.request_limit_increase').downcase %></a></span>
+                    <div class="form-group tx-right">
+                      <%= f.text_field :total, class: "form-control input-number_integer", placeholder: "500", required: true, min: "50", max: current_user.credit_limit %>
+                    </div>
+
+                    <div class="actions">
+                      <%= button_tag type: 'submit', class: "btn btn-outline-paypal btn-block", data: { disable_with: t("general_inputs.please_wait") } do %>
+                          <i class="fa fa-paypal" aria-hidden="true"></i> <%= t("general_inputs.pay_with") %> Paypal
+                      <% end %>
+                    </div>
+                  <% end %>
+                  <div class="tx-center mg-t-10">
+                    <small class="tx-color-03 choose-another-payment-method cursor-pointer"><%= t("payments.pick_another_payment_method") %></small>
+                  </div>
+
+                </div>
               </div>
-            <% end %>
+            </div>
+          </div>
+          <div class="carousel-item active">
+            <p><%= t("payments.credits_text") %></p>
+            <div class="divider-text"><%= t("payments.choose_payment_method") %></div>
+            <div class="row">
+              <div class="col-6 tx-center">
+                  <a href="#" id="pay-with-paypal" class="btn btn-block btn-primary">Paypal</a>
+                  <%= image_tag image_path("paypal OPT.svg"), class: "img-fluid-50 mg-t-5" %>
+              </div>
+
+              <div class="col-6 tx-center">
+                  <a href="#" id="pay-with-spei" class="btn btn-block btn-primary"><%= t("payments.bank_transfer") %></a>
+                  <%= image_tag image_path("spei OPT.svg"), class: "img-fluid-50 mg-t-5" %>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="text-center">
+              <%= image_tag image_path("spei OPT.svg"), class: "img-fluid-50" %>
+            </div>
+            <div class="row">
+              <div class="col-12 m-auto" id="spei_div">
+                <div class="pd-md-20 pd-xs-10 pd-b-0-f">
+                  <%= form_with(model: Payment.new, url: create_spei_payments_path, method: :post, :html => { data: { parsley_validate: true } }, remote: true, id: "spei_payment") do |f| %>
+                  <span class="tx-13 tx-color-03 mg-b-0"><%= t("payments.enter_desired_payment") %></span>
+                  <div class="form-group tx-right">
+                    <%= f.text_field :total, class: "form-control input-number", placeholder: "500", required: true, min: "50", max: "200000" %>
+                  </div>
+
+                  <div class="actions">
+                    <%= button_tag type: 'submit', class: "btn btn-primary btn-block", data: { disable_with: t("general_inputs.please_wait") } do %>
+                        <%= t("general_inputs.generate_payment_sheet") %>
+                    <% end %>
+                  </div>
+                <% end %>
+                <div class="tx-center mg-t-10">
+                  <small class="tx-color-03 choose-another-payment-method cursor-pointer"><%= t("payments.pick_another_payment_method") %></small>
+                </div>
+
+              </div>
+            </div>
+          </div>
           </div>
         </div>
       </div>
-
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary mg-sm-l-5" data-dismiss="modal"><%= t("general_inputs.close") %></button>

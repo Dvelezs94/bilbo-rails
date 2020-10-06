@@ -1,0 +1,52 @@
+.content.content-fixed.bg-white
+  .container
+    .col-12.mg-t-10
+      .card.ht-100p
+        .card-header.tx-center
+          %h6.mg-b-0 FICHA DIGITAL. NO ES NECESARIO IMPRIMIR
+        .card-body.tx-center
+          %div
+            = image_tag image_url("spei.svg"), class: "img-fluid-50"
+          .tx-center
+            %p
+              Monto a pagar
+              %h2.tx-bold
+                = params[:price]
+                %small
+                  MXN
+              %small
+                Utiliza exactamente esta cantidad al realizar el pago
+          .alert.alert-warning.tx-left.tx-13
+            %h4.alert-heading Datos bancarios
+            %p.mg-b-0
+              %strong
+                CLABE INTERBANCARIA:
+              0120 7801 5052 976281
+              %br
+              %strong
+                BENEFICIARIO:
+              Diego Alberto Vélez Sánchez
+              %br
+              %strong
+                BANCO:
+              BBVA Bancomer
+        .card-footer.tx-13.bg-gray-200
+          %p
+            INSTRUCCIONES
+            %br
+            %br
+            1. Realiza la transferencia SPEI desde la app de tu banco o tienda de conveniencia más cercana
+            %br
+            2. Introduce los datos bancarios con el monto exacto
+            %br
+            3. Dirígete a la sección de recibos en https://app.bilbo.mx/invoices
+            %br
+            4. Ubica tu recibo y haz click en
+            %strong Comprobar pago
+            %br
+            5. Introduce la Referencia o Clave de Rastreo de tu transferencia
+
+          .alert.alert-success.tx-center
+            Al completar estos pasos, revisaremos tu pago y recibirás un correo de notificación acerca de los créditos asignados
+          / card-footer
+        / card

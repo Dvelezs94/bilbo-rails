@@ -52,6 +52,7 @@ es:
     logout: Cerrar sesión
     dashboard: Inicio
     campaigns: Campañas
+    navigation: Navegación
     help_center: Centro de ayuda
     payment_methods: Metodos de pago
     purchase_credits: Comprar Créditos
@@ -104,6 +105,7 @@ es:
     items_page: elementos/página
     edit: Editar Campaña
     pay_with: Pagar con
+    generate_payment_sheet: Generar ficha de pago
     please_wait: Por favor espera...
     here: aqui
     nothing_to_see_here: No hay nada aqui...
@@ -336,6 +338,7 @@ es:
     processing: Procesando %{filename}
     view: Ver creativo
     attachment_saved: Archivo adjunto guardado
+    convert_video_external: Convierte tu video a formato mp4 a 1080p aquí
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
@@ -355,6 +358,7 @@ es:
     no_ad: Sin creativo
     new_ad_description: Crea un nuevo creativo para tus campañas publicitarias
   payments:
+    payments: Pagos
     request_limit_increase: Solicitar incremento de límite
     if_it_doesnt_redirect: Si no lo redirige en 5 segundos, haga click
     processing_order: Procesando la orden...
@@ -362,7 +366,7 @@ es:
     verify_account: Verificar mi Cuenta
     credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiración. 1 crédito equivale a $1 MXN.
     credit_limit: Límite de compra de créditos superada
-    daily_credit_limit: Tu límite de compra diario es de %{credit_limit} créditos
+    daily_credit_limit: Tu límite de compra diario es de %{credit_limit} créditos, puedes
     verification_text: Para que una cuenta pueda habilitar sus campañas publicitarias primero debe verificar su perfil. Esto es para verificar la identidad del comprador y la legitimidad del contenido a mostrar en los medios.
     verification_needed: Si tienes dudas de como verificar tu cuenta o si deseas hablar con un representante. Por favor dirigete al siguiente link
     require_invoices: Si requieres que se emitan facturas para tus campañas llena los datos fiscales. Para más información haz click en la siguiente liga.
@@ -379,6 +383,7 @@ es:
     street: Calle
     place_holder_street: "Paseo de la Reforma #400"
     suburb: Colonia
+    enter_desired_payment: Introduce la cantidad con la que deseas generar tu ficha de pago para el depósito SPEI
     place_holder_suburb: Colonia Juarez
     zip_code: Código Postal
     city: Ciudad
@@ -389,18 +394,48 @@ es:
     personal_info: DATOS PERSONALES
     verify_account: Verificar Cuenta
     bilbo_credits: 'Créditos de Bilbo'
+    choose_payment_method: Elige tu método de pago
+    bank_transfer: Transf. bancaria
     transaction_fee: 'Comisión de transacción'
     transaction_fee_text: 'Comisión de transacción de plataforma de pagos.'
     purchase_success: Haz comprado %{credits_number} créditos.
+    purchase_spei_success: Se ha generado tu ficha de pago.
+    payment_sheet: Ficha de pago
     purchase_error: 'Ocurrió un error en la transacción. Contacta a soporte para más información'
+    pick_another_payment_method: Elegir otro método de pago
+    waiting_for_payment: Esperando el pago
+    reviewing_payment: En revisión
+    paid: Pagado
+    rejected: Rechazado
+    cancelled: Cancelado
+    pending_payment: Pago pendiente
+    actions: Acciones
+    cancel: Cancelar pago
+    confirm_cancel: ¿Seguro que quieres cancelar tu pago?
+    status_update_error: Ocurrió un error al intentar actualizar tu pago
+    status_update_success: El estado de tu pago ha sido actualizado
+    paid_with: Método de pago
+    reference_field: Número de Referencia ó Clave de Rastreo
+    check_payment: Comprobar pago
+    check_payment_description: Introduce tu Referencia o Clave de rastreo para comprobar tu pago. Una vez lo verifiquemos recibirás tus créditos en tu cuenta.
+    check_payment_submit: Enviar referencia
+    errors:
+      already_one_payment: Ya tienes un pago en proceso. Puedes cancelarlo en la sección de recibos.
+      reference_failed: Ocurrió un error al actualizar la referencia de pago
+    success:
+      reference_sent: La referencia ha sido actualizada. En breve revisaremos tu pago.
+    admin:
+      created_at: Fecha de generación de recibo
+      paid_at: Fecha de pago
   invoices:
     invoice: Recibo
     invoices: Recibos
     issued_at: Fecha de emisión
     beneficiary_name: Nombre del beneficiario
     total_amount: Cantidad total
+    status: Estado
     go_to_invoice: Ir al Recibo
-    number: Numero de Recibo
+    number: Número de Recibo
     billed_to: Emitido a
     information: Información de recibo
     type: Tipo
@@ -529,6 +564,10 @@ es:
         subject: Tu reporte semanal está listo para descargar
         message: Tu reporte semanal está listo para descargar
         url_string: Descargar Reporte
+    credits:
+      assigned:
+        subject: Se te han abonado %{credits} créditos
+        message: Tu cuenta ha sido abonada con %{credits} créditos, los cuales puedes utilizar para tus campañas publicitarias. Los créditos no son transferibles ni tienen una fecha de caducidad.
   error:
     404_page:
       404_main: 404 Página no encontrada

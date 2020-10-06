@@ -52,6 +52,7 @@ en:
     logout: Log Out
     dashboard: Dashboard
     campaigns: Campaigns
+    navigation: Navigation
     help_center: Help Center
     payment_methods: Payment Methods
     purchase_credits: Purchase Credits
@@ -104,6 +105,7 @@ en:
     items_page: items/page
     edit: Edit Campaign
     pay_with: Pay with
+    generate_payment_sheet: Generate payment sheet
     please_wait: Please wait...
     here: here
     nothing_to_see_here: Nothing to see here...
@@ -335,6 +337,7 @@ en:
     processing: Processing %{filename}
     view: View creative
     attachment_saved: Attachment saved
+    convert_video_external: Convert your video to mp4 at 1080p here
     transitions:
       no_transition: No Transition
       fadeInDown: Fade In Down
@@ -354,6 +357,7 @@ en:
     new_ad_description: Create a new amazing and beautiful creative for your campaigns
     No_ad: No creative
   payments:
+    payments: Pagos
     request_limit_increase: Request limit increase
     if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
     processing_order: Processing order...
@@ -361,7 +365,7 @@ en:
     verify_account: Verify Account
     credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 credit equals $1 MXN.
     credit_limit: Credit purchase limit exceeded
-    daily_credit_limit: Your daily credit limit is %{credit_limit} credits
+    daily_credit_limit: Your daily credit limit is %{credit_limit} credits, you can
     verification_text: In order to enable your campaigns you need to verify your account. This is so we can verify the buyer and the content legitimacy.
     verification_needed: A verified profile is needed in order to buy credits. Answer the form below or click the following link to verify your profile.
     require_invoices: If you require invoices to be issued for your campaigns, fill in the fiscal data. For more information click on the following link.
@@ -378,6 +382,7 @@ en:
     street: Street
     place_holder_street: 1 Maple St
     suburb: Suburb
+    enter_desired_payment: Enter the amount you wish you generate your payment sheet
     place_holder_suburb: New York Mills
     zip_code: Zip Code
     city: City
@@ -388,16 +393,43 @@ en:
     personal_info: PERSONAL INFORMATION
     verify_account: Verify Account
     bilbo_credits: 'Bilbo Credits'
+    choose_payment_method: Choose your payment method
+    bank_transfer: Bank transfer
     transaction_fee: 'Transaction Fee'
     transaction_fee_text: 'Payment transaction fee.'
     purchase_success: You have purchased %{credits_number} credits.
+    purchase_spei_success: Your payment sheet had been generated
+    payment_sheet: Payment sheet
     purchase_error: 'Something has gone wrong with the purchase. Contact Support for more information.'
+    pick_another_payment_method: Choose another payment method
+    waiting_for_payment: Waiting for payment
+    reviewing_payment: In revision
+    paid: Paid
+    rejected: Rejected
+    cancelled: Cancelled
+    pending_payment: Pending payment
+    actions: Actions
+    cancel: Cancel payment
+    confirm_cancel: Are you sure you want to cancel the payment?
+    status_update_error: We had an error updating your payment
+    status_update_success: Your payment status has been updated
+    paid_with: Payment method
+    reference_field: Reference number
+    check_payment: Check payment
+    check_payment_description: Enter the payment reference to complete your payment. Once we verify it you will receive the credits on your account.
+    check_payment_submit: Send reference
+    errors:
+      already_one_payment: You already have a payment in process. You can cancel it on the receipts section
+      reference_failed: An error has occurred while updating your payment reference
+    success:
+      reference_sent: The payment reference has been updated. We will review your payment in short.
   invoices:
     invoice: Receipt
     invoices: Receipts
     issued_at: Issued at
     beneficiary_name: beneficiary name
     total_amount: Total amount
+    status: State
     go_to_invoice: Go to receipt
     number: Receipt Number
     billed_to: Billed to
@@ -528,6 +560,10 @@ en:
         subject: Your weekly report is ready to be downloaded
         message: Your weekly report is ready to be downloaded
         url_string: Download Report
+    credits:
+      assigned:
+        subject: You have acquired %{credits} credits
+        message: You account has been assigned %{credits} credits, you can use these for your advertisign campaigns. Credits do not have an expiration date nor can be transfered.
   error:
     404_page:
       404_main: 404 Page not found
