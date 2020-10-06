@@ -13,7 +13,7 @@ class Ad < ApplicationRecord
   validate :project_enabled?
   validate :campaigns_off, on: :update
   validates :name, presence: true
-  validates :multimedia, content_type: ["image/png", "image/jpeg", "video/mp4", "video/x-msvideo", "video/msvideo", "video/avi", "video/vnd.avi"]
+  validates :multimedia, blob: { content_type: ["image/png", "image/jpeg", "video/mp4"], size_range: 0..20.megabytes }
   validate :duration_multiple_of_10, if: :duration_changed?
   #this is executed when user is trying to delete the ad
   validate :check_if_can_delete, if: :status_changed_to_deleted?

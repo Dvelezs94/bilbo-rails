@@ -52,6 +52,7 @@ en:
     logout: Log Out
     dashboard: Dashboard
     campaigns: Campaigns
+    navigation: Navigation
     help_center: Help Center
     payment_methods: Payment Methods
     purchase_credits: Purchase Credits
@@ -336,6 +337,7 @@ en:
     processing: Processing %{filename}
     view: View creative
     attachment_saved: Attachment saved
+    convert_video_external: Convert your video to mp4 at 1080p here
     transitions:
       no_transition: No Transition
       fadeInDown: Fade In Down

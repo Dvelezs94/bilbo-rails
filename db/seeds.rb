@@ -79,6 +79,7 @@ if ENV.fetch("RAILS_ENV") != "production"
         user.projects.first.ads.new do |ad|
           ad.name = "ad #{y}"
           ad.multimedia.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'avatar.png', content_type: 'image/png')
+          ad.multimedia.attachments.last.update(processed: true)
           ad.save
           1.times do |z|
             ad.campaigns.new do |cp|
