@@ -1,0 +1,3 @@
+clean_temp_files:
+  cron: "*/30 * * * *"
+  class: "CleanTempFilesWorker"

@@ -1,5 +1,5 @@
 class InvoicesController < ApplicationController
-  access user: :all
+  access user: :all, admin: :all
   before_action :get_invoices, only: [:index]
   before_action :get_invoice, only: [:show]
   before_action :verify_identity, only: [:show]
@@ -28,6 +28,8 @@ class InvoicesController < ApplicationController
   end
 
   def verify_identity
-    redirect_to invoices_path if @invoice.user != current_user
+    if current_user.is_user?
+      redirect_to invoices_path if @invoice.user != current_user
+    end
   end
 end

@@ -29,6 +29,7 @@ class User < ApplicationRecord
   has_many :invoices
   has_many :provider_invoices
   has_many :reports
+  has_many :notifications, through: :projects
   has_one_attached :avatar
   attr_readonly :email
   has_many :verifications
@@ -84,7 +85,7 @@ class User < ApplicationRecord
   end
 
   def locale
-    super.nil?? "es".to_sym : super.to_sym
+    super.nil?? ENV.fetch("RAILS_LOCALE").to_sym : super.to_sym
   end
   def name_or_email
     name || email
@@ -127,8 +128,11 @@ class User < ApplicationRecord
     if self.is_user? && (total.to_i >= 50)
       self.increment!(:balance, by = total.to_i)
       SlackNotifyWorker.perform_async("El usuario #{self.email} ha comprado #{total.to_i} créditos")
+      I18n.locale = locale
+      NotificationMailer.new_notification(user: self, message: I18n.t("notifications.credits.assigned.message", credits: total.to_i),
+        subject: I18n.t("notifications.credits.assigned.subject", credits: total.to_i)).deliver
     else
-      self.errors.add(:base, "You have to give 50 or more credits")
+      self.errors.add(:base, "You have to purchase 50 or more credits")
       false
     end
   end

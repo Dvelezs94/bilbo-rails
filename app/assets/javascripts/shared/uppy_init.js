@@ -1,15 +1,17 @@
 $(document).on('turbolinks:load', function() {
   if ($("#drag-drop-area").length) {
     var create_attachment_url = document.location.protocol +"//"+ document.location.hostname + document.location.pathname + "/attachments";
+    const ProgressBar = Uppy.ProgressBar
     var uppy = Uppy.Core({
       restrictions: {
-        maxFileSize: 55000000,
-        allowedFileTypes: ["image/png", "image/jpeg", "video/mp4", "video/x-msvideo", "video/msvideo", "video/avi", "video/vnd.avi"]
+        maxFileSize: 20971520,
+        allowedFileTypes: ["image/png", "image/jpeg", "video/mp4"]
       }
     })
     .use(Uppy.Dashboard, {
       inline: true,
       target: '#drag-drop-area',
+      showProgressDetails: false
     })
     .use(Uppy.XHRUpload, {
       endpoint: create_attachment_url,

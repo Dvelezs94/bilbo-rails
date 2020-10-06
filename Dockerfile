@@ -14,7 +14,7 @@ RUN apt-get update -qq && apt-get install -y sudo \
     supervisor \
     python3 \
     python3-pip \
-    jq
+    jq 
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt install -y nodejs
