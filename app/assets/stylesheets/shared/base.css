@@ -11786,10 +11786,12 @@ textarea.parsley-success:focus {
         min-height: inherit;
         padding: 7px 12px;
         color: #0168fa;
-        border: 2px solid #0168fa; }
+        /* border: 2px solid #0168fa; */
+        }
         .navbar-header .btn-buy:hover, .navbar-header .btn-buy:focus {
-          background-color: #0168fa;
-          color: #fff; } }
+          /* background-color: #0168fa;
+          color: #fff; */
+          } }
     .navbar-header .btn-buy .feather {
       width: 18px;
       height: 18px;

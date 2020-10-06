@@ -52,6 +52,7 @@ es:
     logout: Cerrar sesión
     dashboard: Inicio
     campaigns: Campañas
+    navigation: Navegación
     help_center: Centro de ayuda
     payment_methods: Metodos de pago
     purchase_credits: Comprar Créditos
@@ -337,6 +338,7 @@ es:
     processing: Procesando %{filename}
     view: Ver creativo
     attachment_saved: Archivo adjunto guardado
+    convert_video_external: Convierte tu video a formato mp4 a 1080p aquí
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
