@@ -7,7 +7,7 @@
     / navbar-brand
     #navbarMenu.navbar-menu-wrapper
       %ul.nav.navbar-menu
-        %li.nav-label.pd-l-20.pd-lg-l-25.d-lg-none Main Navigation
+        %li.nav-label.pd-l-20.pd-lg-l-25.d-lg-none= t("header.navigation")
         - if current_user.role == :user
           %li{:class => "nav-item #{"active" if menu == "dashboard"}"}
             %a.nav-link{:href => campaigns_path}
@@ -83,10 +83,10 @@
               .alert.alert-solid.alert-danger.pd-y-5.tx-center.cursor-pointer{"data-toggle" => "modal", :href => "#modalVerify"}
                 = t('payments.verify_account')
             %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
-              %i.fe.fe-wallet.mg-r-10.tx-success
+              %i.material-icons.tx-16.mg-r-10 attach_money
               = number_to_currency_credit(current_user.balance)
-            %a.dropdown-item{"data-toggle" => "modal", :href => "#modalNewPayment"}
-              %i.fe.fe-wallet.mg-r-10
+            %a.dropdown-item.tx-center{"data-toggle" => "modal", :href => "#modalNewPayment"}
+              %i.fe.fe-plus.mg-r-10
               = t('header.purchase_credits')
             .dropdown-divider
             - if @project.admins.include? current_user.id
