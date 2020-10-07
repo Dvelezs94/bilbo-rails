@@ -21,11 +21,6 @@ $(document).on('turbolinks:load', function() {
   if($("#personal-business").length){
     $('.card-ad-link').click(function (e) {
 
-      $("#personal-business").removeClass('wizard_selected_ad_info');
-      $("#personal").removeClass('wizard_selected_ad_info');
-      $(".fe-user").removeClass("text-info")
-      $("#personal-txt").removeClass("text-info")
-
       $("#small-business").removeClass('wizard_selected_ad_info');
       $("#small").removeClass('wizard_selected_ad_info');
       $(".fe-users").removeClass("text-info")
@@ -60,18 +55,15 @@ $(document).on('turbolinks:load', function() {
       } else if ($(this).attr("id")== "md-business"){
         $(".ion-ios-people").addClass("text-info")
         $("#md-txt").addClass("text-info")
-      }  else if ($(this).attr("id")== "small-business"){
+      }  else {
         $(".fe-users").addClass("text-info")
         $("#small-txt").addClass("text-info")
-      } else {
-        $(".fe-user").addClass("text-info")
-        $("#personal-txt").addClass("text-info")
       }
       $('#typeCampaign').val($(this).attr('id'));
     });
-    $("#personal").addClass('wizard_selected_ad_info');
+    $("#small").addClass('wizard_selected_ad_info');
     $(".fe-user").addClass("text-info")
-    $("#personal-txt").addClass("text-info")
+    $("#small-txt").addClass("text-info")
   }
 
 });
