@@ -10,36 +10,30 @@
           .divider-text Tipo de organizacion
           #step1
             .card-deck
-              %a.link-02.card-ad-link.pd-t-20{:href => "#", :id => "personal-business"}
-                .actions
-                  .card.align-items-center{:id => "personal"}
-                    .card-body
-                      %i.fe.fe-user{:class => "fnt-lg mg-l-20 mg-t-5"}
-                      %h6.card-title{:id => "personal-txt"} Individual
               %a.link-02.card-ad-link.pd-t-20{:href => "#", :id => "small-business"}
                 .actions
                   .card.align-items-center{:id => "small"}
-                    .card-body
-                      %i.fe.fe-users{:class => "fnt-lg mg-l-20 mg-t-5"}
-                      %h6.card-title{:id => "small-txt"} PEQUEÑO
+                    .card-body{:style => "padding: 0rem;"}
+                      %i.fe.fe-users{:class => "fnt-lg mg-t-5"}
+                  %h6.card-title.pd-t-10.pd-l-30{:id => "small-txt"} PEQUEÑO
               %a.link-02.card-ad-link.pd-t-20{:href => "#", :id => "md-business"}
                 .actions
                   .card.align-items-center{:id => "md"}
-                    .card-body
-                      %i.ion-ios-people{:class => "fnt-lg mg-l-20 mg-t-5"}
-                      %h6.card-title{:id => "md-txt"} MEDIANO
+                    .card-body{:style => "padding: 0rem;"}
+                      %i.ion-ios-people{:class => "fnt-lg mg-t-5"}
+                  %h6.card-title{:id => "md-txt"} MEDIANO
               %a.link-02.card-ad-link.pd-t-20{:href => "#", :id => "big-business"}
                 .actions
                   .card.align-items-center{:id => "big"}
-                    .card-body
-                      %i.fe.fe-home{:class => "fnt-lg mg-l-20 mg-t-5"}
-                      %h6.card-title{:id => "big-txt"} GRANDE
+                    .card-body{:style => "padding: 0rem;"}
+                      %i.fe.fe-home{:class => "fnt-lg mg-t-5"}
+                  %h6.card-title{:id => "big-txt"} GRANDE
               %a.link-02.card-ad-link.pd-t-20{:href => "#", :id => "agency-business"}
                 .actions
                   .card.align-items-center
-                    .card-body
-                      %i.fe.fe-building{:class => "fnt-lg mg-l-20 mg-t-5"}
-                      %h6.card-title{:id => "agency-txt"} AGENCIA
+                    .card-body{:style => "padding: 0rem;"}
+                      %i.fe.fe-building{:class => "fnt-lg mg-t-5"}
+                  %h6.card-title{:id => "agency-txt"} AGENCIA
             .form-group
               %button#btnEndStep1.btn.btn-primary.mg-t-20 NEXT
           #step2.hideMe

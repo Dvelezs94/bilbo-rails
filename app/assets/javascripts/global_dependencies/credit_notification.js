@@ -18,7 +18,7 @@ $(document).on('turbolinks:load', function() {
       $("#modalBusinessType").modal("hide");
   });
 
-  if($("#personal-business").length){
+  if($("#small-business").length){
     $('.card-ad-link').click(function (e) {
 
       $("#small-business").removeClass('wizard_selected_ad_info');
@@ -62,7 +62,7 @@ $(document).on('turbolinks:load', function() {
       $('#typeCampaign').val($(this).attr('id'));
     });
     $("#small").addClass('wizard_selected_ad_info');
-    $(".fe-user").addClass("text-info")
+    $(".fe-users").addClass("text-info")
     $("#small-txt").addClass("text-info")
   }
 
