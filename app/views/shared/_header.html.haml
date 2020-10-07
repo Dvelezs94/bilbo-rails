@@ -73,10 +73,10 @@
       / end notifications
       .dropdown.dropdown-profile
         %a.dropdown-link{"data-display" => "static", "data-toggle" => "dropdown", :href => ""}
-          .avatar.avatar-sm= image_tag url_from_media(user_avatar(current_user, 500)), class: "rounded-circle"
+          .avatar.avatar-sm= image_tag user_avatar(current_user, 500), class: "rounded-circle"
         / dropdown-link
         .dropdown-menu.dropdown-menu-right
-          .avatar.avatar-lg.mg-b-15= image_tag url_from_media(user_avatar(current_user, 500)), class: "rounded-circle"
+          .avatar.avatar-lg.mg-b-15= image_tag user_avatar(current_user, 500), class: "rounded-circle"
           %h6.tx-semibold.mg-b-5= current_user.name
           %p.tx-12.tx-color-03= @project.name
           - if current_user.role == :user

@@ -10,7 +10,7 @@
             - @project.project_users.each do |u|
               .media.align-items-center.mg-b-20
                 .avatar
-                  = image_tag url_from_media(user_avatar(u.user, 500)), class: "rounded-circle"
+                  = image_tag user_avatar(u.user, 500), class: "rounded-circle"
                 .media-body.pd-l-15
                   %h6mg-b-3= u.user.name_or_email
                   -if u.role == "owner"

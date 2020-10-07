@@ -8,7 +8,7 @@
       -@history_campaign.each do |activity_campaign|
         %li.list-group-item.d-flex.pd-sm-x-20
           .avatar.d-block
-            %span= image_tag url_from_media(user_avatar(activity_campaign.user, 500)), class: "rounded-circle"
+            %span= image_tag user_avatar(activity_campaign.user, 500), class: "rounded-circle"
           .pd-sm-l-10.pd-l-10
             %p.tx-medium.mg-b-0= t("#{activity_campaign.activity}")
             %small.tx-12.tx-color-03.mg-b-0=activity_campaign.created_at.strftime("%B %d, %Y, %I:%M%p")
