@@ -33,6 +33,10 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     if current_user.is_admin?
       admin_main_index_path
+    elsif current_user.sign_in_count == 0
+      puts "x" *800
+      #current_user.update(sign_in_count: 1)
+      dashboards_path(par: "pasa")
     else
       dashboards_path
     end

@@ -5,7 +5,7 @@ class DashboardsController < ApplicationController
   def index
     if user_signed_in?
       if current_user.role == :user
-        redirect_to campaigns_path
+        redirect_to campaigns_path(pa:"pasa")
       elsif current_user.role == :provider
         redirect_to provider_statistics_dashboards_path
       elsif current_user.role == :admin

@@ -27,7 +27,7 @@ class Admin::UsersController < ApplicationController
   # used to edit credit limit purchase per day
   def update_credit
       if @user.update(credit_limit: params[:credit_limit])
-        flash[:success] = "creadits changed"
+        flash[:success] = "Credits updated"
       else
         flash[:error] = "Could not update"
       end
@@ -111,6 +111,10 @@ class Admin::UsersController < ApplicationController
   end
 
   # end impersonates
+
+  def set_up_account
+    puts "x"
+  end
 
   private
 
