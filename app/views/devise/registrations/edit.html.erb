@@ -27,7 +27,7 @@
 
                 <div class="form-group d-flex justify-content-between">
                   <div class="avatar">
-                    <%= image_tag url_from_media(user_avatar(resource, 80)), class: "rounded-circle" %>
+                    <%= image_tag user_avatar(resource, 80), class: "rounded-circle" %>
                   </div>
                   <div class=" custom-file col-10 col-md-11 align-self-center ">
                     <%= f.file_field :avatar, accept: "image/png,image/jpg,image/jpeg", class: "custom-file-input" %>
