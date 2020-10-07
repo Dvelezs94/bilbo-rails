@@ -33,7 +33,6 @@ class Payment < ApplicationRecord
     end
   end
 
-
   def total_in_cents
     ActionController::Base.helpers.number_to_currency(self.total, precision: 2, separator: ".", delimiter: ",", format: "%n")
   end

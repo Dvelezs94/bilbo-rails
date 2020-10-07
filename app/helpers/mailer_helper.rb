@@ -25,7 +25,7 @@ module MailerHelper
         }
       ],
       "from": {
-        "email": "noreply@bilbo.mx",
+        "email": "support@bilbo.mx",
         "name": "Bilbo"
       },
       "template_id": "d-16b54061474043a18eea73ea4fa3750a"
