@@ -30,6 +30,10 @@
   font-size: 20px !important;
 }
 
+.fnt-lg {
+  font-size: 40px !important;
+}
+
 .file-input-100 {
   right: 14px !important;
   left: 14px !important;
@@ -99,6 +103,11 @@ td {
 .wizard_selected_ad {
   border-width: 2px !important;
   border-color: #10b759 !important;
+}
+
+.wizard_selected_ad_info {
+  border-width: 2px !important;
+  border-color: #17a2b8 !important;
 }
 
 .multi-line-truncate-2 {

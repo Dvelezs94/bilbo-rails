@@ -1,0 +1,81 @@
+#modalBusinessType.modal.effect-sign{"aria-hidden" => "true", "aria-labelledby" => "myTitle", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered
+    .modal-content
+      .modal-body
+        %h4#myTitle.modal-title
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span.visible-xs{"aria-hidden" => "true"} ×
+      .row
+        .col-12.m-auto
+          .pd-20
+            = form_with(model: Campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, remote: true) do |f|
+              #step1
+                %h4#myTitle.modal-title.pd-b-10 Seleccione el tipo de negocio
+                .card-deck
+                  %a.link-02.col-sm-6.card-ad-link.pd-t-20{:href => "#", :id => "personal-business"}
+                    .actions
+                      .card.align-items-center{:id => "personal"}
+                        .card-body
+                          %i.fe.fe-user{:class => "fnt-lg mg-l-20 mg-t-5"}
+                          %h5.card-title{:id => "personal-txt"} Individual
+                  %a.link-02.col-sm-6.card-ad-link.pd-t-20{:href => "#", :id => "small-business"}
+                    .actions
+                      .card.align-items-center{:id => "small"}
+                        .card-body
+                          %i.fe.fe-users{:class => "fnt-lg mg-l-20 mg-t-5"}
+                          %h5.card-title{:id => "small-txt"} Pequeño
+                  %a.link-02.col-sm-6.card-ad-link.pd-t-20{:href => "#", :id => "md-business"}
+                    .actions
+                      .card.align-items-center{:id => "md"}
+                        .card-body
+                          %i.ion-ios-people{:class => "fnt-lg mg-l-20 mg-t-5"}
+                          %h5.card-title{:id => "md-txt"} Mediano
+                  %a.link-02.col-sm-6.card-ad-link.pd-t-20{:href => "#", :id => "big-business"}
+                    .actions
+                      .card.align-items-center{:id => "big"}
+                        .card-body
+                          %i.fe.fe-home{:class => "fnt-lg mg-l-20 mg-t-5"}
+                          %h5.card-title{:id => "big-txt"} Grande
+                  %a.link-02.col-sm-6.card-ad-link.pd-t-20{:href => "#", :id => "agency-business"}
+                    .actions
+                      .card.align-items-center
+                        .card-body
+                          %i.fe.fe-building{:class => "fnt-lg mg-l-20 mg-t-5"}
+                          %h5.card-title{:id => "agency-txt"} Agencia
+                .form-group
+                  %button#btnEndStep1.btn.btn-primary.mg-t-20 NEXT
+              #step2.hideMe
+                .divider-text= t("payments.company_data")
+                .form-group.row
+                  .col-sm-3
+                    = f.label :name, raw("Nombre de la empresa <span class='tx-danger'>*</span>")
+                    -if current_user.is_admin?
+                      = f.hidden_field :user_id, id:"user-id", :value => ""
+                    -else
+                      = f.hidden_field :user_id, :value => current_user.id
+                  .col-sm-9
+                    = f.text_field :name, class: "form-control", value: current_user.name, required: true
+                .form-group.row
+                  .col-sm-3
+                    = f.label :official_id, raw("Puesto <span class='tx-danger'>*</span>")
+                  .col-sm-9
+                    = f.text_field :name, class: "form-control", value: current_user.name, required: true
+                .form-group.row
+                  .col-sm-3
+                    = f.label :phone, raw("#{t("payments.phone_number")} <span class='tx-danger'>*</span>")
+                  .col-sm-9
+                    = f.text_field :phone, placeholder: "555-555-5555", class: "form-control input-phone", required: true
+                .form-group.row
+                  .col-sm-3
+                    = f.label :business_name, raw("Metodo de pago favorito <span class='tx-danger'>*</span>")
+                  .col-sm-9
+                    = f.radio_button :business_name, class: "custom-control-input", required: true, :checked => true
+                    = image_tag image_path("spei OPT.svg"), class: "img-fluid-40 mg-t-5"
+                    = f.radio_button :business_name, class: "custom-control-input", required: true
+                    = image_tag image_path("paypal OPT.svg"), class: "img-fluid-40 mg-t-5"
+                %button#btnEndStep2.btn.btn-primary.mg-t-20 NEXT
+              #step3.hideMe
+                %span Finally, type something for Step 3
+                %input{:type => "textbox"}/
+                %button#btnEndStep3.btn.btn-primary.mg-t-20 END
+            .modal-footer
