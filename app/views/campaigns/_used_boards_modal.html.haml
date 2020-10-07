@@ -13,7 +13,7 @@
               %li.list-group-item.d-flex.pd-sm-x-20
                 .avatar
                   - if board_campaign.board.images.attached?
-                    = image_tag board_campaign.board.images.first
+                    = image_tag url_from_media(board_campaign.board.images.first)
                   - else
                     = image_tag image_path("board_placeholder")
                 .pd-l-10
