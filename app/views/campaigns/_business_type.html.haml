@@ -12,29 +12,29 @@
               %h6#myTitle.modal-title.pd-b-10.text-primary= t("set_up_account.type_organization")
               .card-deck
                 %a.link-02.card-ad-link.pd-t-20{:href => "#", :id => "small"}
-                  .actions
-                    .card.card-file.align-items-center.col-10{:id => "small-business"}
+                  .actions.pd-l-15
+                    .card.card-file.align-items-center.col-sm-8{:id => "small-business"}
                       .card-body{:style => "padding: 0rem;"}
                         %i.fe.fe-users{:class => "fnt-lg mg-t-7"}
-                    %h6.card-title.pd-t-10.pd-l-15{:id => "small-txt"}= t("set_up_account.small")
+                    %h6.card-title.pd-t-10.text-center.pd-l-15.col-sm-8{:id => "small-txt"}= t("set_up_account.small")
                 %a.link-02.card-ad-link.pd-t-20{:href => "#", :id => "md"}
-                  .actions.pd-l-20
-                    .card.card-file.align-items-center.col-10{:id => "md-business"}
+                  .actions.pd-l-15
+                    .card.card-file.align-items-center.col-sm-8{:id => "md-business"}
                       .card-body{:style => "padding: 0rem;"}
                         %i.ion-ios-people{:class => "fnt-md-34"}
-                    %h6.card-title.pd-t-10.pd-l-15{:id => "md-txt"}= t("set_up_account.medium")
+                    %h6.card-title.pd-t-10.text-center.pd-l-15.col-sm-8{:id => "md-txt"}= t("set_up_account.medium")
                 %a.link-02.card-ad-link.pd-t-20{:href => "#", :id => "big"}
-                  .actions.pd-l-20
-                    .card.card-file.align-items-center.col-10{:id => "big-business"}
+                  .actions.pd-l-15
+                    .card.card-file.align-items-center.col-sm-8{:id => "big-business"}
                       .card-body{:style => "padding: 0rem;"}
                         %i.fe.fe-home{:class => "fnt-lg mg-t-7"}
-                    %h6.card-title.pd-t-10.pd-l-15{:id => "big-txt"}= t("set_up_account.large")
+                    %h6.card-title.pd-t-10.text-center.pd-l-15.col-sm-8{:id => "big-txt"}= t("set_up_account.large")
                 %a.link-02.card-ad-link.pd-t-20{:href => "#", :id => "agency"}
-                  .actions.pd-l-20
-                    .card.card-file.align-items-center.col-10{:id => "agency-business"}
+                  .actions.pd-l-15
+                    .card.card-file.align-items-center.col-sm-8{:id => "agency-business"}
                       .card-body{:style => "padding: 0rem;"}
                         %i.fe.fe-building{:class => "fnt-lg mg-t-7"}
-                    %h6.card-title.pd-t-10.pd-l-15{:id => "agency-txt"}= t("set_up_account.agency")
+                    %h6.card-title.pd-t-10.text-center.pd-l-15.col-sm-8{:id => "agency-txt"}= t("set_up_account.agency")
                     = f.hidden_field :business_type, {:value => "small", :id => "typeBusiness"}
               .form-group
               %button#btnEndStep1.btn.btn-primary{:type =>"button", :style => "float: right;", :class => "mg-l-15"}= t("set_up_account.next")
@@ -51,19 +51,20 @@
                   = f.text_field :phone_number, placeholder: "555-555-5555", class: "form-control pd-b-5 input-phone", required: true
                   %label.d-block.pd-t-5= t("set_up_account.payment_method")
                   .custom-control.custom-radio
-                    = f.radio_button :payment_preference, 'paypal', :checked => true, :class => "custom-control-input", :id=>"customRadio1"
+                    = f.radio_button :payment_preference, 'paypal', :checked => true, :class => "custom-control-input", :id =>"customRadio1"
                     %label.custom-control-label{:for => "customRadio1"} PayPal
                   .custom-control.custom-radio
-                    = f.radio_button :payment_preference, 'credit_card', :class => "custom-control-input", :id=>"customRadio2"
+                    = f.radio_button :payment_preference, 'credit_card', :class => "custom-control-input", :id =>"customRadio2"
                     %label.custom-control-label{:for => "customRadio2"}= t("set_up_account.card")
                   .custom-control.custom-radio
-                    = f.radio_button :payment_preference, 'transferencia', :class => "custom-control-input", :id=>"customRadio3"
+                    = f.radio_button :payment_preference, 'transferencia', :class => "custom-control-input", :id =>"customRadio3"
                     %label.custom-control-label{:for => "customRadio3"}= t("set_up_account.transfer")
                   .custom-control.custom-radio
-                    = f.radio_button :payment_preference, 'money', :class => "custom-control-input", :id=>"customRadio4"
+                    = f.radio_button :payment_preference, 'money', :class => "custom-control-input", :id =>"customRadio4"
                     %label.custom-control-label{:for => "customRadio4"}= t("set_up_account.cash")
                   .custom-control.custom-radio
-                    = f.radio_button :payment_preference, 'cheque', :class => "custom-control-input", :id=>"customRadio5"
+                    = f.radio_button :payment_preference, 'cheque', :class => "custom-control-input", :id =>"customRadio5"
+                    = f.hidden_field :sign_in_count, {:value => 1}
                     %label.custom-control-label{:for => "customRadio5"}= t("set_up_account.check")
               %button#btnEndStep2.btn.btn-primary{:style => "float: right;", :class => "mg-l-15"}= t("set_up_account.save")
               %button#btnReturn.btn.btn-secondary{:type => "button", :style => "float: right;"}= t("set_up_account.previous")
