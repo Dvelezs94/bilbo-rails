@@ -2,68 +2,66 @@ $(document).on('turbolinks:load', function() {
   if ($.urlParam('credits') == "true") {
     $('#modalNewPayment').modal('show');
   }
-  if ($.urlParam('pa') == "pasa") {
+  if ($.urlParam('account') == "set") {
     $('#modalBusinessType').modal('show');
   }
+
+  if($("#set_up_wizard").length){
+    $('.card-ad-link').click(function (e) {
+
+      $("#small").removeClass('wizard_selected_ad_primary bg-primary');
+      $("#small-business").removeClass('wizard_selected_ad_primary bg-primary');
+      $(".fe-users").removeClass("text-white")
+      $("#small-txt").removeClass("text-primary")
+
+      $("#md").removeClass('wizard_selected_ad_primary bg-primary');
+      $("#md-business").removeClass('wizard_selected_ad_primary bg-primary');
+      $(".ion-ios-people").removeClass("text-white")
+      $("#md-txt").removeClass("text-primary")
+
+      $("#big").removeClass('wizard_selected_ad_primary bg-primary');
+      $("#big-business").removeClass('wizard_selected_ad_primary bg-primary');
+      $(".fe-home").removeClass("text-white")
+      $("#big-txt").removeClass("text-primary")
+
+
+      $("#agency").removeClass('wizard_selected_ad_primary bg-primary');
+      $("#agency-business").removeClass('wizard_selected_ad_primary bg-primary');
+      $(".fe-building").removeClass("text-white")
+      $("#agency-txt").removeClass("text-primary")
+
+      e.preventDefault();
+      $('.wizard_selected_ad_primary bg-primary').removeClass('wizard_selected_ad_primary bg-primary');
+      $(this).find('div:first-child > .card').addClass('wizard_selected_ad_primary bg-primary');
+      console.log(this);
+      if ($(this).attr("id")== "agency"){
+        $(".fe-building").addClass("text-white")
+        $("#agency-txt").addClass("text-primary")
+      } else if ($(this).attr("id")== "big"){
+        $(".fe-home").addClass("text-white")
+        $("#big-txt").addClass("text-primary")
+      } else if ($(this).attr("id")== "md"){
+        $(".ion-ios-people").addClass("text-white")
+        $("#md-txt").addClass("text-primary")
+      }  else {
+        $(".fe-users").addClass("text-white")
+        $("#small-txt").addClass("text-primary")
+      }
+      $('#typeBusiness').val($(this).attr('id'));
+    });
+
+      $("#small-business").addClass('wizard_selected_ad_primary bg-primary');
+      $(".fe-users").addClass("text-white")
+      $("#small-txt").addClass("text-primary")
+
     $("#btnEndStep1").click(function () {
       $("#step1").addClass('hideMe');
       $("#step2").removeClass('hideMe');
   });
-  $("#btnEndStep2").click(function () {
-      $("#step2").addClass('hideMe');
-      $("#step3").removeClass('hideMe');
+  $("#btnReturn").click(function () {
+    $("#step2").addClass('hideMe');
+    $("#step1").removeClass('hideMe');
   });
-  $("#btnEndStep3").click(function () {
-      // Whatever your final validation and form submission requires
-      $("#modalBusinessType").modal("hide");
-  });
-
-  if($("#small-business").length){
-    $('.card-ad-link').click(function (e) {
-
-      $("#small-business").removeClass('wizard_selected_ad_info');
-      $("#small").removeClass('wizard_selected_ad_info');
-      $(".fe-users").removeClass("text-info")
-      $("#small-txt").removeClass("text-info")
-
-      $("#md-business").removeClass('wizard_selected_ad_info');
-      $("#md").removeClass('wizard_selected_ad_info');
-      $(".ion-ios-people").removeClass("text-info")
-      $("#md-txt").removeClass("text-info")
-
-      $("#big-business").removeClass('wizard_selected_ad_info');
-      $("#big").removeClass('wizard_selected_ad_info');
-      $(".fe-home").removeClass("text-info")
-      $("#big-txt").removeClass("text-info")
-
-
-      $("#agency-business").removeClass('wizard_selected_ad_info');
-      $("#agency").removeClass('wizard_selected_ad_info');
-      $(".fe-building").removeClass("text-info")
-      $("#agency-txt").removeClass("text-info")
-
-      e.preventDefault();
-      $('.wizard_selected_ad_info').removeClass('wizard_selected_ad_info');
-      $(this).find('div:first-child > .card').addClass('wizard_selected_ad_info');
-      console.log(this);
-      if ($(this).attr("id")== "agency-business"){
-        $(".fe-building").addClass("text-info")
-        $("#agency-txt").addClass("text-info")
-      } else if ($(this).attr("id")== "big-business"){
-        $(".fe-home").addClass("text-info")
-        $("#big-txt").addClass("text-info")
-      } else if ($(this).attr("id")== "md-business"){
-        $(".ion-ios-people").addClass("text-info")
-        $("#md-txt").addClass("text-info")
-      }  else {
-        $(".fe-users").addClass("text-info")
-        $("#small-txt").addClass("text-info")
-      }
-      $('#typeCampaign').val($(this).attr('id'));
-    });
-    $("#small").addClass('wizard_selected_ad_info');
-    $(".fe-users").addClass("text-info")
-    $("#small-txt").addClass("text-info")
   }
 
 });

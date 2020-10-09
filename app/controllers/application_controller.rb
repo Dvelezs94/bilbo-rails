@@ -33,10 +33,6 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     if current_user.is_admin?
       admin_main_index_path
-    elsif current_user.sign_in_count == 0
-      puts "x" *800
-      #current_user.update(sign_in_count: 1)
-      dashboards_path(par: "pasa")
     else
       dashboards_path
     end
@@ -80,9 +76,10 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     # users do not give phone numbers on registration, it is to detect bots
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :project_name, :phone_number])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale, :business_type, :company_name, :work_position, :phone_number, :payment_preference])
     devise_parameter_sanitizer.permit(:accept_invitation, keys: [:name])
     devise_parameter_sanitizer.permit(:invite, keys: [:role, :name, :project_name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:business_type])
   end
 
   def set_locale
