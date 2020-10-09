@@ -34,6 +34,10 @@
   font-size: 40px !important;
 }
 
+.fnt-md-34 {
+  font-size: 34px !important;
+}
+
 .file-input-100 {
   right: 14px !important;
   left: 14px !important;
@@ -105,9 +109,9 @@ td {
   border-color: #10b759 !important;
 }
 
-.wizard_selected_ad_info {
+.wizard_selected_ad_primary {
   border-width: 2px !important;
-  border-color: #17a2b8 !important;
+  border-color: #0168fa !important;
 }
 
 .multi-line-truncate-2 {

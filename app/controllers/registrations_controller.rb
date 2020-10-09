@@ -4,6 +4,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   protected
   def update_resource(resource, params)
+    puts resource
     # Require current password if user is trying to change password.
     return super if params["password"]&.present?
 
@@ -12,6 +13,6 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def after_update_path_for(resource)
-      edit_user_registration_path
+      request.referer
   end
 end
