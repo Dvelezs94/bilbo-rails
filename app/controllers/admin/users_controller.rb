@@ -112,10 +112,6 @@ class Admin::UsersController < ApplicationController
 
   # end impersonates
 
-  def set_up_account
-    puts "x"
-  end
-
   private
 
   def get_user
