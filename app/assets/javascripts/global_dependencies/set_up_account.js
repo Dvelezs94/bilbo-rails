@@ -7,40 +7,35 @@ $(document).on('turbolinks:load', function() {
     $('.card-ad-link').click(function (e) {
 
       $("#small").removeClass('wizard_selected_ad_primary bg-primary');
-      $("#small-business").removeClass('wizard_selected_ad_primary bg-primary');
       $(".fe-users").removeClass("text-white")
       $("#small-txt").removeClass("text-primary")
 
-      $("#md").removeClass('wizard_selected_ad_primary bg-primary');
-      $("#md-business").removeClass('wizard_selected_ad_primary bg-primary');
+      $("#medium").removeClass('wizard_selected_ad_primary bg-primary');
       $(".ion-ios-people").removeClass("text-white")
-      $("#md-txt").removeClass("text-primary")
+      $("#medium-txt").removeClass("text-primary")
 
-      $("#big").removeClass('wizard_selected_ad_primary bg-primary');
-      $("#big-business").removeClass('wizard_selected_ad_primary bg-primary');
+      $("#large").removeClass('wizard_selected_ad_primary bg-primary');
       $(".fe-home").removeClass("text-white")
-      $("#big-txt").removeClass("text-primary")
+      $("#large-txt").removeClass("text-primary")
 
 
       $("#agency").removeClass('wizard_selected_ad_primary bg-primary');
-      $("#agency-business").removeClass('wizard_selected_ad_primary bg-primary');
       $(".fe-building").removeClass("text-white")
       $("#agency-txt").removeClass("text-primary")
 
       e.preventDefault();
       $('.wizard_selected_ad_primary bg-primary').removeClass('wizard_selected_ad_primary bg-primary');
-      $(this).find('div:first-child > .card').addClass('wizard_selected_ad_primary bg-primary');
-      console.log(this);
-      
+      $(this).addClass('wizard_selected_ad_primary bg-primary');
+
       if ($(this).attr("id")== "agency"){
         $(".fe-building").addClass("text-white")
         $("#agency-txt").addClass("text-primary")
-      } else if ($(this).attr("id")== "big"){
+      } else if ($(this).attr("id")== "large"){
         $(".fe-home").addClass("text-white")
-        $("#big-txt").addClass("text-primary")
-      } else if ($(this).attr("id")== "md"){
+        $("#large-txt").addClass("text-primary")
+      } else if ($(this).attr("id")== "medium"){
         $(".ion-ios-people").addClass("text-white")
-        $("#md-txt").addClass("text-primary")
+        $("#medium-txt").addClass("text-primary")
       }  else {
         $(".fe-users").addClass("text-white")
         $("#small-txt").addClass("text-primary")
@@ -48,7 +43,7 @@ $(document).on('turbolinks:load', function() {
       $('#typeBusiness').val($(this).attr('id'));
     });
 
-      $("#small-business").addClass('wizard_selected_ad_primary bg-primary');
+      $("#small").addClass('wizard_selected_ad_primary bg-primary');
       $(".fe-users").addClass("text-white")
       $("#small-txt").addClass("text-primary")
 
