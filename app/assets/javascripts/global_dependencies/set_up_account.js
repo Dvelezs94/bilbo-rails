@@ -5,7 +5,6 @@ $(document).on('turbolinks:load', function() {
 
   if($("#set_up_wizard").length){
     $('.card-ad-link').click(function (e) {
-
       $("#Small").removeClass('wizard_selected_ad_primary bg-primary');
       $(".fe-users").removeClass("text-white")
       $("#small-txt").removeClass("text-primary")
@@ -48,12 +47,12 @@ $(document).on('turbolinks:load', function() {
       $("#small-txt").addClass("text-primary")
 
     $("#btnEndStep1").click(function () {
-      $("#step1").addClass('hideMe');
-      $("#step2").removeClass('hideMe');
+      $("#step1").addClass('d-none');
+      $("#step2").removeClass('d-none');
   });
   $("#btnReturn").click(function () {
-    $("#step2").addClass('hideMe');
-    $("#step1").removeClass('hideMe');
+    $("#step2").addClass('d-none');
+    $("#step1").removeClass('d-none');
   });
   }
 

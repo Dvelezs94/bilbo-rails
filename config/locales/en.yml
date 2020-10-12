@@ -527,10 +527,10 @@ en:
     next: Next
     close: Close
     organization_data: ORGANIZATION DATA
-    organization_name: Organization name's
+    organization_name: Organization name
     position: Work position
     write_name: Write your organization name
-    payment_method: Preferred payment method
+    payment_method: Prefered payment method
     card: Card
     transfer: Transfer
     cash: Cash
