@@ -31,11 +31,27 @@
 }
 
 .fnt-lg {
-  font-size: 40px !important;
+  font-size: 35px !important;
 }
 
-.fnt-md-34 {
-  font-size: 34px !important;
+.item {
+  position: relative !important;
+  right: 8px !important;
+}
+
+.item2{
+  position: relative !important;
+  right: 6px !important;
+}
+
+.item3{
+  position: relative !important;
+  right: 4px !important;
+}
+
+.item4{
+  position: relative!important;
+  right: 6px !important;
 }
 
 .file-input-100 {
@@ -107,6 +123,15 @@ td {
 .wizard_selected_ad {
   border-width: 2px !important;
   border-color: #10b759 !important;
+}
+
+.border_style_card {
+  box-shadow: 0 0 10px rgba(28, 39, 60, 0.02);
+      border: 2px solid rgba(72, 94, 144, 0.16);}
+
+.nopadding {
+   padding: 0 !important;
+
 }
 
 .wizard_selected_ad_primary {
