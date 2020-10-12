@@ -6,20 +6,20 @@ $(document).on('turbolinks:load', function() {
   if($("#set_up_wizard").length){
     $('.card-ad-link').click(function (e) {
 
-      $("#small").removeClass('wizard_selected_ad_primary bg-primary');
+      $("#Small").removeClass('wizard_selected_ad_primary bg-primary');
       $(".fe-users").removeClass("text-white")
       $("#small-txt").removeClass("text-primary")
 
-      $("#medium").removeClass('wizard_selected_ad_primary bg-primary');
+      $("#Medium").removeClass('wizard_selected_ad_primary bg-primary');
       $(".ion-ios-people").removeClass("text-white")
       $("#medium-txt").removeClass("text-primary")
 
-      $("#large").removeClass('wizard_selected_ad_primary bg-primary');
+      $("#Large").removeClass('wizard_selected_ad_primary bg-primary');
       $(".fe-home").removeClass("text-white")
       $("#large-txt").removeClass("text-primary")
 
 
-      $("#agency").removeClass('wizard_selected_ad_primary bg-primary');
+      $("#Agency").removeClass('wizard_selected_ad_primary bg-primary');
       $(".fe-building").removeClass("text-white")
       $("#agency-txt").removeClass("text-primary")
 
@@ -27,13 +27,13 @@ $(document).on('turbolinks:load', function() {
       $('.wizard_selected_ad_primary bg-primary').removeClass('wizard_selected_ad_primary bg-primary');
       $(this).addClass('wizard_selected_ad_primary bg-primary');
 
-      if ($(this).attr("id")== "agency"){
+      if ($(this).attr("id")== "Agency"){
         $(".fe-building").addClass("text-white")
         $("#agency-txt").addClass("text-primary")
-      } else if ($(this).attr("id")== "large"){
+      } else if ($(this).attr("id")== "Large"){
         $(".fe-home").addClass("text-white")
         $("#large-txt").addClass("text-primary")
-      } else if ($(this).attr("id")== "medium"){
+      } else if ($(this).attr("id")== "Medium"){
         $(".ion-ios-people").addClass("text-white")
         $("#medium-txt").addClass("text-primary")
       }  else {
@@ -43,7 +43,7 @@ $(document).on('turbolinks:load', function() {
       $('#typeBusiness').val($(this).attr('id'));
     });
 
-      $("#small").addClass('wizard_selected_ad_primary bg-primary');
+      $("#Small").addClass('wizard_selected_ad_primary bg-primary');
       $(".fe-users").addClass("text-white")
       $("#small-txt").addClass("text-primary")
 

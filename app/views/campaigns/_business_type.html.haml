@@ -11,35 +11,35 @@
             #step1
               %h6#myTitle.modal-title.pd-b-10.text-primary= t("set_up_account.type_organization")
               .card-deck.mg-l-8
-                %a.wd-55.ht-55.link-02.card-ad-link.mg-l-40.border_style_card.mg-t-15{:href => "#", :id => "small"}
+                %a.wd-55.ht-55.link-02.card-ad-link.mg-l-40.border_style_card.mg-t-15{:href => "#", :id => "Small"}
                   %i.fe.fe-users.align-items-center{:class => "fnt-lg mg-l-10 mg-t-4"}
                   -if I18n.default_locale.to_s == "en" || current_user.locale.to_s == "en"
                     %h6.card-title.pd-t-20{:id => "small-txt"}= t("set_up_account.small")
                   -else
                     %h6.card-title.pd-t-20.item{:id => "small-txt"}= t("set_up_account.small")
                 %br
-                %a.wd-55.ht-55.link-02.card-ad-link.mg-l-40.border_style_card.mg-t-15{:href => "#", :id => "medium"}
+                %a.wd-55.ht-55.link-02.card-ad-link.mg-l-40.border_style_card.mg-t-15{:href => "#", :id => "Medium"}
                   %i.ion-ios-people{:class => "fnt-lg mg-l-10 mg-t-4"}
                   -if I18n.default_locale.to_s == "en" || current_user.locale.to_s == "en"
                     %h6{:id => "medium-txt", :style => "padding-top: 10px;"}= t("set_up_account.medium")
                   -else
                     %h6.item2{:id => "medium-txt", :style => "padding-top: 10px;"}= t("set_up_account.medium")
                 %br
-                %a.wd-55.ht-55.link-02.card-ad-link.mg-l-40.border_style_card.mg-t-15{:href => "#", :id => "large"}
+                %a.wd-55.ht-55.link-02.card-ad-link.mg-l-40.border_style_card.mg-t-15{:href => "#", :id => "Large"}
                   %i.fe.fe-home{:class => "fnt-lg mg-t-4", :style => "margin-left: 12px;"}
                   -if I18n.default_locale.to_s == "en" || current_user.locale.to_s == "en"
                     %h6.pd-t-20{:id => "large-txt"}= t("set_up_account.large")
                   -else
                     %h6.pd-t-20.item3{:id => "large-txt"}= t("set_up_account.large")
                 %br
-                %a.wd-55.ht-55.link-02.card-ad-link.mg-l-40.border_style_card.mg-t-15{:href => "#", :id => "agency"}
+                %a.wd-55.ht-55.link-02.card-ad-link.mg-l-40.border_style_card.mg-t-15{:href => "#", :id => "Agency"}
                   %i.fe.fe-building{:class => "fnt-lg mg-t-4", :style => "margin-left: 14px;"}
                   -if I18n.default_locale.to_s == "en" || current_user.locale.to_s == "en"
                     %h6.pd-t-20{:id => "agency-txt"}= t("set_up_account.agency")
                   -else
                     %h6.pd-t-20.item4{:id => "agency-txt"}= t("set_up_account.agency")
                 %br
-                  = f.hidden_field :business_type, {:value => "small", :id => "typeBusiness"}
+                  = f.hidden_field :business_type, {:value => "Small", :id => "typeBusiness"}
               %button#btnEndStep1.btn.btn-primary{:type =>"button", :style => "float: right;", :class => "mg-l-15 mg-t-60"}= t("set_up_account.next")
               %button.btn.btn-secondary.mg-t-60{"data-dismiss" => "modal", :type => "button", :style => "float: right;"}= t("set_up_account.close")
             #step2.hideMe
@@ -50,23 +50,23 @@
                 %label.d-block.pd-t-5= t("set_up_account.position")
                 = f.text_field :work_position, placeholder: t("set_up_account.write_position"), class: "form-control pd-b-5", required: true
                 %label.d-block.pd-t-5= t("general_inputs.phone_number")
-                = f.text_field :phone_number, placeholder: "555-555-5555", class: "form-control pd-b-5 input-phone", required: true
+                = f.text_field :phone_number, placeholder: "1234567899", class: "form-control pd-b-5", required: true, :pattern => "[0-9]{10}", :minlength => 10, :maxlength => 10
                 %label.d-block.pd-t-5= t("set_up_account.payment_method")
                 .row.pd-l-20
                   .col-3.custom-control.custom-radio
-                    = f.radio_button :payment_preference, 'paypal', :checked => true, :class => "custom-control-input", :id =>"customRadio1"
+                    = f.radio_button :payment_preference, 'Paypal', :checked => true, :class => "custom-control-input", :id =>"customRadio1"
                     %label.custom-control-label{:for => "customRadio1"} PayPal
                   .col-3.custom-control.custom-radio
-                    = f.radio_button :payment_preference, 'card', :class => "custom-control-input", :id =>"customRadio2"
+                    = f.radio_button :payment_preference, 'Card', :class => "custom-control-input", :id =>"customRadio2"
                     %label.custom-control-label{:for => "customRadio2"}= t("set_up_account.card")
                   .col-4.custom-control.custom-radio
-                    = f.radio_button :payment_preference, 'transfer', :class => "custom-control-input", :id =>"customRadio3"
+                    = f.radio_button :payment_preference, 'Transfer', :class => "custom-control-input", :id =>"customRadio3"
                     %label.custom-control-label{:for => "customRadio3"}= t("set_up_account.transfer")
                   .col-3.custom-control.custom-radio
-                    = f.radio_button :payment_preference, 'cash', :class => "custom-control-input", :id =>"customRadio4"
+                    = f.radio_button :payment_preference, 'Cash', :class => "custom-control-input", :id =>"customRadio4"
                     %label.custom-control-label{:for => "customRadio4"}= t("set_up_account.cash")
                   .col-3.custom-control.custom-radio
-                    = f.radio_button :payment_preference, 'bank_check', :class => "custom-control-input", :id =>"customRadio5"
+                    = f.radio_button :payment_preference, 'Bank check', :class => "custom-control-input", :id =>"customRadio5"
                     %label.custom-control-label{:for => "customRadio5"}= t("set_up_account.check")
                     = f.hidden_field :sign_in_count, {:value => 1}
               %button#btnEndStep2.btn.btn-primary{:style => "float: right;", :class => "mg-l-15"}= t("set_up_account.save")
