@@ -42,7 +42,7 @@
                   = f.hidden_field :business_type, {:value => "Small", :id => "typeBusiness"}
               %button#btnEndStep1.btn.btn-primary{:type =>"button", :style => "float: right;", :class => "mg-l-15 mg-t-60"}= t("set_up_account.next")
               %button.btn.btn-secondary.mg-t-60{"data-dismiss" => "modal", :type => "button", :style => "float: right;"}= t("set_up_account.close")
-            #step2.hideMe
+            #step2.d-none
               %h6#myTitle.modal-title.pd-b-10.text-primary= t("set_up_account.organization_data")
               %form
                 %label.d-block.pd-t-5= t("set_up_account.organization_name")
