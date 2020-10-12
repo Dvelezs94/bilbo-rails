@@ -10,7 +10,7 @@
             %h6#myTitle.modal-title.pd-b-10= t("set_up_account.about_you")
             #step1
               %h6#myTitle.modal-title.pd-b-10.text-primary= t("set_up_account.type_organization")
-              .card-deck
+              .card-deck.mg-l-8
                 %a.wd-55.ht-55.link-02.card-ad-link.mg-l-40.border_style_card.mg-t-15{:href => "#", :id => "small"}
                   %i.fe.fe-users.align-items-center{:class => "fnt-lg mg-l-10 mg-t-4"}
                   -if I18n.default_locale.to_s == "en" || current_user.locale.to_s == "en"
