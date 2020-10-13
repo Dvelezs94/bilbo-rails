@@ -269,6 +269,8 @@ en:
     streaming: Streaming
     avg_views: Average Views/day
     day: Day
+    displays_number: Screens No.
+    displays_number_desc: Your ad will be displayed on these number of screens at the same time (counts as 1 impression).
     duration: Duration
     seconds: seconds
     price_per_print: Price/Impression
