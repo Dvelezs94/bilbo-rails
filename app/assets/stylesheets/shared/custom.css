@@ -105,15 +105,6 @@ td {
   border-color: #10b759 !important;
 }
 
-.border_style_card {
-  box-shadow: 0 0 10px rgba(28, 39, 60, 0.02);
-      border: 2px solid rgba(72, 94, 144, 0.16);}
-
-.nopadding {
-   padding: 0 !important;
-
-}
-
 .wizard_selected_ad_primary {
   border-width: 2px !important;
   border-color: #0168fa !important;
