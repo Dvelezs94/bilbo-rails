@@ -1,0 +1,57 @@
+#modalBusinessType.modal.effect-sign{"aria-hidden" => "true", "aria-labelledby" => "myTitle", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20.pd-sm-30
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span.aria-hidden{"aria-hidden" => "true"} ×
+        #set_up_wizard
+          = form_with(model: User, url: user_registration_path, method: :put, id: "set_up_account") do |f|
+            %h4#myTitle.modal-title.pd-b-10= t("set_up_account.customize_your_experience")
+            %h6#myTitle.modal-title.pd-b-10= t("set_up_account.about_you")
+            #step1
+              %h6.modal-title.pd-b-10.text-primary= t("set_up_account.type_organization")
+              .row.tx-center
+                .col-6.col-md-3.mg-b-20
+                  %i.fe.fe-user.tx-30.bd.mg-b-10.pd-x-15.pd-y-8.card-ad-link.a.link-02{:href => "#", :id => "Small"}
+                  %p.tx-16.mg-b-0{:id => "Small-txt"}= t("set_up_account.small")
+                .col-6.col-md-3.mg-b-20
+                  %i.fe.fe-users.tx-30.bd.mg-b-10.pd-x-15.pd-y-8.card-ad-link.a.link-02{:href => "#", :id => "Medium"}
+                  %p.tx-16.mg-b-0{:id => "Medium-txt"}= t("set_up_account.medium")
+                .col-6.col-md-3.mg-b-20
+                  %i.fe.fe-home.tx-30.bd.mg-b-10.pd-x-15.pd-y-8.card-ad-link.a.link-02{:href => "#", :id => "Large"}
+                  %p.tx-16.mg-b-0{:id => "Large-txt"}= t("set_up_account.large")
+                .col-6.col-md-3.mg-b-20
+                  %i.fe.fe-building.tx-30.bd.mg-b-10.pd-x-15.pd-y-8.card-ad-link.a.link-02{:href => "#", :id => "Agency"}
+                  %p.tx-16.mg-b-0{:id => "Agency-txt"}= t("set_up_account.agency")
+                  = f.hidden_field :business_type, {:value => "Small", :id => "typeBusiness"}
+              %button#btnEndStep1.btn.btn-primary{:type =>"button", :style => "float: right;", :class => "mg-l-15"}= t("set_up_account.next")
+              %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button", :style => "float: right;"}= t("set_up_account.close")
+            #step2.d-none
+              %h6#myTitle.modal-title.pd-b-10.text-primary= t("set_up_account.organization_data")
+              %form
+                %label.d-block.pd-t-5= t("set_up_account.organization_name")
+                = f.text_field :company_name, placeholder: t("set_up_account.write_name"), class: "form-control pd-b-5 ", required: true
+                %label.d-block.pd-t-5= t("set_up_account.position")
+                = f.text_field :work_position, placeholder: t("set_up_account.write_position"), class: "form-control pd-b-5", required: true
+                %label.d-block.pd-t-5= t("general_inputs.phone_number")
+                = f.text_field :phone_number, placeholder: "1234567890", class: "form-control pd-b-5", required: true, :pattern => "[0-9]{10}", :minlength => 10, :maxlength => 10
+                %label.d-block.pd-t-5= t("set_up_account.payment_method")
+                .row.pd-l-20
+                  .col-3.custom-control.custom-radio
+                    = f.radio_button :payment_preference, 'Paypal', :checked => true, :class => "custom-control-input", :id =>"customRadio1"
+                    %label.custom-control-label{:for => "customRadio1"} PayPal
+                  .col-3.custom-control.custom-radio
+                    = f.radio_button :payment_preference, 'Card', :class => "custom-control-input", :id =>"customRadio2"
+                    %label.custom-control-label{:for => "customRadio2"}= t("set_up_account.card")
+                  .col-4.custom-control.custom-radio
+                    = f.radio_button :payment_preference, 'Transfer', :class => "custom-control-input", :id =>"customRadio3"
+                    %label.custom-control-label{:for => "customRadio3"}= t("set_up_account.transfer")
+                  .col-3.custom-control.custom-radio
+                    = f.radio_button :payment_preference, 'Cash', :class => "custom-control-input", :id =>"customRadio4"
+                    %label.custom-control-label{:for => "customRadio4"}= t("set_up_account.cash")
+                  .col-3.custom-control.custom-radio
+                    = f.radio_button :payment_preference, 'Bank check', :class => "custom-control-input", :id =>"customRadio5"
+                    %label.custom-control-label{:for => "customRadio5"}= t("set_up_account.check")
+                    = f.hidden_field :sign_in_count, {:value => 1}
+              %button#btnEndStep2.btn.btn-primary.mg-t-10{:style => "float: right;", :class => "mg-l-15"}= t("set_up_account.save")
+              %button#btnReturn.btn.btn-secondary.mg-t-10{:type => "button", :style => "float: right;"}= t("set_up_account.previous")
