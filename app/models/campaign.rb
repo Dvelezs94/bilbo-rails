@@ -145,7 +145,7 @@ class Campaign < ApplicationRecord
   end
 
   def to_utc(time,utc_offset)
-    time - utc_offset
+    time - utc_offset.minutes
   end
 
   def time_to_run?(brd)
