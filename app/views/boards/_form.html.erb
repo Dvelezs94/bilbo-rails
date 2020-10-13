@@ -127,6 +127,12 @@
         <%= f.label :images_only, t("bilbos.images_only_form"), class: "custom-control-label" %><br/>
       </div>
     </div>
+    <div class="col-6">
+      <div class="custom-control custom-checkbox">
+        <%= f.check_box :keep_old_cycle_price_on_active_campaigns, {checked: true, class: "custom-control-input"} %><br/>
+        <%= f.label :keep_old_cycle_price_on_active_campaigns, t("bilbos.keep_old_cycle_price_on_active_campaigns"), class: "custom-control-label" %><br/>
+      </div>
+    </div>
   </div>
 </div>
 

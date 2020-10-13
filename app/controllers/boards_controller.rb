@@ -49,7 +49,7 @@ class BoardsController < ApplicationController
         deactivated +=1
       end
       if deactivated > 0
-        flash[:notice] = "Se han desactivado " << deactivated.to_s  << " campañas de proveedor que usaban este Bilbo, ¡Verifícalas!"
+        flash[:notice] = "Se han desactivado " << deactivated.to_s  << " campañas de proveedor que usaban este Bilbo, ¡revísalas!"
       end
         flash[:success] = "Bilbo actualizado con éxito"
     else
@@ -176,6 +176,7 @@ class BoardsController < ApplicationController
                                   :images_only,
                                   :extra_percentage_earnings,
                                   :mac_address,
+                                  :keep_old_cycle_price_on_active_campaigns,
                                   images: []
                                   )
   end

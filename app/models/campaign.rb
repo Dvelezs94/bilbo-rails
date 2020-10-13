@@ -47,6 +47,7 @@ class Campaign < ApplicationRecord
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
   after_validation :return_to_old_state_id_invalid
+  before_update :remove_old_cycle_price, if: :owner_updated_campaign
   before_save :update_state_updated_at, if: :state_changed?
   before_save :set_in_review
   after_commit :broadcast_to_all_boards
@@ -228,6 +229,10 @@ class Campaign < ApplicationRecord
       #something is changing when state is active, so i raise error
       errors.add(:base, I18n.t('campaign.errors.cant_update_when_active'))
     end
+  end
+
+  def remove_old_cycle_price #they updated campaign, so we now can use board price normally
+    board_campaigns.update(cycle_price: nil)
   end
 
   # Get total ammount of money invested on the campaign to date

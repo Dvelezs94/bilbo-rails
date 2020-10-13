@@ -159,7 +159,10 @@ $(document).on('turbolinks:load', function () {
       function calculatebudget() {
         sum = 0;
         $('#selected_boards option:not(:eq(0))').each(function () {
-          sum += $(this).data('price') || 0;
+          cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
+          console.log($(this).data('price'));
+          console.log($(this).data('price')*cycles);
+          sum += $(this).data('price')*cycles || 0;
           avg = sum / $('#selected_boards option:not(:eq(0))').length;
         });
         // max impressions based on the budget
@@ -178,7 +181,8 @@ $(document).on('turbolinks:load', function () {
     function calculateInvbudget(maximum_impressions) {
       sum = 0;
       $('#selected_boards option:not(:eq(0))').each(function () {
-        sum += $(this).data('price') || 0;
+        cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
+        sum += $(this).data('price')*cycles || 0;
         avg = sum / $('#selected_boards option:not(:eq(0))').length;
       });
       // if the impressions are greater than max possible impressions of bilbos, take the max posible

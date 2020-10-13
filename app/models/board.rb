@@ -3,7 +3,7 @@ class Board < ApplicationRecord
   include BroadcastConcern
   include Rails.application.routes.url_helpers
   extend FriendlyId
-  attr_accessor :new_ads_rotation, :admin_edit
+  attr_accessor :new_ads_rotation, :admin_edit, :keep_old_cycle_price_on_active_campaigns
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :board_campaigns, class_name: "BoardsCampaigns"
@@ -14,6 +14,7 @@ class Board < ApplicationRecord
   has_one_attached :default_image
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
+  before_update :save_old_cycle_price
   enum status: { enabled: 0, disabled: 1 }
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
   validates_presence_of :lat, :lng, :utc_offset,:avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
@@ -157,6 +158,33 @@ class Board < ApplicationRecord
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = calculate_max_earnings
     (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration
+  end
+  def calculate_old_max_earnings(bilbo_percentage: 20)
+    bilbo_percentage_earnings = bilbo_percentage/100.0
+    provider_extra_percentage = extra_percentage_earnings_was/100.0
+    (base_earnings_was * ((1+provider_extra_percentage)/(1-bilbo_percentage_earnings))).round(2)
+  end
+  def old_cycle_price(date = Time.now)
+    daily_seconds = working_minutes(start_time_was, end_time_was) * 60
+    total_days_in_month = date.end_of_month.day
+    # this is 100% of possible earnings in the month
+    total_monthly_possible_earnings = calculate_old_max_earnings
+    (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration_was
+  end
+
+  def save_old_cycle_price
+    bcs = BoardsCampaigns.where(board: self)
+    if keep_old_cycle_price_on_active_campaigns
+      pr = old_cycle_price(Time.parse("Apr,1 , 2020")) #i selected a month that has 30 days so in average its almost same as changing price in function of month days for a year
+      bcs.update(cycle_price: pr)
+    else
+      bcs.update(cycle_price: nil)
+    end
+  end
+
+  def get_cycle_price(campaign) #campaigns can use an old cycle price
+    bc = BoardsCampaigns.find_by(board: self, campaign: campaign)
+    bc.cycle_price.present? ? bc.cycle_price : self.cycle_price
   end
 
   # Check if there are Action cable connections in place
