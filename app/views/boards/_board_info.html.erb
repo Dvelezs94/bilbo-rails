@@ -114,7 +114,7 @@
     <% if not URI(request.referer).path.match? /boards|map_frame/ %>
       <div class="info-board mg-t-5">
         <% is_selected = (params[:selected_boards].split(",").include?(board.id.to_s))? true : false %>
-      <button type="button" onclick="addBilbo(this)" class="btn btn-primary-custom btn-block add-bilbo <%= "d-none" if is_selected %>" data-id="<%= board.id %>" data-address="<%= "#{board.address} - #{board.face}" %>" data-max-impressions="<%= "#{JSON.parse(board.ads_rotation).size}" %>" data-price="<%= board.cycle_price(DateTime.now) %>" new-height="<%= board.size_change[0].round(0)%>" new-width= "<%=board.size_change[1].round(0)%>"><i class="material-icons md-18 material-icon-middle">add_circle</i> <%= t("bilbos.add_bilbo") %></button>
+      <button type="button" onclick="addBilbo(this)" class="btn btn-primary-custom btn-block add-bilbo <%= "d-none" if is_selected %>" data-id="<%= board.id %>" data-address="<%= "#{board.address} - #{board.face}" %>" data-cycle-duration="<%= board.duration%>" data-max-impressions="<%= "#{JSON.parse(board.ads_rotation).size}" %>" data-price="<%= board.cycle_price(DateTime.now) %>" new-height="<%= board.size_change[0].round(0)%>" new-width= "<%=board.size_change[1].round(0)%>"><i class="material-icons md-18 material-icon-middle">add_circle</i> <%= t("bilbos.add_bilbo") %></button>
       <button type="button" onclick="removeBilbo(this)" class="btn btn-secondary-custom btn-block remove-bilbo mg-t-0-f <%= "d-none" if !is_selected %>" data-id="<%= board.id %>"><i class="material-icons md-18 material-icon-middle">remove_circle</i>  <%= t("bilbos.remove_bilbo") %></button>
       </div>
     <% end %>

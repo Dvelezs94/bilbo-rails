@@ -260,6 +260,7 @@ es:
     banned: Bloqueado
     ad_duration: Duración de anuncio (segundos)
     images_only_form: Sólamente aceptar imágenes en este bilbo
+    keep_old_cycle_price_on_active_campaigns: Mantener el anterior precio por impresión para las campañas activas actuales
     category: Categoria
     copy_stream_url: Copiar URL
     regenerate_token: Regenerar token de acceso

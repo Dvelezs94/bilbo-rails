@@ -258,6 +258,7 @@ en:
     banned: Banned
     ad_duration: Ad Duration (seconds)
     images_only_form: Only accept images on this bilbo
+    keep_old_cycle_price_on_active_campaigns: Keep old cycle price on current active campaigns
     category: Category
     copy_stream_url: Copy stream URL
     regenerate_token: Regenerate access token
