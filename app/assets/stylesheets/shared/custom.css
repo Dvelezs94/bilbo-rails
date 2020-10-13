@@ -34,26 +34,6 @@
   font-size: 35px !important;
 }
 
-.item {
-  position: relative !important;
-  right: 8px !important;
-}
-
-.item2{
-  position: relative !important;
-  right: 6px !important;
-}
-
-.item3{
-  position: relative !important;
-  right: 4px !important;
-}
-
-.item4{
-  position: relative!important;
-  right: 6px !important;
-}
-
 .file-input-100 {
   right: 14px !important;
   left: 14px !important;
