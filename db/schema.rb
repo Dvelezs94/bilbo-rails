@@ -324,7 +324,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_184948) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-10-01 15:12:45"
+    t.datetime "expires_at", default: "2030-10-05 19:02:59"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -372,6 +372,11 @@ ActiveRecord::Schema.define(version: 2020_10_13_184948) do
     t.string "phone_number"
     t.boolean "banned", default: false
     t.string "uid"
+    t.string "business_type"
+    t.string "company_name"
+    t.string "work_position"
+    t.string "payment_preference"
+    t.integer "sign_in_count", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
