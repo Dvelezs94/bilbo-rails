@@ -303,6 +303,8 @@ en:
     social_class: Clasification
     view_campaigns: View Campaigns
     mac_address: MAC address
+    earnings_month: Earnings this month
+    stats: Stats
     ads_rotation_error:
       max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time
@@ -517,6 +519,28 @@ en:
     administrator: Administrator
     owner: Owner
     user_has_an_invitation: User already has an invitation
+  set_up_account:
+    customize_your_experience: Customize your experience
+    about_you: Tell us about yourself or your organization so we can customize your account.
+    type_organization: TYPE OF ORGANIZATION
+    small: SMALL
+    medium: MEDIUM
+    large: LARGE
+    agency: AGENCY
+    next: Next
+    close: Close
+    organization_data: ORGANIZATION DATA
+    organization_name: Organization name
+    position: Work position
+    write_name: Write your organization name
+    payment_method: Prefered payment method
+    card: Card
+    transfer: Transfer
+    cash: Cash
+    check: Bank check
+    write_position: Write your work position
+    previous: Previous
+    save: Save
   notifications:
     notifications: Notifications
     new_notification: You have a new notification for your project %{project_name}
