@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2020_10_13_004458) do
+=======
+ActiveRecord::Schema.define(version: 2020_10_08_170803) do
+>>>>>>> 16645c5515090d016691192bd230a407005973ab
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -324,7 +328,11 @@ ActiveRecord::Schema.define(version: 2020_10_13_004458) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
+<<<<<<< HEAD
     t.datetime "expires_at", default: "2030-10-09 22:10:03"
+=======
+    t.datetime "expires_at", default: "2030-10-12 21:52:13"
+>>>>>>> 16645c5515090d016691192bd230a407005973ab
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -372,6 +380,11 @@ ActiveRecord::Schema.define(version: 2020_10_13_004458) do
     t.string "phone_number"
     t.boolean "banned", default: false
     t.string "uid"
+    t.string "business_type"
+    t.string "company_name"
+    t.string "work_position"
+    t.string "payment_preference"
+    t.integer "sign_in_count", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

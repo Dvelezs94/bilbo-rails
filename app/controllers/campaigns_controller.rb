@@ -95,8 +95,10 @@ class CampaignsController < ApplicationController
                                 action: "created", notifiable: @campaign, sms: current_user.is_provider? ? false : true)
           if @campaign.starts_at.present? && @campaign.ends_at.present?
             @campaign.boards.each do |b|
-              difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
-              difference_in_seconds_end = (@campaign.to_utc(@campaign.ends_at, b.utc_offset) - Time.now.utc).to_i
+              #difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
+              difference_in_seconds = (Time.new(*@campaign.starts_at.strftime("%Y-%m-%e").split('-')) - Time.now.utc).to_i #First term is the beginning of the specified day in utc zone
+              #difference_in_seconds_end = (@campaign.to_utc(@campaign.ends_at, b.utc_offset) - Time.now.utc).to_i
+              difference_in_seconds_end = (Time.new(*@campaign.ends_at.strftime("%Y-%m-%e").split('-')) - Time.now.utc).to_i
               ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id, b.id) if difference_in_seconds > 0
               RemoveScheduleCampaignWorker.perform_at((difference_in_seconds_end.seconds+86401.seconds).from_now, @campaign.id, b.id) if difference_in_seconds_end > 0
             end
