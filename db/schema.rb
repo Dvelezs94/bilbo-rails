@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_160636) do
+ActiveRecord::Schema.define(version: 2020_10_13_184948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_160636) do
     t.string "slug"
     t.string "qr"
     t.integer "social_class", default: 0
-    t.string "default_image"
+    t.string "default_images"
     t.string "aspect_ratio"
     t.time "start_time"
     t.time "end_time"
