@@ -176,6 +176,7 @@ class BoardsController < ApplicationController
                                   :images_only,
                                   :extra_percentage_earnings,
                                   :mac_address,
+                                  :displays_number,
                                   images: []
                                   )
   end
