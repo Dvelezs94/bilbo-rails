@@ -76,9 +76,10 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     # users do not give phone numbers on registration, it is to detect bots
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :project_name, :phone_number])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :avatar, :locale, :business_type, :company_name, :work_position, :phone_number, :payment_preference, :sign_in_count])
     devise_parameter_sanitizer.permit(:accept_invitation, keys: [:name])
     devise_parameter_sanitizer.permit(:invite, keys: [:role, :name, :project_name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:business_type])
   end
 
   def set_locale

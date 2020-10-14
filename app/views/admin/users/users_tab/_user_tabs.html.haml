@@ -4,7 +4,7 @@
       %h6.mg-b-0 Personal Details
       .d-flex
         - if verification.present?
-          = image_tag verification.official_id, class: "d-none", id: "id_picture", :data => {lity: true}, alt: "No Image"
+          = image_tag url_from_media(verification.official_id), class: "d-none", id: "id_picture", :data => {lity: true}, alt: "No Image"
           .btn.btn-sm.d-flex.align-items-center.mg-r-5.btn-outline-primary{ onclick: '$("#id_picture").click()' }
             %i.fe.fe-picture-square
             %span.d-none.d-sm-inline.mg-l-5 View ID Picture
@@ -41,7 +41,7 @@
             .btn.btn-sm.btn-outline-primary.d-flex.align-items-center.mg-r-5
               %i.fe.fe-check-circle
               %span.d-none.d-sm-inline.mg-l-5 Activate User
-            
+
 
         = link_to impersonate_admin_user_path(user.id), method: :post,class: "btn btn-sm btn-dark d-flex align-items-center mg-r-5", data: { confirm: "You sure you want to impersonate as #{user.name}?" } do
           %i.fe.fe-users
@@ -68,6 +68,22 @@
         %p.mg-b-0= number_to_phone(user.phone_number)
       / col
       / row
+    %br
+    - if user.is_user?
+      .row
+        .col-4
+          %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Position
+          %p.mg-b-0= user.work_position
+        .col-4
+          %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Company Name
+          %p.mg-b-0= user.company_name
+        / col
+        .col-4
+          %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Type of organization
+          %p.mg-b-0= user.business_type
+        .col-4.pd-t-10
+          %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Payment preference
+          %p.mg-b-0= user.payment_preference
     - if user.verifications.present?
       .divider-text Verification Details
       .row.row-sm
