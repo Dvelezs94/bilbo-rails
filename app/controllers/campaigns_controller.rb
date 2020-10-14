@@ -2,8 +2,8 @@ class CampaignsController < ApplicationController
   include UserActivityHelper
   access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index]}, provider: :all, all: [:analytics, :shortened_analytics]
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state]
-  before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state]
+  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
+  before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :campaign_not_active, only: [:edit]
 
   def index
@@ -37,6 +37,10 @@ class CampaignsController < ApplicationController
     else
       @append_msg = ""
     end
+  end
+
+  def get_used_boards
+    @board_campaigns = @campaign.board_campaigns.includes(:board)
   end
 
   def analytics

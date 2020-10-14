@@ -6,17 +6,6 @@
   .card-header.tx-bold
     = t('main_wizard.pending_items')
     .card-body.pd-x-0.pd-y-5.mg-t-10.cursor-pointer
-      .row{"data-toggle" => "modal", :href => "#modalVerify"}
-        .col-10
-          %span.tx-normal
-            - if @verified_profile
-              %i.tx-16.fe.fe-check-circle
-            - else
-              %i.tx-16.fe.fe-check-circle-o
-            = t('main_wizard.verify_profile')
-        .col-2
-          %i.fe.fe-arrow-right
-      %hr.hr-border-white
       .row{"data-toggle" => "modal", :href => "#modalNewPayment"}
         .col-10
           %span.tx-normal
