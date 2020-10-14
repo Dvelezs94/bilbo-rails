@@ -1,7 +1,7 @@
 class PaymentsController < ApplicationController
   access user: :all
   # before_action :user_verified_for_purchase?, only: [:create, :express]
-  before_action :verify_user_credit_limit, only: [:create, :express, :update_reference]
+  before_action :verify_user_credit_limit, only: [:create, :express]
   before_action :get_payment, only: [:cancel_spei, :check_payment, :update_reference]
   before_action :identify_user, only: [:cancel_spei]
   include ApplicationHelper
@@ -146,6 +146,8 @@ class PaymentsController < ApplicationController
   end
 
   def spei_payment_params
-    params.require(:payment).permit(:total).merge(:user_id => current_user.id, :ip => request.remote_ip, :transaction_fee => 0)
+    @spei_params = params.require(:payment).permit(:total).merge(:user_id => current_user.id, :ip => request.remote_ip, :transaction_fee => 0)
+    @spei_params[:total] =  @spei_params[:total].delete(',').to_i
+    @spei_params
   end
 end

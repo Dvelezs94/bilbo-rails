@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       put :toggle_state
       get :wizard_fetch
       get :getAds
+      get :get_used_boards
     end
     collection do
       get :provider_index
@@ -66,6 +67,7 @@ Rails.application.routes.draw do
     end
     member do
       delete :delete_image
+      delete :delete_default_image
       get :regenerate_access_token
       get :regenerate_api_token
       # statistics of a single board
