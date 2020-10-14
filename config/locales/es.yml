@@ -272,6 +272,8 @@ es:
     streaming: Emitiendo
     avg_views: Vistas por día
     day: Dia
+    displays_number: N. de pantallas
+    displays_number_desc: Número de pantallas en las que se reproducirá tu anuncio al mismo tiempo (cuenta como 1 impresión).
     duration: Duración
     seconds: segundos
     price_per_print: Precio/Impresión

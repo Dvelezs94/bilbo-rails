@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_004458) do
     t.string "slug"
     t.string "qr"
     t.integer "social_class", default: 0
-    t.string "default_image"
+    t.string "default_images"
     t.string "aspect_ratio"
     t.time "start_time"
     t.time "end_time"
@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_004458) do
     t.boolean "images_only", default: false
     t.integer "extra_percentage_earnings", default: 20
     t.string "mac_address"
+    t.integer "displays_number", default: 1
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -366,7 +367,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_004458) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.boolean "verified", default: false
+    t.boolean "verified", default: true
     t.integer "failed_attempts", default: 0, null: false
     t.datetime "locked_at"
     t.string "phone_number"

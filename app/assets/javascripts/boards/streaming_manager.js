@@ -130,6 +130,7 @@
        }
        else if (chosen != "."){
          hideBilboAd();
+         pauseDefaultVideos();
          //hide the old ad and pause it if its video
          if (typeof newAd !== 'undefined') {
            oldAd = newAd;
@@ -175,12 +176,25 @@
      }
      // show bilbo ad
      function showBilboAd() {
+       pauseDefaultVideos();
+       var chosen_default_multimedia = Math.floor(Math.random() * $(".bilbo-official-ad").length);
+       console.log(chosen_default_multimedia)
        $(".board-ads").hide();
        $("#bilbo-ad").attr('style', 'display:block !important');
-       if ($(".bilbo-official-ad").is("video")) {
-         $(".bilbo-official-ad")[0].play();
+       $(".bilbo-official-ad").hide().eq(chosen_default_multimedia).show()
+       if ($($(".bilbo-official-ad")[chosen_default_multimedia]).is("video")) {
+         $(".bilbo-official-ad")[chosen_default_multimedia].currentTime = 0;
+         $(".bilbo-official-ad")[chosen_default_multimedia].play();
        }
      }
+     function pauseDefaultVideos() {
+       $(".bilbo-official-ad").each(function() {
+         if ($(this).is("video")) {
+           this.pause();
+         }
+       });
+     }
+
      function check_next_campaign_ads_present() {
         //check if next campaign has ads to download them
        next_chosen = (rotation_key >= ads.length)?  ads[0] : ads[rotation_key+1];
@@ -208,12 +222,9 @@
      }
      function hideBilboAd(){
        if ($("#bilbo-ad").is(":visible")) {
+         pauseDefaultVideos();
          $("#bilbo-ad").hide();
          $(".board-ads").attr('style', 'display:block !important');
-         if ($(".bilbo-official-ad").is("video")) {
-           $(".bilbo-official-ad")[0].pause();
-           $(".bilbo-official-ad")[0].currentTime = 0;
-         }
        }
      }
 
