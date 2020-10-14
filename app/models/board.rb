@@ -294,6 +294,17 @@ class Board < ApplicationRecord
     time.strftime("%H:%M:%S")
   end
 
+  def get_user_impressions
+    active_user_campaigns = self.active_campaigns.select{|c| !c.provider_campaign}.pluck(:id)
+    user_impressions = []
+    active_user_campaigns.each do |id|
+      impression_count = Campaign.find(id).daily_impressions(Time.now().beginning_of_day .. Time.now().end_of_day)
+      today_impressions = impression_count.present?? impression_count.values[0] : 0
+      user_impressions << [id, today_impressions]
+    end
+    return user_impressions
+  end
+
   private
   def total_cycles(st,et,zero_if_equal = false )
     working_minutes(st,et,zero_if_equal)*6
