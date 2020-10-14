@@ -86,7 +86,7 @@ class Campaign < ApplicationRecord
   end
 
   def have_to_set_in_review_on_boards
-    return ad_id_changed? || owner_updated_campaign
+    (provider_campaign && owner_updated_campaign) || ad_id_changed?
   end
 
   def set_in_review

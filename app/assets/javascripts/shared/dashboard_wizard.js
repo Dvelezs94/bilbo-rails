@@ -160,8 +160,6 @@ $(document).on('turbolinks:load', function () {
         sum = 0;
         $('#selected_boards option:not(:eq(0))').each(function () {
           cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
-          console.log($(this).data('price'));
-          console.log($(this).data('price')*cycles);
           sum += $(this).data('price')*cycles || 0;
           avg = sum / $('#selected_boards option:not(:eq(0))').length;
         });
@@ -170,7 +168,7 @@ $(document).on('turbolinks:load', function () {
           parseFloat($('#campaign_budget').val().replace(',', '')) / avg
         );
         // max possible impressions of bilbos
-        max_boards_impr = parseInt($('#max_impressions').val());
+        max_boards_impr = parseInt($('#max_impressions').val()*10/cycles);
         if (maximum_impressions > max_boards_impr) {
           $('#impressions').val(max_boards_impr);
         } else {
@@ -186,7 +184,7 @@ $(document).on('turbolinks:load', function () {
         avg = sum / $('#selected_boards option:not(:eq(0))').length;
       });
       // if the impressions are greater than max possible impressions of bilbos, take the max posible
-      max_boards_impr = parseInt($('#max_impressions').val());
+      max_boards_impr = parseInt($('#max_impressions').val()*10/cycles);
       if (maximum_impressions > max_boards_impr) {
         maximum_impressions = max_boards_impr;
         $('#impressions').val(max_boards_impr);
