@@ -1,13 +1,19 @@
 <div class="tab-pane fade show <%= "active" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id] %>" id="<%= board.slug %>" role="tabpanel" aria-labelledby="<%= board.slug %>-tab">
   <div id="carouselBoardInfo" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner ht-200 center_image_vertically">
-      <% if board.images.attached? %>
-        <%= render partial: 'boards/board_images', collection: board.images, as: :image %>
-      <% else %>
-      <div class="carousel-item active">
-        <%= image_tag image_path("board_placeholder"), class: "d-block w-100", :data => {lity: true}, alt: "No Image" %>
+    <div class="pos-relative">
+      <div class="marker pos-absolute t-10 r-10" style="z-index: 10; box-shadow: 0px 0px 0px, 0 0 7px;">
+        <%= "#{t("bilbos.displays_number")}: #{board.displays_number}" %>
+        <i class="fe fe-question tx-primary tx-11" data-toggle="tooltip" data-placement="bottom" title="<%= t('bilbos.displays_number_desc') %>"></i>
       </div>
-      <% end %>
+      <div class="carousel-inner ht-200 center_image_vertically">
+        <% if board.images.attached? %>
+          <%= render partial: 'boards/board_images', collection: board.images, as: :image %>
+        <% else %>
+        <div class="carousel-item active">
+          <%= image_tag image_path("board_placeholder"), class: "d-block w-100", :data => {lity: true}, alt: "No Image" %>
+        </div>
+        <% end %>
+      </div>
     </div>
     <a class="carousel-control-prev" href="#carouselBoardInfo" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"><i class="fe fe-arrow-left tx-30"></i></span>
@@ -28,86 +34,50 @@
         </tr>
         <% end %>
         <tr>
-          <td>
-            <i class="fe fe-eye ic-teal pd-r-5-f"></i>
-          </td>
           <td class="tx-medium"><%= t("bilbos.face") %></td>
           <td class="text-right"><%= board.face %></td>
         </tr>
         <tr>
-          <td>
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-tv tx-primary" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M2.5 13.5A.5.5 0 0 1 3 13h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zM13.991 3H2c-.325 0-.502.078-.602.145a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2z"/>
-            </svg>
-          </td>
-          <td class="tx-medium">
-            <%= t("bilbos.displays_number") %>
-            <i class="fe fe-question tx-primary" data-toggle="tooltip" data-placement="bottom" title="<%= t('bilbos.displays_number_desc') %>"></i>
-          </td>
-          <td class="text-right">
-            <%= board.displays_number %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <i class="fe fe-wallet ic-success pd-r-5-f"></i>
-          </td>
           <td class="tx-medium"><%= t("bilbos.credits_per_print") %></td>
           <td class="text-right" data-toggle="tooltip" data-placement="bottom" title="<%= t('bilbos.credits') %>"><%= number_to_currency_usd(board.cycle_price(DateTime.now)) %></td>
         </tr>
         <tr>
-          <td>
-            <i class="fe fe-location ic-pink pd-r-5-f"></i>
-          </td>
           <td class="tx-medium"><%= t("bilbos.address") %></td>
           <td class="text-right"><%= board.address %></td>
         </tr>
         <tr>
-          <td>
-            <i class="fe fe-desktop ic-purple pd-r-5-f"></i>
-          </td>
           <td class="tx-medium"><%= t("bilbos.type") %></td>
           <td class="text-right"><%= t("bilbos.#{board.category}") %></td>
         </tr>
         <tr>
-          <td>
-            <i class="fe fe-users ic-primary pd-r-5-f"></i>
-          </td>
           <td class="tx-medium"><%= t("bilbos.avg_views") %></td>
           <td class="text-right"><%= number_with_delimiter(board.avg_daily_views, :delimiter => ',') %>/<%= t("bilbos.day") %></td>
         </tr>
         <tr>
-          <td>
-            <i class="fe fe-clock ic-warning pd-r-5-f"></i>
-          </td>
           <td class="tx-medium"><%= t("bilbos.duration") %></td>
           <td class="text-right"><%= board.duration %> <%= t("bilbos.seconds") %></td>
         </tr>
         <tr>
-          <td>
-            <i class="fe fe-expand ic-pink pd-r-5-f"></i>
-          </td>
           <td class="tx-medium"><%= t("bilbos.dimensions") %></td>
-          <td class="text-right"><%= board.width %> x <%= board.height %></td>
+          <td class="text-right tx-primary">
+            <span class="tx-12">
+              <%= board.width %> x <%= board.height %> mts
+            </span>
+          </td>
         </tr>
         <tr>
-          <td>
-            <i class="fe fe-file ic-teal pd-r-5-f"></i>
-          </td>
+          <td class="tx-medium"><%= t("bilbos.image_size") %></td>
+          <td class="text-right"><%= board.recommended_image_size %> px</td>
+        </tr>
+        <tr>
           <td class="tx-medium"><%= t("bilbos.social_class") %></td>
           <td class="text-right"><%= board.social_class %></td>
         </tr>
         <tr>
-          <td>
-            <i class="fe fe-clock ic-primary pd-r-5-f"></i>
-          </td>
           <td class="tx-medium"><%= t("bilbos.hour_start") %></td>
           <td class="text-right"><%= "#{board.start_time.to_s(:time)} - #{board.end_time.to_s(:time)}" %></td>
         </tr>
         <tr>
-          <td>
-            <i class="fe fe-line-chart ic-primary pd-r-5-f"></i>
-          </td>
           <td class="tx-medium"><%= t('campaign.occupied') %></td>
           <td>
             <% occupation = board.occupation %>
