@@ -176,9 +176,8 @@
      }
      // show bilbo ad
      function showBilboAd() {
-       pauseDefaultVideos();
+       pauseAllCampaignVideos();
        var chosen_default_multimedia = Math.floor(Math.random() * $(".bilbo-official-ad").length);
-       console.log(chosen_default_multimedia)
        $(".board-ads").hide();
        $("#bilbo-ad").attr('style', 'display:block !important');
        $(".bilbo-official-ad").hide().eq(chosen_default_multimedia).show()
@@ -187,10 +186,23 @@
          $(".bilbo-official-ad")[chosen_default_multimedia].play();
        }
      }
+
      function pauseDefaultVideos() {
        $(".bilbo-official-ad").each(function() {
          if ($(this).is("video")) {
-           this.pause();
+           if (!this.paused) {
+             this.pause();
+           }
+         }
+       });
+     }
+
+     function pauseAllCampaignVideos() {
+       $(".board-ad-inner").each(function() {
+         if ($(this).is("video")) {
+           if (!this.paused) {
+             this.pause();
+           }
          }
        });
      }
