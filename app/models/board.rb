@@ -266,10 +266,22 @@ class Board < ApplicationRecord
     time.strftime("%H:%M:%S")
   end
 
+  # Get the pixel size for correct image fit in the bilbo
+  def recommended_image_size
+    resolution = 1080
+    # aspect ratio width and height
+    arw = aspect_ratio.split(":")[0].to_i
+    arh = aspect_ratio.split(":")[1].to_i
+    # here we asume that we want all pictures to be FHD (1080p)
+    imgw = ((arw * resolution) / arh).to_i
+    return "#{imgw}x#{resolution}"
+  end
+
   private
   def total_cycles(st,et,zero_if_equal = false )
     working_minutes(st,et,zero_if_equal)*6
   end
+
   def calculate_aspect_ratio
     width = (self.width * 100).round(0)
     height = (self.height * 100).round(0)
