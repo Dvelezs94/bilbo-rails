@@ -26,13 +26,17 @@
 
 <div class="form-group">
   <div class="row">
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-4">
       <%= f.label t('bilbos.category') %>
       <%= f.select("category", [[t("bilbos.billboard"),"billboard"],[t("bilbos.wallboard"),"wallboard"],[t("bilbos.television"),"television"]], {}, {:class => "custom-select"}) %>
     </div>
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 col-md-4">
       <%= f.label t('bilbos.avg_views') %>
       <%= f.text_field :avg_daily_views, class: "form-control", autocomplete: "off", required: true, placeholder: "200" %>
+    </div>
+    <div class="col-sm-12 col-md-4">
+      <%= f.label t('bilbos.displays_number') %>
+      <%= f.text_field :displays_number, class: "form-control", autocomplete: "off", placeholder: "1" %>
     </div>
   </div>
 </div>
@@ -130,39 +134,51 @@
   </div>
 </div>
 
-
  <div class="form-group">
-
   <%= f.label :images %>
   <%= f.file_field :images, multiple: true, class: "form-control"%>
 </div>
+
 <% if board.images.attached? %>
 <div class="d-flex">
-  <% board.images.each do |im| %>
-  <figure class="img-caption pos-relative mg-b-0 fit-content" signed_id="<%= im.signed_id %>">
-    <%= image_tag im, class: "img-thumbnail", width: "200px" %>
+  <% board.images.each do |b| %>
+  <figure class="img-caption pos-relative mg-b-0 fit-content" signed_id="<%= b.signed_id %>">
+    <%= image_tag url_from_media(b), class: "img-thumbnail", width: "200px" %>
     <figcaption class="pos-absolute a-0 wd-100p pd-20 d-flex flex-column justify-content-center bg-white-9 transition-base op-0">
-      <%= link_to delete_image_board_path(board.slug, signed_id: im.signed_id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do %>
+      <%= link_to delete_image_board_path(board.slug, signed_id: b.signed_id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do %>
       <i class="fe fe-trash"></i>
       <% end %>
     </figcaption>
   </figure>
-  <%= f.hidden_field :images, multiple: true, value: im.signed_id, signed_id: im.signed_id %>
+  <%= f.hidden_field :images, multiple: true, value: b.signed_id, signed_id: b.signed_id %>
   <% end %>
 </div>
 <% end %>
-<div class="form-group">
- <%= f.label :default_image %>
- <%= f.file_field :default_image, class: "form-control"%>
- <% if board.default_image.present? %>
-  <% if board.default_image.video? %>
-    <%= video_tag url_from_media(board.default_image), class: "img-thumbnail", width: "200px", id: "board-default-img", muted: "muted", autoplay: true, loop: "" %>
-  <% else %>
-    <%= image_tag board.default_image, class: "img-thumbnail", width: "200px", id: "board-default-img" %>
-  <% end %>
- <% end %>
 
+<div class="form-group">
+ <%= f.label :default_images %>
+ <%= f.file_field :default_images, multiple: true, class: "form-control"%>
 </div>
+
+<% if board.images.attached? %>
+<div class="d-flex">
+  <% board.default_images.each do |b| %>
+  <figure class="img-caption pos-relative mg-b-0 fit-content" signed_id="<%= b.signed_id %>">
+    <% if b.video? %>
+    <%= video_tag url_from_media(b), class: "img-thumbnail", width: "200px", autoplay: true, loop: true, controls: false  %>
+    <% else %>
+    <%= image_tag url_from_media(b), class: "img-thumbnail", width: "200px" %>
+    <% end%>
+    <figcaption class="pos-absolute a-0 wd-100p pd-20 d-flex flex-column justify-content-center bg-white-9 transition-base op-0">
+      <%= link_to delete_default_image_board_path(board.slug, signed_id: b.signed_id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do %>
+      <i class="fe fe-trash"></i>
+      <% end %>
+    </figcaption>
+  </figure>
+  <%= f.hidden_field :images, multiple: true, value: b.signed_id, signed_id: b.signed_id %>
+  <% end %>
+</div>
+<% end %>
 
 <div class="actions col-sm-12 col-md-6 m-auto">
   <%= f.submit t("general_inputs.update"), class: "btn btn-primary btn-block", id: "submit_board", data: {disable_with: "Actualizando..."} %>

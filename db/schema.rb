@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_30_220000) do
+ActiveRecord::Schema.define(version: 2020_10_13_184948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 2020_09_30_220000) do
     t.string "slug"
     t.string "qr"
     t.integer "social_class", default: 0
-    t.string "default_image"
+    t.string "default_images"
     t.string "aspect_ratio"
     t.time "start_time"
     t.time "end_time"
@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(version: 2020_09_30_220000) do
     t.boolean "images_only", default: false
     t.integer "extra_percentage_earnings", default: 20
     t.string "mac_address"
+    t.integer "displays_number", default: 1
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -323,7 +324,7 @@ ActiveRecord::Schema.define(version: 2020_09_30_220000) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-10-01 15:12:45"
+    t.datetime "expires_at", default: "2030-10-05 19:02:59"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -365,12 +366,17 @@ ActiveRecord::Schema.define(version: 2020_09_30_220000) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.boolean "verified", default: false
+    t.boolean "verified", default: true
     t.integer "failed_attempts", default: 0, null: false
     t.datetime "locked_at"
     t.string "phone_number"
     t.boolean "banned", default: false
     t.string "uid"
+    t.string "business_type"
+    t.string "company_name"
+    t.string "work_position"
+    t.string "payment_preference"
+    t.integer "sign_in_count", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

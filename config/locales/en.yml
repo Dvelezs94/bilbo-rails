@@ -160,6 +160,8 @@ en:
     approve_campaign: Are you sure you want to approve this campaign?
     deny_campaign: Are you sure you want to deny this campaign?
     in_review_campaign: You are about to pause this campaign. Are you sure?
+    bilbos_used: Bilbos utilized
+    view_bilbos_used: View bilbos utilized
     ads_rotation_error:
       accepted_but_error: The campaign was accepted but deactivated because %{error}
     wizard:
@@ -267,6 +269,8 @@ en:
     streaming: Streaming
     avg_views: Average Views/day
     day: Day
+    displays_number: Screens No.
+    displays_number_desc: Your ad will be displayed on these number of screens at the same time (counts as 1 impression).
     duration: Duration
     seconds: seconds
     price_per_print: Price/Impression
@@ -300,6 +304,8 @@ en:
     social_class: Clasification
     view_campaigns: View Campaigns
     mac_address: MAC address
+    earnings_month: Earnings this month
+    stats: Stats
     ads_rotation_error:
       max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time
@@ -514,6 +520,28 @@ en:
     administrator: Administrator
     owner: Owner
     user_has_an_invitation: User already has an invitation
+  set_up_account:
+    customize_your_experience: Customize your experience
+    about_you: Tell us about yourself or your organization so we can customize your account.
+    type_organization: TYPE OF ORGANIZATION
+    small: SMALL
+    medium: MEDIUM
+    large: LARGE
+    agency: AGENCY
+    next: Next
+    close: Close
+    organization_data: ORGANIZATION DATA
+    organization_name: Organization name
+    position: Work position
+    write_name: Write your organization name
+    payment_method: Prefered payment method
+    card: Card
+    transfer: Transfer
+    cash: Cash
+    check: Bank check
+    write_position: Write your work position
+    previous: Previous
+    save: Save
   notifications:
     notifications: Notifications
     new_notification: You have a new notification for your project %{project_name}
@@ -554,7 +582,7 @@ en:
       invite_removed:
         subject: <strong>%{user_name}</strong> was removed from the project
         message: <strong>%{user_name}</strong> was removed from the project
-        url_string: Go to bilbo
+        url_string: Go to project
     report:
       weekly_ready:
         subject: Your weekly report is ready to be downloaded

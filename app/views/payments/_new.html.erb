@@ -62,7 +62,7 @@
                   <%= form_with(model: Payment.new, url: create_spei_payments_path, method: :post, :html => { data: { parsley_validate: true } }, remote: true, id: "spei_payment") do |f| %>
                   <span class="tx-13 tx-color-03 mg-b-0"><%= t("payments.enter_desired_payment") %></span>
                   <div class="form-group tx-right">
-                    <%= f.text_field :total, class: "form-control input-number", placeholder: "500", required: true, min: "50", max: "200000" %>
+                    <%= f.text_field :total, class: "form-control input-number", placeholder: "500", required: true %>
                   </div>
 
                   <div class="actions">

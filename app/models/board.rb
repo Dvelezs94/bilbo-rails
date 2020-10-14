@@ -11,7 +11,7 @@ class Board < ApplicationRecord
   has_many :impressions
   validate :dont_edit_online, if: :connected?
   has_many_attached :images
-  has_one_attached :default_image
+  has_many_attached :default_images
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
   enum status: { enabled: 0, disabled: 1 }
@@ -38,6 +38,14 @@ class Board < ApplicationRecord
     super.nil?? 0  : super
   end
   ###################################################
+
+  def di_images
+    default_images.select(&:image?)
+  end
+
+  def di_videos
+    default_images.select(&:video?)
+  end
 
   # slug candidates for friendly id
   def slug_candidates

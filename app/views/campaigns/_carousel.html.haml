@@ -10,7 +10,7 @@
             -else
               = video_tag(url_from_media(media), class: "center-block d-block w-100 h-100", autoplay: true, loop: true, muted: 'muted', controls: false, style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;")
           -else
-            = image_tag media, class: "center-block d-block w-100 h-100", :data => {lity: true}, id: "images", style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;"
+            = image_tag url_from_media(media), class: "center-block d-block w-100 h-100", :data => {lity: true}, id: "images", style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;"
     %a.carousel-control-prev{"data-slide" => "prev", href: "#carouselExample5", role: "button"}
       %span.carousel-control-prev-icon{"aria-hidden" => "true"}
         %i.fe.fe-arrow-left.tx-30
