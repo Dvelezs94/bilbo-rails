@@ -8,6 +8,8 @@
      var board_slug = $(location).attr('pathname').split('/')[2]
      // starts depending on the hour
      var rotation_key = 0
+     var user_imp = jQuery.parseJSON($("#user_impressions_count").val());
+     user_imp = hashFromPairs(user_imp); //check the remaining impressions in the current day for the user campaigns
      // create the impressions every 60 seconds
      setInterval(createImpression, 60000);
      // Convert seconds to milliseconds
@@ -124,11 +126,16 @@
 
        chosen = ads[rotation_key];
 
-       if (chosen == "-"){
+       if (chosen == "-" || user_imp[chosen] == 0) {
          showBilboAd();
          check_next_campaign_ads_present();
        }
        else if (chosen != "."){
+
+         if (typeof user_imp[chosen] != "undefined"){
+           user_imp[chosen] -= 1
+         }
+
          hideBilboAd();
          pauseDefaultVideos();
          //hide the old ad and pause it if its video
@@ -262,6 +269,14 @@
 
        current_index = parseInt(current_seconds / b_duration);
        return current_index;
+     }
+
+     function hashFromPairs(arr) {
+       var hash = {};
+       for(i = 0;i<arr.length; i++){
+         hash[arr[i][0]] = arr[i][1];
+       }
+       return hash;
      }
    }
  });
