@@ -6,14 +6,16 @@ class ApplicationRecord < ActiveRecord::Base
   # current_user.boards.to_csv(attributes = ["id", "base_earnings", "status"])
   def self.to_csv(name, attributes = ["id"])
     require 'csv'
-    CSV.open("tmp/#{name}", "w") do |csv|
+    tmp_dir = "tmp/multimedia"
+    Dir.mkdir(tmp_dir) unless Dir.exist?(tmp_dir)
+    CSV.open("#{tmp_dir}/#{name}", "w") do |csv|
       csv << attributes
 
       all.each do |item|
         csv << attributes.map{ |attr| item.send(attr) }
       end
     end
-    return "tmp/#{name}"
+    return "#{tmp_dir}/#{name}"
   end
 
 end

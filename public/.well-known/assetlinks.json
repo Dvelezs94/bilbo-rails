@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "mx.bilbo",
+    "sha256_cert_fingerprints":
+    ["0E:12:AC:E5:A5:62:93:D5:A2:C8:66:13:00:D1:5A:15:15:3E:34:6F:B7:6D:60:F7:5C:86:AF:3F:D8:37:0C:AE"]
+  }
+}]

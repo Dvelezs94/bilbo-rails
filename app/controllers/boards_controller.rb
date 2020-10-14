@@ -1,7 +1,7 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image]
+  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image]
+  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image]
   before_action :restrict_access, only: :show
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :allow_iframe_requests, only: :map_frame
@@ -36,6 +36,13 @@ class BoardsController < ApplicationController
     end
   end
 
+  def delete_default_image
+    @board.with_lock do
+      element = @board.default_images.select { |di| di.signed_id == params[:signed_id] }[0]
+      element.purge
+    end
+  end
+
   def update
     @success = @board.update(board_params.merge(admin_edit: true))
     #check if needs to deactivate campaigns when updates from admin form
@@ -43,7 +50,7 @@ class BoardsController < ApplicationController
       active_provider_campaigns = @board.active_campaigns("provider").sort_by { |c| (c.clasification == "per_hour")? 0 : 1}
       deactivated = 0
       active_provider_campaigns.each do |cpn|
-        err = @board.update_ads_rotation(nil, true, false)
+        err = @board.update_ads_rotation(true)
         break if err.empty?
         cpn.update!(state: false) #after cp turns off it updates rotations and broadcasts to all boards (including this board)
         deactivated +=1
@@ -153,7 +160,6 @@ class BoardsController < ApplicationController
     end
   end
 
-
   private
 
   def board_params
@@ -171,12 +177,14 @@ class BoardsController < ApplicationController
                                   :face,
                                   :base_earnings,
                                   :social_class,
-                                  :default_image,
                                   :utc_offset,
                                   :duration,
                                   :images_only,
                                   :extra_percentage_earnings,
-                                  images: []
+                                  :mac_address,
+                                  :displays_number,
+                                  images: [],
+                                  default_images: [],
                                   )
   end
 
@@ -208,7 +216,16 @@ class BoardsController < ApplicationController
   #validate access token when trying to access a board
   def restrict_access
     board_access_token = Board.find_by_access_token(params[:access_token])
-    redirect_to root_path unless board_access_token == @board
+    if @board.mac_address.present?
+      if params[:mac_address].present?
+        board_mac_address = params[:mac_address].downcase
+        redirect_to root_path unless (board_mac_address == @board.mac_address) && (board_access_token == @board)
+      else
+        redirect_to root_path
+      end
+    else
+      redirect_to root_path unless board_access_token == @board
+    end
   end
 
   def get_board

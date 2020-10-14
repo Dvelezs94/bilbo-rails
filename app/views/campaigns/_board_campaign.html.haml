@@ -1,4 +1,4 @@
 -if media.video?
   = video_tag(url_from_media(media), class: "board-ad-inner animated #{Ad.transitions.key(media.transition)}", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }, loop:true, preload: "auto", muted: "muted")
 -else
-  = image_tag url_for(media), class: "board-ad-inner animated #{Ad.transitions.key(media.transition)}", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }
+  = image_tag url_from_media(media), class: "board-ad-inner animated #{Ad.transitions.key(media.transition)}", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }

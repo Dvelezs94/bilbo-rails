@@ -4,34 +4,31 @@ class UserMailer  < Devise::Mailer
 
   def confirmation_instructions(record, token, opts={})
     @subject   = I18n.t('devise.mailer.confirmation_instructions.subject')
-    @title     = I18n.t('devise.mailer.confirmation_instructions.subject')
-    @greeting  = I18n.t('devise.mailer.confirmation_instructions.subject')
+    @greeting  = t('mailer.hi', name: record.name_or_none)
     @link      = confirmation_url(record, confirmation_token: token)
     @link_text = I18n.t('devise.mailer.confirmation_instructions.link_text')
     @message   = I18n.t('devise.mailer.confirmation_instructions.message', user_name: record.name, link: @link)
 
-    generic_mail(subject=@subject, title=@title, greeting=@greeting, message=@message, receiver=record.email, link=@link, link_text=@link_text)
+    generic_mail(subject=@subject, greeting=@greeting, message=@message, receiver=record.email, link=@link, link_text=@link_text)
   end
 
   def reset_password_instructions(record, token, opts={})
     @subject   = I18n.t('devise.mailer.reset_password_instructions.subject')
-    @title     = @subject
-    @greeting  = @subject
+    @greeting  = t('mailer.hi', name: record.name_or_none)
     @link      = edit_password_url(record, reset_password_token: token)
     @link_text = I18n.t('devise.mailer.reset_password_instructions.link_text')
     @message   = I18n.t('devise.mailer.reset_password_instructions.message', user_name: record.name, link: @link)
 
-    generic_mail(subject=@subject, title=@title, greeting=@greeting, message=@message, receiver=record.email, link=@link, link_text=@link_text)
+    generic_mail(subject=@subject, greeting=@greeting, message=@message, receiver=record.email, link=@link, link_text=@link_text)
   end
 
   def invitation_instructions(record, token, opts={})
     @subject   = I18n.t('devise.mailer.invitation_instructions.subject')
-    @title     = @subject
-    @greeting  = @subject
+    @greeting  = t('mailer.hi', name: record.name_or_none)
     @link      = accept_user_invitation_url(invitation_token: token)
     @link_text = I18n.t('devise.mailer.invitation_instructions.link_text')
     @message   = I18n.t('devise.mailer.invitation_instructions.message', user_name: record.name, link: @link)
 
-    generic_mail(subject=@subject, title=@title, greeting=@greeting, message=@message, receiver=record.email, link=@link, link_text=@link_text)
+    generic_mail(subject=@subject, greeting=@greeting, message=@message, receiver=record.email, link=@link, link_text=@link_text)
   end
 end

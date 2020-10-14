@@ -30,6 +30,10 @@
   font-size: 20px !important;
 }
 
+.fnt-lg {
+  font-size: 35px !important;
+}
+
 .file-input-100 {
   right: 14px !important;
   left: 14px !important;
@@ -57,6 +61,9 @@
   .new-ad-thumb {
     height: 88px !important;
   }
+}
+.new_ad_hover:hover {
+  background-color: #005de1 !important;
 }
 
 .bg-white {
@@ -96,6 +103,11 @@ td {
 .wizard_selected_ad {
   border-width: 2px !important;
   border-color: #10b759 !important;
+}
+
+.wizard_selected_ad_primary {
+  border-width: 2px !important;
+  border-color: #0168fa !important;
 }
 
 .multi-line-truncate-2 {
@@ -215,4 +227,101 @@ details[open] summary:after {
 }
 .no-outline-focus:focus {
   outline: none;
+}
+
+.bottom-right {
+     position: fixed;
+     bottom: 10px;
+     right: 10px;
+}
+
+.card-link-underline {
+  color: white;
+  font-size: 11px;
+  text-decoration-line: underline;
+  font-weight: 200;
+} .card-link-underline:hover {
+  color: white;
+}
+
+.hr-border-white {
+  opacity: 30%;
+  border-bottom: 0.5px solid white !important;
+}
+
+.btn-group-fab {
+  position: fixed;
+  width: 50px;
+  height: auto;
+  right: 20px; bottom: 20px;
+}
+.btn-group-fab div {
+  position: relative; width: 100%;
+  height: auto;
+}
+.btn-group-fab .btn {
+  position: absolute;
+  bottom: 0;
+  border-radius: 50%;
+  display: block;
+  margin-bottom: 4px;
+  width: 40px; height: 40px;
+  margin: 4px auto;
+}
+.btn-group-fab .btn-main {
+  width: 50px; height: 50px;
+  right: 50%; margin-right: -25px;
+  z-index: 9;
+}
+.btn-group-fab .btn-sub {
+  bottom: 0; z-index: 8;
+  right: 50%;
+  margin-right: -20px;
+  -webkit-transition: all 2s;
+  transition: all 0.5s;
+}
+.btn-group-fab.active .btn-sub:nth-child(2) {
+  bottom: 60px;
+}
+.btn-group-fab.active .btn-sub:nth-child(3) {
+  bottom: 110px;
+}
+.btn-group-fab.active .btn-sub:nth-child(4) {
+  bottom: 160px;
+}
+.btn-group-fab .btn-sub:nth-child(5) {
+  bottom: 210px;
+}
+
+.tx-underline {
+  text-decoration: underline;
+}
+
+table.dataTable tbody tr:hover {
+  background-color: #f7f7f7;
+}
+
+.badge-waiting_for_payment {
+    color: #fff;
+    background-color: #ffc107;
+}
+
+.badge-reviewing_payment {
+    color: #fff;
+    background-color: #00b8d4;
+}
+
+.badge-paid {
+    color: #fff;
+    background-color: #10b759;
+}
+
+.badge-rejected {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.badge-cancelled {
+    color: #fff;
+    background-color: #7987a1;
 }

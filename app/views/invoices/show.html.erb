@@ -1,4 +1,9 @@
-<%= render 'shared/header', menu: "" %>
+<% if current_user.is_admin? %>
+  <%= render 'shared/header_admin', menu: "payments" %>
+<% else %>
+  <%= render 'shared/header', menu: "" %>
+<% end %>
+
 <div class="content content-fixed bd-b">
   <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
     <div class="d-sm-flex align-items-center justify-content-between">
@@ -82,7 +87,7 @@
             <span><%= number_to_currency_usd(@invoice.payment.total) %></span>
           </li>
           <li class="d-flex justify-content-between">
-            <span>Transaction Fee</span>
+            <span><%= t("payments.transaction_fee") %></span>
             <span><%= number_to_currency_usd(@invoice.payment.transaction_fee) %></span>
           </li>
           <!-- <li class="d-flex justify-content-between">

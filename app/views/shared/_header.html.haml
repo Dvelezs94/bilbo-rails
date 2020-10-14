@@ -7,7 +7,7 @@
     / navbar-brand
     #navbarMenu.navbar-menu-wrapper
       %ul.nav.navbar-menu
-        %li.nav-label.pd-l-20.pd-lg-l-25.d-lg-none Main Navigation
+        %li.nav-label.pd-l-20.pd-lg-l-25.d-lg-none= t("header.navigation")
         - if current_user.role == :user
           %li{:class => "nav-item #{"active" if menu == "dashboard"}"}
             %a.nav-link{:href => campaigns_path}
@@ -46,11 +46,13 @@
     .navbar-right
       / teams
       .dropdown
-        %button#teamMenuButton.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+        %span#teamMenuButton.tx-14.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
           = truncate(@project.name, length: 15)
         .dropdown-menu{"aria-labelledby" => "teamMenuButton"}
           - current_user.projects.enabled.each do |pr|
             = link_to pr.name, change_project_project_path(pr.slug), class: "dropdown-item"
+      - if current_user.is_user?
+        = link_to "#{number_to_currency_usd(current_user.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap", data: { toggle: "modal", }
       / notifications
       .dropdown.dropdown-notification
         %a.dropdown-link.new-indicator{"data-toggle" => "dropdown", :href => ""}
@@ -78,56 +80,51 @@
           %h6.tx-semibold.mg-b-5= current_user.name
           %p.tx-12.tx-color-03= @project.name
           - if current_user.role == :user
-            - if not current_user.verified?
-              %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalVerify", :title => "#{t('header.purchase_credits')}"}
-                %i.fe.fe-wallet.pd-r-5.tx-success
-                = number_to_currency_credit(current_user.balance)
-            - else
-              %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
-                %i.fe.fe-wallet.pd-r-5.tx-success
-                = number_to_currency_credit(current_user.balance)
+            - if not current_user.verified
+              .alert.alert-solid.alert-danger.pd-y-5.tx-center.cursor-pointer{"data-toggle" => "modal", :href => "#modalVerify"}
+                = t('payments.verify_account')
+            %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
+              %i.material-icons.tx-16.mg-r-10 attach_money
+              = number_to_currency_credit(current_user.balance)
+            %a.dropdown-item.tx-center{"data-toggle" => "modal", :href => "#modalNewPayment"}
+              %i.fe.fe-plus.mg-r-10
+              = t('header.purchase_credits')
             .dropdown-divider
             - if @project.admins.include? current_user.id
               %a.dropdown-item{"data-toggle" => "modal", :href => "#modalManageTeam"}
-                %i.fe.fe-users.pd-r-5
+                %i.fe.fe-users.mg-r-10
                 = t('header.manage_team')
             %a.dropdown-item{:href => projects_path}
-              %i.fe.fe-folder.pd-r-5
+              %i.fe.fe-folder.mg-r-10
               = t('header.manage_projects')
             %a.dropdown-item{:href => invoices_path}
-              %i.fe.fe-document.pd-r-5
+              %i.fe.fe-document.mg-r-10
               = t('header.invoices')
+              - if current_user.payments.pending_payments.count > 0
+                %span.badge.badge-warning.mg-l-5
+                  = t("payments.pending_payment")
             %a.dropdown-item{:href => provider_invoices_path}
-              %i.fe.fe-document.pd-r-5
+              %i.fe.fe-document.mg-r-10
               = t('provider_invoices.provider_invoices')
             %a.dropdown-item{:href => edit_user_registration_path}
-              %i.fe.fe-gear.pd-r-5
+              %i.fe.fe-gear.mg-r-10
               = t('header.account_settings')
-            - if not current_user.verified?
-              %a.dropdown-item{"data-toggle" => "modal", :href => "#modalVerify"}
-                %i.fe.fe-wallet.pd-r-5
-                = t('header.purchase_credits')
-            - else
-              %a.dropdown-item{"data-toggle" => "modal", :href => "#modalNewPayment"}
-                %i.fe.fe-wallet.pd-r-5
-                = t('header.purchase_credits')
           - elsif current_user.role == :provider
             .dropdown-divider
             %a.dropdown-item{:href => edit_user_registration_path}
-              %i.fe.fe-gear.pd-r-5
+              %i.fe.fe-gear.mg-r-10
               = t('header.account_settings')
           %hr/
           - if current_user != true_user
-            = link_to(("<i class='fe fe-logout pd-r-5'></i>" + 'Stop impersonate').html_safe, stop_impersonating_admin_users_path, method: :get, class: "dropdown-item")
+            = link_to(("<i class='fe fe-logout mg-r-10'></i>" + 'Stop impersonate').html_safe, stop_impersonating_admin_users_path, method: :get, class: "dropdown-item")
           - else
-            = link_to(("<i class='fe fe-logout pd-r-5'></i>" + t('header.logout')).html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item")
+            = link_to(("<i class='fe fe-logout mg-r-10'></i>" + t('header.logout')).html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item")
         / dropdown-menu
       / dropdown
     / navbar-right
   / navbar
+  = render "payments/new"  if current_user.role == :user
   - if not current_user.verified?
     = render "users/verify"  if current_user.role == :user
-  - else
-    = render "payments/new"  if current_user.role == :user
   - if @project.admins.include? current_user.id
     = render "project_users/manage_modal"

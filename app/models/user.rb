@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :confirmable, :invitable, :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :lockable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
 
@@ -29,9 +29,28 @@ class User < ApplicationRecord
   has_many :invoices
   has_many :provider_invoices
   has_many :reports
+  has_many :notifications, through: :projects
   has_one_attached :avatar
   attr_readonly :email
   has_many :verifications
+
+  # omniauth functions
+  def self.new_with_session(params, session)
+    super.tap do |user|
+      if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
+        user.email = data["email"] if user.email.blank?
+      end
+    end
+  end
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0,20]
+      user.name = auth.info.name
+      user.project_name = auth.info.name
+    end
+  end
 
   # returns a hash of total prints per day, WITHOUT grouping the boards
   # def total_board_impressions(start = 4.weeks.ago)
@@ -66,10 +85,23 @@ class User < ApplicationRecord
   end
 
   def locale
-    super.nil?? "es".to_sym : super.to_sym
+    super.nil?? ENV.fetch("RAILS_LOCALE").to_sym : super.to_sym
   end
+
   def name_or_email
-    name || email
+    begin
+      name.split.first
+    rescue
+      email
+    end
+  end
+
+  def name_or_none
+    begin
+      name.split.first
+    rescue
+      ""
+    end
   end
 
   def is_admin?
@@ -82,6 +114,11 @@ class User < ApplicationRecord
 
   def is_user?
     role == :user
+  end
+
+  # get enabled projects that the user owns
+  def owned_projects
+    Project.where(id: project_users.where(role: "owner").pluck(:id)).enabled
   end
 
   def owner_project
@@ -101,11 +138,14 @@ class User < ApplicationRecord
   end
 
   def add_credits(total)
-    if self.is_user? && self.verified && (total.to_i >= 50)
+    if self.is_user? && (total.to_i >= 50)
       self.increment!(:balance, by = total.to_i)
       SlackNotifyWorker.perform_async("El usuario #{self.email} ha comprado #{total.to_i} créditos")
+      I18n.locale = locale
+      NotificationMailer.new_notification(user: self, message: I18n.t("notifications.credits.assigned.message", credits: total.to_i),
+        subject: I18n.t("notifications.credits.assigned.subject", credits: total.to_i)).deliver
     else
-      self.errors.add(:base, "You have to give 50 or more credits")
+      self.errors.add(:base, "You have to purchase 50 or more credits")
       false
     end
   end
@@ -144,7 +184,7 @@ class User < ApplicationRecord
     bc.each do |obj|
       brd = obj.board
       camp = obj.camp
-      err = brd.update_ads_rotation(camp, true)
+      err = brd.broadcast_to_board(camp, true)
     end
   end
   private

@@ -1,6 +1,6 @@
 en:
   error:
-    error_ocurrred: It seems an error has occurred, please try again later
+    error_ocurred: It seems an error has occurred, please try again later
   input:
     search: Search
     submit: Submit
@@ -10,7 +10,16 @@ en:
     description: Advertising spaces for businesses
   mailer:
     hi: Hi %{name}
+  main_wizard:
+    pending_items: Pending Items
+    upload_ad: Upload creative
+    create_campaign: Create Campaign
+    verify_profile: Verify Profile
+    purchase_credits: Purchase Credits
+    hide_message: Hide message
   authentication:
+    social_media: Sign in with social media
+    already_exists_from_external_provider: A user with this %{provider} email already exists. Sign in with your email and password.
     name: Name
     name_hint: Enter your name
     project: Project
@@ -43,6 +52,7 @@ en:
     logout: Log Out
     dashboard: Dashboard
     campaigns: Campaigns
+    navigation: Navigation
     help_center: Help Center
     payment_methods: Payment Methods
     purchase_credits: Purchase Credits
@@ -95,12 +105,14 @@ en:
     items_page: items/page
     edit: Edit Campaign
     pay_with: Pay with
+    generate_payment_sheet: Generate payment sheet
     please_wait: Please wait...
     here: here
     nothing_to_see_here: Nothing to see here...
     width: width
     height: height
   campaign:
+    add_schedule: Add Schedule
     active_campaigns: Active Campaigns
     review_campaigns: Review Campaigns
     accept: Accept campaign
@@ -109,6 +121,7 @@ en:
     review: Pause campaign
     occupied: '% Occupied'
     home: Home
+    enable_campaigns: Enable campaigns
     to_active: The campaign has been activated
     accepted: The campaign has been accepted
     to_inactive: The campaign has been deactivated
@@ -147,6 +160,8 @@ en:
     approve_campaign: Are you sure you want to approve this campaign?
     deny_campaign: Are you sure you want to deny this campaign?
     in_review_campaign: You are about to pause this campaign. Are you sure?
+    bilbos_used: Bilbos utilized
+    view_bilbos_used: View bilbos utilized
     ads_rotation_error:
       accepted_but_error: The campaign was accepted but deactivated because %{error}
     wizard:
@@ -208,6 +223,8 @@ en:
       no_save: Could not save campaign
       not_accepted: Could not accept campaign
       no_images: Your creative doesn't have an image to display on the bilbos that don't play videos
+      processing_creatives: Processing videos and images
+      verification_required: In order to enable your campaign you need to verify your profile
     action:
       deleted: The campaign has been successfully deleted
       updated: The campaign has been successfully updated
@@ -252,6 +269,8 @@ en:
     streaming: Streaming
     avg_views: Average Views/day
     day: Day
+    displays_number: Screens No.
+    displays_number_desc: Your ad will be displayed on these number of screens at the same time (counts as 1 impression).
     duration: Duration
     seconds: seconds
     price_per_print: Price/Impression
@@ -284,6 +303,9 @@ en:
     minute: Minute
     social_class: Clasification
     view_campaigns: View Campaigns
+    mac_address: MAC address
+    earnings_month: Earnings this month
+    stats: Stats
     ads_rotation_error:
       max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time
@@ -295,6 +317,9 @@ en:
       minute_campaign_space: There is no space for the minute campaign %{campaign_name} in the bilbo %{bilbo_name}
       budget_campaign_space: There is no space for the budget campaign %{campaign_name} in the bilbo %{bilbo_name}
       duration_is_not_ten: The bilbo %{name} doesn't allow campaings per minute because the ad duration is different from ten seconds
+      duration_exceeds_60: The ad duration can't exceed 60 seconds
+      ad_duration_less_than_required: The ad duration is invalid for bilbo %{name}
+      overlapping_schedules: Schedules %{n1} and %{n2} of this campaign overlap. Make the necesssary changes and try again
     search:
       location: Location
       classification: Classification
@@ -304,6 +329,10 @@ en:
       min_height: Min height. (mts)
   ads:
     ads: Creatives
+    name: Name
+    description: Description
+    duration: Duration
+    duration_hint: Set the minimum duration for images and videos on your bilbos
     new_ad: New creative
     upload_multimedia: Upload Multimedia
     all_multimedia_files: All Multimedia Files
@@ -313,6 +342,8 @@ en:
     measures: No measures available
     processing: Processing %{filename}
     view: View creative
+    attachment_saved: Attachment saved
+    convert_video_external: Convert your video to mp4 at 1080p here
     transitions:
       no_transition: No Transition
       fadeInDown: Fade In Down
@@ -324,18 +355,24 @@ en:
         error: Could not update transition
     action:
       media_removed: Multimedia has been deleted succesfully
+      update_duration: Ad was successfully updated.
     errors:
       wont_be_able_to_delete: This creative can't be deleted because of active campaigns
       wont_be_able_to_update: This creative can't be updated because of active campaigns
+      is_not_multiple_of_10: Duration is not multiple of 10
     new_ad_description: Create a new amazing and beautiful creative for your campaigns
     No_ad: No creative
   payments:
+    payments: Pagos
+    request_limit_increase: Request limit increase
     if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
     processing_order: Processing order...
-    buy_credits: Buy Credits
+    buy_credits: Purchase credits
+    verify_account: Verify Account
     credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 credit equals $1 MXN.
     credit_limit: Credit purchase limit exceeded
-    daily_credit_limit: Your daily credit limit is %{credit_limit} credits
+    daily_credit_limit: Your daily credit limit is %{credit_limit} credits, you can
+    verification_text: In order to enable your campaigns you need to verify your account. This is so we can verify the buyer and the content legitimacy.
     verification_needed: A verified profile is needed in order to buy credits. Answer the form below or click the following link to verify your profile.
     require_invoices: If you require invoices to be issued for your campaigns, fill in the fiscal data. For more information click on the following link.
     campaign_billing_works: How Campaign billing works
@@ -351,6 +388,7 @@ en:
     street: Street
     place_holder_street: 1 Maple St
     suburb: Suburb
+    enter_desired_payment: Enter the amount you wish you generate your payment sheet
     place_holder_suburb: New York Mills
     zip_code: Zip Code
     city: City
@@ -361,16 +399,43 @@ en:
     personal_info: PERSONAL INFORMATION
     verify_account: Verify Account
     bilbo_credits: 'Bilbo Credits'
+    choose_payment_method: Choose your payment method
+    bank_transfer: Bank transfer
     transaction_fee: 'Transaction Fee'
     transaction_fee_text: 'Payment transaction fee.'
     purchase_success: You have purchased %{credits_number} credits.
+    purchase_spei_success: Your payment sheet had been generated
+    payment_sheet: Payment sheet
     purchase_error: 'Something has gone wrong with the purchase. Contact Support for more information.'
+    pick_another_payment_method: Choose another payment method
+    waiting_for_payment: Waiting for payment
+    reviewing_payment: In revision
+    paid: Paid
+    rejected: Rejected
+    cancelled: Cancelled
+    pending_payment: Pending payment
+    actions: Actions
+    cancel: Cancel payment
+    confirm_cancel: Are you sure you want to cancel the payment?
+    status_update_error: We had an error updating your payment
+    status_update_success: Your payment status has been updated
+    paid_with: Payment method
+    reference_field: Reference number
+    check_payment: Check payment
+    check_payment_description: Enter the payment reference to complete your payment. Once we verify it you will receive the credits on your account.
+    check_payment_submit: Send reference
+    errors:
+      already_one_payment: You already have a payment in process. You can cancel it on the receipts section
+      reference_failed: An error has occurred while updating your payment reference
+    success:
+      reference_sent: The payment reference has been updated. We will review your payment in short.
   invoices:
     invoice: Receipt
     invoices: Receipts
     issued_at: Issued at
     beneficiary_name: beneficiary name
     total_amount: Total amount
+    status: State
     go_to_invoice: Go to receipt
     number: Receipt Number
     billed_to: Billed to
@@ -455,6 +520,28 @@ en:
     administrator: Administrator
     owner: Owner
     user_has_an_invitation: User already has an invitation
+  set_up_account:
+    customize_your_experience: Customize your experience
+    about_you: Tell us about yourself or your organization so we can customize your account.
+    type_organization: TYPE OF ORGANIZATION
+    small: SMALL
+    medium: MEDIUM
+    large: LARGE
+    agency: AGENCY
+    next: Next
+    close: Close
+    organization_data: ORGANIZATION DATA
+    organization_name: Organization name
+    position: Work position
+    write_name: Write your organization name
+    payment_method: Prefered payment method
+    card: Card
+    transfer: Transfer
+    cash: Cash
+    check: Bank check
+    write_position: Write your work position
+    previous: Previous
+    save: Save
   notifications:
     notifications: Notifications
     new_notification: You have a new notification for your project %{project_name}
@@ -495,12 +582,16 @@ en:
       invite_removed:
         subject: <strong>%{user_name}</strong> was removed from the project
         message: <strong>%{user_name}</strong> was removed from the project
-        url_string: Go to bilbo
+        url_string: Go to project
     report:
       weekly_ready:
         subject: Your weekly report is ready to be downloaded
         message: Your weekly report is ready to be downloaded
         url_string: Download Report
+    credits:
+      assigned:
+        subject: You have acquired %{credits} credits
+        message: You account has been assigned %{credits} credits, you can use these for your advertisign campaigns. Credits do not have an expiration date nor can be transfered.
   error:
     404_page:
       404_main: 404 Page not found
@@ -535,3 +626,13 @@ en:
     home: Home
   validations:
     only_numbers_for_phone: "Only numbers allowed for phone. e.g. 15577883344"
+  week_days:
+    mon: Monday
+    tue: Tuesday
+    wed: Wednesday
+    thu: Thursday
+    fri: Friday
+    sat: Saturday
+    sun: Sunday
+    everyday: Everyday
+    days: Days

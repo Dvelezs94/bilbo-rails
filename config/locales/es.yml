@@ -1,6 +1,6 @@
 es:
   error:
-    error_ocurrred: Parece que hemos tenido un error, favor de intentar mas tarde
+    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
   input:
     search: Buscar
     submit: Enviar
@@ -10,7 +10,16 @@ es:
     description: Espacios publicitarios para negocios
   mailer:
     hi: Hola %{name}
+  main_wizard:
+    pending_items: Lista de Pendientes
+    upload_ad: Subir creativo
+    create_campaign: Crear campaña
+    verify_profile: Verifica tu perfil
+    purchase_credits: Comprar créditos
+    hide_message: Esconder mensaje
   authentication:
+    social_media: Identificarme con redes sociales
+    already_exists_from_external_provider: Ya existe un usuario con este email de %{provider}. Ingresa con tu email y contraseña de Bilbo.
     name: Nombre
     name_hint: Introduce tu Nombre
     project: Proyecto
@@ -43,6 +52,7 @@ es:
     logout: Cerrar sesión
     dashboard: Inicio
     campaigns: Campañas
+    navigation: Navegación
     help_center: Centro de ayuda
     payment_methods: Metodos de pago
     purchase_credits: Comprar Créditos
@@ -95,12 +105,14 @@ es:
     items_page: elementos/página
     edit: Editar Campaña
     pay_with: Pagar con
+    generate_payment_sheet: Generar ficha de pago
     please_wait: Por favor espera...
     here: aqui
     nothing_to_see_here: No hay nada aqui...
     width: Largo
     height: Alto
   campaign:
+    add_schedule: Agregar Horario
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
@@ -110,6 +122,7 @@ es:
     review: Pausar campaña
     campaigns: Campañas
     home: Inicio
+    enable_campaigns: Habilitar campañas
     to_active: La campaña se ha activado
     accepted: La campaña se ha aceptado
     to_inactive: La campaña se ha desactivado
@@ -148,6 +161,8 @@ es:
     approve_campaign: ¿Seguro que quieres aceptar esta campaña?
     deny_campaign: ¿Estás seguro de denegar esta campaña?
     in_review_campaign: Estás a punto de pausar esta campaña. ¿Estás seguro?
+    bilbos_used: Bilbos utilizados
+    view_bilbos_used: Ver bilbos utilizados
     ads_rotation_error:
       accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
     wizard:
@@ -210,6 +225,8 @@ es:
       no_save: La campaña no ha podido guardarse
       not_accepted: La campaña no ha podido aceptarse
       no_images: Tu creativo no cuenta con imágenes para correr en los bilbos que no admiten video
+      verification_required: Verifica tu perfil para activar tu campaña
+      processing_creatives: Procesando videos e imágenes
     action:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente
@@ -236,7 +253,7 @@ es:
     extra_percentage_earnings: ganancias extras
     enabled: Habilitado
     filter: Filtros del Mapa
-    approved: Aprovado
+    approved: Aprobado
     in_review: En revisión
     denied: Denegado
     disabled: Desactivado
@@ -254,6 +271,8 @@ es:
     streaming: Emitiendo
     avg_views: Vistas por día
     day: Dia
+    displays_number: N. de pantallas
+    displays_number_desc: Número de pantallas en las que se reproducirá tu anuncio al mismo tiempo (cuenta como 1 impresión).
     duration: Duración
     seconds: segundos
     price_per_print: Precio/Impresión
@@ -286,6 +305,10 @@ es:
     minute: Minuto
     social_class: Clasificación
     view_campaigns: Ver Campañas
+    mac_address: Dirección MAC
+    earnings_month: Ganancias este mes
+    status: Estado
+    stats: Estadisticas
     ads_rotation_error:
       max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
@@ -296,7 +319,10 @@ es:
       hour_campaign_space: No hay espacio para la campaña por hora %{campaign_name} en el bilbo %{bilbo_name}
       minute_campaign_space: No hay espacio para la campaña por minutos %{campaign_name} en el bilbo %{bilbo_name}
       budget_campaign_space: No hay espacio para la campaña por presupuesto %{campaign_name} en el bilbo %{bilbo_name}
-      duration_is_not_ten: El bilbo %{name} no admite campañas por minuto porque la duracion de los anuncios es diferente de diez segundos
+      duration_is_not_ten: El bilbo %{name} no admite campañas por minuto porque la duración de los anuncios es diferente de diez segundos
+      duration_exceeds_60: La duración del anuncio no puede ser mayor a 60 segundos
+      ad_duration_less_than_required: La duración del anuncio es inválida en el bilbo %{name}
+      overlapping_schedules: Los horarios %{n1} y %{n2} de esta campaña se traslapan. Realiza los cambios necesarios e intenta nuevamente
     search:
       location: Ubicación
       classification: Clasificación
@@ -306,6 +332,10 @@ es:
       min_height: Alto min. (mts)
   ads:
     ads: Creativos
+    name: Nombre
+    description: Descripción
+    duration: Duración
+    duration_hint: Especifica la duración mínima de las imágenes y videos para tus bilbos
     new_ad: Nuevo creativo
     upload_multimedia: Subir Archivos
     all_multimedia_files: Todos los Archivos Multimedia
@@ -314,6 +344,8 @@ es:
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
     view: Ver creativo
+    attachment_saved: Archivo adjunto guardado
+    convert_video_external: Convierte tu video a formato mp4 a 1080p aquí
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
@@ -325,19 +357,25 @@ es:
         error: Error al actualizar transición
     action:
       media_removed: El archivo multimedia se ha eliminado con éxito
+      update_duration: El creativo se ha actualizado exitosamente.
     errors:
       wont_be_able_to_delete: Este creativo no puede eliminarse porque tiene campañas activas
       wont_be_able_to_update: Este creativo no puede actualizarse porque tiene campañas activas
+      is_not_multiple_of_10: La duración no es múltiplo de 10
     no_ad: Sin creativo
     new_ad_description: Crea un nuevo creativo para tus campañas publicitarias
   payments:
+    payments: Pagos
+    request_limit_increase: Solicitar incremento de límite
     if_it_doesnt_redirect: Si no lo redirige en 5 segundos, haga click
     processing_order: Procesando la orden...
-    buy_credits: Comprar Créditos
+    buy_credits: Comprar creditos
+    verify_account: Verificar mi Cuenta
     credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiración. 1 crédito equivale a $1 MXN.
     credit_limit: Límite de compra de créditos superada
-    daily_credit_limit: Tu límite de compra diario es de %{credit_limit} créditos
-    verification_needed: Necesitas un perfil verificado para poder comprar créditos. Responde la encuesta debajo o haz click en la siguiente liga para verificar tu cuenta.
+    daily_credit_limit: Tu límite de compra diario es de %{credit_limit} créditos, puedes
+    verification_text: Para que una cuenta pueda habilitar sus campañas publicitarias primero debe verificar su perfil. Esto es para verificar la identidad del comprador y la legitimidad del contenido a mostrar en los medios.
+    verification_needed: Si tienes dudas de como verificar tu cuenta o si deseas hablar con un representante. Por favor dirigete al siguiente link
     require_invoices: Si requieres que se emitan facturas para tus campañas llena los datos fiscales. Para más información haz click en la siguiente liga.
     campaign_billing_works: Cómo funciona la facturación de Campañas
     fiscal_data: DATOS FISCALES
@@ -352,6 +390,7 @@ es:
     street: Calle
     place_holder_street: "Paseo de la Reforma #400"
     suburb: Colonia
+    enter_desired_payment: Introduce la cantidad con la que deseas generar tu ficha de pago para el depósito SPEI
     place_holder_suburb: Colonia Juarez
     zip_code: Código Postal
     city: Ciudad
@@ -362,18 +401,48 @@ es:
     personal_info: DATOS PERSONALES
     verify_account: Verificar Cuenta
     bilbo_credits: 'Créditos de Bilbo'
+    choose_payment_method: Elige tu método de pago
+    bank_transfer: Transf. bancaria
     transaction_fee: 'Comisión de transacción'
     transaction_fee_text: 'Comisión de transacción de plataforma de pagos.'
     purchase_success: Haz comprado %{credits_number} créditos.
+    purchase_spei_success: Se ha generado tu ficha de pago.
+    payment_sheet: Ficha de pago
     purchase_error: 'Ocurrió un error en la transacción. Contacta a soporte para más información'
+    pick_another_payment_method: Elegir otro método de pago
+    waiting_for_payment: Esperando el pago
+    reviewing_payment: En revisión
+    paid: Pagado
+    rejected: Rechazado
+    cancelled: Cancelado
+    pending_payment: Pago pendiente
+    actions: Acciones
+    cancel: Cancelar pago
+    confirm_cancel: ¿Seguro que quieres cancelar tu pago?
+    status_update_error: Ocurrió un error al intentar actualizar tu pago
+    status_update_success: El estado de tu pago ha sido actualizado
+    paid_with: Método de pago
+    reference_field: Número de Referencia ó Clave de Rastreo
+    check_payment: Comprobar pago
+    check_payment_description: Introduce tu Referencia o Clave de rastreo para comprobar tu pago. Una vez lo verifiquemos recibirás tus créditos en tu cuenta.
+    check_payment_submit: Enviar referencia
+    errors:
+      already_one_payment: Ya tienes un pago en proceso. Puedes cancelarlo en la sección de recibos.
+      reference_failed: Ocurrió un error al actualizar la referencia de pago
+    success:
+      reference_sent: La referencia ha sido actualizada. En breve revisaremos tu pago.
+    admin:
+      created_at: Fecha de generación de recibo
+      paid_at: Fecha de pago
   invoices:
     invoice: Recibo
     invoices: Recibos
     issued_at: Fecha de emisión
     beneficiary_name: Nombre del beneficiario
     total_amount: Cantidad total
+    status: Estado
     go_to_invoice: Ir al Recibo
-    number: Numero de Recibo
+    number: Número de Recibo
     billed_to: Emitido a
     information: Información de recibo
     type: Tipo
@@ -456,6 +525,29 @@ es:
     administrator: Administrador
     owner: Propietario
     user_has_an_invitation: El usuario ya tiene una invitación.
+  set_up_account:
+    customize_your_experience: Personaliza tu experiencia
+    about_you: Cuéntanos sobre ti o tu organización para poder personalizar tu cuenta.
+    type_organization: TIPO DE ORGANIZACIÓN
+    small: PEQUEÑO
+    medium: MEDIANO
+    large: GRANDE
+    agency: AGENCIA
+    next: Siguiente
+    close: Cerrar
+    organization_data: DATOS DE LA ORGANIZACIÓN
+    organization_name: Nombre de la organización
+    position: Puesto de trabajo
+    write_name: Escribe el nombre de la organización
+    write_position: Escribe tu puesto de trabajo
+    payment_method: Método de pago preferido
+    card: Tarjeta
+    transfer: Transferencia
+    cash: Efectivo
+    check: Cheque
+    write_position: Escribe tu puesto de trabajo
+    previous: Anterior
+    save: Guardar
   notifications:
     notifications: Notificaciones
     new_notification: Tienes una nueva notificación para tu proyecto %{project_name}
@@ -496,17 +588,21 @@ es:
       invite_removed:
         subject: <strong>%{user_name}</strong> fue eliminado del proyecto
         message: <strong>%{user_name}</strong> fue eliminado del proyecto
-        url_string: Ir al Bilbo
+        url_string: Ir al proyecto
     report:
       weekly_ready:
         subject: Tu reporte semanal está listo para descargar
         message: Tu reporte semanal está listo para descargar
         url_string: Descargar Reporte
+    credits:
+      assigned:
+        subject: Se te han abonado %{credits} créditos
+        message: Tu cuenta ha sido abonada con %{credits} créditos, los cuales puedes utilizar para tus campañas publicitarias. Los créditos no son transferibles ni tienen una fecha de caducidad.
   error:
     404_page:
       404_main: 404 Página no encontrada
       message: Oops. La página que estas buscando no existe
-      404_description: Creemos que te equivocaste escribiendo la dirección o la pagina se movió
+      404_description: Creemos que te equivocaste escribiendo la dirección o la página se movió
     500_page:
       500_main: Error interno del servidor
       message: Oops. Ocurrió un error, veulve a intentarlo
@@ -536,3 +632,13 @@ es:
     home: Inicio
   validations:
     only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 525577883344"
+  week_days:
+    mon: Lunes
+    tue: Martes
+    wed: Miércoles
+    thu: Jueves
+    fri: Viernes
+    sat: Sábado
+    sun: Domingo
+    everyday: Todos los días
+    days: Días

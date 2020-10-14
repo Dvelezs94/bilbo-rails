@@ -90,14 +90,15 @@
        try {
          graph.commit('buildImpression').then(function(response) {
            // All base fields will be in response return.
-           //console.log(response);
+           // console.log("Response");
+           // console.log(response);
            // console.log("DisplayedAdsAntes");
            // console.log(displayedAds);
            // console.log(displayedAds.length);
            response["createImpression"].forEach((value, index) => {
              // console.log("ACTION");
              // console.log(value["action"]);
-             if ( value["action"] != "delete") return
+             if ( value["action"] != "delete") return;
              displayedAds = displayedAds.filter((impression) => {
                return impression.mutationid != value["mutationid"]
              });
@@ -127,8 +128,9 @@
          showBilboAd();
          check_next_campaign_ads_present();
        }
-       else {
+       else if (chosen != "."){
          hideBilboAd();
+         pauseDefaultVideos();
          //hide the old ad and pause it if its video
          if (typeof newAd !== 'undefined') {
            oldAd = newAd;
@@ -174,16 +176,29 @@
      }
      // show bilbo ad
      function showBilboAd() {
+       pauseDefaultVideos();
+       var chosen_default_multimedia = Math.floor(Math.random() * $(".bilbo-official-ad").length);
+       console.log(chosen_default_multimedia)
        $(".board-ads").hide();
        $("#bilbo-ad").attr('style', 'display:block !important');
-       if ($(".bilbo-official-ad").is("video")) {
-         $(".bilbo-official-ad")[0].play();
+       $(".bilbo-official-ad").hide().eq(chosen_default_multimedia).show()
+       if ($($(".bilbo-official-ad")[chosen_default_multimedia]).is("video")) {
+         $(".bilbo-official-ad")[chosen_default_multimedia].currentTime = 0;
+         $(".bilbo-official-ad")[chosen_default_multimedia].play();
        }
      }
+     function pauseDefaultVideos() {
+       $(".bilbo-official-ad").each(function() {
+         if ($(this).is("video")) {
+           this.pause();
+         }
+       });
+     }
+
      function check_next_campaign_ads_present() {
         //check if next campaign has ads to download them
        next_chosen = (rotation_key >= ads.length)?  ads[0] : ads[rotation_key+1];
-       if (next_chosen != "-"){
+       if (next_chosen != "-" && next_chosen != "."){
          nextAdLength = $('[data-campaign-id="' + next_chosen + '"]').length;
          if (nextAdLength == 0) {
            console.log("next campaign with id "+next_chosen+" has no ads, requesting them");
@@ -207,12 +222,9 @@
      }
      function hideBilboAd(){
        if ($("#bilbo-ad").is(":visible")) {
+         pauseDefaultVideos();
          $("#bilbo-ad").hide();
          $(".board-ads").attr('style', 'display:block !important');
-         if ($(".bilbo-official-ad").is("video")) {
-           $(".bilbo-official-ad")[0].pause();
-           $(".bilbo-official-ad")[0].currentTime = 0;
-         }
        }
      }
 

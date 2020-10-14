@@ -30,9 +30,10 @@ class ProviderImpressionsCsvWorker
           @report = @project.reports.create!(name: name, category: "project")
         end
       result = @impressions.to_csv(name, ["campaign", "board", "created_at", "total_price"])
-
-      @report.attachment.attach(io: File.open(result), filename: name, content_type: 'text/csv')
+      file_csv = File.open(result)
+      @report.attachment.attach(io: file_csv, filename: name, content_type: 'text/csv')
       puts report_url
+      File.delete(result)
       #create a notification for download a csv
       create_notification(recipient_id: @project.id, actor_id: @project.id , action: "csv ready", notifiable: User.find(user_id), reference: @project.reports.find_by_name(name))
     end
