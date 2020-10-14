@@ -273,6 +273,8 @@ en:
     displays_number_desc: Your ad will be displayed on these number of screens at the same time (counts as 1 impression).
     duration: Duration
     seconds: seconds
+    image_size: Image size
+    image_recommended_size: "Image size on pixels: %{pixels}"
     price_per_print: Price/Impression
     credits_per_print: Credits/Impression
     dimensions: Dimensions
