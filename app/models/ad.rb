@@ -11,9 +11,10 @@ class Ad < ApplicationRecord
   enum status: { active: 0, deleted: 1 }
   enum transition: { no_transition: 0, fadeInDown: 1, fadeInUp: 2, fadeInLeft: 3, fadeInRight: 4}
   validate :project_enabled?
+  validate :campaigns_off, on: :update
   validates :name, presence: true
-
-  validates :multimedia, content_type: ["image/png", "image/jpeg", "video/mp4"]
+  validates :multimedia, blob: { content_type: ["image/png", "image/jpeg", "video/mp4"], size_range: 0..20.megabytes }
+  validate :duration_multiple_of_10, if: :duration_changed?
   #this is executed when user is trying to delete the ad
   validate :check_if_can_delete, if: :status_changed_to_deleted?
   #this is executed when the ad update the multimedia
@@ -43,6 +44,19 @@ class Ad < ApplicationRecord
     end
   end
 
+  def duration_multiple_of_10
+    if (duration % 10) != 0 || duration <= 0 || duration > 60
+      errors.add(:base, I18n.t('ads.errors.is_not_multiple_of_10'))
+    end
+  end
+
+  # make sure the campaigns are disabled before updating the ad params
+  def campaigns_off
+    if !self.campaigns.all_off
+      errors.add(:base, I18n.t('ads.errors.wont_be_able_to_update'))
+    end
+  end
+
   def status_changed_to_deleted?
     status_changed?(to: "deleted")
   end
@@ -52,5 +66,9 @@ class Ad < ApplicationRecord
     if multimedia_update
       BoardsCampaigns.approved.where(campaign: campaigns.active).update_all(status: "in_review")
     end
-   end
+  end
+
+  def processed?
+    !self.multimedia.attachments.where(processed: false).present?
+  end
 end

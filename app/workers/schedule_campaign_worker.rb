@@ -10,7 +10,7 @@ class ScheduleCampaignWorker
       campaign.with_lock do
         if campaign.state && campaign.time_to_run?(bc.board)
           board = bc.board
-          err = board.update_ads_rotation(campaign)
+          err = board.broadcast_to_board(campaign)
           if err.present?
             campaign.update(state: false)
             create_notification(recipient_id: campaign.project.owner.id, actor_id: campaign.project.id , action: "time campaign error", notifiable: campaign)

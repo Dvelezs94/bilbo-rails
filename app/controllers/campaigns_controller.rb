@@ -2,17 +2,27 @@ class CampaignsController < ApplicationController
   include UserActivityHelper
   access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index]}, provider: :all, all: [:analytics, :shortened_analytics]
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state]
-  before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state]
+  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
+  before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :campaign_not_active, only: [:edit]
 
   def index
-
+    @created_ads = @project.ads.present?
+    @created_campaigns = @project.campaigns.present?
+    @purchased_credits = current_user.payments.present?
+    @verified_profile = current_user.verified
+    @show_hint = !(@created_ads && @created_campaigns && @purchased_credits && @verified_profile)
   end
 
   def provider_index
     if params[:q] == "review"
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: Campaign.active.where.not(ad_id: nil).joins(:boards).merge(@project.boards).uniq.pluck(:id)).in_review
+      Campaign.active.where.not(ad_id: nil).joins(:boards).merge(@project.boards).uniq.pluck(:id).each do |c|
+        #Search for ads that haven't been processed
+         if Ad.find(Campaign.find(c).ad_id).processed?
+            @camp = Array(@camp).push(c)
+         end
+       end
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: @camp).in_review
     elsif params[:bilbo].present?
       @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.friendly.find(params[:bilbo]), campaign_id: Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved rescue nil
     else
@@ -27,6 +37,10 @@ class CampaignsController < ApplicationController
     else
       @append_msg = ""
     end
+  end
+
+  def get_used_boards
+    @board_campaigns = @campaign.board_campaigns.includes(:board)
   end
 
   def analytics
@@ -73,7 +87,7 @@ class CampaignsController < ApplicationController
   def update
     current_user.with_lock do
       respond_to do |format|
-        if @campaign.update(campaign_params.merge(state: true, provider_update: current_user.is_provider?))
+        if @campaign.update(campaign_params.merge(state: is_state, owner_updated_campaign: true))
           track_activity( action: "campaign.campaign_updated", activeness: @campaign)
           # Create a notification per project
           @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
@@ -145,7 +159,7 @@ class CampaignsController < ApplicationController
 
   private
   def campaign_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :hour_start, :hour_finish, :imp, :minutes ).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :hour_start, :hour_finish, :imp, :minutes, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
     if @campaign_params[:boards].present?
       @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
     end
@@ -186,6 +200,23 @@ class CampaignsController < ApplicationController
     if @campaign.state
       flash[:error] = I18n.t('campaign.errors.cant_update_when_active')
       redirect_back fallback_location: root_path
+    end
+  end
+
+  # sets the campaign state automatically
+  def is_state
+    if current_user.is_user?
+      # if owner is verified, then enable campaign automatically
+      if @campaign.owner.verified
+        true
+      else
+        false
+      end
+    # always enable campaigns automatically by providers
+    elsif current_user.is_provider?
+      return true
+    else
+      return false
     end
   end
 end

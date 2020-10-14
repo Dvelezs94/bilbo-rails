@@ -1,5 +1,8 @@
 FROM ruby:2.7.1
 
+# remove deprecation warning messages
+ENV RUBYOPT='-W0'
+
 RUN apt-get update -qq && apt-get install -y sudo \
     build-essential \
     libpq-dev \
@@ -11,7 +14,7 @@ RUN apt-get update -qq && apt-get install -y sudo \
     supervisor \
     python3 \
     python3-pip \
-    jq
+    jq 
 
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt install -y nodejs

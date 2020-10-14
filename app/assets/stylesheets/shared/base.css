@@ -210,6 +210,8 @@ button {
 button:focus {
   outline: 1px dotted;
   outline: 5px auto -webkit-focus-ring-color; }
+.cursor-pointer {
+  cursor: pointer; }
 
 input,
 button,
@@ -409,6 +411,10 @@ mark,
 
 .img-fluid {
   max-width: 100%;
+  height: auto; }
+
+.img-fluid-50 {
+  max-width: 50%;
   height: auto; }
 
 .img-thumbnail {
@@ -11780,10 +11786,12 @@ textarea.parsley-success:focus {
         min-height: inherit;
         padding: 7px 12px;
         color: #0168fa;
-        border: 2px solid #0168fa; }
+        /* border: 2px solid #0168fa; */
+        }
         .navbar-header .btn-buy:hover, .navbar-header .btn-buy:focus {
-          background-color: #0168fa;
-          color: #fff; } }
+          /* background-color: #0168fa;
+          color: #fff; */
+          } }
     .navbar-header .btn-buy .feather {
       width: 18px;
       height: 18px;

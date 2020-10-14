@@ -21,6 +21,7 @@ class Mutations::CreateImpression < Mutations::BaseMutation
       api_token: api_token
     )
     success = impression.save
+    ##### CURRENTLY THE OBJECT IMPRESSION HAS NO USE IN STREAMING MANAGER #####
       {
         impression: impression,
         mutationid: mutationid,

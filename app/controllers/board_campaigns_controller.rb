@@ -4,7 +4,7 @@ class BoardCampaignsController < ApplicationController
   before_action :validate_provider
 
   def approve_campaign
-    if @board_campaign.approved!
+    if @board_campaign.update(status: "approved", make_broadcast: true)
       if @board_campaign.board_errors.nil?
         flash[:success] = I18n.t('campaign.accepted', locale: current_user.locale)
       else
@@ -19,16 +19,16 @@ class BoardCampaignsController < ApplicationController
  end
 
   def deny_campaign
-    if @board_campaign.denied!
+    if @board_campaign.update(status: "denied", make_broadcast: true)
       flash[:success] = I18n.t('campaign.action.saved')
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
-  redirect_to provider_index_campaigns_path
+  redirect_to provider_index_campaigns_path(q:"review")
  end
 
   def in_review_campaign
-    if @board_campaign.in_review!
+    if @board_campaign.update(status: "in_review", make_broadcast: true)
      flash[:success] = I18n.t('campaign.action.to_review', locale: current_user.locale)
     else
      flash[:error] = I18n.t('campaign.errors.no_save', locale: current_user.locale)

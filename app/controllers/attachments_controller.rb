@@ -5,14 +5,13 @@ class AttachmentsController < ApplicationController
   def create
     if @ad.campaigns.all_off
       @ad.multimedia.attach(params[:files])
-      #if mm.video?
-      #  VideoConverterWorker.perform_async(@ad.id, mm.id)
-      #end
+      # VideoConverterWorker.perform_async(@ad.id)
       ImageResizeWorker.perform_async(@ad.id)
-      flash[:success] = "Attachment saved"
+      flash[:success] = I18n.t('ads.attachment_saved')
     else
       flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')
     end
+
   end
 
   def destroy

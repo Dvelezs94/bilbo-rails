@@ -4,6 +4,6 @@
     -if media.video?
       = video_tag(url_from_media(media), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted', style: "object-fit: contain;")
     -else
-      = image_tag media, size:"600x300", class: "d-block w-100"
+      = image_tag url_from_media(media), size:"600x300", class: "d-block w-100"
  %end
 %end

@@ -4,16 +4,9 @@ module MailerHelper
     @sendgrid_client = SendGrid::API.new(api_key: ENV.fetch('SENDGRID_API_KEY'))
   end
 
-  def merge_to_hash(hash, key, content)
-    hash[key] = {
-      content: content,
-      # needed for conditions on sendgrid
-      # https://sendgrid.com/docs/for-developers/sending-email/using-handlebars/#conditional-statements
-      enabled: true
-    }
-  end
-
-  def generic_mail(subject, title, greeting, message, receiver, link=nil, link_text=nil, image_url=nil, preheader=nil)
+  def generic_mail(subject, greeting, message, receiver, link=nil, link_text=nil, image_url=nil, preheader=nil)
+    @link = link || "https://app.bilbo.mx/"
+    @link_text = link_text || "Ir a Bilbo"
     data = {
       "personalizations": [
         {
@@ -23,30 +16,20 @@ module MailerHelper
             }
           ],
           "dynamic_template_data": {
-            "subject": subject,
-            "title": title,
-            "greeting": greeting,
-            "message": message,
-            "home": "#{t("message.home")}",
-            "message_generic": "#{t('message.message_generic')}",
-            "title_generic": "#{t('message.title_generic')}",
-            "social_networks": "#{t('message.social_networks')}",
-            "contact": "#{t('message.contact')}",
-            "conditions": "#{t('message.conditions')}",
-            "preheader": preheader
+            "SUBJECT": subject,
+            "GREETING": greeting,
+            "MESSAGE": message,
+            "LINK": @link,
+            "LINK_TEXT": @link_text
           }
         }
       ],
       "from": {
-        "email": "noreply@bilbo.mx",
+        "email": "support@bilbo.mx",
         "name": "Bilbo"
       },
-      "template_id": "d-dd5ac982aa61460a8ee8a8697839e46d"
+      "template_id": "d-16b54061474043a18eea73ea4fa3750a"
     }
-    dynamic_template_data_hash = data[:personalizations][0][:dynamic_template_data]
-    merge_to_hash(dynamic_template_data_hash, :link, link) if link.present?
-    merge_to_hash(dynamic_template_data_hash, :link_text, link_text) if link_text.present?
-    merge_to_hash(dynamic_template_data_hash, :image_url, image_url) if image_url.present?
     sendgrid_client.client.mail._("send").post(request_body: (data))
   end
 end

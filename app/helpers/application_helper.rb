@@ -19,7 +19,7 @@ module ApplicationHelper
   end
 
   def url_from_media(media)
-    if Rails.env.production?
+    if Rails.env.production? || Rails.env.staging?
       "https://#{ENV.fetch('CDN_HOST')}/#{media.blob.key}"
     else
       url_for(media)
@@ -56,10 +56,18 @@ module ApplicationHelper
   end
 
   def get_image_size_from_metadata(image)
-    if image.metadata[:height].present?
-      image.metadata
-    else
-      ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
+    begin
+      if image.metadata[:height].present?
+        image.metadata
+      else
+        ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
+      end
+    # this is a fix for images that cannot be analyzed, like webp images
+    rescue
+      meta = {}
+      meta[:height] = 0
+      meta[:width] = 0
+      meta
     end
   end
 
@@ -71,7 +79,11 @@ module ApplicationHelper
 
   def send_sms(phone_number, message)
     if phone_number.present? && message.present?
-      SNS.publish(phone_number: phone_number, message: convert_message_to_sms_format(message))
+      begin
+        SNS.publish(phone_number: phone_number, message: convert_message_to_sms_format(message))
+      rescue Aws::SNS::Errors::InvalidClientTokenId
+        true
+      end
     end
   end
 end
