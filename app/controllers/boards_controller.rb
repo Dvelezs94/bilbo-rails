@@ -1,7 +1,7 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image]
+  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image]
+  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image]
   before_action :restrict_access, only: :show
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :allow_iframe_requests, only: :map_frame
@@ -33,6 +33,13 @@ class BoardsController < ApplicationController
     @board.with_lock do
       image = @board.images.select { |im| im.signed_id == params[:signed_id] }[0]
       image.purge
+    end
+  end
+
+  def delete_default_image
+    @board.with_lock do
+      element = @board.default_images.select { |di| di.signed_id == params[:signed_id] }[0]
+      element.purge
     end
   end
 
@@ -170,14 +177,15 @@ class BoardsController < ApplicationController
                                   :face,
                                   :base_earnings,
                                   :social_class,
-                                  :default_image,
                                   :utc_offset,
                                   :duration,
                                   :images_only,
                                   :extra_percentage_earnings,
                                   :mac_address,
                                   :keep_old_cycle_price_on_active_campaigns,
-                                  images: []
+                                  :displays_number,
+                                  images: [],
+                                  default_images: []
                                   )
   end
 
