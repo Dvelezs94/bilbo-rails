@@ -222,12 +222,9 @@
      }
      function hideBilboAd(){
        if ($("#bilbo-ad").is(":visible")) {
+         pauseDefaultVideos();
          $("#bilbo-ad").hide();
          $(".board-ads").attr('style', 'display:block !important');
-         if ($(".bilbo-official-ad").is("video")) {
-           $(".bilbo-official-ad")[0].pause();
-           $(".bilbo-official-ad")[0].currentTime = 0;
-         }
        }
      }
 
