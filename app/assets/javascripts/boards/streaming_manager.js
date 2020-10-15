@@ -130,7 +130,6 @@
        }
        else if (chosen != "."){
          hideBilboAd();
-         pauseDefaultVideos();
          //hide the old ad and pause it if its video
          if (typeof newAd !== 'undefined') {
            oldAd = newAd;
@@ -192,6 +191,7 @@
          if ($(this).is("video")) {
            if (!this.paused) {
              this.pause();
+             this.currentTime = 0;
            }
          }
        });
@@ -202,6 +202,7 @@
          if ($(this).is("video")) {
            if (!this.paused) {
              this.pause();
+             this.currentTime = 0;
            }
          }
        });
