@@ -130,7 +130,6 @@
          showBilboAd();
          check_next_campaign_ads_present();
        } else if (isWorkTime(work_hour_start, work_hour_end)) {
-         --rotation_key;
          if (chosen != ".") {
            hideBilboAd();
            //hide the old ad and pause it if its video
@@ -174,10 +173,11 @@
            // else it is empty, so we need to show the bilbo hire
          }
          // increase rotation key
-         ++rotation_key;
        } else {
+         --rotation_key;
          showBilboAd();
        }
+       ++rotation_key;
      }
    }
 
