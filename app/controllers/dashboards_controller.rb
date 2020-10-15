@@ -21,7 +21,7 @@ class DashboardsController < ApplicationController
   end
 
   def provider_statistics
-    @chosen_month = Time.zone.parse(params[:select][:year] + "-" + Date::MONTHNAMES[params[:select][:month].to_i]) rescue Time.zone.now.beginning_of_month
+    @chosen_month = Time.zone.parse(Date::MONTHNAMES[params[:select][:month].to_i] + " " + params[:select][:year]) rescue Time.zone.now.beginning_of_month
     @start_date = @chosen_month - 1.month + 25.days
     @end_date = @chosen_month + 25.days
     @jobs = Impression.where("created_at BETWEEN ? AND ?",@start_date, @end_date)
@@ -55,5 +55,4 @@ class DashboardsController < ApplicationController
   def provider_metrics
     @board_impressions = @project.impressions_by_boards(4.weeks.ago)
   end
-
 end
