@@ -21,7 +21,7 @@
        $(".start-stream").hide();
        $(".board-ads").attr('style', 'display:block !important');
        // give 5 seconds to load all images and videos
-       setTimeout(function(){
+       setTimeout(function() {
          showAd();
          rotateAds = setInterval(showAd, board_duration);
        }, 5000);
@@ -100,7 +100,7 @@
            response["createImpression"].forEach((value, index) => {
              // console.log("ACTION");
              // console.log(value["action"]);
-             if ( value["action"] != "delete") return;
+             if (value["action"] != "delete") return;
              displayedAds = displayedAds.filter((impression) => {
                return impression.mutationid != value["mutationid"]
              });
@@ -126,11 +126,10 @@
 
        chosen = ads[rotation_key];
 
-       if (chosen == "-"){
+       if (chosen == "-") {
          showBilboAd();
          check_next_campaign_ads_present();
-       }
-       else if (isNotWorkTime(work_hour_start, work_hour_end)) {
+       } else if (isWorkTime(work_hour_start, work_hour_end)) {
          --rotation_key;
          if (chosen != ".") {
            hideBilboAd();
@@ -167,228 +166,228 @@
              }
              check_next_campaign_ads_present();
            } else { //no ad so i need to display bilbo ad and ask for the ad
-             console.log("no ads for campaign " +  String(chosen) + ", requesting them and showing bilbo ad for this time");
+             console.log("no ads for campaign " + String(chosen) + ", requesting them and showing bilbo ad for this time");
              showBilboAd();
              requestAds(chosen);
            }
            //console.log(displayedAds);
            // else it is empty, so we need to show the bilbo hire
          }
-       // increase rotation key
-       ++rotation_key;
-     }
-   }
- }
-
- // show bilbo ad
- function showBilboAd() {
-   pauseAllCampaignVideos();
-   var chosen_default_multimedia = Math.floor(Math.random() * $(".bilbo-official-ad").length);
-   $(".board-ads").hide();
-   $("#bilbo-ad").attr('style', 'display:block !important');
-   $(".bilbo-official-ad").hide().eq(chosen_default_multimedia).show()
-   if ($($(".bilbo-official-ad")[chosen_default_multimedia]).is("video")) {
-     $(".bilbo-official-ad")[chosen_default_multimedia].currentTime = 0;
-     $(".bilbo-official-ad")[chosen_default_multimedia].play();
-   }
- }
-
- function pauseDefaultVideos() {
-   $(".bilbo-official-ad").each(function() {
-     if ($(this).is("video")) {
-       if (!this.paused) {
-         this.pause();
-         this.currentTime = 0;
+         // increase rotation key
+         ++rotation_key;
+       } else {
+         showBilboAd();
        }
      }
-   });
- }
+   }
 
- function pauseAllCampaignVideos() {
-   $(".board-ad-inner").each(function() {
-     if ($(this).is("video")) {
-       if (!this.paused) {
-         this.pause();
-         this.currentTime = 0;
+   // show bilbo ad
+   function showBilboAd() {
+     pauseAllCampaignVideos();
+     var chosen_default_multimedia = Math.floor(Math.random() * $(".bilbo-official-ad").length);
+     $(".board-ads").hide();
+     $("#bilbo-ad").attr('style', 'display:block !important');
+     $(".bilbo-official-ad").hide().eq(chosen_default_multimedia).show()
+     if ($($(".bilbo-official-ad")[chosen_default_multimedia]).is("video")) {
+       $(".bilbo-official-ad")[chosen_default_multimedia].currentTime = 0;
+       $(".bilbo-official-ad")[chosen_default_multimedia].play();
+     }
+   }
+
+   function pauseDefaultVideos() {
+     $(".bilbo-official-ad").each(function() {
+       if ($(this).is("video")) {
+         if (!this.paused) {
+           this.pause();
+           this.currentTime = 0;
+         }
+       }
+     });
+   }
+
+   function pauseAllCampaignVideos() {
+     $(".board-ad-inner").each(function() {
+       if ($(this).is("video")) {
+         if (!this.paused) {
+           this.pause();
+           this.currentTime = 0;
+         }
+       }
+     });
+   }
+
+   function check_next_campaign_ads_present() {
+     //check if next campaign has ads to download them
+     next_chosen = (rotation_key >= ads.length) ? ads[0] : ads[rotation_key + 1];
+     if (next_chosen != "-" && next_chosen != ".") {
+       nextAdLength = $('[data-campaign-id="' + next_chosen + '"]').length;
+       if (nextAdLength == 0) {
+         console.log("next campaign with id " + next_chosen + " has no ads, requesting them");
+         requestAds(next_chosen);
        }
      }
-   });
- }
+   }
 
- function check_next_campaign_ads_present() {
-    //check if next campaign has ads to download them
-   next_chosen = (rotation_key >= ads.length)?  ads[0] : ads[rotation_key+1];
-   if (next_chosen != "-" && next_chosen != "."){
-     nextAdLength = $('[data-campaign-id="' + next_chosen + '"]').length;
-     if (nextAdLength == 0) {
-       console.log("next campaign with id "+next_chosen+" has no ads, requesting them");
-       requestAds(next_chosen);
+   function requestAds(campaign_id) {
+     board_id = $("#board_id").val()
+     Rails.ajax({
+       url: "/campaigns/" + String(campaign_id) + "/getAds",
+       type: "get",
+       data: "board_id=" + String(board_id),
+       success: function(data) {
+         console.log("retrieved ads for campaign " + String(campaign_id));
+       },
+       error: function(data) {
+         console.log("error retrieving ads for campaign " + String(campaign_id));
+       }
+     })
+   }
+
+   function hideBilboAd() {
+     if ($("#bilbo-ad").is(":visible")) {
+       pauseDefaultVideos();
+       $("#bilbo-ad").hide();
+       $(".board-ads").attr('style', 'display:block !important');
      }
    }
- }
 
- function requestAds(campaign_id) {
-   board_id = $("#board_id").val()
-   Rails.ajax({
-    url: "/campaigns/" + String(campaign_id) + "/getAds",
-    type: "get",
-    data: "board_id="+String(board_id),
-    success: function(data) {
-      console.log("retrieved ads for campaign " + String(campaign_id));
-    },
-    error: function(data) {
-      console.log("error retrieving ads for campaign "+ String(campaign_id));
-    }
-  })
- }
-
- function hideBilboAd(){
-   if ($("#bilbo-ad").is(":visible")) {
-     pauseDefaultVideos();
-     $("#bilbo-ad").hide();
-     $(".board-ads").attr('style', 'display:block !important');
-   }
- }
-
- function isWorkTime(start, end) {
-   current_hour = new Date().getHours();
-   if (current_hour >= start && current_hour < end) {
-     console.log("accepting hour");
-     return true;
-   } else {
-     console.log("denying hour");
-     return false;
-   }
- }
-
- function getIndex(start_time) {
-   start_date = new Date(start_time);
-   start_hours = start_date.getHours();
-   start_minutes = start_date.getMinutes();
-   start_seconds = start_date.getSeconds();
-
-   start_seconds = start_hours * 3600 + start_minutes * 60 + start_seconds;
-
-   current_hours = new Date().getHours();
-   current_minutes = new Date().getMinutes();
-   current_seconds = new Date().getSeconds();
-
-   current_seconds = current_hours * 3600 + current_minutes * 60 + current_seconds;
-   if (current_seconds < start_seconds) { //fixes when bilbo changes day
-     current_seconds += 86400; //plus one day (seconds)
-   }
-   index_seconds = current_seconds - start_seconds
-   b_duration = parseInt(board_duration/1000)
-   current_seconds = index_seconds - index_seconds % b_duration; // go to the previous index
-
-   current_index = parseInt(current_seconds / b_duration);
-   return current_index;
- }
- // show bilbo ad
- function showBilboAd() {
-   pauseAllCampaignVideos();
-   var chosen_default_multimedia = Math.floor(Math.random() * $(".bilbo-official-ad").length);
-   $(".board-ads").hide();
-   $("#bilbo-ad").attr('style', 'display:block !important');
-   $(".bilbo-official-ad").hide().eq(chosen_default_multimedia).show()
-   if ($($(".bilbo-official-ad")[chosen_default_multimedia]).is("video")) {
-     $(".bilbo-official-ad")[chosen_default_multimedia].currentTime = 0;
-     $(".bilbo-official-ad")[chosen_default_multimedia].play();
-   }
- }
-
- function pauseDefaultVideos() {
-   $(".bilbo-official-ad").each(function() {
-     if ($(this).is("video")) {
-       if (!this.paused) {
-         this.pause();
-         this.currentTime = 0;
+   function isWorkTime(start, end) {
+     //function that checks if the dashboard is out of the hour range and only shows provider ads by default
+     today = new Date();
+     current_hour = addZero(today.getHours()) + ":" + addZero(today.getMinutes());
+     if (start < end) {
+       if (current_hour >= start && current_hour < end) {
+         return true;
+       } else {
+         return false;
+       }
+     } else if (start == end) {
+       return true;
+     } else {
+       if (!(current_hour > end && current_hour <= start)) {
+         return true;
+       } else {
+         return false;
        }
      }
-   });
- }
+   }
 
- function pauseAllCampaignVideos() {
-   $(".board-ad-inner").each(function() {
-     if ($(this).is("video")) {
-       if (!this.paused) {
-         this.pause();
-         this.currentTime = 0;
+   function getIndex(start_time) {
+     start_date = new Date(start_time);
+     start_hours = start_date.getHours();
+     start_minutes = start_date.getMinutes();
+     start_seconds = start_date.getSeconds();
+
+     start_seconds = start_hours * 3600 + start_minutes * 60 + start_seconds;
+
+     current_hours = new Date().getHours();
+     current_minutes = new Date().getMinutes();
+     current_seconds = new Date().getSeconds();
+
+     current_seconds = current_hours * 3600 + current_minutes * 60 + current_seconds;
+     if (current_seconds < start_seconds) { //fixes when bilbo changes day
+       current_seconds += 86400; //plus one day (seconds)
+     }
+     index_seconds = current_seconds - start_seconds
+     b_duration = parseInt(board_duration / 1000)
+     current_seconds = index_seconds - index_seconds % b_duration; // go to the previous index
+
+     current_index = parseInt(current_seconds / b_duration);
+     return current_index;
+   }
+   // show bilbo ad
+   function showBilboAd() {
+     pauseAllCampaignVideos();
+     var chosen_default_multimedia = Math.floor(Math.random() * $(".bilbo-official-ad").length);
+     $(".board-ads").hide();
+     $("#bilbo-ad").attr('style', 'display:block !important');
+     $(".bilbo-official-ad").hide().eq(chosen_default_multimedia).show()
+     if ($($(".bilbo-official-ad")[chosen_default_multimedia]).is("video")) {
+       $(".bilbo-official-ad")[chosen_default_multimedia].currentTime = 0;
+       $(".bilbo-official-ad")[chosen_default_multimedia].play();
+     }
+   }
+
+   function pauseDefaultVideos() {
+     $(".bilbo-official-ad").each(function() {
+       if ($(this).is("video")) {
+         if (!this.paused) {
+           this.pause();
+           this.currentTime = 0;
+         }
+       }
+     });
+   }
+
+   function pauseAllCampaignVideos() {
+     $(".board-ad-inner").each(function() {
+       if ($(this).is("video")) {
+         if (!this.paused) {
+           this.pause();
+           this.currentTime = 0;
+         }
+       }
+     });
+   }
+
+   function check_next_campaign_ads_present() {
+     //check if next campaign has ads to download them
+     next_chosen = (rotation_key >= ads.length) ? ads[0] : ads[rotation_key + 1];
+     if (next_chosen != "-" && next_chosen != ".") {
+       nextAdLength = $('[data-campaign-id="' + next_chosen + '"]').length;
+       if (nextAdLength == 0) {
+         console.log("next campaign with id " + next_chosen + " has no ads, requesting them");
+         requestAds(next_chosen);
        }
      }
-   });
- }
+   }
 
- function check_next_campaign_ads_present() {
-    //check if next campaign has ads to download them
-   next_chosen = (rotation_key >= ads.length)?  ads[0] : ads[rotation_key+1];
-   if (next_chosen != "-" && next_chosen != "."){
-     nextAdLength = $('[data-campaign-id="' + next_chosen + '"]').length;
-     if (nextAdLength == 0) {
-       console.log("next campaign with id "+next_chosen+" has no ads, requesting them");
-       requestAds(next_chosen);
+   function requestAds(campaign_id) {
+     board_id = $("#board_id").val()
+     Rails.ajax({
+       url: "/campaigns/" + String(campaign_id) + "/getAds",
+       type: "get",
+       data: "board_id=" + String(board_id),
+       success: function(data) {
+         console.log("retrieved ads for campaign " + String(campaign_id));
+       },
+       error: function(data) {
+         console.log("error retrieving ads for campaign " + String(campaign_id));
+       }
+     })
+   }
+
+   function hideBilboAd() {
+     if ($("#bilbo-ad").is(":visible")) {
+       pauseDefaultVideos();
+       $("#bilbo-ad").hide();
+       $(".board-ads").attr('style', 'display:block !important');
      }
    }
- }
 
- function requestAds(campaign_id) {
-   board_id = $("#board_id").val()
-   Rails.ajax({
-    url: "/campaigns/" + String(campaign_id) + "/getAds",
-    type: "get",
-    data: "board_id="+String(board_id),
-    success: function(data) {
-      console.log("retrieved ads for campaign " + String(campaign_id));
-    },
-    error: function(data) {
-      console.log("error retrieving ads for campaign "+ String(campaign_id));
-    }
-  })
- }
+   function getIndex(start_time) {
+     start_date = new Date(start_time);
+     start_hours = start_date.getHours();
+     start_minutes = start_date.getMinutes();
+     start_seconds = start_date.getSeconds();
 
- function hideBilboAd(){
-   if ($("#bilbo-ad").is(":visible")) {
-     pauseDefaultVideos();
-     $("#bilbo-ad").hide();
-     $(".board-ads").attr('style', 'display:block !important');
+     start_seconds = start_hours * 3600 + start_minutes * 60 + start_seconds;
+
+     current_hours = new Date().getHours();
+     current_minutes = new Date().getMinutes();
+     current_seconds = new Date().getSeconds();
+
+     current_seconds = current_hours * 3600 + current_minutes * 60 + current_seconds;
+     if (current_seconds < start_seconds) { //fixes when bilbo changes day
+       current_seconds += 86400; //plus one day (seconds)
+     }
+     index_seconds = current_seconds - start_seconds
+     b_duration = parseInt(board_duration / 1000)
+     current_seconds = index_seconds - index_seconds % b_duration; // go to the previous index
+
+     current_index = parseInt(current_seconds / b_duration);
+     return current_index;
    }
- }
-
- function isNotWorkTime(start, end) {
-   current_hour = new Date().getHours();
-   console.log("current: "+ current_hour + ", start: " + start + ", end: " + end);
-   if (current_hour < start && current_hour > end) {
-     console.log("denying hour");
-     return false;
-   } else {
-     console.log("accepting hour");
-     return true;
-   }
- }
-
- function getIndex(start_time) {
-   start_date = new Date(start_time);
-   start_hours = start_date.getHours();
-   start_minutes = start_date.getMinutes();
-   start_seconds = start_date.getSeconds();
-
-   start_seconds = start_hours * 3600 + start_minutes * 60 + start_seconds;
-
-   current_hours = new Date().getHours();
-   current_minutes = new Date().getMinutes();
-   current_seconds = new Date().getSeconds();
-
-   current_seconds = current_hours * 3600 + current_minutes * 60 + current_seconds;
-   if (current_seconds < start_seconds) { //fixes when bilbo changes day
-     current_seconds += 86400; //plus one day (seconds)
-   }
-   index_seconds = current_seconds - start_seconds
-   b_duration = parseInt(board_duration/1000)
-   current_seconds = index_seconds - index_seconds % b_duration; // go to the previous index
-
-   current_index = parseInt(current_seconds / b_duration);
-   return current_index;
- }
 
  });
 
@@ -400,4 +399,11 @@
    } else {
      return uri + separator + key + "=" + value;
    }
+ }
+
+ function addZero(i) {
+   if (i < 10) {
+     i = "0" + i;
+   }
+   return i;
  }
