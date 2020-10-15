@@ -6,7 +6,7 @@
 
 // retry connections every 100 seconds if its disconnected
 $(document).on('turbolinks:load', function() {
-  setTimeout(function(){
+  setInterval(function(){
     if (App.cable.connection.disconnected){
       App.cable.connection.reopen();
       console.log("connection reopened");
