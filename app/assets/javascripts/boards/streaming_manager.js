@@ -17,6 +17,12 @@
      // Convert seconds to milliseconds
      board_duration = parseInt($("#duration").val()) * 1000;
 
+     //Reset the user impression counter at the beginning of every day
+     setTimeout(function(){
+       resetUserImpressionCounter();
+       setInterval(resetUserImpressionCounter(),86400000); // 1 day interval
+     }, secondsUntilNextDay()*1000); // time for the first reset
+
      // Start stream
      $(".start-stream").click(function() {
        rotation_key = getIndex($("#start_time").val());
@@ -128,7 +134,7 @@
 
        chosen = ads[rotation_key];
 
-       if (chosen == "-" || user_imp[chosen] == 0) {
+       if (chosen == "-" || user_imp[chosen] === 0) {
          showBilboAd();
          check_next_campaign_ads_present();
        }
@@ -136,6 +142,11 @@
          --rotation_key;
          if (chosen != ".") {
            hideBilboAd();
+
+           if (typeof user_imp[chosen] != "undefined"){
+             user_imp[chosen]--;
+           }
+
            //hide the old ad and pause it if its video
            if (typeof newAd !== 'undefined') {
              oldAd = newAd;
@@ -397,6 +408,33 @@ function hashFromPairs(arr) {
    current_index = parseInt(current_seconds / b_duration);
    return current_index;
  }
+
+  function resetUserImpressionCounter(){
+    user_imp = jQuery.parseJSON($("#user_impressions_count").val());
+    user_imp = hashFromPairs(user_imp); //check the remaining impressions in the current day for the user campaigns
+    ads = jQuery.parseJSON($("#ads_rotation").val());
+    keys = Object.keys(user_imp);
+    for(i = 0; i < keys.length; i++){  //Set all values
+      user_imp[keys[i]] = 0;         //of user_imp to zero
+    }
+    //Count the number of impressions per day based on the ads_rotation
+    for(i = 0; i < ads.length; i++){
+      if (typeof user_imp[ads[i]] != "undefined"){
+        user_imp[ads[i]]++;
+      }
+    }
+    return user_imp;
+  }
+
+  function secondsUntilNextDay(){
+    current_time = new Date();
+    hours = current_time.getHours();
+    minutes = current_time.getMinutes();
+    seconds = current_time.getSeconds();
+
+    total_seconds = hours*3600 + minutes*60 + seconds;
+    return 86400 - total_seconds;
+  }
 
  });
 
