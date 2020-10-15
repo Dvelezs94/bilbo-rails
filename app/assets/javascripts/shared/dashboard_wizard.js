@@ -156,49 +156,51 @@ $(document).on('turbolinks:load', function () {
       });
       $('#impressions').width(($('#impressions').val().length + 5) * 8 + 'px');
       // function to calculate impressions
-      function calculatebudget() {
-        sum = 0;
-        $('#selected_boards option:not(:eq(0))').each(function () {
-          cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
-          sum += $(this).data('price')*cycles || 0;
-          avg = sum / $('#selected_boards option:not(:eq(0))').length;
-        });
-        // max impressions based on the budget
-        maximum_impressions = Math.floor(
-          parseFloat($('#campaign_budget').val().replace(',', '')) / avg
-        );
-        // max possible impressions of bilbos
-        max_boards_impr = parseInt($('#max_impressions').val()*10/cycles);
-        if (maximum_impressions > max_boards_impr) {
-          $('#impressions').val(max_boards_impr);
-        } else {
-          $('#impressions').val(maximum_impressions);
-        }
-      }
     }
-    function calculateInvbudget(maximum_impressions) {
-      sum = 0;
+    function calculatebudget(testBudget = null) {
+      total_impressions = 0;
+      total_budget = (testBudget != null)? testBudget : $('#campaign_budget').val();
+      if(typeof(total_budget) == "string") total_budget = total_budget.replace(',', ''); // removes comma from number given by user because parseFLoat thinks its decimal after comma
+      budget_per_bilbo = total_budget/($('#selected_boards option:not(:eq(0))').length);
       $('#selected_boards option:not(:eq(0))').each(function () {
         cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
-        sum += $(this).data('price')*cycles || 0;
-        avg = sum / $('#selected_boards option:not(:eq(0))').length;
+        bilbo_max_impressions = parseInt($(this).data('max-impressions')*10/cycles)
+        current_impressions_for_bilbo = parseInt(budget_per_bilbo/($(this).data('price')*cycles)) || 0;
+        total_impressions += (current_impressions_for_bilbo > bilbo_max_impressions)? bilbo_max_impressions : current_impressions_for_bilbo
       });
-      // if the impressions are greater than max possible impressions of bilbos, take the max posible
-      max_boards_impr = parseInt($('#max_impressions').val()*10/cycles);
-      if (maximum_impressions > max_boards_impr) {
-        maximum_impressions = max_boards_impr;
-        $('#impressions').val(max_boards_impr);
+      // max possible impressions of bilbos
+      max_boards_impr = parseInt($('#max_impressions').val());
+      if (total_impressions > max_boards_impr) total_impressions = max_boards_impr;
+      $('#impressions').val(total_impressions);
+      return total_impressions;
+    }
+    function calculateInvbudget(desired_impressions) {
+      if(desired_impressions == "") return true;
+      max_boards_impr = parseInt($('#max_impressions').val());
+      if (desired_impressions > max_boards_impr) desired_impressions = max_boards_impr;
+      budget = 0
+      var i;
+      for(i=0; i< 2000;i++) {
+        obtained_impressions = calculatebudget(budget)
+        if (obtained_impressions==desired_impressions){
+          $("#campaign_budget").val(budget);
+          return true;
+        }
+        else if(obtained_impressions>desired_impressions) {
+          budget -= 0.5;
+        }
+        else {
+          budget+=50;
+        }
       }
-      // get the budget
-      impressions_budget = Math.ceil(parseFloat(maximum_impressions * avg));
-      $('#campaign_budget').val(impressions_budget);
     }
 
     // calculate max impressions sum of all boards
     function calculateMaxImpressions() {
       max_impr = 0;
       $('#selected_boards option:not(:eq(0))').each(function () {
-        max_impr += $(this).data('max-impressions') || 0;
+        cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
+        max_impr += parseInt($(this).data('max-impressions')*10/cycles) || 0;
       });
       $('#max_impressions').val(max_impr);
     }
