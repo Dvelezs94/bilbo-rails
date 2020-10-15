@@ -26,6 +26,7 @@
   <input readonly class="d-none" id="ads_rotation" value="<%= @board.add_bilbo_campaigns %>">
   <input readonly class="d-none" id="board_id" value="<%= @board.id %>">
   <input readonly class="d-none" id="start_time" value="<%= l(@board.start_time, format: "%d/%m/%Y, %-I:%M %p") %>">
+  <input readonly class="d-none" id="work_hours" value="<%= "#{l(@board.start_time, format: '%H:%M')}-#{l(@board.end_time, format: '%H:%M')}" %>">
   <input readonly type="number" class="d-none" id="duration" value="10">
   <input readonly type="text" class="d-none" id="api_token" value="<%= @board.api_token %>">
 </div>
