@@ -295,14 +295,13 @@ class Board < ApplicationRecord
   end
 
   def get_user_remaining_impressions
-    active_user_campaigns = self.active_campaigns.select{|c| !c.provider_campaign}.pluck(:id)
+    active_user_campaigns = self.campaigns.includes(:impressions).where(provider_campaign:false,status:"active",state:true)
     user_impressions = []
-    active_user_campaigns.each do |id|
-      c = Campaign.find(id)
-      impression_count = c.daily_impressions(Time.now().beginning_of_day .. Time.now().end_of_day)
+    active_user_campaigns.each do |cpn|
+      impression_count = cpn.daily_impressions(Time.now().beginning_of_day .. Time.now().end_of_day, self.id)
       today_impressions = impression_count.present?? impression_count.values[0] : 0
-      daily_max = (c.budget_per_bilbo/(self.get_cycle_price(c) * c.ad.duration/self.duration)).to_i
-      user_impressions << [id, daily_max - today_impressions]
+      daily_max = (cpn.budget_per_bilbo/(self.get_cycle_price(cpn) * cpn.ad.duration/self.duration)).to_i
+      user_impressions << [cpn.id, daily_max - today_impressions]
     end
     return user_impressions
   end
