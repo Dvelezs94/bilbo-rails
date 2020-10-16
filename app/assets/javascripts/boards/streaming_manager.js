@@ -183,7 +183,7 @@
 
    // show bilbo ad
    function showBilboAd() {
-     pauseAllCampaignVideos();
+     //pauseAllCampaignVideos();
      var chosen_default_multimedia = Math.floor(Math.random() * $(".bilbo-official-ad").length);
      $(".board-ads").hide();
      $("#bilbo-ad").attr('style', 'display:block !important');
@@ -245,7 +245,7 @@
 
    function hideBilboAd() {
      if ($("#bilbo-ad").is(":visible")) {
-       pauseDefaultVideos();
+       //pauseDefaultVideos();
        $("#bilbo-ad").hide();
        $(".board-ads").attr('style', 'display:block !important');
      }
@@ -297,7 +297,7 @@
    }
    // show bilbo ad
    function showBilboAd() {
-     pauseAllCampaignVideos();
+     //pauseAllCampaignVideos();
      var chosen_default_multimedia = Math.floor(Math.random() * $(".bilbo-official-ad").length);
      $(".board-ads").hide();
      $("#bilbo-ad").attr('style', 'display:block !important');
@@ -359,7 +359,7 @@
 
    function hideBilboAd() {
      if ($("#bilbo-ad").is(":visible")) {
-       pauseDefaultVideos();
+       //pauseDefaultVideos();
        $("#bilbo-ad").hide();
        $(".board-ads").attr('style', 'display:block !important');
      }
