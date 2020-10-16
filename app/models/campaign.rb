@@ -244,8 +244,12 @@ class Campaign < ApplicationRecord
     Impression.where(campaign_id: id).sum(:total_price)
   end
 
-  def daily_impressions(time_range = 30.days.ago..Time.now )
-    impressions.where(campaign_id: id,created_at: time_range).group_by_day(:created_at).count
+  def daily_impressions(time_range = 30.days.ago..Time.now, board_id: nil )
+    if board_id.nil?
+      impressions.where(campaign_id: id,created_at: time_range).group_by_day(:created_at).count
+    else
+      impressions.where(campaign_id: id,created_at: time_range, board_id: board_id).group_by_day(:created_at).count
+    end
   end
 
   def daily_invested( time_range = 30.days.ago..Time.now)
