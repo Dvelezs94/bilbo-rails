@@ -244,7 +244,7 @@ class Campaign < ApplicationRecord
     Impression.where(campaign_id: id).sum(:total_price)
   end
 
-  def daily_impressions(time_range = 30.days.ago..Time.now, board_id: nil )
+  def daily_impressions(time_range = 30.days.ago..Time.now, board_id = nil )
     if board_id.nil?
       impressions.where(campaign_id: id,created_at: time_range).group_by_day(:created_at).count
     else
