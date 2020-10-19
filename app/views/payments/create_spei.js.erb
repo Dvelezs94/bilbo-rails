@@ -1,0 +1,6 @@
+<% if flash[:success].present? %>
+  $('#spei_div').append('<%= j (render "payments/sheet_info",  object: { pdf_url: @pdf_url}) %>');
+  show_success('<%= j (flash[:success]) %>');
+<% else %>
+  show_error('<%= j (flash[:error]) %>');
+<% end %>

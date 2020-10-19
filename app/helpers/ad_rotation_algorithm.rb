@@ -90,6 +90,7 @@ module AdRotationAlgorithm
     cycles.each do |name|
       place_index = find_substring_index(output,["-"]*(block_size))
       if place_index != -1
+        place_index = push_to_left(output,place_index)
         output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
       else
         break
@@ -172,6 +173,12 @@ module AdRotationAlgorithm
         end
         total_r_cps_spaces += block_size*displays
     end
+    r_cycles = r_cycles.sort_by{|name, block_size| -block_size} #first put the biggest blocks
+    if r_cycles.present?
+      max_block_size = r_cycles[0][1]
+    else
+      max_block_size = (self.duration/10).to_i
+    end
     per_time_cps.each do |name, value|
         r = Rational(value[0],value[1])
         value[0] = r.numerator
@@ -198,6 +205,7 @@ module AdRotationAlgorithm
        end
        reps.times do |rep|
          sample_index = index_array.sample
+         #sample_index = push_to_left(output,sample_index,max_block_size)
          index_array.delete(sample_index)
          output[ fi + sample_index ...fi + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
        end
@@ -239,8 +247,8 @@ module AdRotationAlgorithm
               h_c_blocks = h_ad_duration/10
               output[h_start..h_end] = ["-"]*h_c_blocks #i change this here because some dots of this campaign can be outside my region of interest inf-inf+size, so it can be used for the solution.
               place_index = find_substring_index(output[fi...la],["-"]*(h_c_blocks), (inf-fi...inf+size-fi).to_a)
-
               if place_index != -1
+                #place_index = push_to_left(output,place_index,max_block_size)
                 output[ fi + place_index ...fi + place_index + h_c_blocks ] = [hour_campaign] + ["."]*(h_c_blocks - 1)
               else
                 output[h_start..h_end] = [hour_campaign]+["-"]*(h_c_blocks-1)
@@ -257,6 +265,7 @@ module AdRotationAlgorithm
 
           displays.times do |rep|
             sample_index = index_array.sample
+            #sample_index = push_to_left(output,sample_index,max_block_size)
             index_array.delete(sample_index)
             output[ inf + sample_index ...inf + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
           end
@@ -264,12 +273,13 @@ module AdRotationAlgorithm
         end
     end
 
-    r_cycles = r_cycles.sort_by{|name, block_size| -block_size} #first put the biggest blocks
+    #r_cycles = r_cycles.sort_by{|name, block_size| -block_size} #first put the biggest blocks
     r_cycles.each do |elem|
       name = elem[0]
       block_size = elem[1]
       place_index = find_substring_index(output,["-"]*(block_size))
       if place_index != -1
+        place_index = push_to_left(output,place_index,block_size)
         output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
       else
         err << I18n.t("bilbos.ads_rotation_error.budget_campaign_space", campaign_name: r_cps_first.last.name, bilbo_name: self.name)
@@ -364,7 +374,17 @@ def translate_hash(per_time_cps,t_cycles)
     per_time_cps = Hash[*per_time_cps]
     return per_time_cps
 end
-
+def push_to_left(output,idx,block_size = self.duration/10)
+  #If there isn't enough space for a campaign in an interval, we'll move the campaigns
+  #to the left to fill that space and displace the free spaces to another interval
+  space_between_ads= 0
+  #Count spaces between the closest ad (to the left) and the index
+  while output[idx-space_between_ads-1] == '-' && idx-space_between_ads-1>=0
+    space_between_ads+=1
+  end
+  idx = idx-space_between_ads%block_size
+  return idx
+end
 def free_indexes(array)
     result = []
     array.each_with_index do |item, index|

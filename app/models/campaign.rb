@@ -37,12 +37,13 @@ class Campaign < ApplicationRecord
   before_destroy :remove_campaign
 
   validates :name, presence: true
-  # validates :ad, presence: true, on: :update
+  #validates :ad, presence: true, on: :update
   validate :project_enabled?
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :check_user_verified, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
   validate :validate_ad_stuff, on: :update
+  validate :ad_processed, on: :update
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
   after_validation :return_to_old_state_id_invalid
@@ -75,6 +76,12 @@ class Campaign < ApplicationRecord
   # Function to know if the campaign has multimedia files in the ad
   def has_multimedia?
    ad.present? && ad.multimedia.first.present?
+  end
+
+  def ad_processed
+    if self.state_is_true? && has_multimedia? &&  !Ad.find(self.ad_id).processed?
+      errors.add(:base, I18n.t('campaign.errors.processing_creatives'))
+    end
   end
 
   def have_to_set_in_review_on_boards

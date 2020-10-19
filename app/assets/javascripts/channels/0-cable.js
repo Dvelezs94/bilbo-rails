@@ -3,3 +3,13 @@
   this.App || (this.App = {});
   App.cable = ActionCable.createConsumer();
 }).call(this);
+
+// retry connections every 100 seconds if its disconnected
+$(document).on('turbolinks:load', function() {
+  setInterval(function(){
+    if (App.cable.connection.disconnected){
+      App.cable.connection.reopen();
+      console.log("connection reopened");
+    }
+  }, 100000);
+});
