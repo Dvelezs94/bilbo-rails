@@ -7,6 +7,7 @@ FactoryBot.define do
       status  {Faker::Number.between(from: 0, to: 1)}
       boards  {Board.order('RANDOM()').first(Faker::Number.between(from: 2, to: 7))}
       project {}
+      slug{}
     end
   end
   
