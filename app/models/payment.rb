@@ -1,29 +1,40 @@
 class Payment < ApplicationRecord
   belongs_to :user
-  has_one :invoice
-  validates :express_token, uniqueness: true
+  has_one :invoice, :dependent => :destroy
+  validates :express_token, uniqueness: true, if: -> { paid_with == "Paypal Express" }
+  validate :one_payment_at_a_time, on: :create
+  before_save :notify_on_slack, if: :will_save_change_to_spei_reference?
+  before_save :assign_credits, if: :will_save_change_to_status?
   include ApplicationHelper
   require 'json'
+
+  enum status: { waiting_for_payment: 0, reviewing_payment: 1, paid: 2, rejected: 3, cancelled: 4  }
+
+  scope :pending_payments, -> { where(status: "waiting_for_payment") }
+  after_commit :generate_invoice, on: :create
+
   def purchase
-    response = EXPRESS_GATEWAY.purchase((total + payment_fee(total)) * 100, express_purchase_options)
-    if response.success?
-      if user.balance < 5
-        user.add_credits(total)
-        user.resume_campaigns
+    if paid_with == "Paypal Express"
+      response = EXPRESS_GATEWAY.purchase((total + payment_fee(total)) * 100, express_purchase_options)
+      if response.success?
+        self.paid!
+        if user.balance < 5
+          user.add_credits(total)
+          user.resume_campaigns
+        else
+          user.add_credits(total)
+        end
       else
-        user.add_credits(total)
+        self.rejected!
+        # for debugging
+        puts response.message
       end
-    GenerateInvoiceWorker.perform_async(id)
-    else
-      # for debugging
-      puts response.message
+      response.success?
     end
-    response.success?
   end
 
-
   def total_in_cents
-    self.total.to_f
+    ActionController::Base.helpers.number_to_currency(self.total, precision: 2, separator: ".", delimiter: ",", format: "%n")
   end
 
   def express_token=(token)
@@ -62,4 +73,23 @@ class Payment < ApplicationRecord
    }
   end
 
+  def one_payment_at_a_time
+    if self.paid_with == "SPEI" && self.user.payments.where(status: 0).present?
+      errors.add(:base, I18n.t('payments.errors.already_one_payment'))
+    end
+  end
+
+  def assign_credits
+    if paid_with == "SPEI" && paid?
+      user.add_credits(total)
+    end
+  end
+
+  def notify_on_slack
+    SlackNotifyWorker.perform_async("Revisar referencia de pago '#{self.spei_reference}' por la cantidad de #{self.total_in_cents}.")
+  end
+
+  def generate_invoice
+    Invoice.create(payment_id: self.id, user_id: self.user_id)
+  end
 end

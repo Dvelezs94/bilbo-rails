@@ -7,7 +7,7 @@
     / navbar-brand
     #navbarMenu.navbar-menu-wrapper
       %ul.nav.navbar-menu
-        %li.nav-label.pd-l-20.pd-lg-l-25.d-lg-none Main Navigation
+        %li.nav-label.pd-l-20.pd-lg-l-25.d-lg-none= t("header.navigation")
         - if current_user.role == :user
           %li{:class => "nav-item #{"active" if menu == "dashboard"}"}
             %a.nav-link{:href => campaigns_path}
@@ -46,11 +46,13 @@
     .navbar-right
       / teams
       .dropdown
-        %button#teamMenuButton.btn.btn-secondary.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+        %span#teamMenuButton.tx-14.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
           = truncate(@project.name, length: 15)
         .dropdown-menu{"aria-labelledby" => "teamMenuButton"}
           - current_user.projects.enabled.each do |pr|
             = link_to pr.name, change_project_project_path(pr.slug), class: "dropdown-item"
+      - if current_user.is_user?
+        = link_to "#{number_to_currency_usd(current_user.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap", data: { toggle: "modal", }
       / notifications
       .dropdown.dropdown-notification
         %a.dropdown-link.new-indicator{"data-toggle" => "dropdown", :href => ""}
@@ -79,13 +81,13 @@
           %p.tx-12.tx-color-03= @project.name
           - if current_user.role == :user
             - if not current_user.verified
-              .alert.alert-danger.pd-y-5.tx-center.cursor-pointer{"data-toggle" => "modal", :href => "#modalVerify"}
+              .alert.alert-solid.alert-danger.pd-y-5.tx-center.cursor-pointer{"data-toggle" => "modal", :href => "#modalVerify"}
                 = t('payments.verify_account')
             %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
-              %i.fe.fe-wallet.mg-r-10.tx-success
+              %i.material-icons.tx-16.mg-r-10 attach_money
               = number_to_currency_credit(current_user.balance)
-            %a.dropdown-item{"data-toggle" => "modal", :href => "#modalNewPayment"}
-              %i.fe.fe-wallet.mg-r-10
+            %a.dropdown-item.tx-center{"data-toggle" => "modal", :href => "#modalNewPayment"}
+              %i.fe.fe-plus.mg-r-10
               = t('header.purchase_credits')
             .dropdown-divider
             - if @project.admins.include? current_user.id
@@ -98,6 +100,9 @@
             %a.dropdown-item{:href => invoices_path}
               %i.fe.fe-document.mg-r-10
               = t('header.invoices')
+              - if current_user.payments.pending_payments.count > 0
+                %span.badge.badge-warning.mg-l-5
+                  = t("payments.pending_payment")
             %a.dropdown-item{:href => provider_invoices_path}
               %i.fe.fe-document.mg-r-10
               = t('provider_invoices.provider_invoices')

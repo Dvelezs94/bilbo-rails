@@ -26,10 +26,10 @@
                 <%= render "devise/shared/error_messages", resource: resource %>
 
                 <div class="form-group d-flex justify-content-between">
-                  <div class="col-xs-6 col-sm-2">
+                  <div class="avatar">
                     <%= image_tag user_avatar(resource, 80), class: "rounded-circle" %>
                   </div>
-                  <div class=" custom-file col-xs-6 col-sm-8 col-md-10 align-self-center ">
+                  <div class=" custom-file col-10 col-md-11 align-self-center ">
                     <%= f.file_field :avatar, accept: "image/png,image/jpg,image/jpeg", class: "custom-file-input" %>
                     <%= f.label(:avatar, t("general_inputs.choose_a_file"), class: "custom-file-label") %>
                   </div>

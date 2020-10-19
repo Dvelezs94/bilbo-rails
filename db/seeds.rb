@@ -7,6 +7,15 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 if ENV.fetch("RAILS_ENV") != "production"
 
+  User.create! do |user|
+    user.name = "Admin"
+    user.email = "admin@bilbo.mx"
+    user.password = "1234aA"
+    user.role = :admin
+    user.confirmed_at = DateTime.now
+    puts "#{user.email}"
+  end
+
   5.times do |x|
     User.new do |provider|
       provider.name = Faker::Name.first_name
@@ -39,7 +48,7 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.images_only = Faker::Boolean.boolean(true_ratio: 0.5)
             board.end_time = Time.now + rand(-300..480).minutes
             board.utc_offset = rand(-300..0)
-            board.default_image.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'placeholder.png', content_type: 'image/png')
+            board.default_images.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'placeholder.png', content_type: 'image/png')
             board.save
           end
         end
@@ -57,11 +66,21 @@ if ENV.fetch("RAILS_ENV") != "production"
       user.balance = Faker::Number.between(from: 500, to: 5000)
       puts user.email
       user.save
+      1.times do |y|
+        user.payments.create! do |payment|
+          payment.total     = Faker::Number.between(from: 100, to: 5000)
+          payment.paid_with = "SPEI"
+          payment.status    = Faker::Number.between(from: 0, to: 4)
+          payment.spei_reference = Faker::Lorem.characters(number: 10)
+          payment.transaction_fee = 0
+        end
+      end
       10.times do |y|
         user.projects.first.ads.new do |ad|
           ad.name = "ad #{y}"
           ad.multimedia.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'avatar.png', content_type: 'image/png')
           ad.save
+          ActiveStorage::Attachment.all.update_all(processed: true)
           1.times do |z|
             ad.campaigns.new do |cp|
               cp.name    = "#{Faker::Company.name} #{Faker::Commerce.product_name}"
@@ -90,14 +109,5 @@ if ENV.fetch("RAILS_ENV") != "production"
         end
       end
     end
-  end
-
-  User.create! do |user|
-    user.name = "Admin"
-    user.email = "admin@bilbo.mx"
-    user.password = "1234aA"
-    user.role = :admin
-    user.confirmed_at = DateTime.now
-    puts "#{user.email}"
   end
 end

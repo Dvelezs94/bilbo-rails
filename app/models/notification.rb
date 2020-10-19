@@ -21,6 +21,10 @@ class Notification < ApplicationRecord
     self.update(read_at: Time.now)
   end
 
+  def user
+    recipient.owner
+  end
+
   # builds the url and message for the notification
   # you can call a single element like this
   # notification.build_notification_body[:url] or notification.build_notification_body[:message]
@@ -67,12 +71,12 @@ class Notification < ApplicationRecord
     when "Project"
       case action
       when "new invite"
-        { url: analytics_campaign_url(notifiable.id),
+        { url: change_project_project_url(notifiable.id),
           url_string: I18n.t("#{translation}.url_string"),
           message: I18n.t("#{translation}.message", user_name: reference.name_or_email),
          subject: I18n.t("#{translation}.subject", user_name: reference.name_or_email) }
       when "invite removed"
-        { url: analytics_campaign_url(notifiable.id),
+        { url: change_project_project_url(notifiable.id),
           url_string: I18n.t("#{translation}.url_string"),
           message: I18n.t("#{translation}.message", user_name: reference.email),
          subject: I18n.t("#{translation}.subject", user_name: reference.email) }

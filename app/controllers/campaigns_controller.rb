@@ -2,8 +2,8 @@ class CampaignsController < ApplicationController
   include UserActivityHelper
   access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index]}, provider: :all, all: [:analytics, :shortened_analytics]
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state]
-  before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state]
+  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
+  before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :campaign_not_active, only: [:edit]
 
   def index
@@ -16,7 +16,13 @@ class CampaignsController < ApplicationController
 
   def provider_index
     if params[:q] == "review"
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: Campaign.active.where.not(ad_id: nil).joins(:boards).merge(@project.boards).uniq.pluck(:id)).in_review
+      Campaign.active.where.not(ad_id: nil).joins(:boards).merge(@project.boards).uniq.pluck(:id).each do |c|
+        #Search for ads that haven't been processed
+         if Ad.find(Campaign.find(c).ad_id).processed?
+            @camp = Array(@camp).push(c)
+         end
+       end
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: @camp).in_review
     elsif params[:bilbo].present?
       @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.friendly.find(params[:bilbo]), campaign_id: Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved rescue nil
     else
@@ -31,6 +37,10 @@ class CampaignsController < ApplicationController
     else
       @append_msg = ""
     end
+  end
+
+  def get_used_boards
+    @board_campaigns = @campaign.board_campaigns.includes(:board)
   end
 
   def analytics
