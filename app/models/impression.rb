@@ -30,7 +30,7 @@ class Impression < ApplicationRecord
   end
 
   def update_balance
-    self.campaign.project.owner.charge!(self.total_price)
+      self.campaign.project.owner.charge!(self.total_price)
   end
 
   def continue_runnning_campaign
