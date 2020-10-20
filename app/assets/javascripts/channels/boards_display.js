@@ -15,8 +15,8 @@ $(document).on('turbolinks:load', function() {
           $("[data-campaign="+ data["campaign_slug"] +"]").remove();
         }
         // ad rotation replacement
-        $("#user_impressions_count").val(data['remaining_impressions']);
         $("#ads_rotation").val(data['ads_rotation']);
+        $("#user_impressions_count").val(data['remaining_impressions']);
         console.log("Update received");
       }
     });
