@@ -167,7 +167,7 @@ class User < ApplicationRecord
   end
 
   def charge!(charge)
-    with_lock do
+    self.with_lock do
       self.balance -= charge.to_f
       save!
     end
