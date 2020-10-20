@@ -133,63 +133,62 @@
        if (rotation_key >= ads.length) rotation_key = 0;
 
        chosen = ads[rotation_key];
-
-       if (chosen == "-" || user_imp[chosen] === 0) {
+       if (isWorkTime(work_hour_start, work_hour_end)){
+         if (chosen == "-" || user_imp[chosen] === 0) {
          showBilboAd();
          check_next_campaign_ads_present();
-       } else if (isWorkTime(work_hour_start, work_hour_end)) {
-         if (chosen != ".") {
-           hideBilboAd();
+         } else if (chosen != ".") {
+             hideBilboAd();
 
-           if (typeof user_imp[chosen] != "undefined"){
-             user_imp[chosen]--;
-           }
+             if (typeof user_imp[chosen] != "undefined"){
+               user_imp[chosen]--;
+             }
 
-           //hide the old ad and pause it if its video
-           if (typeof newAd !== 'undefined') {
-             oldAd = newAd;
-             oldAd.css({
-               display: "none"
-             });
-             if ($(adPausePlay).is("video")) {
-               adPausePlay.pause();
-               adPausePlay.currentTime = 0;
+             //hide the old ad and pause it if its video
+             if (typeof newAd !== 'undefined') {
+               oldAd = newAd;
+               oldAd.css({
+                 display: "none"
+               });
+               if ($(adPausePlay).is("video")) {
+                 adPausePlay.pause();
+                 adPausePlay.currentTime = 0;
+               }
              }
+             //display new ad
+             newAdLength = $('[data-campaign-id="' + chosen + '"]').length;
+             if (newAdLength > 0) { // means there is an ad for that campaign on view
+               newAdChosen = Math.floor(Math.random() * newAdLength);
+               newAd = $($('[data-campaign-id="' + chosen + '"]')[newAdChosen]).css({
+                 display: "block"
+               });
+               adPausePlay = $('[data-campaign-id="' + chosen + '"]')[newAdChosen]
+               if ($(adPausePlay).is("video")) {
+                 adPausePlay.play();
+               }
+               // build map for new ad displayed and merge it to displayedAds
+               newAdMap = {
+                 campaign_id: chosen.toString(),
+                 created_at: new Date(Date.now()).toISOString(),
+                 mutationid: Array(15).fill(null).map(() => Math.random().toString(36).substr(2)).join('')
+               }
+               if (typeof newAdMap["campaign_id"] !== 'undefined') {
+                 displayedAds.push(newAdMap);
+               }
+               check_next_campaign_ads_present();
+             } else { //no ad so i need to display bilbo ad and ask for the ad
+               console.log("no ads for campaign " + String(chosen) + ", requesting them and showing bilbo ad for this time");
+               showBilboAd();
+               requestAds(chosen);
+             }
+             //console.log(displayedAds);
+             // else it is empty, so we need to show the bilbo hire
            }
-           //display new ad
-           newAdLength = $('[data-campaign-id="' + chosen + '"]').length;
-           if (newAdLength > 0) { // means there is an ad for that campaign on view
-             newAdChosen = Math.floor(Math.random() * newAdLength);
-             newAd = $($('[data-campaign-id="' + chosen + '"]')[newAdChosen]).css({
-               display: "block"
-             });
-             adPausePlay = $('[data-campaign-id="' + chosen + '"]')[newAdChosen]
-             if ($(adPausePlay).is("video")) {
-               adPausePlay.play();
-             }
-             // build map for new ad displayed and merge it to displayedAds
-             newAdMap = {
-               campaign_id: chosen.toString(),
-               created_at: new Date(Date.now()).toISOString(),
-               mutationid: Array(15).fill(null).map(() => Math.random().toString(36).substr(2)).join('')
-             }
-             if (typeof newAdMap["campaign_id"] !== 'undefined') {
-               displayedAds.push(newAdMap);
-             }
-             check_next_campaign_ads_present();
-           } else { //no ad so i need to display bilbo ad and ask for the ad
-             console.log("no ads for campaign " + String(chosen) + ", requesting them and showing bilbo ad for this time");
-             showBilboAd();
-             requestAds(chosen);
-           }
-           //console.log(displayedAds);
-           // else it is empty, so we need to show the bilbo hire
-         }
-         // increase rotation key
        } else {
          --rotation_key;
          showBilboAd();
        }
+       // increase rotation key
        ++rotation_key;
      }
    }
