@@ -27,12 +27,6 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     get provider_index_campaigns_url
     assert_response :success
   end
-  test "delete campaign" do 
-    @campaign2 = create(:campaign, name: "camp",project: @user.projects.first, project_id: @project_id)
-    assert 2, @user.projects.last.campaigns.count
-    delete campaigns_path(@campaign2)
-    assert 1, @user.projects.last.campaigns.count
-  end
   test "get analytics" do
     get analytics_campaign_url(@campaign.id)
     assert_response :success
@@ -41,10 +35,6 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     sign_out :user
     get campaigns_url
     assert_response :redirect
-  end
-  test "get campaign shortened" do
-    get campaign_shortened_url(@user.projects.last.campaigns.last.slug)
-    assert_response :success
   end
 end
 

@@ -64,10 +64,6 @@ class CampaignTest < ActiveSupport::TestCase
     @campaign = create(:campaign, name: "wano", project: @user.projects.first)
     assert_equal @user, @campaign.owner
   end
-  test "campaign cant be active when ad missing" do
-    @campaign_ad = create(:campaign, name: "skypea", project: @user.projects.first)
-    assert_equal false, @campaign_ad.state
-  end
   test "budget campaign has correct fields" do
     @budget = "500"
     @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, clasification: 0, budget: @budget)
@@ -111,11 +107,6 @@ class CampaignTest < ActiveSupport::TestCase
     @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project_id, state: true)
     assert "La campaña no puede editarse cuando está activa", @campaign.cant_update_when_active
   end
-  test "generate shorten url" do
-    @id =  "1"
-    @campaign_shorten =  create(:campaign, name: "camp1",project: @user.projects.first, project_id: @project_id, id: @id)
-    assert_not nil, @campaign_shorten.slug.generate_shorten_url
-  end
   test "build ad rotation" do
       assert_not nil, @campaign.check_build_ad_rotation
   end
@@ -126,6 +117,10 @@ class CampaignTest < ActiveSupport::TestCase
   test "on method" do
     @camp2 = create(:campaign, name: "on",project: @user.projects.first, project_id: @project_id, state: true)
     assert true, @camp2.on
+  end
+  test "campaign cant be active when ad missing" do
+    @campaign_ad = create(:campaign, name: "skypea", project: @user.projects.first)
+    assert_equal false, @campaign_ad.state
   end
 end
 
