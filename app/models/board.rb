@@ -293,7 +293,7 @@ class Board < ApplicationRecord
     if et < st #this means board is active during two different days
       et += 1.day
       multi_day = true
-      hour_and_minute_on_board += 1.day if  hour_and_minute_on_board.hour < st.hour #maybe i need to add 1 day so this time is between the other two, considering day (if the time isnt between, anyways adding 1 day is still not between, and the logic stays the same)
+      hour_and_minute_on_board += 1.day if  hour_and_minute_on_board.hour < st.hour #i know that it is multi-day rotation, and with this condition i am sure that current time in board isnt inside first day rotation, so i have to sum one day to check if its in second day rotation
     end
     #im going to check if campaign is between board hours, in either case, i have to do certain actions if its multiple and if not
     if hour_and_minute_on_board.between?(st,et)
