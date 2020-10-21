@@ -281,37 +281,44 @@ class Board < ApplicationRecord
     return true if c.day == "everyday"
     time_on_board = Time.now.utc + self.utc_offset.minutes
     valid_days_of_week = []
-    day_0_on_board = (time_on_board - 1.day).strftime("%A").downcase
-    day_on_board = time_on_board.strftime("%A").downcase
-    day_2_on_board = (time_on_board + 1.day).strftime("%A").downcase
+    #get yesterdat, today and tomorrow days on board
+    yesterday = (time_on_board - 1.day).strftime("%A").downcase
+    today = time_on_board.strftime("%A").downcase
+    tomorrow = (time_on_board + 1.day).strftime("%A").downcase
+    #get just current hour and minute on board to compare with its start time
     hour_and_minute_on_board = get_time(time_on_board)
     c_start = get_time(c.start)
     st = get_time(start_time)
     et = get_time(end_time)
-    if et < st
+    if et < st #this means board is active during two different days
       et += 1.day
       multi_day = true
-      #c_start += 1.day if c_start < st
-      hour_and_minute_on_board += 1.day if  hour_and_minute_on_board.hour < st.hour
+      hour_and_minute_on_board += 1.day if  hour_and_minute_on_board.hour < st.hour #maybe i need to add 1 day so this time is between the other two, considering day (if the time isnt between, anyways adding 1 day is still not between, and the logic stays the same)
     end
+    #im going to check if campaign is between board hours, in either case, i have to do certain actions if its multiple and if not
     if hour_and_minute_on_board.between?(st,et)
-      if multi_day
-        (hour_and_minute_on_board.strftime("%A").downcase == st.strftime("%A").downcase)? valid_days_of_week.push(day_on_board, day_2_on_board)  : valid_days_of_week.push(day_0_on_board, day_on_board)
-      else
-        p "Z"*100
-        valid_days_of_week.push(day_on_board)
+      if multi_day #i have to check if im in the first day of the rotation or in the second because i am going to build that rotation days again
+        (hour_and_minute_on_board.strftime("%A").downcase == st.strftime("%A").downcase)? valid_days_of_week.push(today, tomorrow)  : valid_days_of_week.push(yesterday, today)
+      else #just take this day because i want to build this day ad rotation
+        valid_days_of_week.push(today)
       end
-    else
-      if multi_day
-        valid_days_of_week.push(day_on_board, day_2_on_board)
-      else
-        valid_days_of_week.push((hour_and_minute_on_board > et)? day_2_on_board  : day_on_board)
+    else #its not between board time
+      if multi_day #if its multiple, im interested in the next rotation (i dont want old one), and i know that in this same day it is going to start another one, so i can make rotation of this day and tomorrow
+        valid_days_of_week.push(today, tomorrow)
+      else #in this case, board rotation is of just one day and i have 2 cases:
+        #first case is when the current hour is before board start, so i want the rotation of today, because it is going to begin that rotation in a few time
+        #second case is when current hour is after board end, so i want rotation of tomorrow,because todays rotation is already printed.
+        valid_days_of_week.push((hour_and_minute_on_board > et)? tomorrow  : today)
       end
     end
-
+    #i have evaluated above the valid days that can be included in this ads rotation, but i also need to consider the hour, because that defines if is inside the rotation that i need and not another
+    #for example, in boards of multiple days, consider the cycle monday-tuesday, in monday i can have a lot of camaigns, but some of them may be inside sunday-monday rotation, same case with tuesday
     if multi_day
+      #rotation is composed of 2 days, so i can consider its inside considering that at least one case is fulfilled:
+      #the campaign is in first day of rotation and its hour is greater or equal than board start
+      #the campaign is in second day of rotation and its hour is less or equal than board end
       return (valid_days_of_week[0] == c.day && c_start.hour >= st.hour)||(valid_days_of_week[1] == c.day && c_start.hour <= et.hour)
-    else
+    else #this has no problem because its one-day rotation
       return valid_days_of_week.include? c.day
     end
   end
