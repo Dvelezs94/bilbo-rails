@@ -1,11 +1,13 @@
 class Project < ApplicationRecord
   extend FriendlyId
+  include DatesHelper
   friendly_id :name, use: :slugged
 
   validates :name, presence: true, exclusion: { in: %w(www app admin),
     message: "%{value} is reserved." }, format: { :with => /\A[A-Za-z0-9-\/\.\s]+\z/, multiline: false, message: 'Invalid' }
 
   enum status: { enabled: 0, disabled: 1 }
+  enum classification: { user: 0, provider: 1, admin: 2 }
 
   has_many :project_users
   has_many :users, through: :project_users
@@ -63,10 +65,16 @@ class Project < ApplicationRecord
 
   # gives an array with the user boards and the respective impressions in a given time
   # sample output: [{"board_name": "V.carranza", "impressions": 435}, {"board_name": "E.zapata", "impressions": 544}]
-  def impressions_by_boards(start = 4.weeks.ago)
-    total_impressions = Impression.where(board_id: boards.pluck(:id), created_at: start.beginning_of_day..DateTime.now)
+  def impressions_by_boards(start: 1.month.ago)
+    get_month_cycle(date: start)
+    total_impressions = Impression.where(board_id: boards.pluck(:id), created_at: @start_date..@end_date)
     total_impressions = total_impressions.group_by_day(:created_at).count
     total_impressions
+  end
+
+  def campaigns_count(start: 1.month.ago)
+    get_month_cycle(date: start)
+    Impression.where(board_id: boards.pluck(:id), created_at: @start_date..@end_date).pluck(:campaign_id).uniq.count
   end
 
   # return a COUNT impressions for campaigns
