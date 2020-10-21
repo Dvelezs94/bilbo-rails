@@ -123,7 +123,7 @@ module AdRotationAlgorithm
 
     self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
       c.impression_hours.each do |cpn|
-        if cpn.day == "everyday" || cpn.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
+        if should_run_hour_campaign_in_board?(cpn)
           h_cps_first.append(cpn)
         end
       end
@@ -139,7 +139,7 @@ module AdRotationAlgorithm
         per_time_cps_first.append(new_campaign)
       elsif new_campaign.impression_hours.present?
         new_campaign.impression_hours.each do |c|
-          if c.day == "everyday" || c.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
+          if should_run_hour_campaign_in_board?(c)
             h_cps_first.append(c)
           end
         end
@@ -400,17 +400,23 @@ def valid_start(brd,c)
   st = get_time(brd.start_time)
   et = get_time(brd.end_time)
   return true if et == st
-  et+=1.day if et<st
   cst = get_time(c.start)
+  if et<st
+    et+=1.day
+    cst += 1.day if cst<st
+  end
   return cst.between?(st,et)
 end
 def valid_end(brd,c)
   st = get_time(brd.start_time)
   et = get_time(brd.end_time)
   return true if et == st
-  et+=1.day if et<st
   cst = get_time(c.start)
   cet = get_time(c.end)
+  if et<st
+    et+=1.day
+    cet += 1.day if cet<st
+  end
   cet+=1.day if cet<cst
   return cet.between?(st,et)
 end
