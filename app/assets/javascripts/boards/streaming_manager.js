@@ -191,7 +191,7 @@
        // increase rotation key
        ++rotation_key;
      }
-   }
+
 
 function isWorkTime(start, end) {
   //function that checks if the dashboard is out of the hour range and only shows provider ads by default
@@ -341,7 +341,7 @@ function hashFromPairs(arr) {
     total_seconds = hours*3600 + minutes*60 + seconds;
     return 86400 - total_seconds;
   }
-
+}
  });
 
  function updateQueryStringParameter(uri, key, value) {
