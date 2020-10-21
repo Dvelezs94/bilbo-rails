@@ -342,27 +342,28 @@ function hashFromPairs(arr) {
     return 86400 - total_seconds;
   }
 
+  function timeUntilNextStart(){
+    start_date = new Date($("#start_time").val());
+    start_hours = start_date.getHours();
+    start_minutes = start_date.getMinutes();
+
+    current_time = new Date();
+    current_hours = current_time.getHours();
+    current_minutes = current_time.getMinutes();
+    current_seconds = current_time.getSeconds();
+
+    start_seconds = start_hours*3600 + start_minutes*60;
+    current_seconds = current_hours*3600 + current_minutes*60+current_seconds;
+
+    if (start_seconds < current_seconds){
+      return start_seconds - current_seconds + 86400; //+1 day in seconds
+    } else {
+      return start_seconds - current_seconds;
+    }
+  }
+
 }
  });
- function timeUntilNextStart(){
-   start_date = new Date($("#start_time").val());
-   start_hours = start_date.getHours();
-   start_minutes = start_date.getMinutes();
-
-   current_time = new Date();
-   current_hours = current_time.getHours();
-   current_minutes = current_time.getMinutes();
-   current_seconds = current_time.getSeconds();
-
-   start_seconds = start_hours*3600 + start_minutes*60;
-   current_seconds = current_hours*3600 + current_minutes*60+current_seconds;
-
-   if (start_seconds < current_seconds){
-     return start_seconds - current_seconds + 86400; //+1 day in seconds
-   } else {
-     return start_seconds - current_seconds;
-   }
- }
 
  function updateQueryStringParameter(uri, key, value) {
    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
