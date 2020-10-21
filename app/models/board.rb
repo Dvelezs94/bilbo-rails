@@ -277,6 +277,45 @@ class Board < ApplicationRecord
     return output
   end
 
+  def should_run_hour_campaign_in_board? c
+    return true if c.day == "everyday"
+    time_on_board = Time.now.utc + self.utc_offset.minutes
+    valid_days_of_week = []
+    day_0_on_board = (time_on_board - 1.day).strftime("%A").downcase
+    day_on_board = time_on_board.strftime("%A").downcase
+    day_2_on_board = (time_on_board + 1.day).strftime("%A").downcase
+    hour_and_minute_on_board = get_time(time_on_board)
+    c_start = get_time(c.start)
+    st = get_time(start_time)
+    et = get_time(end_time)
+    if et < st
+      et += 1.day
+      multi_day = true
+      #c_start += 1.day if c_start < st
+      hour_and_minute_on_board += 1.day if  hour_and_minute_on_board.hour < st.hour
+    end
+    if hour_and_minute_on_board.between?(st,et)
+      if multi_day
+        (hour_and_minute_on_board.strftime("%A").downcase == st.strftime("%A").downcase)? valid_days_of_week.push(day_on_board, day_2_on_board)  : valid_days_of_week.push(day_0_on_board, day_on_board)
+      else
+        p "Z"*100
+        valid_days_of_week.push(day_on_board)
+      end
+    else
+      if multi_day
+        valid_days_of_week.push(day_on_board, day_2_on_board)
+      else
+        valid_days_of_week.push((hour_and_minute_on_board > et)? day_2_on_board  : day_on_board)
+      end
+    end
+
+    if multi_day
+      return (valid_days_of_week[0] == c.day && c_start.hour >= st.hour)||(valid_days_of_week[1] == c.day && c_start.hour <= et.hour)
+    else
+      return valid_days_of_week.include? c.day
+    end
+  end
+
   def working_minutes(st,et, zero_if_equal = false) #returns minutes of difference
     # if end time is less than the start time, i assume that the board is on until the next day
     # if they are equal i assume is all day on
