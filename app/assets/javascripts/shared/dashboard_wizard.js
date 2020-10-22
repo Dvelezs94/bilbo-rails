@@ -26,9 +26,9 @@ $(document).on('turbolinks:load', function() {
           if (currentIndex === 1) {
             //this is for count the Schedules added in campaign for hour
             if ($('#add_schedule').length) {
-            if ($(document.querySelectorAll('.days_of_week:not(.noValid)')).length > 0) {
-              count = $(document.querySelectorAll('.days_of_week:not(.noValid)')).length;
-            }
+              if ($(document.querySelectorAll('.days_of_week:not(.noValid)')).length > 0) {
+                count = $(document.querySelectorAll('.days_of_week:not(.noValid)')).length;
+              }
             }
             if ($('#timePicker').length) {
               var d = new Date(),
@@ -352,10 +352,9 @@ function make_summary_selected_hours() {
     impPerHour.text($(elem).find('.impressionsPerHour:not(.noValid)').val());
     timeStart.text($(elem).find('.timePickerStart:not(.noValid)').val());
     timeEnd.text($(elem).find('.timePickerEnd:not(.noValid)').val());
-    if($(elem).find('.days_of_week:not(.noValid) :selected').val() != undefined &&
-    $(elem).find('.impressionsPerHour:not(.noValid)').val() != undefined && $(elem).find('.timePickerStart:not(.noValid)').val() != undefined &&
-    $(elem).find('.days_of_week:not(.noValid) :selected').val() != undefined)
-    {
+    if ($(elem).find('.days_of_week:not(.noValid) :selected').val() != undefined &&
+      $(elem).find('.impressionsPerHour:not(.noValid)').val() != undefined && $(elem).find('.timePickerStart:not(.noValid)').val() != undefined &&
+      $(elem).find('.days_of_week:not(.noValid) :selected').val() != undefined) {
       $("#current_row_hours").append(new_partial);
     }
   });
