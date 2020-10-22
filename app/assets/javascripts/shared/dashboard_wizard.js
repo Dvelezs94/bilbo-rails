@@ -215,7 +215,6 @@ $(document).on('turbolinks:load', function() {
       });
       $('#impressions').width(($('#impressions').val().length + 5) * 8 + 'px');
       // function to calculate impressions
-<<<<<<< HEAD
     }
     function calculatebudget(testBudget = null) {
       total_impressions = 0;
@@ -227,33 +226,6 @@ $(document).on('turbolinks:load', function() {
         bilbo_max_impressions = parseInt($(this).data('max-impressions')*10/cycles)
         current_impressions_for_bilbo = parseInt(budget_per_bilbo/($(this).data('price')*cycles)) || 0;
         total_impressions += (current_impressions_for_bilbo > bilbo_max_impressions)? bilbo_max_impressions : current_impressions_for_bilbo
-=======
-      function calculatebudget() {
-        sum = 0;
-        $('#selected_boards option:not(:eq(0))').each(function() {
-          sum += $(this).data('price') || 0;
-          avg = sum / $('#selected_boards option:not(:eq(0))').length;
-        });
-        // max impressions based on the budget
-        maximum_impressions = Math.floor(
-          parseFloat($('#campaign_budget').val().replace(',', '')) / avg
-        );
-        // max possible impressions of bilbos
-        max_boards_impr = parseInt($('#max_impressions').val());
-        if (maximum_impressions > max_boards_impr) {
-          $('#impressions').val(max_boards_impr);
-        } else {
-          $('#impressions').val(maximum_impressions);
-        }
-      }
-    }
-
-    function calculateInvbudget(maximum_impressions) {
-      sum = 0;
-      $('#selected_boards option:not(:eq(0))').each(function() {
-        sum += $(this).data('price') || 0;
-        avg = sum / $('#selected_boards option:not(:eq(0))').length;
->>>>>>> c22789ff50918d44bbca92d7fe7b898a36d0dbce
       });
       // max possible impressions of bilbos
       max_boards_impr = parseInt($('#max_impressions').val());
@@ -285,14 +257,9 @@ $(document).on('turbolinks:load', function() {
     // calculate max impressions sum of all boards
     function calculateMaxImpressions() {
       max_impr = 0;
-<<<<<<< HEAD
       $('#selected_boards option:not(:eq(0))').each(function () {
         cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
         max_impr += parseInt($(this).data('max-impressions')*10/cycles) || 0;
-=======
-      $('#selected_boards option:not(:eq(0))').each(function() {
-        max_impr += $(this).data('max-impressions') || 0;
->>>>>>> c22789ff50918d44bbca92d7fe7b898a36d0dbce
       });
       $('#max_impressions').val(max_impr);
     }
