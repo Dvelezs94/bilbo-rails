@@ -14,6 +14,7 @@
      user_imp = hashFromPairs(user_imp); //check the remaining impressions in the current day for the user campaigns
      // create the impressions every 60 seconds
      setInterval(createImpression, 60000);
+     setInterval(check_if_request_new_ads_rotation, 5000);
      // Convert seconds to milliseconds
      board_duration = parseInt($("#duration").val()) * 1000;
 
@@ -232,9 +233,8 @@ function isWorkTime(start, end) {
      }
      index_seconds = current_seconds - start_seconds
      b_duration = parseInt(board_duration / 1000)
-     current_seconds = index_seconds - index_seconds % b_duration; // go to the previous index
 
-     current_index = parseInt(current_seconds / b_duration);
+     current_index = parseInt(index_seconds / b_duration);
      return current_index;
    }
    // show bilbo ad
@@ -285,7 +285,7 @@ function isWorkTime(start, end) {
    }
 
    function requestAds(campaign_id) {
-     board_id = $("#board_id").val()
+     board_id = $("#board_id").val();
      Rails.ajax({
        url: "/campaigns/" + String(campaign_id) + "/getAds",
        type: "get",
@@ -342,6 +342,28 @@ function hashFromPairs(arr) {
     return 86400 - total_seconds;
   }
 
+  function check_if_request_new_ads_rotation(){
+    if (timeUntilNextStart() < 10) {
+      console.log("Requesting new rotation because day is about to change");
+      requestAdsRotation();
+    }
+  }
+  function requestAdsRotation() {
+    board_id = $("#board_id").val();
+    api_token = $("#api_token").val();
+    Rails.ajax({
+      url: "/boards/" + String(board_id) + "/requestAdsRotation.js",
+      type: "post",
+      data: "api_token=" + String(api_token),
+      success: function(data) {
+        //nothing
+      },
+      error: function(data) {
+        console.log("error retrieving new ads rotation");
+      }
+    })
+  }
+
   function timeUntilNextStart(){
     start_date = new Date($("#start_time").val());
     start_hours = start_date.getHours();
@@ -355,11 +377,9 @@ function hashFromPairs(arr) {
     start_seconds = start_hours*3600 + start_minutes*60;
     current_seconds = current_hours*3600 + current_minutes*60+current_seconds;
 
-    if (start_seconds < current_seconds){
-      return start_seconds - current_seconds + 86400; //+1 day in seconds
-    } else {
-      return start_seconds - current_seconds;
-    }
+    if (start_seconds < current_seconds) start_seconds += 86400; //+1 day in seconds
+    return start_seconds - current_seconds;
+
   }
 
 }

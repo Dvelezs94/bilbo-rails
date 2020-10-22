@@ -1,8 +1,8 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image]
+  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image]
-  before_action :restrict_access, only: :show
+  before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image]
+  before_action :restrict_access, only: [:show]
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :allow_iframe_requests, only: :map_frame
 
@@ -40,6 +40,19 @@ class BoardsController < ApplicationController
     @board.with_lock do
       element = @board.default_images.select { |di| di.signed_id == params[:signed_id] }[0]
       element.purge
+    end
+  end
+
+  def requestAdsRotation
+    @board.with_lock do
+      errors = @board.update_ads_rotation
+      return head(:internal_server_error) if errors.any?
+      ActionCable.server.broadcast(
+        @board.slug,
+        action: "update_rotation",
+        ads_rotation: @board.add_bilbo_campaigns.to_s,
+        remaining_impressions: @board.get_user_remaining_impressions.to_s
+      )
     end
   end
 

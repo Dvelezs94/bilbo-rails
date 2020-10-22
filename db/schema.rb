@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_184948) do
+ActiveRecord::Schema.define(version: 2020_10_22_023450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,6 +146,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_184948) do
     t.integer "extra_percentage_earnings", default: 20
     t.string "mac_address"
     t.integer "displays_number", default: 1
+    t.datetime "ads_rotation_updated_at"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -325,7 +326,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_184948) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-10-13 22:26:31"
+    t.datetime "expires_at", default: "2030-10-13 22:29:33"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

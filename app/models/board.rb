@@ -47,7 +47,6 @@ class Board < ApplicationRecord
   def di_videos
     default_images.select(&:video?)
   end
-
   # slug candidates for friendly id
   def slug_candidates
     [
@@ -234,6 +233,7 @@ class Board < ApplicationRecord
     err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
     return err if err.present?
     self.ads_rotation = self.new_ads_rotation
+    self.ads_rotation_updated_at = Time.now
     @success = self.save
     return self.errors if !@success
     return []
@@ -279,7 +279,8 @@ class Board < ApplicationRecord
 
   def should_run_hour_campaign_in_board? c
     return true if c.day == "everyday"
-    time_on_board = Time.now.utc + self.utc_offset.minutes
+    #In streaming manager the ads rotation is requested before day starts, so i add a few seconds to simulate i am in the day
+    time_on_board = Time.now.utc + self.utc_offset.minutes + 15.seconds
     valid_days_of_week = []
     #get yesterdat, today and tomorrow days on board
     yesterday = (time_on_board - 1.day).strftime("%A").downcase
@@ -295,7 +296,7 @@ class Board < ApplicationRecord
       multi_day = true
       hour_and_minute_on_board += 1.day if  hour_and_minute_on_board.hour < st.hour #i know that it is multi-day rotation, and with this condition i am sure that current time in board isnt inside first day rotation, so i have to sum one day to check if its in second day rotation
     end
-    #im going to check if campaign is between board hours, in either case, i have to do certain actions if its multiple and if not
+    #im going to check if campaign is between board hours, in both cases i have to do certain actions
     if hour_and_minute_on_board.between?(st,et)
       if multi_day #i have to check if im in the first day of the rotation or in the second because i am going to build that rotation days again
         (hour_and_minute_on_board.strftime("%A").downcase == st.strftime("%A").downcase)? valid_days_of_week.push(today, tomorrow)  : valid_days_of_week.push(yesterday, today)

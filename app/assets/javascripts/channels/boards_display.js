@@ -11,8 +11,11 @@ $(document).on('turbolinks:load', function() {
         // Called when there's incoming data on the websocket for this channel
         if( data['action'] == "enable" ) {
           $('.board-ads').append(data['ad']);
-        } else {
+        } else if (data['action'] == "disable") {
           $("[data-campaign="+ data["campaign_slug"] +"]").remove();
+        }
+        else if(data['action'] == "update_rotation"){
+          //nothing custom
         }
         // ad rotation replacement
         $("#ads_rotation").val(data['ads_rotation']);
