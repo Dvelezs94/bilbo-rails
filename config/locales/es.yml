@@ -163,6 +163,8 @@ es:
     deny_campaign: ¿Estás seguro de denegar esta campaña?
     in_review_campaign: Estás a punto de pausar esta campaña. ¿Estás seguro?
     bilbos_used: Bilbos utilizados
+    percentage_plus: "%{percentage}% más"
+    percentage_minus: "%{percentage}% menos"
     view_bilbos_used: Ver bilbos utilizados
     ads_rotation_error:
       accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
