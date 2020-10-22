@@ -113,6 +113,7 @@ en:
     height: height
   campaign:
     add_schedule: Add Schedule
+    must_add_schedule: You must add a schedule
     active_campaigns: Active Campaigns
     review_campaigns: Review Campaigns
     accept: Accept campaign
@@ -161,6 +162,8 @@ en:
     deny_campaign: Are you sure you want to deny this campaign?
     in_review_campaign: You are about to pause this campaign. Are you sure?
     bilbos_used: Bilbos utilized
+    percentage_plus: "%{percentage}% more"
+    percentage_minus: "%{percentage}% less"
     view_bilbos_used: View bilbos utilized
     ads_rotation_error:
       accepted_but_error: The campaign was accepted but deactivated because %{error}
