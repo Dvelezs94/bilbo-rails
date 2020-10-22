@@ -10,7 +10,7 @@ function initializeMap() {
     var center = new google.maps.LatLng( parseFloat($.getUrlVar("lat")) ||23.959124, parseFloat($.getUrlVar("lng")) ||-102.482976);
 
     window.bilbomap = new google.maps.Map(document.getElementById('bilbomap'), {
-      zoom: 4,
+      zoom: 6,
       center: center,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
