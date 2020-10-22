@@ -113,6 +113,7 @@ en:
     height: height
   campaign:
     add_schedule: Add Schedule
+    must_add_schedule: You must add a schedule
     active_campaigns: Active Campaigns
     review_campaigns: Review Campaigns
     accept: Accept campaign

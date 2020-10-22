@@ -113,6 +113,7 @@ es:
     height: Alto
   campaign:
     add_schedule: Agregar Horario
+    must_add_schedule: Debe agregar un horario
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
