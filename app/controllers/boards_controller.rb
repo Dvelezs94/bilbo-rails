@@ -4,6 +4,7 @@ class BoardsController < ApplicationController
   before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image]
   before_action :restrict_access, only: [:show]
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
+  before_action :validate_just_api_token, only: [:requestAdsRotation]
   before_action :allow_iframe_requests, only: :map_frame
 
   def index
@@ -225,6 +226,9 @@ class BoardsController < ApplicationController
   # validate identity when trying to maange the boards
   def validate_identity
     redirect_to root_path, alert: "Access denied" if @board.user != current_user
+  end
+  def validate_just_api_token
+    redirect_to root_path if @board.api_token != params[:api_token]
   end
 
   #validate access token when trying to access a board
