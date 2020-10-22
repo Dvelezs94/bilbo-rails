@@ -10,18 +10,24 @@
      var work_hour_end = $("#work_hours").val().split("-")[1];
      // starts depending on the hour
      var rotation_key = 0;
+     //check the remaining impressions in the current day for the user campaigns
      var user_imp = jQuery.parseJSON($("#user_impressions_count").val());
-     user_imp = hashFromPairs(user_imp); //check the remaining impressions in the current day for the user campaigns
+     user_imp = hashFromPairs(user_imp);
      // create the impressions every 60 seconds
      setInterval(createImpression, 60000);
-     setInterval(check_if_request_new_ads_rotation, 5000);
      // Convert seconds to milliseconds
      board_duration = parseInt($("#duration").val()) * 1000;
+
+     //request a new ads_rotation at the beginning of each day
+     setTimeout(function(){
+       requestAdsRotation();
+       setInterval(requestAdsRotation,86400000) // 1 day interval (ms)
+     },(timeUntilNextStart()-5)*1000) //Time for next start hour of the board
 
      //Reset the user impression counter at the beginning of every day
      setTimeout(function(){
        resetUserImpressionCounter();
-       setInterval(resetUserImpressionCounter(),86400000); // 1 day interval
+       setInterval(resetUserImpressionCounter(),86400000); // 1 day interval (ms)
      }, secondsUntilNextDay()*1000); // time for the first reset
 
      // Start stream
