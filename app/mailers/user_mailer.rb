@@ -31,4 +31,32 @@ class UserMailer  < Devise::Mailer
 
     generic_mail(subject=@subject, greeting=@greeting, message=@message, receiver=record.email, link=@link, link_text=@link_text)
   end
+
+  def monthly_provider_report(user, month, net_earnings, campaign_count, percentage_comparison, link)
+    data = {
+      "personalizations": [
+        {
+          "to": [
+            {
+              "email": user.email
+            }
+          ],
+          "dynamic_template_data": {
+            "NAME": user.name_or_none,
+            "MONTH": month,
+            "NET_EARNINGS": net_earnings,
+            "CAMPAIGN_COUNT": campaign_count,
+            "PERCENTAGE": percentage_comparison,
+            "LINK": link
+          }
+        }
+      ],
+      "from": {
+        "email": "contabilidad@bilbo.mx",
+        "name": "Bilbo"
+      },
+      "template_id": "d-f3f33770a1594fd39cbc1e7a5c4051af"
+    }
+    sendgrid_client.client.mail._("send").post(request_body: (data))
+  end
 end
