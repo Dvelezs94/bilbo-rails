@@ -104,7 +104,13 @@ class CampaignsController < ApplicationController
         end
           format.js {
             flash[:success] = I18n.t('campaign.action.updated')
-            redirect_to campaigns_path
+            if request.referer.include?("gtm_campaign_create")
+              redirect_to campaigns_path(gtm_creation: "complete")
+            elsif request.referer.include?("gtm_campaign_edit")
+              redirect_to campaigns_path(gtm_edit: "complete")
+            else
+              redirect_to campaigns_path
+            end
            }
           format.json { head :no_content }
         else
@@ -125,7 +131,7 @@ class CampaignsController < ApplicationController
       else
         flash[:error] = I18n.t('campaign.errors.no_save')
       end
-      redirect_to edit_campaign_path(@campaign)
+      redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
   end
 
   def destroy

@@ -36,8 +36,10 @@ class AdsController < ApplicationController
     end
     # if ad is created from campaign wizard, create param to then redirect once the content is uploaded
     ref = Rails.application.routes.recognize_path(request.referrer)
-    if ref[:controller] == "campaigns"
-      redirect_to ad_path(@ad, campaign_ref: ref[:id])
+    if ref[:controller] == "campaigns" && request.referer.include?("gtm_campaign_create")
+      redirect_to ad_path(@ad, campaign_ref: ref[:id], gtm_wizard_upload_ad_create: true)
+    elsif ref[:controller] == "campaigns" && request.referer.include?("gtm_campaign_edit")
+      redirect_to ad_path(@ad, campaign_ref: ref[:id], gtm_wizard_upload_ad_edit: true)
     else
       redirect_to ad_path(@ad)
     end
