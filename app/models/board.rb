@@ -277,7 +277,7 @@ class Board < ApplicationRecord
     return output
   end
 
-  def should_update_ads_rotation?
+  def should_update_ads_rotation? #function to know if board should be updated automatically (the hour campaigns need to change per day)
     return true
     ##CODIGO DE MAURICIO NO TOCAR ###
     time_on_board = Time.now.utc + self.utc_offset.minutes

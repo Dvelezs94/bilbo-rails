@@ -46,7 +46,7 @@ class BoardsController < ApplicationController
 
   def requestAdsRotation
     @board.with_lock do
-      errors = @board.update_ads_rotation
+      errors = @board.update_ads_rotation if @board.should_update_ads_rotation?
       return head(:internal_server_error) if errors.any?
       ActionCable.server.broadcast(
         @board.slug,
@@ -92,7 +92,7 @@ class BoardsController < ApplicationController
 
   def show
       if !@board.connected?
-      errors = @board.update_ads_rotation if @board.should_update_ads_rotation? 
+      errors = @board.update_ads_rotation if @board.should_update_ads_rotation?
       @active_campaigns = @board.active_campaigns
       # Set api key cookie
       cookies.signed[:api_key] = {
