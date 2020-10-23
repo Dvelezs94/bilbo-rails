@@ -53,7 +53,7 @@ function build_markers(bilbos) {
   });
 
   var options = {
-    imagePath: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m"
+    imagePath: location.protocol + '//' + location.hostname + "/assets/images/markercluster/m"
   };
 
   window.markerCluster = new MarkerClusterer(window.bilbomap, window.markers, options);
