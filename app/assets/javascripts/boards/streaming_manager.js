@@ -348,12 +348,7 @@ function hashFromPairs(arr) {
     return 86400 - total_seconds;
   }
 
-  function check_if_request_new_ads_rotation(){
-    if (timeUntilNextStart() < 10) {
-      console.log("Requesting new rotation because day is about to change");
-      requestAdsRotation();
-    }
-  }
+
   function requestAdsRotation() {
     board_id = $("#board_id").val();
     api_token = $("#api_token").val();
