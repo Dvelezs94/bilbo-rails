@@ -92,6 +92,7 @@ class BoardsController < ApplicationController
 
   def show
       if !@board.connected?
+      errors = @board.update_ads_rotation if @board.should_update_ads_rotation? 
       @active_campaigns = @board.active_campaigns
       # Set api key cookie
       cookies.signed[:api_key] = {
