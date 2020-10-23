@@ -46,14 +46,16 @@ class BoardsController < ApplicationController
 
   def requestAdsRotation
     @board.with_lock do
-      errors = @board.update_ads_rotation if @board.should_update_ads_rotation?
-      return head(:internal_server_error) if errors.any?
-      ActionCable.server.broadcast(
-        @board.slug,
-        action: "update_rotation",
-        ads_rotation: @board.add_bilbo_campaigns.to_s,
-        remaining_impressions: @board.get_user_remaining_impressions.to_s
-      )
+      if @board.should_update_ads_rotation?
+        errors = @board.update_ads_rotation
+        return head(:internal_server_error) if errors.any?
+        ActionCable.server.broadcast(
+          @board.slug,
+          action: "update_rotation",
+          ads_rotation: @board.add_bilbo_campaigns.to_s,
+          remaining_impressions: @board.get_user_remaining_impressions.to_s
+        )
+      end
     end
   end
 
