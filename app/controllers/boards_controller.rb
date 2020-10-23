@@ -72,9 +72,9 @@ class BoardsController < ApplicationController
         deactivated +=1
       end
       if deactivated > 0
-        flash[:notice] = "Se han desactivado " << deactivated.to_s  << " campañas de proveedor que usaban este Bilbo, ¡revísalas!"
+        flash[:notice] = I18n.t("bilbos.campaigns_disabled",number: deactivated)
       end
-        flash[:success] = "Bilbo actualizado con éxito"
+        flash[:success] = I18n.t("bilbos.update_success")
     else
       flash[:error] = @board.errors.full_messages.first
     end
