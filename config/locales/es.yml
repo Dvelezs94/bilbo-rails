@@ -11,7 +11,7 @@ es:
   mailer:
     hi: Hola %{name}
   main_wizard:
-    pending_items: Lista de Pendientes
+    pending_items: Sigue estos pasos para publicar tu anuncio
     upload_ad: Subir creativo
     create_campaign: Crear campaña
     verify_profile: Verifica tu perfil

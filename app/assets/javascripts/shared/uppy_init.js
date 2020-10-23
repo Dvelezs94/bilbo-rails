@@ -25,7 +25,13 @@ $(document).on('turbolinks:load', function() {
     uppy.on('complete', (result) => {
       setTimeout(function(){
         if ($.urlParam('campaign_ref')) {
-          document.location.href = '/campaigns/' + $.urlParam('campaign_ref') + "/edit"
+          if ($.urlParam('gtm_wizard_upload_ad_create')) {
+            document.location.href = '/campaigns/' + $.urlParam('campaign_ref') + "/edit?gtm_campaign_create=true"
+          } else if ($.urlParam('gtm_wizard_upload_ad_edit')) {
+            document.location.href = '/campaigns/' + $.urlParam('campaign_ref') + "/edit?gtm_campaign_edit=true"
+          } else {
+            document.location.href = '/campaigns/' + $.urlParam('campaign_ref') + "/edit"
+          }
         } else {
           location.reload();
         }

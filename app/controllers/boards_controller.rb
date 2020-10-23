@@ -69,6 +69,7 @@ class BoardsController < ApplicationController
   end
 
   def map_frame
+    get_boards
   end
 
   # provider boards
