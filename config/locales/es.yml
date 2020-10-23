@@ -11,7 +11,7 @@ es:
   mailer:
     hi: Hola %{name}
   main_wizard:
-    pending_items: Lista de Pendientes
+    pending_items: Sigue estos pasos para publicar tu anuncio
     upload_ad: Subir creativo
     create_campaign: Crear campaña
     verify_profile: Verifica tu perfil
@@ -113,6 +113,7 @@ es:
     height: Alto
   campaign:
     add_schedule: Agregar Horario
+    must_add_schedule: Debe agregar un horario
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
@@ -162,6 +163,8 @@ es:
     deny_campaign: ¿Estás seguro de denegar esta campaña?
     in_review_campaign: Estás a punto de pausar esta campaña. ¿Estás seguro?
     bilbos_used: Bilbos utilizados
+    percentage_plus: "%{percentage}% más"
+    percentage_minus: "%{percentage}% menos"
     view_bilbos_used: Ver bilbos utilizados
     ads_rotation_error:
       accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
