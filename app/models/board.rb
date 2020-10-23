@@ -278,19 +278,32 @@ class Board < ApplicationRecord
   end
 
   def should_update_ads_rotation? #function to know if board should be updated automatically (the hour campaigns need to change per day)
-    return true
-    ##CODIGO DE MAURICIO NO TOCAR ###
-    time_on_board = Time.now.utc + self.utc_offset.minutes
-    hour_and_minute_on_board = get_time(time_on_board)
-    #15 seconds before day is the margin to build new rotation
-    et = get_time(end_time) -15.seconds
-    hour_and_minute_ads_rotation_updated_at = get_time(ads_rotation_updated_at)
-    #if hour_and_minute_on_board < et, means that my current time is in the same day as an end_time in a board, so i have to check if it was updated a day earlier after end_time-15
-    if hour_and_minute_on_board < et
-      return get_time(ads_rotation_updated_at) >= et
-    else
-      no_se_que_poner = 1
+    # return true
+    # ##CODIGO DE MAURICIO NO TOCAR ###
+    # time_on_board = Time.now.utc + self.utc_offset.minutes
+    # hour_and_minute_on_board = get_time(time_on_board)
+    # #15 seconds before day is the margin to build new rotation
+    # et = get_time(end_time) -15.seconds
+    # hour_and_minute_ads_rotation_updated_at = get_time(ads_rotation_updated_at)
+    # #if hour_and_minute_on_board < et, means that my current time is in the same day as an end_time in a board, so i have to check if it was updated a day earlier after end_time-15
+    # if hour_and_minute_on_board < et
+    #   return get_time(ads_rotation_updated_at) >= et
+    # else
+    #   no_se_que_poner = 1
+    # end
+    time_on_board = get_time(Time.now.utc + self.utc_offset.minutes)
+    st = get_time(start_time)
+    et = get_time(end_time)
+    last_update = get_time(ads_rotation_updated_at)
+    if st < et
+      et + 1.day
     end
+    if time_on_board.between?(st,et)
+      if last_update.before?(start_time - 15.seconds)
+        return true
+      end
+    end
+    return false
   end
 
   def should_run_hour_campaign_in_board? c
