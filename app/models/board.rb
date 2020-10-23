@@ -291,10 +291,14 @@ class Board < ApplicationRecord
     # else
     #   no_se_que_poner = 1
     # end
-    time_on_board = get_time(Time.now.utc + self.utc_offset.minutes)
+    time_on_board = Time.now.utc + self.utc_offset.minutes
     st = get_time(start_time)
     et = get_time(end_time)
-    last_update = get_time(ads_rotation_updated_at)
+    last_update = Time.parse(ads_rotation_updated_at.to_s)
+    p time_on_board
+    p st
+    p et
+    p last_update
     if st < et
       et + 1.day
     end
