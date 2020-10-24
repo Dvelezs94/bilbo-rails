@@ -3,8 +3,9 @@
     %i.tx-16.fe.fe-arrow-left
 
 .card.tx-white.bg-primary.bottom-right.animated.fadeInRightBig
-  .card-header.tx-bold
-    = t('main_wizard.pending_items')
+  .card-header.tx-bold.mw-200p
+    .tx-center
+      = t('main_wizard.pending_items')
     .card-body.pd-x-0.pd-y-5.mg-t-10.cursor-pointer
       .row{"data-toggle" => "modal", :href => "#modalNewPayment"}
         .col-10
