@@ -278,7 +278,7 @@ class Board < ApplicationRecord
   end
 
   def should_update_ads_rotation? #function to know if board should be updated automatically (the hour campaigns need to change per day)
-    # return true
+     return true
     # ##CODIGO DE MAURICIO NO TOCAR ###
     # time_on_board = Time.now.utc + self.utc_offset.minutes
     # hour_and_minute_on_board = get_time(time_on_board)
@@ -291,23 +291,24 @@ class Board < ApplicationRecord
     # else
     #   no_se_que_poner = 1
     # end
-    time_on_board = Time.now.utc + self.utc_offset.minutes
-    st = get_time(start_time)
-    et = get_time(end_time)
-    last_update = Time.parse(ads_rotation_updated_at.to_s)
-    p time_on_board
-    p st
-    p et
-    p last_update
-    if st < et
-      et + 1.day
-    end
-    if time_on_board.between?(st,et)
-      if last_update.before?(start_time - 15.seconds)
-        return true
-      end
-    end
-    return false
+    ##CODIGO DE CARLOS NO TOCAR ###
+    # time_on_board = Time.now.utc + self.utc_offset.minutes
+    # st = get_time(start_time)
+    # et = get_time(end_time)
+    # last_update = Time.parse(ads_rotation_updated_at.to_s)
+    # p time_on_board
+    # p st
+    # p et
+    # p last_update
+    # if st < et
+    #   et + 1.day
+    # end
+    # if time_on_board.between?(st,et)
+    #   if last_update.before?(start_time - 15.seconds)
+    #     return true
+    #   end
+    # end
+    # return false
   end
 
   def should_run_hour_campaign_in_board? c
