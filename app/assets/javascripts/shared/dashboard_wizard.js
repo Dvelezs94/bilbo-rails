@@ -240,7 +240,7 @@ $(document).on('turbolinks:load', function() {
       budget = 0
       var i;
       for(i=0; i< 2000;i++) {
-        obtained_impressions = calculatebudget(budget)
+        obtained_impressions = calculatebudget(budget);
         if (obtained_impressions==desired_impressions){
           $("#campaign_budget").val(budget);
           return true;
