@@ -85,6 +85,7 @@ class BoardsController < ApplicationController
   end
 
   def map_frame
+    get_boards
   end
 
   # provider boards
@@ -219,7 +220,7 @@ class BoardsController < ApplicationController
   end
 
   def get_boards
-    if current_user.is_provider?
+    if user_signed_in? && current_user.is_provider?
       @boards = @project.boards
     else
       @boards = Board.enabled

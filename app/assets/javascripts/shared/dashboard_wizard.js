@@ -375,7 +375,9 @@ function buttonSubstraction() {
     for (var i = 0; i < $(document.querySelectorAll('.nested-fields')).length; i++) {
       if (document.querySelectorAll('.nested-fields')[i].style.display == "none") {
         $(document.querySelectorAll('.nested-fields')[i]).addClass('noValid');
-        $(document.querySelectorAll('.noValid div select')[i]).addClass('noValid');
+        for (var y = 0; y < $(document.querySelectorAll('.noValid div select')).length; y++){
+          $(document.querySelectorAll('.noValid div select')[y]).addClass('noValid');
+        }
         for (var x = 0; x < $(document.querySelectorAll('.noValid div input')).length; x++) {
           $(document.querySelectorAll('.noValid div input')[x]).addClass('noValid');
         }
@@ -384,6 +386,8 @@ function buttonSubstraction() {
   }, 100);
   count -= 1;
 }
+
+
 
 //function that validate that all fields are filled in the campaign per hour
 function validatesPerHour() {

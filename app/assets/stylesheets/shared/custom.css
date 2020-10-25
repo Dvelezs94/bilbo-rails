@@ -325,3 +325,7 @@ table.dataTable tbody tr:hover {
     color: #fff;
     background-color: #7987a1;
 }
+
+.mw-200p {
+  max-width: 200px;
+}
