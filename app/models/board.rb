@@ -159,7 +159,7 @@ class Board < ApplicationRecord
   # a cycle is the total time of an impression duration
   # example a cycle could be of 10 seconds
   # this gives the price of a cycle in a bilbo
-  def cycle_price(date = Time.now)
+  def cycle_price(date = Time.zone.now)
     daily_seconds = working_minutes(start_time, end_time) * 60
     total_days_in_month = date.end_of_month.day
     # this is 100% of possible earnings in the month
@@ -171,7 +171,7 @@ class Board < ApplicationRecord
     provider_extra_percentage = extra_percentage_earnings_was/100.0
     (base_earnings_was * ((1+provider_extra_percentage)/(1-bilbo_percentage_earnings))).round(2)
   end
-  def old_cycle_price(date = Time.now)
+  def old_cycle_price(date = Time.zone.now)
     daily_seconds = working_minutes(start_time_was, end_time_was) * 60
     total_days_in_month = date.end_of_month.day
     # this is 100% of possible earnings in the month
@@ -279,36 +279,6 @@ class Board < ApplicationRecord
 
   def should_update_ads_rotation? #function to know if board should be updated automatically (the hour campaigns need to change per day)
      return true
-    # ##CODIGO DE MAURICIO NO TOCAR ###
-    # time_on_board = Time.now.utc + self.utc_offset.minutes
-    # hour_and_minute_on_board = get_time(time_on_board)
-    # #15 seconds before day is the margin to build new rotation
-    # et = get_time(end_time) -15.seconds
-    # hour_and_minute_ads_rotation_updated_at = get_time(ads_rotation_updated_at)
-    # #if hour_and_minute_on_board < et, means that my current time is in the same day as an end_time in a board, so i have to check if it was updated a day earlier after end_time-15
-    # if hour_and_minute_on_board < et
-    #   return get_time(ads_rotation_updated_at) >= et
-    # else
-    #   no_se_que_poner = 1
-    # end
-    ##CODIGO DE CARLOS NO TOCAR ###
-    # time_on_board = Time.now.utc + self.utc_offset.minutes
-    # st = get_time(start_time)
-    # et = get_time(end_time)
-    # last_update = Time.parse(ads_rotation_updated_at.to_s)
-    # p time_on_board
-    # p st
-    # p et
-    # p last_update
-    # if st < et
-    #   et + 1.day
-    # end
-    # if time_on_board.between?(st,et)
-    #   if last_update.before?(start_time - 15.seconds)
-    #     return true
-    #   end
-    # end
-    # return false
   end
 
   def should_run_hour_campaign_in_board? c
@@ -379,7 +349,7 @@ class Board < ApplicationRecord
     active_user_campaigns = self.campaigns.includes(:impressions).where(provider_campaign:false,status:"active",state:true)
     user_impressions = []
     active_user_campaigns.each do |cpn|
-      impression_count = cpn.daily_impressions(Time.now.beginning_of_day .. Time.now.end_of_day, self.id)
+      impression_count = cpn.daily_impressions(Time.zone.now.beginning_of_day .. Time.zone.now.end_of_day, self.id)
       today_impressions = impression_count.present?? impression_count.values[0] : 0
       daily_max = (cpn.budget_per_bilbo/(self.get_cycle_price(cpn) * cpn.ad.duration/self.duration)).to_i
       user_impressions << [cpn.id, daily_max - today_impressions]
