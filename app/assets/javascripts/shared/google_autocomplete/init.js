@@ -8,7 +8,7 @@ function updateMap(autocomplete, input, map) {
   place = autocomplete.getPlace();
   if (place.geometry) {
     map.panTo(place.geometry.location);
-    map.setZoom(8);
+    map.setZoom(15);
   } else {
     input.value = '';
   }
