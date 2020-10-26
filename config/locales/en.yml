@@ -261,6 +261,7 @@ en:
     banned: Banned
     ad_duration: Ad Duration (seconds)
     images_only_form: Only accept images on this bilbo
+    keep_old_cycle_price_on_active_campaigns: Keep old cycle price on current active campaigns
     category: Category
     copy_stream_url: Copy stream URL
     regenerate_token: Regenerate access token
@@ -311,6 +312,8 @@ en:
     mac_address: MAC address
     earnings_month: Earnings this month
     stats: Stats
+    campaigns_disabled: "%{number} campaigns that used this Bilbo have been deactivated. Check them out!"
+    update_success: The Bilbo was succesfully updated
     ads_rotation_error:
       max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time

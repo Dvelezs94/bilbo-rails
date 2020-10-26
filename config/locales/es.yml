@@ -263,6 +263,7 @@ es:
     banned: Bloqueado
     ad_duration: Duración de anuncio (segundos)
     images_only_form: Sólamente aceptar imágenes en este bilbo
+    keep_old_cycle_price_on_active_campaigns: Mantener el anterior precio por impresión para las campañas activas actuales
     category: Categoria
     copy_stream_url: Copiar URL
     regenerate_token: Regenerar token de acceso
@@ -314,6 +315,8 @@ es:
     earnings_month: Ganancias este mes
     status: Estado
     stats: Estadisticas
+    campaigns_disabled: Se han desactivado %{number} campañas de proveedor que usaban este Bilbo. ¡Revísalas!
+    update_success: Bilbo actualizado con éxito
     ads_rotation_error:
       max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
