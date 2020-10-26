@@ -35,6 +35,7 @@ function addBilbo(el) {
   id = $(el).attr("data-id");
   cycle_price = $(el).attr("data-price");
   new_width = $(el).attr("new-width");
+  cycle_duration = $(el).attr("data-cycle-duration");
   new_height = $(el).attr("new-height");
   buttons_container = $(el).closest(".info-board");
   address = $(el).attr("data-address");
@@ -42,7 +43,7 @@ function addBilbo(el) {
   selected_boards = $("#selected_boards");
   aspect_ratio_select = $("#aspect_ratio_select");
   if (selected_boards.find("option[value=" + id + "]").length == 0) {
-    build_option = "<option value='" + id + "' data-max-impressions='" + max_impressions + "' data-price='" + cycle_price + "' new-height='" + new_height + "' new-width='" + new_width + "'>"+ address + "</option>"
+    build_option = "<option value='" + id + "' data-max-impressions='" + max_impressions + "' data-price='" + cycle_price + "' new-height='" + new_height + "' data-cycle-duration='" + cycle_duration + "' new-width='" + new_width + "'>"+ address + "</option>"
     selected_boards.append(build_option);
     aspect_ratio_select.append(build_option);
     selected_boards.val(selected_boards.find("option:last").val() );

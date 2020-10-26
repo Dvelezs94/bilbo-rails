@@ -66,6 +66,7 @@ Rails.application.routes.draw do
       get :admin_index
     end
     member do
+      post :requestAdsRotation
       delete :delete_image
       delete :delete_default_image
       get :regenerate_access_token
