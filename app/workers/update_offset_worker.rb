@@ -7,7 +7,7 @@ class UpdateOffsetWorker
       if b.lat.nil? or b.lng.nil? #Get coordinates of the board in case they aren't already stored
         p "Latitude or longitude missing for board with id #{b.id}. Updating information..."
         loc = Geokit::Geocoders::GoogleGeocoder.geocode(b.address)
-        b.update(lat: loc.lat,lng: lon.lng)
+        b.update(lat: loc.lat,lng: loc.lng)
       end
 
       tz = Timezone.lookup(b.lat, b.lng) #Get the timezone of the board by it's coordinates
