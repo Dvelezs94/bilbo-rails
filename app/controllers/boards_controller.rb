@@ -1,9 +1,10 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image]
+  access [:provider, :admin, :user] => [:index], provider: [:statistics, :owned, :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:statistics, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image]
-  before_action :restrict_access, only: :show
+  before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image]
+  before_action :restrict_access, only: [:show]
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
+  before_action :validate_just_api_token, only: [:requestAdsRotation]
   before_action :allow_iframe_requests, only: :map_frame
 
   def index
@@ -43,6 +44,21 @@ class BoardsController < ApplicationController
     end
   end
 
+  def requestAdsRotation
+    @board.with_lock do
+      if @board.should_update_ads_rotation?
+        errors = @board.update_ads_rotation
+        return head(:internal_server_error) if errors.any?
+        ActionCable.server.broadcast(
+          @board.slug,
+          action: "update_rotation",
+          ads_rotation: @board.add_bilbo_campaigns.to_s,
+          remaining_impressions: @board.get_user_remaining_impressions.to_s
+        )
+      end
+    end
+  end
+
   def update
     @success = @board.update(board_params.merge(admin_edit: true))
     #check if needs to deactivate campaigns when updates from admin form
@@ -56,9 +72,9 @@ class BoardsController < ApplicationController
         deactivated +=1
       end
       if deactivated > 0
-        flash[:notice] = "Se han desactivado " << deactivated.to_s  << " campañas de proveedor que usaban este Bilbo, ¡Verifícalas!"
+        flash[:notice] = I18n.t("bilbos.campaigns_disabled",number: deactivated)
       end
-        flash[:success] = "Bilbo actualizado con éxito"
+        flash[:success] = I18n.t("bilbos.update_success")
     else
       flash[:error] = @board.errors.full_messages.first
     end
@@ -79,6 +95,7 @@ class BoardsController < ApplicationController
 
   def show
       if !@board.connected?
+      errors = @board.update_ads_rotation if @board.should_update_ads_rotation?
       @active_campaigns = @board.active_campaigns
       # Set api key cookie
       cookies.signed[:api_key] = {
@@ -183,9 +200,10 @@ class BoardsController < ApplicationController
                                   :images_only,
                                   :extra_percentage_earnings,
                                   :mac_address,
+                                  :keep_old_cycle_price_on_active_campaigns,
                                   :displays_number,
                                   images: [],
-                                  default_images: [],
+                                  default_images: []
                                   )
   end
 
@@ -212,6 +230,9 @@ class BoardsController < ApplicationController
   # validate identity when trying to maange the boards
   def validate_identity
     redirect_to root_path, alert: "Access denied" if @board.user != current_user
+  end
+  def validate_just_api_token
+    redirect_to root_path if @board.api_token != params[:api_token]
   end
 
   #validate access token when trying to access a board

@@ -3,6 +3,7 @@
   %td.tx-medium= format_time(payment.updated_at)
   %td.text-center
     %span{class: "badge badge-#{payment.status} tx-12"}= t("payments.#{payment.status}")
+  %td.tx-medium{"data-toggle" => "tooltip", :href => "#", :title => "#{payment.user.email} - #{payment.user.balance}"}= payment.user.name
   %td= payment.total_in_cents
   %td.tx-medium= payment.spei_reference
   - if payment.reviewing_payment?

@@ -58,7 +58,7 @@ class CampaignsController < ApplicationController
 
   def edit
     @ads = @project.ads.active.order(updated_at: :desc).with_attached_multimedia.select{ |ad| ad.multimedia.any? }
-    @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': board.cycle_price, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0) } ] }
+    @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': board.cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration } ] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
     if current_user.is_provider?
@@ -95,8 +95,10 @@ class CampaignsController < ApplicationController
                                 action: "created", notifiable: @campaign, sms: current_user.is_provider? ? false : true)
           if @campaign.starts_at.present? && @campaign.ends_at.present?
             @campaign.boards.each do |b|
-              difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
-              difference_in_seconds_end = (@campaign.to_utc(@campaign.ends_at, b.utc_offset) - Time.now.utc).to_i
+              #difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
+              #difference_in_seconds_end = (@campaign.to_utc(@campaign.ends_at, b.utc_offset) - Time.now.utc).to_i
+              difference_in_seconds = (@campaign.starts_at - Time.now).to_i
+              difference_in_seconds_end = (@campaign.ends_at - Time.now).to_i
               ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id, b.id) if difference_in_seconds > 0
               RemoveScheduleCampaignWorker.perform_at((difference_in_seconds_end.seconds+86401.seconds).from_now, @campaign.id, b.id) if difference_in_seconds_end > 0
             end

@@ -75,8 +75,7 @@ module AdRotationAlgorithm
  #################################################################################33
   def add_bilbo_campaigns
     output = JSON.parse(self.ads_rotation)
-
-    cps  = self.campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, (c.budget_per_bilbo/self.cycle_price).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
+    cps  = self.campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, (c.budget_per_bilbo/self.get_cycle_price(c)).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
     cycles = []                            # array to store the name of the bilbo users the required times
     cps.each do |name, value|              # Fill the cycles array
        value.times do                      # with the names of the
@@ -113,7 +112,7 @@ module AdRotationAlgorithm
     end                     # ads
 
     r_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
-    r_cps = r_cps_first.map{ |c| [ c.id, [(c.budget_per_bilbo/self.cycle_price).to_i, (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    r_cps = r_cps_first.map{ |c| [ c.id, [(c.budget_per_bilbo/(self.get_cycle_price(c) * c.ad.duration/self.duration)).to_i, (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     r_cycles = []
     total_r_cps_spaces = 0
 
@@ -124,7 +123,7 @@ module AdRotationAlgorithm
 
     self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
       c.impression_hours.each do |cpn|
-        if cpn.day == "everyday" || cpn.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
+        if should_run_hour_campaign_in_board?(cpn)
           h_cps_first.append(cpn)
         end
       end
@@ -140,7 +139,7 @@ module AdRotationAlgorithm
         per_time_cps_first.append(new_campaign)
       elsif new_campaign.impression_hours.present?
         new_campaign.impression_hours.each do |c|
-          if c.day == "everyday" || c.day == (Time.now.utc + self.utc_offset.minutes).strftime("%A").downcase
+          if should_run_hour_campaign_in_board?(c)
             h_cps_first.append(c)
           end
         end
@@ -401,17 +400,23 @@ def valid_start(brd,c)
   st = get_time(brd.start_time)
   et = get_time(brd.end_time)
   return true if et == st
-  et+=1.day if et<st
   cst = get_time(c.start)
+  if et<st
+    et+=1.day
+    cst += 1.day if cst<st
+  end
   return cst.between?(st,et)
 end
 def valid_end(brd,c)
   st = get_time(brd.start_time)
   et = get_time(brd.end_time)
   return true if et == st
-  et+=1.day if et<st
   cst = get_time(c.start)
   cet = get_time(c.end)
+  if et<st
+    et+=1.day
+    cet += 1.day if cet<st
+  end
   cet+=1.day if cet<cst
   return cet.between?(st,et)
 end

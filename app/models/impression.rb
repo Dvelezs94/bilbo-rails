@@ -25,12 +25,12 @@ class Impression < ApplicationRecord
     if self.campaign.provider_campaign
       self.total_price = 0
     else
-      self.total_price = (board.cycle_price * cycles).round(3)
+      self.total_price = (board.get_cycle_price(campaign) * cycles).round(3)
     end
   end
 
   def update_balance
-    self.campaign.project.owner.charge!(self.total_price)
+      self.campaign.project.owner.charge!(self.total_price)
   end
 
   def continue_runnning_campaign
