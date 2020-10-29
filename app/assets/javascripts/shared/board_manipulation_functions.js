@@ -6,7 +6,7 @@ $(document).on('turbolinks:load', function() {
     $('#boardTab li a').eq($(this).val()).tab('show');
   });
 
-  $(document).on('click',"#selected_boards",function(){
+  $(document).on('change',"#selected_boards",function(){
     var id = this.value
     if (id != "") {
       $("#map-layout").removeClass("col-xl-12");

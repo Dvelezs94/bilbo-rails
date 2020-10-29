@@ -20,7 +20,7 @@
           %li{:class => "nav-item #{"active" if menu == "boards"}"}
             %a.nav-link{:href => boards_path}
               %i.fe.fe-box>
-              Bilbos
+              = t('header.map')
         - elsif current_user.role == :provider
           %li{:class => "nav-item #{"active" if menu == "statistics"}"}
             %a.nav-link{:href => provider_statistics_dashboards_path}
@@ -46,7 +46,7 @@
     .navbar-right
       / teams
       .dropdown
-        %span#teamMenuButton.tx-14.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+        %span#teamMenuButton.tx-14.dropdown-toggle.cursor-pointer{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown"}
           = truncate(@project.name, length: 15)
         .dropdown-menu{"aria-labelledby" => "teamMenuButton"}
           - current_user.projects.enabled.each do |pr|
