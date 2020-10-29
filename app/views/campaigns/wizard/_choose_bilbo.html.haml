@@ -7,8 +7,8 @@
           = t('bilbos.filter')
       .input-group.mg-b-10.col-6.col-md-6.ml-auto
         .input-group-prepend
-          %span#boards_counter.input-group-text.pd-x-15= @campaign_boards.size
-        = f.select(:boards, options_for_select(@campaign_boards), {include_blank: "#{t('campaign.wizard.selected_bilbos')}"}, {:class => "custom-select", :id => "selected_boards"})
+          %span#boards_counter.input-group-text.pd-x-15.bg-dark.tx-white= "#{@campaign_boards.size} #{t('campaign.wizard.selected_bilbos')}"
+        = f.select(:boards, options_for_select(@campaign_boards), {include_blank: true}, {:class => "custom-select", :id => "selected_boards"})
       = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true
       #boardInfo.col-md-12.col-xl-3.mg-t-10.order-1.d-none
         / card
