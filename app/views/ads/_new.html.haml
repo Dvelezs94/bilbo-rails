@@ -1,24 +1,21 @@
 #modalNewAd.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog.modal-dialog-centered{:role => "document"}
+  .modal-dialog.modal-dialog-centered.modal-sm{:role => "document"}
     .modal-content
       .modal-body.pd-20.pd-sm-30
         %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} &#215;
-        %h5.tx-18.tx-sm-20.mg-b-30= t("ads.new_ad")
+        %h5.tx-18.tx-sm-20.mg-b-30
+          = t("ads.new_ad")
+          %i.fe.fe-question.tx-primary.tx-15{"data-toggle" => "tooltip", :title => t("campaign.wizard.offcanvas.pick_ad_desc")}
         .row
           .col-12.m-auto
-            .pd-20
-              = form_with(model: Ad, url: ads_path, method: :post, :html => { :id => "new_ad", data: { parsley_validate: true } }, local: false) do |f|
-                .form-group
-                  = f.label t("general_inputs.name")
-                  %br/
-                  = f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name")
-                .form-group
-                  = f.label t("general_inputs.description")
-                  %br/
-                  = f.text_area :description, class: "form-control", value: "", autocomplete: "off", placeholder: t("general_inputs.description")
-                .actions
-                  = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block"
+            = form_with(model: Ad, url: ads_path, method: :post, :html => { :id => "new_ad", data: { parsley_validate: true } }, local: false) do |f|
+              .form-group
+                = f.label t("general_inputs.name")
+                %br/
+                = f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name")
+              .actions
+                = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block"
       .modal-footer
         %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
       / modal-footer

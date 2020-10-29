@@ -3,7 +3,7 @@ class Admin::PaymentsController < ApplicationController
   before_action :get_payment, only: [:approve, :deny]
 
   def index
-    @payments = Payment.where(paid_with: "SPEI").order(status: :asc)
+    @payments = Payment.where(paid_with: "SPEI").order(updated_at: :desc)
   end
 
   def approve
