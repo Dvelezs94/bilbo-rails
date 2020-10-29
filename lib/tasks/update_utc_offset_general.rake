@@ -6,6 +6,9 @@ namespace :update_utc_offset_general do
     c.username = 'carlos0914' # <-- username for geonames.org
     c.offset_etc_zones = true
   end
+  #Note: The google api can also be used here, some people use the
+  #google api when geonames fails or reaches the credit limit
+
   # bilbo run rails update_utc_offset_general:do_it
   task :do_it => :environment do
     p "Updating utc_offset of all boards"
@@ -15,8 +18,10 @@ namespace :update_utc_offset_general do
         loc = Geokit::Geocoders::GoogleGeocoder.geocode(b.address)
         b.update(lat: loc.lat,lng: lon.lng)
       end
-      timezone = Timezone.lookup(b.lat, b.lng) #Get the timezone of the board by it's coordinates
-      offset = timezone.utc_offset / 60 #Utc offset given by the Timezone gem is in seconds, so we convert them to minutes
+
+      tz = Timezone.lookup(b.lat, b.lng) #Get the timezone of the board by it's coordinates
+      offset = tz.utc_offset / 60 #Utc offset given by the Timezone gem is in seconds, so we convert them to minutes
+
       b.update(utc_offset: offset)
     end
 
