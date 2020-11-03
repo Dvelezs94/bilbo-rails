@@ -3,7 +3,7 @@ require 'test_helper'
 class CampaignTest < ActiveSupport::TestCase
   i_suck_and_my_tests_are_order_dependent!
   include Rails.application.routes.url_helpers
-  setup do 
+  setup do
     @name = "Ussopn"
     @campaign_name = "Pirate hunter"
     @project_id = "2"
@@ -18,11 +18,11 @@ class CampaignTest < ActiveSupport::TestCase
     @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, clasification: 0 )
     assert_equal "budget", @campaign.clasification
   end
-  test "create per minute campaign" do 
+  test "create per minute campaign" do
     @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, clasification: 1 )
     assert_equal "per_minute", @campaign.clasification
   end
-  test "create per hour campaign" do 
+  test "create per hour campaign" do
     @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, clasification: 2 )
     assert_equal "per_hour", @campaign.clasification
   end
@@ -33,7 +33,7 @@ class CampaignTest < ActiveSupport::TestCase
   end
   test "has creative" do
     @ad = create(:ad, name: "Coca-Cola", project: @user.projects.first)
-    assert true, @campaign.has_multimedia? 
+    assert true, @campaign.has_multimedia?
   end
   test "should run" do
     @board_id = "30"
@@ -49,7 +49,7 @@ class CampaignTest < ActiveSupport::TestCase
     @campaign =  create(:campaign, name: "budget campaign", project: @user.projects.first, clasification: 0, starts_at: "2020-10-10 05:00:00", ends_at: "2020-10-11 05:00:00")
     assert_equal false, @campaign.ongoing?
   end
-  test "user has budget" do 
+  test "user has budget" do
     @user = create(:user, name: "Luffy", balance: "7777")
     @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, clasification: 0)
     assert_equal true, @campaign.user_has_budget?
@@ -118,11 +118,4 @@ class CampaignTest < ActiveSupport::TestCase
     @camp2 = create(:campaign, name: "on",project: @user.projects.first, project_id: @project_id, state: true)
     assert true, @camp2.on
   end
-  test "campaign cant be active when ad missing" do
-    @campaign_ad = create(:campaign, name: "skypea", project: @user.projects.first)
-    assert_equal false, @campaign_ad.state
-  end
 end
-
-
-
