@@ -1,6 +1,6 @@
 class CampaignsController < ApplicationController
   include UserActivityHelper
-  access user: {except: [:review, :approve_campaign, :deny_campaign, :provider_index]}, provider: :all, all: [:analytics, :shortened_analytics]
+  access [:user, :provider] => :all, all: [:analytics, :shortened_analytics]
   before_action :get_campaigns, only: [:index]
   before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
@@ -188,7 +188,7 @@ class CampaignsController < ApplicationController
 
   def create_params
     @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :clasification).merge(:project_id => @project.id)
-    @campaign_params[:provider_campaign] = @project.owner.is_provider?
+    @campaign_params[:provider_campaign] = @project.classification == 'provider'
     @campaign_params
   end
 
