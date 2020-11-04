@@ -38,13 +38,13 @@
                   %span= t('campaign.wizard.minute')
                   %i.fe.fe-clock
               -if "#{@campaign.clasification}" == "budget"
-                %strong= t('campaign.wizard.daily_budget')
+                %strong= t('campaign.daily_budget')
                 %br
                   %span#dailyBudget
                   %i.fe.fe-wallet
               %hr
                 %p
-                  %strong Duracion de la campa&#xF1;a:
+                  %strong= t('campaign.wizard.campaign_duration')
                   %br
                     %span#campaignStarts
                     \-

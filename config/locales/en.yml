@@ -12,7 +12,7 @@ en:
     hi: Hi %{name}
   main_wizard:
     pending_items: Pending Items
-    upload_ad: Upload creative
+    upload_ad: Upload ad
     create_campaign: Create Campaign
     verify_profile: Verify Profile
     purchase_credits: Purchase Credits
@@ -52,11 +52,12 @@ en:
     logout: Log Out
     dashboard: Dashboard
     campaigns: Campaigns
+    map: Map
     navigation: Navigation
     help_center: Help Center
     payment_methods: Payment Methods
     purchase_credits: Purchase Credits
-    ads: Creatives
+    ads: Gallery
     statistics: Statistics
     main: Home
     my_bilbos: My Bilbos
@@ -130,7 +131,7 @@ en:
     destroy: Remove Campaign
     campaign_name: Campaign Name
     bilbos_in_use: Bilbos in use
-    ad_name: Creative Name
+    ad_name: Ad Name
     start_date: Start Date
     end_date: End Date
     impressions: Impressions
@@ -170,7 +171,7 @@ en:
     wizard:
       choose_bilbos: Choose your Bilbos
       selected_bilbos: Selected Bilbos
-      pick_ad: Pick a creative
+      pick_ad: Pick an ad
       need_help: Need help?
       date_and_budget: Date and Budget
       per_hour: Per hour
@@ -197,11 +198,11 @@ en:
       summary: Summary
       impressions_forecast: Expected daily impressions
       title_impressions_per_minute: Select how many impressions per minute you want to be displayed
-      title_impressions_per_hour: Select what time you want your creatives to show
+      title_impressions_per_hour: Select what time you want your images and videos to show
       offcanvas:
-        pick_ad_desc: Creatives are spaces where you can store images and videos for your campaigns. These creatives can be tied to a campaign so these can be shown on the bilbos once you have it configured.
-        pick_ad_try_to: Try to create colorful and eye-catching creatives, that way you can impact the audience even more.
-        pick_ad_ad_campaign: Only one creative can be tied to a campaign, this is why all images and videos related to be on a single creative as long as they are the same size.
+        pick_ad_desc: Ads are spaces where you can store images and videos for your campaigns. Ads can be tied to campaigns so these can be shown on the bilbos once you have them configured.
+        pick_ad_try_to: Try to create colorful and eye-catching images or videos, that way you can impact the audience even more.
+        pick_ad_ad_campaign: Only one ad can be tied to a campaign, this is why all images and videos related to be on a single ad as long as they are the same size.
         pick_ad_disclaimer: Note that all images and videos will randomly rotate on the chosen bilbos, that way all images have the same chances to be displayed.
         choose_bilbos_desc: Bilbo has an increasing digital screens network, so you have more freedom and can reach more segments through your campaigns.
         choose_bilbos_disclaimer: Don't forget to use our filter so you can segment even more the bilbos that you like.
@@ -213,19 +214,19 @@ en:
         how_per_minute_works: How Impressions Per Minute Works
         choose_date_desc: By default, all campaigns are continuous, this means that they don't have an start and end date, hence they will be shown on all bilbos whenever you campaign is accepted.
         schedule_campaign: You can schedule your campaigns by setting an start date and an end date.
-        summary_desc: Once your campaign is configured, you will see a summary for your campaign. In it you will see the chosen bilbos, budget, dates, but most importantly you will be able to visualize your creatives on the bilbos dimensions.
-        summary_disclaimer: Always visualize your creatives on all bilbos, to make sure these display correctly on all screen sizes.
+        summary_desc: Once your campaign is configured, you will see a summary for your campaign. In it you will see the chosen bilbos, budget, dates, but most importantly you will be able to visualize your images and videos on the bilbos dimensions.
+        summary_disclaimer: Always visualize your images and videos on all bilbos, to make sure these display correctly on all screen sizes.
         date_and_per_minute: Date and Impressions per minute
         date_and_per_hour: Date and Time(s)
         full_guide: See full guide
     errors:
       no_ad: The campaign doesn't have an associated ad
-      no_multimedia: The selected creative doesn't have multimedia
-      ad_deleted: The creative of the campaign no longer exists
+      no_multimedia: The selected ad doesn't have images or videos
+      ad_deleted: The ad of the campaign no longer exists
       cant_update_when_active: Campaign can't be updated when is active
       no_save: Could not save campaign
       not_accepted: Could not accept campaign
-      no_images: Your creative doesn't have an image to display on the bilbos that don't play videos
+      no_images: Your ad doesn't have an image to display on the bilbos that don't play videos
       processing_creatives: Processing videos and images
       verification_required: In order to enable your campaign you need to verify your profile
     action:
@@ -300,8 +301,8 @@ en:
     provider: Provider email
     earnings_description: last 3 months of earnings
     impressions_count_description: last 3 months of impressions
-    ads_top: top four month creatives
-    campaign_ads: Campaign creatives
+    ads_top: top four month ads
+    campaign_ads: Campaign ads
     working_hours: Working hours
     start_time: On
     end_time: Off
@@ -336,20 +337,20 @@ en:
       min_width: Min width. (mts)
       min_height: Min height. (mts)
   ads:
-    ads: Creatives
+    ads: Ads
     name: Name
     description: Description
     duration: Duration
     duration_hint: Set the minimum duration for images and videos on your bilbos
-    new_ad: New creative
+    new_ad: New ad
     upload_multimedia: Upload Multimedia
     all_multimedia_files: All Multimedia Files
-    delete_ad: Delete creative
-    no_ad: No creative attached
+    delete_ad: Delete ad
+    no_ad: No ad attached
     transition: Effect transition
     measures: No measures available
     processing: Processing %{filename}
-    view: View creative
+    view: View ad
     attachment_saved: Attachment saved
     convert_video_external: Convert your video to mp4 at 1080p here
     transitions:
@@ -365,11 +366,11 @@ en:
       media_removed: Multimedia has been deleted succesfully
       update_duration: Ad was successfully updated.
     errors:
-      wont_be_able_to_delete: This creative can't be deleted because of active campaigns
-      wont_be_able_to_update: This creative can't be updated because of active campaigns
+      wont_be_able_to_delete: This ad can't be deleted because of active campaigns
+      wont_be_able_to_update: This ad can't be updated because of active campaigns
       is_not_multiple_of_10: Duration is not multiple of 10
-    new_ad_description: Create a new amazing and beautiful creative for your campaigns
-    No_ad: No creative
+    new_ad_description: Create a new amazing and beautiful image or video for your campaigns
+    No_ad: No ad
   payments:
     payments: Pagos
     request_limit_increase: Request limit increase
