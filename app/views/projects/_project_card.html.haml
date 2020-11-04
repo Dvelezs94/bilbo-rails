@@ -32,5 +32,11 @@
             .custom-control.custom-radio
               = f.radio_button :role, "administrator", value: "administrator",  class: "custom-control-input"
               = f.label :role_administrator, t('projects.administrator'), class: "custom-control-label"
+            - if project.classification == 'provider'
+              - roles_link='https://bilbo.freshdesk.com/support/solutions/articles/64000256182-roles-y-permisos-proveedor-'
+            - else
+              - roles_link='https://bilbo.freshdesk.com/support/solutions/articles/64000256184-roles-y-permisos-usuarios-'
+            %a{href: roles_link, target: 'blank'}
+              = t('general_inputs.know_more_about_roles')
 
           = f.submit  t('projects.send_invite'), class: "btn btn-primary float-right"

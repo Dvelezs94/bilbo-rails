@@ -112,6 +112,7 @@ es:
     nothing_to_see_here: No hay nada aqui...
     width: Largo
     height: Alto
+    know_more_about_roles: Leer más sobre los roles y permisos
   campaign:
     add_schedule: Agregar Horario
     must_add_schedule: Debe agregar un horario
@@ -231,6 +232,7 @@ es:
       no_images: Tu anuncio no cuenta con imágenes para correr en los bilbos que no admiten video
       verification_required: Verifica tu perfil para activar tu campaña
       processing_creatives: Procesando videos e imágenes
+      not_enough_permissions: No tienes suficientes permisos
     action:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente

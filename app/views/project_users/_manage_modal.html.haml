@@ -31,6 +31,13 @@
                   = f.email_field :email, required: true, class: "form-control", placeholder: "john-doe@mail.com"
                   .input-group-append{title: t('projects.role')}
                     = f.select(:role, options_for_select([["#{t('projects.user')}", "user"],["#{t('projects.administrator')}", "administrator"]]), {:include_blank => false}, {:class => "custom-select", style: "border-radius: 0px 0.25rem 0.25rem 0px;"})
+                - if @project.classification == 'provider'
+                  - roles_link='https://bilbo.freshdesk.com/support/solutions/articles/64000256182-roles-y-permisos-proveedor-'
+                - else
+                  - roles_link='https://bilbo.freshdesk.com/support/solutions/articles/64000256184-roles-y-permisos-usuarios-'
+                %a{href: roles_link, target: 'blank'}
+                  = t('general_inputs.know_more_about_roles')
+                  %i.fe.fe-link-external.pd-t-10
               = f.submit  t('projects.send_invite'), class: "btn btn-primary float-right"
       .modal-footer
         %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")

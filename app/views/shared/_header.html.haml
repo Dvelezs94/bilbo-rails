@@ -8,7 +8,7 @@
     #navbarMenu.navbar-menu-wrapper
       %ul.nav.navbar-menu
         %li.nav-label.pd-l-20.pd-lg-l-25.d-lg-none= t("header.navigation")
-        - if current_user.role == :user
+        - if @project.classification == 'user'
           %li{:class => "nav-item #{"active" if menu == "dashboard"}"}
             %a.nav-link{:href => campaigns_path}
               %i.fe.fe-box
@@ -21,7 +21,7 @@
             %a.nav-link{:href => boards_path}
               %i.fe.fe-box>
               = t('header.map')
-        - elsif current_user.role == :provider
+        - elsif @project.classification == 'provider'
           %li{:class => "nav-item #{"active" if menu == "statistics"}"}
             %a.nav-link{:href => provider_statistics_dashboards_path}
               %i.fe.fe-box
@@ -79,7 +79,7 @@
           .avatar.avatar-lg.mg-b-15= image_tag user_avatar(current_user, 500), class: "rounded-circle"
           %h6.tx-semibold.mg-b-5= current_user.name
           %p.tx-12.tx-color-03= @project.name
-          - if current_user.role == :user
+          - if @project.classification == 'user'
             - if not current_user.verified
               .alert.alert-solid.alert-danger.pd-y-5.tx-center.cursor-pointer{"data-toggle" => "modal", :href => "#modalVerify"}
                 = t('payments.verify_account')
@@ -109,11 +109,19 @@
             %a.dropdown-item{:href => edit_user_registration_path}
               %i.fe.fe-gear.mg-r-10
               = t('header.account_settings')
-          - elsif current_user.role == :provider
+          - elsif @project.classification == 'provider'
             .dropdown-divider
             %a.dropdown-item{:href => edit_user_registration_path}
               %i.fe.fe-gear.mg-r-10
               = t('header.account_settings')
+            - if @project.admins.include? current_user.id
+              %a.dropdown-item{"data-toggle" => "modal", :href => "#modalManageTeam"}
+                %i.fe.fe-users.mg-r-10
+                = t('header.manage_team')
+            - else
+              %a.dropdown-item{:href => projects_path}
+                %i.fe.fe-folder.mg-r-10
+                = t('header.manage_projects')
           %hr/
           - if current_user != true_user
             = link_to(("<i class='fe fe-logout mg-r-10'></i>" + 'Stop impersonate').html_safe, stop_impersonating_admin_users_path, method: :get, class: "dropdown-item")
@@ -123,8 +131,8 @@
       / dropdown
     / navbar-right
   / navbar
-  = render "payments/new"  if current_user.role == :user
+  = render "payments/new"  if @project.classification == 'user'
   - if not current_user.verified?
-    = render "users/verify"  if current_user.role == :user
+    = render "users/verify"  if @project.classification == 'user'
   - if @project.admins.include? current_user.id
     = render "project_users/manage_modal"

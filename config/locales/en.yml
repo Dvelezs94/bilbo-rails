@@ -112,6 +112,7 @@ en:
     nothing_to_see_here: Nothing to see here...
     width: width
     height: height
+    know_more_about_roles: Read more about roles and permissions
   campaign:
     add_schedule: Add Schedule
     must_add_schedule: You must add a schedule
@@ -229,6 +230,7 @@ en:
       no_images: Your ad doesn't have an image to display on the bilbos that don't play videos
       processing_creatives: Processing videos and images
       verification_required: In order to enable your campaign you need to verify your profile
+      not_enough_permissions: You don't have enough permissions
     action:
       deleted: The campaign has been successfully deleted
       updated: The campaign has been successfully updated
