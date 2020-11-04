@@ -21,4 +21,9 @@ class ProjectTest < ActiveSupport::TestCase
     assert @project.disabled!
     assert_equal "disabled", @project.status
   end
+
+  test "can enable project" do 
+    assert @project.enabled!
+    assert_equal "enabled", @project.status
+  end
 end
