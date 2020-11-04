@@ -2,6 +2,9 @@ class User < ApplicationRecord
   attribute :project_name
   include NotificationsHelper
   include BroadcastConcern
+  include DatesHelper
+  include NumbersHelper
+  include Rails.application.routes.url_helpers
   ############################################################################################
   ## PeterGate Roles                                                                        ##
   ## The :user role is added by default and shouldn't be included in this list.             ##
@@ -33,6 +36,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
   attr_readonly :email
   has_many :verifications
+  scope :providers, -> { where("roles like ?", "%provider%") }
 
   # omniauth functions
   def self.new_with_session(params, session)
@@ -118,7 +122,7 @@ class User < ApplicationRecord
 
   # get enabled projects that the user owns
   def owned_projects
-    Project.where(id: project_users.where(role: "owner").pluck(:id)).enabled
+    Project.joins(:project_users).where(["project_users.user_id = ? AND role = ?", self.id, 0])
   end
 
   def owner_project
@@ -167,7 +171,7 @@ class User < ApplicationRecord
   end
 
   def charge!(charge)
-    with_lock do
+    self.with_lock do
       self.balance -= charge.to_f
       save!
     end
@@ -187,10 +191,45 @@ class User < ApplicationRecord
       err = brd.broadcast_to_board(camp, true)
     end
   end
+
+  # month: Report of the month you want to send to the provider
+  # method: :print/:email print results or email results
+  def send_provider_report(date: Time.zone.now, method: :print)
+    return "This method is only for providers" if !self.is_provider?
+    # current month
+    get_month_cycle(date: date)
+    @project = self.projects.first
+    @gross_earnings = Board.monthly_earnings_by_board(@project, @start_date..@end_date)
+    @net_earnings = (@gross_earnings * 0.80).round(2)
+
+    # previous month
+    get_month_cycle(date: date - 1.month)
+    @gross_earnings_previous = Board.monthly_earnings_by_board(@project, @start_date..@end_date)
+    @earnings_percentage = get_percentage(@gross_earnings_previous, @gross_earnings)
+    if @earnings_percentage.positive?
+      @earnings_percentage = I18n.t('campaign.percentage_plus', percentage: @earnings_percentage)
+    else
+      @earnings_percentage =  I18n.t('campaign.percentage_minus', percentage: @earnings_percentage)
+    end
+    report = Hash.new
+    report[:month] = I18n.t('date.month_names')[date.month]
+    report[:gross_earnings] = @gross_earnings
+    report[:earnings_percentage_comparison] = @earnings_percentage
+    report[:net_earnings] = @net_earnings
+    report[:campaigns_count] = @project.campaigns_count
+    report[:link] = provider_statistics_dashboards_url("select[month]": date.month, "select[year]": date.year)
+    if method == :print
+      return report
+    elsif method == :email
+      UserMailer.monthly_provider_report(self, report[:month], report[:net_earnings], report[:campaigns_count], report[:earnings_percentage_comparison], report[:link]).deliver
+    else
+      return "Specify :email or :print for 'method' attribute"
+    end
+  end
   private
 
   def set_project
-    @project = Project.new(name: project_name)
+    @project = Project.new(name: project_name, classification: self.role.to_s)
     @project.project_users.new(user: self, role: "owner")
     @project.save
   end

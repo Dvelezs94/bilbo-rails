@@ -1,3 +1,6 @@
 clean_temp_files:
   cron: "*/30 * * * *"
   class: "CleanTempFilesWorker"
+monthly_provider_report:
+  cron: "0 10 26 * *"
+  class: "MonthlyProviderReportWorker"

@@ -1,4 +1,5 @@
 class DashboardsController < ApplicationController
+  include DatesHelper
   access all: [:index], provider: [:provider_statistics, :monthly_statistics]
   before_action :provider_metrics, only: :provider_statistics
 
@@ -22,8 +23,7 @@ class DashboardsController < ApplicationController
 
   def provider_statistics
     @chosen_month = Time.zone.parse(Date::MONTHNAMES[params[:select][:month].to_i] + " " + params[:select][:year]) rescue Time.zone.now.beginning_of_month
-    @start_date = @chosen_month - 1.month + 25.days
-    @end_date = @chosen_month + 25.days
+    get_month_cycle(date: @chosen_month)
     @jobs = Impression.where("created_at BETWEEN ? AND ?",@start_date, @end_date)
     @daily_impressions = @project.daily_provider_board_impressions(@start_date..@end_date).group_by_day(:created_at).count
     @graph_earnings = Board.daily_provider_earnings_graph(@project, @start_date..@end_date)
@@ -53,6 +53,6 @@ class DashboardsController < ApplicationController
 
   private
   def provider_metrics
-    @board_impressions = @project.impressions_by_boards(4.weeks.ago)
+    @board_impressions = @project.impressions_by_boards(start: 1.month.ago)
   end
 end
