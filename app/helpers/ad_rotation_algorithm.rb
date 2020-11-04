@@ -75,7 +75,7 @@ module AdRotationAlgorithm
  #################################################################################33
   def add_bilbo_campaigns
     output = JSON.parse(self.ads_rotation)
-    cps  = self.campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, (c.budget_per_bilbo/self.get_cycle_price(c)).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
+    cps  = self.campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, c.board_campaigns.where(board:self).first.remaining_impressions ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
     cycles = []                            # array to store the name of the bilbo users the required times
     cps.each do |name, value|              # Fill the cycles array
        value.times do                      # with the names of the
