@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_22_023450) do
+ActiveRecord::Schema.define(version: 2020_11_04_210324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,29 +156,9 @@ ActiveRecord::Schema.define(version: 2020_10_22_023450) do
     t.bigint "board_id", null: false
     t.integer "status", default: 0, null: false
     t.float "cycle_price"
+    t.integer "remaining_impressions"
     t.index ["board_id", "campaign_id"], name: "index_boards_campaigns_on_board_id_and_campaign_id"
     t.index ["campaign_id", "board_id"], name: "index_boards_campaigns_on_campaign_id_and_board_id"
-  end
-
-  create_table "branch_clusters", force: :cascade do |t|
-    t.bigint "branch_id", null: false
-    t.bigint "cluster_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["branch_id", "cluster_id"], name: "index_branch_clusters_on_branch_id_and_cluster_id", unique: true
-    t.index ["branch_id"], name: "index_branch_clusters_on_branch_id"
-    t.index ["cluster_id"], name: "index_branch_clusters_on_cluster_id"
-  end
-
-  create_table "branches", force: :cascade do |t|
-    t.bigint "project_id", null: false
-    t.float "lat"
-    t.float "lng"
-    t.string "name"
-    t.string "address"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_branches_on_project_id"
   end
 
   create_table "campaign_denials", force: :cascade do |t|
@@ -223,16 +203,6 @@ ActiveRecord::Schema.define(version: 2020_10_22_023450) do
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
-  end
-
-  create_table "clusters", force: :cascade do |t|
-    t.bigint "project_id", null: false
-    t.string "name"
-    t.string "slug"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_clusters_on_project_id"
-    t.index ["slug"], name: "index_clusters_on_slug", unique: true
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -358,7 +328,7 @@ ActiveRecord::Schema.define(version: 2020_10_22_023450) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-11-03 18:33:29"
+    t.datetime "expires_at", default: "2030-10-30 23:03:54"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -445,14 +415,10 @@ ActiveRecord::Schema.define(version: 2020_10_22_023450) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ads", "projects"
   add_foreign_key "boards", "projects"
-  add_foreign_key "branch_clusters", "branches"
-  add_foreign_key "branch_clusters", "clusters"
-  add_foreign_key "branches", "projects"
   add_foreign_key "campaign_denials", "campaigns"
   add_foreign_key "campaign_subscribers", "campaigns"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "projects"
-  add_foreign_key "clusters", "projects"
   add_foreign_key "impression_hours", "campaigns"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
