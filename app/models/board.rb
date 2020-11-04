@@ -3,7 +3,7 @@ class Board < ApplicationRecord
   include BroadcastConcern
   include Rails.application.routes.url_helpers
   extend FriendlyId
-  attr_accessor :new_ads_rotation, :admin_edit
+  attr_accessor :new_ads_rotation, :admin_edit, :keep_old_cycle_price_on_active_campaigns
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :board_campaigns, class_name: "BoardsCampaigns"
@@ -14,6 +14,7 @@ class Board < ApplicationRecord
   has_many_attached :default_images
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
+  before_update :save_old_cycle_price
   enum status: { enabled: 0, disabled: 1 }
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
   validates_presence_of :lat, :lng, :utc_offset,:avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
@@ -46,7 +47,6 @@ class Board < ApplicationRecord
   def di_videos
     default_images.select(&:video?)
   end
-
   # slug candidates for friendly id
   def slug_candidates
     [
@@ -159,12 +159,39 @@ class Board < ApplicationRecord
   # a cycle is the total time of an impression duration
   # example a cycle could be of 10 seconds
   # this gives the price of a cycle in a bilbo
-  def cycle_price(date = Time.now)
+  def cycle_price(date = Time.zone.now)
     daily_seconds = working_minutes(start_time, end_time) * 60
     total_days_in_month = date.end_of_month.day
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = calculate_max_earnings
     (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration
+  end
+  def calculate_old_max_earnings(bilbo_percentage: 20)
+    bilbo_percentage_earnings = bilbo_percentage/100.0
+    provider_extra_percentage = extra_percentage_earnings_was/100.0
+    (base_earnings_was * ((1+provider_extra_percentage)/(1-bilbo_percentage_earnings))).round(2)
+  end
+  def old_cycle_price(date = Time.zone.now)
+    daily_seconds = working_minutes(start_time_was, end_time_was) * 60
+    total_days_in_month = date.end_of_month.day
+    # this is 100% of possible earnings in the month
+    total_monthly_possible_earnings = calculate_old_max_earnings
+    (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration_was
+  end
+
+  def save_old_cycle_price
+    bcs = BoardsCampaigns.where(board: self)
+    if keep_old_cycle_price_on_active_campaigns
+      pr = old_cycle_price(Time.parse("Apr,1 , 2020")) #i selected a month that has 30 days so in average its almost same as changing price in function of month days for a year
+      bcs.update(cycle_price: pr)
+    else
+      bcs.update(cycle_price: nil)
+    end
+  end
+
+  def get_cycle_price(campaign) #campaigns can use an old cycle price
+    bc = BoardsCampaigns.find_by(board: self, campaign: campaign)
+    bc.cycle_price.present? ? bc.cycle_price : self.cycle_price
   end
 
   # Check if there are Action cable connections in place
@@ -206,6 +233,7 @@ class Board < ApplicationRecord
     err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
     return err if err.present?
     self.ads_rotation = self.new_ads_rotation
+    self.ads_rotation_updated_at = Time.now
     @success = self.save
     return self.errors if !@success
     return []
@@ -249,6 +277,57 @@ class Board < ApplicationRecord
     return output
   end
 
+  def should_update_ads_rotation? #function to know if board should be updated automatically (the hour campaigns need to change per day)
+     return true
+  end
+
+  def should_run_hour_campaign_in_board? c
+    return true if c.day == "everyday"
+    #In streaming manager the ads rotation is requested before day starts, so i add a few seconds to simulate i am in the day
+    time_on_board = Time.now.utc + self.utc_offset.minutes + 15.seconds
+    valid_days_of_week = []
+    #get yesterdat, today and tomorrow days on board
+    yesterday = (time_on_board - 1.day).strftime("%A").downcase
+    today = time_on_board.strftime("%A").downcase
+    tomorrow = (time_on_board + 1.day).strftime("%A").downcase
+    #get just current hour and minute on board to compare with its start time
+    hour_and_minute_on_board = get_time(time_on_board)
+    c_start = get_time(c.start)
+    st = get_time(start_time)
+    et = get_time(end_time)
+    if et < st #this means board is active during two different days
+      et += 1.day
+      multi_day = true
+      hour_and_minute_on_board += 1.day if  hour_and_minute_on_board.hour < st.hour #i know that it is multi-day rotation, and with this condition i am sure that current time in board isnt inside first day rotation, so i have to sum one day to check if its in second day rotation
+    end
+    #im going to check if campaign is between board hours, in both cases i have to do certain actions
+    if hour_and_minute_on_board.between?(st,et)
+      if multi_day #i have to check if im in the first day of the rotation or in the second because i am going to build that rotation days again
+        (hour_and_minute_on_board.strftime("%A").downcase == st.strftime("%A").downcase)? valid_days_of_week.push(today, tomorrow)  : valid_days_of_week.push(yesterday, today)
+      else #just take this day because i want to build this day ad rotation
+        valid_days_of_week.push(today)
+      end
+    else #its not between board time
+      if multi_day #if its multiple, im interested in the next rotation (i dont want old one), and i know that in this same day it is going to start another one, so i can make rotation of this day and tomorrow
+        valid_days_of_week.push(today, tomorrow)
+      else #in this case, board rotation is of just one day and i have 2 cases:
+        #first case is when the current hour is before board start, so i want the rotation of today, because it is going to begin that rotation in a few time
+        #second case is when current hour is after board end, so i want rotation of tomorrow,because todays rotation is already printed.
+        valid_days_of_week.push((hour_and_minute_on_board > et)? tomorrow  : today)
+      end
+    end
+    #i have evaluated above the valid days that can be included in this ads rotation, but i also need to consider the hour, because that defines if is inside the rotation that i need and not another
+    #for example, in boards of multiple days, consider the cycle monday-tuesday, in monday i can have a lot of camaigns, but some of them may be inside sunday-monday rotation, same case with tuesday
+    if multi_day
+      #rotation is composed of 2 days, so i can consider its inside considering that at least one case is fulfilled:
+      #the campaign is in first day of rotation and its hour is greater or equal than board start
+      #the campaign is in second day of rotation and its hour is less or equal than board end
+      return (valid_days_of_week[0] == c.day && c_start.hour >= st.hour)||(valid_days_of_week[1] == c.day && c_start.hour <= et.hour)
+    else #this has no problem because its one-day rotation
+      return valid_days_of_week.include? c.day
+    end
+  end
+
   def working_minutes(st,et, zero_if_equal = false) #returns minutes of difference
     # if end time is less than the start time, i assume that the board is on until the next day
     # if they are equal i assume is all day on
@@ -266,7 +345,19 @@ class Board < ApplicationRecord
     time.strftime("%H:%M:%S")
   end
 
-  # Get the pixel size for correct image fit in the bilbo
+  def get_user_remaining_impressions
+    active_user_campaigns = self.campaigns.includes(:impressions).where(provider_campaign:false,status:"active",state:true)
+    user_impressions = []
+    active_user_campaigns.each do |cpn|
+      impression_count = cpn.daily_impressions(Time.zone.now.beginning_of_day .. Time.zone.now.end_of_day, self.id)
+      today_impressions = impression_count.present?? impression_count.values[0] : 0
+      daily_max = (cpn.budget_per_bilbo/(self.get_cycle_price(cpn) * cpn.ad.duration/self.duration)).to_i
+      user_impressions << [cpn.id, daily_max - today_impressions]
+    end
+    return user_impressions
+  end
+
+    # Get the pixel size for correct image fit in the bilbo
   def recommended_image_size
     resolution = 1080
     # aspect ratio width and height
@@ -306,14 +397,14 @@ class Board < ApplicationRecord
     @daily_earnings = {}
     @impressions = Impression.joins(:board).where(boards: {project: project}, created_at: time_range)
     @impressions.group_by_day(:created_at).count.each do |key, value|
-      @daily_earnings[key] = {impressions_count: value, gross_earnings: @impressions.group_by_day(:created_at).sum(:total_price)[key].round(3)}
+      @daily_earnings[key] = {impressions_count: value, gross_earnings: @impressions.group_by_day(:created_at).sum(:total_price)[key].round(2)}
     end
     @daily_earnings
   end
 
   #this method returns the monthly earnings of a board, we use it on the provider_statistics
   def self.monthly_earnings_by_board(project, time_range = 30.days.ago..Time.now)
-    @monthly_earnings = Impression.joins(:board).where(boards: {project: project},created_at: time_range).sum(:total_price).round(3)
+    @monthly_earnings = Impression.joins(:board).where(boards: {project: project},created_at: time_range).sum(:total_price).round(2)
   end
 
   def self.monthly_impressions(project,time_range = 30.days.ago..Time.now)
@@ -322,7 +413,7 @@ class Board < ApplicationRecord
 
   def self.daily_provider_earnings_graph(project, time_range = 30.days.ago..Time.now)
   h = Impression.joins(:board).where(boards: {project: project}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
-      h.each { |key,value| h[key] = value.round(3) }
+      h.each { |key,value| h[key] = value.round(2) }
 end
 
 

@@ -47,6 +47,7 @@ class Campaign < ApplicationRecord
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
   after_validation :return_to_old_state_id_invalid
+  before_update :remove_old_cycle_price, if: :owner_updated_campaign
   before_save :update_state_updated_at, if: :state_changed?
   before_save :set_in_review
   after_commit :broadcast_to_all_boards
@@ -85,7 +86,11 @@ class Campaign < ApplicationRecord
   end
 
   def have_to_set_in_review_on_boards
-    return ad_id_changed? || owner_updated_campaign
+    if provider_campaign
+      return owner_updated_campaign
+    else
+      return ad_id_changed?
+    end
   end
 
   def set_in_review
@@ -145,7 +150,7 @@ class Campaign < ApplicationRecord
   end
 
   def to_utc(time,utc_offset)
-    time - utc_offset
+    time - utc_offset.minutes
   end
 
   def time_to_run?(brd)
@@ -236,13 +241,21 @@ class Campaign < ApplicationRecord
     end
   end
 
+  def remove_old_cycle_price #they updated campaign, so we now can use board price normally
+    board_campaigns.update(cycle_price: nil)
+  end
+
   # Get total ammount of money invested on the campaign to date
   def total_invested
     Impression.where(campaign_id: id).sum(:total_price)
   end
 
-  def daily_impressions(time_range = 30.days.ago..Time.now )
-    impressions.where(campaign_id: id,created_at: time_range).group_by_day(:created_at).count
+  def daily_impressions(time_range = 30.days.ago..Time.zone.now, board_id = nil )
+    if board_id.nil?
+      impressions.where(campaign_id: id,created_at: time_range).group_by_day(:created_at).count
+    else
+      impressions.where(campaign_id: id,created_at: time_range, board_id: board_id).group_by_day(:created_at).count
+    end
   end
 
   def daily_invested( time_range = 30.days.ago..Time.now)

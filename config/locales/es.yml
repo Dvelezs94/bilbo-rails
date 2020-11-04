@@ -11,8 +11,8 @@ es:
   mailer:
     hi: Hola %{name}
   main_wizard:
-    pending_items: Lista de Pendientes
-    upload_ad: Subir creativo
+    pending_items: Sigue estos pasos para publicar tu anuncio
+    upload_ad: Subir anuncio
     create_campaign: Crear campaña
     verify_profile: Verifica tu perfil
     purchase_credits: Comprar créditos
@@ -29,7 +29,7 @@ es:
     reset_password_hint: Introduce tu Email
     reset_password_submit: Enviar instrucciones de restauración
     sign_up: Crear Nueva Cuenta
-    sign_up_banner: El regisro es gratis y solo te tomara 1 minuto.
+    sign_up_banner: El registro es gratis y solo te tomara 1 minuto.
     already_have_account: Ya tienes una cuenta?
     sign_in: Iniciar Sesión
     remember_me: Mantener sesión Iniciada
@@ -52,11 +52,12 @@ es:
     logout: Cerrar sesión
     dashboard: Inicio
     campaigns: Campañas
+    map: Mapa
     navigation: Navegación
     help_center: Centro de ayuda
     payment_methods: Metodos de pago
     purchase_credits: Comprar Créditos
-    ads: Creativos
+    ads: Galería
     statistics: Estadisticas
     main: Inicio
     my_bilbos: Mis Bilbos
@@ -113,6 +114,7 @@ es:
     height: Alto
   campaign:
     add_schedule: Agregar Horario
+    must_add_schedule: Debe agregar un horario
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
@@ -130,7 +132,7 @@ es:
     destroy: Remover Campaña
     campaign_name: Nombre de Campaña
     bilbos_in_use: Bilbos en uso
-    ad_name: Nombre de creativo
+    ad_name: Nombre del anuncio
     start_date: Fecha de inicio
     end_date: Fecha de fin
     impressions: Impresiones
@@ -162,13 +164,15 @@ es:
     deny_campaign: ¿Estás seguro de denegar esta campaña?
     in_review_campaign: Estás a punto de pausar esta campaña. ¿Estás seguro?
     bilbos_used: Bilbos utilizados
+    percentage_plus: "%{percentage}% más"
+    percentage_minus: "%{percentage}% menos"
     view_bilbos_used: Ver bilbos utilizados
     ads_rotation_error:
       accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
     wizard:
       choose_bilbos: Escoge tus Bilbos
       selected_bilbos: Bilbos seleccionados
-      pick_ad: Elige tu Creativo
+      pick_ad: Elige tu anuncio
       need_help: ¿Necesitas Ayuda?
       date_and_budget: Fecha y Presupuesto
       per_hour: Por Hora
@@ -196,11 +200,11 @@ es:
       summary: Resumen
       impressions_forecast: Impresiones diarias esperadas con el presupuesto elegido
       title_impressions_per_minute: Selecciona cuantas impresiones por minuto deseas que se muestren
-      title_impressions_per_hour: Selecciona en que horas deseas que se muestren tus creativos
+      title_impressions_per_hour: Selecciona en que horas deseas que se muestre tu campaña
       offcanvas:
-        pick_ad_desc: Los cretivos son espacios en donde tu almacenas imagenes y videos para tus campañas. Los creativos se ligan a una campaña para que éstos se muestren en los bilbos una vez configurada la misma.
-        pick_ad_try_to: Intenta elegir creativos que capten la atención del público para que así tu campaña tenga más impacto.
-        pick_ad_ad_campaign: Solo se puede ligar un creativo por campaña, es por eso que todas las imagenes y videos que necesites tener en una misma campaña, sean subidos al mismo creativo.
+        pick_ad_desc: Los anuncios son espacios en donde tu almacenas imagenes y videos para tus campañas. El anuncio se liga a una campaña para que las imágenes y videos se muestren en los bilbos una vez configurada la misma.
+        pick_ad_try_to: Intenta elegir imagenes y videos que capten la atención del público para que así tu campaña tenga más impacto.
+        pick_ad_ad_campaign: Solo se puede ligar un anuncio por campaña, es por eso que todas las imagenes y videos que necesites tener en una misma campaña, sean subidos al mismo anuncio.
         pick_ad_disclaimer: Ten en cuenta que las imagenes y videos van a rotar aleatoriamente en los bilbos para que así todos tengan oportunidad de aparecer.
         choose_bilbos_desc: Bilbo cuenta con una creciente oferta de pantallas digitales, por lo que podrás elegir en el mapa todas las que se acomoden al segmento al que estés dirigiendo tu campaña.
         choose_bilbos_disclaimer: No olvides utilizar los filtros para segmentar aún más los bilbos que más te gusten.
@@ -212,19 +216,19 @@ es:
         how_per_minute_works: Cómo funciona las impresiones por minuto
         choose_date_desc: Por defecto las campañas en bilbo son continuas, esto quiere decir que no tienen una fecha de inicio ni de fin, por lo que en cuanto tu campaña sea aceptada, se va a mostrar en el/los bilbos
         schedule_campaign: Si requieres agendar tus campañas, puedes definir una fecha de inicio y fin.
-        summary_desc: Una vez tengas tu campaña configurada, se te presentará un resumen que desplegará toda la configuración elegida. En el podrás ver los bilbos que elegisgte, el presupuesto, la fecha pero sobre todo podrás previsualizar tus creativos en los bilbos.
-        summary_disclaimer: Siempre previsualiza tus creativos en todos los bilbos, para asegurarte que se vean del tamaño y forma correcta.
+        summary_desc: Una vez tengas tu campaña configurada, se te presentará un resumen que desplegará toda la configuración elegida. En el podrás ver los bilbos que elegisgte, el presupuesto, la fecha pero sobre todo podrás previsualizar tus imagenes y videos en los bilbos.
+        summary_disclaimer: Siempre previsualiza tus imagenes y videos en todos los bilbos, para asegurarte que se vean del tamaño y forma correcta.
         date_and_per_minute: Fecha e Impresiones por minuto
         date_and_per_hour: Fecha y Hora(s)
         full_guide: Ver guía extendida
     errors:
-      no_ad: La campaña no tiene asociado un creativo
-      no_multimedia: El creativo de la campaña no contiene multimedia
-      ad_deleted: El creativo de la campaña ya no existe
+      no_ad: La campaña no tiene asociado un anuncio
+      no_multimedia: El anuncio de la campaña no contiene imagenes ni videos
+      ad_deleted: El anuncio de la campaña ya no existe
       cant_update_when_active: La campaña no puede editarse cuando está activa
       no_save: La campaña no ha podido guardarse
       not_accepted: La campaña no ha podido aceptarse
-      no_images: Tu creativo no cuenta con imágenes para correr en los bilbos que no admiten video
+      no_images: Tu anuncio no cuenta con imágenes para correr en los bilbos que no admiten video
       verification_required: Verifica tu perfil para activar tu campaña
       processing_creatives: Procesando videos e imágenes
     action:
@@ -260,6 +264,7 @@ es:
     banned: Bloqueado
     ad_duration: Duración de anuncio (segundos)
     images_only_form: Sólamente aceptar imágenes en este bilbo
+    keep_old_cycle_price_on_active_campaigns: Mantener el anterior precio por impresión para las campañas activas actuales
     category: Categoria
     copy_stream_url: Copiar URL
     regenerate_token: Regenerar token de acceso
@@ -298,8 +303,8 @@ es:
     provider: Correo del proveedor
     earnings_description: Ultimos 3 meses de ganancias
     impressions_count_description: Ultimos 3 meses de impresiones
-    ads_top: Creativos del top 4 durante 3 meses
-    campaign_ads: Creativos de campañas
+    ads_top: Top 4 anuncios durante 3 meses
+    campaign_ads: Anuncios de campañas
     working_hours: Horas activas
     start_time: Encendido
     end_time: Apagado
@@ -311,6 +316,8 @@ es:
     earnings_month: Ganancias este mes
     status: Estado
     stats: Estadisticas
+    campaigns_disabled: Se han desactivado %{number} campañas de proveedor que usaban este Bilbo. ¡Revísalas!
+    update_success: Bilbo actualizado con éxito
     ads_rotation_error:
       max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
@@ -333,19 +340,19 @@ es:
       min_width: Ancho min. (mts)
       min_height: Alto min. (mts)
   ads:
-    ads: Creativos
+    ads: Anuncios
     name: Nombre
     description: Descripción
     duration: Duración
     duration_hint: Especifica la duración mínima de las imágenes y videos para tus bilbos
-    new_ad: Nuevo creativo
+    new_ad: Nuevo Anuncio
     upload_multimedia: Subir Archivos
-    all_multimedia_files: Todos los Archivos Multimedia
-    delete_ad: Borrar creativo
+    all_multimedia_files: Todas las imágenes y videos
+    delete_ad: Borrar anuncio
     transition: Efecto de transición
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
-    view: Ver creativo
+    view: Ver anuncio
     attachment_saved: Archivo adjunto guardado
     convert_video_external: Convierte tu video a formato mp4 a 1080p aquí
     transitions:
@@ -359,13 +366,13 @@ es:
         error: Error al actualizar transición
     action:
       media_removed: El archivo multimedia se ha eliminado con éxito
-      update_duration: El creativo se ha actualizado exitosamente.
+      update_duration: El anuncio se ha actualizado exitosamente.
     errors:
-      wont_be_able_to_delete: Este creativo no puede eliminarse porque tiene campañas activas
-      wont_be_able_to_update: Este creativo no puede actualizarse porque tiene campañas activas
+      wont_be_able_to_delete: Este anuncio no puede eliminarse porque tiene campañas activas
+      wont_be_able_to_update: Este anuncio no puede actualizarse porque tiene campañas activas
       is_not_multiple_of_10: La duración no es múltiplo de 10
-    no_ad: Sin creativo
-    new_ad_description: Crea un nuevo creativo para tus campañas publicitarias
+    no_ad: Sin anuncio
+    new_ad_description: Crea un nuevo anuncio para tus campañas publicitarias
   payments:
     payments: Pagos
     request_limit_increase: Solicitar incremento de límite
