@@ -3,5 +3,6 @@ FactoryBot.define do
     name { Faker::Company.name }
     description { Faker::Lorem.sentence }
     project {}
+    multimedia{}
   end
 end

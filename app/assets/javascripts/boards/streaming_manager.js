@@ -27,7 +27,7 @@
      //Reset the user impression counter at the beginning of every day
      setTimeout(function(){
        resetUserImpressionCounter();
-       setInterval(resetUserImpressionCounter(),86400000); // 1 day interval (ms)
+       setInterval(resetUserImpressionCounter,86400000); // 1 day interval (ms)
      }, secondsUntilNextDay()*1000); // time for the first reset
 
      // Start stream
