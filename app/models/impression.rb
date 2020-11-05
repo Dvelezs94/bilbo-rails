@@ -36,7 +36,7 @@ class Impression < ApplicationRecord
 
   def update_remaining_impressions
     if !self.campaign.provider_campaign
-      x = BoardsCampaigns.find_by(board: self.board, campaign: self.campaign).decrement!(:remaining_impressions)
+      BoardsCampaigns.find_by(board: self.board, campaign: self.campaign).decrement!(:remaining_impressions)
     end
   end
 
