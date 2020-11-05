@@ -255,8 +255,6 @@ module AdRotationAlgorithm
             end #end times
             index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
             if index_array.length<displays
-              p "ERROR"
-              p output
               err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
               return err
             end

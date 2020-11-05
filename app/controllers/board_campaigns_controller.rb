@@ -5,7 +5,7 @@ class BoardCampaignsController < ApplicationController
 
   def approve_campaign
     if @board_campaign.update(status: "approved", make_broadcast: true)
-      # Initialize or compute the remaining_impressions field from BoardsCampaigns (for budget campaigns)
+      # Initialize or compute the remaining_impressions field from BoardsCampaigns (for user campaigns)
       c = @board_campaign.campaign
       if !c.provider_campaign
         b = @board_campaign.board
