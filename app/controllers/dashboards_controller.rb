@@ -5,14 +5,17 @@ class DashboardsController < ApplicationController
 
   def index
     if user_signed_in?
-      if @project.classification == 'user'
-        if current_user.sign_in_count == 0
-          redirect_to campaigns_path(account:"set")
-        else
-          redirect_to campaigns_path
+      if @project.present?
+        case @project.classification
+          when 'user'
+            if current_user.sign_in_count == 0
+              redirect_to campaigns_path(account:"set")
+            else
+              redirect_to campaigns_path
+            end
+          when 'provider'
+          redirect_to provider_statistics_dashboards_path
         end
-      elsif @project.classification == 'provider'
-        redirect_to provider_statistics_dashboards_path
       elsif current_user.role == :admin
         redirect_to admin_main_index_path
       end

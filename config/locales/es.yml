@@ -84,7 +84,7 @@ es:
     confirm_submit: ¿Estás seguro?
     confirm_deletion: ¿Estás seguro que quieres borrar este elemento?
     phone_number: Número de teléfono
-    phone_number_desc: Número de teléfono con lada (525522334455)
+    phone_number_desc: Número de teléfono
     close: Cerrar
     search: Buscar
     apply_filter: Aplicar Filtro
