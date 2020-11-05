@@ -84,7 +84,7 @@ en:
     confirm_submit: Are you sure?
     confirm_deletion: Are you sure you want to delete this item?
     phone_number: Phone Number
-    phone_number_desc: International phone number (525522334455)
+    phone_number_desc: Phone number
     close: Close
     search: Search
     apply_filter: Apply filter
