@@ -642,7 +642,7 @@ es:
     conditions: Recibiste este email porque te registraste a Bilbo.mx y aceptaste recibir correos electrónicos de nosotros sobre notificaciones y noticias.
     home: Inicio
   validations:
-    only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 525577883344"
+    only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 5577883344"
   week_days:
     mon: Lunes
     tue: Martes

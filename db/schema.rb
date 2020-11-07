@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_05_193632) do
+ActiveRecord::Schema.define(version: 2020_11_05_211816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,7 +171,7 @@ ActiveRecord::Schema.define(version: 2020_11_05_193632) do
   create_table "campaign_subscribers", force: :cascade do |t|
     t.bigint "campaign_id", null: false
     t.string "name"
-    t.string "phone"
+    t.string "phone_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["campaign_id"], name: "index_campaign_subscribers_on_campaign_id"
@@ -327,7 +327,7 @@ ActiveRecord::Schema.define(version: 2020_11_05_193632) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-11-03 17:13:11"
+    t.datetime "expires_at", default: "2030-11-06 23:13:27"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
