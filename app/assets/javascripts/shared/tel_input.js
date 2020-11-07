@@ -1,13 +1,21 @@
+// formats phone numbers.
+// Keep in mind the field of the phone SHOULD be named "phone_number"
 $(document).on('turbolinks:load', function() {
-  if ($("#user_phone_number").length) {
-    $("#user_phone_number").intlTelInput({
+  if ($("[id$=phone_number]").length) {
+    initTelFormat();
+  }
+});
+
+function initTelFormat(){
+  $("[id$=phone_number]").each(function(){
+    $(this).intlTelInput({
       nationalMode: true,
-      hiddenInput: 'user[phone_number]',
+      hiddenInput: $(this).attr("name"),
       formatOnInit: true,
       separateDialCode: true,
       initialCountry: "mx",
       formatOnDisplay: true,
       preferredCountries: ["mx", "us"]
     });
-  }
-});
+  });
+}

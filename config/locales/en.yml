@@ -636,7 +636,7 @@ en:
     conditions: You received this email because you registered at Bilbo.mx and agreed to receive emails from us about notifications and news.
     home: Home
   validations:
-    only_numbers_for_phone: "Only numbers allowed for phone. e.g. 15577883344"
+    only_numbers_for_phone: "Only numbers allowed for phone. e.g. 5577883344"
   week_days:
     mon: Monday
     tue: Tuesday
