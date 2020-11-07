@@ -54,8 +54,13 @@
                   </div>
                 </div>
 
+                <div class="form-group">
+                  <%= f.label t("general_inputs.phone_number") %><br />
+                  <%= f.telephone_field :phone_number, placeholder: "5566778899", class: "form-control pd-b-5", required: true, :minlength => 10, :maxlength => 14 %>
+                </div>
 
-                    <div class="divider-text"><%= t("account_settings.password_divider") %></div>
+
+                  <div class="divider-text"><%= t("account_settings.password_divider") %></div>
                     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
                   <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
                   <% end %>

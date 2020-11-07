@@ -30,11 +30,11 @@
               %h6#myTitle.modal-title.pd-b-10.text-primary= t("set_up_account.organization_data")
               %form
                 %label.d-block.pd-t-5= t("set_up_account.organization_name")
-                = f.text_field :company_name, placeholder: t("set_up_account.write_name"), class: "form-control pd-b-5 ", required: true
+                = f.text_field :company_name, placeholder: t("set_up_account.write_name"), class: "form-control pd-b-5 ", required: true, value: @project.name
                 %label.d-block.pd-t-5= t("set_up_account.position")
                 = f.text_field :work_position, placeholder: t("set_up_account.write_position"), class: "form-control pd-b-5", required: true
                 %label.d-block.pd-t-5= t("general_inputs.phone_number")
-                = f.text_field :phone_number, placeholder: "1234567890", class: "form-control pd-b-5", required: true, :pattern => "[0-9]{10}", :minlength => 10, :maxlength => 10
+                = f.telephone_field :phone_number, placeholder: "5566778899", class: "form-control pd-b-5", required: true, :minlength => 10, :maxlength => 14
                 %label.d-block.pd-t-5= t("set_up_account.payment_method")
                 .row.pd-l-20
                   .col-3.custom-control.custom-radio

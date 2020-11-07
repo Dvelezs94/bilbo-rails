@@ -84,7 +84,7 @@ en:
     confirm_submit: Are you sure?
     confirm_deletion: Are you sure you want to delete this item?
     phone_number: Phone Number
-    phone_number_desc: International phone number (525522334455)
+    phone_number_desc: Phone number
     close: Close
     search: Search
     apply_filter: Apply filter
@@ -112,6 +112,7 @@ en:
     nothing_to_see_here: Nothing to see here...
     width: width
     height: height
+    know_more_about_roles: Read more about roles and permissions
   campaign:
     add_schedule: Add Schedule
     must_add_schedule: You must add a schedule
@@ -229,6 +230,7 @@ en:
       no_images: Your ad doesn't have an image to display on the bilbos that don't play videos
       processing_creatives: Processing videos and images
       verification_required: In order to enable your campaign you need to verify your profile
+      not_enough_permissions: You don't have enough permissions
     action:
       deleted: The campaign has been successfully deleted
       updated: The campaign has been successfully updated
@@ -634,7 +636,7 @@ en:
     conditions: You received this email because you registered at Bilbo.mx and agreed to receive emails from us about notifications and news.
     home: Home
   validations:
-    only_numbers_for_phone: "Only numbers allowed for phone. e.g. 15577883344"
+    only_numbers_for_phone: "Only numbers allowed for phone. e.g. 5577883344"
   week_days:
     mon: Monday
     tue: Tuesday

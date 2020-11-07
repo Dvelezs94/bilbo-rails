@@ -1,6 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   # we use phone number field as captcha
-  invisible_captcha only: [:create], honeypot: :phone_number, scope: "user"
+  invisible_captcha only: [:create], honeypot: :captcha, scope: "user"
 
   protected
   def update_resource(resource, params)
