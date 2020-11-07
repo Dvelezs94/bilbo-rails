@@ -84,7 +84,7 @@ es:
     confirm_submit: ¿Estás seguro?
     confirm_deletion: ¿Estás seguro que quieres borrar este elemento?
     phone_number: Número de teléfono
-    phone_number_desc: Número de teléfono con lada (525522334455)
+    phone_number_desc: Número de teléfono
     close: Cerrar
     search: Buscar
     apply_filter: Aplicar Filtro
@@ -112,6 +112,7 @@ es:
     nothing_to_see_here: No hay nada aqui...
     width: Largo
     height: Alto
+    know_more_about_roles: Leer más sobre los roles y permisos
   campaign:
     add_schedule: Agregar Horario
     must_add_schedule: Debe agregar un horario
@@ -231,6 +232,7 @@ es:
       no_images: Tu anuncio no cuenta con imágenes para correr en los bilbos que no admiten video
       verification_required: Verifica tu perfil para activar tu campaña
       processing_creatives: Procesando videos e imágenes
+      not_enough_permissions: No tienes suficientes permisos
     action:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente
@@ -640,7 +642,7 @@ es:
     conditions: Recibiste este email porque te registraste a Bilbo.mx y aceptaste recibir correos electrónicos de nosotros sobre notificaciones y noticias.
     home: Inicio
   validations:
-    only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 525577883344"
+    only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 5577883344"
   week_days:
     mon: Lunes
     tue: Martes
