@@ -27,15 +27,15 @@ class Users::InvitationsController < Devise::InvitationsController
 
   protected
 
-    def invite_params
-      devise_parameter_sanitizer.permit(:invite, keys: [:role, :name, :project_name, :phone_number])
-      devise_parameter_sanitizer.sanitize(:invite)
-    end
+  def invite_params
+    devise_parameter_sanitizer.permit(:invite, keys: [:role, :name, :project_name, :phone_number])
+    devise_parameter_sanitizer.sanitize(:invite)
+  end
 
-    def update_resource_params
-      devise_parameter_sanitizer.permit(:accept_invitation, keys: [:role, :name, :project_name])
-      devise_parameter_sanitizer.sanitize(:accept_invitation)
-    end
+  def update_resource_params
+    devise_parameter_sanitizer.permit(:accept_invitation, keys: [:role, :name, :project_name])
+    devise_parameter_sanitizer.sanitize(:accept_invitation)
+  end
 
   def have_a_user_invitation?
     if invite_params[:role] == "provider" && User.find_by(email: invite_params[:email]).present? && User.find_by(email: invite_params[:email]).invitation_created_at.present?

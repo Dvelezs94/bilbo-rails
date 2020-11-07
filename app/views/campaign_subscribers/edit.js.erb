@@ -1,3 +1,4 @@
 $("#modalCampaignSubscribers").remove();
 $('body').append('<%= j (render "campaign_subscribers/subscribers_modal",  object: { campaign: @campaign, subscribers: @subscribers }) %>');
+initTelFormat();
 $("#modalCampaignSubscribers").modal('show');
