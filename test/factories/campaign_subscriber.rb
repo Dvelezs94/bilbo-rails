@@ -1,7 +1,7 @@
 FactoryBot.define do
     factory :campaign_subscriber do
       name { "Zoro”" }
-      phone { "528442467244" }
+      phone_number { "528442467244" }
       id{}
       campaign {}
     end
