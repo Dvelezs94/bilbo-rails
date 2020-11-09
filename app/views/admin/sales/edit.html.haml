@@ -1,0 +1,15 @@
+= render 'shared/header_admin', menu: "sales"
+.content.content-fixed
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "/"}= t("campaign.home")
+            %li.breadcrumb-item{"aria-current" => "page"}
+              %a{:href => admin_sales_path} Descuentos
+            %li.breadcrumb-item.active{"aria-current" => "page"}= "Editar #{@sale.description}"
+        %h4.mg-b-0.tx-spacing--1 Descuentos
+
+    = render "form"

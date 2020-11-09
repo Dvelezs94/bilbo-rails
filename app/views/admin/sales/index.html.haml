@@ -1,0 +1,31 @@
+= render 'shared/header_admin', menu: "sales"
+.content.content-fixed
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "/"}= t("campaign.home")
+            %li.breadcrumb-item.active{"aria-current" => "page"} Descuentos
+        %h4.mg-b-0.tx-spacing--1 Descuentos
+      .d-block
+        %a{:href => new_admin_sale_path}
+          %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
+            %i.wd-10.mg-r-5.fe.fe-plus
+            Nuevo Descuento
+
+    .row
+      .table-responsive
+        %table#userCampaignTable.table
+          %thead
+            %tr
+              %th.no-sort Description
+              %th.no-sort % Discount
+              %th Status
+              %th Starts At
+              %th Ends At
+              %th Time left
+              %th.no-sort Boards number
+              %th.no-sort
+            %tbody= render partial: "sale_row", collection: @sales, as: :sale

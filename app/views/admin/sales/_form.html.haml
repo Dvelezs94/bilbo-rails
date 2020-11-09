@@ -1,0 +1,29 @@
+= form_with(model: @sale, url: admin_sales_path, method: :post) do |f|
+  .form-row
+    .form-group.col-md-6
+      = f.label :starts_at
+      = f.datetime_local_field :starts_at, class: "form-control", autocomplete: "off", required: true, placeholder: "Fecha y hora en que inicia el descuento (hora del servidor)"
+    .form-group.col-md-6
+      = f.label :ends_at
+      = f.datetime_local_field :ends_at, class: "form-control", autocomplete: "off", required: true, placeholder: "Fecha y hora en que termina el descuento (hora del servidor)"
+  .form-row
+    .form-group.col-md-6
+      = f.label :discount_percent
+      = f.number_field :percent, class: "form-control", autocomplete: "off", required: true, placeholder: "% de descuento", min: 1, max: 100
+    .form-group.col-md-6
+      = f.label :description
+      = f.text_field :description, class: "form-control", autocomplete: "off", required: true, placeholder: "Descripción del evento"
+  .form-row
+    .form-group.col-6
+      = f.label "Choose bilbos for this sale"
+    .form-group.col-6
+      .custom-control.custom-checkbox
+        = check_box_tag "select_all"
+        = label_tag "Select all"
+    - @boards.each do |b|
+      .form-group.col-12.col-md-6.col-lg-4
+        .custom-control.custom-checkbox
+          = check_box_tag b.id, b.id, @sale.boards.pluck(:id).include?(b.id), name: 'sale[board_ids][]'
+          = f.label b.name
+  .form-group
+    = f.submit "Crear Descuento" ,class: "d-block"

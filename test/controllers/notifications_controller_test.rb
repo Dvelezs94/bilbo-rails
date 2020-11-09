@@ -48,12 +48,11 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
   test 'notification invite project' do
     @name_user_one = "Joaquin"
     @name_user_two = "Raul"
-    @project_id_user = 2
-    @project_for_user =  create(:project, name: @name_user_one, id: @project_id_user)
+    @project_for_user =  create(:project, name: @name_user_one)
     @user_two = create(:user,name: @name_user_two , email: "#{@name_user_two}@bilbo.mx".downcase)
     sign_in @user_two
     @user_one = create(:user,name: @name_user_one , email: "#{@name_user_one}@bilbo.mx".downcase)
-    @project_user = create(:project_user, role: @user_two.role, email: @user_two.email , project_id: @project_id_user)
+    @project_user = create(:project_user, role: @user_two.role, email: @user_two.email , project_id: @project_for_user.id)
     @notification = create(:notification, recipient_id: @project_for_user.id, actor_id: @project_for_user.id, action: "new invite", notifiable: @project_for_user, reference: @user_two )
     get change_project_project_url(@user_two.notifications.first.notifiable_id)
     assert_response :redirect
@@ -61,8 +60,7 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
 
   test 'notification remove project' do
     @name_user_two = "Raul"
-    @project_id_user = 2
-    @project_for_user = create(:project, name: @name_user_two, id: @project_id_user)
+    @project_for_user = create(:project, name: @name_user_two)
     @user_two = create(:user,name: @name_user_two , email: "#{@name_user_two}@bilbo.mx".downcase)
     @notification = create(:notification, recipient_id: @project_for_user.id, actor_id: @project_for_user.id, action: "invite removed", notifiable: @project_for_user, reference: @user_two )
     sign_in @user_two

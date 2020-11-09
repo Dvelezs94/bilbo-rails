@@ -2,10 +2,9 @@ class CsvControllerTest < ActionDispatch::IntegrationTest
     i_suck_and_my_tests_are_order_dependent!
     setup do
       @campaign_name = "Zoro"
-      @project_id = "2"
       @user = create(:user, name: @campaign_name )
-      @project =  create(:project, name: @campaign_name, id: @project_id)
-      @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project_id, state: true)
+      @project =  create(:project, name: @campaign_name)
+      @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project.id, state: true)
       @report = create(:report, name: @name, project: @user.projects.first)
       sign_in @user
     end
@@ -28,6 +27,5 @@ class CsvControllerTest < ActionDispatch::IntegrationTest
     #test "campaign report" do
     #  get generate_campaign_report_csv_index_url(@campaign.id)
     #  assert_response redirect_to analytics_campaign_path(Campaign.find(@campaign.id).slug)
-    #end  
+    #end
   end
-   
