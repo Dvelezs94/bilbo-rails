@@ -1,4 +1,27 @@
+function countDown(timeElemId='.countDownTime', countDownDate){
+// Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element
+  $(timeElemId).html(days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
+}
+
+try {clearInterval(countTimer);} catch {true}
 $("#boardTab").html("<%= j render partial: 'boards/board_tab', collection: @boards, as: :board %>");
 $("#boardTabContent").html("<%= j render partial: 'boards/board_info', collection: @boards, as: :board %>");
 $("#boardSelect").html("<%= j render partial: 'boards/board_select_tab', collection: @boards, as: :board %>");
+var countDownDate = new Date($('.countDownTime').html()).getTime();
+// call it once so the user doesn't see the text of the full date on the board tab
+countDown('.countDownTime', countDownDate);
+// continue running it every second
+var countTimer = setInterval(countDown, 1000, '.countDownTime', countDownDate);
 $('[data-toggle="tooltip"]').tooltip();
