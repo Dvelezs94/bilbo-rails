@@ -99,7 +99,5 @@ module ApplicationHelper
     seconds = seconds_diff
 
     "#{hours.to_s.rjust(2, '0')}:#{minutes.to_s.rjust(2, '0')}:#{seconds.to_s.rjust(2, '0')}"
-    # or, as hagello suggested in the comments:
-    # '%02d:%02d:%02d' % [hours, minutes, seconds]
   end
 end
