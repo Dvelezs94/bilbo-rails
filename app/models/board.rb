@@ -9,6 +9,8 @@ class Board < ApplicationRecord
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :campaigns, through: :board_campaigns
   has_many :impressions
+  has_many :board_sales
+  has_many :sales, through: :board_sales
   validate :dont_edit_online, if: :connected?
   has_many_attached :images
   has_many_attached :default_images
@@ -166,11 +168,18 @@ class Board < ApplicationRecord
     total_monthly_possible_earnings = calculate_max_earnings
     (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration
   end
+
+  # there needs to be a sale currently running, otherwise it will return an error
+  def sale_cycle_price
+    (cycle_price * ((current_sale.percent - 100).abs * 0.01)).round(3)
+  end
+
   def calculate_old_max_earnings(bilbo_percentage: 20)
     bilbo_percentage_earnings = bilbo_percentage/100.0
     provider_extra_percentage = extra_percentage_earnings_was/100.0
     (base_earnings_was * ((1+provider_extra_percentage)/(1-bilbo_percentage_earnings))).round(2)
   end
+
   def old_cycle_price(date = Time.zone.now)
     daily_seconds = working_minutes(start_time_was, end_time_was) * 60
     total_days_in_month = date.end_of_month.day
@@ -191,7 +200,15 @@ class Board < ApplicationRecord
 
   def get_cycle_price(campaign) #campaigns can use an old cycle price
     bc = BoardsCampaigns.find_by(board: self, campaign: campaign)
-    bc.cycle_price.present? ? bc.cycle_price : self.cycle_price
+    if bc.cycle_price.present?
+       bc.cycle_price
+    else
+      if self.sales.running.empty?
+        self.cycle_price
+      else
+        self.sale_cycle_price
+      end
+    end
   end
 
   # Check if there are Action cable connections in place
@@ -366,6 +383,10 @@ class Board < ApplicationRecord
     # here we asume that we want all pictures to be FHD (1080p)
     imgw = ((arw * resolution) / arh).to_i
     return "#{imgw}x#{resolution}"
+  end
+
+  def current_sale
+    sales.running.first
   end
 
   private

@@ -186,7 +186,7 @@ class Campaign < ApplicationRecord
 
   def state_change_time
     # Value for state to be changed on prod every 2 minutes
-    if Rails.environment.development?
+    if Rails.env.development?
       minutes_needed = 0.1.minutes
     elsif Rails.environment.test
       minutes_needed = 0.minutes
