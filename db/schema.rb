@@ -156,7 +156,7 @@ ActiveRecord::Schema.define(version: 2020_11_04_210324) do
     t.bigint "board_id", null: false
     t.integer "status", default: 0, null: false
     t.float "cycle_price"
-    t.integer "remaining_impressions"
+    t.integer "remaining_impressions", default: 0
     t.index ["board_id", "campaign_id"], name: "index_boards_campaigns_on_board_id_and_campaign_id"
     t.index ["campaign_id", "board_id"], name: "index_boards_campaigns_on_campaign_id_and_board_id"
   end

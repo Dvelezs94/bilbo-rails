@@ -99,17 +99,20 @@ module AdRotationAlgorithm
     cycles.shuffle!
     block_size = self.duration/10
 
+    total_placed = 0
     # Place the ads in the array after the rotation key (because are the ones that will be displayed first)
-    cycles.each_with_index do |name,idx|
+    cycles.each do |name|
       place_index = rotation_key + find_substring_index(output[rotation_key..],["-"]*(block_size))
       if place_index != rotation_key - 1
         place_index = push_to_left(output,place_index)
         output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
+        total_placed +=1
       else
-        cycles = cycles[idx..]
         break
       end
     end
+
+    cycles = cycles[total_placed..]
 
     #After placing the ads after the rotation_key position, place the remaining ads at the beginning of the array
     cycles.each do |name|
