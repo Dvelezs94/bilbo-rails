@@ -6,7 +6,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @default_project_name = "Gohan"
     @user = create(:user, name: @default_project_name )
-    @project = create(:project, name: @name, status: "enabled")
+    @project = create(:project, name: @name)
     sign_in @user
   end
 
