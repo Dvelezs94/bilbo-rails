@@ -10,13 +10,9 @@ class BoardCampaignsController < ApplicationController
       if !c.provider_campaign
         b = @board_campaign.board
         max_imp = (c.budget_per_bilbo/b.get_cycle_price(c)).to_i
-        if @board_campaign.remaining_impressions.nil?
-          @board_campaign.update(remaining_impressions: max_imp)
-        else
-          impression_count = c.daily_impressions(Time.now.beginning_of_day .. Time.now.end_of_day, self.id)
-          today_impressions = impression_count.present?? impression_count.values[0] : 0
-          @board_campaign.update(remaining_impressions: max_imp - today_impressions)
-        end
+        impression_count = c.daily_impressions(Time.now.beginning_of_day .. Time.now.end_of_day, b.id)
+        today_impressions = impression_count.present?? impression_count.values[0] : 0
+        @board_campaign.update(remaining_impressions: max_imp - today_impressions)
       end
 
       if @board_campaign.board_errors.nil?

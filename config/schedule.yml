@@ -7,3 +7,6 @@ monthly_provider_report:
 update_board_offset:
   cron: "0 1 * * *"
   class: "UpdateBoardOffsetWorker"
+update_remaining_impressions:
+  cron: "0 0 * * *"
+  class: "UpdateRemainingImpressionsWorker"

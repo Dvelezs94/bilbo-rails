@@ -12,5 +12,6 @@ class UpdateRemainingImpressionsWorker
         end
       end
     end
+    p "All user remaining impressions have been reseted"
   end
 end
