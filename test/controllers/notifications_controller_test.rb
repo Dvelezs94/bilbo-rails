@@ -3,10 +3,9 @@ require 'test_helper'
 class NotificationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @name = "Notification"
-    @project_id = "1"
-    @project =  create(:project, name: @name, id: @project_id)
+    @project =  create(:project, name: @name)
     @user = create(:user,name: "Provider" , email: "#{name}@bilbo.mx".downcase, roles: "provider")
-    @campaign = create(:campaign, name: "notif", project: @user.projects.first, project_id: @project_id, state: false)
+    @campaign = create(:campaign, name: "notif", project: @user.projects.first, project_id: @project.id, state: false)
     @board = create(:board,project: @user.projects.first, name: "Board", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "5000", face: "north")
   end
 
