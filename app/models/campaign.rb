@@ -188,7 +188,7 @@ class Campaign < ApplicationRecord
     # Value for state to be changed on prod every 2 minutes
     if Rails.env.development?
       minutes_needed = 0.1.minutes
-    elsif Rails.environment.test
+    elsif Rails.env.test?
       minutes_needed = 0.minutes
     else
       minutes_needed = 0.2.minutes
