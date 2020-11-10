@@ -2,7 +2,6 @@
 $(document).on('turbolinks:load', function() {
 
   $(document).on('change', '#boardSelect', function (e) {
-    console.log($(this).val());
     $('#boardTab li a').eq($(this).val()).tab('show');
   });
 

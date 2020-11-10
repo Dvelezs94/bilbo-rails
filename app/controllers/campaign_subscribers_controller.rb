@@ -46,7 +46,7 @@ class CampaignSubscribersController < ApplicationController
   end
 
   def subscriber_params
-    params.require(:campaign_subscriber).permit(:name, :phone)
+    params.require(:campaign_subscriber).permit(:name, :phone_number)
   end
 
   # only admins can add subscribers

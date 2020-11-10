@@ -65,6 +65,7 @@ function clear-tmp {
 }
 
 function test {
+  docker-compose exec -T app rails db:test:prepare
   docker-compose exec -T app rails test -f
 }
 

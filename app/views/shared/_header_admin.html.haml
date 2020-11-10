@@ -25,12 +25,10 @@
           %a.nav-link{:href => "#"} Ads
         %li{:class => "nav-item #{"active" if menu == "payments"}"}
           %a.nav-link{:href => admin_payments_path} Pagos
+        %li{:class => "nav-item #{"active" if menu == "sales"}"}
+          %a.nav-link{:href => admin_sales_path} Descuentos
         %li{:class => "nav-item"}
           %a.nav-link{:href => "/sidekiq"} Jobs/Sidekiq
-        %li{:class => "nav-item #{"active" if menu == "help"}"}
-          %a.nav-link{:href => "https://bilbo.freshdesk.com/support/home", :target => "_blank"}
-            %i.fe.fe-box
-            = t('header.help_center')
     / navbar-menu-wrapper
     .navbar-right
       / notifications

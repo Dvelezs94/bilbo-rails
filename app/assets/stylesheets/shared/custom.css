@@ -329,3 +329,7 @@ table.dataTable tbody tr:hover {
 .mw-200p {
   max-width: 200px;
 }
+
+.tx-line-through {
+  text-decoration: line-through;
+}

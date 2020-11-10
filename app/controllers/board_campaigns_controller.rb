@@ -1,7 +1,7 @@
 class BoardCampaignsController < ApplicationController
-  access provider: :all
+  access [:provider, :user] => :all
   before_action :get_board_campaign
-  before_action :validate_provider
+  before_action :validate_provider_admin
 
   def approve_campaign
     if @board_campaign.update(status: "approved", make_broadcast: true)
@@ -52,7 +52,10 @@ class BoardCampaignsController < ApplicationController
     @board_campaign = BoardsCampaigns.find_by(board_id: params[:board_id], campaign_id: params[:campaign_id])
   end
 
-  def validate_provider
-    raise_not_found if not @board_campaign.board.project.admins.include? current_user.id
+  def validate_provider_admin
+    if not @project.admins.include? current_user.id
+      flash[:error] = I18n.t('campaign.errors.not_enough_permissions')
+      redirect_to request.referer
+    end
   end
 end

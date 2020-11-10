@@ -3,10 +3,9 @@ require 'test_helper'
 class NotificationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @name = "Notification"
-    @project_id = "1"
-    @project =  create(:project, name: @name, id: @project_id)
+    @project =  create(:project, name: @name)
     @user = create(:user,name: "Provider" , email: "#{name}@bilbo.mx".downcase, roles: "provider")
-    @campaign = create(:campaign, name: "notif", project: @user.projects.first, project_id: @project_id, state: false)
+    @campaign = create(:campaign, name: "notif", project: @user.projects.first, project_id: @project.id, state: false)
     @board = create(:board,project: @user.projects.first, name: "Board", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "5000", face: "north")
   end
 
@@ -48,12 +47,11 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
   test 'notification invite project' do
     @name_user_one = "Joaquin"
     @name_user_two = "Raul"
-    @project_id_user = 2
-    @project_for_user =  create(:project, name: @name_user_one, id: @project_id_user)
+    @project_for_user =  create(:project, name: @name_user_one)
     @user_two = create(:user,name: @name_user_two , email: "#{@name_user_two}@bilbo.mx".downcase)
     sign_in @user_two
     @user_one = create(:user,name: @name_user_one , email: "#{@name_user_one}@bilbo.mx".downcase)
-    @project_user = create(:project_user, role: @user_two.role, email: @user_two.email , project_id: @project_id_user)
+    @project_user = create(:project_user, role: @user_two.role, email: @user_two.email , project_id: @project_for_user.id)
     @notification = create(:notification, recipient_id: @project_for_user.id, actor_id: @project_for_user.id, action: "new invite", notifiable: @project_for_user, reference: @user_two )
     get change_project_project_url(@user_two.notifications.first.notifiable_id)
     assert_response :redirect
@@ -61,8 +59,7 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
 
   test 'notification remove project' do
     @name_user_two = "Raul"
-    @project_id_user = 2
-    @project_for_user = create(:project, name: @name_user_two, id: @project_id_user)
+    @project_for_user = create(:project, name: @name_user_two)
     @user_two = create(:user,name: @name_user_two , email: "#{@name_user_two}@bilbo.mx".downcase)
     @notification = create(:notification, recipient_id: @project_for_user.id, actor_id: @project_for_user.id, action: "invite removed", notifiable: @project_for_user, reference: @user_two )
     sign_in @user_two
