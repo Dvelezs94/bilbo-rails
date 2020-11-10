@@ -5,7 +5,7 @@ class CampaignSubscriberTest < ActiveSupport::TestCase
     @campaign_name = "Campaign subscriber"
     @name = "Subscriber"
     @phone_number = "+528442467244"
-    @project = create(:project, name: @name, status: "enabled")
+    @project = create(:project, name: @name)
     @campaign = create(:campaign, name: @campaign_name, project: @project)
     @campaign_subscriber = create(:campaign_subscriber,campaign: @campaign, name: @name , phone_number: @phone_number, id: 5)
   end
