@@ -3,10 +3,9 @@ require 'test_helper'
 class ReportTest < ActiveSupport::TestCase
   setup do
     @name = "Report"
-    @project_id = "2"
-    @project =  create(:project, name: @name, id: @project_id)
+    @project =  create(:project, name: @name)
     @user = create(:user,role: "provider", name: @name)
-    @campaign = create(:campaign, name: @name,project: @user.projects.first, project_id: @project_id)
+    @campaign = create(:campaign, name: @name,project: @user.projects.first, project_id: @project.id)
     @report = create(:report, name: @name, project: @user.projects.first)
   end
   test 'report exists' do

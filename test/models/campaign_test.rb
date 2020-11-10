@@ -6,10 +6,9 @@ class CampaignTest < ActiveSupport::TestCase
   setup do
     @name = "Ussopn"
     @campaign_name = "Pirate hunter"
-    @project_id = "2"
-    @project =  create(:project, name: @name, id: @project_id)
+    @project =  create(:project, name: @name)
     @user = create(:user,role: "provider", name: @name)
-    @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project_id)
+    @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project.id)
   end
   test "is provider" do
     assert @user.is_provider?
@@ -104,18 +103,18 @@ class CampaignTest < ActiveSupport::TestCase
       assert_equal @day, @campaign.impression_hours.last.day
   end
   test "cant update when is active"do
-    @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project_id, state: true)
+    @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project.id, state: true)
     assert "La campaña no puede editarse cuando está activa", @campaign.cant_update_when_active
   end
   test "build ad rotation" do
       assert_not nil, @campaign.check_build_ad_rotation
   end
   test "off method" do
-    @camp1 = create(:campaign, name: "off",project: @user.projects.first, project_id: @project_id, state: false)
+    @camp1 = create(:campaign, name: "off",project: @user.projects.first, project_id: @project.id, state: false)
     assert true, @camp1.off
   end
   test "on method" do
-    @camp2 = create(:campaign, name: "on",project: @user.projects.first, project_id: @project_id, state: true)
+    @camp2 = create(:campaign, name: "on",project: @user.projects.first, project_id: @project.id, state: true)
     assert true, @camp2.on
   end
 end
