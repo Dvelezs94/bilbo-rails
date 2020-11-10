@@ -1,18 +1,21 @@
 class DashboardsController < ApplicationController
   include DatesHelper
-  access all: [:index], provider: [:provider_statistics, :monthly_statistics]
+  access all: [:index], [:provider, :user] => [:provider_statistics, :monthly_statistics]
   before_action :provider_metrics, only: :provider_statistics
 
   def index
     if user_signed_in?
-      if current_user.role == :user
-        if current_user.sign_in_count == 0
-          redirect_to campaigns_path(account:"set")
-        else
-          redirect_to campaigns_path
+      if @project.present?
+        case @project.classification
+          when 'user'
+            if current_user.sign_in_count == 0
+              redirect_to campaigns_path(account:"set")
+            else
+              redirect_to campaigns_path
+            end
+          when 'provider'
+          redirect_to provider_statistics_dashboards_path
         end
-      elsif current_user.role == :provider
-        redirect_to provider_statistics_dashboards_path
       elsif current_user.role == :admin
         redirect_to admin_main_index_path
       end

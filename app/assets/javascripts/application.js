@@ -15,6 +15,7 @@
 //= require autocomplete-rails
 //= require cocoon
 //= require_tree ./global_dependencies
-
+//= require intlTelInput
+//= require libphonenumber/utils
 //= require turbolinks
 //= require serviceworker-companion

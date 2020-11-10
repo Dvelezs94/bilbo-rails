@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_04_210324) do
+ActiveRecord::Schema.define(version: 2020_11_07_211327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,15 @@ ActiveRecord::Schema.define(version: 2020_11_04_210324) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "board_sales", force: :cascade do |t|
+    t.bigint "board_id", null: false
+    t.bigint "sale_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["board_id"], name: "index_board_sales_on_board_id"
+    t.index ["sale_id"], name: "index_board_sales_on_sale_id"
+  end
+
   create_table "boards", force: :cascade do |t|
     t.bigint "project_id"
     t.float "lat"
@@ -172,7 +181,7 @@ ActiveRecord::Schema.define(version: 2020_11_04_210324) do
   create_table "campaign_subscribers", force: :cascade do |t|
     t.bigint "campaign_id", null: false
     t.string "name"
-    t.string "phone"
+    t.string "phone_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["campaign_id"], name: "index_campaign_subscribers_on_campaign_id"
@@ -325,10 +334,23 @@ ActiveRecord::Schema.define(version: 2020_11_04_210324) do
     t.index ["project_id"], name: "index_reports_on_project_id"
   end
 
+  create_table "sales", force: :cascade do |t|
+    t.integer "percent"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
+<<<<<<< HEAD
     t.datetime "expires_at", default: "2030-10-30 23:03:54"
+=======
+    t.datetime "expires_at", default: "2030-11-06 23:13:27"
+>>>>>>> 8537aaa898a45eb6586a8461df395c6f9f6cbc43
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -381,6 +403,7 @@ ActiveRecord::Schema.define(version: 2020_11_04_210324) do
     t.string "work_position"
     t.string "payment_preference"
     t.integer "sign_in_count", default: 0, null: false
+    t.string "captcha"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
@@ -414,6 +437,8 @@ ActiveRecord::Schema.define(version: 2020_11_04_210324) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ads", "projects"
+  add_foreign_key "board_sales", "boards"
+  add_foreign_key "board_sales", "sales"
   add_foreign_key "boards", "projects"
   add_foreign_key "campaign_denials", "campaigns"
   add_foreign_key "campaign_subscribers", "campaigns"
