@@ -1,12 +1,12 @@
 class BoardsCampaigns < ApplicationRecord
     include BroadcastConcern
     include NotificationsHelper
-    attr_accessor :board_errors, :make_broadcast
+    attr_accessor :board_errors, :make_broadcast, :owner_updated_campaign
     belongs_to :campaign
     belongs_to :board
     belongs_to :sale, optional: true
-
     enum status: { in_review: 0, approved: 1, denied: 2 }
+    before_create :set_price
     before_save :notify_users, if: :will_save_change_to_status?
     after_update :add_or_stop_campaign, if: :make_broadcast
 
@@ -35,5 +35,10 @@ class BoardsCampaigns < ApplicationRecord
                             action: "denied", notifiable: campaign,
                             reference: board)
       end
+    end
+
+    def set_price
+      self.cycle_price = self.board.cycle_price
+      self.sale_id = (self.board.current_sale.present?)? self.board.current_sale.id : nil
     end
 end
