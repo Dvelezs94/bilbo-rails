@@ -47,7 +47,7 @@ class Campaign < ApplicationRecord
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
   after_validation :return_to_old_state_id_invalid
-  before_update :remove_old_cycle_price, if: :owner_updated_campaign
+  before_update :update_cycle_price, if: :owner_updated_campaign
   before_save :update_state_updated_at, if: :state_changed?
   before_save :set_in_review
   after_commit :broadcast_to_all_boards
@@ -246,8 +246,10 @@ class Campaign < ApplicationRecord
     end
   end
 
-  def remove_old_cycle_price #they updated campaign, so we now can use board price normally
-    board_campaigns.update(cycle_price: nil)
+  def update_cycle_price #they updated campaign, so we need to update prices
+    board_campaigns.each do |bc|
+      bc.update(cycle_price: bc.board.cycle_price, sale: bc.board.current_sale)
+    end
   end
 
   # Get total ammount of money invested on the campaign to date

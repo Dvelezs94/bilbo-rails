@@ -4,6 +4,7 @@ class BoardsCampaigns < ApplicationRecord
     attr_accessor :board_errors, :make_broadcast
     belongs_to :campaign
     belongs_to :board
+    belongs_to :sale, optional: true
 
     enum status: { in_review: 0, approved: 1, denied: 2 }
     before_save :notify_users, if: :will_save_change_to_status?

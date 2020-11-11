@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_07_211327) do
+ActiveRecord::Schema.define(version: 2020_11_10_222004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,8 +166,10 @@ ActiveRecord::Schema.define(version: 2020_11_07_211327) do
     t.integer "status", default: 0, null: false
     t.float "cycle_price"
     t.integer "remaining_impressions", default: 0
+    t.bigint "sale_id"
     t.index ["board_id", "campaign_id"], name: "index_boards_campaigns_on_board_id_and_campaign_id"
     t.index ["campaign_id", "board_id"], name: "index_boards_campaigns_on_campaign_id_and_board_id"
+    t.index ["sale_id"], name: "index_boards_campaigns_on_sale_id"
   end
 
   create_table "campaign_denials", force: :cascade do |t|
@@ -346,11 +348,7 @@ ActiveRecord::Schema.define(version: 2020_11_07_211327) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-<<<<<<< HEAD
-    t.datetime "expires_at", default: "2030-10-30 23:03:54"
-=======
-    t.datetime "expires_at", default: "2030-11-06 23:13:27"
->>>>>>> 8537aaa898a45eb6586a8461df395c6f9f6cbc43
+    t.datetime "expires_at", default: "2030-11-10 21:04:21"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -440,6 +438,7 @@ ActiveRecord::Schema.define(version: 2020_11_07_211327) do
   add_foreign_key "board_sales", "boards"
   add_foreign_key "board_sales", "sales"
   add_foreign_key "boards", "projects"
+  add_foreign_key "boards_campaigns", "sales"
   add_foreign_key "campaign_denials", "campaigns"
   add_foreign_key "campaign_subscribers", "campaigns"
   add_foreign_key "campaigns", "ads"
