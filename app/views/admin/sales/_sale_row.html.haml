@@ -20,6 +20,8 @@
         %a.dropdown-item{:href => edit_admin_sale_path(sale)}
           %i.fe.fe-edit.mg-r-5
           Edit Sale
-        = link_to admin_sale_path(sale), class: "dropdown-item", method: :delete do
+        = link_to admin_sale_path(sale), class: "dropdown-item", method: :delete,
+        data: {confirm: 'Si eliminas el sale, se removerá de todas las campañas que aplicaron. (los sales siguen aplicando aunque su oferta haya expirado)',
+           verify: 'remover sale', verify_text: 'Escribe "remover sale" para continuar'} do
           %i.fe.fe-trash.mg-r-5.tx-danger
           Delete Sale

@@ -16,7 +16,7 @@ class Board < ApplicationRecord
   has_many_attached :default_images
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
-  before_update :save_old_cycle_price
+  before_update :save_new_cycle_price
   enum status: { enabled: 0, disabled: 1 }
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
   validates_presence_of :lat, :lng, :utc_offset,:avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
@@ -180,34 +180,19 @@ class Board < ApplicationRecord
     (base_earnings_was * ((1+provider_extra_percentage)/(1-bilbo_percentage_earnings))).round(2)
   end
 
-  def old_cycle_price(date = Time.zone.now)
-    daily_seconds = working_minutes(start_time_was, end_time_was) * 60
-    total_days_in_month = date.end_of_month.day
-    # this is 100% of possible earnings in the month
-    total_monthly_possible_earnings = calculate_old_max_earnings
-    (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration_was
-  end
-
-  def save_old_cycle_price
+  def save_new_cycle_price
     bcs = BoardsCampaigns.where(board: self)
-    if keep_old_cycle_price_on_active_campaigns
-      pr = old_cycle_price(Time.parse("Apr,1 , 2020")) #i selected a month that has 30 days so in average its almost same as changing price in function of month days for a year
-      bcs.update(cycle_price: pr)
-    else
-      bcs.update(cycle_price: nil)
+    if !keep_old_cycle_price_on_active_campaigns
+      bcs.update(cycle_price: cycle_price)
     end
   end
 
   def get_cycle_price(campaign) #campaigns can use an old cycle price
     bc = BoardsCampaigns.find_by(board: self, campaign: campaign)
-    if bc.cycle_price.present?
-       bc.cycle_price
+    if self.current_sale.nil?
+      self.cycle_price
     else
-      if self.sales.running.empty?
-        self.cycle_price
-      else
-        self.sale_cycle_price
-      end
+      self.sale_cycle_price
     end
   end
 
