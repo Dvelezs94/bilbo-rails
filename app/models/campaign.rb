@@ -97,8 +97,6 @@ class Campaign < ApplicationRecord
       attr = {}
       attr.merge!({status: "in_review"}) if have_to_set_in_review_on_boards
       attr.merge!({cycle_price: bc.board.cycle_price, sale: bc.board.current_sale}) if owner_updated_campaign
-      p "X"*500
-      p attr
       bc.update(attr) if attr.any?
     end
   end

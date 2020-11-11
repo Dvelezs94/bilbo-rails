@@ -189,11 +189,7 @@ class Board < ApplicationRecord
 
   def get_cycle_price(campaign) #campaigns can use an old cycle price
     bc = BoardsCampaigns.find_by(board: self, campaign: campaign)
-    if self.current_sale.nil?
-      self.cycle_price
-    else
-      self.sale_cycle_price
-    end
+    (bc.cycle_price * (( ((bc.sale.present?)? bc.sale.percent : 0) - 100).abs * 0.01)).round(3)
   end
 
   # Check if there are Action cable connections in place
