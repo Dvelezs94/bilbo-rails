@@ -170,8 +170,8 @@ class Board < ApplicationRecord
   end
 
   # there needs to be a sale currently running, otherwise it will return an error
-  def sale_cycle_price
-    (cycle_price * ((current_sale.percent - 100).abs * 0.01)).round(3)
+  def sale_cycle_price(date = Time.zone.now)
+    return current_sale.present?? (cycle_price(date) * ((current_sale.percent - 100).abs * 0.01)).round(3) : cycle_price(date)
   end
 
   def calculate_old_max_earnings(bilbo_percentage: 20)
