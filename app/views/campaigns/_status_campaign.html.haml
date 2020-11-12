@@ -13,7 +13,8 @@
   %td.text-between= l(board_campaign.campaign.starts_at, format: "%d %b %Y") rescue l(board_campaign.campaign.created_at, format: "%d %b %Y")
   %td.text-between= l(board_campaign.campaign.ends_at, format: "%d %b %Y") rescue t("campaign.wizard.ongoing_campaign")
   %td.text-between= link_to(board_campaign.board.name, statistics_board_path(board_campaign.board))
-  %td.text-between= number_to_currency_usd(board_campaign.campaign.budget / board_campaign.campaign.boards.size)
+  %td.text-between= t("campaign.wizard.#{board_campaign.campaign.clasification}")
+  %td.text-between= number_to_currency_usd(board_campaign.campaign.budget / board_campaign.campaign.boards.size) rescue ""
   %td.text-between= board_campaign.campaign.state.to_s == "true" ? t('campaign.status_on') : t('campaign.status_off')
   %td.d-flex.justify-content-between.align-center
     -if params[:q] == "review"
