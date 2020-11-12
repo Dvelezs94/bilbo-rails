@@ -83,7 +83,7 @@ if ENV.fetch("RAILS_ENV") != "production"
           ActiveStorage::Attachment.all.update_all(processed: true)
           1.times do |z|
             ad.campaigns.new do |cp|
-              cp.name    = "#{Faker::Commerce.product_name}"
+              cp.name    = "#{Faker::Company.name} #{Faker::Commerce.product_name}"
               cp.budget  = Faker::Number.between(from: 5, to: 50)
               cp.state   = Faker::Boolean.boolean
               cp.status  = Faker::Number.between(from: 0, to: 1)
