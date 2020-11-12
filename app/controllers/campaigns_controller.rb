@@ -21,7 +21,7 @@ class CampaignsController < ApplicationController
         #Search for ads that haven't been processed
          if Ad.find(@campaign_loop.ad_id).processed?
            # to be optimized
-           if @campaign_loop.owner.has_had_credits?
+           if @campaign_loop.owner.has_had_credits? || @campaign_loop.provider_campaign?
              @camp = Array(@camp).push(c)
            end
          end
