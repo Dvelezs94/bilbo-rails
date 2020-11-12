@@ -63,6 +63,19 @@ es:
     my_bilbos: Mis Bilbos
     export_csv: EXPORTAR A CSV
     print: IMPRIMIR
+    wizard: Cómo funciona
+  introjs:
+    skip: Cerrar
+    done: Hecho
+    intro: ¡Hola %{name}! Bienvenido(a) a Bilbo, quisieramos darte un rápido tour por la app, ¿te animas?
+    campaigns: Tus campañas son el medio por el que vas a mostrar tus anuncios a todo el mundo. Puedes crear campañas para diferentes productos o servicios
+    ads: La galería es en donde tendrás todo tu arte, ahi podrás guardar tus imágenes y videos, asi como agregarles animaciones.
+    map: Aquí podrás ver rápidamente todos los bilbos disponibles, así como información sobre cada uno.
+    projects: Si quieres separar tus campañas por cliente o alguna otra métrica, lo puedes hacer creando varios proyectos.
+    budget: Estos son tus créditos. Con ellos podrás pagar tus campañas. Puedes comprar más créditos dando click aquí.
+    notifications: ¡Mantente al tanto de lo que pasa con tus campañas aqui!
+    profile: Por último, aquí podrás ver información de tu perfil, recibos y facturas, así como editar tu información personal.
+    help: "Recuerda que estamos para ayudarte. Si tienes una duda puedes encontrarnos aquí"
   nav_headers:
     users: Usuarios
     configuration: Configuración

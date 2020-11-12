@@ -63,6 +63,19 @@ en:
     my_bilbos: My Bilbos
     export_csv: EXPORT TO CSV
     print: PRINT
+    wizard: How it works
+  introjs:
+    skip: Close
+    done: Done
+    intro: Hi %{name}! Welcome to Bilbo, we would like to give you a quick tour, are you in?
+    campaigns: Campaigns are the medium you will use to show the world your ads. You can create any number of campaigns for your products and services.
+    ads: The gallery is where you will have your beautiful art, here you will upload your images and videos which will be displayed on the campaigns.
+    map: In the map you will see all the available Bilbos and their characteristics.
+    projects: If you would like to separate your campaigns by clients or other metric, you can by creating more projects.
+    budget: Here are your credits. You will be able to pay your campaigns with them. You can purchase more credits simply by clicking here.
+    notifications: Stay tuned on what is happening on your campaigns!
+    profile: Lastly, here you will see your profile, invoices, receipts and some other cool stuff.
+    help: Remember we are here to help. If you have any question you can click here to get assistance.
   nav_headers:
     users: Users
     configuration: Configuration
