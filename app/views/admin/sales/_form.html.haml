@@ -1,4 +1,5 @@
-= form_with(model: @sale, url: admin_sales_path, method: :post) do |f|
+= path = @sale.id.nil?? admin_sales_path : admin_sale_path
+= form_for(@sale, url: path) do |f|
   .form-row
     .form-group.col-md-6
       = f.label :starts_at
