@@ -168,6 +168,7 @@ es:
     percentage_plus: "%{percentage}% más"
     percentage_minus: "%{percentage}% menos"
     view_bilbos_used: Ver bilbos utilizados
+    user_has_no_credits_disclaimer: "Nota: El dueño del proyecto no cuenta con créditos, por lo que el anuncio se empezará a mostrar hasta que se adquieran créditos"
     ads_rotation_error:
       accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
     wizard:
