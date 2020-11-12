@@ -60,7 +60,7 @@
           - current_user.projects.enabled.each do |pr|
             = link_to pr.name, change_project_project_path(pr.slug), class: "dropdown-item"
           .dropdown-divider
-          = link_to raw("<i class='fe fe-plus mg-r-5 tx-10'></i> " + t("projects.new_project").downcase) , projects_path, class: "dropdown-item"
+          = link_to raw("<i class='fe fe-plus mg-r-5 tx-10'></i> " + t("projects.new_project").downcase), projects_path, class: "dropdown-item"
       - if current_user.is_user?
         = link_to "#{number_to_currency_usd(current_user.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap", id: "introBalance", data: { toggle: "modal", intro: t("introjs.budget"), step: 5}
       / notifications
