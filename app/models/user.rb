@@ -227,6 +227,15 @@ class User < ApplicationRecord
       return "Specify :email or :print for 'method' attribute"
     end
   end
+
+  # check if user has either purchased or had credits somehow
+  def has_had_credits?
+    if self.balance != 0 || !payments.empty?
+      true
+    else
+      false
+    end
+  end
   private
 
   def set_project

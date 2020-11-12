@@ -17,9 +17,13 @@ class CampaignsController < ApplicationController
   def provider_index
     if params[:q] == "review"
       Campaign.active.where.not(ad_id: nil).joins(:boards).merge(@project.boards).uniq.pluck(:id).each do |c|
+        @campaign_loop = Campaign.find(c)
         #Search for ads that haven't been processed
-         if Ad.find(Campaign.find(c).ad_id).processed?
-            @camp = Array(@camp).push(c)
+         if Ad.find(@campaign_loop.ad_id).processed?
+           # to be optimized
+           if @campaign_loop.owner.has_had_credits?
+             @camp = Array(@camp).push(c)
+           end
          end
        end
       @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: @camp).in_review
@@ -91,8 +95,12 @@ class CampaignsController < ApplicationController
           track_activity( action: "campaign.campaign_updated", activeness: @campaign)
           # Create a notification per project
           @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
+          # send notification only if the owner of the project has credits
+          if @campaign.owner.has_had_credits?
             create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
-                                action: "created", notifiable: @campaign, sms: current_user.is_provider? ? false : true)
+                                action: "created", notifiable: @campaign,
+                                sms: !current_user.is_provider?)
+          end
           if @campaign.starts_at.present? && @campaign.ends_at.present?
             @campaign.boards.each do |b|
               #difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
