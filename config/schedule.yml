@@ -4,6 +4,9 @@ clean_temp_files:
 monthly_provider_report:
   cron: "0 10 26 * *"
   class: "MonthlyProviderReportWorker"
+sidekiq_heartbeat:
+  cron: "*/2 * * * *"
+  class: "SidekiqHeartbeatWorker"
 update_board_offset:
   cron: "0 1 * * *"
   class: "UpdateBoardOffsetWorker"

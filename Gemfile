@@ -136,3 +136,4 @@ gem 'geokit-rails', '~> 2.3', '>= 2.3.1'
 gem 'timezone', '~> 1.3', '>= 1.3.9'
 
 gem 'intl-tel-input-rails', '~> 12.3'
+gem 'introjs-rails', '~> 1.0'
