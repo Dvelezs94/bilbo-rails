@@ -103,7 +103,7 @@ class Notification < ApplicationRecord
         subject: ActionView::Base.full_sanitizer.sanitize(notif_body[:subject]),
         link: notif_body[:url], link_text: notif_body[:url_string]).deliver
 
-      if user.is_provider? && user.phone_number.present? && sms
+      if sms && user.phone_number.present? 
         send_sms(user.phone_number, "#{ActionView::Base.full_sanitizer.sanitize(notif_body[:message])}. #{notifications_url}")
       end
     end
