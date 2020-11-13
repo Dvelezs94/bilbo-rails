@@ -1,4 +1,5 @@
-= path = @sale.id.nil?? admin_sales_path : admin_sale_path
+- path = @sale.id.nil?? admin_sales_path : admin_sale_path
+- text = @sale.id.nil?? "Crear Descuento" : "Actualizar Descuento"
 = form_for(@sale, url: path) do |f|
   .form-row
     .form-group.col-md-6
@@ -27,4 +28,4 @@
           = check_box_tag b.id, b.id, @sale.boards.pluck(:id).include?(b.id), name: 'sale[board_ids][]'
           = f.label b.name
   .form-group
-    = f.submit "Crear Descuento" ,class: "d-block"
+    = f.submit text ,class: "d-block"
