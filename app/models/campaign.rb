@@ -48,7 +48,7 @@ class Campaign < ApplicationRecord
   validate :check_build_ad_rotation, if: :provider_campaign
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
-  before_save :set_in_review_and_update_price
+  before_update :set_in_review_and_update_price
   after_commit :broadcast_to_all_boards
   after_update :generate_shorten_url
 
