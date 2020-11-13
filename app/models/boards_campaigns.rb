@@ -8,7 +8,7 @@ class BoardsCampaigns < ApplicationRecord
     enum status: { in_review: 0, approved: 1, denied: 2 }
     before_create :set_price
     before_save :notify_users, if: :will_save_change_to_status?
-    before_update :calculate_remaining_impressions, if: :status_changed?
+    before_update :calculate_remaining_impressions
     after_update :add_or_stop_campaign, if: :make_broadcast
 
     private
