@@ -1,6 +1,6 @@
 %tr
   %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip", title: ""}
-    - if !board_campaign.campaign.project.owner.has_had_credits? && !(board_campaign.campaign.project == @project)
+    - if !board_campaign.campaign.owner.has_had_credits? && board_campaign.campaign.owner.is_user?
       %i.fe.fe-warning.tx-danger{"data-toggle" => "tooltip", :href => "#", :title => t("campaign.user_has_no_credits_disclaimer")}
     = board_campaign.campaign.name
   %td
