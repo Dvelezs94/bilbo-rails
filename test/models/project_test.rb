@@ -10,19 +10,12 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal @project_name, @project.name
   end
 
-  test "cannot use invalid name" do
-    assert_raise(ActiveRecord::RecordInvalid) do
-      create(:project, name: "www")
-    end
-    assert_not @project.update(name: "hello this is https://mynewproject.com")
-  end
-
   test "can disable project" do
     assert @project.disabled!
     assert_equal "disabled", @project.status
   end
 
-  test "can enable project" do 
+  test "can enable project" do
     assert @project.enabled!
     assert_equal "enabled", @project.status
   end
