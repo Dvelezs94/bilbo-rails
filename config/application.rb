@@ -19,7 +19,9 @@ module Bilbo
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.i18n.default_locale = ENV.fetch("RAILS_LOCALE") { :en }.to_sym
-    #Set the error pages routes 
+    #Set the error pages routes
     config.exceptions_app = self.routes
+    # enable web console for all envs
+    config.web_console.development_only = false
   end
 end
