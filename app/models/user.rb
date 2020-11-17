@@ -149,6 +149,7 @@ class User < ApplicationRecord
       I18n.locale = locale
       NotificationMailer.new_notification(user: self, message: I18n.t("notifications.credits.assigned.message", credits: total.to_i),
         subject: I18n.t("notifications.credits.assigned.subject", credits: total.to_i)).deliver
+      return true
     else
       self.errors.add(:base, "You have to purchase 50 or more credits")
       false
