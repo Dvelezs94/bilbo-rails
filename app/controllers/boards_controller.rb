@@ -53,7 +53,6 @@ class BoardsController < ApplicationController
           @board.slug,
           action: "update_rotation",
           ads_rotation: @board.add_bilbo_campaigns.to_s,
-          remaining_impressions: @board.get_user_remaining_impressions.to_s
         )
       end
     end

@@ -343,18 +343,6 @@ class Board < ApplicationRecord
     time.strftime("%H:%M:%S")
   end
 
-  def get_user_remaining_impressions
-    active_user_campaigns = self.campaigns.includes(:impressions).where(provider_campaign:false,status:"active",state:true)
-    user_impressions = []
-    active_user_campaigns.each do |cpn|
-      impression_count = cpn.daily_impressions(Time.zone.now.beginning_of_day .. Time.zone.now.end_of_day, self.id)
-      today_impressions = impression_count.present?? impression_count.values[0] : 0
-      daily_max = (cpn.budget_per_bilbo/(self.get_cycle_price(cpn) * cpn.ad.duration/self.duration)).to_i
-      user_impressions << [cpn.id, daily_max - today_impressions]
-    end
-    return user_impressions
-  end
-
     # Get the pixel size for correct image fit in the bilbo
   def recommended_image_size
     resolution = 1080

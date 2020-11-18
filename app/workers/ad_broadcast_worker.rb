@@ -14,19 +14,18 @@ class AdBroadcastWorker
       end
 
       # build html to append
-      broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.add_bilbo_campaigns.to_s, board.get_user_remaining_impressions.to_s)
+      broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.add_bilbo_campaigns.to_s)
     end
   end
 
   private
-  def broadcast_to_boards(channel, action, ad, campaign_slug, ads_rotation,remaining_impressions)
+  def broadcast_to_boards(channel, action, ad, campaign_slug, ads_rotation)
     ActionCable.server.broadcast(
       channel,
       action: action,
       campaign_slug: campaign_slug,
       ad: ad,
       ads_rotation: ads_rotation,
-      remaining_impressions: remaining_impressions
     )
   end
 end
