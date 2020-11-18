@@ -84,46 +84,47 @@
         .col-4.pd-t-10
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Payment preference
           %p.mg-b-0= user.payment_preference
-    - if user.verifications.present?
+    - if user.verified
       .divider-text Verification Details
       .row.row-sm
         .col-6.col-sm-4
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Full Name
-          %p.tx-rubik.mg-b-0= user.verifications.first.name
+          %p.tx-rubik.mg-b-0= user.verifications.first.name rescue ""
         .col-6.col-sm-4
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Phone
-          %p.tx-rubik.mg-b-0= user.verifications.first.phone
+          %p.tx-rubik.mg-b-0= user.verifications.first.phone rescue ""
         .col-6.col-sm-4.mg-t-20.mg-sm-t-0
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Country
-          %p.tx-rubik.mg-b-0= user.verifications.first.country
+          %p.tx-rubik.mg-b-0= user.verifications.first.country rescue ""
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Email Address
           %p.tx-primary.mg-b-0= user.email
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Company (Unofficial)
-          %p.mg-b-0= user.verifications.first.business_name
+          %p.mg-b-0= user.verifications.first.business_name rescue ""
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Verification Status
-          - if user.verifications.first.pending?
-            %p.mg-b-0.tx-warning= user.verifications.first.status
-          - elsif user.verifications.first.denied?
-            %p.mg-b-0.tx-danger= user.verifications.first.status
-          -else
-            %p.mg-b-0.tx-success= user.verifications.first.status
+          - begin
+            - if user.verifications.first.pending?
+              %p.mg-b-0.tx-warning= user.verifications.first.status
+            - elsif user.verifications.first.denied?
+              %p.mg-b-0.tx-danger= user.verifications.first.status
+          - rescue
+            %p.mg-b-0.tx-success= user.verified
         .col-sm-12.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Business Address
           %p.mg-b-0
-            = user.verifications.first.full_address
+            = user.verifications.first.full_address rescue ""
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Business Website
           %p.tx-primary.mg-b-0
-            %a{ href: user.verifications.first.website, target: "_blank" }= user.verifications.first.website
+            %a{ href: (user.verifications.first.website rescue ""), target: "_blank" }= user.verifications.first.website rescue ""
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Business Code (RFC)
-          %p.mg-b-0= user.verifications.first.business_code
+          %p.mg-b-0= user.verifications.first.business_code rescue ""
         .col-sm-4.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Official Business Name (Razon Social)
-          %p.mg-b-0= user.verifications.first.official_business_name
+          %p.mg-b-0= user.verifications.first.official_business_name rescue ""
         / col
         .col-sm-6.mg-t-20.mg-sm-t-30
           %label.tx-10.tx-medium.tx-spacing-1.tx-color-03.tx-uppercase.tx-sans.mg-b-10 Credit limit
