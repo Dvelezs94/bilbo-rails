@@ -348,7 +348,7 @@ ActiveRecord::Schema.define(version: 2020_11_10_222004) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-11-18 21:58:44"
+    t.datetime "expires_at", default: "2030-11-17 20:24:43"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
