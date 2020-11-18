@@ -35,7 +35,7 @@ class Impression < ApplicationRecord
   end
 
   def update_remaining_impressions
-    if !self.campaign.provider_campaign
+    if self.campaign.clasification == "budget"
       BoardsCampaigns.find_by(board: self.board, campaign: self.campaign).decrement!(:remaining_impressions)
     end
   end
