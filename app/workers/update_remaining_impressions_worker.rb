@@ -12,6 +12,6 @@ class UpdateRemainingImpressionsWorker
         remaining_impressions: board.get_user_remaining_impressions.to_s
       )
     end
-    p "All user remaining impressions have been reseted"
+    p "All user remaining impressions have been reseted and transmitted updated rotations to all boards"
   end
 end
