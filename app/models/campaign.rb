@@ -127,7 +127,7 @@ class Campaign < ApplicationRecord
     #self.budget > 0 Check that the budget is greater than 0 of campaign
     brd = Board.find(board_id)
     if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?(brd)
-      if clasification == "budget" && self.budget >= 50 && !campaign_budget_spent? && ( provider_campaign || (project.owner.balance >= 5 && self.remaining_impressions(board_id) > 0))
+      if clasification == "budget" && self.budget >= 50 && !campaign_budget_spent? && ( self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5))
         return true
       elsif clasification == "per_minute"
         return true
