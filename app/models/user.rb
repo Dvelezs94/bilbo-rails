@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, format: Devise.email_regexp
   validates :name, format: { :with => /\A[^0-9`!@#\$%\^&*+_=]+\z/, multiline: false, message: 'Invalid name' }
-  validates_format_of :phone_number, with: /\A\+\d{1,3}\d{10}\z/i, allow_nil: true, message: I18n.t("validations.only_numbers_for_phone")
+  # validates_format_of :phone_number, with: /\A\+\d{1,3}\d{10}\z/i, allow_nil: true, message: I18n.t("validations.only_numbers_for_phone")
   has_many :boards
   # project related methods
   has_many :project_users, dependent: :destroy
@@ -149,6 +149,7 @@ class User < ApplicationRecord
       I18n.locale = locale
       NotificationMailer.new_notification(user: self, message: I18n.t("notifications.credits.assigned.message", credits: total.to_i),
         subject: I18n.t("notifications.credits.assigned.subject", credits: total.to_i)).deliver
+      return true
     else
       self.errors.add(:base, "You have to purchase 50 or more credits")
       false
