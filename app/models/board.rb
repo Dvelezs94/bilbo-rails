@@ -187,8 +187,8 @@ class Board < ApplicationRecord
     end
   end
 
-  def get_cycle_price(campaign) #campaigns can use an old cycle price
-    bc = BoardsCampaigns.find_by(board: self, campaign: campaign)
+  def get_cycle_price(campaign, bc = nil) #campaigns can use an old cycle price
+    bc = BoardsCampaigns.find_by(board: self, campaign: campaign) if bc.nil?
     (bc.cycle_price * (( ((bc.sale.present?)? bc.sale.percent : 0) - 100).abs * 0.01)).round(3)
   end
 
