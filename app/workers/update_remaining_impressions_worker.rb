@@ -11,6 +11,6 @@ class UpdateRemainingImpressionsWorker
         ads_rotation: board.add_bilbo_campaigns.to_s,
       )
     end
-    p "All user remaining impressions have been reseted, online boards have been updated"
+    p "All user remaining impressions have been reseted and transmitted updated rotations to all boards"
   end
 end
