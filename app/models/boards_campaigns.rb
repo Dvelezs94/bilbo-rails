@@ -1,7 +1,7 @@
 class BoardsCampaigns < ApplicationRecord
     include BroadcastConcern
     include NotificationsHelper
-    attr_accessor :board_errors, :make_broadcast, :owner_updated_campaign
+    attr_accessor :board_errors, :make_broadcast, :owner_updated_campaign, :update_remaining_impressions
     belongs_to :campaign
     belongs_to :board
     belongs_to :sale, optional: true
@@ -22,7 +22,7 @@ class BoardsCampaigns < ApplicationRecord
 
     def calculate_remaining_impressions
       # Initialize or compute the remaining_impressions field from BoardsCampaigns (for user campaigns)
-      if status_changed?(to: "approved") and campaign.clasification == "budget"
+      if (status_changed?(to: "approved") || update_remaining_impressions) and campaign.clasification == "budget"
         c = self.campaign
         b = self.board
         max_imp = (c.budget_per_bilbo/b.get_cycle_price(c)).to_i
