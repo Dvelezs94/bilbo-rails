@@ -25,7 +25,7 @@ class AdBroadcastWorker
       action: action,
       campaign_slug: campaign_slug,
       ad: ad,
-      ads_rotation: ads_rotation,
+      ads_rotation: ads_rotation
     )
   end
 end

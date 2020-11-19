@@ -52,7 +52,7 @@ class BoardsController < ApplicationController
         ActionCable.server.broadcast(
           @board.slug,
           action: "update_rotation",
-          ads_rotation: @board.add_bilbo_campaigns.to_s,
+          ads_rotation: @board.add_bilbo_campaigns.to_s
         )
       end
     end
