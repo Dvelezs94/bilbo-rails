@@ -8,7 +8,7 @@ sidekiq_heartbeat:
   cron: "*/2 * * * *"
   class: "SidekiqHeartbeatWorker"
 update_board_offset:
-  cron: "0 1 * * *"
+  cron: "5 2 * * *"
   class: "UpdateBoardOffsetWorker"
 update_remaining_impressions:
   cron: "0 0 * * *"
