@@ -17,8 +17,8 @@
                   = f.label t("general_inputs.description")
                   %br/
                   = f.text_area :description, class: "form-control", value: "", autocomplete: "off", placeholder: t("general_inputs.description")
-                -if current_user.is_provider?
-                  = render partial: "campaigns/clasification", locals:{f: f }
+                -#if current_user.is_provider?
+                = render partial: "campaigns/clasification", locals:{f: f }
                 .actions
                 = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block", style: "margin-top: 20px"
       .modal-footer.mg-t-10
