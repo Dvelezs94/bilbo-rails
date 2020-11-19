@@ -171,7 +171,7 @@ class Board < ApplicationRecord
 
   # there needs to be a sale currently running, otherwise it will return an error
   def sale_cycle_price(date = Time.zone.now)
-    return current_sale.present?? (cycle_price(date) * ((current_sale.percent - 100).abs * 0.01)).round(3) : cycle_price(date)
+    return current_sale.present?? (cycle_price(date) * ((current_sale.percent - 100).abs * 0.01)) : cycle_price(date)
   end
 
   def calculate_old_max_earnings(bilbo_percentage: 20)
@@ -189,7 +189,7 @@ class Board < ApplicationRecord
 
   def get_cycle_price(campaign, bc = nil) #campaigns can use an old cycle price
     bc = BoardsCampaigns.find_by(board: self, campaign: campaign) if bc.nil?
-    (bc.cycle_price * (( ((bc.sale.present?)? bc.sale.percent : 0) - 100).abs * 0.01)).round(3)
+    (bc.cycle_price * (( ((bc.sale.present?)? bc.sale.percent : 0) - 100).abs * 0.01))
   end
 
   # Check if there are Action cable connections in place
