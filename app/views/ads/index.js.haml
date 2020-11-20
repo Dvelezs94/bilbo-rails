@@ -1,4 +1,4 @@
-$("#abc").html("");
-$('#abc').append('#{escape_javascript render(partial: "new_ad_card")}');
-$('#abc').append('#{escape_javascript render(partial: "overview_card", collection: @ad_upcoming, as: :ad)}');
+$("#ads_body").html("");
+$('#ads_body').append('#{escape_javascript render(partial: "new_ad_card")}');
+$('#ads_body').append('#{escape_javascript render(partial: "overview_card", collection: @ad_upcoming, as: :ad)}');
 $('#paginator').html('#{escape_javascript(paginate(@ad_upcoming, :remote => true, :param_name => "ad_upcoming_page").to_s)}');

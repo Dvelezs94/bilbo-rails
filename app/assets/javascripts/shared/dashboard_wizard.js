@@ -216,16 +216,17 @@ $(document).on('turbolinks:load', function() {
       $('#impressions').width(($('#impressions').val().length + 5) * 8 + 'px');
       // function to calculate impressions
     }
+
     function calculatebudget(testBudget = null) {
       total_impressions = 0;
-      total_budget = (testBudget != null)? testBudget : $('#campaign_budget').val();
-      if(typeof(total_budget) == "string") total_budget = total_budget.replace(',', ''); // removes comma from number given by user because parseFLoat thinks its decimal after comma
-      budget_per_bilbo = total_budget/($('#selected_boards option:not(:eq(0))').length);
-      $('#selected_boards option:not(:eq(0))').each(function () {
+      total_budget = (testBudget != null) ? testBudget : $('#campaign_budget').val();
+      if (typeof(total_budget) == "string") total_budget = total_budget.replace(',', ''); // removes comma from number given by user because parseFLoat thinks its decimal after comma
+      budget_per_bilbo = total_budget / ($('#selected_boards option:not(:eq(0))').length);
+      $('#selected_boards option:not(:eq(0))').each(function() {
         cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
-        bilbo_max_impressions = parseInt($(this).data('max-impressions')*10/cycles)
-        current_impressions_for_bilbo = parseInt(budget_per_bilbo/($(this).data('price')*cycles)) || 0;
-        total_impressions += (current_impressions_for_bilbo > bilbo_max_impressions)? bilbo_max_impressions : current_impressions_for_bilbo
+        bilbo_max_impressions = parseInt($(this).data('max-impressions') * 10 / cycles)
+        current_impressions_for_bilbo = parseInt(budget_per_bilbo / ($(this).data('price') * cycles)) || 0;
+        total_impressions += (current_impressions_for_bilbo > bilbo_max_impressions) ? bilbo_max_impressions : current_impressions_for_bilbo
       });
       // max possible impressions of bilbos
       max_boards_impr = parseInt($('#max_impressions').val());
@@ -233,23 +234,22 @@ $(document).on('turbolinks:load', function() {
       $('#impressions').val(total_impressions);
       return total_impressions;
     }
+
     function calculateInvbudget(desired_impressions) {
-      if(desired_impressions == "") return true;
+      if (desired_impressions == "") return true;
       max_boards_impr = parseInt($('#max_impressions').val());
       if (desired_impressions > max_boards_impr) desired_impressions = max_boards_impr;
       budget = 0
       var i;
-      for(i=0; i< 2000;i++) {
+      for (i = 0; i < 2000; i++) {
         obtained_impressions = calculatebudget(budget);
-        if (obtained_impressions==desired_impressions){
+        if (obtained_impressions == desired_impressions) {
           $("#campaign_budget").val(budget);
           return true;
-        }
-        else if(obtained_impressions>desired_impressions) {
+        } else if (obtained_impressions > desired_impressions) {
           budget -= 0.5;
-        }
-        else {
-          budget+=50;
+        } else {
+          budget += 50;
         }
       }
     }
@@ -257,9 +257,9 @@ $(document).on('turbolinks:load', function() {
     // calculate max impressions sum of all boards
     function calculateMaxImpressions() {
       max_impr = 0;
-      $('#selected_boards option:not(:eq(0))').each(function () {
+      $('#selected_boards option:not(:eq(0))').each(function() {
         cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
-        max_impr += parseInt($(this).data('max-impressions')*10/cycles) || 0;
+        max_impr += parseInt($(this).data('max-impressions') * 10 / cycles) || 0;
       });
       $('#max_impressions').val(max_impr);
     }
@@ -364,7 +364,7 @@ function buttonSubstraction() {
     for (var i = 0; i < $(document.querySelectorAll('.nested-fields')).length; i++) {
       if (document.querySelectorAll('.nested-fields')[i].style.display == "none") {
         $(document.querySelectorAll('.nested-fields')[i]).addClass('noValid');
-        for (var y = 0; y < $(document.querySelectorAll('.noValid div select')).length; y++){
+        for (var y = 0; y < $(document.querySelectorAll('.noValid div select')).length; y++) {
           $(document.querySelectorAll('.noValid div select')[y]).addClass('noValid');
         }
         for (var x = 0; x < $(document.querySelectorAll('.noValid div input')).length; x++) {
@@ -406,14 +406,13 @@ function validatesPerHour() {
   return valid;
 }
 
-function select_ad(){
+function select_ad() {
   // choose ad in wizard
   $('.card-ad-link').click(function(e) {
     e.preventDefault();
     $('.wizard_selected_ad').removeClass('wizard_selected_ad');
     $(this).find('div:first-child > .card').addClass('wizard_selected_ad');
     $('#campaign_ad_id').val($(this).attr('id'));
-    console.log("here here");
   });
 
   if ($('#campaign_ad_id').val()) {
@@ -422,5 +421,26 @@ function select_ad(){
     selected_ad
       .find('div:first-child > .card')
       .addClass('wizard_selected_ad');
+  }
+}
+
+function scroll_ads() {
+  //get the ads with scroll infinite vent
+  var url = $("#paginator a:visible").attr('href');
+  if (url && $('#ads_body').scrollTop() > 20) {
+    if ($('#paginator a:visible')) {
+      ajaxLoading = true;
+      $.ajax({
+        url: url,
+        beforeSend: function() {
+          $('.loadingio-spinner-pulse-vlx1rsm1qjd').removeClass('d-none');
+          $("#paginator a").hide();
+        },
+        complete: function() {
+          $('.loadingio-spinner-pulse-vlx1rsm1qjd').addClass('d-none');
+          $("#paginator a").show();
+        },
+      });
+    }
   }
 }
