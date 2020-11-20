@@ -92,7 +92,11 @@ Rails.application.routes.draw do
   resources :provider_invoices, only: [:index]
 
   namespace :admin do
-    resources :main, only: [:index]
+    resources :main, only: [:index] do
+      collection do
+        get :web_console
+      end
+    end
     resources :board_actions, only: [] do
       member do
         get :provider_statistics

@@ -1,8 +1,8 @@
 FactoryBot.define do
     factory :campaign_subscriber do
-      name { "Zoro”" }
-      phone_number { "528442467244" }
-      id{}
+      name { Faker::Name.name  }
+      phone_number { Faker::PhoneNumber.cell_phone_in_e164 }
       campaign {}
+      dont_send_sms { true }
     end
   end
