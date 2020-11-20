@@ -6,8 +6,8 @@
 //= require jquery-ui/widgets/autocomplete
 //= require Chart.bundle
 //= require chartkick
-
 //= require popper
+//= require introjs
 //= require_tree ./shared
 //= require bootstrap
 //= require clipboard

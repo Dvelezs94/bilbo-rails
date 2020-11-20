@@ -10,9 +10,6 @@
      var work_hour_end = $("#work_hours").val().split("-")[1];
      // starts depending on the hour
      var rotation_key = 0;
-     //check the remaining impressions in the current day for the user campaigns
-     var user_imp = jQuery.parseJSON($("#user_impressions_count").val());
-     user_imp = hashFromPairs(user_imp);
      // create the impressions every 60 seconds
      setInterval(createImpression, 60000);
      // Convert seconds to milliseconds
@@ -23,12 +20,6 @@
        requestAdsRotation();
        setInterval(requestAdsRotation,86400000) // 1 day interval (ms)
      },(timeUntilNextStart()-5)*1000) //Time for next start hour of the board
-
-     //Reset the user impression counter at the beginning of every day
-     setTimeout(function(){
-       resetUserImpressionCounter();
-       setInterval(resetUserImpressionCounter,86400000); // 1 day interval (ms)
-     }, secondsUntilNextDay()*1000); // time for the first reset
 
      // Start stream
      $(".start-stream").click(function() {
@@ -141,15 +132,11 @@
 
        chosen = ads[rotation_key];
        if (isWorkTime(work_hour_start, work_hour_end)){
-         if (chosen == "-" || user_imp[chosen] === 0) {
+         if (chosen == "-") {
          showBilboAd();
          check_next_campaign_ads_present();
          } else if (chosen != ".") {
              hideBilboAd();
-
-             if (typeof user_imp[chosen] != "undefined"){
-               user_imp[chosen]--;
-             }
 
              //hide the old ad and pause it if its video
              if (typeof newAd !== 'undefined') {
@@ -313,31 +300,6 @@ function isWorkTime(start, end) {
      }
    }
 
-function hashFromPairs(arr) {
-  var hash = {};
-  for(i = 0;i<arr.length; i++){
-    hash[arr[i][0]] = arr[i][1];
-  }
-  return hash;
-}
-
-  function resetUserImpressionCounter(){
-    user_imp = jQuery.parseJSON($("#user_impressions_count").val());
-    user_imp = hashFromPairs(user_imp); //check the remaining impressions in the current day for the user campaigns
-    ads = jQuery.parseJSON($("#ads_rotation").val());
-    keys = Object.keys(user_imp);
-    for(i = 0; i < keys.length; i++){  //Set all values
-      user_imp[keys[i]] = 0;         //of user_imp to zero
-    }
-    //Count the number of impressions per day based on the ads_rotation
-    for(i = 0; i < ads.length; i++){
-      if (typeof user_imp[ads[i]] != "undefined"){
-        user_imp[ads[i]]++;
-      }
-    }
-    return user_imp;
-  }
-
   function secondsUntilNextDay(){
     current_time = new Date();
     hours = current_time.getHours();
@@ -347,7 +309,6 @@ function hashFromPairs(arr) {
     total_seconds = hours*3600 + minutes*60 + seconds;
     return 86400 - total_seconds;
   }
-
 
   function requestAdsRotation() {
     board_id = $("#board_id").val();
