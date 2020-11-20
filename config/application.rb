@@ -6,6 +6,15 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# Configure the geonames api for the timezone gem
+Timezone::Lookup.config(:geonames) do |c|
+  c.username = ENV.fetch("GEONAMES_USER") { "carlos0914" } # <-- username for geonames.org
+  # c.username = 'carlos0914'
+  c.offset_etc_zones = true
+end
+#Note: The google api can also be used here, some people use the
+#google api when geonames fails or reaches the credit limit
+
 module Bilbo
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

@@ -47,9 +47,8 @@ class Campaign < ApplicationRecord
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
   after_validation :return_to_old_state_id_invalid
-  before_update :remove_old_cycle_price, if: :owner_updated_campaign
   before_save :update_state_updated_at, if: :state_changed?
-  before_save :set_in_review
+  before_update :set_in_review_and_update_price
   after_commit :broadcast_to_all_boards
   after_update :generate_shorten_url
 
@@ -93,8 +92,13 @@ class Campaign < ApplicationRecord
     end
   end
 
-  def set_in_review
-    self.board_campaigns.update_all(status: "in_review") if have_to_set_in_review_on_boards
+  def set_in_review_and_update_price
+    board_campaigns.each do |bc|
+      attr = {}
+      attr.merge!({status: "in_review"}) if have_to_set_in_review_on_boards
+      attr.merge!({cycle_price: bc.board.cycle_price, sale: bc.board.current_sale, update_remaining_impressions: true}) if owner_updated_campaign
+      bc.update(attr) if attr.any?
+    end
   end
 
   def project_status
@@ -123,7 +127,7 @@ class Campaign < ApplicationRecord
     #self.budget > 0 Check that the budget is greater than 0 of campaign
     brd = Board.find(board_id)
     if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?(brd)
-      if clasification == "budget" && self.budget >= 50 && !campaign_budget_spent? && ( provider_campaign || project.owner.balance >= 5 )
+      if clasification == "budget" && self.budget >= 50 && !campaign_budget_spent? && ( self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5))
         return true
       elsif clasification == "per_minute"
         return true
@@ -132,6 +136,11 @@ class Campaign < ApplicationRecord
       end
     end
     return false
+  end
+
+  def remaining_impressions(board_id)
+    x = self.board_campaigns.find_by(board_id: board_id)
+    x.present?? x.remaining_impressions: 0
   end
 
   def user_has_budget?
@@ -239,10 +248,6 @@ class Campaign < ApplicationRecord
       #something is changing when state is active, so i raise error
       errors.add(:base, I18n.t('campaign.errors.cant_update_when_active'))
     end
-  end
-
-  def remove_old_cycle_price #they updated campaign, so we now can use board price normally
-    board_campaigns.update(cycle_price: nil)
   end
 
   # Get total ammount of money invested on the campaign to date

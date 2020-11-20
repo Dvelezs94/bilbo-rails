@@ -129,6 +129,10 @@ gem 'pretender', '~> 0.3.4'
 gem 'invisible_captcha', '~> 1.1'
 gem 'wicked_pdf', '~> 2.1'
 gem 'wkhtmltopdf-binary', '~> 0.12.6.4'
+
+gem 'geokit-rails', '~> 2.3', '>= 2.3.1'
+gem 'timezone', '~> 1.3', '>= 1.3.9'
+
 gem 'intl-tel-input-rails', '~> 12.3'
 gem 'introjs-rails', '~> 1.0'
 # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
