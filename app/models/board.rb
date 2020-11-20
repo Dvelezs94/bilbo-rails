@@ -184,6 +184,13 @@ class Board < ApplicationRecord
     bcs = BoardsCampaigns.where(board: self)
     if !keep_old_cycle_price_on_active_campaigns
       bcs.update(cycle_price: cycle_price)
+      # BoardsCampaigns.where(board: self).each do |bc|
+      #   price = cycle_price
+      #   if bc.campaign.clasification == "per_hour" and bc.campaign.provider_campaign?
+      #     price = price * (1 + extra_percentage/100.0)
+      #   end
+      #   bc.update(cycle_price: price)
+      # end
     end
   end
 
