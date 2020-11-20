@@ -19,7 +19,6 @@ $(document).on('turbolinks:load', function() {
         }
         // ad rotation replacement
         $("#ads_rotation").val(data['ads_rotation']);
-        $("#user_impressions_count").val(data['remaining_impressions']);
         console.log("Update received");
       }
     });
