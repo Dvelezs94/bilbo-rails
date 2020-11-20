@@ -28,10 +28,10 @@ class Admin::SalesController < ApplicationController
   end
 
   def update
-    if @sale.update!
-      flash[:success] = "Sale removed"
+    if @sale.update!(sales_params)
+      flash[:success] = "Sale was successfully updated"
     else
-      flash[:error] = "Error removing sale"
+      flash[:error] = "Error updating sale"
     end
     redirect_to admin_sales_path
   end
