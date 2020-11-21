@@ -75,6 +75,61 @@ module AdRotationAlgorithm
  #################################################################################33
   def add_bilbo_campaigns
     output = JSON.parse(self.ads_rotation)
+    campaign_names = {}
+    err = []
+    ############################# SECTION TO ADD USER HOUR CAMPAIGNS ##################################
+    h_cps_first = []
+    self.campaigns.includes(:ad).where(provider_campaign: false, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
+      c.impression_hours.each do |cpn|
+        if should_run_hour_campaign_in_board?(cpn)
+          h_cps_first.append(cpn)
+        end
+      end
+      campaign_names[c.id] = c.name
+    end
+
+    h_cps_first.each do |c|
+      if !hour_inside_board_time?(self,c)
+        err << I18n.t("bilbos.ads_rotation_error.hour_campaign_time", name: self.name)
+        return err
+      end
+    end
+
+    h_cps = {}
+    h_cps_first.each_with_index do |c,idx|
+      name = c.campaign_id.to_s << '/' << idx.to_s
+      h_cps_first[idx][:campaign_id] = name
+      h_cps[name] = [c.imp,c.start,c.end, c.campaign.ad.duration]
+    end
+    h_cps = sort_by_min_time(h_cps)
+
+    h_cps.each do |name, value|
+       reps = value[0]
+       start_t = value[1]
+       end_t = value[2]
+       ad_duration = value[3]
+       block_size = ad_duration/10
+       fi = (working_minutes(start_time,start_t,true)*6).to_i
+       la = (working_minutes(start_time,end_t,true)*6).to_i
+       value[1] = fi
+       value[2] = la
+       index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
+       if index_array.length < reps
+         id = name.split('/')[0].to_i
+         err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
+         return err
+         break
+       end
+       [reps,index_array.length].min.times do
+         sample_index = index_array.sample
+         index_array.delete(sample_index)
+         output[ fi + sample_index ...fi + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
+       end
+    end
+    #####################################################END OF SECTION #################################
+
+    ########################################## SECTION TO ADD USER BUDGET CAMPAIGNS #####################
+
     cps  = self.campaigns.where(provider_campaign: false, clasification: "budget").select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, c.board_campaigns.find_by(board: self).remaining_impressions ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
     cycles = []                            # array to store the id's of the bilbo users campaigns the required times
     cps.each do |name, value|              # Fill the cycles array
