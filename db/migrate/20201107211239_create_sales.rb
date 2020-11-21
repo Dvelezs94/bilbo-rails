@@ -8,5 +8,6 @@ class CreateSales < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    add_reference :boards_campaigns, :sale, foreign_key: true
   end
 end
