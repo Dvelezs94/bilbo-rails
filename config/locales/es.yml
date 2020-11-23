@@ -371,6 +371,7 @@ es:
     view: Ver anuncio
     attachment_saved: Archivo adjunto guardado
     convert_video_external: Convierte tu video a formato mp4 a 1080p aquí
+    more_ads: Ver más anuncios
     transitions:
       no_transition: Sin Transición
       fadeInDown: Entrada por Debajo
@@ -667,3 +668,19 @@ es:
     sun: Domingo
     everyday: Todos los días
     days: Días
+  views:
+    pagination:
+      first: "&laquo; Primero"
+      last: "Último &raquo;"
+      previous: "&lsaquo; Previo"
+      next: "Siguiente &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "No %{entry_name} se encontró"
+          one: "Mostrando <b>1</b> %{entry_name}"
+          other: "Mostrando <b>todos %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Mostrando %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> en total"

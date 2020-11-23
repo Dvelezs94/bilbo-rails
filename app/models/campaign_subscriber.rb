@@ -3,6 +3,8 @@ class CampaignSubscriber < ApplicationRecord
   include ShortenerHelper
   include ApplicationHelper
   include ActionView::Helpers
+  # used mostly for tests
+  attr_accessor :dont_send_sms
   # campaign subscribers are people that will get SMS/Whatsapp messages with
   # notifications regarding their referenced campaign
   belongs_to :campaign
@@ -10,7 +12,7 @@ class CampaignSubscriber < ApplicationRecord
   validates_length_of :phone_number, minimum: 10, maximum: 14
   validates :phone_number, format: { with: /\A\+\d{1,3}\d{10}\z/, message: I18n.t("validations.only_numbers_for_phone") }
   validate :max_number_of_subscribers
-  after_update :send_welcome_sms
+  after_create :send_welcome_sms
 
   def first_name
     name.split[0]
@@ -23,6 +25,8 @@ class CampaignSubscriber < ApplicationRecord
   end
 
   def send_welcome_sms
-    send_sms(phone_number, "Hola! ahora pueder ver tu campaña publicitaria #{truncate(campaign.name, length: 18)} en el link: #{shorten_link(analytics_campaign_url(campaign.slug))}")
+    if !dont_send_sms
+      send_sms(phone_number, "Hola! ahora puedes ver tu campaña publicitaria #{truncate(campaign.name, length: 18)} en el link: #{shorten_link(analytics_campaign_url(campaign.slug))}")
+    end
   end
 end
