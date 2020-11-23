@@ -16,10 +16,13 @@
             = t("ads.new_ad")
     / Content
 .content
-  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
-    .row
-      = render partial: "new_ad_card"
-      = render partial: 'overview_card', collection: @ads, as: :ad
+  .container.pd-x-0.pd-lg-x-12.pd-xl-x-0
+    .row#ads_body
+      = render :partial => "new_ad_card"
+      = render :partial => 'overview_card', collection: @ad_upcoming, as: :ad
+    #paginator.pd-t-10
+      = paginate @ad_upcoming, :remote => true, :param_name => "ad_upcoming_page"
+
   / container
 / content
 = render partial: "ads/new"

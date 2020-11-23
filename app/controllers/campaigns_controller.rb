@@ -61,7 +61,13 @@ class CampaignsController < ApplicationController
   end
 
   def edit
-    @ads = @project.ads.active.order(updated_at: :desc).with_attached_multimedia.select{ |ad| ad.multimedia.any? }
+    if @campaign.ad.present?
+      @ads = @project.ads.active.where.not(id: @campaign.ad).order(updated_at: :desc).with_attached_multimedia.select{ |ad| ad.multimedia.any? }
+      @ads.prepend(@campaign.ad)
+    else
+      @ads = @project.ads.active.order(updated_at: :desc).with_attached_multimedia.select{ |ad| ad.multimedia.any? }
+    end
+    @ad_upcoming = Kaminari.paginate_array(@ads).page(params[:ad_upcoming_page]).per(10)
     @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration } ] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
@@ -70,6 +76,10 @@ class CampaignsController < ApplicationController
     else
       @boards = Board.enabled
     end
+    respond_to do |format|
+        format.js
+        format.html
+      end
   end
 
   def toggle_state
