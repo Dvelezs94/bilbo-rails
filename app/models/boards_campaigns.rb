@@ -25,7 +25,7 @@ class BoardsCampaigns < ApplicationRecord
       if (status_changed?(to: "approved") || update_remaining_impressions) and campaign.clasification == "budget"
         c = self.campaign
         b = self.board
-        max_imp = (c.budget_per_bilbo/b.get_cycle_price(c, self)).to_i
+        max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * c.ad.duration/b.duration)).to_i
         impression_count = c.daily_impressions(Time.now.beginning_of_day .. Time.now.end_of_day, b.id)
         today_impressions = impression_count.present?? impression_count.values[0] : 0
         self.remaining_impressions = max_imp - today_impressions

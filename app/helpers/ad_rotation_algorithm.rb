@@ -229,7 +229,7 @@ module AdRotationAlgorithm
           end
         end
       elsif new_campaign.budget.present?
-        r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/self.get_cycle_price(new_campaign)).to_i, (new_campaign.ad.duration/10).to_i]
+        r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.ad.duration/self.duration)).to_i, (new_campaign.ad.duration/10).to_i]
         r_cps_first.append(new_campaign)
       end
     end
