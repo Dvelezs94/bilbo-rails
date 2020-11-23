@@ -14,7 +14,8 @@
               -if media.video?
                 = video_tag(url_from_media(media), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted')
               -else
-                = image_tag url_from_media(media), size:"600x300", class: "d-block w-100", :data => {lity: true}
+                = link_to url_from_media(media), class: "js-smartPhoto", :data => {caption: media.filename.base, group: media.record.id} do
+                  = image_tag url_from_media(media), size:"600x300", class: "d-block w-100"
         - else
           .carousel-item.active
             = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
