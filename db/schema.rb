@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_10_222004) do
+ActiveRecord::Schema.define(version: 2020_11_21_003018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,8 +165,8 @@ ActiveRecord::Schema.define(version: 2020_11_10_222004) do
     t.bigint "board_id", null: false
     t.integer "status", default: 0, null: false
     t.float "cycle_price"
-    t.integer "remaining_impressions", default: 0
     t.bigint "sale_id"
+    t.integer "remaining_impressions", default: 0
     t.index ["board_id", "campaign_id"], name: "index_boards_campaigns_on_board_id_and_campaign_id"
     t.index ["campaign_id", "board_id"], name: "index_boards_campaigns_on_campaign_id_and_board_id"
     t.index ["sale_id"], name: "index_boards_campaigns_on_sale_id"
@@ -348,7 +348,7 @@ ActiveRecord::Schema.define(version: 2020_11_10_222004) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-11-18 21:58:44"
+    t.datetime "expires_at", default: "2030-11-21 01:12:35"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
