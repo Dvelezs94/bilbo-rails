@@ -208,6 +208,8 @@ ActiveRecord::Schema.define(version: 2020_11_21_003018) do
     t.integer "clasification", default: 0
     t.integer "minutes"
     t.integer "imp"
+    t.time "hour_start"
+    t.time "hour_finish"
     t.string "analytics_token"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
