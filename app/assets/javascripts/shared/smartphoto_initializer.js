@@ -1,9 +1,9 @@
 $(document).on('turbolinks:load', function() {
-  if ($(".js-smartPhoto").length) {
-    initSmartPhoto();
+  if ($("[class^=glightbox]").length) {
+    initLightbox();
   }
 });
 
-function initSmartPhoto() {
-  $(".js-smartPhoto").SmartPhoto();
+function initLightbox() {
+  const lightbox = GLightbox();
 }
