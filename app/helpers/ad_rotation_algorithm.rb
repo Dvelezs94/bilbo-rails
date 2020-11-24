@@ -87,14 +87,7 @@ module AdRotationAlgorithm
       end
       campaign_names[c.id] = c.name
     end
-
-    h_cps_first.each do |c|
-      if !hour_inside_board_time?(self,c)
-        err << I18n.t("bilbos.ads_rotation_error.hour_campaign_time", name: self.name)
-        return err
-      end
-    end
-
+    
     h_cps = {}
     h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
@@ -114,12 +107,6 @@ module AdRotationAlgorithm
        value[1] = fi
        value[2] = la
        index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
-       if index_array.length < reps
-         id = name.split('/')[0].to_i
-         err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
-         return err
-         break
-       end
        [reps,index_array.length].min.times do
          sample_index = index_array.sample
          index_array.delete(sample_index)
