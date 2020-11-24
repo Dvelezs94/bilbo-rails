@@ -4,7 +4,7 @@
       %h6.mg-b-0 Personal Details
       .d-flex
         - if verification.present?
-          = link_to url_from_media(verification.official_id), id: "id_picture", class: "js-smartPhoto d-none" do
+          = link_to url_from_media(verification.official_id), id: "id_picture", class: "glightbox d-none" do
             = image_tag url_from_media(verification.official_id)
           .btn.btn-sm.d-flex.align-items-center.mg-r-5.btn-outline-primary{ onclick: '$("#id_picture").click()' }
             %i.fe.fe-picture-square
