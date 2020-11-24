@@ -75,8 +75,7 @@ module AdRotationAlgorithm
  #################################################################################33
   def add_bilbo_campaigns
     output = JSON.parse(self.ads_rotation)
-    campaign_names = {}
-    err = []
+
     ############################# SECTION TO ADD USER HOUR CAMPAIGNS ##################################
     h_cps_first = []
     self.campaigns.includes(:ad).where(provider_campaign: false, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
@@ -85,9 +84,8 @@ module AdRotationAlgorithm
           h_cps_first.append(cpn)
         end
       end
-      campaign_names[c.id] = c.name
     end
-    
+
     h_cps = {}
     h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
@@ -97,22 +95,20 @@ module AdRotationAlgorithm
     h_cps = sort_by_min_time(h_cps)
 
     h_cps.each do |name, value|
-       reps = value[0]
-       start_t = value[1]
-       end_t = value[2]
-       ad_duration = value[3]
-       block_size = ad_duration/10
-       fi = (working_minutes(start_time,start_t,true)*6).to_i
-       la = (working_minutes(start_time,end_t,true)*6).to_i
-       value[1] = fi
-       value[2] = la
-       index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
-       [reps,index_array.length].min.times do
-         sample_index = index_array.sample
-         index_array.delete(sample_index)
-         output[ fi + sample_index ...fi + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
-       end
+      reps, start_t, end_t, ad_duration = value
+      block_size = ad_duration/10
+      fi = (working_minutes(start_time,start_t,true)*6).to_i
+      la = (working_minutes(start_time,end_t,true)*6).to_i
+      value[1] = fi
+      value[2] = la
+      index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
+      [reps,index_array.length].min.times do
+        sample_index = index_array.sample
+        index_array.delete(sample_index)
+        output[ fi + sample_index ...fi + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
+      end
     end
+
     #####################################################END OF SECTION #################################
 
     ########################################## SECTION TO ADD USER BUDGET CAMPAIGNS #####################
@@ -167,6 +163,14 @@ module AdRotationAlgorithm
       end
     end
 
+    output.each_with_index do |item,idx|
+      if item.is_a?(String) && item.index('/').present?
+        item = item.split('/')[0].to_i
+        output[idx]=item
+      end
+    end
+
+    p output
     return output
 
   end
