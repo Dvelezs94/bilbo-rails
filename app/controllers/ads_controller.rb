@@ -5,7 +5,6 @@ class AdsController < ApplicationController
 
   def index
     @ad_upcoming = get_active_ads.page(params[:ad_upcoming_page]).per(10)
-
     respond_to do |format|
         format.js
         format.html
