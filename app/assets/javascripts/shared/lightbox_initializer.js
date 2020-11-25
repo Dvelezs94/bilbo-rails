@@ -7,8 +7,6 @@ $(document).on('turbolinks:load', function() {
 function initLightbox() {
   const lightbox = GLightbox({
     autoplayVideos: false,
-    width: '90%',
-    height: 'auto',
     preload: false
   });
 }
