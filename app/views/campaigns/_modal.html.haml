@@ -12,10 +12,10 @@
           - @objects.each.with_index do |media,i|
             %div{class: "carousel-item #{'active' if i == 0}"}
               -if media.video?
-                = link_to url_from_media(media), class: "glightbox", type: "video", :data => {caption: media.filename.base, group: media.record.id} do
+                = link_to url_from_media(media), class: "glightbox", :data => {caption: media.filename.base, group: media.record.id, glightbox: 'type: "video"'} do
                   = video_tag(url_from_media(media), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted')
               -else
-                = link_to url_from_media(media), class: "glightbox", type: "image", :data => {caption: media.filename.base, group: media.record.id} do
+                = link_to url_from_media(media), class: "glightbox", :data => {caption: media.filename.base, group: media.record.id, glightbox: 'type: "image"'} do
                   = image_tag url_from_media(media), size:"600x300", class: "d-block w-100"
         - else
           .carousel-item.active
