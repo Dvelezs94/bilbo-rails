@@ -281,9 +281,19 @@ class Campaign < ApplicationRecord
   end
 
   def test_for_valid_settings
-    if (provider_campaign || clasification == "per_hour") && state
+    if provider_campaign && state
       boards.each do |b|
         err = b.test_ad_rotation(self, impression_hours.select{|c| !c.marked_for_destruction?})
+        if err.any?
+          err.each do |e|
+            errors.add(:base, e)
+          end
+          break
+        end
+      end
+    elsif clasification == "per_hour" && state
+      boards.each do |b|
+        err = b.test_hour_campaigns(self,impression_hours.select{|c| !c.marked_for_destruction?})
         if err.any?
           err.each do |e|
             errors.add(:base, e)
