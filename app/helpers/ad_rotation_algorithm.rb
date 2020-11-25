@@ -24,44 +24,8 @@ module AdRotationAlgorithm
       end
 
     elsif new_campaign.clasification == "per_hour"
-      new_campaign_hours.each do |cpn|
-        if !valid_start(self, cpn)
-          err << I18n.t("bilbos.ads_rotation_error.before_power_on", name: self.name)
-          return err
-        end
-        reps = cpn.imp
-        start_t = cpn.start
-        end_t = cpn.end
-
-        if !valid_end(self,cpn)
-           err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
-           return err
-        end
-        wm = working_minutes(start_t, end_t)
-        if reps > (wm*60/new_campaign.ad.duration).to_i
-          err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (wm*60/new_campaign.ad.duration).to_i)
-          return err
-        end
-      end
-      week = ImpressionHour.days.keys - ["everyday"]
-      week.each do |week_day|
-        items = new_campaign_hours.select{|c| c.day == "everyday" || c.day == week_day}
-        if items.length > 1
-          items.each_with_index do |item1,idx1|
-            items.each_with_index do |item2,idx2|
-              next if idx2 <= idx1
-              start1, end1 = parse_hours(item1.start,item1.end)
-              start2, end2 = parse_hours(item2.start,item2.end)
-              if start1 < end2 and end1 > start2
-                k1 = new_campaign_hours.index(item1)+1
-                k2 = new_campaign_hours.index(item2)+1
-                err << I18n.t("bilbos.ads_rotation_error.overlapping_schedules", n1: k1, n2: k2)
-                return err
-              end
-            end
-          end
-        end
-      end
+      err = test_hour_campaigns(new_campaign,new_campaign_hours)
+      return err if err.present?
 
     elsif new_campaign.provider_campaign && new_campaign.clasification == "budget" && new_campaign.budget.present?
        imp = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
@@ -73,6 +37,49 @@ module AdRotationAlgorithm
     return err
   end
  #################################################################################33
+  def test_hour_campaigns(new_campaign,new_campaign_hours)
+     err = []
+     new_campaign_hours.each do |cpn|
+       if !valid_start(self, cpn)
+         err << I18n.t("bilbos.ads_rotation_error.before_power_on", name: self.name)
+         return err
+       end
+       reps = cpn.imp
+       start_t = cpn.start
+       end_t = cpn.end
+
+       if !valid_end(self,cpn)
+          err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
+          return err
+       end
+       wm = working_minutes(start_t, end_t)
+       if reps > (wm*60/new_campaign.ad.duration).to_i
+         err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (wm*60/new_campaign.ad.duration).to_i)
+         return err
+       end
+     end
+     week = ImpressionHour.days.keys - ["everyday"]
+     week.each do |week_day|
+       items = new_campaign_hours.select{|c| c.day == "everyday" || c.day == week_day}
+       if items.length > 1
+         items.each_with_index do |item1,idx1|
+           items.each_with_index do |item2,idx2|
+             next if idx2 <= idx1
+             start1, end1 = parse_hours(item1.start,item1.end)
+             start2, end2 = parse_hours(item2.start,item2.end)
+             if start1 < end2 and end1 > start2
+               k1 = new_campaign_hours.index(item1)+1
+               k2 = new_campaign_hours.index(item2)+1
+               err << I18n.t("bilbos.ads_rotation_error.overlapping_schedules", n1: k1, n2: k2)
+               return err
+             end
+           end
+         end
+       end
+     end
+    return err
+  end
+ ###################################################################################
   def add_bilbo_campaigns
     output = JSON.parse(self.ads_rotation)
 
@@ -90,7 +97,7 @@ module AdRotationAlgorithm
     h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
       h_cps_first[idx][:campaign_id] = name
-      h_cps[name] = [c.imp,c.start,c.end, c.campaign.ad.duration]
+      h_cps[name] = [c.imp,c.start,c.end, self.duration]
     end
     h_cps = sort_by_min_time(h_cps)
 
