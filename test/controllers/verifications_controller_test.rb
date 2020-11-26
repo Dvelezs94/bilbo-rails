@@ -36,4 +36,12 @@ class VerificationsControllerTest < ActionDispatch::IntegrationTest
     assert true, @camp1.on
   end
 
+  test "verification denied and create two verifications" do
+    @verification
+    @user.verifications.first.denied!
+    sleep 1
+    @verification2 = create(:verification, user_id: @user.id, name: @name, official_id: {io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'placeholder.png', content_type: 'image/png'}, business_name: "Bilbo", street_1: "Salvador 529", street_2: "Gonzalez Lobo", city: "Saltillo", state: "Coahuila", zip_code: 24883, country: "MX", rfc: nil, business_code: "", official_business_name: "", website: "http://bilbo.mx", phone: "999-999-9999", status: "pending")
+    assert_equal 2, @user.verifications.count
+  end
+
 end
