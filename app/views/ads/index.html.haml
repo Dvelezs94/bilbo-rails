@@ -16,13 +16,12 @@
             = t("ads.new_ad")
     / Content
 .content
-  .container.pd-x-0.pd-lg-x-12.pd-xl-x-0
+  .container#gallery_ads.pd-x-0.pd-lg-x-12.pd-xl-x-0
     .row#ads_body
       = render :partial => "new_ad_card"
       = render :partial => 'overview_card', collection: @ad_upcoming, as: :ad
-    #paginator.pd-t-10
-      = paginate @ad_upcoming, :remote => true, :param_name => "ad_upcoming_page"
-
+    .container#paginator.text-center.tx-13.pd-t-10
+      = link_to_next_page @ad_upcoming, "#{t("ads.more_ads")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "ad_upcoming_page"
   / container
 / content
 = render partial: "ads/new"
