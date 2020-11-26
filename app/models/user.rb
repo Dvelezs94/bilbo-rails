@@ -22,7 +22,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, format: Devise.email_regexp
   validates :name, format: { :with => /\A[^0-9`!@#\$%\^&*+_=]+\z/, multiline: false, message: 'Invalid name' }
-  # validates_format_of :phone_number, with: /\A\+\d{1,3}\d{10}\z/i, allow_nil: true, message: I18n.t("validations.only_numbers_for_phone")
+  validates_format_of :phone_number, with: /\A\+\d{1,3}\d{10}\z/i, allow_nil: true, message: I18n.t("validations.only_numbers_for_phone")
   has_many :boards
   # project related methods
   has_many :project_users, dependent: :destroy
@@ -173,9 +173,14 @@ class User < ApplicationRecord
   end
 
   def charge!(charge)
-    self.with_lock do
-      self.balance -= charge.to_f
-      save!
+    begin
+      self.with_lock do
+        self.balance -= charge.to_f
+        save!
+      end
+    rescue => e
+      ## make sure we send an alert if the impressions fail to create
+      Bugsnag.notify(e)
     end
   end
 
