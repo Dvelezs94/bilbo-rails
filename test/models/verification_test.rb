@@ -3,7 +3,7 @@ require 'test_helper'
 class VerificationTest < ActiveSupport::TestCase
   setup do
     @name = "Bilbo verification"
-    @user = create(:user, name: @name, verified: false)
+    @user = create(:user, name: @name, verified: false, email: "user@bilbo.mx")
     @verification = create(:verification, user_id: @user.id, name: @name, official_id: {io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'placeholder.png', content_type: 'image/png'}, business_name: "Bilbo", street_1: "Salvador 529", street_2: "Gonzalez Lobo", city: "Saltillo", state: "Coahuila", zip_code: 24883, country: "MX", rfc: nil, business_code: "", official_business_name: "", website: "http://bilbo.mx", phone: "999-999-9999", status: "pending")
   end
 
@@ -62,7 +62,9 @@ class VerificationTest < ActiveSupport::TestCase
 
   test "active campaign when user is not verified" do
     @project =  create(:project, name: @name)
-    @camp1 = create(:campaign, name: "on", project: @user.projects.first, project_id: @project.id, state: false)
+    @ad = create(:ad, name: "Coca-Cola", project_id: @user.projects.last.id)
+    @board = create(:board, project_id: @user.projects.last.id, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "5000", face: "north")
+    @camp1 = create(:campaign, name: "on", project_id: @user.projects.last.id, description: nil, state: false, ad_id: @ad.id, budget: 100, clasification: "budget", boards: [@board], budget: 350, state_updated_at: nil, status: "active")
     assert_equal false, @camp1.on
   end
 end
