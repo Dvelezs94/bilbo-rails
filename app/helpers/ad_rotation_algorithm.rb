@@ -120,7 +120,7 @@ module AdRotationAlgorithm
 
     ########################################## SECTION TO ADD USER BUDGET CAMPAIGNS #####################
 
-    cps  = self.campaigns.where(provider_campaign: false, clasification: "budget").select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, c.board_campaigns.find_by(board: self).remaining_impressions ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
+    cps  = self.campaigns.where(provider_campaign: false, clasification: "budget").select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, c.remaining_impressions(self.id) ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
     cycles = []                            # array to store the id's of the bilbo users campaigns the required times
     cps.each do |name, value|              # Fill the cycles array
        value.times do                      # with the id's of the
@@ -130,16 +130,7 @@ module AdRotationAlgorithm
 
     # Check the current time to start placing the ads from
     # current index at first, so we can maximize the earnings
-    st = Time.parse(self.start_time.strftime("%H:%M"))
-    et = Time.parse(self.end_time.strftime("%H:%M"))
-    ct = Time.parse(Time.zone.now.strftime("%H:%M:%S"))
-    et = et+1.day if et<=st
-    rotation_key = 0
-    if ct.between?(st,et)
-      elapsed_secs = ct-st
-      rotation_key = (elapsed_secs/10).to_i
-    end
-    ########################################################
+    rotation_key = get_current_index(self)
 
     cycles.shuffle!
     block_size = self.duration/10
@@ -157,7 +148,7 @@ module AdRotationAlgorithm
       end
     end
 
-    cycles = cycles[total_placed..]
+    cycles = cycles[total_placed.. ]
 
     #After placing the ads after the rotation_key position, place the remaining ads at the beginning of the array
     cycles.each do |name|
@@ -177,12 +168,11 @@ module AdRotationAlgorithm
       end
     end
 
-    p output
     return output
 
   end
 
-  def build_ad_rotation(new_campaign = nil)
+  def build_ad_rotation(new_campaign = nil, testing = false)
 
     err = []
     campaign_names = {}
@@ -195,7 +185,11 @@ module AdRotationAlgorithm
     end                     # ads
 
     r_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
-    r_cps = r_cps_first.map{ |c| [ c.id, [(c.budget_per_bilbo/(self.get_cycle_price(c) * c.ad.duration/self.duration)).to_i, (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    if testing
+      r_cps = r_cps_first.map{ |c| [ c.id, [(c.budget_per_bilbo/(self.get_cycle_price(c) * c.ad.duration/self.duration)).to_i, (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    else
+      r_cps = r_cps_first.map{ |c| [ c.id, [c.remaining_impressions(self), (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    end
     r_cycles = []
     total_r_cps_spaces = 0
 
@@ -227,7 +221,11 @@ module AdRotationAlgorithm
           end
         end
       elsif new_campaign.budget.present?
-        r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.ad.duration/self.duration)).to_i, (new_campaign.ad.duration/10).to_i]
+        if testing
+          r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.ad.duration/self.duration)).to_i, (new_campaign.ad.duration/10).to_i]
+        else
+          r_cps[new_campaign.id] = [new_campaign.remaining_impressions(self), (new_campaign.ad.duration/10).to_i]
+        end
         r_cps_first.append(new_campaign)
       end
     end
@@ -353,6 +351,8 @@ module AdRotationAlgorithm
         end
     end
 
+    rotation_key = get_current_index(self)
+
     #r_cycles = r_cycles.sort_by{|name, block_size| -block_size} #first put the biggest blocks
     r_cycles.each do |elem|
       name = elem[0]
@@ -379,7 +379,7 @@ module AdRotationAlgorithm
       end
     end
 
-    self.new_ads_rotation = output
+    self.new_ads_rotation = output unless testing
     return err
 
   end
@@ -512,5 +512,19 @@ def parse_hours(start_t,end_t)
   start_t += 1.day if start_t < board_start
   end_t += 1.day if start_t >= end_t
   return start_t,end_t
+end
+def get_current_index(board)
+  # Check the current time to start placing the ads from
+  # current index at first, so we can maximize the earnings
+  st = Time.parse(board.start_time.strftime("%H:%M"))
+  et = Time.parse(board.end_time.strftime("%H:%M"))
+  ct = Time.parse(Time.zone.now.strftime("%H:%M:%S"))
+  et = et+1.day if et<=st
+  rotation_key = 0
+  if ct.between?(st,et)
+    elapsed_secs = ct-st
+    rotation_key = (elapsed_secs/10).to_i
+  end
+  return rotation_key
 end
 end
