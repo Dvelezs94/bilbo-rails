@@ -113,13 +113,16 @@ class Campaign < ApplicationRecord
   def budget_per_bilbo
     self.budget / boards.length
   end
+
   def check_build_ad_rotation
     if ( state && !have_to_set_in_review_on_boards )
       boards.each do |b|
-        err = b.build_ad_rotation(self) if state_changed? && self.should_run?(b.id)
+        err = b.build_ad_rotation(self,true) if state_changed? && self.should_run?(b.id)
         if err.present?
           errors.add(:base, err.first)
           break
+        else
+          b.build_ad_rotation(self) if state_changed? && self.should_run?(b.id)
         end
       end
     end
@@ -293,7 +296,7 @@ class Campaign < ApplicationRecord
       end
     elsif clasification == "per_hour" && state
       boards.each do |b|
-        err = b.test_hour_campaigns(self,impression_hours.select{|c| !c.marked_for_destruction?})
+        err = b.test_hour_campaigns(self, impression_hours.select{|c| !c.marked_for_destruction?})
         if err.any?
           err.each do |e|
             errors.add(:base, e)
