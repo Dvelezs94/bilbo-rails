@@ -5,7 +5,7 @@
       .d-flex
         - if verification.present?
           = link_to url_from_media(verification.official_id), id: "id_picture", class: "glightbox d-none" do
-            = image_tag url_from_media(verification.official_id)
+            = image_tag url_from_media(verification.official_id.variant(resize_to_limit: [400,400]).processed)
           .btn.btn-sm.d-flex.align-items-center.mg-r-5.btn-outline-primary{ onclick: '$("#id_picture").click()' }
             %i.fe.fe-picture-square
             %span.d-none.d-sm-inline.mg-l-5 View ID Picture
