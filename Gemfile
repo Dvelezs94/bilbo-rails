@@ -137,3 +137,5 @@ gem 'intl-tel-input-rails', '~> 12.3'
 gem 'introjs-rails', '~> 1.0'
 # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
 gem 'web-console', '>= 3.3.0'
+# image thumbnails
+gem 'image_processing', '~> 1.2'
