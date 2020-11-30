@@ -351,13 +351,27 @@ module AdRotationAlgorithm
         end
     end
 
-    rotation_key = get_current_index(self)
-
     #r_cycles = r_cycles.sort_by{|name, block_size| -block_size} #first put the biggest blocks
+    rotation_key = get_current_index(self)
+    total_placed = 0
     r_cycles.each do |elem|
       name = elem[0]
       block_size = elem[1]
-      place_index = find_substring_index(output,["-"]*(block_size))
+      place_index = rotation_key + find_substring_index(output[rotation_key..],["-"]*(block_size))
+      if place_index != rotation_key - 1
+        place_index = push_to_left(output,place_index,block_size)
+        output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
+        total_placed += 1
+      else
+        break
+      end
+    end
+
+    r_cycles = r_cycles[total_placed.. ]
+    r_cycles.each do |elem|
+      name = elem[0]
+      block_size = elem[1]
+      place_index = find_substring_index(output[...rotation_key],["-"]*(block_size))
       if place_index != -1
         place_index = push_to_left(output,place_index,block_size)
         output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
