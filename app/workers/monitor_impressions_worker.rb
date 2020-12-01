@@ -17,7 +17,7 @@ class MonitorImpressionsWorker
 
     # Send slack alert
     if Rails.env.production? && send_alert
-      SlackNotifyWorker.perform_async("ALERTA: Pocas impresiones comparadas con el día de ayer. revistar #{Rails.env}")
+      SlackNotifyWorker.perform_async("ALERTA: Pocas impresiones comparadas con el día de ayer. revisar #{Rails.env}")
     end
   end
 end
