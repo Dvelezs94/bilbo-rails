@@ -101,7 +101,7 @@ module ApplicationHelper
     "#{hours.to_s.rjust(2, '0')}:#{minutes.to_s.rjust(2, '0')}:#{seconds.to_s.rjust(2, '0')}"
   end
 
-  def is_previewable(media, height, width)
+  def generate_thumbnail_video(media, height, width)
     if media.previewable?
        media.preview(resize_to_limit: [height, width]).processed
        return url_from_media_preview(media.preview(resize_to_limit: [height, width]).processed)
@@ -110,7 +110,7 @@ module ApplicationHelper
     end
   end
 
-  def is_variable(media, height, width)
+  def generate_thumbnail_image(media, height, width)
     if media.variable?
       return url_from_media_preview(media.variant(resize_to_limit: [height, width]).processed)
     else
