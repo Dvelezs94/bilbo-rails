@@ -13,10 +13,10 @@
             %div{class: "carousel-item #{'active' if i == 0}"}
               -if media.video?
                 = link_to url_from_media(media), class: "glightbox", :data => {caption: media.filename.base, group: media.record.id} do
-                  = image_tag is_previewable(media, 600, 300), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted'
+                  = image_tag generate_thumbnail_video(media, 600, 300), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted'
               -else
                 = link_to url_from_media(media), class: "glightbox", :data => {caption: media.filename.base, group: media.record.id, type: "image"} do
-                  = image_tag is_variable(media, 600, 300), size:"600x300", class: "d-block w-100"
+                  = image_tag generate_thumbnail_image(media, 600, 300), size:"600x300", class: "d-block w-100"
         - else
           .carousel-item.active
             = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
