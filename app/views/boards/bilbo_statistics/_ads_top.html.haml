@@ -15,16 +15,16 @@
               - @board.campaigns.find_by_name(@bilbo_top[0]).ad.images.each.with_index do |media_first,i|
                 %div{class: "carousel-item #{'active' if i == 0}"}
                   = link_to url_from_media(media_first), class: "glightbox", :data => {type: "image"} do
-                    = image_tag url_from_media(media_first.variant(resize_to_limit: [600,300]).processed), size:"600x300", class: "d-block w-100 obj-fit-scale-down"
+                    = image_tag is_variable(media_first, 600, 300), size:"600x300", class: "d-block w-100 obj-fit-scale-down"
             - else
               - @board.campaigns.find_by_name(@bilbo_top[0]).ad.multimedia.each.with_index do |media_first,i|
                 %div{class: "carousel-item #{'active' if i == 0}"}
                   -if media_first.video?
                     = link_to url_from_media(media_first), class: "glightbox" do
-                      = image_tag(url_from_media(media_first.preview(resize_to_limit: [600,300]).processed), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted', style: "object-fit: contain;")
+                      = image_tag is_previewable(media_first, 600, 300), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted', style: "object-fit: contain;"
                   -else
                     = link_to url_from_media(media_first), class: "glightbox", :data => {type: "image"} do
-                      = image_tag url_from_media(media_first.variant(resize_to_limit: [600,300]).processed), size:"600x300", class: "d-block w-100 obj-fit-scale-down"
+                      = image_tag is_variable(media_first, 600, 300), size:"600x300", class: "d-block w-100 obj-fit-scale-down"
             = render partial: "boards/bilbo_statistics/board_top", collection: @board.campaigns.where(name: @bilbo_top.map{|sub| sub.values_at(0)}.join(",").split(",").values_at(1,2,3)), as: :campaign
           -else
             .carousel-item.active
