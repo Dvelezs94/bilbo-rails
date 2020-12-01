@@ -42,6 +42,16 @@ $(document).on('turbolinks:load', function() {
               });
             }
             calculateMaxImpressions();
+            for(var i = 0; i<count; i++){
+              $("[hour_row]")[i].addEventListener("keyup", function(){
+                for(var j = 0; j < count; j++){
+                  if (this == $("[hour_row]")[j]){
+                    updateBudget(j);
+                    break;
+                  }
+                }
+              });
+            }
             if ($('#impressions').length) {
               calculatebudget();
             }
@@ -253,6 +263,12 @@ $(document).on('turbolinks:load', function() {
         }
       }
     }
+    function updateBudget(x){
+      console.log(x);
+      impressions = $($("[hour_row]")[x]).find('.impressionsPerHour').val();
+      calculateInvbudget(impressions)
+      $("[hour_row]").find('.impressions')[x].value = $("#campaign_budget").val();
+    }
 
     // calculate max impressions sum of all boards
     function calculateMaxImpressions() {
@@ -355,6 +371,16 @@ function make_summary_selected_hours() {
 function buttonCount() {
   //when user clicks button add schedule in hourly campaign count goes up is for validate the user click the button
   count += 1;
+  setTimeout(function(){
+    $("[hour_row]")[count-1].addEventListener("keyup", function(){
+      for(var j = 0; j < count; j++){
+        if (this == $("[hour_row]")[j]){
+          updateBudget(j);
+          break;
+        }
+      }
+    });
+  },1000);
 }
 
 function buttonSubstraction() {
