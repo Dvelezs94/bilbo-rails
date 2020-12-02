@@ -3,11 +3,11 @@
     = f.select :day, options_for_select([[I18n.t('week_days.everyday'), 'everyday'], [I18n.t('week_days.mon'), 'monday'], [I18n.t('week_days.tue'), 'tuesday'], [I18n.t('week_days.wed'), 'wednesday'], [I18n.t('week_days.thu'), 'thursday'], [I18n.t('week_days.fri'), 'friday'], [I18n.t('week_days.sat'), 'saturday'], [I18n.t('week_days.sun'), 'sunday']], f.object.day),{include_blank: I18n.t("week_days.days")} , class: "custom-select days_of_week", :required => true
   .quantity{style: "margin-right: 10px;margin-left: 10px;"}
     .input_group
-      = f.number_field :imp, { :min => "1", :step => "1", :class => "form-control impressionsPerHour", :required => true, placeholder: 300}
       .input-group-append
-        %span.input-group-text.pd-t-0.pd-b-0.pd-l-0.pd-r-10{"data-placement" => "top", "data-toggle" => "tooltip", :title => t('campaign.wizard.impressions_forecast')}
-          %input.readonly.impressions.input-group-text.border-0.text-center.no-outline-focus.pd-l-0.pd-r-0.input-number_integer{:min => "1", :step => "1", :type => "number"}
+        %span.input-group-text.pd-t-0.pd-b-0.pd-l-0.pd-r-10{"data-placement" => "top", "data-toggle" => "tooltip", :title => ""}
+          %input.budget.input-group-text.border-0.text-center.no-outline-focus.pd-l-0.pd-r-0.input-number_integer{:min => "1", :step => "1", :type => "number"}
             %i.pd-l-5.fe.fe-wallet
+        = f.number_field :imp, { :min => "1", :step => "1", :class => "form-control impressionsPerHour", :required => true, placeholder: 300}
   %span{style: "margin-top:10px;"}= t('campaign.wizard.impressions_hour')
   .quantity{style: "margin-right: 10px;margin-left: 20px;"}
     = f.time_field :start, { :class => "form-control timePickerStart", :required => true }
