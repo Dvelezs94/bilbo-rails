@@ -112,7 +112,7 @@ module ApplicationHelper
 
   def generate_thumbnail_image(media, height, width)
     if media.variable?
-      return url_from_media_preview(media.variant(resize_to_limit: [height, width]).processed)
+      return url_from_media_preview(media.variant(resize_to_limit: [height, width]))
     else
       return url_from_media(media)
     end
@@ -120,9 +120,9 @@ module ApplicationHelper
 
   def url_from_media_preview(media)
     if Rails.env.production? || Rails.env.staging?
-      "https://#{ENV.fetch('CDN_HOST')}/#{media.blob.key}"
+      media.service_url.split("?")[0]
     else
-      url_for(media)
+      url_for(media.image)
     end
   end
 
