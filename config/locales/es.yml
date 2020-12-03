@@ -126,6 +126,7 @@ es:
     width: Largo
     height: Alto
     know_more_about_roles: Leer más sobre los roles y permisos
+    from: de
   campaign:
     add_schedule: Agregar Horario
     must_add_schedule: Debe agregar un horario

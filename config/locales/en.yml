@@ -126,6 +126,7 @@ en:
     width: width
     height: height
     know_more_about_roles: Read more about roles and permissions
+    from: from
   campaign:
     add_schedule: Add Schedule
     must_add_schedule: You must add a schedule
