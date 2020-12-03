@@ -13,3 +13,6 @@ update_board_offset:
 update_remaining_impressions:
   cron: "0 0 * * *"
   class: "UpdateRemainingImpressionsWorker"
+monitor_impressions:
+  cron: "0 12 * * *"
+  class: "MonitorImpressionsWorker"
