@@ -101,26 +101,26 @@ module ApplicationHelper
     "#{hours.to_s.rjust(2, '0')}:#{minutes.to_s.rjust(2, '0')}:#{seconds.to_s.rjust(2, '0')}"
   end
 
-  def generate_thumbnail_video(media, height, width)
-    if media.previewable?
-       media.preview(resize_to_limit: [height, width]).processed
-       return url_from_media_preview(media.preview(resize_to_limit: [height, width]).processed)
+  def generate_thumbnail(media, height, width)
+    if media.video?
+      if media.previewable?
+         media.preview(resize_to_limit: [height, width]).processed
+         return url_from_media_preview(media.preview(resize_to_limit: [height, width]).processed)
+      else
+        return url_from_media(media)
+      end
     else
-      return url_from_media(media)
-    end
-  end
-
-  def generate_thumbnail_image(media, height, width)
-    if media.variable?
-      return url_from_media_preview(media.variant(resize_to_limit: [height, width]))
-    else
-      return url_from_media(media)
+      if media.variable?
+        return url_from_media_preview(media.variant(resize_to_limit: [height, width]))
+      else
+        return url_from_media(media)
+      end
     end
   end
 
   def url_from_media_preview(media)
     if Rails.env.production? || Rails.env.staging?
-      media.service_url.split("?")[0]
+      "https://#{ENV.fetch('CDN_HOST')}/#{media.service_url.split("?")[0].split("com/")[1]}"
     else
       url_for(media.image)
     end
