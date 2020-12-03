@@ -13,7 +13,7 @@
           = render partial: 'boards/board_images', collection: board.images, as: :image
         - else
           .carousel-item.active
-            = image_tag image_path("board_placeholder"), class: "d-block w-100", :data => {lity: true}, alt: "No Image"
+            = image_tag image_path("board_placeholder"), class: "d-block w-100", alt: "No Image"
     %a.carousel-control-prev{"data-slide" => "prev", :href => "#carouselBoardInfo", :role => "button"}
       %span.carousel-control-prev-icon{"aria-hidden" => "true"}
         %i.fe.fe-arrow-left.tx-30

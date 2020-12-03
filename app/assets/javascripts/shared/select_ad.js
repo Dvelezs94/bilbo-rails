@@ -1,3 +1,15 @@
+$(document).on('turbolinks:load', function() {
+  if ($('#gallery_ads').length) {
+    $(window).scroll(function(e) {
+      var url = $("#paginator a:visible").attr('href');
+      if (url && $(window).scrollTop() >= ($(document).height() - $(window).height())) {
+        $("#paginator a:visible").remove();
+        $.getScript(url);
+      }
+    });
+  }
+});
+
 function select_ad() {
   // choose ad in wizard
   if ($('.wizard-height').length) {
@@ -19,22 +31,10 @@ function select_ad() {
 }
 
 function scroll_ads() {
-  //get the ads with scroll infinite vent
-  var url = $("#paginator a:visible").attr('href');
-  if (url && $('#ads_body').scrollTop() > 20) {
-    if ($('#paginator a:visible')) {
-      ajaxLoading = true;
-      $.ajax({
-        url: url,
-        beforeSend: function() {
-          $('.loadingio-spinner-pulse-vlx1rsm1qjd').removeClass('d-none');
-          $("#paginator a").hide();
-        },
-        complete: function() {
-          $('.loadingio-spinner-pulse-vlx1rsm1qjd').addClass('d-none');
-          $("#paginator a").show();
-        },
-      });
-    }
+  //get the ads with scroll infinite event
+  url = $("#paginator a:visible").attr('href');
+  if (url && $('#ads_body').scrollTop() > 60) {
+    $("#paginator a:visible").remove();
+    $.getScript(url);
   }
 }
