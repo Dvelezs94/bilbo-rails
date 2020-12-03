@@ -6,9 +6,9 @@
           - if ad.multimedia.first
             - meta = get_image_size_from_metadata(ad.multimedia.first)
             -if (ActiveStorage::Filename.new(ad.multimedia.first.filename.to_s).extension_without_delimiter.include? "mp4")
-              = image_tag(url_from_media(ad.multimedia.first.preview(resize_to_limit: [600, 600]).processed), class: "img-inherit", autoplay: false, loop: true, muted: 'muted')
+              = image_tag generate_thumbnail(ad.multimedia.first, 600, 600), class: "img-inherit", autoplay: false, loop: true, muted: 'muted'
             -elsif meta[:height] <= 1080
-              = image_tag url_from_media(ad.multimedia.first.variant(resize_to_limit: [600, 600]).processed), class: "img-inherit"
+              = image_tag generate_thumbnail(ad.multimedia.first, 600, 600), class: "img-inherit"
             -else
               = image_tag "construction_video.webp", class: "img-inherit"
           - else
