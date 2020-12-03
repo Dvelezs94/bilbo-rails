@@ -6,7 +6,4 @@
       .row#ads_body.wizard-height{:onscroll => "scroll_ads();"}
         = render partial: "ads/new_ad_card"
         = render :partial => 'ads/overview_card', collection: @ad_upcoming, as: :ad
-      .container{style: "display: flex; align-items: center; justify-content: center;"}
-        = render :partial => 'loading_ads'
-      .container#paginator.text-center.tx-13.pd-t-10
-        = link_to_next_page @ad_upcoming, "#{t("ads.more_ads")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "ad_upcoming_page"
+        = render :partial => 'paginator'

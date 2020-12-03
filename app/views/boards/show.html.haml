@@ -1,0 +1,28 @@
+%script{:src => "//d2wy8f7a9ursnm.cloudfront.net/v7/bugsnag.min.js"}
+:javascript
+  Bugsnag.start({ apiKey: '#{ENV.fetch("BUGSNAG_BOARD_FRONTEND_API_KEY") {""}}' })
+.content.content-fixed.content-auth-alt.board-display.m-0.p-0.minh-100-vh.maxh-100-vh.w-100
+  .container.ht-100p.tx-center
+    .row.justify-content-center
+      .col-10.col-sm-6.col-md-4.col-lg-3.mg-t-40.mg-sm-t-0.d-flex.flex-column
+        .start-stream{"data-board" => "#{@board.slug}"}
+          .tx-100.lh-1
+            %i.fe.fe-play
+          %h3.mg-b-25.tx-white= t("bilbos.start_stream")
+      / col
+    / row
+  / container
+  .board-ads
+    - @active_campaigns.each do |campaign|
+      - if @board.images_only
+        = render partial: "campaigns/board_campaign", collection: campaign.ad.images, as: :media, locals: {campaign: campaign, board: @board}
+      - else
+        = render partial: "campaigns/board_campaign", collection: campaign.ad.multimedia, as: :media, locals: {campaign: campaign, board: @board}
+  #bilbo-ad
+    = render partial: "ads/bilbo_ad"
+  %input#ads_rotation.d-none{:readonly => "readonly", :value => "#{@board.add_bilbo_campaigns}"}/
+  %input#board_id.d-none{:readonly => "readonly", :value => "#{@board.id}"}/
+  %input#start_time.d-none{:readonly => "readonly", :value => "#{l(@board.start_time, format: "%m/%d/%Y, %-I:%M %p")}"}/
+  %input#work_hours.d-none{:readonly => "readonly", :value => "#{l(@board.start_time, format: '%H:%M')}-#{l(@board.end_time, format: '%H:%M')}"}/
+  %input#duration.d-none{:readonly => "readonly", :type => "number", :value => "10"}/
+  %input#api_token.d-none{:readonly => "readonly", :type => "text", :value => "#{@board.api_token}"}/
