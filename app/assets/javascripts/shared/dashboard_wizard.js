@@ -29,6 +29,11 @@ $(document).on('turbolinks:load', function() {
               if ($(document.querySelectorAll('.days_of_week:not(.noValid)')).length > 0) {
                 count = $(document.querySelectorAll('.days_of_week:not(.noValid)')).length;
               }
+              for(var i = 0; i<count; i++){
+                // set Event listeners to each hour_row and update the fields that are necessary
+                $($("[hour_row]")[i]).on('keyup change paste', function(e){ updateOnChanges(e,this);});
+                updateBudget(i);
+              }
             }
             if ($('#timePicker').length) {
               var d = new Date(),
@@ -42,11 +47,6 @@ $(document).on('turbolinks:load', function() {
               });
             }
             calculateMaxImpressions();
-            for(var i = 0; i<count; i++){
-              // set Event listeners to each hour_row and update the fields that are necessary
-              $($("[hour_row]")[i]).on('keyup change paste', function(e){ update(e,this);});
-              updateBudget(i);
-            }
             if ($('#impressions').length) {
               calculatebudget();
             }
@@ -219,9 +219,9 @@ $(document).on('turbolinks:load', function() {
         calculateInvbudget(this.value);
       });
       $('#impressions').width(($('#impressions').val().length + 5) * 8 + 'px');
-      // function to calculate impressions
     }
 
+    // function to calculate impressions
     function calculatebudget(testBudget = null) {
       total_impressions = 0;
       total_budget = (testBudget != null) ? testBudget : $('#campaign_budget').val();
@@ -259,21 +259,27 @@ $(document).on('turbolinks:load', function() {
       }
     }
 
-    function update(e,obj){
-      for(var j = 0; j < count; j++){
-        if(e["target"]["id"].startsWith("campaign_impression_hours_attributes")){
-          if (e["target"]["id"].endsWith("imp")){
-              if (obj == $("[hour_row]")[j]){
+    function updateOnChanges(e, obj) {
+      if ($('#add_schedule').length) {
+        for (var j = 0; j < count; j++) {
+          //update the budget in case the impressions are modified
+          if (obj == $("[hour_row]")[j]) {
+            if (e["target"]["id"].startsWith("campaign_impression_hours_attributes")) {
+              if (e["target"]["id"].endsWith("imp")) {
                 updateBudget(j);
                 break;
               }
+            } else if (e["target"]["id"] == "") {
+              //update the impressions in case the budget is modified
+              budget = $($("[hour_row]").find('.budget')[j]).val();
+              var imp = calculatebudget(budget);
+              $($("[hour_row]")[j]).find('.impressionsPerHour').val(imp);
+              break;
             }
-          } else if(e["target"]["id"] == ""){
-          var budget = $($("[hour_row]").find('.budget')[j]).val();
-          var imp = calculatebudget(budget);
-          $($("[hour_row]")[j]).find('.impressionsPerHour').val(imp);
+          }
         }
       }
+      return;
     }
 
     // calculate max impressions sum of all boards
@@ -346,7 +352,7 @@ $(document).on('turbolinks:load', function() {
 
     $("#add_schedule").on('click', function(){
       setTimeout(function(){
-        $($("[hour_row]")[count-1]).on('keyup change paste', function(e){ update(e,this);});
+        $($("[hour_row]")[count-1]).on('keyup change paste', function(e){ updateOnChanges(e,this);});
       },100);
     });
 
