@@ -119,7 +119,7 @@ module ApplicationHelper
 
   def url_from_media_preview(media)
     if Rails.env.production? || Rails.env.staging?
-      "https://#{ENV.fetch('CDN_HOST')}/#{media.service_url.split("?")[0].split("com/")[1]}"
+      "https://#{ENV.fetch('CDN_HOST')}#{URI.parse(media.service_url).path}"
     else
       url_for(media.image)
     end
