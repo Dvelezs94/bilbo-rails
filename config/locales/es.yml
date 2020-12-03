@@ -31,6 +31,7 @@ es:
     sign_up: Crear Nueva Cuenta
     sign_up_banner: El registro es gratis y solo te tomara 1 minuto.
     already_have_account: Ya tienes una cuenta?
+    dont_have_an_account: ¿Todavía no tienes una cuenta?
     sign_in: Iniciar Sesión
     remember_me: Mantener sesión Iniciada
     sign_in_banner: Bienvenido de nuevo! Por favor inicia sesión para continuar
