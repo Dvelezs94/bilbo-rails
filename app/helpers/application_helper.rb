@@ -104,7 +104,6 @@ module ApplicationHelper
   def generate_thumbnail(media, height, width)
     if media.video?
       if media.previewable?
-         media.preview(resize_to_limit: [height, width]).processed
          return url_from_media_preview(media.preview(resize_to_limit: [height, width]).processed)
       else
         return url_from_media(media)
