@@ -5,7 +5,7 @@
     .input-group
       .input-group-prepend
         %span.input-group-text $
-      %input.budget.form-control.input-group-text.text-center.input-number_integer{:min => "1", :step => "1", :type => "number"}
+      %input.budget.form-control.input-group-text.text-center.input-number{:min => "1", :step => "any", :type => "number"}
       = f.number_field :imp, { :min => "1", :step => "1", :class => "form-control impressionsPerHour", :required => true, placeholder: 300}
       .input-group-append
         %span.input-group-text= t("campaign.impressions")
