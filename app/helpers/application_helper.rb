@@ -110,7 +110,7 @@ module ApplicationHelper
       end
     else
       if media.variable?
-        return url_from_media_preview(media.variant(resize_to_limit: [height, width]))
+        return url_from_media_preview(media.variant(resize_to_limit: [height, width]).processed)
       else
         return url_from_media(media)
       end
