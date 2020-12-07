@@ -536,7 +536,12 @@ es:
   projects:
     project: Proyecto
     project_name: Proyecto %{parameter}
-    successfully_created: Proyect creado con éxito
+    name: Nombre del proyecto
+    classification: Tipo de proyecto
+    campaign_budget: Campañas por presupuesto
+    campaign_minute: Campañas por minuto
+    campaign_hour: Campañas por hora
+    successfully_created: Proyecto creado con éxito
     error: Error al crear proyecto
     member_invited: Miembro invitado con éxito
     member_invited_error: Error al invitar miembro
