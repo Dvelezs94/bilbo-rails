@@ -531,6 +531,11 @@ en:
   projects:
     project: Project
     project_name: Project %{parameter}
+    name: Project name
+    classification: Project class
+    campaign_budget: Budget campaigns
+    campaign_minute: Campaigns per minute
+    campaign_hour: Campaigns per hour
     successfully_created: Project successfully created
     error: Could not create project
     member_invited: successfully invited member

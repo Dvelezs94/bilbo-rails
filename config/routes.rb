@@ -150,6 +150,9 @@ Rails.application.routes.draw do
     member do
       get :change_project
     end
+    collection do
+      get :admin_index
+    end
   end
 
   resources :charts, only: [] do

@@ -1,0 +1,25 @@
+= render 'shared/header_admin', menu: "projects"
+.content.content-fixed
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .d-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+      %div
+        %nav{"aria-label" => "breadcrumb"}
+          %ol.breadcrumb.breadcrumb-style1.mg-b-10
+            %li.breadcrumb-item
+              %a{:href => "/"}= t("campaign.home")
+            %li.breadcrumb-item.active{"aria-current" => "page"}= t("projects.project")
+        %h4.mg-b-0.tx-spacing--1= t("projects.project")
+    .row
+      .table-responsive
+        %table#userCampaignTable.table
+          %thead
+            %tr
+              %th= t("projects.name")
+              %th= t("projects.classification")
+              %th= t("projects.campaign_budget")
+              %th= t("projects.campaign_minute")
+              %th= t("projects.campaign_hour")
+              %th.no-sort
+          %tbody= render partial: "projects/project_row", collection: @projects, as: :project
+  / container
+/ content

@@ -1,0 +1,29 @@
+%tr
+  %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip"}= project.name
+  %td.text-right=project.classification
+  - available = JSON.parse(project.available_campaign_types)
+  = form_tag admin_index_projects_path(project), method: "put" do
+    %td.text-center=check_box_tag "budget[#{project.slug}]", 1, available.include?("budget")
+    %td.text-center=check_box_tag "per_minute[#{project.slug}]", 1, available.include?("per_minute")
+    %td.text-center=check_box_tag "per_hour[#{project.slug}]", 1, available.include?("per_hour")
+    %td= submit_tag "Save changes"
+  -# %td
+  -#   .dropdown
+  -#     %span.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+  -#       = t("payments.actions")
+  -#     .dropdown-menu
+  -#       %a.dropdown-item{:href => edit_campaign_path(campaign, gtm_campaign_edit: true)}
+  -#         %i.fe.fe-edit.mg-r-5
+  -#         = t("general_inputs.edit")
+  -#       %a.dropdown-item{:href => analytics_campaign_path(campaign)}
+  -#         %i.fe.fe-activity.mg-r-5
+  -#         = t("campaign.metrics")
+  -#       - if @project.admins.include? current_user.id
+  -#         = link_to edit_campaign_subscribers_path(campaign.slug), remote: true, method: :get, class: "dropdown-item" do
+  -#           %i.fe.fe-users.mg-r-5
+  -#           = t("campaign.subscribers.edit")
+  -#       %a.clipboard-btn.dropdown-item.tx-success{"data-clipboard-text" => shorten_link(analytics_campaign_url(campaign.slug)), :href => ""}
+  -#         %i.fe.fe-share.mg-r-5
+  -#         = t("campaign.share")
+  -#       .dropdown-divider
+  -#       = link_to raw("<i class='fe fe-trash mg-r-5'></i>#{t("campaign.destroy")}"), campaign_path(campaign), method: "delete", class: "dropdown-item tx-danger", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
