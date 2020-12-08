@@ -119,6 +119,14 @@ Rails.application.routes.draw do
         post :impersonate
       end
     end
+    resources :projects do
+      collection do
+        get :index
+      end
+      member do
+        put :update_permissions
+      end
+    end
     resources :payments, only: [] do
       collection do
         get :index
@@ -149,9 +157,6 @@ Rails.application.routes.draw do
     resources :project_users, path: :users, module: :projects, only: [:create, :destroy]
     member do
       get :change_project
-    end
-    collection do
-      get :admin_index
     end
   end
 
