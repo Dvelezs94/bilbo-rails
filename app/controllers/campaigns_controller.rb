@@ -5,8 +5,7 @@ class CampaignsController < ApplicationController
   before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :check_params]
   before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :campaign_not_active, only: [:edit]
-  before_action :check_params, only: [:update]
-
+  
   def index
     @created_ads = @project.ads.present?
     @created_campaigns = @project.campaigns.present?
@@ -185,39 +184,6 @@ class CampaignsController < ApplicationController
   end
 
   private
-
-  def check_params
-    p "x" * 600
-    p @campaign.ad_id
-    p campaign_params[:ad_id].to_i
-    p @campaign.boards.ids.sort
-    p campaign_params[:boards].ids.sort
-    p @campaign.budget
-    p campaign_params[:budget]
-
-    if  @campaign.ad_id == campaign_params[:ad_id].to_i && @campaign.boards.ids.sort == campaign_params[:boards].ids.sort && @campaign.budget == campaign_params[:budget]
-      if campaign_params[:starts_at].present? && campaign_params[:starts_at].present? && !@campaign.starts_at.nil? && !@campaign.ends_at.nil?
-        if @campaign.starts_at.strftime("%F") == campaign_params[:starts_at] && @campaign.ends_at.strftime("%F") == campaign_params[:ends_at]
-
-      redirect_to campaigns_path
-    end
-    #if @campaign.clasification == "budget"
-    #  if campaign_params[:starts_at].present? && campaign_params[:ends_at].present?
-    #    if @campaign.starts_at.present? && @campaign.ends_at.present?
-    #      p @campaign.starts_at.strftime("%F")
-    #      p campaign_params[:starts_at]
-    #      p @campaign.ends_at.strftime("%F")
-    #      p campaign_params[:ends_at]
-    #      if  @campaign.starts_at.strftime("%F") == campaign_params[:starts_at] && @campaign.ends_at.strftime("%F") == campaign_params[:ends_at] && @campaign.ad_id == campaign_params[:ad_id].to_i && @campaign.boards.ids.sort == campaign_params[:boards].ids.sort && @campaign.budget == campaign_params[:budget]
-    #        redirect_to campaigns_path
-    #      end
-    #    end
-    #  elsif @campaign.ad_id == campaign_params[:ad_id].to_i && @campaign.boards.ids.sort == campaign_params[:boards].ids.sort && @campaign.budget == campaign_params[:budget]
-    #      redirect_to campaigns_path
-    #  end
-    #end
-  end
-
 
   def campaign_params
     @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :hour_start, :hour_finish, :imp, :minutes, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
