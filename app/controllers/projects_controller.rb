@@ -2,16 +2,12 @@ class ProjectsController < ApplicationController
   include CookiesProject
   access user: :all
   before_action :set_selected_project, only: :destroy
-  before_action :verify_authenticity_token, only: [:update]
+  before_action :verify_identity, only: [:update]
   before_action :validate_owner, only: :destroy
   before_action :validate_project_count, only: :destroy
 
   def index
     @projects = current_user.projects.includes(:project_users, :campaigns, :ads).enabled
-  end
-
-  def admin_index
-    @projects = Project.all
   end
 
   def create
@@ -25,11 +21,6 @@ class ProjectsController < ApplicationController
       flash[:error] = @new_project.errors.full_messages.to_sentence
     end
     redirect_to root_url()
-  end
-
-  def update
-    p params
-    redirect_to admin_index_projects_path
   end
 
   def destroy

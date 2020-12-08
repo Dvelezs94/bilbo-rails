@@ -1,0 +1,10 @@
+%tr
+  %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip"}= project.name
+  %td.text-right=project.classification
+  - available = JSON.parse(project.available_campaign_types)
+  - disable = project.classification == "user"
+  = form_tag update_permissions_admin_project_path(project), method: "put" do
+    %td.text-center=check_box_tag "budget[#{project.slug}]", 'true', available.include?("budget")
+    %td.text-center=check_box_tag "per_minute[#{project.slug}]", 'true', available.include?("per_minute"), :disabled => disable
+    %td.text-center=check_box_tag "per_hour[#{project.slug}]", 'true', available.include?("per_hour")
+    %td= submit_tag "Save changes"

@@ -541,6 +541,8 @@ es:
     campaign_budget: Campañas por presupuesto
     campaign_minute: Campañas por minuto
     campaign_hour: Campañas por hora
+    permissions_changed: Los permisos del proyecto han sido actualizados con éxito
+    nothing_changed: La configuración no fue modificada
     successfully_created: Proyecto creado con éxito
     error: Error al crear proyecto
     member_invited: Miembro invitado con éxito
