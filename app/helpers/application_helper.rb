@@ -100,4 +100,30 @@ module ApplicationHelper
 
     "#{hours.to_s.rjust(2, '0')}:#{minutes.to_s.rjust(2, '0')}:#{seconds.to_s.rjust(2, '0')}"
   end
+
+  def generate_thumbnail(media, height, width)
+    if media.video?
+      if media.previewable?
+         return url_from_media_preview(media.preview(resize_to_limit: [height, width]).processed)
+      else
+        return url_from_media(media)
+      end
+    else
+      if media.variable?
+        return url_from_media_preview(media.variant(resize_to_limit: [height, width]).processed)
+      else
+        return url_from_media(media)
+      end
+    end
+  end
+
+  def url_from_media_preview(media)
+    if Rails.env.production? || Rails.env.staging?
+      "https://#{ENV.fetch('CDN_HOST')}#{URI.parse(media.service_url).path}"
+    else
+      url_for(media.image)
+    end
+  end
+
+
 end

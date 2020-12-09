@@ -3,6 +3,7 @@
   = f.text_field :ad_id, :class => "d-none", required: true, readonly: true
   %hr
     .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
-      .row.wizard-height
+      .row#ads_body.wizard-height{:onscroll => "scroll_ads();"}
         = render partial: "ads/new_ad_card"
-        = render partial: 'ads/overview_card', collection: @ads, as: :ad
+        = render :partial => 'ads/overview_card', collection: @ad_upcoming, as: :ad
+        = render :partial => 'paginator'

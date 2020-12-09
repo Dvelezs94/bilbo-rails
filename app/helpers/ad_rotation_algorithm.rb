@@ -75,19 +75,48 @@ module AdRotationAlgorithm
  #################################################################################33
   def add_bilbo_campaigns
     output = JSON.parse(self.ads_rotation)
-    cps  = self.campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, (c.budget_per_bilbo/self.get_cycle_price(c)).to_i ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
-    cycles = []                            # array to store the name of the bilbo users the required times
+    cps  = self.campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, c.board_campaigns.find_by(board: self).remaining_impressions ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
+    cycles = []                            # array to store the id's of the bilbo users campaigns the required times
     cps.each do |name, value|              # Fill the cycles array
-       value.times do                      # with the names of the
-           cycles << name                  # bilbo users
+       value.times do                      # with the id's of the
+           cycles << name                  # bilbo users campaigns
        end
     end
+
+    # Check the current time to start placing the ads from
+    # current index at first, so we can maximize the earnings
+    st = Time.parse(self.start_time.strftime("%H:%M"))
+    et = Time.parse(self.end_time.strftime("%H:%M"))
+    ct = Time.parse(Time.zone.now.strftime("%H:%M:%S"))
+    et = et+1.day if et<=st
+    rotation_key = 0
+    if ct.between?(st,et)
+      elapsed_secs = ct-st
+      rotation_key = (elapsed_secs/10).to_i
+    end
+    ########################################################
 
     cycles.shuffle!
     block_size = self.duration/10
 
+    total_placed = 0
+    # Place the ads in the array after the rotation key (because are the ones that will be displayed first)
     cycles.each do |name|
-      place_index = find_substring_index(output,["-"]*(block_size))
+      place_index = rotation_key + find_substring_index(output[rotation_key..],["-"]*(block_size))
+      if place_index != rotation_key - 1
+        place_index = push_to_left(output,place_index)
+        output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
+        total_placed +=1
+      else
+        break
+      end
+    end
+
+    cycles = cycles[total_placed..]
+
+    #After placing the ads after the rotation_key position, place the remaining ads at the beginning of the array
+    cycles.each do |name|
+      place_index = find_substring_index(output[...rotation_key],["-"]*(block_size))
       if place_index != -1
         place_index = push_to_left(output,place_index)
         output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
@@ -95,6 +124,7 @@ module AdRotationAlgorithm
         break
       end
     end
+
     return output
 
   end
@@ -144,7 +174,7 @@ module AdRotationAlgorithm
           end
         end
       elsif new_campaign.budget.present?
-        r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/self.cycle_price).to_i, (new_campaign.ad.duration/10).to_i]
+        r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.ad.duration/self.duration)).to_i, (new_campaign.ad.duration/10).to_i]
         r_cps_first.append(new_campaign)
       end
     end
@@ -255,8 +285,6 @@ module AdRotationAlgorithm
             end #end times
             index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
             if index_array.length<displays
-              p "ERROR"
-              p output
               err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
               return err
             end

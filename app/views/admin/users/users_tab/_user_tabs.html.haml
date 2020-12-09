@@ -4,7 +4,8 @@
       %h6.mg-b-0 Personal Details
       .d-flex
         - if verification.present?
-          = image_tag url_from_media(verification.official_id), class: "d-none", id: "id_picture", :data => {lity: true}, alt: "No Image"
+          = link_to url_from_media(verification.official_id), id: "id_picture", class: "glightbox d-none" do
+            = image_tag generate_thumbnail(verification.official_id, 600, 600)
           .btn.btn-sm.d-flex.align-items-center.mg-r-5.btn-outline-primary{ onclick: '$("#id_picture").click()' }
             %i.fe.fe-picture-square
             %span.d-none.d-sm-inline.mg-l-5 View ID Picture
