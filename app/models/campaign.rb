@@ -117,11 +117,14 @@ class Campaign < ApplicationRecord
   def check_build_ad_rotation
     if ( state && !have_to_set_in_review_on_boards )
       boards.each do |b|
+        #Check the ad rotation with the total impressions (for budget campaigns) but do not save
         err = b.build_ad_rotation(self,true) if state_changed? && self.should_run?(b.id)
         if err.present?
           errors.add(:base, err.first)
           break
         else
+          #In case no error is found
+          #Build again the ad rotation and save it, only with the remaining impressions of the budget campaigns
           b.build_ad_rotation(self) if state_changed? && self.should_run?(b.id)
         end
       end
