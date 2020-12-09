@@ -52,8 +52,7 @@ class BoardsController < ApplicationController
         ActionCable.server.broadcast(
           @board.slug,
           action: "update_rotation",
-          ads_rotation: @board.add_bilbo_campaigns.to_s,
-          remaining_impressions: @board.get_user_remaining_impressions.to_s
+          ads_rotation: @board.add_bilbo_campaigns.to_s
         )
       end
     end

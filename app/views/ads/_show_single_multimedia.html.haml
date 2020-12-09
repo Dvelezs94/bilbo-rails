@@ -3,10 +3,12 @@
     .card-file-thumb.bg-white
       - meta = get_image_size_from_metadata(multimedia)
       -if multimedia.video?
-        = video_tag(url_from_media(multimedia), class: "img-inherit", :controls => true, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted')
+        = link_to url_from_media(multimedia), class: "glightbox img-inherit", :data => {caption: multimedia.filename.base, group: multimedia.record.id} do
+          = image_tag generate_thumbnail(multimedia, 600, 600), class: "img-inherit", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted'
       -else
         -if meta[:height] <= 1080
-          = image_tag url_from_media(multimedia), class: "img-inherit", :data => {lity: true}
+          = link_to url_from_media(multimedia), class: "glightbox img-inherit", :data => {caption: multimedia.filename.base, group: multimedia.record.id, type: "image"} do
+            = image_tag generate_thumbnail(multimedia, 600, 600), class: "img-inherit"
         -else
           = image_tag "construction_video.webp", class: "img-inherit"
     .card-body

@@ -16,7 +16,7 @@ class Board < ApplicationRecord
   has_many_attached :default_images
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
-  before_update :save_old_cycle_price
+  before_update :save_new_cycle_price, if: :admin_edit
   enum status: { enabled: 0, disabled: 1 }
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
   validates_presence_of :lat, :lng, :utc_offset,:avg_daily_views, :width, :height, :address, :name, :category, :base_earnings, :face, :start_time, :end_time, on: :create
@@ -170,8 +170,8 @@ class Board < ApplicationRecord
   end
 
   # there needs to be a sale currently running, otherwise it will return an error
-  def sale_cycle_price
-    (cycle_price * ((current_sale.percent - 100).abs * 0.01)).round(3)
+  def sale_cycle_price(date = Time.zone.now)
+    return current_sale.present?? (cycle_price(date) * ((current_sale.percent - 100).abs * 0.01)) : cycle_price(date)
   end
 
   def calculate_old_max_earnings(bilbo_percentage: 20)
@@ -180,35 +180,16 @@ class Board < ApplicationRecord
     (base_earnings_was * ((1+provider_extra_percentage)/(1-bilbo_percentage_earnings))).round(2)
   end
 
-  def old_cycle_price(date = Time.zone.now)
-    daily_seconds = working_minutes(start_time_was, end_time_was) * 60
-    total_days_in_month = date.end_of_month.day
-    # this is 100% of possible earnings in the month
-    total_monthly_possible_earnings = calculate_old_max_earnings
-    (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration_was
-  end
-
-  def save_old_cycle_price
+  def save_new_cycle_price
     bcs = BoardsCampaigns.where(board: self)
-    if keep_old_cycle_price_on_active_campaigns
-      pr = old_cycle_price(Time.parse("Apr,1 , 2020")) #i selected a month that has 30 days so in average its almost same as changing price in function of month days for a year
-      bcs.update(cycle_price: pr)
-    else
-      bcs.update(cycle_price: nil)
+    if !keep_old_cycle_price_on_active_campaigns
+      bcs.update(cycle_price: cycle_price)
     end
   end
 
-  def get_cycle_price(campaign) #campaigns can use an old cycle price
-    bc = BoardsCampaigns.find_by(board: self, campaign: campaign)
-    if bc.cycle_price.present?
-       bc.cycle_price
-    else
-      if self.sales.running.empty?
-        self.cycle_price
-      else
-        self.sale_cycle_price
-      end
-    end
+  def get_cycle_price(campaign, bc = nil) #campaigns can use an old cycle price
+    bc = BoardsCampaigns.find_by(board: self, campaign: campaign) if bc.nil?
+    (bc.cycle_price * (( ((bc.sale.present?)? bc.sale.percent : 0) - 100).abs * 0.01))
   end
 
   # Check if there are Action cable connections in place
@@ -360,18 +341,6 @@ class Board < ApplicationRecord
   end
   def time_h_m_s(time)
     time.strftime("%H:%M:%S")
-  end
-
-  def get_user_remaining_impressions
-    active_user_campaigns = self.campaigns.includes(:impressions).where(provider_campaign:false,status:"active",state:true)
-    user_impressions = []
-    active_user_campaigns.each do |cpn|
-      impression_count = cpn.daily_impressions(Time.zone.now.beginning_of_day .. Time.zone.now.end_of_day, self.id)
-      today_impressions = impression_count.present?? impression_count.values[0] : 0
-      daily_max = (cpn.budget_per_bilbo/(self.get_cycle_price(cpn) * cpn.ad.duration/self.duration)).to_i
-      user_impressions << [cpn.id, daily_max - today_impressions]
-    end
-    return user_impressions
   end
 
     # Get the pixel size for correct image fit in the bilbo

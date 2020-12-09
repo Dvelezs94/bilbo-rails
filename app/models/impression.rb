@@ -9,7 +9,8 @@ class Impression < ApplicationRecord
   belongs_to :campaign
   before_create :set_total_price
   after_create :update_balance
-  after_create :continue_runnning_campaign
+  after_create :update_remaining_impressions
+  after_create :continue_running_campaign
   def action #is used to make the action in board
     @action  || "delete" #default action is delete in front, if specified then keep
   end
@@ -30,10 +31,16 @@ class Impression < ApplicationRecord
   end
 
   def update_balance
-      self.campaign.project.owner.charge!(self.total_price)
+    self.campaign.project.owner.charge!(self.total_price)
   end
 
-  def continue_runnning_campaign
+  def update_remaining_impressions
+    if self.campaign.clasification == "budget"
+      BoardsCampaigns.find_by(board: self.board, campaign: self.campaign).decrement!(:remaining_impressions)
+    end
+  end
+
+  def continue_running_campaign
     if self.campaign.should_run?(board_id)
       true
     else

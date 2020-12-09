@@ -4,7 +4,11 @@ class AdsController < ApplicationController
   #before_action :verify_identity, only: [:show, :destroy, :update]
 
   def index
-    get_active_ads
+    @ad_upcoming = get_active_ads.page(params[:ad_upcoming_page]).per(11)
+    respond_to do |format|
+        format.js
+        format.html
+      end
   end
 
   def show
