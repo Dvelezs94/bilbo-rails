@@ -35,10 +35,9 @@ class CampaignTest < ActiveSupport::TestCase
     assert true, @campaign.has_multimedia?
   end
   test "should run" do
-    @board_id = "30"
     @board = create(:board,project: @user.projects.first, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A
-      ", base_earnings: "5000", face: "north", id: @board_id)
-      assert true, @campaign.should_run?(@board_id)
+      ", base_earnings: "5000", face: "north")
+      assert true, @campaign.should_run?(@board.id)
   end
   test "project status" do
     @campaign.project_status
@@ -58,8 +57,7 @@ class CampaignTest < ActiveSupport::TestCase
     assert true, @campaign.off
   end
   test "owner" do
-    @id = "18"
-    @user = create(:user, name: "Zoro", id: @id)
+    @user = create(:user, name: "Zoro")
     @campaign = create(:campaign, name: "wano", project: @user.projects.first)
     assert_equal @user, @campaign.owner
   end
