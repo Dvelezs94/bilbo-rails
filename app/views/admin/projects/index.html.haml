@@ -10,6 +10,8 @@
             %li.breadcrumb-item.active{"aria-current" => "page"}= t("projects.project")
         %h4.mg-b-0.tx-spacing--1= t("projects.project")
     .row
+      = form_with url: root_path, method: :put, id: "form_for_projects", class: "d-none" do |f|
+        %p Dynamically fill this form, dont erase this p!!
       .table-responsive
         %table#userCampaignTable.table
           %thead
