@@ -2,10 +2,10 @@ class CampaignsController < ApplicationController
   include UserActivityHelper
   access [:user, :provider] => :all, all: [:analytics, :shortened_analytics]
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :check_params]
+  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :campaign_not_active, only: [:edit]
-  
+
   def index
     @created_ads = @project.ads.present?
     @created_campaigns = @project.campaigns.present?
