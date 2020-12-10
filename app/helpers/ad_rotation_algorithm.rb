@@ -168,8 +168,6 @@ module AdRotationAlgorithm
       end
     end
 
-    # p output
-    sleep(1)
     return output
 
   end
