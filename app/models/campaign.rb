@@ -4,6 +4,7 @@ class Campaign < ApplicationRecord
   include BroadcastConcern
   include ShortenerHelper
   include ProjectConcern
+  include ReviewBoardCampaignsConcern
   extend FriendlyId
   attr_accessor :owner_updated_campaign
   friendly_id :slug_candidates, use: :slugged
@@ -85,24 +86,11 @@ class Campaign < ApplicationRecord
   end
 
   def have_to_set_in_review_on_boards
-    if provider_campaign
-      return owner_updated_campaign
-    else
-      return ad_id_changed?
-    end
+    return ad_id_changed? || budget_changed? || minutes_changed? || imp_changed? || hour_start_changed? || hour_finish_changed? || starts_at_changed? || ends_at_changed?
   end
 
-  def set_in_review_and_update_price(extra_percentage = 20)
-    board_campaigns.each do |bc|
-      attr = {}
-      attr.merge!({status: "in_review"}) if have_to_set_in_review_on_boards
-      #Add an extra price for user campaigns per hour
-      base_price = bc.board.cycle_price
-      price = (bc.campaign.clasification == "per_hour" and !bc.campaign.provider_campaign?)? base_price*(1+extra_percentage/100.0) : base_price
-
-      attr.merge!({cycle_price: price, sale: bc.board.current_sale, update_remaining_impressions: true}) if owner_updated_campaign
-      bc.update(attr) if attr.any?
-    end
+  def set_in_review_and_update_price
+    set_in_review_boards_and_update_price(self, have_to_set_in_review_on_boards, owner_updated_campaign)
   end
 
   def project_status
