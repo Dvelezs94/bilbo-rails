@@ -301,7 +301,7 @@ class Campaign < ApplicationRecord
 
   def notify_in_a_week
     bilbo_project_ids = [32] #Projects owned by bilbo
-    if ad_id_changed?(from: nil) && self.project.id.in? bilbo_project_ids
+    if ad_id_changed?(from: nil) && self.project.id.in?(bilbo_project_ids)
       SlackNotifyWorker.perform_at(7.days.from_now, "La campaña #{self.name} se creó hace una semana, revisa las metricas!")
     end
   end
