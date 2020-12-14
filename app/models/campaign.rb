@@ -86,8 +86,16 @@ class Campaign < ApplicationRecord
     end
   end
 
+  # def have_to_set_in_review_on_boards
+  #   return ad_id_changed? || budget_changed? || minutes_changed? || imp_changed? || hour_start_changed? || hour_finish_changed? || starts_at_changed? || ends_at_changed?
+  # end
+
   def have_to_set_in_review_on_boards
-    return ad_id_changed? || budget_changed? || minutes_changed? || imp_changed? || hour_start_changed? || hour_finish_changed? || starts_at_changed? || ends_at_changed?
+    if provider_campaign
+      return owner_updated_campaign
+    else
+      return ad_id_changed?
+    end
   end
 
   def set_in_review_and_update_price
