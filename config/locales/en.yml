@@ -183,6 +183,7 @@ en:
     percentage_minus: "%{percentage}% less"
     view_bilbos_used: View bilbos utilized
     user_has_no_credits_disclaimer: The owner of this project does not have credits, which means this campaign will be shown once the owner purchases credits.
+    extra_cost_info: Campaigns per hour have an additional cost of %{ammount}% per impression compared to the base cost of the bilbo 
     ads_rotation_error:
       accepted_but_error: The campaign was accepted but deactivated because %{error}
     wizard:
