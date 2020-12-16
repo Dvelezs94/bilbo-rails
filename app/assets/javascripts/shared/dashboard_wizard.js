@@ -272,7 +272,7 @@ $(document).on('turbolinks:load', function() {
             } else if (e["target"]["id"] == "") {
               //update the impressions in case the budget is modified
               budget = $($("[hour_row]").find('.budget')[j]).val();
-              var imp = calculatebudget(budget);
+              var imp = computeImpressionsPerHour(budget);
               $($("[hour_row]")[j]).find('.impressionsPerHour').val(imp);
               break;
             }
@@ -358,8 +358,31 @@ $(document).on('turbolinks:load', function() {
 
     function updateBudget(x){
       impressions = $($("[hour_row]")[x]).find('.impressionsPerHour').val();
-      $($("[hour_row]").find('.budget')[x]).val(calculateInvbudget(impressions))
+      $($("[hour_row]").find('.budget')[x]).val(computeBudget(impressions))
     }
+
+    function computeImpressionsPerHour(budget){
+      price = 0;
+      $('#selected_boards option:not(:eq(0))').each(function() {
+        cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
+        price += $(this).data('price') * cycles;
+      });
+      impressions = parseInt(budget/price);
+      max_boards_impr = parseInt($('#max_impressions').val());
+      if (impressions > max_boards_impr) impressions = max_boards_impr;
+      return impressions;
+    }
+
+    function computeBudget(impressions){
+      total_price = 0
+      $('#selected_boards option:not(:eq(0))').each(function() {
+        cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
+        board_price = impressions * $(this).data('price') * cycles;
+        total_price += board_price;
+      });
+      return Math.ceil(total_price*2)/2; //Round the budget to the nearest multiple of 0.5 that is higher than the value found
+    }
+
   }
 });
 
