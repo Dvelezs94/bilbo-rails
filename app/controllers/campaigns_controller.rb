@@ -51,7 +51,7 @@ class CampaignsController < ApplicationController
     @campaign = Campaign.includes(:boards, :impressions).friendly.find(params[:id])
     @history_campaign = UserActivity.where( activeness: @campaign).order(created_at: :desc)
     @campaign_impressions = {}
-    @impressions = Impression.where(campaign: @campaign, created_at: @starts_from..@ends_from)
+    @impressions = Impression.where(campaign: @campaign, created_at: @starts_at..@ends_at)
     @total_invested = @impressions.sum(:total_price).round(3)
     @total_impressions = @impressions.count
     @impressions.group_by_day(:created_at).count.each do |key, value|

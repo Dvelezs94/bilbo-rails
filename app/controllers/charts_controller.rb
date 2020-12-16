@@ -8,7 +8,7 @@ class ChartsController < ApplicationController
   end
 
   def daily_impressions
-    render json: @campaign.daily_impressions()
+    render json: @campaign.daily_impressions(@starts_at..@ends_at)
   end
 
   def daily_impressions_month

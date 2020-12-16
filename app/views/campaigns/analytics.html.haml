@@ -17,29 +17,27 @@
               %a{:href => "/"}= t("campaign.campaign")
             %li.breadcrumb-item.active{"aria-current" => "page"}= @campaign.name
         %h4.mg-b-0.tx-spacing--1= @campaign.name
-      .d-none.d-md-block
-        %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()' }
-          %i.wd-10.mg-r-5.fe.fe-print
-          = t('dashboards.print')
-        = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5' do
-          %i.wd-10.mg-r-5.fe.fe-download
-          = t('dashboards.export_to_csv') 
-      .dropdown.show
-        %button.btn.btn-secondary{'class'=>'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', "aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-          %svg.feather.feather-more-vertical{:fill => "none", :height => "24", :stroke => "currentColor", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2", :viewbox => "0 0 24 24", :width => "24", :xmlns => "http://www.w3.org/2000/svg"}
-            %circle{:cx => "12", :cy => "12", :r => "1"}
-            %circle{:cx => "12", :cy => "5", :r => "1"}
-            %circle{:cx => "12", :cy => "19", :r => "1"}   
-        .dropdown-menu.tx-13
-          = form_for(:campaign, url: analytics_campaign_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
-            %h5.tx-inverse.mg-b-20 Search
-            .form-group
-              %label{:for => "start_date"} Start date
-              %input#campaign_starts_from{ :field_name => 'starts_at', :type => "date", required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control'}
-            .form-group
-              %label{:for => "end_date"} End date
-              %input#campaign_ends_from{ :field_name => 'ends_at', :type => "date", required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control' }
-            %button.btn.btn-primary.btn-block{:type => "submit"} Search
+      .d-flex.flex-row-reverse 
+        .dropdown.show
+          %button.btn.btn-secondary{'class'=>'btn btn-sm btn-white', "aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            %i.fe.fe-calendar
+          .dropdown-menu.tx-10
+            = form_for(:campaign, url: analytics_campaign_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
+              %h5.tx-inverse.mg-b-20 Search
+              .form-group
+                %label{:for => "start_date"} Start date
+                = f.date_field  :starts_at, :type => "date", required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control'
+              .form-group
+                %label{:for => "end_date"} End date
+                = f.date_field  :ends_at, :type => "date", required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control' 
+              %button.btn.btn-primary.btn-block{:type => "submit"} Search
+        .d-none.d-md-block
+          = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-3' do
+            %i.fe.fe-download
+            = t('dashboards.export_to_csv') 
+          %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()' }
+            %i.fe.fe-print
+            = t('dashboards.print')
     .row.row-xs
       = render 'campaigns/user_charts/daily_impressions'
       = render 'campaigns/user_charts/daily_invested'
