@@ -85,19 +85,24 @@ module AdRotationAlgorithm
 
     ############################# SECTION TO ADD USER HOUR CAMPAIGNS ##################################
     h_cps_first = []
+    hour_campaign_remaining_impressions = {}
     self.campaigns.includes(:ad).where(provider_campaign: false, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
-      c.impression_hours.each do |cpn|
+      sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
         if should_run_hour_campaign_in_board?(cpn)
           h_cps_first.append(cpn)
         end
       end
+      hour_campaign_remaining_impressions[c.id] = c.remaining_impressions(self.id)
+      campaign_names[c.id] = c.name
     end
 
     h_cps = {}
     h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
       h_cps_first[idx][:campaign_id] = name
-      h_cps[name] = [c.imp,c.start,c.end, self.duration]
+      imp = [c.imp,hour_campaign_remaining_impressions[c.id]].min
+      hour_campaign_remaining_impressions[c.id] = [hour_campaign_remaining_impressions[c.id]-imp,0].max
+      h_cps[name] = [imp,c.start,c.end, c.campaign.ad.duration]
     end
     h_cps = sort_by_min_time(h_cps)
 
@@ -197,13 +202,15 @@ module AdRotationAlgorithm
     per_time_cps = per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes, c.ad.duration] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
     h_cps_first = []
+    hour_campaign_remaining_impressions = {}
 
     self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
-      c.impression_hours.each do |cpn|
+      sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
         if should_run_hour_campaign_in_board?(cpn)
           h_cps_first.append(cpn)
         end
       end
+      hour_campaign_remaining_impressions[c.id] = c.remaining_impressions(self.id)
       campaign_names[c.id] = c.name
     end
 
@@ -241,7 +248,9 @@ module AdRotationAlgorithm
     h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
       h_cps_first[idx][:campaign_id] = name
-      h_cps[name] = [c.imp,c.start,c.end, c.campaign.ad.duration]
+      imp = [c.imp,hour_campaign_remaining_impressions[c.id]].min
+      hour_campaign_remaining_impressions[c.id] = [hour_campaign_remaining_impressions[c.id]-imp,0].max
+      h_cps[name] = [imp,c.start,c.end, c.campaign.ad.duration]
     end
     h_cps = sort_by_min_time(h_cps)
 
@@ -540,5 +549,17 @@ def get_current_index(board)
     rotation_key = (elapsed_secs/10).to_i
   end
   return rotation_key
+end
+def sorted_impression_hours(board,impression_hours)
+  impression_hours = impression_hours.sort_by{:start}
+  impression_hours.each_with_index do |elem,idx|
+    if elem.start >= board.start_time
+      if idx > 0
+        impression_hours = impression_hours[idx-1..]+ impression_hours[0...idx-1]
+      end
+      break
+    end
+  end
+  return impression_hours.reverse
 end
 end
