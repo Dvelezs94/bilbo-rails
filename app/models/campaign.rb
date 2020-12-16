@@ -138,7 +138,7 @@ class Campaign < ApplicationRecord
         return true
       elsif clasification == "per_minute"
         return true
-      elsif clasification == "per_hour"
+      elsif clasification == "per_hour" && self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5)
         return true
       end
     end
