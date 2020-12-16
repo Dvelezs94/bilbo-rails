@@ -128,6 +128,8 @@ es:
     height: Alto
     know_more_about_roles: Leer más sobre los roles y permisos
   campaign:
+    from: fecha inicio
+    to: a 
     add_schedule: Agregar Horario
     must_add_schedule: Debe agregar un horario
     active_campaigns: Campañas Activas
