@@ -241,7 +241,7 @@ $(document).on('turbolinks:load', function() {
     }
 
     function calculateInvbudget(desired_impressions) {
-      if (desired_impressions == "") return "";
+      if (desired_impressions == "") return true;
       max_boards_impr = parseInt($('#max_impressions').val());
       if (desired_impressions > max_boards_impr) desired_impressions = max_boards_impr;
       budget = 0
@@ -250,7 +250,7 @@ $(document).on('turbolinks:load', function() {
         obtained_impressions = calculatebudget(budget);
         if (obtained_impressions == desired_impressions) {
           $("#campaign_budget").val(budget);
-          return budget;
+          return true;
         } else if (obtained_impressions > desired_impressions) {
           budget -= 0.5;
         } else {
