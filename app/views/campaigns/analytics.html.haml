@@ -21,15 +21,15 @@
         .dropdown.show
           %button.btn.btn-secondary{'class'=>'btn btn-sm btn-white', "aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
             %i.fe.fe-calendar
-          .dropdown-menu.tx-10
-            = form_for(:campaign, url: analytics_campaign_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
-              %h5.tx-inverse.mg-b-20 Search
+          .dropdown-menu.tx-13
+            = form_for("", url: analytics_campaign_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
+              %h5.tx-inverse.mg-b-20= t('search')
               .form-group
-                %label{:for => "start_date"} Start date
-                = f.date_field  :starts_at, :type => "date", required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control'
+                %label{:for => "starts_from"}= t('campaign.from')
+                = f.date_field  :starts_from, :type => "date", required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control'
               .form-group
-                %label{:for => "end_date"} End date
-                = f.date_field  :ends_at, :type => "date", required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control' 
+                %label{:for => "to_from"}= t('campaign.to')
+                = f.date_field  :to_from, :type => "date", required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control' 
               %button.btn.btn-primary.btn-block{:type => "submit"} Search
         .d-none.d-md-block
           = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-3' do
