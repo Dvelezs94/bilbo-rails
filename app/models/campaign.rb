@@ -252,24 +252,32 @@ class Campaign < ApplicationRecord
 
   # Get total ammount of money invested on the campaign to date
   def total_invested
-    Impression.where(campaign_id: id).sum(:total_price)
+    @starts_from = Date.parse(params[:starts_from]) rescue Time.zone.now.beginning_of_month
+    @to_from = Date.parse(params[:to_from]) rescue Time.zone.now.end_of_month
+    Impression.where(campaign_id: id, created_at: @starts_from..@to_from).sum(:total_price)
   end
 
   def daily_impressions(time_range = 30.days.ago..Time.zone.now, board_id = nil )
+    @starts_from = Date.parse(params[:starts_from]) rescue Time.zone.now.beginning_of_month
+    @to_from = Date.parse(params[:to_from]) rescue Time.zone.now.end_of_month
     if board_id.nil?
-      impressions.where(campaign_id: id,created_at: time_range).group_by_day(:created_at).count
+      impressions.where(campaign_id: id,created_at: @starts_from..@to_from).group_by_day(:created_at).count
     else
-      impressions.where(campaign_id: id,created_at: time_range, board_id: board_id).group_by_day(:created_at).count
+      impressions.where(campaign_id: id,created_at: @starts_from..@to_from, board_id: board_id).group_by_day(:created_at).count
     end
   end
 
   def daily_invested( time_range = 30.days.ago..Time.now)
-    h = impressions.where(campaign_id: id, created_at: time_range).group_by_day(:created_at, format: "%a").sum(:total_price)
+    @starts_from = Date.parse(params[:starts_from]) rescue Time.zone.now.beginning_of_month
+    @to_from = Date.parse(params[:to_from]) rescue Time.zone.now.end_of_month
+    h = impressions.where(campaign_id: id, created_at: @starts_from..@to_from).group_by_day(:created_at, format: "%a").sum(:total_price)
     h.each { |key,value| h[key] = value.round(3) }
   end
 
   def peak_hours (time_range = 30.days.ago..Time.now)
-    impressions.where(campaign_id: id, created_at: time_range).group_by_hour_of_day(:created_at, format: "%l %P").count
+    @starts_from = Date.parse(params[:starts_from]) rescue Time.zone.now.beginning_of_month
+    @to_from = Date.parse(params[:to_from]) rescue Time.zone.now.end_of_month
+    impressions.where(campaign_id: id, created_at: @starts_from..@to_from).group_by_hour_of_day(:created_at, format: "%l %P").count
   end
 
   def to_s
