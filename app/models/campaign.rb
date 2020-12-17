@@ -309,8 +309,10 @@ class Campaign < ApplicationRecord
   end
 
   def update_bc
-    board_campaigns.each do |bc|
-      bc.update(update_remaining_impressions: true)
+    if !self.owner.is_provider?
+      board_campaigns.each do |bc|
+        bc.update(update_remaining_impressions: true)
+      end
     end
   end
 
