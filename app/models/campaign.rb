@@ -52,6 +52,7 @@ class Campaign < ApplicationRecord
   before_save :notify_in_a_week, if: :ad_id_changed?
   before_update :set_in_review_and_update_price
   after_commit :broadcast_to_all_boards
+  after_update :update_bc
   after_update :generate_shorten_url
 
   def owner
@@ -304,6 +305,12 @@ class Campaign < ApplicationRecord
           break
         end
       end
+    end
+  end
+
+  def update_bc
+    board_campaigns.each do |bc|
+      bc.update(update_remaining_impressions: true)
     end
   end
 
