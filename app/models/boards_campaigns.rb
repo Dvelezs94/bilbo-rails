@@ -9,7 +9,7 @@ class BoardsCampaigns < ApplicationRecord
     before_create :set_price
     before_save :notify_users, if: :will_save_change_to_status?
     before_update :calculate_remaining_impressions
-    after_update :add_or_stop_campaign, if: :make_broadcast
+    after_commit :add_or_stop_campaign, if: :make_broadcast
 
     private
     def add_or_stop_campaign
