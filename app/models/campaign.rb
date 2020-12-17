@@ -265,17 +265,13 @@ class Campaign < ApplicationRecord
     end
   end
 
-  def daily_invested( time_range = 30.days.ago..Time.now)
-    @starts_from = Date.parse(params[:starts_from]) rescue Time.zone.now.beginning_of_month
-    @to_from = Date.parse(params[:to_from]) rescue Time.zone.now.end_of_month
-    h = impressions.where(campaign_id: id, created_at: @starts_from..@to_from).group_by_day(:created_at, format: "%a").sum(:total_price)
+  def daily_invested( start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
+    h = impressions.where(campaign_id: id, created_at: start_date..end_date).group_by_day(:created_at, format: "%a").sum(:total_price)
     h.each { |key,value| h[key] = value.round(3) }
   end
 
-  def peak_hours (time_range = 30.days.ago..Time.now)
-    @starts_from = Date.parse(params[:starts_from]) rescue Time.zone.now.beginning_of_month
-    @to_from = Date.parse(params[:to_from]) rescue Time.zone.now.end_of_month
-    impressions.where(campaign_id: id, created_at: @starts_from..@to_from).group_by_hour_of_day(:created_at, format: "%l %P").count
+  def peak_hours (start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
+    impressions.where(campaign_id: id, created_at: start_date..end_date).group_by_hour_of_day(:created_at, format: "%l %P").count
   end
 
   def to_s
