@@ -257,13 +257,11 @@ class Campaign < ApplicationRecord
     Impression.where(campaign_id: id, created_at: @starts_from..@to_from).sum(:total_price)
   end
 
-  def daily_impressions(time_range = 30.days.ago..Time.zone.now, board_id = nil )
-    @starts_from = Date.parse(params[:starts_from]) rescue Time.zone.now.beginning_of_month
-    @to_from = Date.parse(params[:to_from]) rescue Time.zone.now.end_of_month
+  def daily_impressions(start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
     if board_id.nil?
-      impressions.where(campaign_id: id,created_at: @starts_from..@to_from).group_by_day(:created_at).count
+      impressions.where(created_at: start_date..end_date).group_by_day(:created_at).count
     else
-      impressions.where(campaign_id: id,created_at: @starts_from..@to_from, board_id: board_id).group_by_day(:created_at).count
+      impressions.where(created_at: start_date..end_date, board_id: board_id).group_by_day(:created_at).count
     end
   end
 
