@@ -40,6 +40,7 @@
               %tr
                 %th
                 %th= t("campaign.campaign_name")
+                %th= t("campaign.objective")
                 %th= t("campaign.bilbos_in_use")
                 %th= t("campaign.ad_name")
                 %th= t("campaign.start_date")
@@ -47,6 +48,9 @@
                 %th= t("campaign.impressions")
                 %th= t("campaign.daily_budget")
                 %th= t("campaign.total_invested")
+                %th.no-sort
+                  = t("campaign.qr_code")
+                  %i.fe.fe-question.tx-primary{"data-toggle" => "tooltip", :title => t("campaign.qr_code_tooltip")}
                 %th.no-sort
             %tbody= render partial: "campaigns/campaign_row", collection: @campaigns, as: :campaign
     - else

@@ -110,6 +110,11 @@ td {
   border-color: #0168fa !important;
 }
 
+.selected_card {
+  border-width: 2px !important;
+  border-color: #10b759 !important;
+}
+
 .multi-line-truncate-2 {
   overflow: hidden;
   display: -webkit-box;
@@ -419,4 +424,12 @@ Usage
 
 .introjs-donebutton {
   float: left;
+}
+
+.mx-ln-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
 }

@@ -139,3 +139,5 @@ gem 'introjs-rails', '~> 1.0'
 gem 'web-console', '>= 3.3.0'
 # image thumbnails
 gem 'image_processing', '~> 1.2'
+gem 'punching_bag', '~> 0.7.0'
+gem 'rubyzip', '~> 2.3'
