@@ -86,7 +86,7 @@ module AdRotationAlgorithm
     ############################# SECTION TO ADD USER HOUR CAMPAIGNS ##################################
     h_cps_first = []
     hour_campaign_remaining_impressions = {}
-    self.campaigns.includes(:ad).where(provider_campaign: false, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
+    self.campaigns.where(provider_campaign: false, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
       sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
         if should_run_hour_campaign_in_board?(cpn)
           h_cps_first.append(cpn)
