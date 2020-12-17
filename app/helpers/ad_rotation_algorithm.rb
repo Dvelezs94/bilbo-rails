@@ -216,12 +216,11 @@ module AdRotationAlgorithm
     #check if validation with new campaign (OPTIONAL!!)
 
     if new_campaign.present?
-      campaign_names[new_campaign.id] = new_campaign.name
       if new_campaign.minutes.present?
         per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes, new_campaign.ad.duration]
         per_time_cps_first.append(new_campaign)
       elsif new_campaign.impression_hours.present?
-        new_campaign.impression_hours.each do |c|
+        sorted_impression_hours(self,new_campaign.impression_hours.to_a).each do |c|
           if should_run_hour_campaign_in_board?(c)
             h_cps_first.append(c)
           end

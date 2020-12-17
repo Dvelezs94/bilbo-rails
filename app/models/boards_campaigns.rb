@@ -31,8 +31,8 @@ class BoardsCampaigns < ApplicationRecord
         max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * duration_of_ad/b.duration)).to_i
         self.remaining_impressions = max_imp - today_impressions
       elsif (status_changed?(to: "approved") || update_remaining_impressions) and campaign.clasification == "per_hour"
-        max_imp = c.impression_hours.pluck(:imp).sum
-        self.remaining_impressions = max_imp - today_impressions
+        today_max_imp = c.impression_hours.select{|cpn| self.board.should_run_hour_campaign_in_board?(cpn) }.pluck(:imp).sum
+        self.remaining_impressions = today_max_imp - today_impressions
       end
     end
 
