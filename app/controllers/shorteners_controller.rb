@@ -2,6 +2,11 @@ class ShortenersController < ApplicationController
   before_action :get_shortener
 
   def show
+    begin
+      @shortener.punch(request)
+    rescue => e
+      Bugsnag.notify(e)
+    end
     redirect_to @shortener.target_url
   end
 

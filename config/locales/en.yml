@@ -144,7 +144,15 @@ en:
     share: Share Campaign
     review: Pause campaign
     occupied: '% Occupied'
+    objective: Objective
+    objectives:
+      awareness: Awareness
+      awareness_description: Promote your brand or product in the selected areas
+      interaction: Interaction
+      interaction_description: Send users to your promotion or website using a QR code
     home: Home
+    qr_code: QR Code
+    download_qr: Download
     enable_campaigns: Enable campaigns
     to_active: The campaign has been activated
     accepted: The campaign has been accepted
@@ -188,11 +196,15 @@ en:
     percentage_plus: "%{percentage}% more"
     percentage_minus: "%{percentage}% less"
     view_bilbos_used: View bilbos utilized
+    qr_code_tooltip: Download your campaign QR code and use it on your ad
     user_has_no_credits_disclaimer: The owner of this project does not have credits, which means this campaign will be shown once the owner purchases credits.
     extra_cost_info: Campaigns per hour have an additional cost of %{ammount}% per impression compared to the base cost of the bilbo
     ads_rotation_error:
       accepted_but_error: The campaign was accepted but deactivated because %{error}
     wizard:
+      next: Next
+      previous: Previous
+      finish: Finish
       choose_bilbos: Choose your Bilbos
       selected_bilbos: Selected Bilbos
       pick_ad: Pick an ad
@@ -209,7 +221,12 @@ en:
            Prints shown are by bilbo.
       preview: Preview
       to: to
-      minute: minutes
+      minutes: minutes
+      analize: Analize
+      analize_description: Track all the visits through a QR code we will give you, this way you can measure your campaign results more efectively.
+      analize_link_description: Enter the link people will be sent to when they read your QR code.
+      analize_summary_warning: We highly recommend to use the QR tracking, this way you can analize your campaign efficiency and measure the results.
+      remeditate: Remediate
       Budget: Budget
       payment_details: Payment Details
       most_popular: Most popular

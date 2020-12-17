@@ -141,3 +141,5 @@ gem 'web-console', '>= 3.3.0'
 gem 'image_processing', '~> 1.2'
 # APM
 gem 'skylight', '~> 4.3', '>= 4.3.2'
+gem 'punching_bag', '~> 0.7.0'
+gem 'rubyzip', '~> 2.3'

@@ -17,7 +17,7 @@ class ExternalSourcesController < ApplicationController
           redirect_to setup_external_sources_path
         end
         # make sure the board exists before setting the cookies
-      elsif Board.find_by(slug: params[:board_slug], access_token: params[:board_token]).present? && Board.find_by(slug: params[:board_slug], access_token: params[:board_token]).mac_address.empty?
+      elsif Board.find_by(slug: params[:board_slug], access_token: params[:board_token]).present? && Board.find_by(slug: params[:board_slug], access_token: params[:board_token]).mac_address.to_s.empty?
           cookies.permanent.signed[:board_slug] = params[:board_slug]
           cookies.permanent.signed[:board_token] = params[:board_token]
           redirect_to_board
