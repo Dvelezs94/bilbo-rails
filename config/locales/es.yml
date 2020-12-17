@@ -197,7 +197,11 @@ es:
       per_minute: Por minuto
       impressions: impresiones cada
       minutes: minutos
-      impressions_hour: impresiones de
+      impressions_hour: impresiones por bilbo de
+      impressions_hour_budget: Gasto total pronosticado por día de la semana
+      impressions_hour_explanation: Selecciona el día, presupuesto y horario en el que quieres aparecer.<br>
+          El monto en cada horario se reparte entre todos los bilbos seleccionados anteriormente.<br>
+          Las impresiones mostradas son por bilbo.
       preview: Ver
       impressions_hour_range: impresiones en un rango de
       to: a

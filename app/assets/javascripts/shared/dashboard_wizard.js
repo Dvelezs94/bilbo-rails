@@ -192,6 +192,7 @@ $(document).on('turbolinks:load', function() {
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());
           make_summary_selected_hours();
+          make_spend_summary_selected_hours();
           // $('#impPerHour').text($('#impressionsPerHour').val());
           // $('#timeStart').text($('#timePickerStart').val());
           // $('#timeEnd').text($('#timePickerEnd').val());
@@ -408,6 +409,34 @@ function make_summary_selected_hours() {
       $(elem).find('.days_of_week:not(.noValid) :selected').val() != undefined) {
       $("#current_row_hours").append(new_partial);
     }
+  });
+}
+function make_spend_summary_selected_hours(){
+  hour_rows = $("[hour_row]");
+  partial = $("#spend_summary");
+  $(".current_spend").remove();
+  daysOfWeek= ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  $.each(daysOfWeek, function(index, day) {
+    new_partial = partial.clone();
+    new_partial.removeClass("d-none");
+    new_partial.addClass("current_spend");
+    new_partial.removeAttr("id");
+    dayOfWeek = new_partial.find(".dayOfWeek");
+    money = new_partial.find(".money");
+    total = 0;
+    $.each(hour_rows, function(index2, hr) {
+      if ($(hr).find('.days_of_week:not(.noValid) :selected').val() != undefined &&
+        $(hr).find('.impressionsPerHour:not(.noValid)').val() != undefined && $(hr).find('.timePickerStart:not(.noValid)').val() != undefined &&
+        $(hr).find('.days_of_week:not(.noValid) :selected').val() != undefined &&
+        $(hr).find("select.days_of_week option:selected").val() == day || $(hr).find("select.days_of_week option:selected").val() == "everyday") {
+        hr_budget = parseFloat($(hr).find(".budget").val());
+        total += hr_budget;
+      }
+    });
+    day_name = hour_rows.find("select.days_of_week option[value="+ day +"]").html();
+    dayOfWeek.append(day_name+ " - $");
+    money.append(total );
+    $("#current_spend").append(new_partial);
   });
 }
 
