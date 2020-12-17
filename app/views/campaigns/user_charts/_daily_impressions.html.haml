@@ -12,4 +12,4 @@
         .row
         / row
       .chart-one
-    = area_chart daily_impressions_chart_path(@campaign.slug),  colors: ["#0000FF"]
+    = area_chart daily_impressions_chart_path(@campaign.slug, start_date: @starts_from, end_date: @to_from),  colors: ["#0000FF"]
