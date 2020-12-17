@@ -226,6 +226,8 @@ module AdRotationAlgorithm
             h_cps_first.append(c)
           end
         end
+        hour_campaign_remaining_impressions[new_campaign.id] = new_campaign.remaining_impressions(self.id)
+        campaign_names[new_campaign.id] = new_campaign.name
       elsif new_campaign.budget.present?
         if testing
           r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.ad.duration/self.duration)).to_i, (new_campaign.ad.duration/10).to_i]
@@ -247,8 +249,9 @@ module AdRotationAlgorithm
     h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
       h_cps_first[idx][:campaign_id] = name
-      imp = [c.imp,hour_campaign_remaining_impressions[c.id]].min
-      hour_campaign_remaining_impressions[c.id] = [hour_campaign_remaining_impressions[c.id]-imp,0].max
+      imp = [c.imp,hour_campaign_remaining_impressions[c.campaign_id]].min
+      p c.inspect
+      hour_campaign_remaining_impressions[c.campaign_id] = [hour_campaign_remaining_impressions[c.campaign_id]-imp,0].max
       h_cps[name] = [imp,c.start,c.end, c.campaign.ad.duration]
     end
     h_cps = sort_by_min_time(h_cps)
