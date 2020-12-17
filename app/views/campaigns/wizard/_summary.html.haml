@@ -56,6 +56,15 @@
                     %span#campaignStarts
                     \-
                     %span#campaignEnds
+              %hr
+                %p
+                  %strong= t('campaign.wizard.analize')
+                  %br
+                    %span.campaignqrmissingalert.tx-danger
+                      %i.fe.fe-warning
+                      = t('campaign.wizard.analize_summary_warning')
+                      %span#goBackToAnalisis.tx-underline.cursor-pointer= t('campaign.wizard.remeditate')
+                    %span#campaignanalisis
       .divider-text.divider-vertical{"data-text" => "and"}= t('campaign.wizard.preview')
       .col-xl-5
         .modal-body.pd-x-25.pd-sm-x-30.pd-t-40.pd-sm-t-20.pd-b-15.pd-sm-b-20

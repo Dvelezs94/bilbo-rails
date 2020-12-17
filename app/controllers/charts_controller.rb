@@ -1,6 +1,6 @@
 class ChartsController < ApplicationController
   access user: :all, all: [:daily_impressions, :daily_invested, :peak_hours]
-  before_action :get_campaign, only: [:daily_impressions, :daily_invested, :peak_hours]
+  before_action :get_campaign, only: [:daily_impressions, :daily_invested, :peak_hours, :daily_qr_code_scans]
   before_action :get_board, only: [:daily_earnings, :campaign_of_day, :impressions_count, :top_campaigns]
   # Campaign Charts
   def monthly_statistics
@@ -13,6 +13,10 @@ class ChartsController < ApplicationController
 
   def daily_impressions_month
     render json: @campaign.daily_impressions_month
+  end
+
+  def daily_qr_code_scans
+    render json: @campaign.qr_shortener.daily_hits
   end
 
   def daily_invested

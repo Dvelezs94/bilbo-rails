@@ -6,9 +6,13 @@ $(document).on('turbolinks:load', function () {
       headerTag: 'h3',
       bodyTag: 'section',
       autoFocus: true,
-      titleTemplate:
-        '<span class="number">#index#</span> <span class="title">#title#</span>',
-      onFinished: function (event, currentIndex) {
+      labels: {
+        finish: $('#steps_finish').text(),
+        next: $('#steps_next').text(),
+        previous: $('#steps_previous').text(),
+      },
+      titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+      onFinished: function(event, currentIndex) {
         $('.edit_campaign input[type=submit]').click();
       },
       onStepChanging: function (event, currentIndex, newIndex) {
@@ -173,6 +177,14 @@ $(document).on('turbolinks:load', function () {
             }
           }
 
+          if (currentIndex === 3) {
+            var campaign_link = $('#campaign_link').parsley();
+            if (campaign_link.isValid()) {
+              return true;
+            } else {
+              campaign_link.validate();
+            }
+          }
           // Always allow step back to the previous step even if the current step is not valid.
         } else {
           return true;

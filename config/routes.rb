@@ -43,10 +43,12 @@ Rails.application.routes.draw do
     end
     member do
       get :analytics
+      get :redirect_to_external_link
       put :toggle_state
       get :wizard_fetch
       get :getAds
       get :get_used_boards
+      get :download_qr_instructions
     end
     collection do
       get :provider_index
@@ -170,6 +172,7 @@ Rails.application.routes.draw do
       get :campaign_of_day
       get :impressions_count
       get :top_campaigns
+      get :daily_qr_code_scans
     end
   end
 

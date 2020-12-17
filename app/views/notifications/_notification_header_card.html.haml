@@ -2,5 +2,5 @@
 = link_to(notify[:url], class: "dropdown-item mg-b-5-f #{!notification.read_at? ? 'unread-notif' : ''}") do
   .media
     .media-body.mg-l-15
-      %p= raw(notify[:message])
+      %p.mx-ln-3= raw(notify[:message])
       %span= format_time(notification.created_at)
