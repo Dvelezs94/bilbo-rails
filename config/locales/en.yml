@@ -128,8 +128,8 @@ en:
     height: height
     know_more_about_roles: Read more about roles and permissions
   campaign:
-    from: from
-    to: to 
+    from: Initial Date
+    to: Final Date
     add_schedule: Add Schedule
     must_add_schedule: You must add a schedule
     active_campaigns: Active Campaigns
