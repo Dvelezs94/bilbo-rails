@@ -248,10 +248,9 @@ module AdRotationAlgorithm
     h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
       h_cps_first[idx][:campaign_id] = name
-      imp = [c.imp,hour_campaign_remaining_impressions[c.campaign_id]].min
-      p c.inspect
-      hour_campaign_remaining_impressions[c.campaign_id] = [hour_campaign_remaining_impressions[c.campaign_id]-imp,0].max
-      h_cps[name] = [imp,c.start,c.end, c.campaign.ad.duration]
+      imp = (testing)? c.imp : [c.imp, hour_campaign_remaining_impressions[c.campaign_id]].min
+      hour_campaign_remaining_impressions[c.campaign_id] = hour_campaign_remaining_impressions[c.campaign_id] - imp if !testing
+      h_cps[name] = [imp, c.start, c.end, c.campaign.ad.duration]
     end
     h_cps = sort_by_min_time(h_cps)
 
