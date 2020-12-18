@@ -18,17 +18,16 @@
             %li.breadcrumb-item.active{"aria-current" => "page"}= @campaign.name
         %h4.mg-b-0.tx-spacing--1= @campaign.name
       .d-flex.flex-row-reverse 
-        .dropdown.align-items-end
+        .dropdown
           %button.btn.btn-secondary{'class'=>'btn btn-sm btn-white', "aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
             %i.fe.fe-calendar
-          .dropdown-menu.tx-13.align-items-end
+          .dropdown-menu.tx-13.align-items-center
             = form_for("", url: analytics_campaign_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
-              %h5.tx-inverse.mg-b-20= t('search')
+              %h5.tx-inverse.mg-b-20= t('Rango de fechas')
               .form-group
-                %label{:for => "date_start"}= t('campaign.from')
+                %label{:for => "date_start",:style => "padding-left: 5px; font-weight: bolder;"}= t('campaign.from')
                 = f.text_field  :date_start, required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control'
-              .form-group
-                %label{:for => "date_end"}= t('campaign.to')
+                %label{:for => "date_end", :style => "padding-left: 5px; font-weight: bolder;margin-top: 5px;"}= t('campaign.to')
                 = f.text_field  :date_end, required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control' 
               %button.btn.btn-primary.btn-block{:type => "submit"} Search
         .d-none.d-md-block
