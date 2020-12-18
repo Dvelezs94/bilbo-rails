@@ -38,7 +38,7 @@ class Campaign < ApplicationRecord
   before_destroy :remove_campaign
 
   validates :name, presence: true
-  #validates :ad, presence: true, on: :update
+  validates :provider_campaign, inclusion: { in: [ true, false ] }  #validates :ad, presence: true, on: :update
   validate :project_enabled?
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :check_user_verified, on: :update,  if: :state_changed?
