@@ -139,3 +139,5 @@ gem 'introjs-rails', '~> 1.0'
 gem 'web-console', '>= 3.3.0'
 # image thumbnails
 gem 'image_processing', '~> 1.2'
+# APM
+gem 'skylight', '~> 4.3', '>= 4.3.2'
