@@ -4,7 +4,7 @@ class UpdateRemainingImpressionsWorker
 
   def perform
     #BoardsCampaigns.includes(:campaign).all.update(update_remaining_impressions: true)
-    BoardsCampaigns.joins(:campaign).where(:campaigns => {clasification: "budget", provider_campaign: [false, nil]}).update(update_remaining_impressions: true)
+    BoardsCampaigns.joins(:campaign).where(:campaigns => {clasification: "budget", provider_campaign: false}).update(update_remaining_impressions: true)
     Board.all.select{|b| b.connected?}.each do |board|
       ActionCable.server.broadcast(
         board.slug,
