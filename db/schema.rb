@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_04_153128) do
+ActiveRecord::Schema.define(version: 2020_12_15_215758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -208,6 +208,8 @@ ActiveRecord::Schema.define(version: 2020_12_04_153128) do
     t.integer "clasification", default: 0
     t.integer "minutes"
     t.integer "imp"
+    t.time "hour_start"
+    t.time "hour_finish"
     t.string "analytics_token"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
@@ -233,6 +235,7 @@ ActiveRecord::Schema.define(version: 2020_12_04_153128) do
     t.bigint "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "budget"
     t.index ["campaign_id"], name: "index_impression_hours_on_campaign_id"
   end
 
@@ -347,7 +350,7 @@ ActiveRecord::Schema.define(version: 2020_12_04_153128) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-12-15 03:22:42"
+    t.datetime "expires_at", default: "2030-11-30 23:03:53"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
