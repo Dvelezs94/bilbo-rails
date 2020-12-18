@@ -252,9 +252,9 @@ class Campaign < ApplicationRecord
 
   # Get total ammount of money invested on the campaign to date
   def total_invested
-    @starts_from = Date.parse(params[:starts_from]) rescue Time.zone.now.beginning_of_month
-    @to_from = Date.parse(params[:to_from]) rescue Time.zone.now.end_of_month
-    Impression.where(campaign_id: id, created_at: @starts_from..@to_from).sum(:total_price)
+    @date_start = Date.parse(params[:date_start]) rescue Time.zone.now.beginning_of_month
+    @date_end = Date.parse(params[:date_end]) rescue Time.zone.now.end_of_month
+    Impression.where(campaign_id: id, created_at: @start_date..@end_date).sum(:total_price)
   end
 
   def daily_impressions(start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
