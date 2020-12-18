@@ -2,6 +2,7 @@ class BoardsController < ApplicationController
   access [:provider, :admin, :user] => [:index], [:user, :provider] => [:owned, :statistics, :index], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image]
+  before_action :update_boardscampaigns, only: [:requestAdsRotation]
   before_action :restrict_access, only: [:show]
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :validate_just_api_token, only: [:requestAdsRotation]
@@ -254,6 +255,12 @@ class BoardsController < ApplicationController
       @board = Board.friendly.find(params[:id])
     else
       @board = @project.boards.friendly.find(params[:id])
+    end
+  end
+
+  def update_boardscampaigns
+    BoardsCampaigns.includes(:campaign).where(board: @board, status: "approved").each do |bc|
+      bc.update(update_remaining_impressions: true) if (bc.campaign.provider_campaign || bc.campaign.clasification == "per_hour")
     end
   end
 
