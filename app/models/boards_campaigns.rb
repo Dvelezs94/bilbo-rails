@@ -34,8 +34,8 @@ class BoardsCampaigns < ApplicationRecord
         elsif campaign.clasification == "budget" and campaign.provider_campaign
           st = Time.zone.parse(b.start_time.strftime("%H:%M"))
           et = Time.zone.parse(b.end_time.strftime("%H:%M"))
-          et += 1.day if et<st and Time.zone.now >= et
-          st -= 1.day if et<st and Time.zone.now < et
+          et += 1.day if et<=st and Time.zone.now >= et
+          st -= 1.day if et<=st and Time.zone.now < et
           #Count impressions already created from the current ads rotation
           impression_count = Time.zone.now.between?(st,et)? c.daily_impressions(st .. et, b.id) : {}
           today_impressions = impression_count.present?? impression_count.values[0] : 0
@@ -45,8 +45,8 @@ class BoardsCampaigns < ApplicationRecord
         elsif campaign.clasification == "per_hour"
           st = Time.zone.parse(b.start_time.strftime("%H:%M"))
           et = Time.zone.parse(b.end_time.strftime("%H:%M"))
-          et += 1.day if et<st and Time.zone.now >= et
-          st -= 1.day if et<st and Time.zone.now < et
+          et += 1.day if et<=st and Time.zone.now >= et
+          st -= 1.day if et<=st and Time.zone.now < et
           #Count impressions already created from the current ads rotation
           impression_count = Time.zone.now.between?(st,et)? c.daily_impressions(st .. et, b.id) : {}
           today_impressions =impression_count.present?? impression_count.values[0] : 0
