@@ -367,10 +367,11 @@ class Board < ApplicationRecord
     @r_cps_first = campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(id) }
     @per_time_cps_first = campaigns.includes(:ad).where(provider_campaign: true).where.not(minutes: nil).where.not(imp: nil).to_a.select{ |c| c.should_run?(id) }
     @h_cps_first = []
+    @campaign_names = []
     @hour_campaign_remaining_impressions = {}
 
     campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(id) }.each do |c|
-      sorted_impression_hours(c.impression_hours.to_a).each do |cpn|
+      sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
         if should_run_hour_campaign_in_board?(cpn)
           @h_cps_first.append(cpn)
         end
