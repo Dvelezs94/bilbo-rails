@@ -8,7 +8,7 @@ class MonitorImpressionsWorker
     send_alert = false
 
     # impressions should be above 500 by 12 PM
-    if today_impressions < 500
+    if today_impressions < 200
       send_alert = true
     # if impressions are under 60% compared to yesterday, something is wrong
     elsif (today_impressions / yesterday_impressions) < 0.6
