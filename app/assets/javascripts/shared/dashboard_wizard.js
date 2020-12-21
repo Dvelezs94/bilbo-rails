@@ -235,18 +235,16 @@ $(document).on('turbolinks:load', function() {
         current_impressions_for_bilbo = parseInt(budget_per_bilbo / ($(this).data('price') * cycles)) || 0;
         if (current_impressions_for_bilbo > bilbo_max_impressions){
           total_impressions+= bilbo_max_impressions;
-          if (testBudget == null) {
-            calculateBudget(100000);
-            return true;
-          }
           changed_for_max_imp = true;
+          if (testBudget == null) {
+            calculateBudget(1000000);
+            return false;
+          }
         } else {
           total_impressions+=current_impressions_for_bilbo;
         }
       });
-      // max possible impressions of bilbos
-      max_boards_impr = parseInt($('#max_impressions').val());
-      $('#impressions').val(total_impressions);
+      if (testBudget == null && !changed_for_max_imp) $('#impressions').val(total_impressions);
       return [total_impressions,changed_for_max_imp];
     }
 
@@ -257,22 +255,19 @@ $(document).on('turbolinks:load', function() {
       budget = 0;
       var changed_for_max_imp;
       var obtained_impressions;
-      for (var b = 256; b >= 0.49; b /= 2) {
+      var final_impressions;
+      for (var b = 256.0; b >= 0.24; b /= 2) {
         while(true){
           let result = calculateImpressions(budget+b);
           obtained_impressions = result[0];
           changed_for_max_imp = result[1];
-          if (changed_for_max_imp) break;
-          if (obtained_impressions <= desired_impressions){
-            budget+=b;
-            if (obtained_impressions == desired_impressions) break;
-          }else {
-            break;
-          }
+          if (changed_for_max_imp || obtained_impressions > desired_impressions) break;
+          budget+=b;
+          final_impressions = obtained_impressions;
         }
-
       }
       $("#campaign_budget").val(budget);
+      $('#impressions').val(final_impressions);
       return true;
     }
 
