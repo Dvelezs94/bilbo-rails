@@ -108,6 +108,7 @@ Rails.application.routes.draw do
       collection do
         get :index
         get :stop_impersonating
+        get :sync_sendgrid_contacts
       end
       member do
         post :toggle_ban
