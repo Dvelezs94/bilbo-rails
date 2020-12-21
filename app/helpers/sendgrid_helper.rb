@@ -1,8 +1,8 @@
 # using SendGrid's Ruby Library
 # https://github.com/sendgrid/sendgrid-ruby
-module ListHelper
+module SendgridHelper
 
-  def contact_sendgrid(user)
+  def sync_sendgrid_user(user)
     if Rails.env.production?
       require 'uri'
       require 'net/http'

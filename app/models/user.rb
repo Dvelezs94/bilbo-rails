@@ -4,7 +4,7 @@ class User < ApplicationRecord
   include BroadcastConcern
   include DatesHelper
   include NumbersHelper
-  include ListHelper
+  include SendgridHelper
   include Rails.application.routes.url_helpers
   ############################################################################################
   ## PeterGate Roles                                                                        ##
@@ -255,7 +255,7 @@ class User < ApplicationRecord
 
   def send_contact_sendgrid
     #create a contact in lists of sengrid
-    contact_sendgrid(self)
+    sync_sendgrid_user(self)
   end
 
 end

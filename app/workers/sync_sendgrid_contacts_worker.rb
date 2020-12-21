@@ -1,11 +1,11 @@
-class ContactsSendgridWorker
+class SyncSendgridContactsWorker
   include Sidekiq::Worker
-  include ListHelper
+  include SendgridHelper
   sidekiq_options retry: false, dead: false
 
   def perform
     User.where.not(roles: "admin").each do |user|
-      contact_sendgrid(user)
+      sync_sendgrid_contacts(user)
     end
   end
 end

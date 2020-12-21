@@ -11,7 +11,7 @@
             %i.fe.fe-user-plus.tx-14
           / contact-add
       / contact-sidebar-header
-      = button_to "Sendgrid", add_all_contacts_admin_users_path, :method => "get", :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase mg-l-10", data: {confirm: "Agregar todos los usuarios a las listas de contactos de Sendgrid"}
+      = button_to "Sendgrid", sync_sendgrid_contacts_admin_users_path, :method => "get", :class => "btn btn-sm btn-block btn-outline-primary btn-uppercase mg-l-10", data: {confirm: "Agregar todos los usuarios a las listas de contactos de Sendgrid"}
     .contact-sidebar-body
       .tab-content
         #tabContact.tab-pane.fade.active.show
