@@ -267,7 +267,9 @@ $(document).on('turbolinks:load', function() {
         }
       }
       $("#campaign_budget").val(budget);
-      if (final_impressions +1 == desired_impressions) final_impressions +=1;
+      //when we select multiple boards, the arrows of impressions cant select some numbers, so this is a fix so that numbers can be included (but in server this extra impressions wont be displayed).
+      board_number = $('#selected_boards option:not(:eq(0))').length;
+      if (final_impressions + board_number -1 >= desired_impressions) final_impressions = desired_impressions;
       $('#impressions').val(final_impressions);
       return true;
     }
