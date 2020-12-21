@@ -28,12 +28,13 @@ module AdRotationAlgorithm
       return err if err.present?
 
     elsif new_campaign.provider_campaign && new_campaign.clasification == "budget" && new_campaign.budget.present?
-       imp = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
-       if imp > t_cycles
-         err << I18n.t("bilbos.ads_rotation_error.max_budget_impressions", name: self.name)
-         return err
-       end
+      imp = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
+      if imp > t_cycles
+        err << I18n.t("bilbos.ads_rotation_error.max_budget_impressions", name: self.name)
+        return err
+      end
     end
+
     return err
   end
  #################################################################################33
