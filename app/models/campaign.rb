@@ -38,7 +38,8 @@ class Campaign < ApplicationRecord
   before_destroy :remove_campaign
 
   validates :name, presence: true
-  validates :provider_campaign, inclusion: { in: [ true, false ] }  #validates :ad, presence: true, on: :update
+  validates :provider_campaign, inclusion: [true, false]
+  #validates :ad, presence: true, on: :update
   validate :project_enabled?
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :check_user_verified, on: :update,  if: :state_changed?
@@ -115,7 +116,7 @@ class Campaign < ApplicationRecord
   def check_build_ad_rotation
     if ( state && state_changed? && !have_to_set_in_review_on_boards )
       boards.each do |b|
-        if self.should_run?(b.id)
+        if self.should_run?(b.id) && b.get_campaigns
           #Check the ad rotation with the total impressions (for budget campaigns) but do not save
           err = b.build_ad_rotation(self,true)
           if err.present?
@@ -124,7 +125,7 @@ class Campaign < ApplicationRecord
           end
           #In case no error is found
           #Build again the ad rotation and save it, only with the remaining impressions of the budget campaigns
-          err2= b.build_ad_rotation(self) if state_changed? && self.should_run?(b.id)
+          err2 = b.build_ad_rotation
           if err2.present?
             errors.add(:base, err2.first)
             break
