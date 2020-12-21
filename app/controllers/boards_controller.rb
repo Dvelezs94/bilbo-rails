@@ -65,6 +65,7 @@ class BoardsController < ApplicationController
     if @success
       active_provider_campaigns = @board.active_campaigns("provider").sort_by { |c| (c.clasification == "per_hour")? 0 : 1}
       deactivated = 0
+      @board.update_ads_rotation(true) if active_provider_campaigns.empty? #update also if its empty to resize space if needed
       active_provider_campaigns.each do |cpn|
         err = @board.update_ads_rotation(true)
         break if err.empty?
@@ -74,7 +75,7 @@ class BoardsController < ApplicationController
       if deactivated > 0
         flash[:notice] = I18n.t("bilbos.campaigns_disabled",number: deactivated)
       end
-        flash[:success] = I18n.t("bilbos.update_success")
+      flash[:success] = I18n.t("bilbos.update_success")
     else
       flash[:error] = @board.errors.full_messages.first
     end

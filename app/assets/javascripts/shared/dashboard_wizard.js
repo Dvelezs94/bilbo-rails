@@ -48,7 +48,7 @@ $(document).on('turbolinks:load', function() {
             }
             calculateMaxImpressions();
             if ($('#impressions').length) {
-              calculatebudget();
+              calculateImpressions();
             }
             var campaignboards = $('#campaign_boards').parsley();
 
@@ -212,19 +212,20 @@ $(document).on('turbolinks:load', function() {
     // calculate budget when input is updated
     $('#campaign_budget').keyup(function() {
       $("#impressions")[0].style.width = (this.value.length + 5) * 8 + 'px';
-      calculatebudget();
+      calculateImpressions();
     });
     if ($('#impressions').length) {
       $('#impressions').on('keyup change paste', function() {
         this.style.width = (this.value.length + 5) * 8 + 'px';
-        calculateInvbudget(this.value);
+        calculateBudget(this.value);
       });
       $('#impressions').width(($('#impressions').val().length + 5) * 8 + 'px');
     }
 
     // function to calculate impressions
-    function calculatebudget(testBudget = null) {
+    function calculateImpressions(testBudget = null) {
       total_impressions = 0;
+      var changed_for_max_imp = false;
       total_budget = (testBudget != null) ? testBudget : $('#campaign_budget').val();
       if (typeof(total_budget) == "string") total_budget = total_budget.replace(',', ''); // removes comma from number given by user because parseFLoat thinks its decimal after comma
       budget_per_bilbo = total_budget / ($('#selected_boards option:not(:eq(0))').length);
@@ -232,32 +233,47 @@ $(document).on('turbolinks:load', function() {
         cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
         bilbo_max_impressions = parseInt($(this).data('max-impressions') * 10 / cycles)
         current_impressions_for_bilbo = parseInt(budget_per_bilbo / ($(this).data('price') * cycles)) || 0;
-        total_impressions += (current_impressions_for_bilbo > bilbo_max_impressions) ? bilbo_max_impressions : current_impressions_for_bilbo
+        if (current_impressions_for_bilbo > bilbo_max_impressions){
+          total_impressions+= bilbo_max_impressions;
+          if (testBudget == null) {
+            calculateBudget(100000);
+            return true;
+          }
+          changed_for_max_imp = true;
+        } else {
+          total_impressions+=current_impressions_for_bilbo;
+        }
       });
       // max possible impressions of bilbos
       max_boards_impr = parseInt($('#max_impressions').val());
-      if (total_impressions > max_boards_impr) total_impressions = max_boards_impr;
       $('#impressions').val(total_impressions);
-      return total_impressions;
+      return [total_impressions,changed_for_max_imp];
     }
 
-    function calculateInvbudget(desired_impressions) {
+    function calculateBudget(desired_impressions) {
       if (desired_impressions == "") return true;
       max_boards_impr = parseInt($('#max_impressions').val());
       if (desired_impressions > max_boards_impr) desired_impressions = max_boards_impr;
-      budget = 0
-      var i;
-      for (i = 0; i < 2000; i++) {
-        obtained_impressions = calculatebudget(budget);
-        if (obtained_impressions == desired_impressions) {
-          $("#campaign_budget").val(budget);
-          return true;
-        } else if (obtained_impressions > desired_impressions) {
-          budget -= 0.5;
-        } else {
-          budget += 50;
+      budget = 0;
+      var changed_for_max_imp;
+      var obtained_impressions;
+      for (var b = 256; b >= 0.49; b /= 2) {
+        while(true){
+          let result = calculateImpressions(budget+b);
+          obtained_impressions = result[0];
+          changed_for_max_imp = result[1];
+          if (changed_for_max_imp) break;
+          if (obtained_impressions <= desired_impressions){
+            budget+=b;
+            if (obtained_impressions == desired_impressions) break;
+          }else {
+            break;
+          }
         }
+
       }
+      $("#campaign_budget").val(budget);
+      return true;
     }
 
     function updateOnChanges(e, obj) {
