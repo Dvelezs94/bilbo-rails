@@ -224,28 +224,29 @@ $(document).on('turbolinks:load', function() {
 
     // function to calculate impressions
     function calculateImpressions(testBudget = null) {
-      total_impressions = 0;
+      max_estimated_impressions = 0;
       var changed_for_max_imp = false;
       total_budget = (testBudget != null) ? testBudget : $('#campaign_budget').val();
       if (typeof(total_budget) == "string") total_budget = total_budget.replace(',', ''); // removes comma from number given by user because parseFLoat thinks its decimal after comma
-      budget_per_bilbo = total_budget / ($('#selected_boards option:not(:eq(0))').length);
+      budget_per_bilbo = parseFloat(total_budget) / ($('#selected_boards option:not(:eq(0))').length);
       $('#selected_boards option:not(:eq(0))').each(function() {
         cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
         bilbo_max_impressions = parseInt($(this).data('max-impressions') * 10 / cycles)
-        current_impressions_for_bilbo = parseInt(budget_per_bilbo / ($(this).data('price') * cycles)) || 0;
+        //we used math.round instead of parseInt because when we click the arrows on the impressions, some numbers doesnt have a designated budget, so now all have, but maybe 1 or 2 impressions more have been added and the server wont include them
+        current_impressions_for_bilbo = Math.round(budget_per_bilbo / ($(this).data('price') * cycles)) || 0;
         if (current_impressions_for_bilbo > bilbo_max_impressions){
-          total_impressions+= bilbo_max_impressions;
+          max_estimated_impressions+= bilbo_max_impressions;
           changed_for_max_imp = true;
           if (testBudget == null) {
             calculateBudget(1000000);
             return false;
           }
         } else {
-          total_impressions+=current_impressions_for_bilbo;
+          max_estimated_impressions+=current_impressions_for_bilbo;
         }
       });
-      if (testBudget == null && !changed_for_max_imp) $('#impressions').val(total_impressions);
-      return [total_impressions,changed_for_max_imp];
+      if (testBudget == null && !changed_for_max_imp) $('#impressions').val(max_estimated_impressions);
+      return [max_estimated_impressions,changed_for_max_imp];
     }
 
     function calculateBudget(desired_impressions) {
@@ -256,7 +257,7 @@ $(document).on('turbolinks:load', function() {
       var changed_for_max_imp;
       var obtained_impressions;
       var final_impressions;
-      for (var b = 256.0; b >= 0.24; b /= 2) {
+      for (var b = 256.0; b >= 0.49; b /= 2) {
         while(true){
           let result = calculateImpressions(budget+b);
           obtained_impressions = result[0];
