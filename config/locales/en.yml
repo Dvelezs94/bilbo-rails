@@ -128,8 +128,12 @@ en:
     height: height
     know_more_about_roles: Read more about roles and permissions
   campaign:
-    from: Initial Date
-    to: Final Date
+    1_month: 1 month ago
+    2_months: 2 month ago
+    3_months: 3 months ago
+    4_months: 4 month ago
+    5_months: 5 month ago
+    6_months: 6 month ago  
     add_schedule: Add Schedule
     must_add_schedule: You must add a schedule
     active_campaigns: Active Campaigns

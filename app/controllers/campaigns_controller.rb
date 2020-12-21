@@ -49,7 +49,7 @@ class CampaignsController < ApplicationController
 
   def analytics
     @date_start = Date.parse(params[:date_start]) rescue DateTime.now.beginning_of_month
-    @date_end = Date.parse(params[:date_end]) rescue DateTime.now.end_of_month
+    @date_end = DateTime.parse(params[:date_end]) rescue DateTime.now.end_of_month
     @campaign = Campaign.includes(:boards, :impressions).friendly.find(params[:id])
     @history_campaign = UserActivity.where( activeness: @campaign).order(created_at: :desc)
     @campaign_impressions = {}

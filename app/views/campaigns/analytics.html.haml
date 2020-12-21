@@ -17,27 +17,38 @@
               %a{:href => "/"}= t("campaign.campaign")
             %li.breadcrumb-item.active{"aria-current" => "page"}= @campaign.name
         %h4.mg-b-0.tx-spacing--1= @campaign.name
-      .d-md-block
-        .d-none.d-lg-inline-block
+      .d-flex.flex-row-reverse 
+        .dropdown
+          %button.btn.btn-secondary{'class'=>'btn btn-sm btn-white', "aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            %i.fe.fe-calendar
+          .dropdown-menu.tx-13.align-items-center
+            = form_for("", url: analytics_campaign_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
+              .form-group.mg-b-20
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 1.month.ago, date_end: Time.now), style: "padding-top: 15px;"} 
+                  %i.fe.fe-clock.mg-r-5
+                  = t('campaign.1_month')
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 2.months.ago, date_end: Time.now), style: "padding-top: 3px;"} 
+                  %i.fe.fe-clock.mg-r-5
+                  = t('campaign.2_months')
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 3.months.ago,  date_end: Time.now),style: "padding-top: 3px;"} 
+                  %i.fe.fe-clock.mg-r-5
+                  = t('campaign.3_months')
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 4.months.ago, date_end: Time.now), style: "padding-top: 3px;"} 
+                  %i.fe.fe-clock.mg-r-5
+                  = t('campaign.4_months')
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 5.months.ago, date_end: Time.now), style: "padding-top: 3px;"} 
+                  %i.fe.fe-clock.mg-r-5
+                  = t('campaign.5_months')
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 6.months.ago, date_end: Time.now), style: "padding-top: 3px;"} 
+                  %i.fe.fe-clock.mg-r-5
+                  = t('campaign.6_months')
+        .d-none.d-md-block
           = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-3' do
             %i.fe.fe-download
-            = t('dashboards.export_to_csv')
-          %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()' }
+            = t('dashboards.export_to_csv') 
+          %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()', 'style' => "margin-right: 5px;" }
             %i.fe.fe-print
             = t('dashboards.print')
-        .d-inline-block
-          .dropdown
-            %button.btn.btn-secondary{'class'=>'btn btn-sm btn-white', "aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-              %i.fe.fe-calendar
-            .dropdown-menu.tx-13.align-items-center
-              = form_for("", url: analytics_campaign_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
-                .form-group
-                  %h5.tx-inverse.mg-b-20= t('Rango de fechas')
-                  %label{:for => "date_start",:style => "padding-left: 5px; font-weight: bolder;"}= t('campaign.from')
-                  = f.text_field  :date_start, required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control'
-                  %label{:for => "date_end", :style => "padding-left: 5px; font-weight: bolder;margin-top: 5px;"}= t('campaign.to')
-                  = f.text_field  :date_end, required: true, value: @campaign.created_at.strftime("%Y-%m-%d"), class: 'form-control'
-                %button.btn.btn-primary.btn-block{:type => "submit"} Search
     .row.row-xs
       = render 'campaigns/user_charts/daily_impressions'
       = render 'campaigns/user_charts/daily_invested'
