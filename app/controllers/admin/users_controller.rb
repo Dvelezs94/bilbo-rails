@@ -3,6 +3,7 @@ class Admin::UsersController < ApplicationController
   access admin: :all, all: [:stop_impersonating]
   before_action :get_user, only: [:fetch, :verify, :deny, :update_credit, :increase_credits, :impersonate, :toggle_ban]
 
+
   def index
     case params[:role]
     when "user"
@@ -111,10 +112,16 @@ class Admin::UsersController < ApplicationController
   end
 
   # end impersonates
+  def add_all_contacts
+    ContactsSendgridWorker.perform_async
+    redirect_to admin_users_path(role: "user")
+    flash[:success] = "Contactos agregandose"
+  end
 
   private
 
   def get_user
     @user = User.find(params[:id])
   end
+
 end
