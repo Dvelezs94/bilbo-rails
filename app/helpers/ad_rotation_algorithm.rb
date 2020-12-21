@@ -180,7 +180,7 @@ module AdRotationAlgorithm
   def build_ad_rotation(new_campaign = nil, testing = false)
 
     err = []
-    campaign_names = {}
+    # campaign_names = {}
 
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
     output = []  #array to store the displays in the correct order
@@ -189,56 +189,56 @@ module AdRotationAlgorithm
         output << '-'       # array with only bilbo
     end                     # ads
 
-    r_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
+    # r_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
     if testing
-      r_cps = r_cps_first.map{ |c| [ c.id, [(c.budget_per_bilbo/(self.get_cycle_price(c) * c.ad.duration/self.duration)).to_i, (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+      r_cps = @r_cps_first.map{ |c| [ c.id, [(c.budget_per_bilbo/(self.get_cycle_price(c) * c.ad.duration/self.duration)).to_i, (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     else
-      r_cps = r_cps_first.map{ |c| [ c.id, [c.remaining_impressions(self), (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+      r_cps = @r_cps_first.map{ |c| [ c.id, [c.remaining_impressions(self), (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
     end
     r_cycles = []
     total_r_cps_spaces = 0
 
-    per_time_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true).where.not(minutes: nil).where.not(imp: nil).to_a.select{ |c| c.should_run?(self.id) }
-    per_time_cps = per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes, c.ad.duration] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
+    # per_time_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true).where.not(minutes: nil).where.not(imp: nil).to_a.select{ |c| c.should_run?(self.id) }
+    per_time_cps = @per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes, c.ad.duration] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
-    h_cps_first = []
-    hour_campaign_remaining_impressions = {}
+    # h_cps_first = []
+    # hour_campaign_remaining_impressions = {}
+    #
+    # self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
+    #   sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
+    #     if should_run_hour_campaign_in_board?(cpn)
+    #       h_cps_first.append(cpn)
+    #     end
+    #   end
+    #   hour_campaign_remaining_impressions[c.id] = c.remaining_impressions(self.id)
+    #   # campaign_names[c.id] = c.name
+    # end
 
-    self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
-      sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
-        if should_run_hour_campaign_in_board?(cpn)
-          h_cps_first.append(cpn)
-        end
-      end
-      hour_campaign_remaining_impressions[c.id] = c.remaining_impressions(self.id)
-      campaign_names[c.id] = c.name
-    end
-
-    #check if validation with new campaign (OPTIONAL!!)
+    #check validation with new campaign if it's present
 
     if new_campaign.present?
       if new_campaign.minutes.present?
         per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes, new_campaign.ad.duration]
-        per_time_cps_first.append(new_campaign)
+        @per_time_cps_first.append(new_campaign)
       elsif new_campaign.impression_hours.present?
         sorted_impression_hours(self,new_campaign.impression_hours.to_a).each do |c|
           if should_run_hour_campaign_in_board?(c)
-            h_cps_first.append(c)
+            @h_cps_first.append(c)
           end
         end
-        hour_campaign_remaining_impressions[new_campaign.id] = new_campaign.remaining_impressions(self.id)
-        campaign_names[new_campaign.id] = new_campaign.name
+        @hour_campaign_remaining_impressions[new_campaign.id] = new_campaign.remaining_impressions(self.id)
+        @campaign_names[new_campaign.id] = new_campaign.name
       elsif new_campaign.budget.present?
         if testing
           r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.ad.duration/self.duration)).to_i, (new_campaign.ad.duration/10).to_i]
         else
           r_cps[new_campaign.id] = [new_campaign.remaining_impressions(self), (new_campaign.ad.duration/10).to_i]
         end
-        r_cps_first.append(new_campaign)
+        @r_cps_first.append(new_campaign)
       end
     end
     #####################################
-    h_cps_first.each do |c|
+    @h_cps_first.each do |c|
       if !hour_inside_board_time?(self,c)
         err << I18n.t("bilbos.ads_rotation_error.hour_campaign_time", name: self.name)
         return err
@@ -246,11 +246,11 @@ module AdRotationAlgorithm
     end
 
     h_cps = {}
-    h_cps_first.each_with_index do |c,idx|
+    @h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
-      h_cps_first[idx][:campaign_id] = name
-      imp = (testing)? c.imp : [c.imp, hour_campaign_remaining_impressions[c.campaign_id]].min
-      hour_campaign_remaining_impressions[c.campaign_id] = hour_campaign_remaining_impressions[c.campaign_id] - imp if !testing
+      @h_cps_first[idx][:campaign_id] = name
+      imp = (testing)? c.imp : [c.imp, @hour_campaign_remaining_impressions[c.campaign_id]].min
+      @hour_campaign_remaining_impressions[c.campaign_id] = @hour_campaign_remaining_impressions[c.campaign_id] - imp if !testing
       h_cps[name] = [imp, c.start, c.end, c.campaign.ad.duration]
     end
     h_cps = sort_by_min_time(h_cps)
@@ -289,7 +289,7 @@ module AdRotationAlgorithm
        index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
        if index_array.length < reps
          id = name.split('/')[0].to_i
-         err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
+         err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: @campaign_names[id],bilbo_name: self.name)
          return err
          break
        end
@@ -312,7 +312,7 @@ module AdRotationAlgorithm
     per_time_cps_cp.each {|key,value| total_p+=value}
 
     if total_p + total_h> t_cycles
-        err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.last.name, bilbo_name: self.name)
+        err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: @per_time_cps_first.last.name, bilbo_name: self.name)
         return err
     end
 
@@ -346,7 +346,7 @@ module AdRotationAlgorithm
             end #end times
             index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
             if index_array.length<displays
-              err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
+              err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: @per_time_cps_first.find(name).first.name, bilbo_name: self.name)
               return err
             end
           end
@@ -386,7 +386,7 @@ module AdRotationAlgorithm
         place_index = push_to_left(output,place_index,block_size)
         output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
       else
-        err << I18n.t("bilbos.ads_rotation_error.budget_campaign_space", campaign_name: r_cps_first.last.name, bilbo_name: self.name)
+        err << I18n.t("bilbos.ads_rotation_error.budget_campaign_space", campaign_name: @r_cps_first.last.name, bilbo_name: self.name)
         return err
       end
     end
