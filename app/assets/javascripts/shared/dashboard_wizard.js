@@ -232,8 +232,7 @@ $(document).on('turbolinks:load', function() {
       $('#selected_boards option:not(:eq(0))').each(function() {
         cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
         bilbo_max_impressions = parseInt($(this).data('max-impressions') * 10 / cycles)
-        //we used math.round instead of parseInt because when we click the arrows on the impressions, some numbers doesnt have a designated budget, so now all have, but maybe 1 or 2 impressions more have been added and the server wont include them
-        current_impressions_for_bilbo = Math.round(budget_per_bilbo / ($(this).data('price') * cycles)) || 0;
+        current_impressions_for_bilbo = parseInt(budget_per_bilbo / ($(this).data('price') * cycles)) || 0;
         if (current_impressions_for_bilbo > bilbo_max_impressions){
           max_estimated_impressions+= bilbo_max_impressions;
           changed_for_max_imp = true;
@@ -268,6 +267,7 @@ $(document).on('turbolinks:load', function() {
         }
       }
       $("#campaign_budget").val(budget);
+      if (final_impressions +1 == desired_impressions) final_impressions +=1;
       $('#impressions').val(final_impressions);
       return true;
     }
