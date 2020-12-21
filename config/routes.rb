@@ -108,6 +108,7 @@ Rails.application.routes.draw do
       collection do
         get :index
         get :stop_impersonating
+        get :add_all_contacts
       end
       member do
         post :toggle_ban
