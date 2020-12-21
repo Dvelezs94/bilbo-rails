@@ -29,7 +29,7 @@ module AdRotationAlgorithm
 
     elsif new_campaign.provider_campaign && new_campaign.clasification == "budget" && new_campaign.budget.present?
        imp = (new_campaign.budget_per_bilbo/(self.sale_cycle_price * new_campaign.ad.duration/self.duration)).to_i
-       if imp > t_cycles/new_campaign.ad.duration
+       if imp > t_cycles*10/new_campaign.ad.duration
          # puts "X"*300
          # puts imp
          # puts t_cycles*10/new_campaign.ad.duration
