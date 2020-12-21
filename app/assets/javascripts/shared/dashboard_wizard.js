@@ -355,21 +355,7 @@ $(document).on('turbolinks:load', function () {
     // end choose ad
   }
 });
-$(document).ready(function(){
-  $('#date_start').datepicker({
-    todayHighlight: true, 
-    orientation: 'auto top', 
-    dateFormat: 'yy-mm-dd'
-  });
-});
 
-$(document).ready(function(){
-  $('#date_end').datepicker({
-    todayHighlight: true, 
-    orientation: 'auto top', 
-    dateFormat: 'yy-mm-dd'
-  });
-});
 
 function make_summary_selected_hours() {
   hour_rows = $('[hour_row]');
