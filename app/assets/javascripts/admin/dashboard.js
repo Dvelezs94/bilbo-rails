@@ -126,7 +126,6 @@ $(document).on('turbolinks:load', function() {
 
       $.plot('#flotChart1', [
         {
-          data: df3,
           label: "$",
           color: '#0168fa',
           lines: {
@@ -168,7 +167,6 @@ $(document).on('turbolinks:load', function() {
 
       $.plot('#flotChart2', [
         {
-          data: df2,
           color: '#66a4fb',
           lines: {
             show: true,
@@ -176,7 +174,6 @@ $(document).on('turbolinks:load', function() {
             fill: .03
           }
         }, {
-          data: df1,
           color: '#00cccc',
           lines: {
             show: true,
@@ -185,7 +182,6 @@ $(document).on('turbolinks:load', function() {
             fillColor: '#fff'
           }
         }, {
-          data: df3,
           color: '#e3e7ed',
           bars: {
             show: true,

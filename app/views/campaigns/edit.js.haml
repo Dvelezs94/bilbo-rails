@@ -4,5 +4,6 @@ setTimeout(function() {
 $('#spinner').remove();
 $('#ads_body').append('#{escape_javascript render(partial: "ads/overview_card", collection: @ad_upcoming, as: :ad)}');
 $('#ads_body').append('#{escape_javascript render(partial: 'paginator')}');
+$(select_ad());
 $("#paginator a").show();
 }, 1000);
