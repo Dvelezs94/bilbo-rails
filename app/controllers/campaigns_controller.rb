@@ -2,7 +2,7 @@ class CampaignsController < ApplicationController
   include UserActivityHelper
   access [:user, :provider] => :all, all: [:analytics, :shortened_analytics]
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
+  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :copy_campaign]
   before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :campaign_not_active, only: [:edit]
 
@@ -181,6 +181,12 @@ class CampaignsController < ApplicationController
       @campaign = Campaign.find_by_analytics_token(params[:id])
       redirect_to analytics_campaign_path(@campaign.slug)
     end
+  end
+
+  def copy_campaign
+     p "x" * 800
+     p @campaign
+    render partial: 'copy_campaign', :locals => {:obj => @campaign} 
   end
 
   private
