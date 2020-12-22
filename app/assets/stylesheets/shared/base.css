@@ -10518,7 +10518,7 @@ table.dataTable {
   z-index: 5 !important;
   border-radius: 0.25rem; }
   .ui-datepicker .ui-datepicker-header {
-    display: flex;
+      display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
