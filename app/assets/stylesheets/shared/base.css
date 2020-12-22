@@ -1460,7 +1460,7 @@ textarea.form-control {
 .valid-tooltip {
   position: absolute;
   top: 100%;
-  z-index: 5;
+  z-index: 1000;
   display: none;
   max-width: 100%;
   padding: 0.25rem 0.5rem;
