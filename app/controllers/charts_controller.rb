@@ -8,7 +8,7 @@ class ChartsController < ApplicationController
   end
 
   def daily_impressions
-    render json: @campaign.daily_impressions()
+    render json: @campaign.daily_impressions(start_date: params[:start_date], end_date: params[:end_date])
   end
 
   def daily_impressions_month
@@ -16,11 +16,11 @@ class ChartsController < ApplicationController
   end
 
   def daily_invested
-    render json: @campaign.daily_invested
+    render json: @campaign.daily_invested(start_date: params[:start_date], end_date: params[:end_date])
   end
 
   def peak_hours
-    render json: @campaign.peak_hours
+    render json: @campaign.peak_hours(start_date: params[:start_date], end_date: params[:end_date])
   end
 
   def daily_earnings
