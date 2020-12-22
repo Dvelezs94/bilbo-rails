@@ -250,6 +250,7 @@ class User < ApplicationRecord
   def set_project
     @project = Project.new(name: project_name, classification: self.role.to_s)
     @project.project_users.new(user: self, role: "owner")
+    @project.available_campaign_types = ["budget","per_minute","per_hour"].to_s if self.is_provider?
     @project.save
   end
 

@@ -127,6 +127,7 @@ es:
     width: Largo
     height: Alto
     know_more_about_roles: Leer más sobre los roles y permisos
+    from: de
   campaign:
     add_schedule: Agregar Horario
     must_add_schedule: Debe agregar un horario
@@ -183,6 +184,7 @@ es:
     percentage_minus: "%{percentage}% menos"
     view_bilbos_used: Ver bilbos utilizados
     user_has_no_credits_disclaimer: "Nota: El dueño del proyecto no cuenta con créditos, por lo que el anuncio se empezará a mostrar hasta que se adquieran créditos"
+    extra_cost_info: Las campañas por hora tienen un costo adicional del %{ammount}% por impresión respecto al costo base del bilbo
     ads_rotation_error:
       accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
     wizard:
@@ -195,7 +197,11 @@ es:
       per_minute: Por minuto
       impressions: impresiones cada
       minutes: minutos
-      impressions_hour: impresiones de
+      impressions_hour: impresiones por bilbo de
+      impressions_hour_budget: Gasto total pronosticado por día de la semana
+      impressions_hour_explanation: Selecciona el día, presupuesto y horario en el que quieres aparecer.<br>
+          El monto en cada horario se reparte entre todos los bilbos seleccionados anteriormente.<br>
+          Las impresiones mostradas son por bilbo.
       preview: Ver
       impressions_hour_range: impresiones en un rango de
       to: a
@@ -535,7 +541,14 @@ es:
   projects:
     project: Proyecto
     project_name: Proyecto %{parameter}
-    successfully_created: Proyect creado con éxito
+    name: Nombre del proyecto
+    classification: Tipo de proyecto
+    campaign_budget: Campañas por presupuesto
+    campaign_minute: Campañas por minuto
+    campaign_hour: Campañas por hora
+    permissions_changed: Los permisos del proyecto han sido actualizados con éxito
+    nothing_changed: La configuración no fue modificada
+    successfully_created: Proyecto creado con éxito
     error: Error al crear proyecto
     member_invited: Miembro invitado con éxito
     member_invited_error: Error al invitar miembro
