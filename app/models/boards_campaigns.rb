@@ -9,7 +9,7 @@ class BoardsCampaigns < ApplicationRecord
     before_create :set_price
     before_save :notify_users, if: :will_save_change_to_status?
     before_update :calculate_remaining_impressions
-    after_update :add_or_stop_campaign, if: :make_broadcast
+    after_commit :add_or_stop_campaign, if: :make_broadcast
 
     private
     def add_or_stop_campaign
@@ -21,14 +21,42 @@ class BoardsCampaigns < ApplicationRecord
     end
 
     def calculate_remaining_impressions
-      # Initialize or compute the remaining_impressions field from BoardsCampaigns (for user campaigns)
-      if (status_changed?(to: "approved") || update_remaining_impressions) and campaign.clasification == "budget"
+      # Initialize or compute the remaining_impressions field from BoardsCampaigns
+      if (status_changed?(to: "approved") || update_remaining_impressions)
         c = self.campaign
         b = self.board
-        max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * c.ad.duration/b.duration)).to_i
-        impression_count = c.daily_impressions(Time.now.beginning_of_day .. Time.now.end_of_day, b.id)
-        today_impressions = impression_count.present?? impression_count.values[0] : 0
-        self.remaining_impressions = max_imp - today_impressions
+        if campaign.clasification == "budget" and !campaign.provider_campaign
+          impression_count = c.daily_impressions(Time.now.beginning_of_day .. Time.now.end_of_day, b.id)
+          today_impressions = impression_count.present?? impression_count.values[0] : 0
+          max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self))).to_i
+          self.remaining_impressions = max_imp - today_impressions
+
+        elsif campaign.clasification == "budget" and campaign.provider_campaign
+          st = Time.zone.parse(b.start_time.strftime("%H:%M"))
+          et = Time.zone.parse(b.end_time.strftime("%H:%M"))
+          current_time = Time.zone.now + 15.seconds
+          et += 1.day if et<=st and current_time >= et
+          st -= 1.day if et<=st and current_time < et
+          #Count impressions already created from the current ads rotation
+          impression_count = current_time.between?(st,et)? c.daily_impressions(st .. et, b.id) : {}
+          today_impressions = impression_count.present?? impression_count.values[0] : 0
+          max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * c.ad.duration/b.duration)).to_i
+          self.remaining_impressions = max_imp - today_impressions
+
+        elsif campaign.clasification == "per_hour"
+          st = Time.zone.parse(b.start_time.strftime("%H:%M"))
+          et = Time.zone.parse(b.end_time.strftime("%H:%M"))
+          current_time = Time.zone.now + 15.seconds
+          et += 1.day if et<=st and current_time >= et
+          st -= 1.day if et<=st and current_time < et
+          #Count impressions already created from the current ads rotation
+          impression_count = current_time.between?(st,et)? c.daily_impressions(st .. et, b.id) : {}
+          today_impressions =impression_count.present?? impression_count.values[0] : 0
+          #Compute the total impressions that must be created in the current ads rotation and the difference with the impressions already created
+          today_max_imp = c.impression_hours.select{|cpn| self.board.should_run_hour_campaign_in_board?(cpn) }.pluck(:imp).sum
+          self.remaining_impressions = today_max_imp - today_impressions
+
+        end
       end
     end
 

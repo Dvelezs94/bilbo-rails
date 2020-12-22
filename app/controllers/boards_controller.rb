@@ -2,6 +2,7 @@ class BoardsController < ApplicationController
   access [:provider, :admin, :user] => [:index], [:user, :provider] => [:owned, :statistics, :index], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image]
+  before_action :update_boardscampaigns, only: [:requestAdsRotation, :show]
   before_action :restrict_access, only: [:show]
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :validate_just_api_token, only: [:requestAdsRotation]
@@ -64,6 +65,7 @@ class BoardsController < ApplicationController
     if @success
       active_provider_campaigns = @board.active_campaigns("provider").sort_by { |c| (c.clasification == "per_hour")? 0 : 1}
       deactivated = 0
+      @board.update_ads_rotation(true) if active_provider_campaigns.empty? #update also if its empty to resize space if needed
       active_provider_campaigns.each do |cpn|
         err = @board.update_ads_rotation(true)
         break if err.empty?
@@ -73,7 +75,7 @@ class BoardsController < ApplicationController
       if deactivated > 0
         flash[:notice] = I18n.t("bilbos.campaigns_disabled",number: deactivated)
       end
-        flash[:success] = I18n.t("bilbos.update_success")
+      flash[:success] = I18n.t("bilbos.update_success")
     else
       flash[:error] = @board.errors.full_messages.first
     end
@@ -93,7 +95,7 @@ class BoardsController < ApplicationController
   end
 
   def show
-      if !@board.connected?
+    if !@board.connected?
       errors = @board.update_ads_rotation if @board.should_update_ads_rotation?
       @active_campaigns = @board.active_campaigns
       # Set api key cookie
@@ -254,6 +256,12 @@ class BoardsController < ApplicationController
       @board = Board.friendly.find(params[:id])
     else
       @board = @project.boards.friendly.find(params[:id])
+    end
+  end
+
+  def update_boardscampaigns
+    BoardsCampaigns.includes(:campaign).where(board: @board, status: "approved").each do |bc|
+      bc.update(update_remaining_impressions: true) if (bc.campaign.provider_campaign || bc.campaign.clasification == "per_hour")
     end
   end
 

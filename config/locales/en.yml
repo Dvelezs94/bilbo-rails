@@ -127,6 +127,7 @@ en:
     width: width
     height: height
     know_more_about_roles: Read more about roles and permissions
+    from: from
   campaign:
     1_month: 1 month 
     2_months: 2 month 
@@ -188,6 +189,7 @@ en:
     percentage_minus: "%{percentage}% less"
     view_bilbos_used: View bilbos utilized
     user_has_no_credits_disclaimer: The owner of this project does not have credits, which means this campaign will be shown once the owner purchases credits.
+    extra_cost_info: Campaigns per hour have an additional cost of %{ammount}% per impression compared to the base cost of the bilbo
     ads_rotation_error:
       accepted_but_error: The campaign was accepted but deactivated because %{error}
     wizard:
@@ -200,7 +202,11 @@ en:
       campaign_hour: Hour range
       per_minute: Per minute
       impressions: impressions every
-      impressions_hour: impressions from
+      impressions_hour: impressions per bilbo from
+      impressions_hour_budget: Total forecast spending by day of the week
+      impressions_hour_explanation: Select the day, budget and time you want to appear. <br>
+           The amount in each schedule is distributed among all the previously selected bilbos. <br>
+           Prints shown are by bilbo.
       preview: Preview
       to: to
       minute: minutes
@@ -536,6 +542,13 @@ en:
   projects:
     project: Project
     project_name: Project %{parameter}
+    name: Project name
+    classification: Project class
+    campaign_budget: Budget campaigns
+    campaign_minute: Campaigns per minute
+    campaign_hour: Campaigns per hour
+    permissions_changed: The project permissions were succesfully updated
+    nothing_changed: The settings have not been changed
     successfully_created: Project successfully created
     error: Could not create project
     member_invited: successfully invited member
