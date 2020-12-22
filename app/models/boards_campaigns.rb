@@ -26,7 +26,7 @@ class BoardsCampaigns < ApplicationRecord
         c = self.campaign
         b = self.board
         if campaign.clasification == "budget" and !campaign.provider_campaign
-          impression_count = c.daily_impressions(Time.now.beginning_of_day, Time.now.end_of_day, b.id)
+          impression_count = c.daily_impressions(start_date: Time.now.beginning_of_day, end_date: Time.now.end_of_day, board_id: b.id)
           today_impressions = impression_count.present?? impression_count.values[0] : 0
           max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self))).to_i
           self.remaining_impressions = max_imp - today_impressions
@@ -38,7 +38,7 @@ class BoardsCampaigns < ApplicationRecord
           et += 1.day if et<=st and current_time >= et
           st -= 1.day if et<=st and current_time < et
           #Count impressions already created from the current ads rotation
-          impression_count = current_time.between?(st,et)? c.daily_impressions(st, et, b.id) : {}
+          impression_count = current_time.between?(st,et)? c.daily_impressions(start_date: st, end_date: et, board_id: b.id) : {}
           today_impressions = impression_count.present?? impression_count.values[0] : 0
           max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * c.ad.duration/b.duration)).to_i
           self.remaining_impressions = max_imp - today_impressions
@@ -50,7 +50,7 @@ class BoardsCampaigns < ApplicationRecord
           et += 1.day if et<=st and current_time >= et
           st -= 1.day if et<=st and current_time < et
           #Count impressions already created from the current ads rotation
-          impression_count = current_time.between?(st,et)? c.daily_impressions(st, et, b.id) : {}
+          impression_count = current_time.between?(st,et)? c.daily_impressions(start_date: st, end_date: et, board_id: b.id) : {}
           today_impressions =impression_count.present?? impression_count.values[0] : 0
           #Compute the total impressions that must be created in the current ads rotation and the difference with the impressions already created
           today_max_imp = c.impression_hours.select{|cpn| self.board.should_run_hour_campaign_in_board?(cpn) }.pluck(:imp).sum
