@@ -128,12 +128,12 @@ es:
     height: Alto
     know_more_about_roles: Leer más sobre los roles y permisos
   campaign:
-    1_month: 1 mes
-    2_months: 2 meses 
-    3_months: 3 meses 
-    4_months: 4 meses 
-    5_months: 5 meses
-    6_months: 6 meses 
+    1_month: Hace 1 mes
+    2_months: Hace 2 meses 
+    3_months: Hace 3 meses 
+    4_months: Hace 4 meses 
+    5_months: Hace 5 meses
+    6_months: Hace 6 meses 
     add_schedule: Agregar Horario
     must_add_schedule: Debe agregar un horario
     active_campaigns: Campañas Activas
