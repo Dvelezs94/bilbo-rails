@@ -10507,7 +10507,6 @@ table.dataTable {
 
 /* ###### 3.2 Datepicker ###### */
 .ui-datepicker {
-  z-index: 10000000 !important;
   background-color: #fff;
   border: 1px solid rgba(72, 94, 144, 0.16);
   font-family: inherit;
@@ -10519,8 +10518,7 @@ table.dataTable {
   z-index: 5 !important;
   border-radius: 0.25rem; }
   .ui-datepicker .ui-datepicker-header {
-    z-index: 10000000 !important;
-    display: flex;
+      display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
@@ -10566,13 +10564,11 @@ table.dataTable {
       border: 0;
       background-color: transparent; }
   .ui-datepicker .ui-datepicker-title {
-    z-index: 10000000 !important;
     color: #001737;
     font-weight: 700;
     font-size: 13px; }
   .ui-datepicker select.ui-datepicker-month,
   .ui-datepicker select.ui-datepicker-year {
-    z-index: 10000000 !important;
     font-size: 11px;
     border: 1px solid #c0ccda;
     -webkit-appearance: none;
@@ -10586,13 +10582,11 @@ table.dataTable {
   .ui-datepicker .ui-datepicker-year {
     margin-left: 5px; }
   .ui-datepicker .ui-datepicker-calendar {
-    z-index: 10000000 !important;
     margin: 0;
     background-color: transparent;
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem; }
     .ui-datepicker .ui-datepicker-calendar th {
-      z-index: 10000000 !important;
       text-transform: uppercase;
       font-size: 11px;
       font-weight: 600;
