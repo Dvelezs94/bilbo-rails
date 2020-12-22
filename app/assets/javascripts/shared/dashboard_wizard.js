@@ -247,7 +247,6 @@ $(document).on('turbolinks:load', function() {
       if (testBudget == null && !changed_for_max_imp) $('#impressions').val(max_estimated_impressions);
       return [max_estimated_impressions,changed_for_max_imp];
     }
-
     function calculateBudget(desired_impressions) {
       if (desired_impressions == "") return true;
       max_boards_impr = parseInt($('#max_impressions').val());
@@ -266,11 +265,25 @@ $(document).on('turbolinks:load', function() {
           final_impressions = obtained_impressions;
         }
       }
-      $("#campaign_budget").val(budget);
       //when we select multiple boards, the arrows of impressions cant select some numbers, so this is a fix so that numbers can be included (but in server this extra impressions wont be displayed).
-      board_number = $('#selected_boards option:not(:eq(0))').length;
-      if (final_impressions + board_number -1 >= desired_impressions) final_impressions = desired_impressions;
+      if (desired_impressions < max_boards_impr && final_impressions != desired_impressions && window.impressions < desired_impressions) {
+        var b = 0.5;
+        while(true){
+          let result = calculateImpressions(budget+b);
+          obtained_impressions = result[0];
+          changed_for_max_imp = result[1];
+          if (changed_for_max_imp || obtained_impressions > max_boards_impr) break;
+          if (obtained_impressions != final_impressions){
+            budget+=b;
+            final_impressions = obtained_impressions;
+            break;
+          }
+          b+=0.5;
+        }
+      }
+      $("#campaign_budget").val(budget);
       $('#impressions').val(final_impressions);
+      window.impressions = final_impressions;
       return true;
     }
 
