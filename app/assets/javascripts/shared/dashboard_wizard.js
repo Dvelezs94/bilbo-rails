@@ -265,7 +265,7 @@ $(document).on('turbolinks:load', function() {
           final_impressions = obtained_impressions;
         }
       }
-      //when we select multiple boards, the arrows of impressions cant select some numbers, so this is a fix so that numbers can be included (but in server this extra impressions wont be displayed).
+      //when we select multiple boards, the lower arrow cant select some numbers, so this is a fix so we "jump" that numbers.
       if (desired_impressions < max_boards_impr && final_impressions != desired_impressions && window.impressions < desired_impressions) {
         var b = 0.5;
         while(true){
