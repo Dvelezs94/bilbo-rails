@@ -24,58 +24,111 @@ module AdRotationAlgorithm
       end
 
     elsif new_campaign.clasification == "per_hour"
-      new_campaign_hours.each do |cpn|
-        if !valid_start(self, cpn)
-          err << I18n.t("bilbos.ads_rotation_error.before_power_on", name: self.name)
-          return err
-        end
-        reps = cpn.imp
-        start_t = cpn.start
-        end_t = cpn.end
-
-        if !valid_end(self,cpn)
-           err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
-           return err
-        end
-        wm = working_minutes(start_t, end_t)
-        if reps > (wm*60/new_campaign.ad.duration).to_i
-          err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (wm*60/new_campaign.ad.duration).to_i)
-          return err
-        end
-      end
-      week = ImpressionHour.days.keys - ["everyday"]
-      week.each do |week_day|
-        items = new_campaign_hours.select{|c| c.day == "everyday" || c.day == week_day}
-        if items.length > 1
-          items.each_with_index do |item1,idx1|
-            items.each_with_index do |item2,idx2|
-              next if idx2 <= idx1
-              start1, end1 = parse_hours(item1.start,item1.end)
-              start2, end2 = parse_hours(item2.start,item2.end)
-              if start1 < end2 and end1 > start2
-                k1 = new_campaign_hours.index(item1)+1
-                k2 = new_campaign_hours.index(item2)+1
-                err << I18n.t("bilbos.ads_rotation_error.overlapping_schedules", n1: k1, n2: k2)
-                return err
-              end
-            end
-          end
-        end
-      end
+      err = test_hour_campaigns(new_campaign,new_campaign_hours)
+      return err if err.present?
 
     elsif new_campaign.provider_campaign && new_campaign.clasification == "budget" && new_campaign.budget.present?
-       imp = (new_campaign.budget_per_bilbo/self.cycle_price).to_i
-       if imp > t_cycles
+       imp = (new_campaign.budget_per_bilbo/(self.sale_cycle_price * new_campaign.ad.duration/self.duration)).to_i
+       # puts "X"*200
+       # puts imp
+       # puts t_cycles*10/new_campaign.ad.duration
+       if imp > t_cycles*10/new_campaign.ad.duration
          err << I18n.t("bilbos.ads_rotation_error.max_budget_impressions", name: self.name)
          return err
        end
     end
+
     return err
   end
  #################################################################################33
+  def test_hour_campaigns(new_campaign,new_campaign_hours)
+     err = []
+     new_campaign_hours.each do |cpn|
+       if !valid_start(self, cpn)
+         err << I18n.t("bilbos.ads_rotation_error.before_power_on", name: self.name)
+         return err
+       end
+       reps = cpn.imp
+       start_t = cpn.start
+       end_t = cpn.end
+
+       if !valid_end(self,cpn)
+          err << I18n.t("bilbos.ads_rotation_error.after_power_off", name: self.name)
+          return err
+       end
+       wm = working_minutes(start_t, end_t)
+       if reps > (wm*60/new_campaign.ad.duration).to_i
+         err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (wm*60/new_campaign.ad.duration).to_i)
+         return err
+       end
+     end
+     week = ImpressionHour.days.keys - ["everyday"]
+     week.each do |week_day|
+       items = new_campaign_hours.select{|c| c.day == "everyday" || c.day == week_day}
+       if items.length > 1
+         items.each_with_index do |item1,idx1|
+           items.each_with_index do |item2,idx2|
+             next if idx2 <= idx1
+             start1, end1 = parse_hours(item1.start,item1.end)
+             start2, end2 = parse_hours(item2.start,item2.end)
+             if start1 < end2 and end1 > start2
+               k1 = new_campaign_hours.index(item1)+1
+               k2 = new_campaign_hours.index(item2)+1
+               err << I18n.t("bilbos.ads_rotation_error.overlapping_schedules", n1: k1, n2: k2)
+               return err
+             end
+           end
+         end
+       end
+     end
+    return err
+  end
+ ###################################################################################
   def add_bilbo_campaigns
     output = JSON.parse(self.ads_rotation)
-    cps  = self.campaigns.where(provider_campaign: false).select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, c.board_campaigns.find_by(board: self).remaining_impressions ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
+
+    ############################# SECTION TO ADD USER HOUR CAMPAIGNS ##################################
+    h_cps_first = []
+    hour_campaign_remaining_impressions = {}
+    self.campaigns.where(provider_campaign: false, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
+      sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
+        if should_run_hour_campaign_in_board?(cpn)
+          h_cps_first.append(cpn)
+        end
+      end
+      hour_campaign_remaining_impressions[c.id] = c.remaining_impressions(self.id)
+    end
+
+    h_cps = {}
+    h_cps_first.each_with_index do |c,idx|
+      name = c.campaign_id.to_s << '/' << idx.to_s
+      h_cps_first[idx][:campaign_id] = name
+      imp = [c.imp,hour_campaign_remaining_impressions[c.campaign_id]].min
+      hour_campaign_remaining_impressions[c.campaign_id] = [hour_campaign_remaining_impressions[c.campaign_id]-imp,0].max
+      h_cps[name] = [imp,c.start,c.end, c.campaign.ad.duration]
+    end
+    h_cps = sort_by_min_time(h_cps)
+
+    h_cps.each do |name, value|
+      reps, start_t, end_t, ad_duration = value
+      block_size = ad_duration/10
+      fi = (working_minutes(start_time,start_t,true)*6).to_i
+      la = (working_minutes(start_time,end_t,true)*6).to_i
+      value[1] = fi
+      value[2] = la
+      index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
+      [reps,index_array.length].min.times do
+        sample_index = index_array.sample
+        index_array.delete(sample_index)
+        output[ fi + sample_index ...fi + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
+      end
+    end
+
+    #####################################################END OF SECTION #################################
+
+    ########################################## SECTION TO ADD USER BUDGET CAMPAIGNS #####################
+
+    cps  = self.campaigns.where(provider_campaign: false, clasification: "budget").select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, c.remaining_impressions(self.id) ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
     cycles = []                            # array to store the id's of the bilbo users campaigns the required times
     cps.each do |name, value|              # Fill the cycles array
        value.times do                      # with the id's of the
@@ -85,16 +138,7 @@ module AdRotationAlgorithm
 
     # Check the current time to start placing the ads from
     # current index at first, so we can maximize the earnings
-    st = Time.parse(self.start_time.strftime("%H:%M"))
-    et = Time.parse(self.end_time.strftime("%H:%M"))
-    ct = Time.parse(Time.zone.now.strftime("%H:%M:%S"))
-    et = et+1.day if et<=st
-    rotation_key = 0
-    if ct.between?(st,et)
-      elapsed_secs = ct-st
-      rotation_key = (elapsed_secs/10).to_i
-    end
-    ########################################################
+    rotation_key = get_current_index(self)
 
     cycles.shuffle!
     block_size = self.duration/10
@@ -112,7 +156,7 @@ module AdRotationAlgorithm
       end
     end
 
-    cycles = cycles[total_placed..]
+    cycles = cycles[total_placed.. ]
 
     #After placing the ads after the rotation_key position, place the remaining ads at the beginning of the array
     cycles.each do |name|
@@ -125,14 +169,21 @@ module AdRotationAlgorithm
       end
     end
 
+    output.each_with_index do |item,idx|
+      if item.is_a?(String) && item.index('/').present?
+        item = item.split('/')[0].to_i
+        output[idx]=item
+      end
+    end
+
     return output
 
   end
 
-  def build_ad_rotation(new_campaign = nil)
+  def build_ad_rotation(new_campaign = nil, testing = false)
 
     err = []
-    campaign_names = {}
+    # campaign_names = {}
 
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
     output = []  #array to store the displays in the correct order
@@ -141,45 +192,56 @@ module AdRotationAlgorithm
         output << '-'       # array with only bilbo
     end                     # ads
 
-    r_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
-    r_cps = r_cps_first.map{ |c| [ c.id, [(c.budget_per_bilbo/(self.get_cycle_price(c) * c.ad.duration/self.duration)).to_i, (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    # r_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(self.id) }
+    if testing
+      r_cps = @r_cps_first.map{ |c| [ c.id, [(c.budget_per_bilbo/(self.get_cycle_price(c) * c.ad.duration/self.duration)).to_i, (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    else
+      r_cps = @r_cps_first.map{ |c| [ c.id, [c.remaining_impressions(self), (c.ad.duration/10).to_i ]] }.to_h#{p1: 60, p2: 50, p3:  67} #these are the required campaigns of the provider, same as cps
+    end
     r_cycles = []
     total_r_cps_spaces = 0
 
-    per_time_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true).where.not(minutes: nil).where.not(imp: nil).to_a.select{ |c| c.should_run?(self.id) }
-    per_time_cps = per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes, c.ad.duration] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
+    # per_time_cps_first = self.campaigns.includes(:ad).where(provider_campaign: true).where.not(minutes: nil).where.not(imp: nil).to_a.select{ |c| c.should_run?(self.id) }
+    per_time_cps = @per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes, c.ad.duration] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
-    h_cps_first = []
+    # h_cps_first = []
+    # hour_campaign_remaining_impressions = {}
+    #
+    # self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
+    #   sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
+    #     if should_run_hour_campaign_in_board?(cpn)
+    #       h_cps_first.append(cpn)
+    #     end
+    #   end
+    #   hour_campaign_remaining_impressions[c.id] = c.remaining_impressions(self.id)
+    #   # campaign_names[c.id] = c.name
+    # end
 
-    self.campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
-      c.impression_hours.each do |cpn|
-        if should_run_hour_campaign_in_board?(cpn)
-          h_cps_first.append(cpn)
-        end
-      end
-      campaign_names[c.id] = c.name
-    end
-
-    #check if validation with new campaign (OPTIONAL!!)
+    #check validation with new campaign if it's present
 
     if new_campaign.present?
-      campaign_names[new_campaign.id] = new_campaign.name
       if new_campaign.minutes.present?
         per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes, new_campaign.ad.duration]
-        per_time_cps_first.append(new_campaign)
+        @per_time_cps_first.append(new_campaign)
       elsif new_campaign.impression_hours.present?
-        new_campaign.impression_hours.each do |c|
+        sorted_impression_hours(self,new_campaign.impression_hours.to_a).each do |c|
           if should_run_hour_campaign_in_board?(c)
-            h_cps_first.append(c)
+            @h_cps_first.append(c)
           end
         end
+        @hour_campaign_remaining_impressions[new_campaign.id] = new_campaign.remaining_impressions(self.id)
+        @campaign_names[new_campaign.id] = new_campaign.name
       elsif new_campaign.budget.present?
-        r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.ad.duration/self.duration)).to_i, (new_campaign.ad.duration/10).to_i]
-        r_cps_first.append(new_campaign)
+        if testing
+          r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.ad.duration/self.duration)).to_i, (new_campaign.ad.duration/10).to_i]
+        else
+          r_cps[new_campaign.id] = [new_campaign.remaining_impressions(self), (new_campaign.ad.duration/10).to_i]
+        end
+        @r_cps_first.append(new_campaign)
       end
     end
     #####################################
-    h_cps_first.each do |c|
+    @h_cps_first.each do |c|
       if !hour_inside_board_time?(self,c)
         err << I18n.t("bilbos.ads_rotation_error.hour_campaign_time", name: self.name)
         return err
@@ -187,10 +249,12 @@ module AdRotationAlgorithm
     end
 
     h_cps = {}
-    h_cps_first.each_with_index do |c,idx|
+    @h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
-      h_cps_first[idx][:campaign_id] = name
-      h_cps[name] = [c.imp,c.start,c.end, c.campaign.ad.duration]
+      @h_cps_first[idx][:campaign_id] = name
+      imp = (testing)? c.imp : [c.imp, @hour_campaign_remaining_impressions[c.campaign_id]].min
+      @hour_campaign_remaining_impressions[c.campaign_id] = @hour_campaign_remaining_impressions[c.campaign_id] - imp if !testing
+      h_cps[name] = [imp, c.start, c.end, c.campaign.ad.duration]
     end
     h_cps = sort_by_min_time(h_cps)
 
@@ -228,7 +292,7 @@ module AdRotationAlgorithm
        index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
        if index_array.length < reps
          id = name.split('/')[0].to_i
-         err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: campaign_names[id],bilbo_name: self.name)
+         err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: @campaign_names[id],bilbo_name: self.name)
          return err
          break
        end
@@ -251,7 +315,7 @@ module AdRotationAlgorithm
     per_time_cps_cp.each {|key,value| total_p+=value}
 
     if total_p + total_h> t_cycles
-        err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.last.name, bilbo_name: self.name)
+        err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: @per_time_cps_first.last.name, bilbo_name: self.name)
         return err
     end
 
@@ -285,7 +349,7 @@ module AdRotationAlgorithm
             end #end times
             index_array = find_free_indexes(output[inf...inf+size],["-"]*(block_size))
             if index_array.length<displays
-              err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: per_time_cps_first.find(name).first.name, bilbo_name: self.name)
+              err << I18n.t("bilbos.ads_rotation_error.minute_campaign_space", campaign_name: @per_time_cps_first.find(name).first.name, bilbo_name: self.name)
               return err
             end
           end
@@ -301,15 +365,31 @@ module AdRotationAlgorithm
     end
 
     #r_cycles = r_cycles.sort_by{|name, block_size| -block_size} #first put the biggest blocks
+    rotation_key = get_current_index(self)
+    total_placed = 0
     r_cycles.each do |elem|
       name = elem[0]
       block_size = elem[1]
-      place_index = find_substring_index(output,["-"]*(block_size))
+      place_index = rotation_key + find_substring_index(output[rotation_key..],["-"]*(block_size))
+      if place_index != rotation_key - 1
+        place_index = push_to_left(output,place_index,block_size)
+        output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
+        total_placed += 1
+      else
+        break
+      end
+    end
+
+    r_cycles = r_cycles[total_placed.. ]
+    r_cycles.each do |elem|
+      name = elem[0]
+      block_size = elem[1]
+      place_index = find_substring_index(output[...rotation_key],["-"]*(block_size))
       if place_index != -1
         place_index = push_to_left(output,place_index,block_size)
         output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
       else
-        err << I18n.t("bilbos.ads_rotation_error.budget_campaign_space", campaign_name: r_cps_first.last.name, bilbo_name: self.name)
+        err << I18n.t("bilbos.ads_rotation_error.budget_campaign_space", campaign_name: @r_cps_first.last.name, bilbo_name: self.name)
         return err
       end
     end
@@ -326,7 +406,7 @@ module AdRotationAlgorithm
       end
     end
 
-    self.new_ads_rotation = output
+    self.new_ads_rotation = output unless testing
     return err
 
   end
@@ -459,5 +539,31 @@ def parse_hours(start_t,end_t)
   start_t += 1.day if start_t < board_start
   end_t += 1.day if start_t >= end_t
   return start_t,end_t
+end
+def get_current_index(board)
+  # Check the current time to start placing the ads from
+  # current index at first, so we can maximize the earnings
+  st = Time.parse(board.start_time.strftime("%H:%M"))
+  et = Time.parse(board.end_time.strftime("%H:%M"))
+  ct = Time.parse(Time.zone.now.strftime("%H:%M:%S"))
+  et = et+1.day if et<=st
+  rotation_key = 0
+  if ct.between?(st,et)
+    elapsed_secs = ct-st
+    rotation_key = (elapsed_secs/10).to_i
+  end
+  return rotation_key
+end
+def sorted_impression_hours(board,impression_hours)
+  impression_hours = impression_hours.sort_by{:start}
+  impression_hours.each_with_index do |elem,idx|
+    if elem.start >= board.start_time
+      if idx > 0
+        impression_hours = impression_hours[idx-1..]+ impression_hours[0...idx-1]
+      end
+      break
+    end
+  end
+  return impression_hours.reverse
 end
 end

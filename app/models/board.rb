@@ -228,17 +228,22 @@ class Board < ApplicationRecord
   end
 
   def update_ads_rotation(force_generate = false)
-    err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
-    return err if err.present?
-    self.ads_rotation = self.new_ads_rotation
-    self.ads_rotation_updated_at = Time.now
-    @success = self.save
-    return self.errors if !@success
-    return []
+    if self.get_campaigns
+      err = self.build_ad_rotation(nil,true) if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
+      return err if err.present?
+      err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate
+      return err if err.present?
+      self.ads_rotation = self.new_ads_rotation
+      self.ads_rotation_updated_at = Time.now
+      @success = self.save
+      return self.errors if !@success
+      return []
+    end
   end
 
   def update_campaign_broadcast(camp)
-    if camp.should_run?(self.id)
+    will_publish = camp.should_run?(self.id)
+    if will_publish
       publish_campaign(camp.id, self.id)
     else
       remove_campaign(camp.id, self.id)
@@ -356,6 +361,26 @@ class Board < ApplicationRecord
 
   def current_sale
     sales.running.first
+  end
+
+  def get_campaigns
+    @r_cps_first = campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(id) }
+    @per_time_cps_first = campaigns.includes(:ad).where(provider_campaign: true).where.not(minutes: nil).where.not(imp: nil).to_a.select{ |c| c.should_run?(id) }
+    @h_cps_first = []
+    @campaign_names = []
+    @hour_campaign_remaining_impressions = {}
+
+    campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(id) }.each do |c|
+      sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
+        if should_run_hour_campaign_in_board?(cpn)
+          @h_cps_first.append(cpn)
+        end
+      end
+      @hour_campaign_remaining_impressions[c.id] = c.remaining_impressions(id)
+      @campaign_names[c.id] = c.name
+    end
+
+    return true
   end
 
   private

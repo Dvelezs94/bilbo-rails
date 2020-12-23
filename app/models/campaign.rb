@@ -38,6 +38,7 @@ class Campaign < ApplicationRecord
   before_destroy :remove_campaign
 
   validates :name, presence: true
+  validates :provider_campaign, inclusion: [true, false]
   #validates :ad, presence: true, on: :update
   validate :project_enabled?
   validate :state_change_time, on: :update,  if: :state_changed?
@@ -49,8 +50,10 @@ class Campaign < ApplicationRecord
   validate :check_build_ad_rotation, if: :provider_campaign
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
+  before_save :notify_in_a_week, if: :ad_id_changed?
   before_update :set_in_review_and_update_price
   after_commit :broadcast_to_all_boards
+  after_update :update_bc
   after_update :generate_shorten_url
 
   def owner
@@ -85,8 +88,16 @@ class Campaign < ApplicationRecord
     end
   end
 
+  # def have_to_set_in_review_on_boards
+  #   return ad_id_changed? || budget_changed? || minutes_changed? || imp_changed? || hour_start_changed? || hour_finish_changed? || starts_at_changed? || ends_at_changed?
+  # end
+
   def have_to_set_in_review_on_boards
-    return ad_id_changed? || budget_changed? || minutes_changed? || imp_changed? || hour_start_changed? || hour_finish_changed? || starts_at_changed? || ends_at_changed?
+    if provider_campaign
+      return owner_updated_campaign
+    else
+      return ad_id_changed?
+    end
   end
 
   def set_in_review_and_update_price
@@ -101,13 +112,24 @@ class Campaign < ApplicationRecord
   def budget_per_bilbo
     self.budget / boards.length
   end
+
   def check_build_ad_rotation
-    if ( state && !have_to_set_in_review_on_boards )
+    if ( state && state_changed? && !have_to_set_in_review_on_boards )
       boards.each do |b|
-        err = b.build_ad_rotation(self) if state_changed? && self.should_run?(b.id)
-        if err.present?
-          errors.add(:base, err.first)
-          break
+        if self.should_run?(b.id) && b.get_campaigns
+          #Check the ad rotation with the total impressions (for budget campaigns) but do not save
+          err = b.build_ad_rotation(self,true)
+          if err.present?
+            errors.add(:base, err.first)
+            break
+          end
+          #In case no error is found
+          #Build again the ad rotation and save it, only with the remaining impressions of the budget campaigns
+          err2 = b.build_ad_rotation
+          if err2.present?
+            errors.add(:base, err2.first)
+            break
+          end
         end
       end
     end
@@ -123,7 +145,7 @@ class Campaign < ApplicationRecord
         return true
       elsif clasification == "per_minute"
         return true
-      elsif clasification == "per_hour"
+      elsif clasification == "per_hour" && self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5)
         return true
       end
     end
@@ -243,25 +265,25 @@ class Campaign < ApplicationRecord
   end
 
   # Get total ammount of money invested on the campaign to date
-  def total_invested
-    Impression.where(campaign_id: id).sum(:total_price)
+  def total_invested(start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
+    Impression.where(campaign_id: id, created_at: start_date..end_date).sum(:total_price)
   end
 
-  def daily_impressions(time_range = 30.days.ago..Time.zone.now, board_id = nil )
+  def daily_impressions(start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
     if board_id.nil?
-      impressions.where(campaign_id: id,created_at: time_range).group_by_day(:created_at).count
+      impressions.where(created_at: start_date..end_date).group_by_day(:created_at).count
     else
-      impressions.where(campaign_id: id,created_at: time_range, board_id: board_id).group_by_day(:created_at).count
+      impressions.where(created_at: start_date..end_date, board_id: board_id).group_by_day(:created_at).count
     end
   end
 
-  def daily_invested( time_range = 30.days.ago..Time.now)
-    h = impressions.where(campaign_id: id, created_at: time_range).group_by_day(:created_at, format: "%a").sum(:total_price)
+  def daily_invested( start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
+    h = impressions.where(campaign_id: id, created_at: start_date..end_date).group_by_day(:created_at, format: "%a").sum(:total_price)
     h.each { |key,value| h[key] = value.round(3) }
   end
 
-  def peak_hours (time_range = 30.days.ago..Time.now)
-    impressions.where(campaign_id: id, created_at: time_range).group_by_hour_of_day(:created_at, format: "%l %P").count
+  def peak_hours (start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
+    impressions.where(campaign_id: id, created_at: start_date..end_date).group_by_hour_of_day(:created_at, format: "%l %P").count
   end
 
   def to_s
@@ -279,6 +301,31 @@ class Campaign < ApplicationRecord
           break
         end
       end
+    elsif clasification == "per_hour" && state
+      boards.each do |b|
+        err = b.test_hour_campaigns(self, impression_hours.select{|c| !c.marked_for_destruction?})
+        if err.any?
+          err.each do |e|
+            errors.add(:base, e)
+          end
+          break
+        end
+      end
+    end
+  end
+
+  def update_bc
+    if !self.owner.is_provider?
+      board_campaigns.each do |bc|
+        bc.update(update_remaining_impressions: true)
+      end
+    end
+  end
+
+  def notify_in_a_week
+    bilbo_project_ids = [32] #Projects owned by bilbo
+    if ad_id_changed?(from: nil) && self.project.id.in?(bilbo_project_ids)
+      SlackNotifyWorker.perform_at(7.days.from_now, "La campaña #{self.name} se creó hace una semana, revisa las metricas!")
     end
   end
 

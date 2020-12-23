@@ -121,6 +121,14 @@ Rails.application.routes.draw do
         post :impersonate
       end
     end
+    resources :projects do
+      collection do
+        get :index
+      end
+      member do
+        put :update_permissions
+      end
+    end
     resources :payments, only: [] do
       collection do
         get :index

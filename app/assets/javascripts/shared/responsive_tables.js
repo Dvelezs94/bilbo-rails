@@ -46,3 +46,10 @@ $(document).on('turbolinks:load', function() {
     });
   }
 });
+
+$(document).on('turbolinks:before-cache', function() {
+  if ($('#userCampaignTable').DataTable() != null) $('#userCampaignTable').DataTable().destroy();
+  if ($('#invoicesTable').DataTable() != null) $('#invoicesTable').DataTable().destroy();
+  if ($('#boardsTable').DataTable() != null) $('#boardsTable').DataTable().destroy();
+  if ($('#campaignsTable').DataTable() != null) $('#campaignsTable').DataTable().destroy();
+});
