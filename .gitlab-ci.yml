@@ -1,10 +1,10 @@
 image: docker:latest
 
 variables:
-  REPOSITORY_URL: 167732392816.dkr.ecr.us-east-1.amazonaws.com/bilbo
   ECS_SERVICE: webapp
   ECS_SERVICE_SIDEKIQ: sidekiq
   AWS_REGION: us-east-1
+  REPOSITORY_URL: 696716568292.dkr.ecr.${AWS_REGION}.amazonaws.com/bilbo
   DOCKER_IMAGE_CI: $REPOSITORY_URL:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}
   COMPOSE_INTERACTIVE_NO_CLI: 1
   DOCKER_DRIVER: overlay
