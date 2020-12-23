@@ -3,7 +3,7 @@ require 'test_helper'
 class CampaignSubscriberTest < ActiveSupport::TestCase
   setup do
     @project = create(:project, name: "Subscriber")
-    @campaign = create(:campaign, project: @project)
+    @campaign = create(:campaign, project: @project, provider_campaign: true)
   end
 
   test "has phone" do

@@ -4,7 +4,7 @@ class CsvControllerTest < ActionDispatch::IntegrationTest
       @campaign_name = "Zoro"
       @user = create(:user, name: @campaign_name )
       @project =  create(:project, name: @campaign_name)
-      @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project.id, state: true)
+      @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project.id, state: true, provider_campaign: @user.is_provider?)
       @report = create(:report, name: @name, project: @user.projects.first)
       sign_in @user
     end

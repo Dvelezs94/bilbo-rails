@@ -7,12 +7,12 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     @board = create(:board,project: @user.projects.first, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720",
       address: "mineria 908", category: "A", base_earnings: "5000", face: "north")
     @project =  create(:project, name: @campaign_name)
-    @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project.id)
+    @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?)
     sign_in @user
   end
 
   test "Campaign Name" do
-    @campaign = create(:campaign, name: "controller",project: @user.projects.first, project_id: @project.id, state: true)
+    @campaign = create(:campaign, name: "controller",project: @user.projects.first, project_id: @project.id, state: true, provider_campaign: @user.is_provider?)
     assert @campaign.name, @campaign_name
   end
   test "campaign index" do

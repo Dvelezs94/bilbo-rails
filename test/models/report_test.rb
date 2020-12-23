@@ -5,7 +5,7 @@ class ReportTest < ActiveSupport::TestCase
     @name = "Report"
     @project =  create(:project, name: @name)
     @user = create(:user,role: "provider", name: @name)
-    @campaign = create(:campaign, name: @name,project: @user.projects.first, project_id: @project.id)
+    @campaign = create(:campaign, name: @name,project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?)
     @report = create(:report, name: @name, project: @user.projects.first)
   end
   test 'report exists' do
