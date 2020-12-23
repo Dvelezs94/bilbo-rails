@@ -22,7 +22,7 @@
     <meta name="author" content="Bilbo">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="https://s3.us-east-2.amazonaws.com/cdn.bilbo.mx/Bilbo-Favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://s3.amazonaws.com/cdn.bilbo.mx/Bilbo-Favicon.png">
     <%= javascript_include_tag 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', :defer => true, 'data-turbolinks-eval': 'false' %>
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY")+"&libraries=places", :defer => true, 'data-turbolinks-eval': 'false' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
