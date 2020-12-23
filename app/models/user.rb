@@ -4,6 +4,7 @@ class User < ApplicationRecord
   include BroadcastConcern
   include DatesHelper
   include NumbersHelper
+  include SendgridHelper
   include Rails.application.routes.url_helpers
   ############################################################################################
   ## PeterGate Roles                                                                        ##
@@ -28,6 +29,8 @@ class User < ApplicationRecord
   has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
   after_commit :set_project, on: :create
+  after_create :send_contact_sendgrid
+  before_save :send_contact_sendgrid, if: :name_changed?
   before_save :notify_credits, if: :balance_changed?
   has_many :payments
   has_many :invoices
@@ -247,6 +250,13 @@ class User < ApplicationRecord
   def set_project
     @project = Project.new(name: project_name, classification: self.role.to_s)
     @project.project_users.new(user: self, role: "owner")
+    @project.available_campaign_types = ["budget","per_minute","per_hour"].to_s if self.is_provider?
     @project.save
   end
+
+  def send_contact_sendgrid
+    #create a contact in lists of sengrid
+    sync_sendgrid_user(self)
+  end
+
 end
