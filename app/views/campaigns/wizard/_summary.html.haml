@@ -29,6 +29,13 @@
                     %span= t('campaign.wizard.to')
                     %strong.timeEnd
                     %i.fe.fe-clock
+                %hr
+                %strong= t('campaign.wizard.impressions_hour_budget')
+                %br
+                %div#current_spend
+                  %div.d-none#spend_summary
+                    %span.dayOfWeek
+                    %span.money
               -if "#{@campaign.clasification}" == "per_minute"
                 %strong= t('campaign.wizard.campaign_minute')
                 %br

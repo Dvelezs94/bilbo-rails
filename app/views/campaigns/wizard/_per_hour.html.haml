@@ -2,6 +2,7 @@
 %section
   %form
     .row.justify-content-xl-center
+    = t('campaign.wizard.impressions_hour_explanation').html_safe
     .divider-text= t('campaign.wizard.title_impressions_per_hour')
     .col-12.form-row.justify-content-xl-center
       = f.fields_for :impression_hours do |imp|
