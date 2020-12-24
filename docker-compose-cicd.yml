@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: dbpass
 
   app:
-    image: 167732392816.dkr.ecr.us-east-1.amazonaws.com/bilbo:latest
+    image: 696716568292.dkr.ecr.us-east-1.amazonaws.com/bilbo:latest
     command: web
     volumes:
       - .:/home/bilbo/app
@@ -17,7 +17,7 @@ services:
       - db
 
   sidekiq:
-    image: 167732392816.dkr.ecr.us-east-1.amazonaws.com/bilbo:latest
+    image: 696716568292.dkr.ecr.us-east-1.amazonaws.com/bilbo:latest
     command: sidekiq
     depends_on:
       - redis

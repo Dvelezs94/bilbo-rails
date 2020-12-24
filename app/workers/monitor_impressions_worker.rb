@@ -8,7 +8,7 @@ class MonitorImpressionsWorker
     send_alert = false
 
     # impressions should be above 500 by 12 PM
-    if today_impressions < 500
+    if today_impressions < 200
       send_alert = true
     # if impressions are under 60% compared to yesterday, something is wrong
     elsif (today_impressions / yesterday_impressions) < 0.6
@@ -17,7 +17,7 @@ class MonitorImpressionsWorker
 
     # Send slack alert
     if Rails.env.production? && send_alert
-      SlackNotifyWorker.perform_async("ALERTA: Pocas impresiones comparadas con el día de ayer. revisar #{Rails.env}")
+      SlackNotifyWorker.perform_async("ALERTA: Pocas impresiones comparadas con el día de ayer. revisar #{Rails.env}\n  Impresiones de hoy: #{today_impressions}\n  Impresiones de ayer: #{yesterday_impressions}")
     end
   end
 end
