@@ -59,7 +59,9 @@
             = t("campaign.new_campaign")
   / container
 / content
-= render partial: "campaigns/copy"
+#modalCopyCampaign.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "adViewModal", role: "dialog", tabindex: "-1"}
+  .modal-dialog.modal-dialog-centered{role: "document"}
+    .modal-content.tx-14
 - if @project.owned?(current_user.id) && current_user.is_user? && @show_hint
   = render partial: "notifications/missing_steps"
   = render partial: "ads/new"
