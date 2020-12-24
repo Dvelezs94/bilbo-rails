@@ -189,7 +189,7 @@ class CampaignsController < ApplicationController
   def copy_campaign
      p "x" * 800
      p @campaign
-    render partial: 'copy_campaign', :locals => {:obj => @campaign} 
+    render 'copy_campaign', :locals => {:obj => @campaign} 
   end
 
   private
