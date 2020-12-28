@@ -231,7 +231,7 @@ class CampaignsController < ApplicationController
   private
 
   def campaign_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :imp, :minutes, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :link, :imp, :minutes, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
     if @campaign_params[:boards].present?
       @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
     end
