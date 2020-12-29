@@ -2,7 +2,7 @@ class CampaignsController < ApplicationController
   include UserActivityHelper
   access [:user, :provider] => :all, all: [:analytics, :shortened_analytics]
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :copy_campaign]
+  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :copy_campaign, :create_copy]
   before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :campaign_not_active, only: [:edit]
 
@@ -186,11 +186,22 @@ class CampaignsController < ApplicationController
     end
   end
 
-  def copy_campaign
-     p "x" * 800
-     p @campaign
-    render 'copy_campaign', :locals => {:obj => @campaign} 
+  def create_copy
+    camp = @campaign.amoeba_dup
+    camp.assign_attributes(copy_params)
+    if camp.save
+      track_activity( action: 'campaign.campaign_created', activeness: camp)
+      flash[:success] = I18n.t('campaign.action.saved')
+    else
+      flash[:error] = I18n.t('campaign.errors.no_save')
+    end
+    redirect_to edit_campaign_path(camp, gtm_campaign_create: true)
   end
+  
+  def copy_campaign
+    render 'copy_campaign', :locals => {:obj => @campaign}
+  end
+
 
   private
 
@@ -215,6 +226,12 @@ class CampaignsController < ApplicationController
   def create_params
     @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :clasification).merge(:project_id => @project.id)
     @campaign_params[:provider_campaign] = @project.classification == 'provider'
+    @campaign_params
+  end
+
+  def copy_params
+    @campaign_params = params.require(:campaign).permit(:name, :description)
+    @campaign_params[:state] = false
     @campaign_params
   end
 
