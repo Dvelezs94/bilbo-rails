@@ -105,6 +105,7 @@ es:
     browse: Buscar
     confirm: Confirmar
     cancel: Cancelar
+    learn_more: Ver más
     choose_a_file: Elige un archivo
     submit: Enviar
     create: Crear
@@ -167,10 +168,10 @@ es:
     new_campaign: Nueva Campaña
     destroy: Remover Campaña
     campaign_name: Nombre de Campaña
-    bilbos_in_use: Bilbos en uso
-    ad_name: Nombre del anuncio
-    start_date: Fecha de inicio
-    end_date: Fecha de fin
+    bilbos_in_use: Bilbos
+    ad_name: Anuncio
+    start_date: Inicio
+    end_date: Fin
     impressions: Impresiones
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
@@ -208,6 +209,11 @@ es:
     extra_cost_info: Las campañas por hora tienen un costo adicional del %{ammount}% por impresión respecto al costo base del bilbo
     ads_rotation_error:
       accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
+    daily_qr_scans: Escaneos diarios de códigos QR
+    daily_qr_scans_description: Analiza cuales días son los que tus códigos QR tienen más conversión
+    total_qr_scans: Escaneos totales de códigos QR
+    scans: Veces
+    qr_scans_tips: Aprende cómo tener una mejor conversión de escaneos para tus códigos QR con nuestras guías.
     wizard:
       next: Siguiente
       previous: Anterior
