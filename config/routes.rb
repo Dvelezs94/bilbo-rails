@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       get :getAds
       get :get_used_boards
       get :copy_campaign
+      post :create_copy
     end
     collection do
       get :provider_index
