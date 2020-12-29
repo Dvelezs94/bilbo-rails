@@ -49,8 +49,9 @@
                 %th= t("campaign.daily_budget")
                 %th= t("campaign.total_invested")
                 %th.no-sort
-                  = t("campaign.qr_code")
-                  %i.fe.fe-question.tx-primary{"data-toggle" => "tooltip", :title => t("campaign.qr_code_tooltip")}
+                  %span.text-single-line
+                    = t("campaign.qr_code")
+                    %i.fe.fe-question.tx-primary{"data-toggle" => "tooltip", :title => t("campaign.qr_code_tooltip")}
                 %th.no-sort
             %tbody= render partial: "campaigns/campaign_row", collection: @campaigns, as: :campaign
     - else

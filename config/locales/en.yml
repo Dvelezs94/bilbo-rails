@@ -105,6 +105,7 @@ en:
     browse: Browse
     confirm: Confirm
     cancel: Cancel
+    learn_more: Learn more
     choose_a_file: choose a file
     submit: Submit
     create: Create
@@ -129,12 +130,12 @@ en:
     know_more_about_roles: Read more about roles and permissions
     from: from
   campaign:
-    1_month: 1 month 
-    2_months: 2 month 
-    3_months: 3 months 
-    4_months: 4 month 
-    5_months: 5 month 
-    6_months: 6 month   
+    1_month: 1 month
+    2_months: 2 month
+    3_months: 3 months
+    4_months: 4 month
+    5_months: 5 month
+    6_months: 6 month
     add_schedule: Add Schedule
     must_add_schedule: You must add a schedule
     active_campaigns: Active Campaigns
@@ -201,6 +202,11 @@ en:
     extra_cost_info: Campaigns per hour have an additional cost of %{ammount}% per impression compared to the base cost of the bilbo
     ads_rotation_error:
       accepted_but_error: The campaign was accepted but deactivated because %{error}
+    daily_qr_scans: Daily QR hits
+    daily_qr_scans_description: Counts how many times the QR code has been scanned
+    total_qr_scans: Total QR hits
+    scans: Hits
+    qr_scans_tips: Want to learn how to convert more effectively using your QR codes?
     wizard:
       next: Next
       previous: Previous
@@ -231,11 +237,11 @@ en:
       payment_details: Payment Details
       most_popular: Most popular
       budget: Daily budget
-      daily_budget_description: Budget for your chosen Bilbos. The budget will be dividided equally between all Bilbos.
+      daily_budget_description: Budget for your chosen Bilbos. The budget will be evenly dividided between all your selected Bilbos.
       campaign_duration: Campaign Duration
       campaign_minute: Impression per minute
       campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
-      campaign_hour_description: With this option, you can program you're campaigns in an specific hour
+      campaign_hour_description: Select the days and the hours you want your campaign to run. Very powerful for highly targeted ads.
       campaign_clasification: Type of campaign
       ongoing_campaign: Ongoing Campaign
       pick_date: Choose Date
