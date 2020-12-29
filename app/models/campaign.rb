@@ -337,7 +337,7 @@ class Campaign < ApplicationRecord
   end
 
   def is_per_hour?
-    self.clasification == "per_hour"
+    self.per_hour?
   end
 
 end

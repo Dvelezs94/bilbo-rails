@@ -130,11 +130,11 @@ en:
     from: from
   campaign:
     1_month: 1 month
-    2_months: 2 month
+    2_months: 2 months
     3_months: 3 months
-    4_months: 4 month
-    5_months: 5 month
-    6_months: 6 month
+    4_months: 4 months
+    5_months: 5 months
+    6_months: 6 months
     add_schedule: Add Schedule
     must_add_schedule: You must add a schedule
     active_campaigns: Active Campaigns
