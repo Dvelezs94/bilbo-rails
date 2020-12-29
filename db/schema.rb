@@ -233,7 +233,6 @@ ActiveRecord::Schema.define(version: 2020_12_04_153128) do
     t.bigint "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "budget"
     t.index ["campaign_id"], name: "index_impression_hours_on_campaign_id"
   end
 
