@@ -59,7 +59,6 @@
             = t("campaign.new_campaign")
   / container
 / content
-= render partial: "campaigns/copy_header"
 - if @project.owned?(current_user.id) && current_user.is_user? && @show_hint
   = render partial: "notifications/missing_steps"
   = render partial: "ads/new"

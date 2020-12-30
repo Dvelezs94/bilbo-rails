@@ -1,2 +1,2 @@
-$("#modalCopyCampaign").find(".modal-content").html("<%= j (render 'campaigns/copy.html.haml', collection: @campaign, as: :campaign) %>");
-$("#modalCopyCampaign").modal();
+$("body").append("<%= j (render 'campaigns/copy.html.haml', :locals => {:obj => @campaign}) %>");
+$("#modalCopyCampaign").modal('show');
