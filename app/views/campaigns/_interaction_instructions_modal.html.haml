@@ -1,0 +1,33 @@
+#modalInteractionCampaign.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20.pd-sm-30
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &#215;
+        %h5.tx-18.tx-sm-20.mg-b-30= @campaign.name
+        .row
+          .col-12
+            %p Se ha creado con éxito tu nueva campaña de interacción. A continuación se enlistan los pasos para que descargues y utilices el código QR en tu anuncio y así puedas medir tus resultados.
+            %ol
+              %li
+                %h5
+                  = link_to download_qr_instructions_campaign_path(@campaign) do
+                    %i.fe.fe-download
+                    = t("campaign.download_qr_extended")
+              %li
+                %h5 Utiliza el código QR en tu anuncio
+                %p Pega el código QR en tu anuncio publicitario, recuerda seguir las mejores prácticas para implementar tu anuncio publicitario y así tener mejores resultados.
+                = link_to "https://bilbo.freshdesk.com/support/solutions/articles/64000257671-c%C3%B3digos-qr" do
+                  %i.fe.fe-link-external
+                  Mejores prácticas para implementar códigos QR
+              %li
+                %h5 Sube tu anuncio
+                %p
+              %li
+                %h5 Utiliza tu nuevo anuncio en tu campaña
+                = link_to edit_campaign_path(@campaign, gtm_campaign_create: true) do
+                  %i.fe.fe-edit
+                  = t('general_inputs.edit')
+
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
