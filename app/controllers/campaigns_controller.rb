@@ -153,7 +153,11 @@ class CampaignsController < ApplicationController
       else
         flash[:error] = I18n.t('campaign.errors.no_save')
       end
-      redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
+      if @campaign.interaction?
+        render "create_interaction"
+      else
+        redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
+      end
   end
 
   def destroy
@@ -196,7 +200,7 @@ class CampaignsController < ApplicationController
   end
 
   def download_qr_instructions
-    qr_files_location = build_qr_instruction_files(@campaign.qr_shortener.png_to_text, @campaign.slug)
+    qr_files_location = build_qr_instruction_files(@campaign)
     require 'zip'
     #Attachment name
     filename = "QR - #{@campaign.name}.zip"
@@ -291,19 +295,15 @@ class CampaignsController < ApplicationController
   end
 
   # build the files for the QR
-  def build_qr_instruction_files(qr, campaign_name)
+  def build_qr_instruction_files(campaign)
     hex = SecureRandom.hex(4)
     tmp_dir = "/tmp/#{hex}"
     # create directory
     Dir.mkdir(tmp_dir) unless File.exists?(tmp_dir)
     # create files
-    File.open("#{tmp_dir}/qr-#{campaign_name}.png", "wb") { |f| f.write qr }
-    File.open("#{tmp_dir}/INSTRUCCIONES.txt", "wb") { |f| f.write "Hola #{current_user.name}
-prueba de linea
-prueba 2 de linea
-
-https://google.com/
-"
+    File.open("#{tmp_dir}/qr-#{campaign.name}.png", "wb") { |f| f.write campaign.qr_shortener.png_to_text }
+    File.open("#{tmp_dir}/#{I18n.t('campaign.qr.file_name')}.txt", "wb") { |f|
+      f.write I18n.t('campaign.qr.file_content', name: current_user.name, campaign_edit_link: edit_campaign_url(campaign))
     }
     return tmp_dir
   end

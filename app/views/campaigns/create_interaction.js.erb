@@ -1,0 +1,5 @@
+$('#modalInteractionCampaign').remove();
+$('.modal').modal('hide');
+$('#new_campaign')[0].reset();
+$('body').append('<%= j (render "campaigns/interaction_instructions_modal",  object: { campaign: @campaign }) %>');
+$("#modalInteractionCampaign").modal('show');

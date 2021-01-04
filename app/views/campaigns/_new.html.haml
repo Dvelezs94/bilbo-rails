@@ -35,7 +35,7 @@
                       .input-group-prepend
                         .input-group-text
                           %i.fe.fe-globe
-                      = f.url_field :link, :class => "form-control", pattern: "https?://.*",placeholder: 'https://my.website.com/', data: {parsley_errors_messages_disabled: true}
+                      = f.url_field :link, :class => "form-control", pattern: "https?://.*",placeholder: 'https://www.website.com/', data: {parsley_errors_messages_disabled: true}
 
               .col-12.col-lg-6
                 -if JSON.parse(@project.available_campaign_types).length > 1

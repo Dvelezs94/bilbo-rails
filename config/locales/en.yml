@@ -151,9 +151,33 @@ en:
       awareness_description: Promote your brand or product in the selected areas
       interaction: Interaction
       interaction_description: Send users to your promotion or website using a QR code
+    qr:
+      qrs_hits_title: Total QR hits
+      qr_codes_enters: Hits by QR
+      qr_tips: Learn how to improve your QR conversions with our free guides.
+      daily_qr_hits: Daily QR code hits
+      file_name: INSTRUCTIONS
+      file_content: |
+        Hello %{name}!
+
+        This document will guide you step by step on how to use your QR code on your ad so you can track visits to your site.
+
+        Step 1: Locate your QR code
+          The code should be located inside the same folder as this txt file
+
+        Step 2: Use the code on your ad
+          Find a place on your Ad to paste your QR code
+
+        Step 3: Upload your Ad
+          Upload your ad to Bilbo through this link https://app.bilbo.mx/ads
+
+        Paso 4: Edit your campaign
+          Edit your campaign to use your modified Ad which contains the QR code.
+          You can edit your campaign through Bilbo or using this link %{campaign_edit_link}
     home: Home
     qr_code: QR Code
     download_qr: Download
+    download_qr_extended: Download QR Code
     enable_campaigns: Enable campaigns
     to_active: The campaign has been activated
     accepted: The campaign has been accepted
