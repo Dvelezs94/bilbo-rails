@@ -18,6 +18,13 @@ class Campaign < ApplicationRecord
   has_many :boards, through: :board_campaigns
   has_many :provider_invoices
 
+  amoeba do
+    enable
+    include_association :impression_hours, if: :is_per_hour?
+    include_association :boards, through: :board_campaigns
+    include_association :board_campaigns, class_name: "BoardsCampaigns"
+  end
+
   def slug_candidates
     [
       [:name, :friendly_uuid]
@@ -327,6 +334,10 @@ class Campaign < ApplicationRecord
     if ad_id_changed?(from: nil) && self.project.id.in?(bilbo_project_ids)
       SlackNotifyWorker.perform_at(7.days.from_now, "La campaña #{self.name} se creó hace una semana, revisa las metricas!")
     end
+  end
+
+  def is_per_hour?
+    self.per_hour?
   end
 
 end

@@ -129,12 +129,12 @@ en:
     know_more_about_roles: Read more about roles and permissions
     from: from
   campaign:
-    1_month: 1 month 
-    2_months: 2 month 
-    3_months: 3 months 
-    4_months: 4 month 
-    5_months: 5 month 
-    6_months: 6 month   
+    1_month: 1 month
+    2_months: 2 months
+    3_months: 3 months
+    4_months: 4 months
+    5_months: 5 months
+    6_months: 6 months
     add_schedule: Add Schedule
     must_add_schedule: You must add a schedule
     active_campaigns: Active Campaigns
@@ -190,6 +190,8 @@ en:
     view_bilbos_used: View bilbos utilized
     user_has_no_credits_disclaimer: The owner of this project does not have credits, which means this campaign will be shown once the owner purchases credits.
     extra_cost_info: Campaigns per hour have an additional cost of %{ammount}% per impression compared to the base cost of the bilbo
+    copy_campaign: Duplicate Campaign
+    copy: Duplicate
     ads_rotation_error:
       accepted_but_error: The campaign was accepted but deactivated because %{error}
     wizard:

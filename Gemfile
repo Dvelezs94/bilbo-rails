@@ -141,3 +141,5 @@ gem 'web-console', '>= 3.3.0'
 gem 'image_processing', '~> 1.2'
 # APM
 gem 'skylight', '~> 4.3', '>= 4.3.2'
+#amoeba for copy_campaign
+gem 'amoeba', '~> 3.1'
