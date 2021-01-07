@@ -4,6 +4,7 @@
       = check_box_tag "customSwitch-#{campaign.slug}", nil, campaign.state, class: "custom-control-input", data: { url: toggle_state_campaign_path(campaign.slug), remote: :true, method: :put }
       %label.custom-control-label{:for => "customSwitch-#{campaign.slug}"}
   %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip", :title => campaign.description}= campaign.name
+  %td= t("campaign.objectives.#{campaign.objective}")
   %td.text-right{"data-placement" => "right", "data-toggle" => "tooltip", :title => t("campaign.view_bilbos_used")}
     = "#{campaign.boards.enabled.length} "
     = link_to "<i class='fe fe-list-bullet'></i>".html_safe,  get_used_boards_campaign_path(campaign.slug), remote: true, data: { toggle: "modal" }
@@ -13,6 +14,11 @@
   %td.text-right.tx-medium= campaign.impressions.length
   %td.text-right= number_to_currency_credit(campaign.budget)
   %td.text-right= number_to_currency_credit(campaign.total_invested)
+  %td
+    - if campaign.interaction?
+      = link_to download_qr_instructions_campaign_path(campaign), method: :get, class: "d-flex align-items-center justify-content-between" do
+        %i.fe.fe-download
+        = t("campaign.download_qr")
   %td
     .dropdown
       %span.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}

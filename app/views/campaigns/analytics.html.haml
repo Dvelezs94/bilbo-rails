@@ -53,6 +53,7 @@
       = render 'campaigns/user_charts/daily_impressions'
       = render 'campaigns/user_charts/daily_invested'
       = render 'campaigns/user_charts/peak_hours'
+      = render 'campaigns/user_charts/qr_tracking' if @campaign.interaction?
       = render 'campaigns/user_charts/history_data'
       = render 'campaigns/user_charts/campaign_activity'
     .card.card-body.ht-lg-100.mg-t-10

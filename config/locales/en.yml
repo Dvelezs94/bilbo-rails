@@ -105,6 +105,7 @@ en:
     browse: Browse
     confirm: Confirm
     cancel: Cancel
+    learn_more: Learn more
     choose_a_file: choose a file
     submit: Submit
     create: Create
@@ -144,7 +145,50 @@ en:
     share: Share Campaign
     review: Pause campaign
     occupied: '% Occupied'
+    objective: Objective
+    objectives:
+      awareness: Awareness
+      awareness_description: Promote your brand or product in the selected areas
+      interaction: Interaction
+      interaction_description: Send users to your promotion or website using a QR code
+      interaction_carousel:
+        congratulations: ¡Excellent! You have created your new interactive campaign.
+        initial_steps_description: Your new interactive campaign has been successfully created. Follow the steps to measure the hits of your ad and launch your campaign
+        download_qr_code: Download your QR code
+        how_to_use: How do I use this code on my ad?
+        how_to_use_description: Paste the QR code on your banner ad and remember to follow our
+        best_practices: best practices to implement QR codes
+        to_get_better_results: to obtain better results.
+        time_to_upload_ad: It's time to upload your ad
+        upload_description: You're almost set to start your campaign, now you only have to upload your banner or video and pick your bilbos.
+        upload_ad: Upload Ad
+    qr:
+      qrs_hits_title: Total QR hits
+      qr_codes_enters: Hits by QR
+      qr_tips: Learn how to improve your QR conversions with our free guides.
+      daily_qr_hits: Daily QR code hits
+      file_name: INSTRUCTIONS
+      file_content: |
+        Hello %{name}!
+
+        This document will guide you step by step on how to use your QR code on your ad so you can track visits to your site.
+
+        Step 1: Locate your QR code
+          The code should be located inside the same folder as this txt file
+
+        Step 2: Use the code on your ad
+          Find a place on your Ad to paste your QR code
+
+        Step 3: Upload your Ad
+          Upload your ad to Bilbo through this link https://app.bilbo.mx/ads
+
+        Paso 4: Edit your campaign
+          Edit your campaign to use your modified Ad which contains the QR code.
+          You can edit your campaign through Bilbo or using this link %{campaign_edit_link}
     home: Home
+    qr_code: QR Code
+    download_qr: Download
+    download_qr_extended: Download QR Code
     enable_campaigns: Enable campaigns
     to_active: The campaign has been activated
     accepted: The campaign has been accepted
@@ -188,13 +232,22 @@ en:
     percentage_plus: "%{percentage}% more"
     percentage_minus: "%{percentage}% less"
     view_bilbos_used: View bilbos utilized
+    qr_code_tooltip: Download your campaign QR code and use it on your ad
     user_has_no_credits_disclaimer: The owner of this project does not have credits, which means this campaign will be shown once the owner purchases credits.
     extra_cost_info: Campaigns per hour have an additional cost of %{ammount}% per impression compared to the base cost of the bilbo
     copy_campaign: Duplicate Campaign
     copy: Duplicate
     ads_rotation_error:
       accepted_but_error: The campaign was accepted but deactivated because %{error}
+    daily_qr_scans: Daily QR hits
+    daily_qr_scans_description: Counts how many times the QR code has been scanned
+    total_qr_scans: Total QR hits
+    scans: Hits
+    qr_scans_tips: Want to learn how to convert more effectively using your QR codes?
     wizard:
+      next: Next
+      previous: Previous
+      finish: Finish
       choose_bilbos: Choose your Bilbos
       selected_bilbos: Selected Bilbos
       pick_ad: Pick an ad
@@ -211,16 +264,21 @@ en:
            Prints shown are by bilbo.
       preview: Preview
       to: to
-      minute: minutes
+      minutes: minutes
+      analize: Analize
+      analize_description: Track all the visits through a QR code we will give you, this way you can measure your campaign results more efectively.
+      analize_link_description: Enter the link people will be sent to when they read your QR code.
+      analize_summary_warning: We highly recommend to use the QR tracking, this way you can analize your campaign efficiency and measure the results.
+      remeditate: Remediate
       Budget: Budget
       payment_details: Payment Details
       most_popular: Most popular
       budget: Daily budget
-      daily_budget_description: Budget for your chosen Bilbos. The budget will be dividided equally between all Bilbos.
+      daily_budget_description: Budget for your chosen Bilbos. The budget will be evenly dividided between all your selected Bilbos.
       campaign_duration: Campaign Duration
       campaign_minute: Impression per minute
       campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
-      campaign_hour_description: With this option, you can program you're campaigns in an specific hour
+      campaign_hour_description: Select the days and the hours you want your campaign to run. Very powerful for highly targeted ads.
       campaign_clasification: Type of campaign
       ongoing_campaign: Ongoing Campaign
       pick_date: Choose Date

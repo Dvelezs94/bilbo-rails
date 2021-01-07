@@ -38,6 +38,7 @@ class Campaign < ApplicationRecord
   # status is for the
   enum status: { active: 0, inactive: 1 }
   enum clasification: {budget: 0, per_minute: 1, per_hour: 2}
+  enum objective: {awareness: 0, interaction: 1, conversion: 2} #conversion is still not there, we need the pixel
 
   # 'state' is for user desired state ser by the user, enabled or disabled
 
@@ -55,6 +56,7 @@ class Campaign < ApplicationRecord
   validate :ad_processed, on: :update
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
+  validates :link, format: URI::regexp(%w[http https]), allow_blank: true
   after_validation :return_to_old_state_id_invalid
   validate :budget_validation, if: :is_per_budget?
   before_save :update_state_updated_at, if: :state_changed?
@@ -63,6 +65,7 @@ class Campaign < ApplicationRecord
   after_commit :broadcast_to_all_boards
   after_update :update_bc
   after_update :generate_shorten_url
+  after_create :generate_external_link_shortener
 
   def owner
     self.project.owner
@@ -70,6 +73,15 @@ class Campaign < ApplicationRecord
 
   def generate_shorten_url
     shorten_link(analytics_campaign_url(slug))
+  end
+
+  # get campaign shortener
+  def qr_shortener
+    Shortener.find_by_target_url(redirect_to_external_link_campaign_url(slug))
+  end
+
+  def generate_external_link_shortener
+    shorten_link(redirect_to_external_link_campaign_url(slug))
   end
 
   def friendly_uuid
