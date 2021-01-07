@@ -237,6 +237,8 @@ es:
     qr_code_tooltip: Descarga el código QR de tu campaña y utilízalo en tu anuncio
     user_has_no_credits_disclaimer: "Nota: El dueño del proyecto no cuenta con créditos, por lo que el anuncio se empezará a mostrar hasta que se adquieran créditos"
     extra_cost_info: Las campañas por hora tienen un costo adicional del %{ammount}% por impresión respecto al costo base del bilbo
+    copy_campaign: Duplicar Campaña
+    copy: Duplicar
     ads_rotation_error:
       accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
     daily_qr_scans: Escaneos diarios de códigos QR

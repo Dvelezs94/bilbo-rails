@@ -34,6 +34,9 @@
           = link_to edit_campaign_subscribers_path(campaign.slug), remote: true, method: :get, class: "dropdown-item" do
             %i.fe.fe-users.mg-r-5
             = t("campaign.subscribers.edit")
+        = link_to copy_campaign_campaign_path(campaign),  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modalCopyCampaign', class: "dropdown-item"} do
+          %i.fa.fa-copy
+          = t("campaign.copy_campaign")
         %a.clipboard-btn.dropdown-item.tx-success{"data-clipboard-text" => shorten_link(analytics_campaign_url(campaign.slug)), :href => ""}
           %i.fe.fe-share.mg-r-5
           = t("campaign.share")
