@@ -19,7 +19,7 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
   test 'clear notifications url' do
     sign_in @user
     get clear_notifications_url
-    assert_response :redirect
+    assert_response :no_content
   end
 
   test 'notification campaign created url' do
