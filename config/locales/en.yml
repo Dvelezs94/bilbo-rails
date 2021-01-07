@@ -151,6 +151,17 @@ en:
       awareness_description: Promote your brand or product in the selected areas
       interaction: Interaction
       interaction_description: Send users to your promotion or website using a QR code
+      interaction_carousel:
+        congratulations: ¡Excellent! You have created your new interactive campaign.
+        initial_steps_description: Your new interactive campaign has been successfully created. Follow the steps to measure the hits of your ad and launch your campaign &#128640;
+        download_qr_code: Download your QR code
+        how_to_use: How do I use this code on my ad?
+        how_to_use_description: Paste the QR code on your banner ad and remember to follow our
+        best_practices: best practices to implement QR codes
+        to_get_better_results: to obtain better results.
+        time_to_upload_ad: It's time to upload your ad
+        upload_description: You're almost set to start your campaign, now you only have to upload your banner or video and pick your bilbos.
+        upload_ad: Upload Ad
     qr:
       qrs_hits_title: Total QR hits
       qr_codes_enters: Hits by QR

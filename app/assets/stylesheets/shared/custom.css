@@ -436,3 +436,11 @@ Usage
   overflow: hidden;
   white-space: nowrap;
 }
+
+.m-0-auto {
+ margin: 0 auto;
+}
+
+.carousel-circles-under {
+  margin-bottom: -2rem;
+}
