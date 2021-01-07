@@ -151,7 +151,7 @@ es:
       interaction_description: Envía a los usuarios a tu promoción por medio de códigos QR
       interaction_carousel:
         congratulations: ¡Muy bien! Haz creado una campaña de interacción.
-        initial_steps_description: Se ha creado con éxito tu nueva campaña de interacción. Sigue los pasos para poder medir las interacciones de tu anuncio y lanzar tu campaña &#128640;
+        initial_steps_description: Se ha creado con éxito tu nueva campaña de interacción. Sigue los pasos para poder medir las interacciones de tu anuncio y lanzar tu campaña
         download_qr_code: Descarga tu código QR
         how_to_use: ¿Cómo usar tu código en tu anuncio?
         how_to_use_description: Pega el código QR en el diseño de tu anuncio publicitario y recuerda seguir las
