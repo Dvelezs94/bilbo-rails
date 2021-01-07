@@ -4,30 +4,37 @@
       .modal-body.pd-20.pd-sm-30
         %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} &#215;
-        %h5.tx-18.tx-sm-20.mg-b-30= @campaign.name
-        .row
-          .col-12
-            %p Se ha creado con éxito tu nueva campaña de interacción. A continuación se enlistan los pasos para que descargues y utilices el código QR en tu anuncio y así puedas medir tus resultados.
-            %ol
-              %li
-                %h5
-                  = link_to download_qr_instructions_campaign_path(@campaign) do
-                    %i.fe.fe-download
-                    = t("campaign.download_qr_extended")
-              %li
-                %h5 Utiliza el código QR en tu anuncio
-                %p Pega el código QR en tu anuncio publicitario, recuerda seguir las mejores prácticas para implementar tu anuncio publicitario y así tener mejores resultados.
-                = link_to "https://bilbo.freshdesk.com/support/solutions/articles/64000257671-c%C3%B3digos-qr" do
-                  %i.fe.fe-link-external
-                  Mejores prácticas para implementar códigos QR
-              %li
-                %h5 Sube tu anuncio
-                %p
-              %li
-                %h5 Utiliza tu nuevo anuncio en tu campaña
-                = link_to edit_campaign_path(@campaign, gtm_campaign_create: true) do
-                  %i.fe.fe-edit
-                  = t('general_inputs.edit')
+        #carouselNewInteractiveCampaign.carousel.slide.pd-x-20
+          .carousel-inner.tx-center.mg-b-30
+            .carousel-item.active
+              %h3.mg-y-30= t("campaign.objectives.interaction_carousel.congratulations")
+              %p.tx-gray-700= t("campaign.objectives.interaction_carousel.initial_steps_description")
+              = image_tag image_path("interactive_campaigns/paso 1"), class: "mg-y-20 d-block m-0-auto ht-150"
+              = link_to t("campaign.objectives.interaction_carousel.download_qr_code"), download_qr_instructions_campaign_path(@campaign),
+              class: "btn btn-primary mg-t-20", target: "_blank", id: "downloadqrfrommodal"
 
-      .modal-footer
-        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+            .carousel-item
+              %h3.mg-y-30= t("campaign.objectives.interaction_carousel.how_to_use")
+              %p.tx-gray-700
+                = t("campaign.objectives.interaction_carousel.how_to_use_description")
+                %a{href: "https://bilbo.freshdesk.com/support/solutions/articles/64000257671-c%C3%B3digos-qr", target: "_blank"}= t("campaign.objectives.interaction_carousel.best_practices")
+                = t("campaign.objectives.interaction_carousel.to_get_better_results")
+              = image_tag image_path("interactive_campaigns/paso 2"), class: "mg-y-20 d-block m-0-auto"
+              .row.mg-t-20
+                .col-6.pd-x-5.tx-right
+                  %button.btn.btn-outline-primary{"data-target": "#carouselNewInteractiveCampaign", "data-slide-to": 0}= t("campaign.wizard.previous")
+                .col-6.pd-x-5.tx-left
+                  %button.btn.btn-primary{"data-target": "#carouselNewInteractiveCampaign", "data-slide-to": 2}= t("campaign.wizard.next")
+
+            .carousel-item
+              %h3.mg-y-30= t("campaign.objectives.interaction_carousel.time_to_upload_ad")
+              %p.tx-gray-700.mg-y-40= t("campaign.objectives.interaction_carousel.upload_description")
+              = image_tag image_path("interactive_campaigns/paso 3"), class: "mg-y-20 d-block m-0-auto ht-150"
+              = link_to t("campaign.objectives.interaction_carousel.upload_ad"), edit_campaign_path(@campaign, gtm_campaign_edit: true), class: "btn btn-primary mg-y-20"
+
+
+
+          %ol.carousel-indicators.carousel-circles-under
+            %li.active.bg-secondary{"data-target": "#carouselNewInteractiveCampaign", "data-slide-to": 0}
+            %li.bg-secondary{"data-target": "#carouselNewInteractiveCampaign", "data-slide-to": 1}
+            %li.bg-secondary{"data-target": "#carouselNewInteractiveCampaign", "data-slide-to": 2}
