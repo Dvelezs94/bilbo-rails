@@ -189,9 +189,7 @@ class CampaignsController < ApplicationController
   def create_copy
     camp = @campaign.amoeba_dup
     camp.assign_attributes(copy_params)
-    if camp.board_campaigns.present?
-      camp.board_campaigns.each do |boardcampaign| boardcampaign.assign_attributes(status: "in_review") end
-    end
+    camp.board_campaigns.each { |boardcampaign| boardcampaign.assign_attributes(status: "in_review") } if camp.board_campaigns.present?
     if camp.save
       track_activity( action: 'campaign.campaign_created', activeness: camp)
       flash[:success] = I18n.t('campaign.action.saved')
