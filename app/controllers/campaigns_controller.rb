@@ -125,8 +125,6 @@ class CampaignsController < ApplicationController
             end
           end
         end
-        p @campaign
-        p @campaign.board_campaigns
           format.js {
             flash[:success] = I18n.t('campaign.action.updated')
             if request.referer.include?("gtm_campaign_create")
