@@ -21,7 +21,7 @@ class Campaign < ApplicationRecord
   amoeba do
     enable
     include_association :impression_hours, if: :is_per_hour?
-    #include_association :boards, through: :board_campaigns
+    include_association :boards, through: :board_campaigns
     include_association :board_campaigns, class_name: "BoardsCampaigns"
   end
 
