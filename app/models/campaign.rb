@@ -56,6 +56,7 @@ class Campaign < ApplicationRecord
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
   after_validation :return_to_old_state_id_invalid
+  validate :budget_validation, if: :is_per_budget?
   before_save :update_state_updated_at, if: :state_changed?
   before_save :notify_in_a_week, if: :ad_id_changed?
   before_update :set_in_review_and_update_price
@@ -339,5 +340,23 @@ class Campaign < ApplicationRecord
   def is_per_hour?
     self.per_hour?
   end
+
+  def is_per_budget?
+    self.budget?
+  end
+
+  def is_per_minute?
+    self.per_minute?
+  end
+
+  def budget_validation
+    if budget.present?
+      if budget_per_bilbo < 50
+        errors.add(:base, I18n.t('campaign.minimum_budget_per_bilbo'))
+      end
+    end
+  end
+
+
 
 end

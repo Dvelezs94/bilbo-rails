@@ -5,7 +5,7 @@ class SyncSendgridContactsWorker
 
   def perform
     User.where.not(roles: "admin").each do |user|
-      sync_sendgrid_contacts(user)
+      sync_sendgrid_user(user)
     end
   end
 end
