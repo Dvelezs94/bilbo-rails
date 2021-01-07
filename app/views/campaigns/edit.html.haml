@@ -24,20 +24,6 @@
         = render partial: "campaigns/wizard/track", locals: {f: f}
         = render partial: "campaigns/wizard/summary", locals: {f: f}
 
-    - if @campaign.interaction?
-      .alert.alert-success.alert-dismissible.fade.show{:role => "alert"}
-        %h4.alert-heading Descarga tu código QR
-        %p= t('campaign.wizard.analize_description')
-        %hr/
-        %p.mb-0.justify-content-between.d-flex.align-items-center
-          = link_to download_qr_instructions_campaign_path(@campaign), method: :get, class: "" do
-            %i.fe.fe-download
-            = t("campaign.download_qr")
-          = link_to "google.com", method: :get, class: "" do
-            %i.fe.fe-book
-            = t("general_inputs.read_more")
-        %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
-          %span{"aria-hidden" => "true"} ×
 = render partial: "ads/new"
 = render 'campaign_offcanvas_wizard'
 = render partial: 'edit_map_filter'
