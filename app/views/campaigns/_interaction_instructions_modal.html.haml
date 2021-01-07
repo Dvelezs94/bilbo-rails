@@ -8,7 +8,9 @@
           .carousel-inner.tx-center.mg-b-30
             .carousel-item.active
               %h3.mg-y-30= t("campaign.objectives.interaction_carousel.congratulations")
-              %p.tx-gray-700= t("campaign.objectives.interaction_carousel.initial_steps_description")
+              %p.tx-gray-700
+                = t("campaign.objectives.interaction_carousel.initial_steps_description")
+                &#128640;
               = image_tag image_path("interactive_campaigns/paso 1"), class: "mg-y-20 d-block m-0-auto ht-150"
               = link_to t("campaign.objectives.interaction_carousel.download_qr_code"), download_qr_instructions_campaign_path(@campaign),
               class: "btn btn-primary mg-t-20", target: "_blank", id: "downloadqrfrommodal"
