@@ -84,7 +84,7 @@ if ENV.fetch("RAILS_ENV") != "production"
           1.times do |z|
             ad.campaigns.new do |cp|
               cp.name    = "#{Faker::Company.name} #{Faker::Commerce.product_name}"
-              cp.budget  = Faker::Number.between(from: 5, to: 50)
+              cp.budget  = Faker::Number.between(from: 50, to: 200)
               cp.state   = Faker::Boolean.boolean
               cp.status  = Faker::Number.between(from: 0, to: 1)
               cp.project = ad.project
