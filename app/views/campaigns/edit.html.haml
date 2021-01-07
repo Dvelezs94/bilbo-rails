@@ -12,13 +12,18 @@
             %li.breadcrumb-item.active{"aria-current" => "page"}= @campaign.name
         %h4.mg-b-0.tx-spacing--1= @campaign.name
       %a.btn.btn-outline-primary.off-canvas-menu{:href => "#campaignWizardOffCanvas"}= t("campaign.wizard.need_help")
+      %span#steps_finish.d-none= t("campaign.wizard.finish")
+      %span#steps_next.d-none= t("campaign.wizard.next")
+      %span#steps_previous.d-none= t("campaign.wizard.previous")
     = form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, class: "edit_campaign", remote: true) do |f|
-      #dashboardWizard
+      #dashboardWizard.mg-b-10
         = f.submit("Enviar", class: "d-none")
         = render partial: "campaigns/wizard/pick_creative", locals: {f: f}
         = render partial: "campaigns/wizard/choose_bilbo", locals: {f: f}
         = render partial: "campaigns/wizard/#{@campaign.clasification}", locals: {f: f}
+        = render partial: "campaigns/wizard/track", locals: {f: f}
         = render partial: "campaigns/wizard/summary", locals: {f: f}
+
 = render partial: "ads/new"
 = render 'campaign_offcanvas_wizard'
 = render partial: 'edit_map_filter'

@@ -1,8 +1,8 @@
 class CampaignsController < ApplicationController
   include UserActivityHelper
-  access [:user, :provider] => :all, all: [:analytics, :shortened_analytics]
+  access [:user, :provider] => :all, all: [:analytics, :shortened_analytics, :redirect_to_external_link]
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :copy_campaign, :create_copy]
+  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :download_qr_instructions, :copy_campaign, :create_copy]
   before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :campaign_not_active, only: [:edit]
 
@@ -149,12 +149,15 @@ class CampaignsController < ApplicationController
   def create
     @campaign = Campaign.new(create_params)
       if @campaign.save
-        track_activity( action: 'campaign.campaign_created', activeness: @campaign)
-        flash[:success] = I18n.t('campaign.action.saved')
+        track_activity(action: 'campaign.campaign_created', activeness: @campaign)
       else
         flash[:error] = I18n.t('campaign.errors.no_save')
       end
-      redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
+      if @campaign.interaction?
+        render "create_interaction"
+      else
+        redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
+      end
   end
 
   def destroy
@@ -186,6 +189,49 @@ class CampaignsController < ApplicationController
     end
   end
 
+  # method to redirect the user to the campaign external link
+  def redirect_to_external_link
+    @campaign = Campaign.friendly.find(params[:id])
+    if !@campaign.link.to_s.empty?
+      redirect_to @campaign.link
+    else
+      render "external_link_empty"
+    end
+  end
+
+  def download_qr_instructions
+    qr_files_location = build_qr_instruction_files(@campaign)
+    require 'zip'
+    #Attachment name
+    filename = "QR - #{@campaign.name}.zip"
+    temp_file = Tempfile.new(filename)
+
+    begin
+      #This is the tricky part
+      #Initialize the temp file as a zip file
+      Zip::OutputStream.open(temp_file) { |zos| }
+
+      #Add files to the zip file as usual
+      Zip::File.open(temp_file.path, Zip::File::CREATE) do |zip|
+        for dir_file in Dir["#{qr_files_location}/*"]
+          zip.add(dir_file.split("/").last, dir_file)
+        end
+      end
+
+      #Read the binary data from the file
+      zip_data = File.read(temp_file.path)
+
+      #Send the data to the browser as an attachment
+      #We do not send the file directly because it will
+      #get deleted before rails actually starts sending it
+      send_data(zip_data, :type => 'application/zip', :filename => filename)
+    ensure
+      #Close and delete the temp file
+      temp_file.close
+      temp_file.unlink
+    end
+  end
+
   def create_copy
     camp = @campaign.amoeba_dup
     camp.assign_attributes(copy_params)
@@ -203,11 +249,10 @@ class CampaignsController < ApplicationController
     render 'copy_campaign', :locals => {:obj => @campaign}
   end
 
-
   private
 
   def campaign_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :imp, :minutes, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :link, :imp, :minutes, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
     if @campaign_params[:boards].present?
       @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
     end
@@ -225,7 +270,7 @@ class CampaignsController < ApplicationController
   end
 
   def create_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :clasification).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :clasification, :link, :objective).merge(:project_id => @project.id)
     @campaign_params[:provider_campaign] = @project.classification == 'provider'
     @campaign_params
   end
@@ -270,5 +315,19 @@ class CampaignsController < ApplicationController
     else
       return false
     end
+  end
+
+  # build the files for the QR
+  def build_qr_instruction_files(campaign)
+    hex = SecureRandom.hex(4)
+    tmp_dir = "/tmp/#{hex}"
+    # create directory
+    Dir.mkdir(tmp_dir) unless File.exists?(tmp_dir)
+    # create files
+    File.open("#{tmp_dir}/qr-#{campaign.name}.png", "wb") { |f| f.write campaign.qr_shortener.png_to_text }
+    File.open("#{tmp_dir}/#{I18n.t('campaign.qr.file_name')}.txt", "wb") { |f|
+      f.write I18n.t('campaign.qr.file_content', name: current_user.name, campaign_edit_link: edit_campaign_url(campaign))
+    }
+    return tmp_dir
   end
 end

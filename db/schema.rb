@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_04_153128) do
+ActiveRecord::Schema.define(version: 2020_12_08_200245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,8 @@ ActiveRecord::Schema.define(version: 2020_12_04_153128) do
     t.integer "minutes"
     t.integer "imp"
     t.string "analytics_token"
+    t.string "link"
+    t.integer "objective", default: 0
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
@@ -321,6 +323,17 @@ ActiveRecord::Schema.define(version: 2020_12_04_153128) do
     t.index ["user_id"], name: "index_provider_invoices_on_user_id"
   end
 
+  create_table "punches", id: :serial, force: :cascade do |t|
+    t.integer "punchable_id", null: false
+    t.string "punchable_type", limit: 20, null: false
+    t.datetime "starts_at", null: false
+    t.datetime "ends_at", null: false
+    t.datetime "average_time", null: false
+    t.integer "hits", default: 1, null: false
+    t.index ["average_time"], name: "index_punches_on_average_time"
+    t.index ["punchable_type", "punchable_id"], name: "punchable_index"
+  end
+
   create_table "reports", force: :cascade do |t|
     t.string "name"
     t.bigint "project_id"
@@ -347,9 +360,10 @@ ActiveRecord::Schema.define(version: 2020_12_04_153128) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2030-12-21 23:49:42"
+    t.datetime "expires_at", default: "2031-01-07 16:55:07"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "qr"
   end
 
   create_table "user_activities", force: :cascade do |t|
