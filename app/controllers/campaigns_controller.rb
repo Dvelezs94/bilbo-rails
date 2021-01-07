@@ -189,6 +189,7 @@ class CampaignsController < ApplicationController
   def create_copy
     camp = @campaign.amoeba_dup
     camp.assign_attributes(copy_params)
+    camp.board_campaigns.each { |boardcampaign| boardcampaign.assign_attributes(status: "in_review") } if camp.board_campaigns.present?
     if camp.save
       track_activity( action: 'campaign.campaign_created', activeness: camp)
       flash[:success] = I18n.t('campaign.action.saved')
@@ -197,7 +198,7 @@ class CampaignsController < ApplicationController
     end
     redirect_to edit_campaign_path(camp, gtm_campaign_create: true)
   end
-  
+
   def copy_campaign
     render 'copy_campaign', :locals => {:obj => @campaign}
   end
