@@ -95,17 +95,13 @@ class BoardsController < ApplicationController
   end
 
   def show
-    if !@board.connected?
-      errors = @board.update_ads_rotation if @board.should_update_ads_rotation?
-      @active_campaigns = @board.active_campaigns
-      # Set api key cookie
-      cookies.signed[:api_key] = {
-        value: @board.api_token,
-        path: request.env['PATH_INFO']
-      }
-    else
-      redirect_to root_path
-    end
+    errors = @board.update_ads_rotation if @board.should_update_ads_rotation?
+    @active_campaigns = @board.active_campaigns
+    # Set api key cookie
+    cookies.signed[:api_key] = {
+      value: @board.api_token,
+      path: request.env['PATH_INFO']
+    }
   end
 
 
