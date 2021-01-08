@@ -10,9 +10,6 @@ sidekiq_heartbeat:
 update_board_offset:
   cron: "5 2 * * *"
   class: "UpdateBoardOffsetWorker"
-update_remaining_impressions:
-  cron: "0 0 * * *"
-  class: "UpdateRemainingImpressionsWorker"
 monitor_impressions:
   cron: "0 12 * * *"
   class: "MonitorImpressionsWorker"
