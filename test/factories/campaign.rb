@@ -8,7 +8,6 @@ FactoryBot.define do
       boards  {Board.order('RANDOM()').first(Faker::Number.between(from: 2, to: 7))}
       objective { 0 }
       project {}
-      slug {}
       provider_campaign {false}
     end
   end

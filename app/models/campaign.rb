@@ -64,8 +64,8 @@ class Campaign < ApplicationRecord
   before_update :set_in_review_and_update_price
   after_commit :broadcast_to_all_boards
   after_update :update_bc
-  after_update :generate_shorten_url
-  after_update :generate_external_link_shortener
+  after_create :generate_shorten_url
+  after_create :generate_external_link_shortener
 
   def owner
     self.project.owner
