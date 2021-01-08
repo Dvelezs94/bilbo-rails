@@ -21,7 +21,8 @@
         = render partial: "campaigns/wizard/pick_creative", locals: {f: f}
         = render partial: "campaigns/wizard/choose_bilbo", locals: {f: f}
         = render partial: "campaigns/wizard/#{@campaign.clasification}", locals: {f: f}
-        = render partial: "campaigns/wizard/track", locals: {f: f}
+        - if @campaign.interaction?
+          = render partial: "campaigns/wizard/track", locals: {f: f}
         = render partial: "campaigns/wizard/summary", locals: {f: f}
 
 = render partial: "ads/new"
