@@ -10,10 +10,8 @@ class NotificationsController < ApplicationController
   # clears all notifications
   def clear
     @project.notifications.unread.each { |notif|  notif.read! }
-    if request.referer.present?
-      redirect_to request.referer
-    else
-      redirect_to root_path
+    respond_to do |format|
+      format.html{head :no_content}
     end
   end
 end

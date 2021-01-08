@@ -82,10 +82,6 @@
   flex: 0 !important;
 }
 
-.card-body h6 {
-  word-break: break-all;
-}
-
 .fm-content-grey {
   background-color: #f8f9fc;
 }
@@ -108,6 +104,11 @@ td {
 .wizard_selected_ad_primary {
   border-width: 2px !important;
   border-color: #0168fa !important;
+}
+
+.selected_card {
+  border-width: 2px !important;
+  border-color: #10b759 !important;
 }
 
 .multi-line-truncate-2 {
@@ -419,4 +420,27 @@ Usage
 
 .introjs-donebutton {
   float: left;
+}
+
+.mx-ln-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.text-single-line {
+  clear: both;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.m-0-auto {
+ margin: 0 auto;
+}
+
+.carousel-circles-under {
+  margin-bottom: -2rem;
 }

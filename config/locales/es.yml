@@ -105,6 +105,7 @@ es:
     browse: Buscar
     confirm: Confirmar
     cancel: Cancelar
+    learn_more: Ver más
     choose_a_file: Elige un archivo
     submit: Enviar
     create: Crear
@@ -128,24 +129,68 @@ es:
     height: Alto
     know_more_about_roles: Leer más sobre los roles y permisos
     from: de
+    read_more: Leer más
   campaign:
     1_month: 1 mes
-    2_months: 2 meses 
-    3_months: 3 meses 
-    4_months: 4 meses 
+    2_months: 2 meses
+    3_months: 3 meses
+    4_months: 4 meses
     5_months: 5 meses
-    6_months: 6 meses 
+    6_months: 6 meses
     add_schedule: Agregar Horario
     must_add_schedule: Debe agregar un horario
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     accept: Aceptar campaña
     occupied: '% Ocupado'
+    objective: Objetivo
+    objectives:
+      awareness: Reconocimiento
+      awareness_description: Promociona tu marca o productos en las zonas seleccionadas
+      interaction: Interacción
+      interaction_description: Envía a los usuarios a tu promoción por medio de códigos QR
+      interaction_carousel:
+        congratulations: ¡Muy bien! Haz creado una campaña de interacción.
+        initial_steps_description: Se ha creado con éxito tu nueva campaña de interacción. Sigue los pasos para poder medir las interacciones de tu anuncio y lanzar tu campaña
+        download_qr_code: Descarga tu código QR
+        how_to_use: ¿Cómo usar el código QR en tu anuncio?
+        how_to_use_description: Pega el código QR en el diseño de tu anuncio publicitario y recuerda seguir las
+        best_practices: mejores prácticas para implementar códigos QR
+        to_get_better_results: para tener mejores resultados.
+        time_to_upload_ad: Es hora de subir tu anuncio
+        upload_description: Estás a punto de iniciar tu campaña, solo tienes que subir tu archivo de imagen o video y elegir tus bilbos.
+        upload_ad: Subir anuncio
+    qr:
+      qrs_hits_title: Total de entradas por código QR
+      qr_codes_enters: Entradas por QR
+      qr_tips: Aprende a hacer anuncios con códigos QR atractivos para los usuarios.
+      daily_qr_hits: Entradas diarias por código QR
+      file_name: INSTRUCCIONES
+      file_content: |
+        Hola %{name}!
+
+        Este documento te explicará paso a paso cómo utilizar tu código QR en tu anuncio y puedas registrar las entradas.
+
+        Paso 1: Ubica tu código QR
+          En la misma carpeta que se encuentra este archivo encontrarás tu código QR
+
+        Paso 2: Pégalo en tu anuncio
+          Encuentra un lugar en tu anuncio publicitario para poner tu código QR
+
+        Paso 3: Sube tu anuncio
+          Sube tu anuncio a Bilbo en la liga https://app.bilbo.mx/ads
+
+        Paso 4: Edita tu campaña
+          Edita tu campaña para que utilices tu anuncio que contiene el código QR.
+          Puedes editar tu campaña desde Bilbo o utilizar esta liga %{campaign_edit_link}
     deny: Denegar campaña
     share: Compartir Campaña
     review: Pausar campaña
     campaigns: Campañas
     home: Inicio
+    qr_code: Código QR
+    download_qr: Descargar
+    download_qr_extended: Descargar código QR
     enable_campaigns: Habilitar campañas
     to_active: La campaña se ha activado
     accepted: La campaña se ha aceptado
@@ -153,10 +198,10 @@ es:
     new_campaign: Nueva Campaña
     destroy: Remover Campaña
     campaign_name: Nombre de Campaña
-    bilbos_in_use: Bilbos en uso
-    ad_name: Nombre del anuncio
-    start_date: Fecha de inicio
-    end_date: Fecha de fin
+    bilbos_in_use: Bilbos
+    ad_name: Anuncio
+    start_date: Inicio
+    end_date: Fin
     impressions: Impresiones
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
@@ -189,11 +234,22 @@ es:
     percentage_plus: "%{percentage}% más"
     percentage_minus: "%{percentage}% menos"
     view_bilbos_used: Ver bilbos utilizados
+    qr_code_tooltip: Descarga el código QR de tu campaña y utilízalo en tu anuncio
     user_has_no_credits_disclaimer: "Nota: El dueño del proyecto no cuenta con créditos, por lo que el anuncio se empezará a mostrar hasta que se adquieran créditos"
     extra_cost_info: Las campañas por hora tienen un costo adicional del %{ammount}% por impresión respecto al costo base del bilbo
+    copy_campaign: Duplicar Campaña
+    copy: Duplicar
     ads_rotation_error:
       accepted_but_error: La campaña fue aceptada pero desactivada porque %{error}
+    daily_qr_scans: Escaneos diarios de códigos QR
+    daily_qr_scans_description: Analiza cuales días son los que tus códigos QR tienen más conversión
+    total_qr_scans: Escaneos totales de códigos QR
+    scans: Veces
+    qr_scans_tips: Aprende cómo tener una mejor conversión de escaneos para tus códigos QR con nuestras guías.
     wizard:
+      next: Siguiente
+      previous: Anterior
+      finish: Finalizar
       choose_bilbos: Escoge tus Bilbos
       selected_bilbos: Bilbos seleccionados
       pick_ad: Elige tu anuncio
@@ -208,6 +264,12 @@ es:
       impressions_hour_explanation: Selecciona el día, presupuesto y horario en el que quieres aparecer.<br>
           El monto en cada horario se reparte entre todos los bilbos seleccionados anteriormente.<br>
           Las impresiones mostradas son por bilbo.
+      analize: Análisis
+      analize_description: Registra todas las entradas por medio de un código QR que se proporcionará para tu campaña, así podrás medir tus resultados de forma efectiva.
+      analize_link_description: Introduce el link al que la gente será enviada cuando lea tu código QR
+      analize_summary_warning: Te recomendamos utilizar el seguimiento por código QR, así podrás analizar el impacto y la eficacia de tu campaña
+      remeditate: Remediar
+      impressions_hour: impresiones de
       preview: Ver
       impressions_hour_range: impresiones en un rango de
       to: a

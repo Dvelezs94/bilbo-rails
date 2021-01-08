@@ -22,7 +22,7 @@
       - if meta[:width].nil?
         %span= t("ads.measures")
       -else
-        %span= "#{meta[:width]} x #{meta[:height]}"
+        %span= "#{meta[:width].round(0)} x #{meta[:height].round(0)}"
       %div.pd-t-10
       %span= I18n.t('ads.transition')
       = select_tag "",options_for_select(Ad.transitions.map{|x|  [t("ads.transitions.#{x[0]}"),x[1]]}, multimedia.transition) ,onchange: "$.post('#{ad_attachment_path(multimedia.record,multimedia)}',{'_method':'put', 'effect': this.value} );", class: 'custom-select'
