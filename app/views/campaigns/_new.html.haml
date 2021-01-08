@@ -2,11 +2,11 @@
 #modalNewCampaign.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document", class: "#{'modal-xl' if large_modal}"}
     .modal-content
-      .modal-body.pd-20.pd-sm-30.pd-b-0-f
-        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} &#215;
-        %h5.tx-18.tx-sm-20.mg-b-30= t("campaign.new_campaign")
-        = form_with(model: Campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, remote: true) do |f|
+      = form_with(model: Campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, remote: true) do |f|
+        .modal-body.pd-20.pd-sm-30.pd-b-0-f
+          %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} &#215;
+          %h5.tx-18.tx-sm-20.mg-b-30= t("campaign.new_campaign")
           .container
             .row
               .col-12{class: "#{'col-lg-6' if large_modal}"}
@@ -37,13 +37,8 @@
                         .input-group-text
                           %i.fe.fe-globe
                       = f.url_field :link, :class => "form-control", pattern: "https?://.*",placeholder: 'https://www.website.com/', data: {parsley_errors_messages_disabled: true}
-                  - if !large_modal
-                    .actions
-                      = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block", style: "margin-top: 20px"
               -if large_modal
                 .col-12.col-lg-6
                   = render partial: "campaigns/clasification", locals:{f: f }
-                  .actions
-                    = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block", style: "margin-top: 20px"
-      .modal-footer.mg-t-10
-        %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+        .modal-footer.mg-t-10
+          = f.submit t("general_inputs.create"), class: "btn btn-primary"
