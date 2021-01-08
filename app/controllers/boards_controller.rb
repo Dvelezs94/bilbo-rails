@@ -257,7 +257,7 @@ class BoardsController < ApplicationController
 
   def update_boardscampaigns
     BoardsCampaigns.includes(:campaign).where(board: @board, status: "approved").each do |bc|
-      bc.update(update_remaining_impressions: true) if (bc.campaign.provider_campaign || bc.campaign.clasification == "per_hour")
+      bc.update(update_remaining_impressions: true) if !bc.campaign.per_minute? #Update the remaining impressions of all campaigns of the board except campaigns per minute
     end
   end
 
