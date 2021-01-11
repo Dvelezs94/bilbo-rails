@@ -365,7 +365,7 @@ class Board < ApplicationRecord
 
   def get_campaigns
     @r_cps_first = campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(id) }
-    @per_time_cps_first = campaigns.includes(:ad).where(provider_campaign: true).where.not(minutes: nil).where.not(imp: nil).to_a.select{ |c| c.should_run?(id) }
+    @per_time_cps_first = campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_minute").to_a.select{ |c| c.should_run?(id) }
     @h_cps_first = []
     @campaign_names = []
     @hour_campaign_remaining_impressions = {}
