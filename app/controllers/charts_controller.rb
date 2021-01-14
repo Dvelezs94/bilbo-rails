@@ -8,7 +8,7 @@ class ChartsController < ApplicationController
   end
 
   def daily_impressions
-    render json: @campaign.daily_impressions(start_date: params[:start_date], end_date: params[:end_date])
+    render json: hash_initialize(params[:start_date], params[:end_date]).merge(@campaign.daily_impressions(start_date: params[:start_date], end_date: params[:end_date]))
   end
 
   def daily_impressions_month
@@ -16,7 +16,7 @@ class ChartsController < ApplicationController
   end
 
   def daily_qr_code_scans
-    render json: @campaign.qr_shortener.daily_hits
+    render json: hash_initialize(params[:start_date], params[:end_date]).merge(@campaign.qr_shortener.daily_hits(params[:start_date]..params[:end_date]))
   end
 
   def daily_invested
@@ -52,6 +52,17 @@ class ChartsController < ApplicationController
 
   def get_board
     @board = Board.find_by_slug(params[:id])
+  end
+
+  def hash_initialize(date_start, date_end)
+    date_start = date_start.to_date
+    date_end = date_end.to_date
+    time_range = {}
+    while date_start <= date_end do
+      time_range[date_start] = 0
+      date_start += 1.day
+    end
+    return time_range
   end
 
 end
