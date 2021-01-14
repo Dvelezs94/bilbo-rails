@@ -78,6 +78,7 @@ Rails.application.routes.draw do
       # statistics of a single board
       get :statistics
       get :toggle_status
+      get :reload_board
     end
   end
   resources :payments, only: [:new, :create] do

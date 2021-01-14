@@ -29,8 +29,11 @@
           = link_to get_ads_rotation_build_admin_board_action_path(board.slug), target: "blank" do
             %i.mg-r-5.fe.fe-code.tx-30.mg-b-0{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Show Ads rotation"}
           = link_to regenerate_ads_rotation_admin_board_action_path(board.slug), method: :post, data: {confirm: "Are you sure you want to regenerate?"} do
-            %i.mg-r-5.fe.fe-loop.tx-30.mg-b-0{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Regenerate Ads rotation"}
-
+            %i.mg-r-5.fe.fe-document.tx-30.mg-b-0{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Regenerate Ads rotation"}
+          .divider-text
+            Reload
+          = link_to reload_board_board_path(board.slug), remote: true, :data => {:confirm => 'Are you sure you want to RELOAD this bilbo?'} do
+            %i.mg-r-5.fe.fe-loop.tx-30.mg-b-0{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Reload board"}
       .card-footer.pd-20
         .row
           .col-6
