@@ -1,37 +1,35 @@
 $(document).on('turbolinks:load', function() {
   if ($(".board-ads").length) {
-    App.boards_display = App.cable.subscriptions.create({
-      channel: "BoardsDisplayChannel",
-      id: $("[data-board]").attr("data-board")
-    }, {
+    App.boards_display = App.cable.subscriptions.create({channel: "BoardsDisplayChannel", id: $("[data-board]").attr("data-board") }, {
       connected: function() {
         // Called when the subscription is ready for use on the server
       },
-      disconnected: function() {
+      disconnected: function () {
         // Called when the subscription has been terminated by the server
       },
       received: function(data) {
-        // Called when there's incoming data on the websocket for this channel
-        if (data['action'] == "reload") {
-          //location.href = location.origin + location.pathname + '?autoplay=true';
+        // Called when the admin want reload the board
+        if( data['action'] == "reload" ) {
           url = window.location.href;
-          if (url.indexOf("autoplay=true") > -1) {
+          if (url.indexOf("autoplay=true") > -1){
             Turbolinks.visit(location.toString());
-          } else {
-            if (url.indexOf('?') > -1) {
+          }else{
+            if (url.indexOf('?') > -1){
               url += '&autoplay=true'
-            } else {
+            }else{
               url += '?autoplay=true'
             }
             window.location.href = url;
             Turbolinks.visit(location.toString());
           }
         }
-        if (data['action'] == "enable") {
+        // Called when there's incoming data on the websocket for this channel
+        if( data['action'] == "enable" ) {
           $('.board-ads').append(data['ad']);
         } else if (data['action'] == "disable") {
-          $("[data-campaign=" + data["campaign_slug"] + "]").remove();
-        } else if (data['action'] == "update_rotation") {
+          $("[data-campaign="+ data["campaign_slug"] +"]").remove();
+        }
+        else if(data['action'] == "update_rotation"){
           //nothing custom
         }
         // ad rotation replacement
@@ -40,4 +38,4 @@ $(document).on('turbolinks:load', function() {
       }
     });
   }
-});
+  });
