@@ -6,7 +6,7 @@
         %p.tx-12.tx-color-03.mg-b-0=t('campaign.daily_qr_scans_description')
         .card-body.pd-20
           .chart-two.-b-20
-            = line_chart daily_qr_code_scans_chart_path(@campaign.slug),  colors: ["#69b2f8"]
+            = line_chart daily_qr_code_scans_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end),  colors: ["#69b2f8"]
 
 .col-sm-12.col-md-4.col-lg-4.mg-t-10
   .card
