@@ -9,6 +9,21 @@ $(document).on('turbolinks:load', function() {
       },
       received: function(data) {
         // Called when there's incoming data on the websocket for this channel
+        if( data['action'] == "reload" ) {
+          //location.href = location.origin + location.pathname + '?autoplay=true';
+          url = window.location.href;
+          if (url.indexOf("autoplay=true") > -1){
+            Turbolinks.visit(location.toString());
+          }else{
+            if (url.indexOf('?') > -1){
+               url += '&autoplay=true'
+            }else{
+               url += '?autoplay=true'
+            }
+            window.location.href = url;
+            Turbolinks.visit(location.toString());
+          }
+        }
         if( data['action'] == "enable" ) {
           $('.board-ads').append(data['ad']);
         } else if (data['action'] == "disable") {
@@ -23,4 +38,4 @@ $(document).on('turbolinks:load', function() {
       }
     });
   }
-});
+  });
