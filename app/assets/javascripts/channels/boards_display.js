@@ -10,15 +10,12 @@ $(document).on('turbolinks:load', function() {
       received: function(data) {
         // Called when the admin want reload the board
         if( data['action'] == "reload" ) {
-          url = window.location.href;
-          if (url.indexOf("autoplay=true") > -1){
+        url = window.location.href;
+        let searchParams = new URLSearchParams(window.location.search)
+          if (searchParams.has('autoplay')){
             Turbolinks.visit(location.toString());
-          }else{
-            if (url.indexOf('?') > -1){
-              url += '&autoplay=true'
-            }else{
-              url += '?autoplay=true'
-            }
+          } else {
+            url += '&autoplay=true'
             window.location.href = url;
             Turbolinks.visit(location.toString());
           }
