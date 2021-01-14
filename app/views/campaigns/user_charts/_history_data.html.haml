@@ -30,6 +30,6 @@
             - @campaign_impressions.sort_by {|k,v| k}.reverse.each do |impression|
               %tbody.sidebar-body
                 %tr
-                %td.text= impression[0].strftime("%B %d, %Y")
+                %td.text= I18n.l impression[0], format: :long
                 %td.text-right.tx-success= number_to_currency_usd(impression[1][:total_invested])
                 %td.text-right.tx-danger= impression[1][:impressions_count]
