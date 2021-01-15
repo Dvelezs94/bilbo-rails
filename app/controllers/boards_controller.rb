@@ -1,7 +1,7 @@
 class BoardsController < ApplicationController
-  access [:provider, :admin, :user] => [:index], [:user, :provider] => [:owned, :statistics, :index], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image]
+  access [:provider, :admin, :user] => [:index], [:user, :provider] => [:owned, :statistics, :index], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image, :reload_board]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image]
+  before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image, :reload_board]
   before_action :update_boardscampaigns, only: [:requestAdsRotation, :show]
   before_action :restrict_access, only: [:show]
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
@@ -172,6 +172,16 @@ class BoardsController < ApplicationController
     end
     if @bilbo_top.length == 4
       @percentage_top_4 = '%.2f' %(@bilbo_top[3][1].to_f * 100 / @percentage)
+    end
+  end
+
+  def reload_board
+    if @board.connected?
+      ActionCable.server.broadcast(
+      @board.slug, action: "reload")
+      @success_message = I18n.t("bilbos.reload_success")
+    else
+      @error_message = I18n.t("bilbos.reload_off")
     end
   end
 

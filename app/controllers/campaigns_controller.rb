@@ -52,7 +52,7 @@ class CampaignsController < ApplicationController
     @date_end = DateTime.parse(params[:date_end]) rescue Time.zone.now
     @campaign = Campaign.includes(:boards, :impressions).friendly.find(params[:id])
     @history_campaign = UserActivity.where( activeness: @campaign).order(created_at: :desc)
-    @campaign_impressions = {}
+    @campaign_impressions = time_range_init(@date_start, @date_end)
     @impressions = Impression.where(campaign: @campaign, created_at: @date_start..@date_end)
     @total_invested = @impressions.sum(:total_price).round(3)
     @total_impressions = @impressions.count
@@ -329,5 +329,16 @@ class CampaignsController < ApplicationController
       f.write I18n.t('campaign.qr.file_content', name: current_user.name, campaign_edit_link: edit_campaign_url(campaign))
     }
     return tmp_dir
+  end
+
+  def time_range_init(date_start, date_end)
+    date_end = date_end.to_date
+    date_start = date_start.to_date
+    time_range = {}
+    while date_start <= date_end do
+      time_range[date_start] = {impressions_count: 0, total_invested: 0}
+      date_start += 1.day
+    end
+    return time_range
   end
 end

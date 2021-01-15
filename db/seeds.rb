@@ -6,7 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 if ENV.fetch("RAILS_ENV") != "production"
-
   User.create! do |user|
     user.name = "Admin"
     user.email = "admin@bilbo.mx"
@@ -15,7 +14,6 @@ if ENV.fetch("RAILS_ENV") != "production"
     user.confirmed_at = DateTime.now
     puts "#{user.email}"
   end
-
   5.times do |x|
     User.new do |provider|
       provider.name = Faker::Name.first_name
@@ -55,7 +53,6 @@ if ENV.fetch("RAILS_ENV") != "production"
       end
     end
   end
-
   2.times do |x|
     User.create! do |user|
       user.name = Faker::Name.first_name
@@ -82,22 +79,23 @@ if ENV.fetch("RAILS_ENV") != "production"
           ad.save
           ActiveStorage::Attachment.all.update_all(processed: true)
           1.times do |z|
-            ad.campaigns.new do |cp|
+            ad.campaigns.create! do |cp|
               cp.name    = "#{Faker::Company.name} #{Faker::Commerce.product_name}"
-              cp.budget  = Faker::Number.between(from: 50, to: 200)
+              cp.budget  = Faker::Number.between(from: 500, to: 5000)
               cp.state   = Faker::Boolean.boolean
               cp.status  = Faker::Number.between(from: 0, to: 1)
               cp.project = ad.project
               cp.boards  = Board.order('RANDOM()').first(Faker::Number.between(from: 2, to: 7))
               cp.provider_campaign = false
-              cp.board_campaigns.update(status: Faker::Number.between(from: 0, to: 2))
             end
           end
         end
       end
     end
   end
-
+  BoardsCampaigns.all.each do |bc|
+    bc.update(status: Faker::Number.between(from: 0, to: 2))
+  end
   puts "Creating impressions.. It may take minutes to finish"
   Campaign.all.each do |cp|
     puts "#{cp.id} out of #{Campaign.count}..."

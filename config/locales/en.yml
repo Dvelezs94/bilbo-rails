@@ -405,6 +405,9 @@ en:
     stats: Stats
     campaigns_disabled: "%{number} campaigns that used this Bilbo have been deactivated. Check them out!"
     update_success: The Bilbo was succesfully updated
+    reload_success: Bilbo reloaded successfully
+    reload_off: The bilbo is off
+    reload_fail: The bilbo could not be reloaded
     ads_rotation_error:
       max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time
