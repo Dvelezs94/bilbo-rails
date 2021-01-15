@@ -27,9 +27,14 @@ module SendgridHelper
         if names.include? "De"
           o = 0
           while o < names.find_index("De")
+            if o == 0
+              @names = names[i] + " "
+            else
+
             @aux = names[i] + " "
-            @names += @aux
+            @names = @aux
             o += 1
+          end
           end
           while o >= names.find_index("De")
             @last_name += names[i] + " "
