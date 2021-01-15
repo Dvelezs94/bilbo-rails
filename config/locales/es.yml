@@ -410,6 +410,9 @@ es:
     stats: Estadisticas
     campaigns_disabled: Se han desactivado %{number} campañas de proveedor que usaban este Bilbo. ¡Revísalas!
     update_success: Bilbo actualizado con éxito
+    reload_success: Bilbo recargado con éxito
+    reload_off: El bilbo se encuentra apagado
+    reload_fail: El bilbo no se pudo recargar
     ads_rotation_error:
       max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
