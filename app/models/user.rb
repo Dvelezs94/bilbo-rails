@@ -245,6 +245,28 @@ class User < ApplicationRecord
       false
     end
   end
+
+  def first_name
+    name.split.first
+  end
+
+  def last_name
+    names = name.split(" ") rescue ""
+    if names[1].present?
+      last_name = ""
+      i = 0
+      while i < names.length
+        if i == names.length-1
+          last_name += names[i]
+        elsif i > 0 && !(i == names.length-1)
+          last_name += names[i] + " "
+        end
+        i+=1
+      end
+    end
+    return last_name
+  end
+  
   private
 
   def set_project
