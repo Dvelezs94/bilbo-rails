@@ -251,20 +251,7 @@ class User < ApplicationRecord
   end
 
   def last_name
-    names = name.split(" ")
-    if names[1].present?
-      last_name = ""
-      i = 0
-      while i < names.length
-        if i == names.length-1
-          last_name += names[i]
-        elsif i > 0 && !(i == names.length-1)
-          last_name += names[i] + " "
-        end
-        i+=1
-      end
-    end
-    return last_name
+    name.split(' ')[1..].join(" ")
   end
 
   private
