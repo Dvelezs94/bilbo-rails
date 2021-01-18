@@ -251,7 +251,7 @@ class User < ApplicationRecord
   end
 
   def last_name
-    names = name.split(" ") rescue ""
+    names = name.split(" ")
     if names[1].present?
       last_name = ""
       i = 0
@@ -266,7 +266,7 @@ class User < ApplicationRecord
     end
     return last_name
   end
-  
+
   private
 
   def set_project
