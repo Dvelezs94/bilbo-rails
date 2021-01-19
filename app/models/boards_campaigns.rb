@@ -33,7 +33,7 @@ class BoardsCampaigns < ApplicationRecord
           st -= 1.day if et<=st and current_time < et
           #Count impressions already created from the current ads rotation
           impression_count = current_time.between?(st,et)? c.daily_impressions(start_date: st, end_date: et, board_id: b.id) : {}
-          today_impressions = impression_count.present?? impression_count.values[0] : 0
+          today_impressions = impression_count.present?? impression_count.values.sum : 0
           max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * c.ad.duration/b.duration)).to_i
           self.remaining_impressions = max_imp - today_impressions
 
@@ -45,7 +45,7 @@ class BoardsCampaigns < ApplicationRecord
           st -= 1.day if et<=st and current_time < et
           #Count impressions already created from the current ads rotation
           impression_count = current_time.between?(st,et)? c.daily_impressions(start_date: st, end_date: et, board_id: b.id) : {}
-          today_impressions =impression_count.present?? impression_count.values[0] : 0
+          today_impressions =impression_count.present?? impression_count.values.sum : 0
           #Compute the total impressions that must be created in the current ads rotation and the difference with the impressions already created
           today_max_imp = c.impression_hours.select{|cpn| self.board.should_run_hour_campaign_in_board?(cpn) }.pluck(:imp).sum
           self.remaining_impressions = today_max_imp - today_impressions
