@@ -444,3 +444,45 @@ Usage
 .carousel-circles-under {
   margin-bottom: -2rem;
 }
+
+/*placeholder skeleton */
+.br {
+  border-radius: 8px;
+}
+.w50 {
+   width: 50%;
+}
+
+.w30 {
+   width: 30%;
+}
+.wrapper {
+  width: 90%;
+  animation: fullView 0.5s forwards cubic-bezier(0.250, 0.460, 0.450, 0.940);
+}
+.comment {
+  height: 10px;
+  background: #777;
+  margin-top: 20px;
+}
+
+@keyframes fullView {
+  100% {
+    width: 100%;
+  }
+}
+
+.animate {
+   animation : shimmer 2s infinite linear;
+   background: linear-gradient(to right, #e5eef4 4%, #edf5f7 25%, #e5eef4 36%);
+    background-size: 1000px 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
