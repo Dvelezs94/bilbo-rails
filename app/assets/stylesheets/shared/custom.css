@@ -449,13 +449,7 @@ Usage
 .br {
   border-radius: 8px;
 }
-.w50 {
-   width: 50%;
-}
 
-.w30 {
-   width: 30%;
-}
 .wrapper {
   width: 90%;
   animation: fullView 0.5s forwards cubic-bezier(0.250, 0.460, 0.450, 0.940);
