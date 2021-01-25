@@ -205,11 +205,11 @@ es:
     impressions: Impresiones
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
-    invested_on: inversion diaria en
+    invested_on: Analiza los días de la semana en los que tu campaña ha estado más activa.
     popular_hours: Horas populares
     total_impressions: Total de impresiones
     history_data: Historial de datos
-    month_impressions: Sus impresiones y el total invertido en los últimos 30 días
+    month_impressions: Impresiones y gastos de su campaña desglozado por días
     monthly_impressions: Impresiones del mes
     campaign_activity: Actividad de la campaña
     campaign_actived: La campaña fue activada
