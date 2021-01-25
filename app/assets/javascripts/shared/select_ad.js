@@ -32,6 +32,7 @@ function select_ad() {
 
 function scroll_ads() {
   //get the ads with scroll infinite event
+  setImageLoader();
   url = $("#paginator a:visible").attr('href');
   if (url && $('#ads_body').scrollTop() > 60) {
     $("#paginator a:visible").remove();

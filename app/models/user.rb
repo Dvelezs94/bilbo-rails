@@ -245,6 +245,15 @@ class User < ApplicationRecord
       false
     end
   end
+
+  def first_name
+    name.split.first
+  end
+
+  def last_name
+    name.split(' ')[1..].join(" ")
+  end
+
   private
 
   def set_project

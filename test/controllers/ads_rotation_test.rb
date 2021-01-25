@@ -248,6 +248,7 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
   #   assert err.empty? && occupation > 0
   # end
 
+  ########################################### End Cases That must pass #####################################
   ########################################### Start Cases that must fail ###################################
   # test "Impressions exceed board capacity" do
   #   campaign_1 = create(:campaign, name: "1 Budget", project: @project, clasification: 0, provider_campaign: true, ad_id: @ad_10.id, state: true, status: 0, budget: 5000)
@@ -294,4 +295,50 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     assert err.include? I18n.t("bilbos.ads_rotation_error.budget_campaign_space", campaign_name: campaign_1.name, bilbo_name: @board.name)
   end
 
+  ########################################### End Cases that must fail #####################################
+  ########################################### Start Remaining impressions test #############################
+  test "First day test" do
+    #Create a random number of impressions, and verify that that the remaining impressions plus the created impressions match the maximum ammount of imprressions per day
+    campaign_1 = create(:campaign, name: "1 Budget", project: @project, clasification: 0, provider_campaign: true, ad_id: @ad_20.id, state: true, status: 0, budget: 700)
+    campaign_1.board_campaigns.first.update(status: "approved")
+    err = @board.update_ads_rotation(force_generate = true)
+    start_time = Time.zone.parse(@board.start_time.strftime("%H:%M"))
+    end_time = Time.zone.parse(@board.end_time.strftime("%H:%M"))
+    end_time += 1.day if start_time >= end_time and Time.zone.now >= end_time
+    start_time -= 1.day if start_time >= end_time and Time.zone.now < end_time
+    count = 0
+    [campaign_1.board_campaigns.first.remaining_impressions, Faker::Number.between(from: 10, to: 500)].min.times do
+      Impression.create(campaign_id: campaign_1.id, board_id: @board.id, created_at: rand_time(start_time, end_time), api_token: @board.api_token)
+      count += 1
+    end
+    campaign_1.board_campaigns.update(update_remaining_impressions: true)
+    assert_equal JSON.parse(@board.ads_rotation).count(campaign_1.id), campaign_1.remaining_impressions(@board) + count
+    assert_equal (campaign_1.budget_per_bilbo/(@board.get_cycle_price(campaign_1) * campaign_1.ad.duration/@board.duration)).to_i, campaign_1.remaining_impressions(@board) + count
+  end
+
+  test "Second Day test" do
+    #Create a random number of impressions, and verify that that the remaining impressions plus the created impressions match the maximum ammount of imprressions per day
+    start_time = Time.zone.now + 15.seconds
+    end_time = start_time + 20.hours
+    @board.update(start_time: start_time-1.day, end_time: end_time-1.day)
+    campaign_1 = create(:campaign, name: "1 Budget", project: @project, clasification: 0, provider_campaign: true, ad_id: @ad_20.id, state: true, status: 0, budget: 700)
+    campaign_1.board_campaigns.first.update(status: "approved")
+    err = @board.update_ads_rotation(force_generate = true)
+    campaign_1.board_campaigns.first.remaining_impressions.times do
+      Impression.create(campaign_id: campaign_1.id, board_id: @board.id, created_at: rand_time(start_time-1.day, end_time-1.day), api_token: @board.api_token)
+    end
+    campaign_1.board_campaigns.update(update_remaining_impressions: true)
+    assert_equal (campaign_1.budget_per_bilbo/(@board.get_cycle_price(campaign_1) * campaign_1.ad.duration/@board.duration)).to_i, campaign_1.remaining_impressions(@board)
+  end
+
+  ########################################### End Remaining impressions test ###############################
+  private
+
+  def rand_time(from, to=Time.now)
+    Time.zone.at(rand_in_range(from.to_f, to.to_f))
+  end
+
+  def rand_in_range(from, to)
+    rand * (to - from) + from
+  end
 end
