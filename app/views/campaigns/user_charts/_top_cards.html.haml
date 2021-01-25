@@ -1,0 +1,48 @@
+.col-sm-6.col-lg-3.mg-t-5.mg-sm-t-0
+    .card.card-body
+        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8= t('dashboards.gross_earnings')
+        .d-flex.d-lg-block.d-xl-flex.align-items-end
+        %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1
+            = number_to_currency_usd(@monthly_earnings)
+        %p.tx-11.tx-color-03.mg-b-0
+            %span.tx-medium.tx-success
+            ~# 1.2%
+            %i.icon.ion-md-arrow-up
+            ~#than last week
+        .chart-three
+
+.col-sm-6.col-lg-3.mg-t-10.mg-sm-t-0
+    .card.card-body
+        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8= t('dashboards.platform_fee')
+        .d-flex.d-lg-block.d-xl-flex.align-items-end
+        %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1
+            = number_to_currency_usd(@monthly_earnings*0.20)
+        %p.tx-11.tx-color-03.mg-b-0
+            %span.tx-medium.tx-danger
+            ~#0.7%
+            %i.icon.ion-md-arrow-down
+            ~#than last week
+        .chart-three
+
+.col-sm-6.col-lg-3.mg-t-10.mg-lg-t-0
+    .card.card-body
+        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8= t('dashboards.net_earnings')
+        .d-flex.d-lg-block.d-xl-flex.align-items-end
+        %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1
+            = number_to_currency_usd(@monthly_earnings*0.80)
+        %p.tx-11.tx-color-03.mg-b-0
+            %span.tx-medium.tx-danger
+            ~#0.3%
+            %i.icon.ion-md-arrow-down
+            ~#than last week
+        .chart-three
+.col-sm-6.col-lg-3.mg-t-10.mg-lg-t-0
+    .card.card-body
+        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8= t('campaign.monthly_impressions')
+        .d-flex.d-lg-block.d-xl-flex.align-items-end
+        %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1
+            = (@monthly_impressions)
+        %p.tx-11.tx-color-03.mg-b-0
+            %i.icon.ion-md-arrow-up
+            ~#total impressions
+        .chart-three
