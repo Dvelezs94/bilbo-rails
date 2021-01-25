@@ -360,7 +360,7 @@ ActiveRecord::Schema.define(version: 2020_12_08_200245) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-01-11 23:39:06"
+    t.datetime "expires_at", default: "2031-01-12 19:00:57"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
@@ -468,4 +468,7 @@ ActiveRecord::Schema.define(version: 2020_12_08_200245) do
   add_foreign_key "provider_invoices", "users"
   add_foreign_key "reports", "boards"
   add_foreign_key "reports", "campaigns"
+  add_foreign_key "reports", "projects"
+  add_foreign_key "user_activities", "users"
+  add_foreign_key "verifications", "users"
 end
