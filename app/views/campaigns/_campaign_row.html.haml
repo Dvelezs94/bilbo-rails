@@ -11,7 +11,7 @@
   %td.text-right= link_to(campaign.ad.name, ad_path(campaign.ad)) rescue t("ads.no_ad")
   %td.text-right= I18n.l(campaign.starts_at.to_date, format: :long) rescue "-"
   %td.text-right= I18n.l(campaign.ends_at.to_date, format: :long) rescue "-"
-  %td.text-right.tx-medium= campaign.impressions.length
+  %td.text-right.tx-medium= campaign.impression_count
   %td.text-right= number_to_currency_credit(campaign.budget)
   %td.text-right= number_to_currency_credit(campaign.total_invested)
   %td
