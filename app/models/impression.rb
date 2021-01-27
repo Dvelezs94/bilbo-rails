@@ -8,6 +8,7 @@ class Impression < ApplicationRecord
   belongs_to :board
   belongs_to :campaign
   before_create :set_total_price
+  after_create :impression_campaign
   after_create :update_balance
   after_create :update_remaining_impressions
   after_create :continue_running_campaign
@@ -58,5 +59,11 @@ class Impression < ApplicationRecord
         end
       end
     end
+  end
+
+  def impression_campaign
+    self.campaign.with_lock do
+    self.campaign.increment!(:impression_count)
+  end
   end
 end
