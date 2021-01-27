@@ -71,6 +71,13 @@ class Campaign < ApplicationRecord
     self.project.owner
   end
 
+  # Get the medium frecuency of the campaign per minute (1 impression every x minutes)
+  def frequency
+    time_range = 1.day.ago.beginning_of_day..1.day.ago.end_of_day
+    freq = self.boards.sum(&:working_minutes).to_f / (impressions.where(created_at: time_range).sum(:duration).to_f * 60)
+    freq.round(1)
+  end
+
   def generate_shorten_url
     shorten_link(analytics_campaign_url(slug))
   end
@@ -368,7 +375,4 @@ class Campaign < ApplicationRecord
       end
     end
   end
-
-
-
 end
