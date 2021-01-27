@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_164518) do
     t.string "analytics_token"
     t.string "link"
     t.integer "objective", default: 0
+    t.integer "impression_count", default: 0
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
@@ -361,7 +362,11 @@ ActiveRecord::Schema.define(version: 2021_01_26_164518) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
+<<<<<<< HEAD
     t.datetime "expires_at", default: "2031-01-12 19:00:57"
+=======
+    t.datetime "expires_at", default: "2031-01-25 21:00:16"
+>>>>>>> added impression_count
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
