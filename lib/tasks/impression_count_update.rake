@@ -1,5 +1,5 @@
 namespace :impression_count_update do
-  desc "This update the count of impressions of campaigns"
+  desc "This job update the field of impression count in every campaigns"
   #bilbo run rails impression_count_update:do_it
   task :do_it => :environment do
     Campaign.all.each do |campaign|
