@@ -4,11 +4,11 @@ class ApplicationController < ActionController::Base
   include NotificationsHelper
   include ApplicationHelper
   layout :set_layout
-  before_action :set_locale
+  before_action :set_locale, unless: :graphql_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :set_project_cookie
-  before_action :set_project
-  before_action :banned?
+  before_action :set_project_cookie, unless: :graphql_controller?
+  before_action :set_project, unless: :graphql_controller?
+  before_action :banned?, unless: :graphql_controller?
 
   def set_project_cookie
     if user_signed_in? && cookies[:project].nil? && !current_user.is_admin?
@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
         expires: 1.day
       }
     end
+  end
+
+  def graphql_controller?
+    controller_name == "graphql"
   end
 
   def banned?
