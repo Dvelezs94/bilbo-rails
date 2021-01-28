@@ -3,14 +3,13 @@ class Impression < ApplicationRecord
   attribute :api_token
   attr_accessor :action
   validate :validate_api_token
-  validates_uniqueness_of :created_at, scope: [:board_id, :campaign_id]
+  # validates_uniqueness_of :created_at, scope: [:board_id, :campaign_id]
   #validate :ten_seconds_validate_board_campaign
   belongs_to :board
   belongs_to :campaign
   before_create :set_total_price
+  after_create :update_balance_and_remaining_impressions
   after_create :increase_campaign_impression_count
-  after_create :update_balance
-  after_create :update_remaining_impressions
   after_create :continue_running_campaign
   def action #is used to make the action in board
     @action  || "delete" #default action is delete in front, if specified then keep
@@ -31,11 +30,8 @@ class Impression < ApplicationRecord
     end
   end
 
-  def update_balance
+  def update_balance_and_remaining_impressions
     self.campaign.project.owner.charge!(self.total_price)
-  end
-
-  def update_remaining_impressions
     if self.campaign.clasification == "budget" || self.campaign.clasification == "per_hour"
       BoardsCampaigns.find_by(board: self.board, campaign: self.campaign).decrement!(:remaining_impressions)
     end
