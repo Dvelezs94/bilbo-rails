@@ -20,7 +20,12 @@ class Mutations::CreateImpression < Mutations::BaseMutation
       created_at: created_at,
       api_token: api_token
     )
-    success = impression.save
+
+    begin
+      success = impression.save
+    rescue => e
+      Bugsnag.notify(e)
+    end
     ##### CURRENTLY THE OBJECT IMPRESSION HAS NO USE IN STREAMING MANAGER #####
       {
         impression: impression,
