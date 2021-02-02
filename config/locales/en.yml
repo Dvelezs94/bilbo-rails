@@ -1,4 +1,10 @@
 en:
+  time_day:
+    seconds: seconds
+    minutes: minutes
+    hours: hours
+    days: days
+    months: months
   error:
     error_ocurred: It seems an error has occurred, please try again later
   input:
@@ -200,6 +206,11 @@ en:
     ad_name: Ad Name
     start_date: Start Date
     end_date: End Date
+    frequency:
+      title: Impressions frequency
+      x_times_every: "1 time every"
+    reach: People reached
+    people: people
     impressions: Impressions
     daily_budget: Daily Budget
     total_invested: Total Invested

@@ -78,6 +78,12 @@ class Campaign < ApplicationRecord
     freq.round(1)
   end
 
+  # rough estime of how many people have reached your ad
+  def people_reached
+    people_per_second = Board.first.avg_daily_views / 86400
+    boards.
+  end
+
   def generate_shorten_url
     shorten_link(analytics_campaign_url(slug))
   end
