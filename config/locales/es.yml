@@ -1,4 +1,10 @@
 es:
+  time_day:
+    seconds: segundos
+    minutes: minutos
+    hours: horas
+    days: "días"
+    months: meses
   error:
     error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
   input:
@@ -201,10 +207,12 @@ es:
     bilbos_in_use: Bilbos
     ad_name: Anuncio
     start_date: Inicio
+    end_date: Fin
     frequency:
       title: Frecuencia de impresiones
       x_times_every: "1 vez cada"
-    end_date: Fin
+    reach: Alcance
+    people: personas
     impressions: Impresiones
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
