@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_164518) do
     t.string "analytics_token"
     t.string "link"
     t.integer "objective", default: 0
+    t.integer "impression_count", default: 0
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
