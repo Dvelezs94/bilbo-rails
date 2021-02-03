@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_164518) do
+ActiveRecord::Schema.define(version: 2021_01_27_231134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -248,6 +248,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_164518) do
     t.integer "duration"
     t.index ["board_id"], name: "index_impressions_on_board_id"
     t.index ["campaign_id"], name: "index_impressions_on_campaign_id"
+    t.index ["created_at", "board_id"], name: "index_impressions_on_created_at_and_board_id", unique: true
   end
 
   create_table "invoices", force: :cascade do |t|

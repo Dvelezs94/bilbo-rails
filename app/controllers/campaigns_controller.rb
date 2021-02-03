@@ -278,6 +278,7 @@ class CampaignsController < ApplicationController
   def copy_params
     @campaign_params = params.require(:campaign).permit(:name, :description)
     @campaign_params[:state] = false
+    @campaign_params[:impression_count] = 0
     @campaign_params
   end
 
