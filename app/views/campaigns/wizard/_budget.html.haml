@@ -6,7 +6,7 @@
     .input-group.col-sm-12.col-md-6.col-xl-4.pd-x-0
       .input-group-prepend
         %span.input-group-text
-          %i.fe.fe-wallet
+          $
       = f.text_field :budget, :class => "form-control input-number", required: true
       %span#budget_error_message.d-none= t('campaign.minimum_budget_per_bilbo')
       .input-group-append
