@@ -80,8 +80,14 @@ class Campaign < ApplicationRecord
 
   # rough estime of how many people have reached your ad
   def people_reached
-    people_per_second = Board.first.avg_daily_views / 86400
-    boards.
+    begin
+      average_play_time = boards.sum(:avg_daily_views) / boards.count
+      people_per_second = average_play_time / 86400
+      total_people_hit = people_per_second * impression_count
+      total_people_hit < 1 ? 0 : total_people_hit
+    rescue
+      0
+    end
   end
 
   def generate_shorten_url
