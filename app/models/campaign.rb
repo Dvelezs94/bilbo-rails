@@ -71,10 +71,20 @@ class Campaign < ApplicationRecord
     self.project.owner
   end
 
+  def true_duration(board_slug)
+    if self.provider_campaign?
+      return ad.duration
+    else
+      return Board.friendly.find(board_slug).duration
+    end
+  end
+
   # Get the medium frecuency of the campaign per minute (1 impression every x minutes)
   def frequency
-    time_range = 1.day.ago.beginning_of_day..1.day.ago.end_of_day
-    freq = self.boards.sum(&:working_minutes).to_f / (impressions.where(created_at: time_range).sum(:duration).to_f * 60)
+    active_days = impressions.group_by_day(:created_at).count.keys
+    number_of_days = active_days.length
+    total_minutes = boards.sum(&:working_minutes) * number_of_days
+    freq = total_minutes / impression_count
     freq.round(1)
   end
 
