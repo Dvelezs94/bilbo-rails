@@ -27,33 +27,21 @@ stages:
 build_and_test:
   stage: build_and_test
   script:
-    - $(aws ecr get-login --no-include-email --region $AWS_REGION)
-    - docker pull ${REPOSITORY_ID}.dkr.ecr.$AWS_REGION.amazonaws.com/bilbo:latest || true
-    #- docker build --cache-from $REPOSITORY_URL:latest -t ${REPOSITORY_ID}.dkr.ecr.$AWS_REGION.amazonaws.com/bilbo:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA} --build-arg CI_AGENT="${CI_AGENT}" .
-    - docker build --cache-from ${REPOSITORY_ID}.dkr.ecr.$AWS_REGION.amazonaws.com/bilbo:latest -t ${REPOSITORY_ID}.dkr.ecr.$AWS_REGION.amazonaws.com/bilbo:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA} --build-arg CI_AGENT="${CI_AGENT}" --build-arg ENVNAME="production" --build-arg PAYPAL_USERNAME="$PAYPAL_USERNAME" --build-arg PAYPAL_PASSWORD="$PAYPAL_PASSWORD" --build-arg PAYPAL_SIGNATURE="$PAYPAL_SIGNATURE" --build-arg MAPS_API_KEY="$MAPS_API_KEY"  .
-    - docker tag ${REPOSITORY_ID}.dkr.ecr.$AWS_REGION.amazonaws.com/bilbo:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA} ${REPOSITORY_ID}.dkr.ecr.$AWS_REGION.amazonaws.com/bilbo:latest
-    - docker-compose -f docker-compose-cicd.yml up -d
-    - docker-compose exec -T app rails db:create
-    - docker-compose exec -T app rails db:migrate
-    - docker-compose exec -T app rails db:test:prepare
-    - docker-compose exec -T app rails test -f
-    - docker push ${REPOSITORY_ID}.dkr.ecr.$AWS_REGION.amazonaws.com/bilbo:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}
-    - docker push ${REPOSITORY_ID}.dkr.ecr.$AWS_REGION.amazonaws.com/bilbo:latest
+    - sh -x cicd/build-test.sh
   tags:
     - docker
   only:
-    - master
-    - staging
+    - tags
+  except:
+    - branches
 
 deploy:
   stage: deploy
   script:
-    - sh ecs-deploy.sh
-  only:
-    - master
-    - staging
+    - sh -x cicd/ecs-deploy.sh
   tags:
     - docker
   only:
-    - master
-    - staging
+    - tags
+  except:
+    - branches
