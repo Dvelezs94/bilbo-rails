@@ -84,7 +84,7 @@ class Campaign < ApplicationRecord
     active_days = impressions.group_by_day(:created_at).count.keys
     number_of_days = active_days.length
     total_minutes = boards.sum(&:working_minutes) * number_of_days
-    freq = total_minutes / (impression_count * boards.count)
+    freq = total_minutes.to_f / (impression_count * boards.count)
     freq.round(1)
   end
 
