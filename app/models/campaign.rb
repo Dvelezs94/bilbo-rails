@@ -71,6 +71,35 @@ class Campaign < ApplicationRecord
     self.project.owner
   end
 
+  def true_duration(board_slug)
+    if self.provider_campaign?
+      return ad.duration
+    else
+      return Board.friendly.find(board_slug).duration
+    end
+  end
+
+  # Get the medium frecuency of the campaign per minute (1 impression every x minutes)
+  def frequency
+    active_days = impressions.group_by_day(:created_at).count.keys
+    number_of_days = active_days.length
+    total_minutes = boards.sum(&:working_minutes) * number_of_days
+    freq = total_minutes.to_f / (impression_count * boards.count)
+    freq.round(1)
+  end
+
+  # rough estime of how many people have reached your ad
+  def people_reached
+    begin
+      average_play_time = boards.sum(:avg_daily_views) / boards.count
+      people_per_second = average_play_time / 86400
+      total_people_hit = people_per_second * impression_count
+      total_people_hit < 1 ? 0 : total_people_hit
+    rescue
+      0
+    end
+  end
+
   def generate_shorten_url
     shorten_link(analytics_campaign_url(slug))
   end
@@ -368,7 +397,4 @@ class Campaign < ApplicationRecord
       end
     end
   end
-
-
-
 end

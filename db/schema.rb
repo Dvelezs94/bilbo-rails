@@ -245,6 +245,7 @@ ActiveRecord::Schema.define(version: 2021_01_27_231134) do
     t.integer "cycles", default: 1
     t.datetime "created_at", null: false
     t.float "total_price"
+    t.integer "duration"
     t.index ["board_id"], name: "index_impressions_on_board_id"
     t.index ["campaign_id"], name: "index_impressions_on_campaign_id"
     t.index ["created_at", "board_id"], name: "index_impressions_on_created_at_and_board_id", unique: true
@@ -362,7 +363,7 @@ ActiveRecord::Schema.define(version: 2021_01_27_231134) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-01-25 21:00:16"
+    t.datetime "expires_at", default: "2031-01-12 19:00:57"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
