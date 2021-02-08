@@ -262,8 +262,30 @@ class Board < ApplicationRecord
     end
     return @new_width, @new_height
   end
-  def working_hours(st,et, zero_if_equal = false) #returns hours of difference
-    working_minutes(st,et,zero_if_equal)/60.0
+
+  def working_minutes(st = self.start_time, et = self.end_time, zero_if_equal = false) #returns minutes of difference
+    # if end time is less than the start time, i assume that the board is on until the next day
+    # if they are equal i assume is all day on
+    start_hours = st.strftime("%H").to_i
+    start_mins = st.strftime("%M").to_i
+    start_mins = start_hours * 60 + start_mins
+    end_hours = et.strftime("%H").to_i
+    end_mins = et.strftime("%M").to_i
+    end_mins = end_hours * 60 + end_mins
+    end_mins = end_mins + 1440 if end_mins < start_mins
+    end_mins = end_mins + 1440 if !zero_if_equal && end_mins == start_mins # 1440 are the minutes in a day
+    (end_mins - start_mins)
+  end
+  def time_h_m_s(time)
+    time.strftime("%H:%M:%S")
+  end
+
+  def working_hours(st = self.start_time, et = self.end_time, zero_if_equal = false) #returns hours of difference
+    working_minutes(st, et, zero_if_equal)/60.0
+  end
+
+  def working_seconds(st = self.start_time, et = self.end_time, zero_if_equal = false)
+    working_minutes(st, et, zero_if_equal) * 60
   end
 
   def ads_rotation_with_start_time
@@ -329,23 +351,6 @@ class Board < ApplicationRecord
     else #this has no problem because its one-day rotation
       return valid_days_of_week.include? c.day
     end
-  end
-
-  def working_minutes(st,et, zero_if_equal = false) #returns minutes of difference
-    # if end time is less than the start time, i assume that the board is on until the next day
-    # if they are equal i assume is all day on
-    start_hours = st.strftime("%H").to_i
-    start_mins = st.strftime("%M").to_i
-    start_mins = start_hours * 60 + start_mins
-    end_hours = et.strftime("%H").to_i
-    end_mins = et.strftime("%M").to_i
-    end_mins = end_hours * 60 + end_mins
-    end_mins = end_mins + 1440 if end_mins < start_mins
-    end_mins = end_mins + 1440 if !zero_if_equal && end_mins == start_mins # 1440 are the minutes in a day
-    (end_mins - start_mins)
-  end
-  def time_h_m_s(time)
-    time.strftime("%H:%M:%S")
   end
 
     # Get the pixel size for correct image fit in the bilbo
