@@ -105,6 +105,7 @@ if ENV.fetch("RAILS_ENV") != "production"
           im.campaign = cp
           im.created_at = (rand*365).days.ago
           im.api_token = board.api_token
+          im.duration = cp.ad.duration
         end
       end
     end

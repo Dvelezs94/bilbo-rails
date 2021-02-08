@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_08_200245) do
+ActiveRecord::Schema.define(version: 2021_01_27_231134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 2020_12_08_200245) do
     t.string "analytics_token"
     t.string "link"
     t.integer "objective", default: 0
+    t.integer "impression_count", default: 0
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
@@ -244,8 +245,10 @@ ActiveRecord::Schema.define(version: 2020_12_08_200245) do
     t.integer "cycles", default: 1
     t.datetime "created_at", null: false
     t.float "total_price"
+    t.integer "duration"
     t.index ["board_id"], name: "index_impressions_on_board_id"
     t.index ["campaign_id"], name: "index_impressions_on_campaign_id"
+    t.index ["created_at", "board_id"], name: "index_impressions_on_created_at_and_board_id", unique: true
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -360,7 +363,7 @@ ActiveRecord::Schema.define(version: 2020_12_08_200245) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-01-11 23:39:06"
+    t.datetime "expires_at", default: "2031-01-30 01:36:31"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
@@ -468,4 +471,7 @@ ActiveRecord::Schema.define(version: 2020_12_08_200245) do
   add_foreign_key "provider_invoices", "users"
   add_foreign_key "reports", "boards"
   add_foreign_key "reports", "campaigns"
+  add_foreign_key "reports", "projects"
+  add_foreign_key "user_activities", "users"
+  add_foreign_key "verifications", "users"
 end

@@ -1,4 +1,10 @@
 es:
+  time_day:
+    seconds: segundos
+    minutes: minutos
+    hours: horas
+    days: "días"
+    months: meses
   error:
     error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
   input:
@@ -202,14 +208,19 @@ es:
     ad_name: Anuncio
     start_date: Inicio
     end_date: Fin
+    frequency:
+      title: Frecuencia de impresiones
+      x_times_every: "1 vez cada"
+    reach: Alcance est.
+    people: personas
     impressions: Impresiones
     daily_budget: Presupuesto Diario
     total_invested: Total Invertido
-    invested_on: inversion diaria en
+    invested_on: Analiza los días de la semana en los que tu campaña ha estado más activa.
     popular_hours: Horas populares
-    total_impressions: Total de impresiones
+    total_impressions: Impresiones totales
     history_data: Historial de datos
-    month_impressions: Sus impresiones y el total invertido en los últimos 30 días
+    month_impressions: Impresiones y gastos de su campaña desglozado por días
     monthly_impressions: Impresiones del mes
     campaign_activity: Actividad de la campaña
     campaign_actived: La campaña fue activada
