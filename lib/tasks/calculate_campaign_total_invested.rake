@@ -1,5 +1,5 @@
 namespace :calculate_campaign_total_invested do
-  desc "Sets duration to all impressions"
+  desc "Sets total_invested value to all campaigns"
   task :run => :environment do
     Campaign.all.each do |camp|
       begin
