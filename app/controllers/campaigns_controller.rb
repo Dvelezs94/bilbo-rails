@@ -283,7 +283,7 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaigns
-    @campaigns = @project.campaigns.includes(:boards, :impressions).active
+    @campaigns = @project.campaigns.includes(:boards).active
   end
 
   def get_campaign
