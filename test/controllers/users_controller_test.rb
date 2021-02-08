@@ -52,7 +52,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "charge credits" do
     @balance = @user.balance
-    @user.charge!(10)
+    @user.charge!(amount: 10)
     assert @balance - 10, @user.balance
   end
 

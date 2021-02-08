@@ -175,7 +175,7 @@ class User < ApplicationRecord
     end
   end
 
-  def charge!(amount, camp_id=nil)
+  def charge!(amount: 0, camp_id: nil)
     begin
       self.with_lock do
         self.balance -= amount.to_f
