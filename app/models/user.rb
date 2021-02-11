@@ -250,7 +250,7 @@ class User < ApplicationRecord
     begin
       name.split.first
     rescue
-      email
+      ""
     end
   end
 
