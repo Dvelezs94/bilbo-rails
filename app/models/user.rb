@@ -204,7 +204,7 @@ class User < ApplicationRecord
 
     bc.each do |obj|
       brd = obj.board
-      camp = obj.camp
+      camp = obj.campaign
       err = brd.broadcast_to_board(camp, true)
     end
   end
@@ -254,11 +254,19 @@ class User < ApplicationRecord
   end
 
   def first_name
-    name.split.first
+    begin
+      name.split.first
+    rescue
+      ""
+    end
   end
 
   def last_name
-    name.split(' ')[1..].join(" ")
+    begin
+      name.split(' ')[1..].join(" ")
+    rescue
+      ""
+    end
   end
 
   private
