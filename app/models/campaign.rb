@@ -320,7 +320,7 @@ class Campaign < ApplicationRecord
 
   def daily_impressions(start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
     if board_id.nil?
-      impressions.where(created_at: start_date..end_date).group_by_day(:created_at).count
+      impressions.where(created_at: start_date..end_date).group_by_day(:created_at, format: "%b %d").count
     else
       impressions.where(created_at: start_date..end_date, board_id: board_id).group_by_day(:created_at).count
     end
