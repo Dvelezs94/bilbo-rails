@@ -29,7 +29,7 @@ stages:
 build_and_test:
   stage: build_and_test
   script:
-    - sh -x cicd/build-test.sh
+    - bash -x cicd/build-test.sh
   tags:
     - docker
   only:
@@ -40,7 +40,7 @@ build_and_test:
 deploy:
   stage: deploy
   script:
-    - sh -x cicd/ecs-deploy.sh
+    - bash -x cicd/ecs-deploy.sh
   tags:
     - docker
   only:
