@@ -1,17 +1,17 @@
 #!/bin/sh
 
-echo "Deploying commit $CI_COMMIT_SHORT_SHA on branch $CI_COMMIT_REF_NAME"
+echo "Deploying commit $CI_COMMIT_SHORT_SHA"
 
-if [[ ${CI_COMMIT_REF_NAME} == *"-rc"* ]]; then
+if [[ ${CI_BUILD_TAG} == *"-rc"* ]]; then
   # demo
-  ecs deploy bilbo-demo webapp --image bilbo-demo ${REPOSITORY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/bilbo:${CI_COMMIT_REF_NAME}  --region us-east-2 --timeout 600
-  ecs deploy bilbo-demo sidekiq --image bilbo-demo-sidekiq ${REPOSITORY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/bilbo:${CI_COMMIT_REF_NAME} --region us-east-2 --timeout 600
-elif [[ ${CI_COMMIT_REF_NAME} =~ [0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  ecs deploy bilbo-demo webapp --image bilbo-demo ${REPOSITORY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/bilbo:${CI_COMMIT_SHORT_SHA}  --region us-east-2 --timeout 600
+  ecs deploy bilbo-demo sidekiq --image bilbo-demo-sidekiq ${REPOSITORY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/bilbo:${CI_COMMIT_SHORT_SHA} --region us-east-2 --timeout 600
+elif [[ ${CI_BUILD_TAG} =~ [0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   # prod
-  ecs deploy bilbo-production webapp --image bilbo-production ${REPOSITORY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/bilbo:${CI_COMMIT_REF_NAME} --region ${AWS_REGION} --timeout 600
-  ecs deploy bilbo-production sidekiq --image bilbo-production-sidekiq ${REPOSITORY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/bilbo:${CI_COMMIT_REF_NAME} --region ${AWS_REGION} --timeout 600
+  ecs deploy bilbo-production webapp --image bilbo-production ${REPOSITORY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/bilbo:${CI_BUILD_TAG} --region ${AWS_REGION} --timeout 600
+  ecs deploy bilbo-production sidekiq --image bilbo-production-sidekiq ${REPOSITORY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/bilbo:${CI_BUILD_TAG} --region ${AWS_REGION} --timeout 600
 else
-  echo "Could not identify tag: ${CI_COMMIT_REF_NAME}"
+  echo "Could not identify commit: ${CI_COMMIT_REF_NAME}, tag: ${CI_BUILD_TAG}"
   exit 1
 fi
 
