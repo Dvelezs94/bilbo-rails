@@ -24,22 +24,22 @@
           .dropdown-menu.tx-13.align-items-center
             = form_for("", url: analytics_campaign_path, method: :get, :html => { data: { parsley_validate: true } }, remote: false) do |f|
               .form-group.mg-b-20
-                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 1.month.ago, date_end: Time.zone.now), style: "padding-top: 15px;"}
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 1.month.ago.beginning_of_day, date_end: Time.zone.now), style: "padding-top: 15px;"}
                   %i.fe.fe-clock.mg-r-5
                   = t('campaign.1_month')
-                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 2.months.ago, date_end: Time.zone.now)}
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 2.months.ago.beginning_of_day, date_end: Time.zone.now)}
                   %i.fe.fe-clock.mg-r-5
                   = t('campaign.2_months')
-                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 3.months.ago,  date_end: Time.zone.now)}
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 3.months.ago.beginning_of_day,  date_end: Time.zone.now)}
                   %i.fe.fe-clock.mg-r-5
                   = t('campaign.3_months')
-                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 4.months.ago, date_end: Time.zone.now)}
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 4.months.ago.beginning_of_day, date_end: Time.zone.now)}
                   %i.fe.fe-clock.mg-r-5
                   = t('campaign.4_months')
-                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 5.months.ago, date_end: Time.zone.now)}
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 5.months.ago.beginning_of_day, date_end: Time.zone.now)}
                   %i.fe.fe-clock.mg-r-5
                   = t('campaign.5_months')
-                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 6.months.ago, date_end: Time.zone.now)}
+                %a.dropdown-item{:href => analytics_campaign_path(:date_start => 6.months.ago.beginning_of_day, date_end: Time.zone.now)}
                   %i.fe.fe-clock.mg-r-5
                   = t('campaign.6_months')
         .d-none.d-md-block
