@@ -33,13 +33,13 @@ pull_and_push() {
   docker push ${ECR_REPOSITORY}:${CI_BUILD_TAG}
 }
 
-if [[ ${CI_COMMIT_SHORT_SHA} == *"-rc"* ]]; then
+if [[ ${CI_BUILD_TAG} == *"-rc"* ]]; then
   echo "Building and Deploying to Demo environment..."
   initialize_conn
   build_image
   run_tests
   push_to_ecr
-elif [[ ${CI_COMMIT_SHORT_SHA} =~ [0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+elif [[ ${CI_BUILD_TAG} =~ [0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   initialize_conn
   pull_and_push
 else
