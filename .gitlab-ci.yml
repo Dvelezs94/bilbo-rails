@@ -12,6 +12,7 @@ services:
 - docker:dind
 
 before_script:
+  - env
   - docker info
   - apk update
   - apk upgrade
