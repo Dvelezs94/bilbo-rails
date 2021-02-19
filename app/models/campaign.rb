@@ -37,7 +37,7 @@ class Campaign < ApplicationRecord
 
   # status is for the
   enum status: { active: 0, inactive: 1 }
-  enum clasification: {budget: 0, per_minute: 1, per_hour: 2}
+  enum classification: {budget: 0, per_minute: 1, per_hour: 2}
   enum objective: {awareness: 0, interaction: 1, conversion: 2} #conversion is still not there, we need the pixel
 
   # 'state' is for user desired state ser by the user, enabled or disabled
@@ -86,18 +86,6 @@ class Campaign < ApplicationRecord
     total_minutes = boards.sum(&:working_minutes) * number_of_days
     freq = total_minutes.to_f / (impression_count * boards.count)
     freq.round(1)
-  end
-
-  # rough estime of how many people have reached your ad
-  def people_reached
-    begin
-      average_play_time = boards.sum(:avg_daily_views) / boards.count
-      people_per_second = average_play_time / 86400
-      total_people_hit = people_per_second * impression_count
-      total_people_hit < 1 ? 0 : total_people_hit
-    rescue
-      0
-    end
   end
 
   def generate_shorten_url
@@ -190,11 +178,11 @@ class Campaign < ApplicationRecord
     #self.budget > 0 Check that the budget is greater than 0 of campaign
     brd = Board.find(board_id)
     if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?(brd)
-      if clasification == "budget" && self.budget >= 50 && self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5)
+      if classification == "budget" && self.budget >= 50 && self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5)
         return true
-      elsif clasification == "per_minute"
+      elsif classification == "per_minute"
         return true
-      elsif clasification == "per_hour" && self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5)
+      elsif classification == "per_hour" && self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5)
         return true
       end
     end
@@ -350,7 +338,7 @@ class Campaign < ApplicationRecord
           break
         end
       end
-    elsif clasification == "per_hour" && state
+    elsif classification == "per_hour" && state
       boards.each do |b|
         err = b.test_hour_campaigns(self, impression_hours.select{|c| !c.marked_for_destruction?})
         if err.any?

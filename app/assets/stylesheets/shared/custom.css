@@ -437,6 +437,14 @@ Usage
   white-space: nowrap;
 }
 
+#userCampaignTable td, #userCampaignTable th {
+  white-space: nowrap;
+}
+
+.dataTables_scrollBody {
+  overflow-y: scroll;
+}
+
 .m-0-auto {
  margin: 0 auto;
 }

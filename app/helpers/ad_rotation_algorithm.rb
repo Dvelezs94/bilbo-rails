@@ -23,11 +23,11 @@ module AdRotationAlgorithm
         return err
       end
 
-    elsif new_campaign.clasification == "per_hour"
+    elsif new_campaign.classification == "per_hour"
       err = test_hour_campaigns(new_campaign,new_campaign_hours)
       return err if err.present?
 
-    elsif new_campaign.provider_campaign && new_campaign.clasification == "budget" && new_campaign.budget.present?
+    elsif new_campaign.provider_campaign && new_campaign.classification == "budget" && new_campaign.budget.present?
       imp = (new_campaign.budget_per_bilbo/(self.sale_cycle_price * new_campaign.ad.duration/self.duration)).to_i
       # puts "X"*200
       # puts imp
@@ -90,7 +90,7 @@ module AdRotationAlgorithm
     ############################# SECTION TO ADD USER HOUR CAMPAIGNS ##################################
     h_cps_first = []
     hour_campaign_remaining_impressions = {}
-    self.campaigns.where(provider_campaign: false, clasification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
+    self.campaigns.where(provider_campaign: false, classification: "per_hour").select{ |c| c.should_run?(self.id) }.each do |c|
       sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
         if should_run_hour_campaign_in_board?(cpn)
           h_cps_first.append(cpn)
@@ -128,7 +128,7 @@ module AdRotationAlgorithm
 
     ########################################## SECTION TO ADD USER BUDGET CAMPAIGNS #####################
 
-    cps  = self.campaigns.where(provider_campaign: false, clasification: "budget").select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, c.remaining_impressions(self.id) ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
+    cps  = self.campaigns.where(provider_campaign: false, classification: "budget").select{ |c| c.should_run?(self.id) }.map{ |c| [ c.id, c.remaining_impressions(self.id) ] }.to_h # { john: 20, david: 26, will:  10} hese are the campaigns and the maximum times that can be displayed in the board
     cycles = []                            # array to store the id's of the bilbo users campaigns the required times
     cps.each do |name, value|              # Fill the cycles array
       value.times do                      # with the id's of the

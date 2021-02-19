@@ -39,6 +39,6 @@
                       = f.url_field :link, :class => "form-control", pattern: "https?://.*",placeholder: 'https://www.website.com/', data: {parsley_errors_messages_disabled: true}
               -if large_modal
                 .col-12.col-lg-6
-                  = render partial: "campaigns/clasification", locals:{f: f }
+                  = render partial: "campaigns/classification", locals:{f: f }
         .modal-footer.mg-t-10
           = f.submit t("main_wizard.create_campaign"), class: "btn btn-primary"

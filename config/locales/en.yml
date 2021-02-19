@@ -152,6 +152,11 @@ en:
     review: Pause campaign
     occupied: '% Occupied'
     objective: Objective
+    type: Type
+    classification:
+      budget: Budget
+      per_minute: Per minute
+      per_hour: Per hour
     objectives:
       awareness: Awareness
       awareness_description: Promote your brand or product in the selected areas
@@ -290,7 +295,7 @@ en:
       campaign_minute: Impression per minute
       campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
       campaign_hour_description: Select the days and the hours you want your campaign to run. Very powerful for highly targeted ads.
-      campaign_clasification: Type of campaign
+      campaign_classification: Type of campaign
       ongoing_campaign: Ongoing Campaign
       pick_date: Choose Date
       start_date: Start Date
@@ -409,7 +414,7 @@ en:
     end_time: Off
     hour: Hour
     minute: Minute
-    social_class: Clasification
+    social_class: classification
     view_campaigns: View Campaigns
     mac_address: MAC address
     earnings_month: Earnings this month
