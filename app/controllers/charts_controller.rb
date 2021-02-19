@@ -8,7 +8,9 @@ class ChartsController < ApplicationController
   end
 
   def daily_impressions
-    render json: hash_initialize(params[:start_date], params[:end_date]).merge(@campaign.daily_impressions(start_date: params[:start_date], end_date: params[:end_date]))
+    impressions = hash_initialize(params[:start_date], params[:end_date]).merge(@campaign.daily_impressions(start_date: params[:start_date], end_date: params[:end_date]))
+    impressions = Hash[impressions.map{|key,value| [key.capitalize, value]}]
+    render json: impressions
   end
 
   def daily_impressions_month
@@ -16,7 +18,9 @@ class ChartsController < ApplicationController
   end
 
   def daily_qr_code_scans
-    render json: hash_initialize(params[:start_date], params[:end_date]).merge(@campaign.qr_shortener.daily_hits(params[:start_date]..params[:end_date]))
+    scans = hash_initialize(params[:start_date], params[:end_date]).merge(@campaign.qr_shortener.daily_hits(params[:start_date]..params[:end_date]))
+    scans = Hash[scans.map{|key, value| [key.capitalize, value]}]
+    render json: scans
   end
 
   def daily_invested
@@ -59,7 +63,7 @@ class ChartsController < ApplicationController
     date_end = date_end.to_date
     time_range = {}
     while date_start <= date_end do
-      time_range[date_start] = 0
+      time_range[(I18n.l date_start, format: "%b %d")] = 0
       date_start += 1.day
     end
     return time_range
