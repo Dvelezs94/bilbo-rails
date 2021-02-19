@@ -36,31 +36,31 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "copy budget campaign" do
-    @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, clasification: 0, provider_campaign: @user.is_provider?)
+    @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, classification: 0, provider_campaign: @user.is_provider?)
     post create_copy_campaign_path(@campaign), params: {campaign: {name: "CopyCampaign 1", description: "XXXXXXX"} }
     #get the new record (the one we created in the previous line)
     campaign_2 = Campaign.find_by(name: "CopyCampaign 1")
-    attributes_1 = @campaign.attributes.delete_if{|key, value| !["project_id", "budget", "starts_at", "ends_at", "ad_id", "provider_campaign", "clasification", "objective"].include?(key)}
+    attributes_1 = @campaign.attributes.delete_if{|key, value| !["project_id", "budget", "starts_at", "ends_at", "ad_id", "provider_campaign", "classification", "objective"].include?(key)}
     attributes_1.merge({boards: @campaign.boards.pluck(:id).sort})
-    attributes_2 = campaign_2.attributes.delete_if{|key, value| !["project_id", "budget", "starts_at", "ends_at", "ad_id", "provider_campaign", "clasification", "objective"].include?(key)}
+    attributes_2 = campaign_2.attributes.delete_if{|key, value| !["project_id", "budget", "starts_at", "ends_at", "ad_id", "provider_campaign", "classification", "objective"].include?(key)}
     attributes_2.merge({boards: campaign_2.boards.pluck(:id).sort})
     assert_equal attributes_1, attributes_2
   end
 
   test "copy campaign per minute" do
-    @campaign = create(:campaign, name: "campaign per minute", project: @user.projects.first, clasification: 1, provider_campaign: @user.is_provider?, imp: 3, minutes: 2)
+    @campaign = create(:campaign, name: "campaign per minute", project: @user.projects.first, classification: 1, provider_campaign: @user.is_provider?, imp: 3, minutes: 2)
     post create_copy_campaign_path(@campaign), params: {campaign: {name: "CopyCampaign 2", description: "XXXXXXX"} }
     #get the new record (the one we created in the previous line)
     campaign_2 = Campaign.find_by(name: "CopyCampaign 2")
-    attributes_1 = @campaign.attributes.delete_if{|key, value| !["project_id", "imp", "minutes", "starts_at", "ends_at", "ad_id", "provider_campaign", "clasification", "objective"].include?(key)}
+    attributes_1 = @campaign.attributes.delete_if{|key, value| !["project_id", "imp", "minutes", "starts_at", "ends_at", "ad_id", "provider_campaign", "classification", "objective"].include?(key)}
     attributes_1.merge({boards: @campaign.boards.pluck(:id).sort})
-    attributes_2 = campaign_2.attributes.delete_if{|key, value| !["project_id", "imp", "minutes", "starts_at", "ends_at", "ad_id", "provider_campaign", "clasification", "objective"].include?(key)}
+    attributes_2 = campaign_2.attributes.delete_if{|key, value| !["project_id", "imp", "minutes", "starts_at", "ends_at", "ad_id", "provider_campaign", "classification", "objective"].include?(key)}
     attributes_2.merge({boards: campaign_2.boards.pluck(:id).sort})
     assert_equal attributes_1, attributes_2
   end
 
   test "copy campaign per hour" do
-    @campaign = create(:campaign, name: "campaign per hour", project: @user.projects.first, clasification: 2, provider_campaign: @user.is_provider?)
+    @campaign = create(:campaign, name: "campaign per hour", project: @user.projects.first, classification: 2, provider_campaign: @user.is_provider?)
     @campaign.impression_hours.create(start: "2000-01-01 09:00:00", end: "2000-01-01 11:00:00", imp: 200, day: "everyday")
     @campaign.impression_hours.create(start: "2000-01-01 11:00:00", end: "2000-01-01 13:00:00", imp: 200, day: "everyday")
     @campaign.impression_hours.create(start: "2000-01-01 13:00:00", end: "2000-01-01 15:00:00", imp: 200, day: "everyday")
@@ -68,9 +68,9 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     #get the new record (the one we created in the previous line)
     campaign_2 = Campaign.find_by(name: "CopyCampaign 3")
     #Validate parameters of the campaigns
-    attributes_1 = @campaign.attributes.delete_if{|key, value| !["project_id", "imp", "minutes", "starts_at", "ends_at", "ad_id", "provider_campaign", "clasification", "objective"].include?(key)}
+    attributes_1 = @campaign.attributes.delete_if{|key, value| !["project_id", "imp", "minutes", "starts_at", "ends_at", "ad_id", "provider_campaign", "classification", "objective"].include?(key)}
     attributes_1.merge({boards: @campaign.boards.pluck(:id).sort})
-    attributes_2 = campaign_2.attributes.delete_if{|key, value| !["project_id", "imp", "minutes", "starts_at", "ends_at", "ad_id", "provider_campaign", "clasification", "objective"].include?(key)}
+    attributes_2 = campaign_2.attributes.delete_if{|key, value| !["project_id", "imp", "minutes", "starts_at", "ends_at", "ad_id", "provider_campaign", "classification", "objective"].include?(key)}
     attributes_2.merge({boards: campaign_2.boards.pluck(:id).sort})
     assert_equal attributes_1, attributes_2
     #Valide parameters from impression_hours
@@ -80,7 +80,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "differences in copies" do
-    @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, clasification: 0, provider_campaign: @user.is_provider?)
+    @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, classification: 0, provider_campaign: @user.is_provider?)
     post create_copy_campaign_path(@campaign), params: {campaign: {name: "CopyCampaign 4", description: "XXXXXXX"} }
     #get the new record (the one we created in the previous line)
     campaign_2 = Campaign.find_by(name: "CopyCampaign 4")
