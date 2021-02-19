@@ -1,4 +1,4 @@
-.divider-text= t('campaign.wizard.campaign_clasification')
+.divider-text= t('campaign.wizard.campaign_classification')
 -if "budget".in? @project.available_campaign_types
   %a.link-02.col-sm-12.col-md-6.col-lg-4.col-xl-3.mg-b-20.pd-0.card-ad-link{:href => "#", :id => "budget"}
     .actions.col-sm-15.col-md-15.pd-t-10
@@ -27,4 +27,4 @@
           -else
             %h5.card-title= t('campaign.wizard.campaign_hour')
           %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.campaign_hour_description')
-          = f.hidden_field :clasification, {:value => "budget", :id => "typeCampaign"}
+          = f.hidden_field :classification, {:value => "budget", :id => "typeCampaign"}

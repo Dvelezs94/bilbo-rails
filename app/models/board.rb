@@ -276,8 +276,13 @@ class Board < ApplicationRecord
     end_mins = end_mins + 1440 if !zero_if_equal && end_mins == start_mins # 1440 are the minutes in a day
     (end_mins - start_mins)
   end
+
   def time_h_m_s(time)
     time.strftime("%H:%M:%S")
+  end
+
+  def people_per_second
+    avg_daily_views.to_f / working_seconds.to_f
   end
 
   def working_hours(st = self.start_time, et = self.end_time, zero_if_equal = false) #returns hours of difference
@@ -369,13 +374,13 @@ class Board < ApplicationRecord
   end
 
   def get_campaigns
-    @r_cps_first = campaigns.includes(:ad).where(provider_campaign: true, clasification: "budget").select{ |c| c.should_run?(id) }
-    @per_time_cps_first = campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_minute").to_a.select{ |c| c.should_run?(id) }
+    @r_cps_first = campaigns.includes(:ad).where(provider_campaign: true, classification: "budget").select{ |c| c.should_run?(id) }
+    @per_time_cps_first = campaigns.includes(:ad).where(provider_campaign: true, classification: "per_minute").to_a.select{ |c| c.should_run?(id) }
     @h_cps_first = []
     @campaign_names = []
     @hour_campaign_remaining_impressions = {}
 
-    campaigns.includes(:ad).where(provider_campaign: true, clasification: "per_hour").select{ |c| c.should_run?(id) }.each do |c|
+    campaigns.includes(:ad).where(provider_campaign: true, classification: "per_hour").select{ |c| c.should_run?(id) }.each do |c|
       sorted_impression_hours(self,c.impression_hours.to_a).each do |cpn|
         if should_run_hour_campaign_in_board?(cpn)
           @h_cps_first.append(cpn)
