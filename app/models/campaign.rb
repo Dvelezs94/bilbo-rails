@@ -301,14 +301,14 @@ class Campaign < ApplicationRecord
     end
   end
 
-  # Get total ammount of money invested on the campaign to date
-  def total_invested(start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
+  # Get total ammount of money invested on the campaign between dates
+  def total_invested_range(start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
     Impression.where(campaign_id: id, created_at: start_date..end_date).sum(:total_price)
   end
 
   def daily_impressions(start_date: 30.days.ago, end_date: Time.zone.now, board_id: nil)
     if board_id.nil?
-      impressions.where(created_at: start_date..end_date).group_by_day(:created_at).count
+      impressions.where(created_at: start_date..end_date).group_by_day(:created_at, format: "%b %d").count
     else
       impressions.where(created_at: start_date..end_date, board_id: board_id).group_by_day(:created_at).count
     end
