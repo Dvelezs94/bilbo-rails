@@ -42,7 +42,7 @@ class Impression < ApplicationRecord
 
   def update_balance_and_remaining_impressions
     self.campaign.project.owner.charge!(amount: self.total_price, camp_id: self.campaign_id)
-    if self.campaign.clasification == "budget" || self.campaign.clasification == "per_hour"
+    if self.campaign.classification == "budget" || self.campaign.classification == "per_hour"
       BoardsCampaigns.find_by(board: self.board, campaign: self.campaign).decrement!(:remaining_impressions)
     end
   end
