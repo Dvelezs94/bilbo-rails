@@ -8,11 +8,21 @@ class Impression < ApplicationRecord
   belongs_to :board
   belongs_to :campaign
   before_create :set_total_price
-  after_create :update_balance_and_remaining_impressions
-  after_create :increase_campaign_impression_count
-  after_create :continue_running_campaign
+  after_create :update_balance_and_remaining_impressions, :increase_campaign_impression_count, :update_people_reached, :continue_running_campaign
+
   def action #is used to make the action in board
     @action  || "delete" #default action is delete in front, if specified then keep
+  end
+
+  def update_people_reached
+    begin
+      total_people_reached = (self.board.people_per_second * self.campaign.true_duration(self.board_id)).round(0)
+      campaign = self.campaign
+      new_value = campaign.people_reached += total_people_reached.to_i
+      campaign.update_column(:people_reached, new_value)
+    rescue => e
+      Bugsnag.notify(e)
+    end
   end
   private
 
@@ -32,7 +42,7 @@ class Impression < ApplicationRecord
 
   def update_balance_and_remaining_impressions
     self.campaign.project.owner.charge!(amount: self.total_price, camp_id: self.campaign_id)
-    if self.campaign.clasification == "budget" || self.campaign.clasification == "per_hour"
+    if self.campaign.classification == "budget" || self.campaign.classification == "per_hour"
       BoardsCampaigns.find_by(board: self.board, campaign: self.campaign).decrement!(:remaining_impressions)
     end
   end

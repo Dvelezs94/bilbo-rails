@@ -205,7 +205,7 @@ ActiveRecord::Schema.define(version: 2021_02_08_213612) do
     t.string "slug"
     t.datetime "state_updated_at"
     t.boolean "provider_campaign"
-    t.integer "clasification", default: 0
+    t.integer "classification", default: 0
     t.integer "minutes"
     t.integer "imp"
     t.string "analytics_token"
@@ -364,7 +364,7 @@ ActiveRecord::Schema.define(version: 2021_02_08_213612) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-01-30 01:36:31"
+    t.datetime "expires_at", default: "2031-01-12 19:00:57"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"

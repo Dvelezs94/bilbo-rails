@@ -17,7 +17,7 @@
               %span#adName Ad Name
               / <a href="/" target="_blank" id=""> <i class="fe fe-link-external tx-20"></i> </a>
             %hr
-              -if "#{@campaign.clasification}" == "per_hour"
+              -if "#{@campaign.classification}" == "per_hour"
                 %strong= t('campaign.wizard.campaign_hour')
                 %br
                 %div#current_row_hours
@@ -36,7 +36,7 @@
                   %div.d-none#spend_summary
                     %span.dayOfWeek
                     %span.money
-              -if "#{@campaign.clasification}" == "per_minute"
+              -if "#{@campaign.classification}" == "per_minute"
                 %strong= t('campaign.wizard.campaign_minute')
                 %br
                   %strong#perMinute
@@ -44,7 +44,7 @@
                   %strong#perMinuteEnd
                   %span= t('campaign.wizard.minute')
                   %i.fe.fe-clock
-              -if "#{@campaign.clasification}" == "budget"
+              -if "#{@campaign.classification}" == "budget"
                 %strong= t('campaign.daily_budget')
                 %br
                   %span#dailyBudget
