@@ -150,6 +150,11 @@ es:
     accept: Aceptar campaña
     occupied: '% Ocupado'
     objective: Objetivo
+    type: Tipo
+    classification:
+      budget: Presupuesto
+      per_minute: Por minuto
+      per_hour: Por hora
     objectives:
       awareness: Reconocimiento
       awareness_description: Promociona tu marca o productos en las zonas seleccionadas
@@ -294,7 +299,7 @@ es:
       campaign_minute_description: Esta opción te permite escoger las impresiones que quieres que se muestren por minuto
       campaign_hour: Rango de hora
       campaign_hour_description: Con la opción rango de hora puedes escoger la hora en la que se muestran tus campañas
-      campaign_clasification: Tipo de campaña
+      campaign_classification: Tipo de campaña
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha
       start_date: Fecha de Inicio

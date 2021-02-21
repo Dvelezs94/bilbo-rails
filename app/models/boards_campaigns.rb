@@ -25,7 +25,7 @@ class BoardsCampaigns < ApplicationRecord
       if (status_changed?(to: "approved") || update_remaining_impressions)
         c = self.campaign
         b = self.board
-        if c.clasification == "budget"
+        if c.classification == "budget"
           st = Time.zone.parse(b.start_time.strftime("%H:%M"))
           et = Time.zone.parse(b.end_time.strftime("%H:%M"))
           current_time = Time.zone.now + 15.seconds
@@ -37,7 +37,7 @@ class BoardsCampaigns < ApplicationRecord
           max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * c.ad.duration/b.duration)).to_i
           self.remaining_impressions = max_imp - today_impressions
 
-        elsif c.clasification == "per_hour"
+        elsif c.classification == "per_hour"
           st = Time.zone.parse(b.start_time.strftime("%H:%M"))
           et = Time.zone.parse(b.end_time.strftime("%H:%M"))
           current_time = Time.zone.now + 15.seconds

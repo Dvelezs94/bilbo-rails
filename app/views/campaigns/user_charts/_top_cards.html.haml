@@ -18,7 +18,7 @@
     .card.card-body
         %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8= t("campaign.frequency.title")
         .d-flex.d-lg-block.d-xl-flex.align-items-end
-        %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1
+        %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1{style: "white-space: nowrap;"}
 
             - @freq = @campaign.frequency
             - if @freq != Float::INFINITY

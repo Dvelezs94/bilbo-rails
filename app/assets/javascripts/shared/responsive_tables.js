@@ -12,6 +12,11 @@ $(document).on('turbolinks:load', function() {
         sSearch: '',
         lengthMenu: '_MENU_ items/page'
       }
+      // commented because this causes the `actions` dropdown to dissapear
+      // scrollX: true,
+      // fixedColumns:   {
+      //   leftColumns: 2
+      // }
     });
     $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
   }
