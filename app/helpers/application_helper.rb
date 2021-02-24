@@ -19,7 +19,7 @@ module ApplicationHelper
   end
 
   def url_from_media(media)
-    if Rails.env.production? || Rails.env.staging?
+    if Rails.env.production? || Rails.env.staging? || Rails.env.demo?
       "https://#{ENV.fetch('CDN_HOST')}/#{media.blob.key}"
     else
       url_for(media)
@@ -118,7 +118,7 @@ module ApplicationHelper
   end
 
   def url_from_media_preview(media)
-    if Rails.env.production? || Rails.env.staging?
+    if Rails.env.production? || Rails.env.staging? || Rails.env.demo?
       "https://#{ENV.fetch('CDN_HOST')}#{URI.parse(media.service_url).path}"
     else
       url_for(media.image)
