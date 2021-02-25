@@ -21,6 +21,10 @@ staging:
   <<: *default
   database: bilbo_staging
 
+demo:
+  <<: *default
+  database: bilbo_demo
+
 
 production:
   <<: *default
