@@ -118,11 +118,6 @@ class Board < ApplicationRecord
     impressions.where(created_at: time_range).sum(:cycles)
   end
 
-  def daily_earnings(day = Time.now)
-    time_range = day.beginning_of_day..day.end_of_day
-    cycle_price(day) * daily_impressions_count(day)
-  end
-
   def monthly_earnings(start = Time.now)
       @chosen_month = Time.zone.now.beginning_of_month
       @start_date = @chosen_month - 1.month + 25.days
@@ -161,17 +156,18 @@ class Board < ApplicationRecord
   # a cycle is the total time of an impression duration
   # example a cycle could be of 10 seconds
   # this gives the price of a cycle in a bilbo
-  def cycle_price(date = Time.zone.now)
+  def cycle_price
     daily_seconds = working_minutes(start_time, end_time) * 60
-    total_days_in_month = date.end_of_month.day
+    total_days_in_month = 30
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = calculate_max_earnings
     (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration
   end
 
-  # there needs to be a sale currently running, otherwise it will return an error
-  def sale_cycle_price(date = Time.zone.now)
-    return current_sale.present?? (cycle_price(date) * ((current_sale.percent - 100).abs * 0.01)) : cycle_price(date)
+  # If a sale is running on the board, this will return the cycle_price with the discount
+  # otherwise it will return the default cycle_price of the board
+  def sale_cycle_price
+    return current_sale.present?? (cycle_price * ((current_sale.percent - 100).abs * 0.01)) : cycle_price
   end
 
   def calculate_old_max_earnings(bilbo_percentage: 20)
@@ -200,11 +196,6 @@ class Board < ApplicationRecord
   def dont_edit_online
     #new ad rotation nil
     errors.add(:base, "No puedes editar un bilbo en línea") if admin_edit
-  end
-
-  # Returns how many times a single board should play it
-  def rep_times(campaign)
-    cycle_price(DateTime.now)
   end
 
   # Return campaigns active
