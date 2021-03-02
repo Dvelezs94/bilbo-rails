@@ -33,7 +33,7 @@ module Bilbo
     # enable web console for all envs
     config.web_console.development_only = false
     # add skylight to demo environment
-    config.skylight.environments << "demo"
+    config.skylight.environments += ["demo"]
   end
 
 end
