@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     end
   end
 
+<<<<<<< HEAD
   resources :contents do
     collection do
       get :new_multimedia
@@ -40,6 +41,9 @@ Rails.application.routes.draw do
     end
   end
 
+=======
+  resources :contents
+>>>>>>> ad redesign first commit
   resources :ads do
     resources :attachments, only:  [:create, :destroy, :update]
       member do
