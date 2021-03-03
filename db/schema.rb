@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_225620) do
+ActiveRecord::Schema.define(version: 2021_02_25_025436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,6 +219,17 @@ ActiveRecord::Schema.define(version: 2021_03_24_225620) do
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
+  end
+
+  create_table "contents", force: :cascade do |t|
+    t.string "slug"
+    t.string "url"
+    t.string "multimedia"
+    t.bigint "project_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_contents_on_project_id"
+    t.index ["slug"], name: "index_contents_on_slug", unique: true
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -463,6 +474,7 @@ ActiveRecord::Schema.define(version: 2021_03_24_225620) do
   add_foreign_key "campaign_subscribers", "campaigns"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "projects"
+  add_foreign_key "contents", "projects"
   add_foreign_key "impression_hours", "campaigns"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
