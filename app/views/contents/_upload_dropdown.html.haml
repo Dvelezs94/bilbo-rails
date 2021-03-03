@@ -4,11 +4,19 @@
     %svg.feather.feather-chevron-down{:fill => "none", :height => "24", :stroke => "currentColor", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2", :viewbox => "0 0 24 24", :width => "24", :xmlns => "http://www.w3.org/2000/svg"}
       %polyline{:points => "6 9 12 15 18 9"}
   .dropdown-menu.tx-13{:style => "position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 27px, 0px);", "x-placement" => "bottom-start"}
+<<<<<<< HEAD
     = link_to new_multimedia_contents_path, remote: true, class: "dropdown-item" do
       %i.fe.fe-large.fe-file-image.pd-r-5.tx-16
       %span Subir imagen
     = link_to new_multimedia_contents_path, remote: true, class: "dropdown-item" do
       %i.fe.fe-large.fe-file-image.pd-r-5.tx-16
+=======
+    %a.dropdown-item{"data-toggle" => "modal", :href => "#modalUploadMultimedia"}
+      %i.fe.fe-large.fe-file-image.pd-r-5.tx-16
+      %span Subir imagen
+    %a.dropdown-item{"data-toggle" => "modal", :href => "#modalUploadMultimedia"}
+      %i.fe.fe-large.fe-file-movie.pd-r-5.tx-16
+>>>>>>> ad redesign first commit
       %span Subir video
     %a.dropdown-item{:href => ""}
       %i.fe.fe-large.fe-link-external.pd-r-5.tx-16

@@ -10,11 +10,28 @@
         = render "contents/upload_dropdown"
       / search-form
     / filemgr-content-header
+<<<<<<< HEAD
     .filemgr-content-body
       .pd-20.pd-lg-25.pd-xl-30
         %h4.mg-b-15.mg-lg-b-25= t("ads.all_multimedia_files")
         #multimediaElements.card-group
           = render partial: "single_multimedia", collection: @contents, as: :content
+=======
+-#     .filemgr-content-body
+-#       - if @content.multimedia.attached?
+-#         .pd-20.pd-lg-25.pd-xl-30
+-#           / %h4.mg-b-15.mg-lg-b-25= t("ads.all_multimedia_files")
+-#           #multimediaElements.card-group
+-#             = render partial: "show_single_multimedia", collection: @ad.multimedia, as: :multimedia
+-#       - else
+-#         .container.ht-100p.tx-center
+-#           .row.pd-pr-10.justify-content-center
+-#             .col-10.col-sm-6.col-md-4.col-lg-3.mg-t-40.mg-sm-t-0.d-flex.flex-column
+-#               %a{"data-toggle" => "modal", :href => "#modalUploadMultimedia"}
+-#                 .tx-100.lh-1.tx-gray-500
+-#                   %i.fe.fe-upload
+-#                   %p.tx-14= t("ads.upload_multimedia")
+>>>>>>> ad redesign first commit
 -#
 -#         / row
 -#     / filemgr-content-body
@@ -50,3 +67,8 @@
 -#     / filemgr-content-body
 -# / filemgr-wrapper
 -# / content
+<<<<<<< HEAD
+=======
+
+= render partial: "contents/upload_multimedia"
+>>>>>>> ad redesign first commit
