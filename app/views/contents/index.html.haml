@@ -1,0 +1,63 @@
+= render 'shared/header', menu: "contents"
+.filemgr-wrapper
+  = render "contents/sidebar"
+  #multimediaTab.filemgr-content
+    .filemgr-content-header.white-background.d-flex.align-items-center.justify-content-between
+      .search-form.w-50p
+        %i.fe.fe-search.pd-r-5.fnt-md
+        %input#searchMultimedia.form-control{:placeholder => t("general_inputs.search"), :type => "search"}/
+      .btn.btn-xs.btn-primary.d-block.d-sm-none
+        = render "contents/upload_dropdown"
+      / search-form
+    / filemgr-content-header
+-#     .filemgr-content-body
+-#       - if @content.multimedia.attached?
+-#         .pd-20.pd-lg-25.pd-xl-30
+-#           / %h4.mg-b-15.mg-lg-b-25= t("ads.all_multimedia_files")
+-#           #multimediaElements.card-group
+-#             = render partial: "show_single_multimedia", collection: @ad.multimedia, as: :multimedia
+-#       - else
+-#         .container.ht-100p.tx-center
+-#           .row.pd-pr-10.justify-content-center
+-#             .col-10.col-sm-6.col-md-4.col-lg-3.mg-t-40.mg-sm-t-0.d-flex.flex-column
+-#               %a{"data-toggle" => "modal", :href => "#modalUploadMultimedia"}
+-#                 .tx-100.lh-1.tx-gray-500
+-#                   %i.fe.fe-upload
+-#                   %p.tx-14= t("ads.upload_multimedia")
+-#
+-#         / row
+-#     / filemgr-content-body
+-#   / filemgr-content
+-#   #configurationTab.filemgr-content.fm-content-grey.d-none
+-#     / filemgr-content-header
+-#     .filemgr-content-body
+-#       .pd-20.pd-lg-25.pd-xl-30
+-#         %h4.mg-b-15.mg-lg-b-25= t("nav_headers.configuration")
+-#         .col-sm-12.col-lg-4.pd-0
+-#           .pd-0
+-#             = form_for(@ad) do |f|
+-#               .form-group
+-#                 = f.label t("ads.name")
+-#                 %br/
+-#                 = f.text_field :name, class: "form-control", required: true
+-#               .form-group
+-#                 = f.label t("ads.description")
+-#                 %br/
+-#                 = f.text_area :description, class: "form-control"
+-#               - if current_user.is_provider?
+-#                 .form-group
+-#                   = f.label t("ads.duration")
+-#                   %br/
+-#                   %span.tx-13.tx-color-03.mg-b-0
+-#                     = t("ads.duration_hint")
+-#                   = f.number_field :duration, min: 10, max: 60, step: 10, required: true, class: "form-control"
+-#               .form-group
+-#                 = link_to raw("<i class='fe fe-trash'></i> " + t("ads.delete_ad")), ad_path(@ad), method: :delete, class: "tx-danger tx-15 confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
+-#               .actions
+-#                 = f.submit t("general_inputs.update"), class: "btn btn-primary btn-block"
+-#         / row
+-#     / filemgr-content-body
+-# / filemgr-wrapper
+-# / content
+
+= render partial: "contents/upload_multimedia"

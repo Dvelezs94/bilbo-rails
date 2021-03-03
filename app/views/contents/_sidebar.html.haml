@@ -1,0 +1,31 @@
+.filemgr-sidebar
+  .filemgr-sidebar-header
+    = render "contents/upload_dropdown"
+  / filemgr-sidebar-header
+  .filemgr-sidebar-body
+    .pd-t-20.pd-b-10.pd-x-10
+      %label.tx-sans.tx-uppercase.tx-medium.tx-10.tx-spacing-1.tx-color-03.pd-l-10
+        Filtrar Contenido
+      %nav.nav.nav-sidebar.tx-13
+        %a#noFilter.nav-link.active{:href => ""}
+          %i.pd-x-5.fnt-md.fe.fe-file
+          %span Todo el contenido
+        %a#imageFilter.nav-link{:href => ""}
+          %i.pd-x-5.fnt-md.fe.fe-file-image
+          %span Imágenes
+        %a#imageFilter.nav-link{:href => ""}
+          %i.pd-x-5.fnt-md.fe.fe-file-movie
+          %span Videos
+        %a#imageFilter.nav-link{:href => ""}
+          %i.pd-x-5.fnt-md.fe.fe-link-external
+          %span Páginas Web
+        %a#imageFilter.nav-link{:href => ""}
+          %i.pd-x-5.fnt-md.fe.fe-folder
+          %span Grupos
+    #content-groups.pd-10.pre-scrollable
+      %label.tx-sans.tx-uppercase.tx-medium.tx-10.tx-spacing-1.tx-color-03.pd-l-10
+        Grupos
+      %nav.nav.nav-sidebar.tx-13
+        %a#imageFilter.nav-link{:href => ""}
+          %i.pd-x-5.fnt-md.fe.fe-folder-open
+          %span.text-single-line Ejemplo 1

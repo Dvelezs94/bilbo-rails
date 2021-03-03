@@ -15,6 +15,7 @@ class Project < ApplicationRecord
   has_many :ads
   has_many :boards
   has_many :reports
+  has_many :contents
   # the project has notifications so all users in the project can see them
   has_many :notifications, foreign_key: :recipient_id
   after_commit :disable_campaigns!, on: :update
