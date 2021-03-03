@@ -1,49 +1,49 @@
 $(document).on('turbolinks:load', function() {
-$(function(){
-  if ($(".filemgr-sidebar-body").length) {
-  'use strict'
+  $(function(){
+    if ($(".filemgr-sidebar-body").length) {
+    'use strict'
 
-    new PerfectScrollbar('.filemgr-sidebar-body', {
-      suppressScrollX: true
-    });
+      new PerfectScrollbar('.filemgr-sidebar-body', {
+        suppressScrollX: true
+      });
 
-    new PerfectScrollbar('.filemgr-content-body', {
-      suppressScrollX: true
-    });
+      new PerfectScrollbar('.filemgr-content-body', {
+        suppressScrollX: true
+      });
 
-    $('#filemgrMenu').on('click', function(e){
-      e.preventDefault();
+      $('#filemgrMenu').on('click', function(e){
+        e.preventDefault();
 
-      $('body').addClass('filemgr-sidebar-show');
+        $('body').addClass('filemgr-sidebar-show');
 
-      $(this).addClass('d-none');
-      $('#mainMenuOpen').removeClass('d-none');
-    });
+        $(this).addClass('d-none');
+        $('#mainMenuOpen').removeClass('d-none');
+      });
 
-    $(document).on('click touchstart', function(e){
-      e.stopPropagation();
-    });
+      $(document).on('click touchstart', function(e){
+        e.stopPropagation();
+      });
 
 
-    $('.important').on('click', function(e){
-      e.preventDefault();
+      $('.important').on('click', function(e){
+        e.preventDefault();
 
-      var parent = $(this).closest('.card-file');
-      var important = parent.find('.marker-icon');
+        var parent = $(this).closest('.card-file');
+        var important = parent.find('.marker-icon');
 
-      if(!important.length) {
-        $(this).closest('.card-file').append('<div class="marker-icon marker-warning pos-absolute t--1 l--1"><i data-feather="star"></i></div>');
+        if(!important.length) {
+          $(this).closest('.card-file').append('<div class="marker-icon marker-warning pos-absolute t--1 l--1"><i data-feather="star"></i></div>');
 
-        $(this).html('<i data-feather="star"></i> Unmark as Important');
+          $(this).html('<i data-feather="star"></i> Unmark as Important');
 
-      } else {
-        important.remove();
+        } else {
+          important.remove();
 
-        $(this).html('<i data-feather="star"></i> Mark as Important');
-      }
+          $(this).html('<i data-feather="star"></i> Mark as Important');
+        }
 
-      feather.replace();
-    })
-  }
-});
+        feather.replace();
+      })
+    }
+  });
 });
