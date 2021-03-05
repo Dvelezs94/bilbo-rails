@@ -44,9 +44,9 @@ class ExternalSourcesController < ApplicationController
 
     def redirect_to_board
       if cookies.signed[:mac_address]
-        redirect_to board_path(cookies.signed[:board_slug], access_token: cookies.signed[:board_token], mac_address: cookies.signed[:mac_address], autoplay: true)
+        redirect_to board_path(cookies.signed[:board_slug], access_token: cookies.signed[:board_token], mac_address: cookies.signed[:mac_address])
       else
-        redirect_to board_path(cookies.signed[:board_slug], access_token: cookies.signed[:board_token], autoplay: true)
+        redirect_to board_path(cookies.signed[:board_slug], access_token: cookies.signed[:board_token])
       end
    end
 end

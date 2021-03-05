@@ -22,9 +22,7 @@
      },(timeUntilNextStart()-5)*1000) //Time for next start hour of the board
 
      // Start stream
-     $(".start-stream").click(function() {
        rotation_key = getIndex($("#start_time").val());
-       $(".start-stream").hide();
        $(".board-ads").attr('style', 'display:block !important');
        // give 5 seconds to load all images and videos
        setTimeout(function() {
@@ -32,31 +30,6 @@
          rotateAds = setInterval(showAd, board_duration);
        }, 5000);
 
-     });
-
-     // Stop stream
-     $("body").keyup(function(e) {
-       // Stop option only if its started
-       if ($(".start-stream").is(":hidden")) {
-         // stop if Escape key is pressed
-         if (e.keyCode === 27) {
-           $(".start-stream").attr('style', 'display:block !important');
-           $(".board-ads").hide();
-           $("#bilbo-ad").hide();
-           clearInterval(rotateAds);
-           $(".board-ad-inner").css({
-             display: "none"
-           });
-         }
-       }
-     });
-
-     // auto start
-     // &autoplay=true should be added to the params on the url
-     if ($.urlParam('autoplay') == "true") {
-       console.log("starting autoplay");
-       $(".start-stream").trigger("click");
-     }
 
      ///////////////////// FUNCTIONS  /////////////////////
 

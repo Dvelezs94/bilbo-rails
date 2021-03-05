@@ -11,7 +11,7 @@
       %p.tx-12.tx-uppercase.tx-semibold.tx-spacing-1.tx-color-02= t("bilbos.earnings_month")
       - if @project.admins.include?(current_user.id) || current_user.is_admin?
         %p.tx-30.mg-b-0
-          %a.clipboard-btn{"data-clipboard-text" => "#{board_url(board, access_token: board.access_token, mac_address: board.mac_address , autoplay: true)}", :href => ""}
+          %a.clipboard-btn{"data-clipboard-text" => "#{board_url(board, access_token: board.access_token, mac_address: board.mac_address)}", :href => ""}
             %i.mg-r-5.material-icons &#xe14d;
           = link_to board_path(board, access_token: board.access_token, mac_address: board.mac_address), target: "blank" do
             %i.mg-r-5.fe.fe-play
