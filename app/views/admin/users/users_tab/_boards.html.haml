@@ -20,7 +20,7 @@
         %h4.tx-normal.tx-rubik.tx-40.tx-spacing--1.mg-b-0= number_to_currency_usd(board.monthly_earnings)
         %p.tx-12.tx-uppercase.tx-semibold.tx-spacing-1.tx-color-02= t("bilbos.earnings_month")
         %p.tx-30.mg-b-0
-          %button.clipboard-btn{:style => "background: none!important; border: none; padding: 0!important; font-family: arial, sans-serif; color: #0168fa; cursor: pointer;","data-clipboard-text" => "#{board_url(board, access_token: board.access_token)}", :href => ""}
+          %button.clipboard-btn{:style => "background: none!important; border: none; padding: 0!important; font-family: arial, sans-serif; color: #0168fa; cursor: pointer;","data-clipboard-text" => "#{board_url(board, access_token: board.access_token, mac_address: board.mac_address)}", :href => ""}
             %i.mg-r-5.material-icons &#57677;
           = link_to board_path(board, access_token: board.access_token, mac_address: board.mac_address), target: "blank" do
             %i.mg-r-5.fe.fe-play
