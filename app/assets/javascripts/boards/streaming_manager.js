@@ -1,5 +1,5 @@
  $(document).on('turbolinks:load', function() {
-   if ($("#api_token").length) {
+   if ($("#api_token").length && document.URL.includes( $("[data-board]").attr("data-board") + "?access_token=" + $("#access_token").val())) {
      // initiate graphql
      var graph = graphql("/api")
      var rotateAds;
