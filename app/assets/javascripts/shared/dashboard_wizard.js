@@ -19,11 +19,12 @@ $(document).on('turbolinks:load', function () {
         if (currentIndex < newIndex) {
           // Step 1 form validation
           if (currentIndex === 0) {
-            var campaignadid = $('#campaign_ad_id').parsley();
-            if (campaignadid.isValid()) {
+            var campaignboards = $('#campaign_boards').parsley();
+
+            if (campaignboards.isValid()) {
               return true;
             } else {
-              campaignadid.validate();
+              campaignboards.validate();
             }
           }
 
@@ -60,12 +61,12 @@ $(document).on('turbolinks:load', function () {
             if ($('#impressions').length) {
               calculateImpressions();
             }
-            var campaignboards = $('#campaign_boards').parsley();
 
-            if (campaignboards.isValid()) {
+            var campaignadid = $('#campaign_ad_id').parsley();
+            if (campaignadid.isValid()) {
               return true;
             } else {
-              campaignboards.validate();
+              campaignadid.validate();
             }
           }
 
@@ -191,12 +192,8 @@ $(document).on('turbolinks:load', function () {
         }
       },
       onStepChanged: function (event, currentIndex, priorIndex) {
-        // update summary on ads change
+        // update summary on map change
         if (priorIndex === 0) {
-          $('#adName').text($('.wizard_selected_ad .card-body').text());
-          getadwizard();
-          // update summary on map change
-        } else if (priorIndex === 1) {
           // update summary on budget and date change
           $('#bilbosAddress').empty();
           $('#selected_boards option:not(:eq(0))').each(function () {
@@ -213,6 +210,10 @@ $(document).on('turbolinks:load', function () {
           if ($('#impressions').length == 1)
             $('#impressions')[0].style.width =
               ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
+        // update summary on ads change
+        } else if (priorIndex === 1) {
+          $('#adName').text($('.wizard_selected_ad .card-body').text());
+          getadwizard();
         } else if (priorIndex === 2) {
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());

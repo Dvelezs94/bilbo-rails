@@ -18,8 +18,8 @@
     = form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, class: "edit_campaign", remote: true) do |f|
       #dashboardWizard.mg-b-10
         = f.submit("Enviar", class: "d-none")
-        = render partial: "campaigns/wizard/pick_creative", locals: {f: f}
         = render partial: "campaigns/wizard/choose_bilbo", locals: {f: f}
+        = render partial: "campaigns/wizard/pick_creative", locals: {f: f}
         = render partial: "campaigns/wizard/#{@campaign.classification}", locals: {f: f}
         - if @campaign.interaction?
           = render partial: "campaigns/wizard/track", locals: {f: f}
