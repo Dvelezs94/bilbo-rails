@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 2021_04_16_155107) do
-=======
-ActiveRecord::Schema.define(version: 2021_02_25_025436) do
->>>>>>> ad redesign first commit
+ActiveRecord::Schema.define(version: 2021_03_24_225620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,8 +157,6 @@ ActiveRecord::Schema.define(version: 2021_02_25_025436) do
     t.integer "displays_number", default: 1
     t.datetime "ads_rotation_updated_at"
     t.string "restrictions"
-    t.float "minimum_budget", default: 50.0
-    t.boolean "smart", default: true
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -230,12 +224,8 @@ ActiveRecord::Schema.define(version: 2021_02_25_025436) do
   create_table "contents", force: :cascade do |t|
     t.string "slug"
     t.string "url"
-<<<<<<< HEAD
     t.string "multimedia_data"
     t.integer "duration", default: 10
-=======
-    t.string "multimedia"
->>>>>>> ad redesign first commit
     t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -243,7 +233,6 @@ ActiveRecord::Schema.define(version: 2021_02_25_025436) do
     t.index ["slug"], name: "index_contents_on_slug", unique: true
   end
 
-<<<<<<< HEAD
   create_table "contents_board_campaigns", force: :cascade do |t|
     t.bigint "content_id", null: false
     t.bigint "boards_campaigns_id", null: false
@@ -253,8 +242,6 @@ ActiveRecord::Schema.define(version: 2021_02_25_025436) do
     t.index ["content_id"], name: "index_contents_board_campaigns_on_content_id"
   end
 
-=======
->>>>>>> ad redesign first commit
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -498,11 +485,8 @@ ActiveRecord::Schema.define(version: 2021_02_25_025436) do
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "projects"
   add_foreign_key "contents", "projects"
-<<<<<<< HEAD
   add_foreign_key "contents_board_campaigns", "boards_campaigns", column: "boards_campaigns_id"
   add_foreign_key "contents_board_campaigns", "contents"
-=======
->>>>>>> ad redesign first commit
   add_foreign_key "impression_hours", "campaigns"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
