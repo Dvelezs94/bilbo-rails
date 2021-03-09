@@ -1,6 +1,7 @@
 $(document).on('turbolinks:load', function() {
   if ($("#drag-drop-area").length) {
     var create_attachment_url = document.location.protocol +"//"+ document.location.hostname + document.location.pathname + "/attachments";
+    console.log(create_attachment_url);
     const ProgressBar = Uppy.ProgressBar
     var uppy = Uppy.Core({
       restrictions: {
@@ -39,7 +40,7 @@ $(document).on('turbolinks:load', function() {
     })
 
     uppy.on('upload-error', (file, error, response) => {
-      show_error("Make sure you have all ad blockers disabled");
+      show_error(error);
     })
   }
 });
