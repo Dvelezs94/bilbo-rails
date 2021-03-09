@@ -26,7 +26,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :contents
+  resources :contents do
+    collection do
+      get :new_multimedia
+    end
+  end
   resources :ads do
     resources :attachments, only:  [:create, :destroy, :update]
       member do

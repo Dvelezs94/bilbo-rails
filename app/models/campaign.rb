@@ -17,6 +17,7 @@ class Campaign < ApplicationRecord
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :boards, through: :board_campaigns
   has_many :provider_invoices
+  #validate :duration_multiple_of_10, if: :duration_changed?
 
   amoeba do
     enable
@@ -86,6 +87,12 @@ class Campaign < ApplicationRecord
     total_minutes = boards.sum(&:working_minutes) * number_of_days
     freq = total_minutes.to_f / (impression_count * boards.count)
     freq.round(1)
+  end
+
+  def duration_multiple_of_10
+    if (duration % 10) != 0 || duration <= 0 || duration > 60
+      errors.add(:base, I18n.t('ads.errors.is_not_multiple_of_10'))
+    end
   end
 
   def generate_shorten_url
