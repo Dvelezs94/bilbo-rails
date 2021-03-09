@@ -2,6 +2,7 @@ class BoardsCampaigns < ApplicationRecord
     include BroadcastConcern
     include NotificationsHelper
     attr_accessor :board_errors, :make_broadcast, :owner_updated_campaign, :update_remaining_impressions
+    has_many :content_board_campaign, class_name: "ContentsBoardCampaign"
     belongs_to :campaign
     belongs_to :board
     belongs_to :sale, optional: true
