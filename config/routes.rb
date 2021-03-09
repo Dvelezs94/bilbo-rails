@@ -26,24 +26,24 @@ Rails.application.routes.draw do
     end
   end
 
-<<<<<<< HEAD
   resources :contents do
+    member do
+      get :contents_modal_review
+    end
     collection do
       get :new_multimedia
+      get :new_url
       get :create_content_on_campaign
     end
   end
 
   resources :contents_board_campaign do
     collection do
-      get :multimedia
-      get :get_content
+      get :get_contents_wizard_modal
+      get :get_selected_content
     end
   end
 
-=======
-  resources :contents
->>>>>>> ad redesign first commit
   resources :ads do
     resources :attachments, only:  [:create, :destroy, :update]
       member do
