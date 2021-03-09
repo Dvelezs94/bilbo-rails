@@ -1,0 +1,20 @@
+#modalNewMultimedia.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        -# %h5.tx-18.tx-sm-20= t("campaign.bilbos_used")
+        .row
+          .col-12.m-auto
+            = form_with(model: @content, url: contents_path, method: :post, :html => { :id => "new_content", data: { parsley_validate: true } }, remote: true) do |f|
+              = f.hidden_field :multimedia, value: @content.cached_multimedia_data
+              = f.file_field :multimedia, class: "form-control"
+              = f.submit "Enviar"
+
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+      / modal-footer
+    / modal-content
+  / modal-dialog
+/ modal
