@@ -149,3 +149,4 @@ gem 'clicksend', '~> 0.0.3'
 # File uploads to S3
 gem 'carrierwave', '~> 2.2'
 gem 'fog-aws', '~> 3.8'
+gem 'shrine', '~> 3.3'
