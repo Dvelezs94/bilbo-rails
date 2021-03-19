@@ -11,21 +11,27 @@
         <div class="row">
           <div class="col-12 m-auto">
             <div class="pd-20">
-              <%= form_with(model: Board, url: boards_path, method: :post, :html => { :id => "new_board", data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, local: false) do |f| %>
+              <%= form_with(model: Board, url: boards_path, method: :post, :html => { :id => "new_board", data: { parsley_validate: true, parsley_errors_messages_disabled: true, remote: false } }) do |f| %>
 
 
               <div class="form-group" id="new" >
                 <%= f.label t("bilbos.provider") %>
-                <%= f.autocomplete_field :user_email, autocomplete_user_email_searches_path, :append_to => "#new", class: "form-control", :id_element => '#some_element', placeholder: t("bilbos.provider"), 'data-showNoMatches' => false, type: 'email', :fields => {:roles => '#roles_element'} %>
+                <%= f.autocomplete_field :user_email, autocomplete_user_email_searches_path, :append_to => "#new", class: "form-control", :id_element => '#some_element', placeholder: t("bilbos.provider"), 'data-showNoMatches' => false, type: 'email', :required => true, :fields => {:roles => '#roles_element'}, remote: true %>
                 <%= f.hidden_field :project_id, id:"some_element"%>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="csvCheck">
+                  <%= check_box_tag 'csv'%>
+                  <%= label_tag(:csv, "Upload from csv") %>
+                  <%= f.file_field :upload_from_csv, multiple: false, required: false, class: "form-control" %>
+             </div>
+
+              <div class="form-group" id="name">
                 <%= f.label t("general_inputs.name") %><br/>
                 <%= f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name") %>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="address">
                 <%= f.label t("general_inputs.address") %><br/>
                 <div class="row">
                   <div class="col-12 mg-b-10">
@@ -43,7 +49,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="info">
                 <div class="row">
                   <div class="col-sm-12 col-md-4">
                     <%= f.label t('bilbos.category') %>
@@ -60,7 +66,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="expectedProfit">
                 <div class="row">
                   <div class="col-sm-12 col-md-6">
                     <%= f.label t('bilbos.expected_profit') %>
@@ -78,7 +84,7 @@
                   <div class="col-sm-12 col-md-6">
                     <%= f.label t('bilbos.extra_percentage_earnings') %>
                     <div class="input-group mg-b-10">
-                      <%= f.text_field :extra_percentage_earnings, class: "form-control", required: true, placeholder: "0" %>
+                      <%= f.text_field :extra_percentage_earnings, class: "form-control", placeholder: "0" %>
                       <div class="input-group-append">
                         <span class="input-group-text">%</span>
                       </div>
@@ -87,7 +93,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="face">
                 <%= f.label t('bilbos.face') %><br/>
                 <%= f.text_field :face, class: "form-control", autocomplete: "off", required: true, placeholder: t('bilbos.face'), list: "faces" %>
                 <datalist id="faces">
@@ -99,7 +105,7 @@
                 </datalist>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="socialClass">
                 <%= f.label " Social class" %><br/>
                 <%= f.text_field :social_class, class: "form-control", autocomplete: "off", required: true, placeholder: "A", list: "social" %>
                 <datalist id="social">
@@ -110,7 +116,7 @@
                 </datalist>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="dimensions">
                 <%= f.label t('bilbos.dimensions') %><br/>
                 <div class="row">
                   <div class="col-6">
@@ -122,7 +128,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="activeTime">
                 <div class="row">
                   <div class="col-6">
                     <%= f.label t("bilbos.start_time") %><br/>
@@ -135,7 +141,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="imagesOnly">
                 <div class="row">
                   <div class="col-6">
                     <%= f.label t("bilbos.ad_duration") %><br/>
@@ -151,16 +157,16 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" id="macAddr">
                 <%= f.label t("bilbos.mac_address") %>
                 <%= f.text_field :mac_address, class: "form-control", placeholder: "aa:bb:cc:dd:ee:ff"%>
               </div>
 
-               <div class="form-group">
+               <div class="form-group" id="images">
                 <%= f.label :images %>
                 <%= f.file_field :images, required: true, multiple: true, class: "form-control"%>
               </div>
-              <div class="form-group">
+              <div class="form-group" id="defaultImages">
                <%= f.label :default_images %>
                <%= f.file_field :default_images, multiple: true, required: true, class: "form-control"%>
              </div>
