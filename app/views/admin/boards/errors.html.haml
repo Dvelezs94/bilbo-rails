@@ -1,0 +1,12 @@
+= render 'shared/header_admin', menu: "campaigns"
+
+%div.pd-t-60
+  %h4 Couldn't create some of the boards from the provided csv file
+
+  - @errors.each do |name, messages|
+    %br
+    = name
+    %br
+    - messages.each do |msg|
+      =msg
+      %br
