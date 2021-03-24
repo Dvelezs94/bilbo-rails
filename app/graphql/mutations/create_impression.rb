@@ -1,10 +1,10 @@
 class Mutations::CreateImpression < Mutations::BaseMutation
   argument :api_token, String, required: true
-  argument :mutationid, String, required: true
+  argument :mutationid, ID, required: true
   argument :board_slug, String, required: true
-  argument :campaign_id, String, required: true
+  argument :campaign_id, ID, required: true
   argument :cycles, Integer, required: true
-  argument :created_at, GraphQL::Types::ISO8601DateTime, required: true
+  argument :created_at, String, required: true
 
   field :impression, Types::ImpressionType, null: false
   field :action, String, null: false
