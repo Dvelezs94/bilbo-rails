@@ -209,11 +209,6 @@ $(document).on('turbolinks:load', function () {
           if ($('#impressions').length == 1)
             $('#impressions')[0].style.width =
               ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
-        // update summary on ads change
-        } else if (priorIndex === 1) {
-          //$('#adName').text($('.wizard_selected_ad .card-body').text());
-          //getadwizard();
-
         } else if (priorIndex === 2) {
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());
@@ -592,9 +587,9 @@ function content_info(){
     selected_boards = boards.val();
   }
   $.ajax({
-    url:  "/campaigns/content_info",
+    url:  "/campaigns/"+$("#campaign_id").val()+"/get_boards_content_info",
     dataType: "script",
-    data: {selected_boards: selected_boards, campaign: $("#campaign_id").val()},
+    data: {selected_boards: selected_boards},
     success: function(data) {
     },
     error: function(data) {
@@ -605,30 +600,24 @@ function content_info(){
 
 function append_content(){
   $('#modalContent').modal('hide');
-  content_board = $('#'+$('#slug-board').val())
-  if(content_board.length > 0){
-    var selected_content_modal = document.getElementsByClassName("wizard_selected_ad");
-    var i;
-    for (i = 0; i < selected_content_modal.length; i++) {
-      value_content = content_board.val()
-      tmp = selected_content_modal[i].getAttribute('data-content');
-      if (value_content.split(" ").includes(tmp) == false){
-        if(value_content == ""){
-          content_board.val(tmp)
-        }else{
-          content_board.val(value_content + " " + tmp)
-        }
-      }
-    }
-  }
+  content_board = $('#'+$('#slug-board').val());
+  content_board.val("");
+  checkbox_selected = $('input[type="checkbox"]:checked');
+  content_ids = [];
+  $('input[type="checkbox"]:checked').each(function() {
+     content = this.id.split("pickContent");
+     content_ids.push(content[1]);
+  });
+  cont_ids = content_ids.toString().replace(/,/g , " ");
+  content_board.val(cont_ids);
   showContent(content_board);
 }
 
 function showContent(content_board){
   $.ajax({
-    url:  "/contents_board_campaign/get_content",
+    url:  "/contents_board_campaign/get_selected_content",
     dataType: "script",
-    data: {selected_contents: content_board.val(), board_slug: $('#slug-board').val()},
+    data: {selected_contents: content_board.val(), board_slug: $('#slug-board').val(), campaign: $("#campaign_id").val()},
     success: function(data) {
     },
     error: function(data) {
