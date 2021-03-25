@@ -2,7 +2,7 @@ class BoardsCampaigns < ApplicationRecord
     include BroadcastConcern
     include NotificationsHelper
     attr_accessor :board_errors, :make_broadcast, :owner_updated_campaign, :update_remaining_impressions
-    has_many :content_board_campaign, class_name: "ContentsBoardCampaign"
+    has_many :contents_board_campaign, class_name: "ContentsBoardCampaign", :dependent => :delete_all
     belongs_to :campaign
     belongs_to :board
     belongs_to :sale, optional: true
@@ -11,7 +11,6 @@ class BoardsCampaigns < ApplicationRecord
     before_save :notify_users, if: :will_save_change_to_status?
     before_update :calculate_remaining_impressions
     after_commit :add_or_stop_campaign, if: :make_broadcast
-
     private
     def add_or_stop_campaign
       err = board.broadcast_to_board(campaign)
@@ -35,7 +34,9 @@ class BoardsCampaigns < ApplicationRecord
           #Count impressions already created from the current ads rotation
           impression_count = current_time.between?(st,et)? c.daily_impressions(start_date: st, end_date: et, board_id: b.id) : {}
           today_impressions = impression_count.present?? impression_count.values.sum : 0
-          max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * c.ad.duration/b.duration)).to_i
+          #max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * c.ad.duration/b.duration)).to_i
+          ######################################Cambiar esto
+          max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * 10/b.duration)).to_i
           self.remaining_impressions = max_imp - today_impressions
 
         elsif c.classification == "per_hour"

@@ -31,6 +31,14 @@ Rails.application.routes.draw do
       get :new_multimedia
     end
   end
+
+  resources :contents_board_campaign do
+    collection do
+      get :multimedia
+      get :get_content
+    end
+  end
+
   resources :ads do
     resources :attachments, only:  [:create, :destroy, :update]
       member do
@@ -41,6 +49,9 @@ Rails.application.routes.draw do
       end
   end
   resources :campaigns do
+    collection do
+      get :content_info
+    end
     resources :campaign_subscribers, path: "subscribers", as: :subscribers, except: [:edit] do
       collection do
         get :edit

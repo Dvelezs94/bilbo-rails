@@ -1,0 +1,17 @@
+.modal-header
+  %h5.modal-title.tx-bold Elige el contenido para #{@board_name}
+  %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+  %span{"aria-hidden" => "true"}
+  X
+.modal-body
+  .container-fluid
+    .row
+      .col-6
+        = render "contents/sidebar"
+      .col-6
+        .container
+          .row.align-items-start
+            = render :partial => 'campaigns/wizard/single_content_modal', collection: @contents, as: :content
+.modal-footer
+  = button_tag "Siguiente", type: 'button', onclick: "append_content();", class: "btn btn-primary"
+%input#slug-board.d-none{:readonly => "readonly", :value => "#{@slug.to_s}"}/

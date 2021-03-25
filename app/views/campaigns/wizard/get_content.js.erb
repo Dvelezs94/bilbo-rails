@@ -1,0 +1,2 @@
+// Append the images of selected bilbo
+$('#images-'+$('#slug-board').val()).html("<%= j render partial: 'campaigns/wizard/show_selected_content', collection: @selected_contents, as: :img, locals: {board_slug: @board_slug} %>");
