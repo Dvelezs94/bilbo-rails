@@ -236,6 +236,12 @@ details[open] summary:after {
      right: 10px;
 }
 
+.bottom-left {
+     position: fixed;
+     bottom: 10px;
+     left: 10px;
+}
+
 .card-link-underline {
   color: white;
   font-size: 11px;
