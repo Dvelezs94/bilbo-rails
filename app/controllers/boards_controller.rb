@@ -222,6 +222,7 @@ class BoardsController < ApplicationController
                                   :mac_address,
                                   :keep_old_cycle_price_on_active_campaigns,
                                   :displays_number,
+                                  :restrictions,
                                   images: [],
                                   default_images: []
                                   )
@@ -294,7 +295,8 @@ class BoardsController < ApplicationController
       item = {}
       item[:project_id] = project_id
 
-      item[:name] = row["Nombre"]
+      item[:name] = [row["TIPO"], row["Nombre"]].filter{|a| a.present?}.join(' ')
+      item[:name] = nil if item[:name] == "" #Do not allow empty string as a name, set it to nil to raise an error
 
       # Google Maps info to get lat and lon
       unformatted_addr = [row["DOMICILIO"], row["COLONIA"], row["CP"], row["MUNICIPIO"], row["ESTADO"]].filter{|a| a.present?}.join(', ')
@@ -326,9 +328,15 @@ class BoardsController < ApplicationController
       #Duration is missing
       item[:duration] = row["Duracion de anuncio (s)"].to_i
 
+      item[:restrictions] = split_restrictions(row["Restricciones"] || "").to_json
+
       item[:images_only] = !(["mp4","video"].map{|format| row["Formato"].downcase.include? format}.any?) #Set images only to true if video or mp4 is not present in format column
 
       @board = Board.new(item) #Create the board with the info collected above
+      if @board.name.nil?
+        @errors.append(["(Sin nombre) (fila #{index+1})", ["No se pudo guardar el board","El nombre del bilbo no puede estar vacío"]])
+        next
+      end
 
       if row["Imagenes"].present?  #Load images from urls if they are provided
         row["Imagenes"].split().each_with_index do |url, index|
@@ -376,5 +384,13 @@ class BoardsController < ApplicationController
       @errors.append([(@board.name || "(Sin nombre)") + " (fila #{index+1})", brd_errors]) if brd_errors.present?
 
     end
+  end
+
+  def split_restrictions(concat_restricctions)
+    #Remove content in parenthesis
+    concat_restricctions = concat_restricctions.gsub /\((.*?)\)/, ''
+
+    #Separate items by commas
+    return concat_restricctions.split(',').map{|s| s.strip}
   end
 end
