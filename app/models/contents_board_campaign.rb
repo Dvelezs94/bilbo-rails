@@ -1,4 +1,4 @@
 class ContentsBoardCampaign < ApplicationRecord
   belongs_to :content
-  belongs_to :board_campaigns
+  belongs_to :boards_campaigns
 end
