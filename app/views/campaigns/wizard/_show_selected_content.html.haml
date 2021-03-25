@@ -1,0 +1,4 @@
+%figure.img-caption.pos-relative.mg-b-0.fit-content{signed_id: "#{img.id}"}
+  = image_tag img.multimedia_url(:small), {class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded", id: "content-#{img.id}-#{@board_slug}"}
+  %figcaption.pos-absolute.a-0.wd-50.ht-50.mg-r-5.mg-b-5.rounded.d-flex.flex-column.justify-content-center.bg-white-9.transition-base.op-0
+    = link_to("Click me", "javascript: delete_content('#{img.id}', '#{@board_slug}');", :id => "content-delete-#{img.id}-#{@board_slug}", class: "btn btn-dark btn-icon mg-r-5 mg-b-5 img wd-50 ht-50 rounded")
