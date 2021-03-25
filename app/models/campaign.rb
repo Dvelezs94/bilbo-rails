@@ -6,7 +6,7 @@ class Campaign < ApplicationRecord
   include ProjectConcern
   include ReviewBoardCampaignsConcern
   extend FriendlyId
-  attr_accessor :owner_updated_campaign
+  attr_accessor :owner_updated_campaign, :content_ids
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :impressions
@@ -53,7 +53,7 @@ class Campaign < ApplicationRecord
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :check_user_verified, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
-  validate :validate_ad_stuff, on: :update
+  #validate :validate_ad_stuff, on: :update
   validate :ad_processed, on: :update
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
@@ -64,6 +64,7 @@ class Campaign < ApplicationRecord
   before_save :notify_in_a_week, if: :ad_id_changed?
   before_update :set_in_review_and_update_price
   after_commit :broadcast_to_all_boards
+  after_commit :create_content, if: :contents_present?
   after_update :update_bc
   after_create :generate_shorten_url
   after_create :generate_external_link_shortener
@@ -391,5 +392,23 @@ class Campaign < ApplicationRecord
         errors.add(:base, I18n.t('campaign.minimum_budget_per_bilbo'))
       end
     end
+  end
+
+  def create_content
+    #create relation ContentsBoardCampaign
+    @content = eval(self.content_ids)
+    @content.each {|board_slug, content_ids| bc = self.board_campaigns.find_by(board_id: Board.find_by_slug(board_slug).id, campaign: self.id)
+      content_ids.split(" ").each {|content| p content
+        bc.contents_board_campaign.where(content_id: content, boards_campaigns_id: bc.id).first_or_create
+      }
+      #delete relation ContentsBoardCampaign
+      if bc.contents_board_campaign.where.not(content_id: content_ids.split(" ")).present?
+        bc.contents_board_campaign.where.not(content_id: content_ids.split(" ")).each do |x| x.delete end
+      end
+    }
+  end
+
+  def contents_present?
+    self.content_ids.present?
   end
 end

@@ -28,8 +28,14 @@ $(document).on('turbolinks:load', function () {
             }
           }
 
-          // Step 2 form validation
           if (currentIndex === 1) {
+            return true;
+          }
+
+          // Step 2 form validation
+          if (currentIndex === 2) {
+            console.log("paso 1")
+            return true
             //this is for count the Schedules added in campaign for hour
             if ($('#add_schedule').length) {
               if (
@@ -194,6 +200,7 @@ $(document).on('turbolinks:load', function () {
       onStepChanged: function (event, currentIndex, priorIndex) {
         // update summary on map change
         if (priorIndex === 0) {
+          content_info();
           // update summary on budget and date change
           $('#bilbosAddress').empty();
           $('#selected_boards option:not(:eq(0))').each(function () {
@@ -212,8 +219,21 @@ $(document).on('turbolinks:load', function () {
               ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
         // update summary on ads change
         } else if (priorIndex === 1) {
-          $('#adName').text($('.wizard_selected_ad .card-body').text());
-          getadwizard();
+          //$('#adName').text($('.wizard_selected_ad .card-body').text());
+          //getadwizard();
+          contents_selected = $('input*[id*=bilbo-]');
+          console.log("Tamano: " + contents_selected.length);
+          var content_board_campaign = {}
+          var i;
+          for (i = 0; i < contents_selected.length; i++) {
+            x = $("#"+contents_selected[i].id)
+            //if
+            content_board_campaign[contents_selected[i].id] = x.val()
+            //tmp = contents_selected[i].getAttribute('data-content');
+            console.log(content_board_campaign)
+          }
+          $("#content_ids").val(JSON.stringify(content_board_campaign))
+          console.log($("#content_ids").val())
         } else if (priorIndex === 2) {
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());
@@ -581,4 +601,68 @@ function validatesPerHour() {
     }
   }
   return valid;
+}
+
+
+function content_info(){
+  boards = $("#campaign_boards");
+  if(boards.length > 1){
+    selected_boards = boards.val().substring(1);
+  }else{
+    selected_boards = boards.val();
+  }
+  $.ajax({
+    url:  "/campaigns/content_info",
+    dataType: "script",
+    data: {selected_boards: selected_boards, campaign: $("#campaign_id").val()},
+    success: function(data) {
+    },
+    error: function(data) {
+      alert("Oops.. Ocurrio un error..");
+    }
+  });
+}
+
+function append_content(){
+  console.log("Yes")
+  $('#modalContent').modal('hide');
+  content_board = $('#'+$('#slug-board').val())
+  if(content_board.length > 0){
+    var selected_content_modal = document.getElementsByClassName("wizard_selected_ad");
+    var i;
+    for (i = 0; i < selected_content_modal.length; i++) {
+      value_content = content_board.val()
+      tmp = selected_content_modal[i].getAttribute('data-content');
+
+      console.log(tmp)
+      console.log(value_content)
+      if (value_content.split(" ").includes(tmp) == false){
+      if(value_content == ""){
+        content_board.val(tmp)
+      }else{
+        content_board.val(value_content + " " + tmp)
+      }
+    }
+      console.log(value_content);
+    }
+  }
+  showContent(content_board);
+}
+
+function showContent(content_board){
+console.log("contents" + content_board.val())
+  $.ajax({
+    url:  "/contents_board_campaign/get_content",
+    dataType: "script",
+    data: {selected_contents: content_board.val(), board_slug: $('#slug-board').val()},
+    success: function(data) {
+    },
+    error: function(data) {
+      alert("Oops.. Ocurrio un error..");
+    }
+  });
+}
+
+function delete_content(content_id, board_slug){
+  $('#content-delete-'+content_id+"-"+board_slug).remove(); $('#content-'+content_id+"-"+board_slug).remove(); console.log($('#'+board_slug).val($('#'+board_slug).val().replace(content_id,'')));
 }

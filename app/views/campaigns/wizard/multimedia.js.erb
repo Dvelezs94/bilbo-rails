@@ -1,0 +1,4 @@
+$("#modalContent").append("<%= j (render 'campaigns/wizard/content', collection: @ad, as: :ad, as: :content, locals: {content: @contents, board_name: @board_name, slug: @slug}) %>");
+$("#modalContent").modal();
+$("#content_modal").html("<%= j render partial: 'campaigns/wizard/contents_modal'%>");
+select_content();
