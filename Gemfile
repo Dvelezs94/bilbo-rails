@@ -145,3 +145,4 @@ gem 'punching_bag', '~> 0.7.0'
 gem 'rubyzip', '~> 2.3'
 #amoeba for copy_campaign
 gem 'amoeba', '~> 3.1'
+gem 'clicksend', '~> 0.0.3'
