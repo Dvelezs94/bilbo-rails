@@ -249,15 +249,11 @@ class CampaignsController < ApplicationController
     render 'copy_campaign', :locals => {:obj => @campaign}
   end
 
-  # this gets called in the second step of wizard
+  # this gets called in the second step of wizard for call the boards
   def content_info
-    @f = params[:f]
     @campaign = params[:campaign]
-    p "x"*800
-    p @campaign
-    p @f
     @selected_boards = Board.where(id: params[:selected_boards].split(","), status: "enabled")
-    render  'content_info', :locals => {:selected_boards_content => @selected_boards, :campaign => @campaign, :f => @f}
+    render  'content_info', :locals => {:selected_boards_content => @selected_boards, :campaign => @campaign}
   end
 
   private

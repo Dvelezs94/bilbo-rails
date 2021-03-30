@@ -8,6 +8,10 @@ class ContentsController < ApplicationController
 
   def new_multimedia
     @content = Content.new
+    @content_modal = params[:content_modal]
+    if params[:content_modal].present?
+      render  'new_multimedia', :locals => {:content_modal => @content_modal}
+    end
   end
 
   def new_url
@@ -22,17 +26,27 @@ class ContentsController < ApplicationController
   def create
     @content = @project.contents.create(content_params)
     @content.multimedia_derivatives!
-    if ! @content.save
-      flash[:error] = "Error"
-    else
-      flash[:success] = "Success"
-    end
-    redirect_to contents_path
+    if !@content.save
+        flash[:error] = "Error"
+        redirect_to contents_path
+      else
+        flash[:success] = "Success"
+        if params[:content_modal].present?
+          @content_array = [@content]
+          render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array }
+        else
+          redirect_to contents_path
+        end
+      end
   end
 
   def destroy
     @content.destroy
     redirect_to contents_path
+  end
+
+  def create_content_on_campaign
+    @content = Content.new
   end
 
   private
