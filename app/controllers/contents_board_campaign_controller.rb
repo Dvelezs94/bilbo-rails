@@ -1,10 +1,10 @@
 class ContentsBoardCampaignController < ApplicationController
   def multimedia
     #Return the content for modal step 2 for show bilbos
-    @contents = Campaign.find(params[:campaign]).project.contents
+    @content = Campaign.find(params[:campaign]).project.contents
     @board_name = params[:board_name]
     @slug = params[:board_slug]
-    render  'campaigns/wizard/multimedia', :locals => {:content => @contents, :board_name => @board_name, :ad => @ad, :slug => @slug}
+    render  'campaigns/wizard/multimedia', :locals => {:content => @content, :board_name => @board_name, :slug => @slug}
   end
 
   def get_content
