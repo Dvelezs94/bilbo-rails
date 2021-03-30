@@ -1,7 +1,5 @@
 $(document).on('turbolinks:load', function() {
-  if($('.img-caption').length){
     hover_img();
-  }
 });
 
 function hover_img(){
