@@ -5,16 +5,16 @@ module AdRotationAlgorithm
     err = []
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
 
-    if new_campaign.ad.duration < self.duration
+    if new_campaign.duration < self.duration
       err << I18n.t("bilbos.ads_rotation_error.ad_duration_less_than_required", name: self.name)
       return err
 
-    elsif new_campaign.minutes.present? and new_campaign.ad.duration > 60
+    elsif new_campaign.minutes.present? and new_campaign.duration > 60
       err << I18n.t("bilbos.ads_rotation_error.duration_exceeds_60", name: self.name)
       return err
 
     elsif new_campaign.minutes.present?
-      displays, minutes, ad_duration = new_campaign.imp, new_campaign.minutes, new_campaign.ad.duration
+      displays, minutes, ad_duration = new_campaign.imp, new_campaign.minutes, new_campaign.duration
       block_size = ad_duration/10
       needed_blocks = displays* block_size
       current_blocks = minutes*6
@@ -28,11 +28,11 @@ module AdRotationAlgorithm
       return err if err.present?
 
     elsif new_campaign.provider_campaign && new_campaign.classification == "budget" && new_campaign.budget.present?
-      imp = (new_campaign.budget_per_bilbo/(self.sale_cycle_price * new_campaign.ad.duration/self.duration)).to_i
+      imp = (new_campaign.budget_per_bilbo/(self.sale_cycle_price * new_campaign.duration/self.duration)).to_i
       # puts "X"*200
       # puts imp
-      # puts t_cycles*10/new_campaign.ad.duration
-      if imp > t_cycles*10/new_campaign.ad.duration
+      # puts t_cycles*10/new_campaign.duration
+      if imp > t_cycles*10/new_campaign.duration
         err << I18n.t("bilbos.ads_rotation_error.max_budget_impressions", name: self.name)
         return err
       end
@@ -57,8 +57,8 @@ module AdRotationAlgorithm
           return err
        end
        wm = working_minutes(start_t, end_t)
-       if reps > (wm*60/new_campaign.ad.duration).to_i
-         err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (wm*60/new_campaign.ad.duration).to_i)
+       if reps > (wm*60/new_campaign.duration).to_i
+         err << I18n.t("bilbos.ads_rotation_error.max_hour_impressions", number: (wm*60/new_campaign.duration).to_i)
          return err
        end
      end
@@ -105,7 +105,7 @@ module AdRotationAlgorithm
       h_cps_first[idx][:campaign_id] = name
       imp = [c.imp,hour_campaign_remaining_impressions[c.campaign_id]].min
       hour_campaign_remaining_impressions[c.campaign_id] = [hour_campaign_remaining_impressions[c.campaign_id]-imp,0].max
-      h_cps[name] = [imp,c.start,c.end, c.campaign.ad.duration]
+      h_cps[name] = [imp,c.start,c.end, c.campaign.duration]
     end
     h_cps = sort_by_min_time(h_cps)
 
@@ -187,22 +187,22 @@ module AdRotationAlgorithm
 
     ####################### GET AND GIVE FORMAT TO ALL ACTIVE CAMPAIGNS OF THE BOARD #########################
 
-    #{p1: [60,10], p2: [50,10], p3:  [67,20]} #these are the required campaigns of the provider and their ad duration
+    #{p1: [60,10], p2: [50,10], p3:  [67,20]} #these are the required campaigns of the provider and their duration
     if testing
-      r_cps = @r_cps_first.map{ |c| [ c.id, [ (c.budget_per_bilbo/(self.get_cycle_price(c) * c.ad.duration/self.duration)).to_i, (c.ad.duration/10).to_i ] ] }.to_h
+      r_cps = @r_cps_first.map{ |c| [ c.id, [ (c.budget_per_bilbo/(self.get_cycle_price(c) * c.duration/self.duration)).to_i, (c.duration/10).to_i ] ] }.to_h
     else
-      r_cps = @r_cps_first.map{ |c| [ c.id, [ c.remaining_impressions(self), (c.ad.duration/10).to_i ]] }.to_h
+      r_cps = @r_cps_first.map{ |c| [ c.id, [ c.remaining_impressions(self), (c.duration/10).to_i ]] }.to_h
     end
     r_cycles = []
     total_r_cps_spaces = 0
 
-    per_time_cps = @per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes, c.ad.duration] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
+    per_time_cps = @per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes, c.duration] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
     #check validation with new campaign if it's present
     if new_campaign.present?
       if new_campaign.minutes.present?
         @per_time_cps_first.append(new_campaign)
-        per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes, new_campaign.ad.duration]
+        per_time_cps[new_campaign.id] = [new_campaign.imp, new_campaign.minutes, new_campaign.duration]
       elsif new_campaign.impression_hours.present?
         sorted_impression_hours(self,new_campaign.impression_hours.to_a).each do |c|
           if should_run_hour_campaign_in_board?(c)
@@ -213,9 +213,9 @@ module AdRotationAlgorithm
         @campaign_names[new_campaign.id] = new_campaign.name
       elsif new_campaign.budget.present?
         if testing
-          r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.ad.duration/self.duration)).to_i, (new_campaign.ad.duration/10).to_i]
+          r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.duration/self.duration)).to_i, (new_campaign.duration/10).to_i]
         else
-          r_cps[new_campaign.id] = [new_campaign.remaining_impressions(self), (new_campaign.ad.duration/10).to_i]
+          r_cps[new_campaign.id] = [new_campaign.remaining_impressions(self), (new_campaign.duration/10).to_i]
         end
         @r_cps_first.append(new_campaign)
       end
@@ -234,7 +234,7 @@ module AdRotationAlgorithm
       @h_cps_first[idx][:campaign_id] = name
       imp = (testing)? c.imp : [c.imp, @hour_campaign_remaining_impressions[c.campaign_id]].min
       @hour_campaign_remaining_impressions[c.campaign_id] = @hour_campaign_remaining_impressions[c.campaign_id] - imp if !testing
-      h_cps[name] = [imp, c.start, c.end, c.campaign.ad.duration]
+      h_cps[name] = [imp, c.start, c.end, c.campaign.duration]
     end
     h_cps = sort_by_min_time(h_cps)
 
