@@ -29,13 +29,38 @@ $(document).on('turbolinks:load', function () {
           }
 
           if (currentIndex === 1) {
-            return true;
+            console.log("Juas");
+            contents_selected = $('input*[id*=bilbo-]');
+            console.log("Tamano: " + contents_selected.length);
+            var content_board_campaign = {}
+            var i;
+            for (i = 0; i < contents_selected.length; i++) {
+              x = $("#"+contents_selected[i].id)
+              //if
+              content_board_campaign[contents_selected[i].id] = x.val()
+              //tmp = contents_selected[i].getAttribute('data-content');
+              console.log(content_board_campaign)
+            }
+            $("#content_ids").val(JSON.stringify(content_board_campaign))
+            console.log($("#content_ids").val());
+            validation = validateContent();
+            if(validation){
+                return true;
+            }else{
+              return false;
+            }
+
+
+            //var campaignadid = $('#campaign_ad_id').parsley();
+            //if (campaignadid.isValid()) {
+            //  return true;
+            //} else {
+            //  campaignadid.validate();
+            //}
           }
 
           // Step 2 form validation
           if (currentIndex === 2) {
-            console.log("paso 1")
-            return true
             //this is for count the Schedules added in campaign for hour
             if ($('#add_schedule').length) {
               if (
@@ -66,13 +91,6 @@ $(document).on('turbolinks:load', function () {
             calculateMaxImpressions();
             if ($('#impressions').length) {
               calculateImpressions();
-            }
-
-            var campaignadid = $('#campaign_ad_id').parsley();
-            if (campaignadid.isValid()) {
-              return true;
-            } else {
-              campaignadid.validate();
             }
           }
 
@@ -221,19 +239,7 @@ $(document).on('turbolinks:load', function () {
         } else if (priorIndex === 1) {
           //$('#adName').text($('.wizard_selected_ad .card-body').text());
           //getadwizard();
-          contents_selected = $('input*[id*=bilbo-]');
-          console.log("Tamano: " + contents_selected.length);
-          var content_board_campaign = {}
-          var i;
-          for (i = 0; i < contents_selected.length; i++) {
-            x = $("#"+contents_selected[i].id)
-            //if
-            content_board_campaign[contents_selected[i].id] = x.val()
-            //tmp = contents_selected[i].getAttribute('data-content');
-            console.log(content_board_campaign)
-          }
-          $("#content_ids").val(JSON.stringify(content_board_campaign))
-          console.log($("#content_ids").val())
+
         } else if (priorIndex === 2) {
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());
@@ -624,7 +630,6 @@ function content_info(){
 }
 
 function append_content(){
-  console.log("Yes")
   $('#modalContent').modal('hide');
   content_board = $('#'+$('#slug-board').val())
   if(content_board.length > 0){
@@ -633,24 +638,19 @@ function append_content(){
     for (i = 0; i < selected_content_modal.length; i++) {
       value_content = content_board.val()
       tmp = selected_content_modal[i].getAttribute('data-content');
-
-      console.log(tmp)
-      console.log(value_content)
       if (value_content.split(" ").includes(tmp) == false){
-      if(value_content == ""){
-        content_board.val(tmp)
-      }else{
-        content_board.val(value_content + " " + tmp)
+        if(value_content == ""){
+          content_board.val(tmp)
+        }else{
+          content_board.val(value_content + " " + tmp)
+        }
       }
-    }
-      console.log(value_content);
     }
   }
   showContent(content_board);
 }
 
 function showContent(content_board){
-console.log("contents" + content_board.val())
   $.ajax({
     url:  "/contents_board_campaign/get_content",
     dataType: "script",
@@ -664,5 +664,21 @@ console.log("contents" + content_board.val())
 }
 
 function delete_content(content_id, board_slug){
-  $('#content-delete-'+content_id+"-"+board_slug).remove(); $('#content-'+content_id+"-"+board_slug).remove(); console.log($('#'+board_slug).val($('#'+board_slug).val().replace(content_id,'')));
+  //find in the front-end the content to delete
+  $('#content-delete-'+content_id+"-"+board_slug).remove(); $('#content-'+content_id+"-"+board_slug).remove(); $('#'+board_slug).val($('#'+board_slug).val().replace(content_id,''));
+}
+
+function validateContent(){
+  contents = $("#content_ids");
+    var i;
+    validation = true;
+    for (i = 0; i < contents.val().split(",").length; i++) {
+      if ((contents.val().split(",")[i].split(":")[1] === '""') || (contents.val().split(",")[i].split(":")[1] === '""}') || (contents.val().split(",")[i].split(":")[1] === '" "') || (contents.val().split(",")[i].split(":")[1] === '" "}')){
+        validation = false;
+        break;
+      }else{
+        validation = true;
+      }
+    }
+  return validation;
 }
