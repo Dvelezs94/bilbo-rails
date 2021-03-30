@@ -398,9 +398,8 @@ class Campaign < ApplicationRecord
     #create relation ContentsBoardCampaign
     @content = eval(self.content_ids)
     @content.each {|board_slug, content_ids| bc = self.board_campaigns.find_by(board_id: Board.find_by_slug(board_slug).id, campaign: self.id)
-      content_ids.split(" ").each {|content| p content
-        bc.contents_board_campaign.where(content_id: content, boards_campaigns_id: bc.id).first_or_create
-      }
+
+      content_ids.split(" ").each {|content| bc.contents_board_campaign.where(content_id: content, boards_campaigns_id: bc.id).first_or_create}
       #delete relation ContentsBoardCampaign
       if bc.contents_board_campaign.where.not(content_id: content_ids.split(" ")).present?
         bc.contents_board_campaign.where.not(content_id: content_ids.split(" ")).each do |x| x.delete end

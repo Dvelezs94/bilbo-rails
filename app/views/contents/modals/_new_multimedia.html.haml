@@ -7,7 +7,7 @@
         -# %h5.tx-18.tx-sm-20= t("campaign.bilbos_used")
         .row
           .col-12.m-auto
-            = form_with(model: @content, url: contents_path, method: :post, :html => { :id => "new_content", data: { parsley_validate: true } }, remote: true) do |f|
+            = form_with(model: @content, url: contents_path(content_modal: @content_modal), method: :post, :html => { :id => "new_content", data: { parsley_validate: true } }, remote: true) do |f|
               = f.hidden_field :multimedia, value: @content.cached_multimedia_data
               = f.file_field :multimedia, class: "form-control"
               = f.submit "Enviar"
