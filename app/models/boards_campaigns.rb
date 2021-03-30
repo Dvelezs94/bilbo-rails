@@ -34,9 +34,9 @@ class BoardsCampaigns < ApplicationRecord
           #Count impressions already created from the current ads rotation
           impression_count = current_time.between?(st,et)? c.daily_impressions(start_date: st, end_date: et, board_id: b.id) : {}
           today_impressions = impression_count.present?? impression_count.values.sum : 0
-          #max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * c.ad.duration/b.duration)).to_i
+          max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * c.duration/b.duration)).to_i
           ######################################Cambiar esto
-          max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * 10/b.duration)).to_i
+          # max_imp = (c.budget_per_bilbo/(b.get_cycle_price(c, self) * 10/b.duration)).to_i
           self.remaining_impressions = max_imp - today_impressions
 
         elsif c.classification == "per_hour"
