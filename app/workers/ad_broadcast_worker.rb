@@ -7,10 +7,12 @@ class AdBroadcastWorker
     board = Board.find(board_id)
     board.with_lock do
       campaign = Campaign.find(campaign_id)
+      content_bc = ContentsBoardCampaign.where(boards_campaigns_id: BoardsCampaigns.find_by(board: board, campaign: campaign).id).pluck(:content_id)
+      content = Content.where(id: content_bc)
       if board.images_only
-        append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: campaign.ad.images, as: :media, locals: {campaign: campaign, board: board})
+        append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: content.select{|c| c.multimedia.content_type.include? "image"}, as: :media, locals: {campaign: campaign, board: board})
       else
-        append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: campaign.ad.multimedia, as: :media, locals: {campaign: campaign, board: board})
+        append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign, board: board})
       end
 
       # build html to append
