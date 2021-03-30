@@ -16,15 +16,15 @@ class CampaignsController < ApplicationController
 
   def provider_index
     if params[:q] == "review"
-      Campaign.active.where.not(ad_id: nil).joins(:boards).merge(@project.boards).uniq.pluck(:id).each do |c|
+      Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id).each do |c|
         @campaign_loop = Campaign.find(c)
         #Search for ads that haven't been processed
-         if Ad.find(@campaign_loop.ad_id).processed?
+         # if Ad.find(@campaign_loop.ad_id).processed?
            # to be optimized
            if @campaign_loop.owner.has_had_credits? || @campaign_loop.provider_campaign?
              @camp = Array(@camp).push(c)
            end
-         end
+         # end
        end
       @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: @camp).in_review
     elsif params[:bilbo].present?
