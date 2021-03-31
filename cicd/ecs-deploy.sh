@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 echo "Deploying commit $CI_COMMIT_SHORT_SHA"
 
 if [[ ${CI_BUILD_TAG} == *"-rc"* ]]; then
