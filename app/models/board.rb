@@ -67,9 +67,26 @@ class Board < ApplicationRecord
 
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
   # and the user is not able to click the marker because it is a cluster
-  def self.get_map_markers
-    enabled.select(:lat, :lng).as_json(:except => :id).uniq
+  def self.get_map_markers(pinpoints: [])
+    boards = enabled.select(:lat, :lng, :category).group_by { |b| [b.lat, b.lng]}
+    j = []
+    boards.keys.each do |k|
+      j << {
+        lat: k[0],
+        lng: k[1],
+        category: boards[k][0]["category"]
+      }
+    end
+    pinpoints.each do |p|
+      j << {
+        lat: p[:lat],
+        lng: p[:lng],
+        category: "pinmarker"
+      }
+    end
+    return j
   end
+
 
   # Get percentage occupied by active campaigns and minimum investment required to appear in the board
   def occupation
@@ -358,6 +375,14 @@ class Board < ApplicationRecord
     # here we asume that we want all pictures to be FHD (1080p)
     imgw = ((arw * resolution) / arh).to_i
     return "#{imgw}x#{resolution}"
+  end
+
+  def diagonal_inches
+    # convert meters to inches
+    inch = 39.3701
+    width = self.width * inch
+    height = self.height * inch
+    Math.sqrt((width ** 2)+(height ** 2)).round(0)
   end
 
   def current_sale
