@@ -1,4 +1,6 @@
 -if media.is_video?
-  = video_tag(url_from_media(media.multimedia.url), class: "board-ad-inner", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }, loop:true, preload: "auto", muted: "muted")
+  = video_tag(url_from_media(media.multimedia_url), class: "board-ad-inner", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }, loop: true, preload: "auto", muted: "muted")
+-elsif media.is_image?
+  = image_tag url_from_media(media.multimedia_url), class: "board-ad-inner", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }
 -else
-  = image_tag url_from_media(media.multimedia.url), class: "board-ad-inner", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }
+  = content_tag("iframe", '', src: media.url, height: "100%", width: "100%",  class: "board-ad-inner", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget })
