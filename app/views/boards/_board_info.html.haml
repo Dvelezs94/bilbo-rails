@@ -24,13 +24,15 @@
       %span.sr-only Next
   %table.table-dashboard-two
     %tbody
+      %small.d-none#board_info_name= board.name
+      %small.d-none#board_info_diagonal_inches= board.diagonal_inches
       - if board.images_only
         %tr
           .alert.pd-5-f.alert-solid.alert-warning.mg-t-5.mg-b-5.tx-center{:role => "alert"}
             = t("bilbos.images_only")
       %tr
         %td.tx-medium= t("bilbos.face")
-        %td.text-right= board.face
+        %td.text-right#board_info_face= board.face
       %tr
         %td.tx-medium= t("bilbos.credits_per_print")
         %td.text-right
@@ -47,7 +49,7 @@
         %td.text-right= t("bilbos.#{board.category}")
       %tr
         %td.tx-medium= t("bilbos.avg_views")
-        %td.text-right
+        %td.text-right#board_info_daily_views
           = number_with_delimiter(board.avg_daily_views, :delimiter => ',')
           \/#{t("bilbos.day")}
       %tr
@@ -68,7 +70,7 @@
           px
       %tr
         %td.tx-medium= t("bilbos.social_class")
-        %td.text-right= board.social_class
+        %td.text-right#board_info_classification= board.social_class
       %tr
         %td.tx-medium= t("bilbos.hour_start")
         %td.text-right= "#{board.start_time.to_s(:time)} - #{board.end_time.to_s(:time)}"
@@ -95,3 +97,8 @@
       %button{:class => "btn btn-secondary-custom btn-block remove-bilbo mg-t-0-f #{"d-none" if !is_selected}", "data-id" => "#{board.id}", :onclick => "removeBilbo(this)", :type => "button"}
         %i.material-icons.md-18.material-icon-middle remove_circle
         = t("bilbos.remove_bilbo")
+  - else
+    .info-board.mg-t-5
+      = link_to campaigns_path(openModal: "modalNewCampaign"), class: "btn btn-dark btn-block" do
+        %i.material-icons.md-18.material-icon-middle add_circle
+        = t("map.create_campaign")

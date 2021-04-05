@@ -13944,6 +13944,9 @@ a.bg-twitter:hover, a.bg-twitter:focus, button.bg-twitter:hover, button.bg-twitt
 .ht-100 {
   height: 100px; }
 
+.ht-120 {
+  height: 120px; }
+
 .ht-100p {
   height: 100%; }
 
@@ -36819,6 +36822,9 @@ a.bg-twitter:hover, a.bg-twitter:focus, button.bg-twitter:hover, button.bg-twitt
 .wd-100 {
   width: 100px; }
 
+.wd-120 {
+  width: 120px; }
+
 .wd-100p {
   width: 100%; }
 
@@ -36854,6 +36860,9 @@ a.bg-twitter:hover, a.bg-twitter:focus, button.bg-twitter:hover, button.bg-twitt
 
 .wd-200 {
   width: 200px; }
+
+.wd-220 {
+  width: 220px; }
 
 .wd-200-f {
   width: 200px !important; }
