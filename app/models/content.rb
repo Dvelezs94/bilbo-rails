@@ -4,11 +4,19 @@ class Content < ApplicationRecord
   has_many :contents_board_campaign, class_name: "ContentsBoardCampaign", dependent: :delete_all
 
   def is_image?
-    multimedia.content_type.include? "image"
+    begin
+      multimedia.content_type.include? "image"
+    rescue
+      false
+    end
   end
 
   def is_video?
-    multimedia.content_type.include? "video"
+    begin
+      multimedia.content_type.include? "video"
+    rescue
+      false
+    end
   end
 
   def get_format
