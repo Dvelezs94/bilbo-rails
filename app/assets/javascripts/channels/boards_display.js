@@ -1,5 +1,6 @@
 $(document).on('turbolinks:load', function() {
-  if ($(".board-ads").length) {
+  // if ($(".board-ads").length) {
+  if (true) {
     App.boards_display = App.cable.subscriptions.create({channel: "BoardsDisplayChannel", id: $("[data-board]").attr("data-board") }, {
       connected: function() {
         // Called when the subscription is ready for use on the server
