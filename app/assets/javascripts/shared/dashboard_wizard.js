@@ -29,34 +29,8 @@ $(document).on('turbolinks:load', function () {
           }
 
           if (currentIndex === 1) {
-            console.log("Juas");
-            contents_selected = $('input*[id*=bilbo-]');
-            console.log("Tamano: " + contents_selected.length);
-            var content_board_campaign = {}
-            var i;
-            for (i = 0; i < contents_selected.length; i++) {
-              x = $("#"+contents_selected[i].id)
-              //if
-              content_board_campaign[contents_selected[i].id] = x.val()
-              //tmp = contents_selected[i].getAttribute('data-content');
-              console.log(content_board_campaign)
-            }
-            $("#content_ids").val(JSON.stringify(content_board_campaign))
-            console.log($("#content_ids").val());
-            validation = validateContent();
-            if(validation){
-                return true;
-            }else{
-              return false;
-            }
-
-
-            //var campaignadid = $('#campaign_ad_id').parsley();
-            //if (campaignadid.isValid()) {
-            //  return true;
-            //} else {
-            //  campaignadid.validate();
-            //}
+            updateHiddenFieldContent();
+            return validateContent();
           }
 
           // Step 2 form validation
@@ -665,20 +639,41 @@ function showContent(content_board){
 
 function delete_content(content_id, board_slug){
   //find in the front-end the content to delete
-  $('#content-delete-'+content_id+"-"+board_slug).remove(); $('#content-'+content_id+"-"+board_slug).remove(); $('#'+board_slug).val($('#'+board_slug).val().replace(content_id,''));
+  $('#content-delete-'+content_id+"-"+board_slug).remove();
+  $('#content-'+content_id+"-"+board_slug).remove();
+  //delete in the hiddenfield the contents
+  var arr = $('#'+board_slug).val().split(" ");
+    for( var i = 0; i < arr.length; i++){
+        if ( arr[i] === content_id) {
+            arr.splice(i, 1);
+            i--;
+        }
+    }
+    $('#'+board_slug).val(arr.toString().replace(/,/g , " "));
+}
+
+function updateHiddenFieldContent(){
+  contents_selected = $('input*[id*=bilbo-]');
+  var content_board_campaign = {}
+  var i;
+  for (i = 0; i < contents_selected.length; i++) {
+    x = $("#"+contents_selected[i].id)
+    content_board_campaign[contents_selected[i].id] = x.val()
+  }
+  $("#content_ids").val(JSON.stringify(content_board_campaign))
 }
 
 function validateContent(){
   contents = $("#content_ids");
-    var i;
-    validation = true;
-    for (i = 0; i < contents.val().split(",").length; i++) {
-      if ((contents.val().split(",")[i].split(":")[1] === '""') || (contents.val().split(",")[i].split(":")[1] === '""}') || (contents.val().split(",")[i].split(":")[1] === '" "') || (contents.val().split(",")[i].split(":")[1] === '" "}')){
-        validation = false;
-        break;
-      }else{
-        validation = true;
-      }
+  var i;
+  validation = true;
+  for (i = 0; i < contents.val().split(",").length; i++) {
+    if ((contents.val().split(",")[i].split(":")[1] === '""') || (contents.val().split(",")[i].split(":")[1] === '""}')){
+      validation = false;
+      break;
+    }else{
+      validation = true;
     }
+  }
   return validation;
 }
