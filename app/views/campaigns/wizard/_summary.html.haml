@@ -61,7 +61,7 @@
         .modal-body.pd-x-25.pd-sm-x-30.pd-t-40.pd-sm-t-20.pd-b-15.pd-sm-b-20
           .nav-wrapper.mg-b-20.tx-13
             %div
-              = select_tag "",options_for_select(@campaign_boards), onchange: "$('#parent-carousel').width(250); $('#parent-carousel').height(250); $('#parent-carousel').width($('option:selected', this).attr('new-width')); $('#parent-carousel').height($('option:selected', this).attr('new-height'));", class: 'custom-select wd-100p', id: "aspect_ratio_select"
+              = select_tag "", options_for_select(@campaign_boards), onchange: "$('#parent-carousel').width(250); $('#parent-carousel').height(250); $('#parent-carousel').width($('option:selected', this).attr('new-width')); $('#parent-carousel').height($('option:selected', this).attr('new-height'));", class: 'custom-select wd-100p', id: "aspect_ratio_select"
           / nav-wrapper
           #parent-carousel.bg-dark{:style => " margin: 0 auto; display:block !important; height: 250px; width: 250px; display: inline-block; position: relative;"}
             #carousel_wizard
