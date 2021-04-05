@@ -377,6 +377,14 @@ class Board < ApplicationRecord
     return "#{imgw}x#{resolution}"
   end
 
+  def diagonal_inches
+    # convert meters to inches
+    inch = 39.3701
+    width = self.width * inch
+    height = self.height * inch
+    Math.sqrt((width ** 2)+(height ** 2)).round(0)
+  end
+
   def current_sale
     sales.running.first
   end
