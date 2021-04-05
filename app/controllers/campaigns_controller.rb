@@ -104,6 +104,7 @@ class CampaignsController < ApplicationController
   def update
     current_user.with_lock do
       respond_to do |format|
+        @campaign.board_campaigns.where.not(board_id: campaign_params[:boards]).map{ |bc| bc.destroy}
         if @campaign.update(campaign_params.merge(state: is_state, owner_updated_campaign: true))
           track_activity( action: "campaign.campaign_updated", activeness: @campaign)
           # Create a notification per project
