@@ -14,12 +14,10 @@
   / container
   .board-ads
     - @active_campaigns.each do |campaign|
-      - bc = BoardsCampaigns.find_by(board: @board, campaign: campaign).id
-      - cbc = ContentsBoardCampaign.where(boards_campaigns_id: bc).pluck(:content_id)
-      - content = Content.where(id: cbc)
+      - content = @board.get_content(campaign)
       - if @board.images_only
         content = content.select{|c| c.multimedia.content_type.include? "image"}
-      = render partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign, board: @board, media: content}
+      = render partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign, board: @board}
   #bilbo-ad
     = render partial: "ads/bilbo_ad"
   %input#ads_rotation.d-none{:readonly => "readonly", :value => "#{@board.add_bilbo_campaigns}"}/
