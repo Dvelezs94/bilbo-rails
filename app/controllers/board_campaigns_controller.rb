@@ -2,7 +2,6 @@ class BoardCampaignsController < ApplicationController
   access [:provider, :user] => :all
   before_action :get_board_campaign
   before_action :validate_provider_admin
-  before_action :content_params
 
   def approve_campaign
     if @board_campaign.update(status: "approved", make_broadcast: true)
@@ -48,11 +47,5 @@ class BoardCampaignsController < ApplicationController
       flash[:error] = I18n.t('campaign.errors.not_enough_permissions')
       redirect_to request.referer
     end
-  end
-
-  def content_params
-    #@content_params = params.require(:boards_campaigns).permit(content_board_campaign_attributes:[:content_id])
-    p "x" *800
-    puts params.inspect
   end
 end
