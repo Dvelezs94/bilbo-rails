@@ -60,33 +60,53 @@ function build_markers(bilbos) {
       icon: "https://content-bilbo.app.bilbo.mx/statics/maps/markers/" + bilbo["category"] + "_svg.svg"
     });
 
-    if ($("#bilbomap").length && $("#boardInfo").length){
-      google.maps.event.addListener(marker, 'click', function() {
+    google.maps.event.addListener(marker, 'click', function() {
+      if ($("#bilbomap").length && $("#boardInfo").length){
         $("#boardInfo").addClass("d-none");
         $("#map-layout").removeClass("col-xl-12");
         $("#map-layout").addClass("col-xl-9");
         $("#loading").addClass("placeholder-paragraph");
-        // alert('marker ' + marker.getPosition().lat() + ' clicked');
-        $.ajax({
-           url:  "/boards/get_info",
-           dataType: "script",
-           data: {lat: marker.getPosition().lat(), lng: marker.getPosition().lng(), selected_boards: $("#campaign_boards").val()},
-           success: function(data) {
-              if (infowindow) {
-                 infowindow.close();
-               }
-              infowindow.setContent(`<div> ${$("#board_info_face").text()} </div>`)
-              infowindow.open(window.bilbomap, marker);
+      }
+      // alert('marker ' + marker.getPosition().lat() + ' clicked');
+      $.ajax({
+         url:  "/boards/get_info",
+         dataType: "script",
+         data: {lat: marker.getPosition().lat(), lng: marker.getPosition().lng(), selected_boards: $("#campaign_boards").val()},
+         success: function(data) {
+            if (infowindow) {
+               infowindow.close();
+             }
+            infowindow.setContent(`
+              <div class="card wd-220">
+                <img src="${$("#boardTabContent").find('img:first').attr("src")}" class="card-img-top o-fit-cover ht-120">
+                <div class="card-body pd-10-f">
+                  <h5 class="card-title">${$("#board_info_name").text()}</h5>
+                  <p class="card-text d-sm-flex align-items-center justify-content-between tx-gray-500 tx-14 mg-b-5">
+                  <span>
+                  <i class="fe fe-eye"></i> ${$("#board_info_daily_views").text()}
+                  </span>
+                  <span>
+                  <i class="fe fe-target"></i> ${$("#board_info_classification").text()}
+                  </span>
+                  <span>
+                  <i class="fe fe-expand"></i> ${$("#board_info_diagonal_inches").text()}"
+                  </span>
+                  </p>
+                  <a href="/campaigns?openModal=modalNewCampaign" class="tx-14" style="font-weight: 500">Crear una campaña <i class="fe fe-plus tx-semibold mg-l-10"></i></a>
+                </div>
+              </div>`)
+            infowindow.open(window.bilbomap, marker);
 
+          if ($("#bilbomap").length && $("#boardInfo").length){
              $("#loading").removeClass("placeholder-paragraph");
              $("#boardInfo").removeClass("d-none");
-            },
-           error: function(data) {
-             alert("parece que no estás conectado a internet.");
            }
-        });
+          },
+         error: function(data) {
+           alert("parece que no estás conectado a internet.");
+         }
       });
-    }
+    });
 
     return marker;
   });
