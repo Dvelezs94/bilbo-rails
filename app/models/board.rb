@@ -192,6 +192,11 @@ class Board < ApplicationRecord
     (bc.cycle_price * (( ((bc.sale.present?)? bc.sale.percent : 0) - 100).abs * 0.01))
   end
 
+  def get_content(campaign)
+    bc = BoardsCampaigns.find_by(board: self, campaign: campaign).id
+    Content.joins(:contents_board_campaign).where(contents_board_campaigns: {boards_campaigns_id: bc})
+  end
+
   # Check if there are Action cable connections in place
   def connected?
     Redis.new(url: ENV.fetch("REDIS_URL_ACTIONCABLE")).pubsub("channels", slug)[0].present?
