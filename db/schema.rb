@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_09_150620) do
+ActiveRecord::Schema.define(version: 2021_03_24_225620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,7 +156,6 @@ ActiveRecord::Schema.define(version: 2021_03_09_150620) do
     t.string "mac_address"
     t.integer "displays_number", default: 1
     t.datetime "ads_rotation_updated_at"
-    t.boolean "external", default: false
     t.string "restrictions"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
@@ -389,7 +388,7 @@ ActiveRecord::Schema.define(version: 2021_03_09_150620) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-02-26 23:19:07"
+    t.datetime "expires_at", default: "2031-04-06 18:21:42"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
