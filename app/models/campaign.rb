@@ -75,7 +75,7 @@ class Campaign < ApplicationRecord
 
   def true_duration(board_slug)
     if self.provider_campaign?
-      return ad.duration
+      return duration
     else
       return Board.friendly.find(board_slug).duration
     end

@@ -478,9 +478,11 @@ es:
         error: Error al actualizar transición
     action:
       media_removed: El archivo multimedia se ha eliminado con éxito
+      content_deleted: El contenido fue eliminado con éxito
       update_duration: El anuncio se ha actualizado exitosamente.
     errors:
       wont_be_able_to_delete: Este anuncio no puede eliminarse porque tiene campañas activas
+      cant_delete_content: El contenido no puede ser eliminado porque está siendo usado por una campaña activa
       wont_be_able_to_update: Este anuncio no puede actualizarse porque tiene campañas activas
       is_not_multiple_of_10: La duración no es múltiplo de 10
     no_ad: Sin anuncio
