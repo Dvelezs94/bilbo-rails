@@ -49,6 +49,10 @@
   object-fit: cover;
 }
 
+.o-fit-cover {
+  object-fit: cover
+}
+
 .obj-fit-scale-down {
   object-fit: scale-down !important;
 }
@@ -238,6 +242,12 @@ details[open] summary:after {
      position: fixed;
      bottom: 10px;
      right: 10px;
+}
+
+.bottom-left {
+     position: fixed;
+     bottom: 10px;
+     left: 10px;
 }
 
 .card-link-underline {
@@ -489,3 +499,22 @@ Usage
     background-position: 1000px 0;
   }
 }
+
+/* Google maps */
+.gm-style .gm-style-iw-t::after {
+  background: transparent;
+  box-shadow: none;
+}
+
+.gm-style .gm-style-iw-c {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0
+}
+
+.gm-style-iw-d {
+  overflow: auto !important;
+}
+
+.gm-style-iw > button {display: none !important;}
+/* End google maps */

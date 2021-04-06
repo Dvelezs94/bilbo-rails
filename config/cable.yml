@@ -6,3 +6,4 @@ development: *redis
 test: *redis
 production: *redis
 staging: *redis
+demo: *redis
