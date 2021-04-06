@@ -60,6 +60,13 @@ function build_markers(bilbos) {
       icon: "https://content-bilbo.app.bilbo.mx/statics/maps/markers/" + bilbo["category"] + "_svg.svg"
     });
 
+    // close infowindow if clicked in another region of map
+    google.maps.event.addListener(window.bilbomap, "click", function(event) {
+      if (infowindow) {
+         infowindow.close();
+       }
+    });
+
     google.maps.event.addListener(marker, 'click', function() {
       if ($("#bilbomap").length && $("#boardInfo").length){
         $("#boardInfo").addClass("d-none");
