@@ -12,14 +12,7 @@ $(document).on('turbolinks:load', function() {
         // Called when the admin want reload the board
         if( data['action'] == "reload" ) {
         url = window.location.href;
-        let searchParams = new URLSearchParams(window.location.search)
-          if (searchParams.has('autoplay')){
-            Turbolinks.visit(location.toString());
-          } else {
-            url += '&autoplay=true'
-            window.location.href = url;
-            Turbolinks.visit(location.toString());
-          }
+        Turbolinks.visit(location.toString());
         }
         // Called when there's incoming data on the websocket for this channel
         if( data['action'] == "enable" ) {

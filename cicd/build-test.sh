@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 export ECR_REPOSITORY=${REPOSITORY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/bilbo
 
 initialize_conn() {

@@ -31,9 +31,16 @@ class ContentsController < ApplicationController
         redirect_to contents_path
       else
         flash[:success] = "Success"
-        if params[:content_modal].present?
-          @content_array = [@content]
-          render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array }
+        @content_array = [@content]
+        if params[:content_modal].present? && params[:content_modal] == "false"
+          @success_message = "Se subio con exito el contenido"
+          render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message  }
+        elsif params[:content_modal].present? && @content.is_image? && params[:content_modal] == "true"
+          @success_message = "Se subio con exito el contenido"
+          render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message }
+        elsif params[:content_modal].present? && @content.is_video? && params[:content_modal] == "true"
+          @success_message = "Se subio con exito el contenido, solo que este bilbo no acepta videos"
+          render 'campaigns/wizard/message_upload', :locals => { :message => @success_message }
         else
           redirect_to contents_path
         end

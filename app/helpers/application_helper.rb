@@ -19,7 +19,7 @@ module ApplicationHelper
   end
 
   def url_from_media(media)
-    if Rails.env.production? || Rails.env.staging?
+    if Rails.env.production? || Rails.env.staging? || Rails.env.demo?
       "https://#{ENV.fetch('CDN_HOST')}/#{media.blob.key}"
     else
       url_for(media)
@@ -80,9 +80,9 @@ module ApplicationHelper
   def send_sms(phone_number, message)
     if phone_number.present? && message.present?
       begin
-        SNS.publish(phone_number: phone_number, message: convert_message_to_sms_format(message))
-      rescue Aws::SNS::Errors::InvalidClientTokenId
-        true
+        CLICKSEND_CLIENT.messages.send(to: phone_number, message: convert_message_to_sms_format(message))
+      rescue
+        SlackNotifyWorker.perform("Error sending message to: #{phone_number}. Message: #{convert_message_to_sms_format(message)}", senderid: "Bilbo")
       end
     end
   end
@@ -118,7 +118,7 @@ module ApplicationHelper
   end
 
   def url_from_media_preview(media)
-    if Rails.env.production? || Rails.env.staging?
+    if Rails.env.production? || Rails.env.staging? || Rails.env.demo?
       "https://#{ENV.fetch('CDN_HOST')}#{URI.parse(media.service_url).path}"
     else
       url_for(media.image)

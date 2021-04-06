@@ -1,7 +1,8 @@
 class ContentsBoardCampaignController < ApplicationController
   def multimedia
     #Return the content for modal step 2 for show bilbos
-    if Board.find_by_slug(params[:board_slug]).images_only
+    @accept_only_images = Board.find_by_slug(params[:board_slug]).images_only
+    if @accept_only_images
       @content = []
       Campaign.find(params[:campaign]).project.contents.each do |content|
         if !content.is_video?
@@ -13,7 +14,7 @@ class ContentsBoardCampaignController < ApplicationController
     end
     @board_name = params[:board_name]
     @slug = params[:board_slug]
-    render  'campaigns/wizard/multimedia', :locals => {:content => @content, :board_name => @board_name, :slug => @slug}
+    render  'campaigns/wizard/multimedia', :locals => {:content => @content, :board_name => @board_name, :slug => @slug, :accept_only_images => @accept_only_images}
   end
 
   def get_content
