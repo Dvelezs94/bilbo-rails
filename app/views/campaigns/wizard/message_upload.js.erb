@@ -1,5 +1,3 @@
-$("#single_content").append("<%= j render partial: 'campaigns/wizard/single_content_modal', collection: @content_array, as: :content%>");
-select_content();
 <% if @success_message.present? %>
   show_success("<%= escape_javascript(@success_message)%>");
 <% else %>
