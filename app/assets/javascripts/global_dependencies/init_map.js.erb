@@ -92,7 +92,7 @@ function build_markers(bilbos) {
                   <i class="fe fe-expand"></i> ${$("#board_info_diagonal_inches").text()}"
                   </span>
                   </p>
-                  <a href="/campaigns?openModal=modalNewCampaign" class="tx-14 ${ $("#dashboardWizard").length ? 'd-none': ''}" style="font-weight: 500">Crear una campaña <i class="fe fe-plus tx-semibold mg-l-10"></i></a>
+                  <a href="/campaigns?openModal=modalNewCampaign" target="_parent" class="tx-14 ${ $("#dashboardWizard").length ? 'd-none': ''}" style="font-weight: 500">Crear una campaña <i class="fe fe-plus tx-semibold mg-l-10"></i></a>
                 </div>
               </div>`)
             infowindow.open(window.bilbomap, marker);
