@@ -41,7 +41,12 @@ class ContentsController < ApplicationController
   end
 
   def destroy
-    @content.destroy
+    if content_in_use
+      flash[:error] = I18n.t('ads.errors.cant_delete_content')
+    else
+      @content.destroy
+      flash[:success] = I18n.t('ads.action.content_deleted')
+    end
     redirect_to contents_path
   end
 
@@ -50,6 +55,15 @@ class ContentsController < ApplicationController
   end
 
   private
+
+  def content_in_use
+    #Check if there is any active campaign with that content
+    bc = ContentsBoardCampaign.where(content: @content).pluck(:boards_campaigns_id).uniq
+    if Campaign.where(id: BoardsCampaigns.where(id: bc).select(:campaign_id)).select_active.any?
+      return true
+    end
+    return false
+  end
 
   def get_content
     @content = @project.contents.find(params[:id])
