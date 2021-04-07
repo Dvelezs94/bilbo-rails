@@ -106,13 +106,25 @@ class BoardsController < ApplicationController
 
 
   def create
-    @board = Board.new(board_params)
-    if @board.save
-      flash[:success] = "Board saved"
+    if board_params[:upload_from_csv].present?
+      csvfile = board_params[:upload_from_csv]
+      @errors = []
+      create_boards_from_csv(csvfile.path, board_params[:project_id])
+      if @errors.present?
+        render "admin/boards/errors"
+      else
+        flash[:success] = "All boards succesfully created"
+        redirect_to root_path
+      end
     else
-      flash[:error] = "Could not save board"
+      @board = Board.new(board_params)
+      if @board.save
+        flash[:success] = "Board saved"
+      else
+        flash[:error] = "Could not save board"
+      end
+      redirect_to root_path
     end
-    redirect_to root_path
   end
 
   # Admin action to toggle the status of a board
@@ -190,6 +202,7 @@ class BoardsController < ApplicationController
   def board_params
     params.require(:board).permit(:project_id,
                                   :name,
+                                  :upload_from_csv,
                                   :avg_daily_views,
                                   :width,
                                   :height,
@@ -209,6 +222,7 @@ class BoardsController < ApplicationController
                                   :mac_address,
                                   :keep_old_cycle_price_on_active_campaigns,
                                   :displays_number,
+                                  :restrictions,
                                   images: [],
                                   default_images: []
                                   )
@@ -273,5 +287,110 @@ class BoardsController < ApplicationController
 
   def allow_iframe_requests
     response.headers.delete('X-Frame-Options')
+  end
+
+  def create_boards_from_csv(file, project_id)
+    files = {}
+    CSV.foreach(file, :headers => true).each_with_index do |row, index|
+      item = {}
+      item[:project_id] = project_id
+
+      item[:name] = [row["TIPO"], row["Nombre"]].filter{|a| a.present?}.join(' ')
+      item[:name] = nil if item[:name] == "" #Do not allow empty string as a name, set it to nil to raise an error
+
+      # Google Maps info to get lat and lon
+      unformatted_addr = [row["DOMICILIO"], row["COLONIA"], row["CP"], row["MUNICIPIO"], row["ESTADO"]].filter{|a| a.present?}.join(', ')
+      location = Geokit::Geocoders::GoogleGeocoder.geocode(unformatted_addr)
+      item[:address] = location.formatted_address
+      item[:lat] = row["LATITUD"] || location.lat
+      item[:lng] = row["LONGITUD"] || location.lng
+      item[:utc_offset] = Timezone.lookup(location.lat, location.lng).utc_offset / 60
+
+      item[:category] = row["Tipo de Medio"]
+      item[:avg_daily_views] = row["Trafico Mensual"].to_i / 30
+      item[:displays_number] = row["Numero de pantallas"].to_i || 1
+
+      item[:start_time] = row["Hora de inicio"]
+      item[:end_time] = row["Hora Fin"]
+      working_minutes = (Time.zone.parse(item[:end_time]) - Time.zone.parse(item[:start_time]))/1.minutes % 1440
+      working_minutes = 1440 if working_minutes == 0
+      item[:base_earnings] = row["Ganancias por mes"].present?? row["Ganancias por mes"].to_f : row["Precio por Spot"].to_f * (working_minutes * 6 * 10.0/row["Duracion de anuncio (s)"].to_i) * 30
+      item[:extra_percentage_earnings] = row["Porcentaje extra esperado"].remove('%') || 20  #Remove % symbol if its present and store only the value
+
+      #Set default face to North in case its not present
+      item[:face] = row["Cara"] || "Norte"
+
+      item[:social_class] = row["Categoria"]
+
+      item[:width] = row["Anchura (m)"].to_f
+      item[:height] = row["Altura (m)"].to_f
+
+      #Duration is missing
+      item[:duration] = row["Duracion de anuncio (s)"].to_i
+
+      item[:restrictions] = split_restrictions(row["Restricciones"] || "").to_json
+
+      item[:images_only] = !(["mp4","video"].map{|format| row["Formato"].downcase.include? format}.any?) #Set images only to true if video or mp4 is not present in format column
+
+      @board = Board.new(item) #Create the board with the info collected above
+      if @board.name.nil?
+        @errors.append(["(Sin nombre) (fila #{index+1})", ["No se pudo guardar el board","El nombre del bilbo no puede estar vacío"]])
+        next
+      end
+
+      if row["Imagenes"].present?  #Load images from urls if they are provided
+        row["Imagenes"].split().each_with_index do |url, index|
+          if files.keys.include? url
+            image = files[url]
+            image.rewind
+          else
+            image = open(url)
+            files[url] = image
+          end
+          @board.images.attach(io: image, filename: @board.name.split().join('-') + '.' + image.content_type.split('/')[1]) if image.status[0] == "200"
+        end
+      end
+
+      if row["Imagenes default"].present? #Load default images from urls if they are provided, else set the default bilbo image
+        row["Imagenes default"].split().each_with_index do |url, index|
+          if files.keys.include? url
+            image = files[url]
+            image.rewind
+          else
+            image = open(url)
+            files[url] = image
+          end
+          @board.default_images.attach(io: image, filename: @board.name.split().join('-') + '.' + image.content_type.split('/')[1]) if image.status[0] == "200"
+        end
+      else #attach the default bilbo image
+        if files.keys.include? 'https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png'
+          image = files['https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png']
+          image.rewind
+        else
+          image = open('https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png')
+          files['https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png'] = image
+        end
+        @board.default_images.attach(io: image, filename: "bilbo-default.png") if image.status[0] == "200"
+      end
+
+      #Save and handle errors
+      success = @board.save
+      brd_errors = @board.errors.full_messages
+      if !success
+        brd_errors.prepend("No se pudo guardar el board")
+      end
+      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes del bilbo") if @board.images.count == 0
+      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes default del bilbo") if @board.default_images.count == 0
+      @errors.append([(@board.name || "(Sin nombre)") + " (fila #{index+1})", brd_errors]) if brd_errors.present?
+
+    end
+  end
+
+  def split_restrictions(concat_restricctions)
+    #Remove content in parenthesis
+    concat_restricctions = concat_restricctions.gsub /\((.*?)\)/, ''
+
+    #Separate items by commas
+    return concat_restricctions.split(',').map{|s| s.strip}
   end
 end

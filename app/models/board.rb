@@ -67,9 +67,26 @@ class Board < ApplicationRecord
 
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
   # and the user is not able to click the marker because it is a cluster
-  def self.get_map_markers
-    enabled.select(:lat, :lng).as_json(:except => :id).uniq
+  def self.get_map_markers(pinpoints: [])
+    boards = enabled.select(:lat, :lng, :category).group_by { |b| [b.lat, b.lng]}
+    j = []
+    boards.keys.each do |k|
+      j << {
+        lat: k[0],
+        lng: k[1],
+        category: boards[k][0]["category"]
+      }
+    end
+    pinpoints.each do |p|
+      j << {
+        lat: p[:lat],
+        lng: p[:lng],
+        category: "pinmarker"
+      }
+    end
+    return j
   end
+
 
   # Get percentage occupied by active campaigns and minimum investment required to appear in the board
   def occupation
@@ -118,11 +135,6 @@ class Board < ApplicationRecord
     impressions.where(created_at: time_range).sum(:cycles)
   end
 
-  def daily_earnings(day = Time.now)
-    time_range = day.beginning_of_day..day.end_of_day
-    cycle_price(day) * daily_impressions_count(day)
-  end
-
   def monthly_earnings(start = Time.now)
       @chosen_month = Time.zone.now.beginning_of_month
       @start_date = @chosen_month - 1.month + 25.days
@@ -161,17 +173,18 @@ class Board < ApplicationRecord
   # a cycle is the total time of an impression duration
   # example a cycle could be of 10 seconds
   # this gives the price of a cycle in a bilbo
-  def cycle_price(date = Time.zone.now)
+  def cycle_price
     daily_seconds = working_minutes(start_time, end_time) * 60
-    total_days_in_month = date.end_of_month.day
+    total_days_in_month = 30
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = calculate_max_earnings
     (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration
   end
 
-  # there needs to be a sale currently running, otherwise it will return an error
-  def sale_cycle_price(date = Time.zone.now)
-    return current_sale.present?? (cycle_price(date) * ((current_sale.percent - 100).abs * 0.01)) : cycle_price(date)
+  # If a sale is running on the board, this will return the cycle_price with the discount
+  # otherwise it will return the default cycle_price of the board
+  def sale_cycle_price
+    return current_sale.present?? (cycle_price * ((current_sale.percent - 100).abs * 0.01)) : cycle_price
   end
 
   def calculate_old_max_earnings(bilbo_percentage: 20)
@@ -205,11 +218,6 @@ class Board < ApplicationRecord
   def dont_edit_online
     #new ad rotation nil
     errors.add(:base, "No puedes editar un bilbo en línea") if admin_edit
-  end
-
-  # Returns how many times a single board should play it
-  def rep_times(campaign)
-    cycle_price(DateTime.now)
   end
 
   # Return campaigns active
@@ -372,6 +380,14 @@ class Board < ApplicationRecord
     # here we asume that we want all pictures to be FHD (1080p)
     imgw = ((arw * resolution) / arh).to_i
     return "#{imgw}x#{resolution}"
+  end
+
+  def diagonal_inches
+    # convert meters to inches
+    inch = 39.3701
+    width = self.width * inch
+    height = self.height * inch
+    Math.sqrt((width ** 2)+(height ** 2)).round(0)
   end
 
   def current_sale
