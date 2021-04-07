@@ -109,6 +109,11 @@ td {
   border-color: #10b759 !important;
 }
 
+.wizard_selected_ad_blue {
+  border-width: 2px !important;
+  border-color: #1C68F0 !important;
+}
+
 .wizard_selected_ad_primary {
   border-width: 2px !important;
   border-color: #0168fa !important;
