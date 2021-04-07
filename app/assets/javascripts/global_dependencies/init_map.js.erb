@@ -4,6 +4,12 @@ $(document).on('turbolinks:load', function() {
     google.maps.event.addDomListener(window, 'turbolinks:load', initializeMap);
   }
 });
+
+function close_infowindow(){
+  if (infowindow) {
+     infowindow.close();
+   }
+}
 function initializeMap() {
   waitForElement("#bilbomap", function() {
     var bilbos = JSON.parse($("#bilboMarkers").val())
@@ -88,7 +94,7 @@ function build_markers(bilbos) {
                 <img src="${$("#boardTabContent").find('img:first').attr("src")}" class="card-img-top o-fit-cover ht-120">
                 <div class="card-body pd-10-f">
                   <h5 class="card-title">${$("#board_info_name").text()}</h5>
-                  <p class="card-text d-sm-flex align-items-center justify-content-between tx-gray-500 tx-14 mg-b-5">
+                  <p class="card-text d-flex align-items-center justify-content-between tx-gray-500 tx-14 mg-b-5">
                   <span>
                   <i class="fe fe-eye"></i> ${$("#board_info_daily_views").text()}
                   </span>
@@ -99,7 +105,10 @@ function build_markers(bilbos) {
                   <i class="fe fe-expand"></i> ${$("#board_info_diagonal_inches").text()}"
                   </span>
                   </p>
-                  <a href="/campaigns?openModal=modalNewCampaign" target="_parent" class="tx-14 ${ $("#dashboardWizard").length ? 'd-none': ''}" style="font-weight: 500">Crear una campaña <i class="fe fe-plus tx-semibold mg-l-10"></i></a>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <a href="/campaigns?openModal=modalNewCampaign" target="_parent" class="tx-14 ${ $("#dashboardWizard").length ? 'invisible': ''}" style="font-weight: 500">Crear una campaña <i class="fe fe-plus tx-semibold mg-l-10"></i></a>
+                    <small class="tx-gray-500 tx-underline cursor-pointer" onclick="close_infowindow();">cerrar</a>
+                  </div>
                 </div>
               </div>`)
             infowindow.open(window.bilbomap, marker);
@@ -118,9 +127,9 @@ function build_markers(bilbos) {
     return marker;
   });
 
-  // var options = {
-  //   imagePath: "https://cdn-bilbo.app.bilbo.mx/statics/maps/markercluster/m"
-  // };
-  //
-  // window.markerCluster = new MarkerClusterer(window.bilbomap, window.markers, options);
+  var options = {
+    imagePath: "https://content-bilbo.app.bilbo.mx/statics/maps/markercluster/m"
+  };
+
+  window.markerCluster = new MarkerClusterer(window.bilbomap, window.markers, options);
 }
