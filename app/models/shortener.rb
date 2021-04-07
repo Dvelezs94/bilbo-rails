@@ -15,7 +15,7 @@ class Shortener < ApplicationRecord
   end
 
   def daily_hits(time_range = 30.days.ago..Time.zone.now)
-    punches.unscope(:order).where(starts_at: time_range).group_by_day(:starts_at).count
+    punches.unscope(:order).where(starts_at: time_range).group_by_day(:starts_at, format: "%b %d").count
   end
 
   private

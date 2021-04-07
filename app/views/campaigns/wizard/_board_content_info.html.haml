@@ -14,13 +14,12 @@
     %td.valign-middle-f.tx-gray-700 Imagen, video
   %td<
     %div
-      = link_to multimedia_contents_board_campaign_index_path(board_slug: board.slug, board_name: board.name, campaign: @campaign), {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: "btn btn-outline-primary bd-dotted wd-50 ht-50 btn-icon mg-r-5 mg-b-5"} do
-        %i.fe.fe-plus.valign-middle-f
-      -if board.board_campaigns.find_by(campaign_id: @campaign).present?
-        %div{:id => "images-#{board.slug}"}
+      %div{:id => "images-#{board.slug}"}
+        -if board.board_campaigns.find_by(campaign_id: @campaign).present?
+          = render partial: 'campaigns/wizard/add_content_button', locals: {board: board}
           = render partial: 'campaigns/wizard/show_selected_content', collection: board.board_campaigns.find_by(board_id: board.id, campaign_id: @campaign).contents_board_campaign.map{|cont| cont.content}, as: :img, locals: {board_slug: board.slug}
-        = hidden_field_tag "content_board_campaign_id", board.board_campaigns.find_by(board_id: board.id, campaign_id: @campaign).contents_board_campaign.map{|cc| cc.content_id}, :id => "#{board.slug}"
-      -else
-        %div{:id => "images-#{board.slug}"}
+          = hidden_field_tag "content_board_campaign_id", board.board_campaigns.find_by(board_id: board.id, campaign_id: @campaign).contents_board_campaign.map{|cc| cc.content_id}, :id => "#{board.slug}"
+        -else
+          = render partial: 'campaigns/wizard/add_content_button', locals: {board: board}
           = image_tag "https://via.placeholder.com/100", class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded"
-        = hidden_field_tag "content_board_campaign_id", board.board_campaigns.where(board_id: board.id, campaign_id: @campaign).map{|cc| cc.content_id}, :id => "#{board.slug}"
+          = hidden_field_tag "content_board_campaign_id", board.board_campaigns.where(board_id: board.id, campaign_id: @campaign).map{|cc| cc.content_id}, :id => "#{board.slug}"
