@@ -17,7 +17,7 @@ class Mutations::CreateImpression < Mutations::BaseMutation
       board: Board.friendly.find(board_slug),
       campaign_id: campaign_id.to_i,
       cycles: cycles,
-      duration: Campaign.find(campaign_id).duration,
+      duration: Campaign.find(campaign_id).true_duration(board_slug),
       created_at: created_at,
       api_token: api_token
     )
