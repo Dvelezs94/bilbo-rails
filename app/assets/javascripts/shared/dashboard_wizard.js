@@ -606,8 +606,8 @@ function content_info(){
 function append_content(){
   $('#modalContent').modal('hide');
   content_board = $('#'+$('#slug-board').val())
-  if(content_board.length > 0){
-    var selected_content_modal = document.getElementsByClassName("wizard_selected_ad");
+  content_board.val("")
+    var selected_content_modal = document.getElementsByClassName("wizard_selected_ad_blue");
     var i;
     for (i = 0; i < selected_content_modal.length; i++) {
       value_content = content_board.val()
@@ -620,15 +620,15 @@ function append_content(){
         }
       }
     }
-  }
-  showContent(content_board);
+    showContent(content_board);
+
 }
 
 function showContent(content_board){
   $.ajax({
     url:  "/contents_board_campaign/get_content",
     dataType: "script",
-    data: {selected_contents: content_board.val(), board_slug: $('#slug-board').val()},
+    data: {selected_contents: content_board.val(), board_slug: $('#slug-board').val(), campaign: $("#campaign_id").val()},
     success: function(data) {
     },
     error: function(data) {
