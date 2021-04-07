@@ -1,9 +1,9 @@
-.card.wd-30p{"data-content": "#{content.id}"}
+%a.link-02.card-link.card.wd-30p{"data-content": "#{content.id}", :href => "#{content_path(content)}",}
   -if content.is_video?
-    = image_tag content.multimedia_url(:small), class: "card-img-top"
+    = image_tag content.multimedia_url(:small), class: "card-img-top", id: "card-ad-link"
   - else
     -if content.multimedia(:large).height <= 1080
-      = image_tag content.multimedia_url(:small), class: "card-img-top"
+      = image_tag content.multimedia_url(:small), class: "card-img-top", id: "card-ad-link"
     - else
       = image_tag "construction_video.webp", class: "card-img-top"
   .card-body.pd-5-f
@@ -35,3 +35,19 @@
 -#     -else
 -#       %span= "#{content.multimedia(:large).width.round(0)} x #{content.multimedia(:large).height.round(0)}"
 -#     %div.pd-t-10
+
+
+
+
+//.card.wd-30p{"data-content": "#{content.id}"}
+//  -if content.is_video?
+//    = image_tag content.multimedia_url(:small), class: "card-img-top"
+//  - else
+//    -if content.multimedia(:large).height <= 1080
+//      = image_tag content.multimedia_url(:small), class: "card-img-top"
+//    - else
+//      = image_tag "construction_video.webp", class: "card-img-top"
+//  .card-body.pd-5-f
+//    %p.card-text{style: "margin-bottom: 0.5rem;"}= content.multimedia.metadata["filename"].truncate(30)
+//    %p.card-text
+//      %small.text-muted= "#{content.multimedia(:large).width.round(0)} x #{content.multimedia(:large).height.round(0)}"
