@@ -62,11 +62,18 @@ class AdsController < ApplicationController
   end
 
   def modal_action
-    if Campaign.find_by_id(params[:id]).ad.present?
+    if BoardsCampaigns.find(params[:id]).contents_board_campaign.present?
       if params[:images_only] == "true"
-        @objects = Campaign.find_by_id(params[:id]).ad.images
+        @objects = []
+        BoardsCampaigns.find(params[:id]).contents_board_campaign.each do |cbc|
+          if cbc.content.is_image?
+            @objects.push(cbc.content)
+          end
+          p @objects
+        end
       else
-        @objects = Campaign.find_by_id(params[:id]).ad.multimedia.attachments
+        @objects = []
+        BoardsCampaigns.find(params[:id]).contents_board_campaign.map{|cbc| @objects.push(cbc.content)}
       end
       render  'modal_action', :locals => {:obj => @objects}
     end
