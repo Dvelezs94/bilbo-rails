@@ -1,4 +1,4 @@
-%a.link-02.card-link.card.wd-30p{"data-content": "#{content.id}", :href => "#{content_path(content)}",}
+.card.wd-30p{"data-content": "#{content.id}", :href => "#{content_path(content)}",}
   -if content.is_video?
     = image_tag content.multimedia_url(:small), class: "card-img-top", id: "card-ad-link"
   - else
