@@ -1,4 +1,4 @@
-$("#modalContent").append("<%= j (render 'campaigns/wizard/content', locals: {content: @content, board_name: @board_name, slug: @slug, accept_only_images: @accept_only_images}) %>");
+$("#modalContent").append("<%= j (render 'campaigns/wizard/content', locals: {content: @content, board_name: @board_name, slug: @slug, accept_only_images: @accept_only_images, :campaign => @campaign}) %>");
 $("#modalContent").modal();
 $("#content_modal").html("<%= j render partial: 'campaigns/wizard/contents_modal'%>");
 select_content();
