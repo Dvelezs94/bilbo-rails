@@ -38,23 +38,17 @@ function select_content() {
       if ($(this).hasClass('wizard_selected_ad_blue')){
         $(this).removeClass('wizard_selected_ad_blue');
       }else {
-      $(this).addClass('wizard_selected_ad_blue');  
+      $(this).addClass('wizard_selected_ad_blue');
       }
 
     });
 
     if ($('#'+$('#slug-board').val()).val().split(" ").length) {
-      console.log("Slug: " + $("#slug-board").val());
       selected_contents_ids = $('#'+$('#slug-board').val()).val().split(" ");
-      console.log("select_contents: "+ selected_contents_ids);
-      //var selected_ad = $('#' + selected_ad_id);
       var i;
       for (i = 0; i < selected_contents_ids.length; i++) {
         selected_ad = selected_contents_ids[i]
-        console.log("selected ad: " + selected_ad);
         select_content_mark = $(document.querySelectorAll('[data-content='+ "'"+selected_ad+"'" + ']'))
-        console.log(select_content_mark)
-        console.log("find: " + select_content_mark.find('.card.wd-30p'))
         select_content_mark.addClass('wizard_selected_ad_blue');
       }
 
