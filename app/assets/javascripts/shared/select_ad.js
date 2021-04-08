@@ -32,8 +32,8 @@ function select_ad() {
 
 function select_content() {
   // choose ad in wizard
-  if ($('.card.wd-30p').length) {
-    $('.card.wd-30p').click(function(e) {
+  if ($('div[data-content]').length) {
+    $('div[data-content]').click(function(e) {
       e.preventDefault();
       if ($(this).hasClass('wizard_selected_ad_blue')){
         $(this).removeClass('wizard_selected_ad_blue');
