@@ -4,7 +4,6 @@ class CreateContents < ActiveRecord::Migration[6.0]
       t.string :slug
       t.string :url
       t.string :multimedia_data
-      t.integer :duration, default: 10
       t.references :project, foreign_key: true
 
       t.timestamps
