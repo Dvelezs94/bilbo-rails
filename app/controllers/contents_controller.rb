@@ -77,6 +77,6 @@ class ContentsController < ApplicationController
   end
 
   def content_params
-    params.require(:content).permit(:url, :multimedia, :duration).merge(:project_id => @project.id)
+    params.require(:content).permit(:url, :multimedia).merge(:project_id => @project.id)
   end
 end
