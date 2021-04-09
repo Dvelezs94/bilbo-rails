@@ -19,6 +19,14 @@ class Content < ApplicationRecord
     end
   end
 
+  def is_url?
+    begin
+      get_format.include? "html"
+    rescue
+      false
+    end
+  end
+
   def get_format
     if multimedia_data.present?
       return "image" if is_image?

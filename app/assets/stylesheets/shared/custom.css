@@ -50,7 +50,7 @@
 }
 
 .o-fit-cover {
-  object-fit: cover
+  object-fit: cover;
 }
 
 .obj-fit-scale-down {
@@ -523,3 +523,8 @@ Usage
 
 .gm-style-iw > button {display: none !important;}
 /* End google maps */
+
+iframe {
+  pointer-events: none;
+  border-width: 0px !important;
+}
