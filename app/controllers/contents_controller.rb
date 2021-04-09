@@ -15,6 +15,11 @@ class ContentsController < ApplicationController
   end
 
   def new_url
+    @content = Content.new
+    @content_modal = params[:content_modal]
+    if params[:content_modal].present?
+      render  'new_multimedia', :locals => {:content_modal => @content_modal}
+    end
   end
 
   def update

@@ -13,7 +13,7 @@
     - @active_campaigns.each do |campaign|
       - content = @board.get_content(campaign)
       - if @board.images_only
-        content = content.select{|c| c.multimedia.content_type.include? "image"}
+        -#content = content.select{|c| c.multimedia.content_type.include? "image"}
       = render partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign, board: @board}
   #bilbo-ad
     = render partial: "ads/bilbo_ad"

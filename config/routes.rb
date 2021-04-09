@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   resources :contents do
     collection do
       get :new_multimedia
+        get :new_url
       get :create_content_on_campaign
     end
   end

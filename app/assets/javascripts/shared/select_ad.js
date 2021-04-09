@@ -45,6 +45,7 @@ function select_content() {
 
     if ($('#'+$('#slug-board').val()).val().split(" ").length) {
       selected_contents_ids = $('#'+$('#slug-board').val()).val().split(" ");
+      console.log("sasa");
       var i;
       for (i = 0; i < selected_contents_ids.length; i++) {
         selected_ad = selected_contents_ids[i]
@@ -64,4 +65,8 @@ function scroll_ads() {
     $("#paginator a:visible").remove();
     $.getScript(url);
   }
+}
+
+function remove_on_click(){
+  //for fix the bug select content
 }

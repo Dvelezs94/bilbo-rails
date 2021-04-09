@@ -4,6 +4,9 @@
       -if content.is_video?
         = link_to content.multimedia_url(:transcoded), class: "glightbox img-inherit", :data => {caption: content.multimedia.metadata["filename"], group: ""} do
           = image_tag content.multimedia_url(:large), class: "img-inherit", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted'
+      -elsif content.url?
+        //= content_tag("iframe", '', src: content.url, width: "100%", class: "img-inherit")
+        //%iframe{:src => "#{content.url}", class: "img-inherit"}
       -else
         -if content.multimedia(:large).height <= 1080
           = link_to content.multimedia_url(:large), class: "glightbox img-inherit", :data => {caption: content.multimedia.metadata["filename"], group: "", type: "image"} do
@@ -14,12 +17,16 @@
       -if content.is_video?
         %h6.mmtitle= content.multimedia.metadata["filename"].truncate(30)
       -else
-        -if content.multimedia(:large).height <= 1080
+        -if !content.url? && content.multimedia(:large).height <= 1080
           %h6.mmtitle= content.multimedia.metadata["filename"].truncate(30)
+        -elsif content.url?
+          %h6.mmtitle Holi
         - else
           %h6.mmtitle= I18n.t('ads.processing', filename: content.multimedia.metadata["filename"].truncate(30))
-      - if content.multimedia(:large).width.nil?
+      - if !content.url? && content.multimedia(:large).width.nil?
         %span= t("ads.measures")
+      -elsif content.url?
+        %h6.mmtitle Holi
       -else
         %span= "#{content.multimedia(:large).width.round(0)} x #{content.multimedia(:large).height.round(0)}"
       %div.pd-t-10
@@ -34,10 +41,15 @@
       -# %span= I18n.t('ads.transition')
       -# = select_tag "",options_for_select(Ad.transitions.map{|x|  [t("ads.transitions.#{x[0]}"),x[1]]}, content.multimedia.transition) ,onchange: "$.post('#{ad_attachment_path(content.multimedia.record,multimedia)}',{'_method':'put', 'effect': this.value} );", class: 'custom-select'
     .card-footer
-      %span.d-sm-inline
-        = t("general_inputs.size")
-        \:
-      = number_to_human_size(content.multimedia.size, precision: 2)
-      = link_to raw("<i class='fe fe-trash fnt-md tx-danger a-right'></i>"), content_path(content), class: "float-right", method: :delete, data: { confirm: t("general_inputs.delete_confirmation") }
-
+      -if !content.url?
+        %span.d-sm-inline
+          = t("general_inputs.size")
+          \:
+        = number_to_human_size(content.multimedia.size, precision: 2)
+        = link_to raw("<i class='fe fe-trash fnt-md tx-danger a-right'></i>"), content_path(content), class: "float-right", method: :delete, data: { confirm: t("general_inputs.delete_confirmation") }
+      -else
+        = form_with(model: content, url: content_path(content), :html => { :id => "new_content_url", data: { parsley_validate: true } }, remote: true) do |f|
+          = f.text_field :url, class: "form-control"
+          = f.submit "Enviar"
+        = link_to raw("<i class='fe fe-trash fnt-md tx-danger a-right'></i>"), content_path(content), class: "float-right", method: :delete, data: { confirm: t("general_inputs.delete_confirmation") }
 / col
