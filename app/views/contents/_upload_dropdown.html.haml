@@ -10,7 +10,7 @@
     = link_to new_multimedia_contents_path, remote: true, class: "dropdown-item" do
       %i.fe.fe-large.fe-file-image.pd-r-5.tx-16
       %span Subir video
-    %a.dropdown-item{:href => ""}
+    = link_to new_url_contents_path, remote: true, class: "dropdown-item" do
       %i.fe.fe-large.fe-link-external.pd-r-5.tx-16
       %span Agregar Contenido web
     .dropdown-divider
