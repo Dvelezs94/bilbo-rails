@@ -11,7 +11,14 @@ class BoardsCampaigns < ApplicationRecord
     before_save :notify_users, if: :will_save_change_to_status?
     before_update :calculate_remaining_impressions
     after_commit :add_or_stop_campaign, if: :make_broadcast
+
+    amoeba do
+      enable
+      include_association :contents_board_campaign, class_name: "ContentsBoardCampaign"
+    end
+
     private
+
     def add_or_stop_campaign
       err = board.broadcast_to_board(campaign)
       if err.present?

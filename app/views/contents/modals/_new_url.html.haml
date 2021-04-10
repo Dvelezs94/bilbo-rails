@@ -10,6 +10,6 @@
             = form_with(model: @content, url: contents_path(content_modal: @content_modal), method: :post, :html => { :id => "new_content_url", data: { parsley_validate: true } }, remote: true) do |f|
               = f.text_field :url, class: "form-control"
               = f.submit "Enviar"
-            %iframe{:src => "", class: "img-inherit", id: "iframe-modal"}
+            %iframe{:src => "", class: "img-inherit", scrolling: "no", id: "iframe-modal"}
       .modal-footer
         %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
