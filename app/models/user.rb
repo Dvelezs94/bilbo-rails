@@ -181,7 +181,7 @@ class User < ApplicationRecord
         self.balance -= amount.to_f
         save!
       end
-      # Increase
+      # Increase total invested on campaign
       if camp_id.is_a? Integer
         camp = Campaign.find(camp_id)
         camp.with_lock do

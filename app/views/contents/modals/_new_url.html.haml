@@ -1,15 +1,17 @@
-#modalNewUrl.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog.modal-dialog-centered{:role => "document"}
-    .modal-content
-      .modal-body.pd-20
-        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} ×
-        -# %h5.tx-18.tx-sm-20= t("campaign.bilbos_used")
-        .row
-          .col-12.m-auto
-            = form_with(model: @content, url: contents_path(content_modal: @content_modal), method: :post, :html => { :id => "new_content_url", data: { parsley_validate: true } }, remote: true) do |f|
-              = f.text_field :url, class: "form-control"
-              = f.submit "Enviar"
-            %iframe{:src => "", class: "img-inherit", scrolling: "no", id: "iframe-modal"}
-      .modal-footer
-        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+= form_with(model: @content, url: contents_path(content_modal: @content_modal), method: :post, :html => { :id => "new_content_url", data: { parsley_validate: true } }, remote: true) do |f|
+  #modalNewUrl.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog{:role => "document"}
+      .modal-content
+        .modal-header
+          %h6.modal-title New URL
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+        .modal-body.pd-20
+          %iframe{:src => "https://via.placeholder.com/458x150?text=Type+link+to+preview", class: "img-inherit", scrolling: "no", id: "iframe-modal"}
+          .input-group
+            = f.text_field :url, class: "form-control", placeholder: "https://www.google.com/"
+            .input-group-append
+              %button#button-addon2.btn.btn-outline-light{:type => "button", onclick: "preview_iframe('#content_url', '#iframe-modal')"} Preview
+        .modal-footer
+          %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+          = f.submit "Guardar URL", class: "btn btn-primary"

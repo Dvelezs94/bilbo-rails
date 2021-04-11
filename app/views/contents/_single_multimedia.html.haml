@@ -26,13 +26,13 @@
       - if !content.url? && content.multimedia(:large).width.nil?
         %span= t("ads.measures")
       -elsif content.url?
-        %span -
+        %span Responsivo
       -else
         %span= "#{content.multimedia(:large).width.round(0)} x #{content.multimedia(:large).height.round(0)}"
-      %div.pd-t-10
+      -# %div.pd-t-10
       -# %span= I18n.t('ads.transition')
       -# = select_tag "",options_for_select(Ad.transitions.map{|x|  [t("ads.transitions.#{x[0]}"),x[1]]}, content.multimedia.transition) ,onchange: "$.post('#{ad_attachment_path(content.multimedia.record,multimedia)}',{'_method':'put', 'effect': this.value} );", class: 'custom-select'
-    .card-footer
+    .card-footer.pd-t-0
       -if !content.url?
         %span.d-sm-inline
           = t("general_inputs.size")

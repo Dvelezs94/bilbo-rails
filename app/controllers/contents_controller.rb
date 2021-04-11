@@ -30,7 +30,9 @@ class ContentsController < ApplicationController
 
   def create
     @content = @project.contents.create(content_params)
-    @content.multimedia_derivatives!
+    if  @content.multimedia.present?
+      @content.multimedia_derivatives!
+    end
     if !@content.save
         flash[:error] = "Error"
         redirect_to contents_path
