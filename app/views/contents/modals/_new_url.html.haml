@@ -9,7 +9,7 @@
         .modal-body.pd-20
           %iframe{:src => "https://via.placeholder.com/458x150?text=Type+link+to+preview", class: "img-inherit", scrolling: "no", id: "iframe-modal"}
           .input-group
-            = f.text_field :url, class: "form-control", placeholder: "https://www.google.com/"
+            = f.url_field :url, pattern: "https?://.*", class: "form-control", placeholder: "https://www.google.com/"
             .input-group-append
               %button#button-addon2.btn.btn-outline-light{:type => "button", onclick: "preview_iframe('#content_url', '#iframe-modal')"} Preview
         .modal-footer

@@ -34,25 +34,21 @@ function select_content() {
   // choose ad in wizard
   if ($('div[data-content]').length) {
     $('div[data-content]').click(function(e) {
+      var content_id = $(this).attr("data-content")
       e.preventDefault();
-      if ($(this).hasClass('wizard_selected_ad_blue')){
-        $(this).removeClass('wizard_selected_ad_blue');
-      }else {
-      $(this).addClass('wizard_selected_ad_blue');
-      }
-
+      // Click on nearest checkbox
+      $("#pickContent" + content_id).prop("checked", !$("#pickContent" + content_id).prop("checked"));
+      append_content_live();
     });
 
     if ($('#'+$('#slug-board').val()).val().split(" ").length) {
       selected_contents_ids = $('#'+$('#slug-board').val()).val().split(" ");
-      console.log("sasa");
       var i;
       for (i = 0; i < selected_contents_ids.length; i++) {
         selected_ad = selected_contents_ids[i]
         select_content_mark = $(document.querySelectorAll('[data-content='+ "'"+selected_ad+"'" + ']'))
         select_content_mark.addClass('wizard_selected_ad_blue');
       }
-
     }
   }
 }

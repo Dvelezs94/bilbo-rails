@@ -5,7 +5,7 @@
 .modal-body
   .container-fluid
     .row
-      .col-4
+      .col-3
         //= render "contents/sidebar"
         .dropdown.dropdown-icon.flex-fill
           %button.btn.btn-xs.btn-block.btn-secondary{"aria-expanded" => "true", "data-toggle" => "dropdown"}
@@ -40,7 +40,7 @@
             %a#imageFilter.nav-link{:href => ""}
               %i.pd-x-5.fnt-md.fe.fe-folder
               %span Grupos
-      .col-8
+      .col-9
         .card-columns#single_content
           = render :partial => 'campaigns/wizard/single_content_modal', collection: @content, as: :content
 .modal-footer
