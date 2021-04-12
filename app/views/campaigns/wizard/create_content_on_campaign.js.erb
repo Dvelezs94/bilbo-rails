@@ -1,4 +1,5 @@
 $("#single_content").append("<%= j render partial: 'campaigns/wizard/single_content_modal', collection: @content_array, as: :content%>");
+remove_on_click();
 select_content();
 <% if @success_message.present? %>
   show_success("<%= escape_javascript(@success_message)%>");
@@ -7,4 +8,6 @@ select_content();
 <% end %>
 if($("#modalNewMultimedia").length){
   $('#modalNewMultimedia').modal('hide');
+}else if ($('#modalNewUrl').length) {
+  $('#modalNewUrl').modal('hide');
 }

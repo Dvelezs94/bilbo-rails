@@ -18,7 +18,7 @@ class ContentsController < ApplicationController
     @content = Content.new
     @content_modal = params[:content_modal]
     if params[:content_modal].present?
-      render  'new_multimedia', :locals => {:content_modal => @content_modal}
+      render  'new_url', :locals => {:content_modal => @content_modal}
     end
   end
 
@@ -42,6 +42,9 @@ class ContentsController < ApplicationController
         if params[:content_modal].present? && params[:content_modal] == "false"
           @success_message = "Se subio con exito el contenido"
           render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message  }
+        elsif params[:content_modal].present? && @content.is_url? && params[:content_modal] == "true"
+          @success_message = "Se subio con exito el contenido"
+          render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message }
         elsif params[:content_modal].present? && @content.is_image? && params[:content_modal] == "true"
           @success_message = "Se subio con exito el contenido"
           render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message }
