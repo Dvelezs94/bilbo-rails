@@ -621,7 +621,6 @@ function append_content(){
       }
     }
     showContent(content_board);
-
 }
 
 function showContent(content_board){
