@@ -202,6 +202,7 @@ class BoardsController < ApplicationController
   def board_params
     params.require(:board).permit(:project_id,
                                   :name,
+                                  :user_email,
                                   :upload_from_csv,
                                   :avg_daily_views,
                                   :width,
@@ -290,7 +291,7 @@ class BoardsController < ApplicationController
   end
 
   def create_boards_from_csv(file, project_id)
-    files = {}
+    files = {} #Store all the files in this hash to avoid downloading a single file multiple times
     CSV.foreach(file, :headers => true).each_with_index do |row, index|
       item = {}
       item[:project_id] = project_id
@@ -306,26 +307,46 @@ class BoardsController < ApplicationController
       item[:lng] = row["LONGITUD"] || location.lng
       item[:utc_offset] = Timezone.lookup(location.lat, location.lng).utc_offset / 60
 
-      item[:category] = row["Tipo de Medio"]
+      # Ensure the category is valid, if it's not then leave it as nil to raise an error later
+      screen_type = (row["Tipo de Medio"] || "").downcase.strip
+      if screen_type.in? ["espectacular", "billboard"]
+        item[:category] = "billboard"
+      elsif screen_type.in? ["televisión","television"]
+        item[:category] = "television"
+      elsif screen_type.in? ["cartelon","cartelón","wallboard"]
+        item[:category] = "wallboard"
+      end
+
       item[:avg_daily_views] = row["Trafico Mensual"].to_i / 30
       item[:displays_number] = row["Numero de pantallas"].to_i || 1
 
+      # Compute the base earnings based on the impression cost and the working time of the board
       item[:start_time] = row["Hora de inicio"]
       item[:end_time] = row["Hora Fin"]
       working_minutes = (Time.zone.parse(item[:end_time]) - Time.zone.parse(item[:start_time]))/1.minutes % 1440
       working_minutes = 1440 if working_minutes == 0
       item[:base_earnings] = row["Ganancias por mes"].present?? row["Ganancias por mes"].to_f : row["Precio por Spot"].to_f * (working_minutes * 6 * 10.0/row["Duracion de anuncio (s)"].to_i) * 30
-      item[:extra_percentage_earnings] = row["Porcentaje extra esperado"].remove('%') || 20  #Remove % symbol if its present and store only the value
+      item[:extra_percentage_earnings] = row["Porcentaje extra esperado"].strip.remove('%') || 20  #Remove % symbol if its present and store only the value
 
-      #Set default face to North in case its not present
-      item[:face] = row["Cara"] || "Norte"
+      #Set default face to North in case it is not present
+      face = row["Cara"].downcase.strip
+      if face.in? ["sur", "south"]
+        item[:face] = "south"
+      elsif face.in? ["este", "east"]
+        item[:face] = "east"
+      elsif face.in? ["oeste", "west"]
+        item[:face] = "west"
+      elsif face.in? ["cuarto 1"]
+        item[:face] = "cuarto 1"
+      else
+        item[:face] = "north"
+      end
 
       item[:social_class] = row["Categoria"]
 
       item[:width] = row["Anchura (m)"].to_f
       item[:height] = row["Altura (m)"].to_f
 
-      #Duration is missing
       item[:duration] = row["Duracion de anuncio (s)"].to_i
 
       item[:restrictions] = split_restrictions(row["Restricciones"] || "").to_json
@@ -333,34 +354,62 @@ class BoardsController < ApplicationController
       item[:images_only] = !(["mp4","video"].map{|format| row["Formato"].downcase.include? format}.any?) #Set images only to true if video or mp4 is not present in format column
 
       @board = Board.new(item) #Create the board with the info collected above
-      if @board.name.nil?
-        @errors.append(["(Sin nombre) (fila #{index+1})", ["No se pudo guardar el board","El nombre del bilbo no puede estar vacío"]])
+
+      #Handle specific errors (ensure that the board has a name and category before doing anything else)
+      error1.append(["El nombre del bilbo no puede estar vacío"]) if @board.name.nil?
+      error1.append(["El tipo de medio no es válido o está vacío"]) if @board.category.nil?
+      if @board.name.nil? || @board.category.nil?
+        error1.prepend("No se pudo guardar el board")
+        @errors.append([(@board.name || "(Sin nombre)") + " (fila #{index+1})", error1])
         next
       end
 
+      #Save and handle errors
+      success = @board.save
+
+      brd_errors = []
       if row["Imagenes"].present?  #Load images from urls if they are provided
         row["Imagenes"].split().each_with_index do |url, index|
           if files.keys.include? url
             image = files[url]
             image.rewind
           else
-            image = open(url)
-            files[url] = image
+            begin #Make sure that the content can be retrieved
+              image = open(url)
+              if image.content_type.in? ["image/jpg","image/jpeg","image/png","video/mp4"]
+                files[url] = image
+              else
+                brd_errors.append("El enlace #{url} no contiene un archivo multimedia válido (se encontró #{image.content_type})")
+                next
+              end
+            rescue
+              brd_errors.append("No se pudo obtener el contenido del enlace '#{url}'")
+              next
+            end
           end
-          @board.images.attach(io: image, filename: @board.name.split().join('-') + '.' + image.content_type.split('/')[1]) if image.status[0] == "200"
+          @board.images.attach(io: image, filename: File.basename(url), content_type: image.content_type)
         end
       end
-
       if row["Imagenes default"].present? #Load default images from urls if they are provided, else set the default bilbo image
         row["Imagenes default"].split().each_with_index do |url, index|
           if files.keys.include? url
             image = files[url]
             image.rewind
           else
-            image = open(url)
-            files[url] = image
+            begin #Make sure that the content can be retrieved
+              image = open(url)
+              if image.content_type.in? ["image/jpg","image/jpeg","image/png","video/mp4"]
+                files[url] = image
+              else
+                brd_errors.append("El enlace '#{url}' no contiene un archivo multimedia válido (se encontró #{image.content_type})")
+                next
+              end
+            rescue
+              brd_errors.append("No se pudo obtener el contenido del enlace '#{url}'")
+              next
+            end
           end
-          @board.default_images.attach(io: image, filename: @board.name.split().join('-') + '.' + image.content_type.split('/')[1]) if image.status[0] == "200"
+          @board.default_images.attach(io: image, filename: @board.name.split().join('-') + '.' + image.content_type.split('/')[1], content_type: image.content_type)
         end
       else #attach the default bilbo image
         if files.keys.include? 'https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png'
@@ -370,19 +419,29 @@ class BoardsController < ApplicationController
           image = open('https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png')
           files['https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png'] = image
         end
-        @board.default_images.attach(io: image, filename: "bilbo-default.png") if image.status[0] == "200"
+        @board.default_images.attach(io: image, filename: "bilbo-default.png", content_type: image.content_type)
       end
 
-      #Save and handle errors
-      success = @board.save
-      brd_errors = @board.errors.full_messages
+      brd_errors.append("Los formatos admitidos son: image/jpeg, image/png, image/jpg, y video/mp4") if brd_errors.present?
+
+      #Notify if the board doesn't have images even if it was saved
+      brd_errors += @board.errors.full_messages
+      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes del bilbo") if @board.images.count == 0
+      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes default del bilbo") if @board.default_images.count == 0
       if !success
         brd_errors.prepend("No se pudo guardar el board")
       end
-      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes del bilbo") if @board.images.count == 0
-      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes default del bilbo") if @board.default_images.count == 0
       @errors.append([(@board.name || "(Sin nombre)") + " (fila #{index+1})", brd_errors]) if brd_errors.present?
+    end
 
+    # Close and delete created temp files
+    files.values.each do |file|
+      # When the file size is lower than 10kb, the system can use it as a StringIO object, without storing any file
+      # If the file size is larger, then it creates a Tempfile that should be deleted after using it
+      if file.is_a? Tempfile
+        file.close
+        file.unlink
+      end
     end
   end
 

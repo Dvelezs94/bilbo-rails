@@ -221,6 +221,27 @@ ActiveRecord::Schema.define(version: 2021_03_24_225620) do
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
   end
 
+  create_table "contents", force: :cascade do |t|
+    t.string "slug"
+    t.string "url"
+    t.string "multimedia_data"
+    t.integer "duration", default: 10
+    t.bigint "project_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_contents_on_project_id"
+    t.index ["slug"], name: "index_contents_on_slug", unique: true
+  end
+
+  create_table "contents_board_campaigns", force: :cascade do |t|
+    t.bigint "content_id", null: false
+    t.bigint "boards_campaigns_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["boards_campaigns_id"], name: "index_contents_board_campaigns_on_boards_campaigns_id"
+    t.index ["content_id"], name: "index_contents_board_campaigns_on_content_id"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -463,6 +484,7 @@ ActiveRecord::Schema.define(version: 2021_03_24_225620) do
   add_foreign_key "campaign_subscribers", "campaigns"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "projects"
+  add_foreign_key "contents_board_campaigns", "contents"
   add_foreign_key "impression_hours", "campaigns"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
