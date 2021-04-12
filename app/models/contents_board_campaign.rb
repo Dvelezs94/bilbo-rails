@@ -8,7 +8,6 @@ class ContentsBoardCampaign < ApplicationRecord
   private
 
   def set_board_campaigns_to_review
-    puts "x" * 500
     self.boards_campaigns.update_column(:status, BoardsCampaigns.statuses[:in_review])
   end
 end
