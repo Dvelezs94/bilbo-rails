@@ -7,7 +7,7 @@
           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
             %span{"aria-hidden" => "true"} ×
         .modal-body.pd-20
-          %iframe{:src => "https://via.placeholder.com/458x150?text=Type+link+to+preview", class: "img-inherit", scrolling: "no", id: "iframe-modal"}
+          %iframe{:src => "https://via.placeholder.com/458x250?text=Type+link+to+preview", class: "ht-250 wd-100p", scrolling: "no", id: "iframe-modal"}
           .input-group
             = f.url_field :url, pattern: "https?://.*", class: "form-control", placeholder: "https://www.google.com/"
             .input-group-append
