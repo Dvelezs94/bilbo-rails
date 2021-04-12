@@ -605,22 +605,17 @@ function content_info(){
 
 function append_content(){
   $('#modalContent').modal('hide');
-  content_board = $('#'+$('#slug-board').val())
-  content_board.val("")
-    var selected_content_modal = document.getElementsByClassName("wizard_selected_ad_blue");
-    var i;
-    for (i = 0; i < selected_content_modal.length; i++) {
-      value_content = content_board.val()
-      tmp = selected_content_modal[i].getAttribute('data-content');
-      if (value_content.split(" ").includes(tmp) == false){
-        if(value_content == ""){
-          content_board.val(tmp)
-        }else{
-          content_board.val(value_content + " " + tmp)
-        }
-      }
-    }
-    showContent(content_board);
+  content_board = $('#'+$('#slug-board').val());
+  content_board.val("");
+  checkbox_selected = $('input[type="checkbox"]:checked');
+  content_ids = [];
+  $('input[type="checkbox"]:checked').each(function() {
+     content = this.id.split("pickContent");
+     content_ids.push(content[1]);
+  });
+  cont_ids = content_ids.toString().replace(/,/g , " ");
+  content_board.val(cont_ids);
+  showContent(content_board);
 }
 
 function showContent(content_board){
