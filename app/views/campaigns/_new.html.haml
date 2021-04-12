@@ -2,41 +2,41 @@
 #modalNewCampaign.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document", class: "#{'modal-xl' if large_modal}"}
     .modal-content
+      .modal-header
+        %h5.modal-title= t("campaign.new_campaign")
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &#215;
       = form_with(model: Campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, remote: true) do |f|
         .modal-body.pd-20.pd-sm-30.pd-b-0-f
-          %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-            %span{"aria-hidden" => "true"} &#215;
-          %h5.tx-18.tx-sm-20.mg-b-30= t("campaign.new_campaign")
           .container
             .row
-              .col-12{class: "#{'col-lg-6' if large_modal}"}
-                .pd-20
-                  .form-group
-                    = f.label t("general_inputs.name")
-                    %br/
-                    = f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name")
-                  .form-group
-                    = f.label t("general_inputs.description")
-                    %br/
-                    = f.text_area :description, class: "form-control", value: "", autocomplete: "off", placeholder: t("general_inputs.description")
+              .col-12.pd-x-0{class: "#{'col-lg-6' if large_modal}"}
+                .form-group
+                  = f.label t("general_inputs.name")
+                  %br/
+                  = f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name")
+                .form-group
+                  = f.label t("general_inputs.description")
+                  %br/
+                  = f.text_area :description, class: "form-control", value: "", autocomplete: "off", placeholder: t("general_inputs.description")
 
-                  .form-group
-                    .divider-text= t('campaign.objective')
-                    = f.text_field :objective, class: "d-none", value: "awareness"
-                    .card-deck
-                      #objective_awareness.card.cursor-pointer.selected_card{"data-objective": "awareness"}
-                        .card-header.tx-bold.tx-center= t("campaign.objectives.awareness")
-                        .card-body= t("campaign.objectives.awareness_description")
-                      #objective_interaction.card.cursor-pointer{"data-objective": "interaction"}
-                        .card-header.tx-bold.tx-center= t("campaign.objectives.interaction")
-                        .card-body= t("campaign.objectives.interaction_description")
+                .form-group
+                  .divider-text= t('campaign.objective')
+                  = f.text_field :objective, class: "d-none", value: "awareness"
+                  .card-deck
+                    #objective_awareness.card.cursor-pointer.selected_card{"data-objective": "awareness"}
+                      .card-header.tx-bold.tx-center= t("campaign.objectives.awareness")
+                      .card-body= t("campaign.objectives.awareness_description")
+                    #objective_interaction.card.cursor-pointer{"data-objective": "interaction"}
+                      .card-header.tx-bold.tx-center= t("campaign.objectives.interaction")
+                      .card-body= t("campaign.objectives.interaction_description")
 
-                  .form-group.d-none#campaign_link_form
-                    .input-group
-                      .input-group-prepend
-                        .input-group-text
-                          %i.fe.fe-globe
-                      = f.url_field :link, :class => "form-control", pattern: "https?://.*",placeholder: 'https://www.website.com/', data: {parsley_errors_messages_disabled: true}
+                .form-group.d-none#campaign_link_form
+                  .input-group
+                    .input-group-prepend
+                      .input-group-text
+                        %i.fe.fe-globe
+                    = f.url_field :link, :class => "form-control", pattern: "https?://.*",placeholder: 'https://www.website.com/', data: {parsley_errors_messages_disabled: true}
               -if large_modal
                 .col-12.col-lg-6
                   = render partial: "campaigns/classification", locals:{f: f }

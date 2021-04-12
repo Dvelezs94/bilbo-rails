@@ -214,6 +214,10 @@ details[open] summary:after {
   overflow-y: scroll;
 }
 
+.mx-ht-350 {
+  max-height: 350px;
+}
+
 .white-background {
   background-color: #fff;
 }
