@@ -33,12 +33,13 @@ function select_ad() {
 function select_content() {
   // choose ad in wizard
   if ($('div[data-content]').length) {
+
     $('div[data-content]').click(function(e) {
       var content_id = $(this).attr("data-content")
       e.preventDefault();
       // Click on nearest checkbox
       $("#pickContent" + content_id).prop("checked", !$("#pickContent" + content_id).prop("checked"));
-      append_content_live();
+      //append_content_live();
     });
 
     if ($('#'+$('#slug-board').val()).val().split(" ").length) {
@@ -46,8 +47,7 @@ function select_content() {
       var i;
       for (i = 0; i < selected_contents_ids.length; i++) {
         selected_ad = selected_contents_ids[i]
-        select_content_mark = $(document.querySelectorAll('[data-content='+ "'"+selected_ad+"'" + ']'))
-        select_content_mark.addClass('wizard_selected_ad_blue');
+        $("#pickContent" + selected_ad).prop("checked", !$("#pickContent" + selected_ad).prop("checked"));
       }
     }
   }
@@ -61,4 +61,11 @@ function scroll_ads() {
     $("#paginator a:visible").remove();
     $.getScript(url);
   }
+}
+
+function remove_on_click(){
+  //for fix the bug select content
+  $('div[data-content]').each(function() {console.log(this);
+    $(this).unbind();
+  });
 }
