@@ -202,7 +202,6 @@ class BoardsController < ApplicationController
   def board_params
     params.require(:board).permit(:project_id,
                                   :name,
-                                  :user_email,
                                   :upload_from_csv,
                                   :avg_daily_views,
                                   :width,
@@ -218,6 +217,7 @@ class BoardsController < ApplicationController
                                   :social_class,
                                   :utc_offset,
                                   :duration,
+                                  :minimum_budget,
                                   :images_only,
                                   :extra_percentage_earnings,
                                   :mac_address,
@@ -296,7 +296,7 @@ class BoardsController < ApplicationController
       item = {}
       item[:project_id] = project_id
 
-      item[:name] = [row["TIPO"], row["Nombre"]].filter{|a| a.present?}.join(' ')
+      item[:name] = [row["TIPO"], row["Nombre"]].filter{|a| a.present?}.map{|a| a.strip}.join(' ')
       item[:name] = nil if item[:name] == "" #Do not allow empty string as a name, set it to nil to raise an error
 
       # Google Maps info to get lat and lon
@@ -317,6 +317,8 @@ class BoardsController < ApplicationController
         item[:category] = "wallboard"
       end
 
+      item[:minimum_budget] = [ (row["Mínimo de compra"] || 0).to_f , 50].max
+
       item[:avg_daily_views] = row["Trafico Mensual"].to_i / 30
       item[:displays_number] = row["Numero de pantallas"].to_i || 1
 
@@ -328,19 +330,8 @@ class BoardsController < ApplicationController
       item[:base_earnings] = row["Ganancias por mes"].present?? row["Ganancias por mes"].to_f : row["Precio por Spot"].to_f * (working_minutes * 6 * 10.0/row["Duracion de anuncio (s)"].to_i) * 30
       item[:extra_percentage_earnings] = row["Porcentaje extra esperado"].strip.remove('%') || 20  #Remove % symbol if its present and store only the value
 
-      #Set default face to North in case it is not present
-      face = row["Cara"].downcase.strip
-      if face.in? ["sur", "south"]
-        item[:face] = "south"
-      elsif face.in? ["este", "east"]
-        item[:face] = "east"
-      elsif face.in? ["oeste", "west"]
-        item[:face] = "west"
-      elsif face.in? ["cuarto 1"]
-        item[:face] = "cuarto 1"
-      else
-        item[:face] = "north"
-      end
+      #Set default face to interior in case it is not provided in the file
+      item[:face] = row["Cara"].downcase.strip || "interior"
 
       item[:social_class] = row["Categoria"]
 
