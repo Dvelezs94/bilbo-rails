@@ -50,11 +50,8 @@ class CampaignsController < ApplicationController
   end
 
   def get_contents
-    p "x" * 800
-    p params[:board_campaign]
-    p @board_campaigns = BoardsCampaigns.find(params[:board_campaign])
-    p @contents = @board_campaigns.contents_board_campaign
-    #render  'get_contents', :locals => {:contents => @contents, :board_campaign => @board_campaigns}
+   @board_campaigns = BoardsCampaigns.find(params[:board_campaign])
+   @contents = @board_campaigns.contents_board_campaign
   end
 
   def analytics
