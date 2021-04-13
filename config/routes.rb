@@ -70,7 +70,6 @@ Rails.application.routes.draw do
       get :getAds
       get :get_used_boards
       get :get_used_contents
-      get :get_contents
       get :download_qr_instructions
       get :copy_campaign
       post :create_copy
