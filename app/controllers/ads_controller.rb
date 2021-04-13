@@ -66,10 +66,9 @@ class AdsController < ApplicationController
       if params[:images_only] == "true"
         @objects = []
         BoardsCampaigns.find(params[:id]).contents_board_campaign.each do |cbc|
-          if cbc.content.is_image?
+          if cbc.content.is_image? || cbc.content.is_url?
             @objects.push(cbc.content)
           end
-          p @objects
         end
       else
         @objects = []
