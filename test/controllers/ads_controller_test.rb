@@ -35,7 +35,7 @@ class AdsControllerTest < ActionDispatch::IntegrationTest
     @ad =  create(:ad, name: "Coca-Cola", project: @user.projects.first)
     assert 0, @ad.images.count
     @ad.multimedia.attach(
-      io: File.open(Rails.root.join('test', 'static', 'test_image.jpg')),
+      io: File.open(Rails.root.join('test', 'fixtures', 'test_image.jpg')),
       filename: 'test_image.jpg',
       content_type: 'image/jpg'
     )

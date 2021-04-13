@@ -2,6 +2,7 @@ class Content < ApplicationRecord
   include ContentUploader::attachment(:multimedia)
   belongs_to :project
   has_many :contents_board_campaign, class_name: "ContentsBoardCampaign", dependent: :delete_all
+  validate :multimedia_or_url
 
   def is_image?
     begin
@@ -33,6 +34,17 @@ class Content < ApplicationRecord
       return "video" if is_video?
     else
       return "html" if url.present?
+    end
+  end
+
+  private
+  def multimedia_or_url
+    if url.present?
+      errors.add(:url, "cannot assign because multimedia is set") if multimedia.present?
+    elsif multimedia.present?
+      errors.add(:multimedia, "cannot assign because url is set") if url.present?
+    else
+      errors.add(:multimedia, "Field cannot be empty if url is not set")
     end
   end
 end
