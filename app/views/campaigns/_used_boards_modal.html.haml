@@ -18,7 +18,12 @@
                     = image_tag image_path("board_placeholder")
                 .pd-l-10
                   %p.tx-medium.mg-b-0= board_campaign.board.name
-                  %small.tx-12.tx-color-03.mg-b-0= board_campaign.board.face
+                  %small.tx-12.tx-color-03.mg-b-0= "#{board_campaign.board.face} - "
+                  = link_to "#" do
+                    %small.tx-12.mg-b-0
+                      Ver contenido
+                      %i.fe.fe-arrow-down
+
                 .mg-l-auto.d-flex.align-self-center
                   %nav.nav.nav-icon-only
                     - if board_campaign.in_review?
