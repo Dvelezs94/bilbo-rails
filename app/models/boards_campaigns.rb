@@ -12,6 +12,7 @@ class BoardsCampaigns < ApplicationRecord
     before_update :calculate_remaining_impressions
     after_commit :add_or_stop_campaign, if: :make_broadcast
 
+
     amoeba do
       enable
       include_association :contents_board_campaign, class_name: "ContentsBoardCampaign"
