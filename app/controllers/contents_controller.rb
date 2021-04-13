@@ -22,12 +22,6 @@ class ContentsController < ApplicationController
     end
   end
 
-  def update
-    if @content.update(content_params)
-      flash[:success] = "Success"
-    end
-  end
-
   def create
     @content = @project.contents.create(content_params)
     if  @content.multimedia.present?
