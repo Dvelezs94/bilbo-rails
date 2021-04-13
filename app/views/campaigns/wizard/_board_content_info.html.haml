@@ -6,7 +6,7 @@
     -else
       = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded"
   %td.valign-middle-f.tx-bold<
-    -if board.category == "Televisión" || board.category == "television"
+    -if board.category == "Televisión" || board.category =="television"
       %i.material-icons.tx-24{style: "color:#10b759;"} live_tv
     -elsif  board.category == "Espectacular" || board.category == "billboard"
       %i.material-icons.tx-24{style: "color:#10b759;"} desktop_windows

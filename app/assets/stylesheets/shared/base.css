@@ -10792,15 +10792,15 @@ table.dataTable {
         background-color: #0168fa;
         color: #fff; }
     .wizard > .steps .done a, .wizard > .steps .done a:hover, .wizard > .steps .done a:active {
-      color: #10b759; }
+      color: #ACB6C8; }
       .wizard > .steps .done a .title, .wizard > .steps .done a:hover .title, .wizard > .steps .done a:active .title {
         display: none; }
         @media (min-width: 768px) {
           .wizard > .steps .done a .title, .wizard > .steps .done a:hover .title, .wizard > .steps .done a:active .title {
             display: inline-block; } }
       .wizard > .steps .done a .number, .wizard > .steps .done a:hover .number, .wizard > .steps .done a:active .number {
-        border-color: #10b759;
-        background-color: #10b759;
+        border-color: #ACB6C8;;
+        background-color: #ACB6C8;;
         color: #fff; }
   .wizard > .content {
     border-top: 1px solid rgba(72, 94, 144, 0.16);
