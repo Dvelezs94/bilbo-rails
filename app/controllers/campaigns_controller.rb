@@ -2,7 +2,7 @@ class CampaignsController < ApplicationController
   include UserActivityHelper
   access [:user, :provider] => :all, all: [:analytics, :shortened_analytics, :redirect_to_external_link, :content_info]
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :download_qr_instructions, :copy_campaign, :create_copy]
+  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :download_qr_instructions, :copy_campaign, :create_copy, :get_used_contents, :get_contents]
   before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
   before_action :campaign_not_active, only: [:edit]
 
@@ -43,6 +43,18 @@ class CampaignsController < ApplicationController
 
   def get_used_boards
     @board_campaigns = @campaign.board_campaigns.includes(:board)
+  end
+
+  def get_used_contents
+    @board_campaigns = @campaign.board_campaigns.includes(:board)
+  end
+
+  def get_contents
+    p "x" * 800
+    p params[:board_campaign]
+    p @board_campaigns = BoardsCampaigns.find(params[:board_campaign])
+    p @contents = @board_campaigns.contents_board_campaign
+    #render  'get_contents', :locals => {:contents => @contents, :board_campaign => @board_campaigns}
   end
 
   def analytics

@@ -71,6 +71,7 @@ es:
     export_csv: EXPORTAR A CSV
     print: IMPRIMIR
     wizard: Cómo funciona
+    content: Contenido
   introjs:
     skip: Cerrar
     done: Hecho
@@ -791,3 +792,7 @@ es:
         display_entries: "Mostrando %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> en total"
   map:
     create_campaign: "Crear una campaña"
+  content:
+    content: Contenido
+    display_content: Desplegar contenido
+    view_contents_used: Ver los contenidos utilizados
