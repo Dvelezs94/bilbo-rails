@@ -16,9 +16,10 @@
         %a#imageFilter.nav-link{:href => ""}
           %i.pd-x-5.fnt-md.fe.fe-file-movie
           %span=t("content.videos")
-        %a#imageFilter.nav-link{:href => ""}
-          %i.pd-x-5.fnt-md.fe.fe-link-external
-          %span=t("content.websites")
+        -if current_user.is_provider?
+          %a#imageFilter.nav-link{:href => ""}
+            %i.pd-x-5.fnt-md.fe.fe-link-external
+            %span=t("content.websites")
         %a#imageFilter.nav-link{:href => ""}
           %i.pd-x-5.fnt-md.fe.fe-folder
           %span=t("content.groups")

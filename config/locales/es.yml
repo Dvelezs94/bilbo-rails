@@ -810,7 +810,11 @@ es:
     success: Se subió con éxito el contenido
     success_without_video: Se subió con éxito el contenido pero el bilbo no acepta videos
     bilbo_select: Elige el contenido para
-    upload_image: Subir imágenes
-    upload_video: Subir videos
+    upload_image: Subir imagen
+    upload_video: Subir video
     upload_content: Subir contenidos
     add_web_content: Agregar Contenido web
+    new_content: Nuevo
+    responsive: Responsivo
+    new_url:  Nueva URL
+    save: Guardar
