@@ -209,11 +209,6 @@ $(document).on('turbolinks:load', function () {
           if ($('#impressions').length == 1)
             $('#impressions')[0].style.width =
               ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
-        // update summary on ads change
-        } else if (priorIndex === 1) {
-          //$('#adName').text($('.wizard_selected_ad .card-body').text());
-          //getadwizard();
-
         } else if (priorIndex === 2) {
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());
@@ -592,9 +587,9 @@ function content_info(){
     selected_boards = boards.val();
   }
   $.ajax({
-    url:  "/campaigns/content_info",
+    url:  "/campaigns/"+$("#campaign_id").val()+"/get_boards_content_info",
     dataType: "script",
-    data: {selected_boards: selected_boards, campaign: $("#campaign_id").val()},
+    data: {selected_boards: selected_boards},
     success: function(data) {
     },
     error: function(data) {
@@ -620,7 +615,7 @@ function append_content(){
 
 function showContent(content_board){
   $.ajax({
-    url:  "/contents_board_campaign/get_content",
+    url:  "/contents_board_campaign/get_selected_content",
     dataType: "script",
     data: {selected_contents: content_board.val(), board_slug: $('#slug-board').val(), campaign: $("#campaign_id").val()},
     success: function(data) {
