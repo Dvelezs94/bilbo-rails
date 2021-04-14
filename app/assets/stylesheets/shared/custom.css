@@ -1,5 +1,9 @@
-#dashboardWizard {
+/* #dashboardWizard {
   background-color: #f5f6fa;
+} */
+
+.wizard-table {
+ border: 1px #e1e5ee solid;
 }
 
 .ic-primary {
@@ -531,4 +535,8 @@ Usage
 iframe {
   pointer-events: none;
   border-width: 0px !important;
+}
+
+a[href="#previous"] {
+   background-color: #ACB6C8 !important;
 }
