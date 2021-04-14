@@ -26,7 +26,7 @@
       - if !content.url? && content.multimedia(:large).width.nil?
         %span= t("ads.measures")
       -elsif content.url?
-        %span Responsivo
+        %span= t("content.responsive")
       -else
         %span= "#{content.multimedia(:large).width.round(0)} x #{content.multimedia(:large).height.round(0)}"
       -# %div.pd-t-10

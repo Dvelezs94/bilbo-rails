@@ -13,7 +13,7 @@
       %p.card-text{style: "margin-bottom: 0.5rem;"}= content.url.truncate(20)
       .d-flex.justify-content-between
         %p.card-text.mg-b-0-f
-          %small.text-muted Responsivo
+          %small.text-muted= t("content.responsive")
         .custom-control.custom-checkbox
           %input.custom-control-input{:type => "checkbox", id: "pickContent#{content.id}"}/
           %label.custom-control-label{:for => "pickContent#{content.id}"}
