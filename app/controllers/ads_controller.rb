@@ -61,23 +61,6 @@ class AdsController < ApplicationController
     end
   end
 
-  def modal_action
-    if BoardsCampaigns.find(params[:id]).contents_board_campaign.present?
-      if params[:images_only] == "true"
-        @objects = []
-        BoardsCampaigns.find(params[:id]).contents_board_campaign.each do |cbc|
-          if cbc.content.is_image? || cbc.content.is_url?
-            @objects.push(cbc.content)
-          end
-        end
-      else
-        @objects = []
-        BoardsCampaigns.find(params[:id]).contents_board_campaign.map{|cbc| @objects.push(cbc.content)}
-      end
-      render  'modal_action', :locals => {:obj => @objects}
-    end
-  end
-
   def wizard_fetch
     if @project.ads.find(params[:ad_id]).present?
       @ads_selected = @project.ads.find(params[:ad_id]).multimedia.attachments

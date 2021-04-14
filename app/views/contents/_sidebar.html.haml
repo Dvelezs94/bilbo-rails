@@ -5,26 +5,26 @@
   .filemgr-sidebar-body
     .pd-t-20.pd-b-10.pd-x-10
       %label.tx-sans.tx-uppercase.tx-medium.tx-10.tx-spacing-1.tx-color-03.pd-l-10
-        Filtrar Contenido
+        =t("content.filter_content")
       %nav.nav.nav-sidebar.tx-13
         %a#noFilter.nav-link.active{:href => ""}
           %i.pd-x-5.fnt-md.fe.fe-file
-          %span Todo el contenido
+          %span=t("content.all_content")
         %a#imageFilter.nav-link{:href => ""}
           %i.pd-x-5.fnt-md.fe.fe-file-image
-          %span Imágenes
+          %span=t("content.images")
         %a#imageFilter.nav-link{:href => ""}
           %i.pd-x-5.fnt-md.fe.fe-file-movie
-          %span Videos
+          %span=t("content.videos")
         %a#imageFilter.nav-link{:href => ""}
           %i.pd-x-5.fnt-md.fe.fe-link-external
-          %span Páginas Web
+          %span=t("content.websites")
         %a#imageFilter.nav-link{:href => ""}
           %i.pd-x-5.fnt-md.fe.fe-folder
-          %span Grupos
+          %span=t("content.groups")
     #content-groups.pd-10.pre-scrollable
       %label.tx-sans.tx-uppercase.tx-medium.tx-10.tx-spacing-1.tx-color-03.pd-l-10
-        Grupos
+        =t("content.groups")
       %nav.nav.nav-sidebar.tx-13
         %a#imageFilter.nav-link{:href => ""}
           %i.pd-x-5.fnt-md.fe.fe-folder-open
