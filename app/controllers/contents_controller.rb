@@ -31,21 +31,19 @@ class ContentsController < ApplicationController
         flash[:error] = "Error"
         redirect_to contents_path
       else
-        flash[:success] = "Success"
+        @success_message = t("content.success")
         @content_array = [@content]
         if params[:content_modal].present? && params[:content_modal] == "false"
-          @success_message = "Se subio con exito el contenido"
           render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message  }
         elsif params[:content_modal].present? && @content.is_url? && params[:content_modal] == "true"
-          @success_message = "Se subio con exito el contenido"
           render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message }
         elsif params[:content_modal].present? && @content.is_image? && params[:content_modal] == "true"
-          @success_message = "Se subio con exito el contenido"
           render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message }
         elsif params[:content_modal].present? && @content.is_video? && params[:content_modal] == "true"
-          @success_message = "Se subio con exito el contenido, solo que este bilbo no acepta videos"
+          @success_message = t("content.success_without_video")
           render 'campaigns/wizard/message_upload', :locals => { :message => @success_message }
         else
+          flash[:success] = @success_message
           redirect_to contents_path
         end
       end
@@ -64,6 +62,24 @@ class ContentsController < ApplicationController
   def create_content_on_campaign
     @content = Content.new
   end
+
+  def contents_modal_review
+    if BoardsCampaigns.find(params[:id]).contents_board_campaign.present?
+      if params[:images_only] == "true"
+        @objects = []
+        BoardsCampaigns.find(params[:id]).contents_board_campaign.each do |cbc|
+          if cbc.content.is_image? || cbc.content.is_url?
+            @objects.push(cbc.content)
+          end
+        end
+      else
+        @objects = []
+        BoardsCampaigns.find(params[:id]).contents_board_campaign.map{|cbc| @objects.push(cbc.content)}
+      end
+      render  'contents_modal_review', :locals => {:obj => @objects}
+    end
+  end
+
 
   private
 

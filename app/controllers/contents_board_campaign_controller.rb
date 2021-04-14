@@ -1,10 +1,9 @@
 class ContentsBoardCampaignController < ApplicationController
-  def multimedia
-    #Return the content for modal step 2 for show bilbos
-    board = Board.friendly.find(params[:board_slug])
-    @accept_only_images = board.images_only
-    @campaign = Campaign.find(params[:campaign])
-    if @accept_only_images
+  def get_contents_wizard_modal
+    #Return the content for modal step 2
+    @board = Board.friendly.find(params[:board_slug])
+    @campaign = Campaign.friendly.find(params[:campaign])
+    if @board.images_only
       @content = []
       @campaign.project.contents.each do |content|
         if !content.is_video?
@@ -12,19 +11,16 @@ class ContentsBoardCampaignController < ApplicationController
         end
       end
     else
-      @content = Campaign.find(params[:campaign]).project.contents.map{|content|content}
+      @content = Campaign.friendly.find(params[:campaign]).project.contents.map{|content|content}
     end
-    @board_name = params[:board_name]
-    @slug = params[:board_slug]
-    render  'campaigns/wizard/multimedia', :locals => {:content => @content, :board_name => @board_name, :slug => @slug, :accept_only_images => @accept_only_images, :campaign => @campaign}
+    render  'campaigns/wizard/get_contents_wizard_modal', :locals => {:content => @content, :board => @board, :campaign => @campaign}
   end
 
-  def get_content
-    #Return the selected contents to bilbos on step 2
+  def get_selected_content
+    #Return the selected contents for show bilbos
     @selected_contents = Content.where(id: params[:selected_contents].split(" "))
-    @board_slug = params[:board_slug]
     @board = Board.friendly.find(params[:board_slug])
     @campaign = params[:campaign]
-    render  'campaigns/wizard/get_content', :locals => {:selected_content => @selected_contents, :board => @board, :campaign => @campaign}
+    render  'campaigns/wizard/get_selected_content', :locals => {:selected_content => @selected_contents, :board => @board, :campaign => @campaign}
   end
 end

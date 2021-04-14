@@ -359,6 +359,9 @@ es:
       could_not_delete: Ocurrió un error al intentar eliminar el subscriptor
       maximum_number_reached: Ya haz alcanzado el máximo número de subscriptores para esta campaña
   bilbos:
+    bilbo: Bilbo
+    formats: Formatos
+    ads: Anuncios
     hour_start: Horario
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
@@ -390,6 +393,7 @@ es:
     displays_number_desc: Número de pantallas en las que se reproducirá tu anuncio al mismo tiempo (cuenta como 1 impresión).
     duration: Duración
     seconds: segundos
+    sec: Seg
     image_size: Tamaño de imagen
     image_recommended_size: "Tamaño de imagen en pixeles: %{pixels}px"
     price_per_print: Precio/Impresión
@@ -431,6 +435,8 @@ es:
     reload_success: Bilbo recargado con éxito
     reload_off: El bilbo se encuentra apagado
     reload_fail: El bilbo no se pudo recargar
+    image: Imagen
+    both_image_video: Imagen, video
     ads_rotation_error:
       max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
@@ -796,3 +802,16 @@ es:
     content: Contenido
     display_content: Ver contenido
     view_contents_used: Ver los contenidos utilizados
+    filter_content: Filtrar Contenido
+    all_content: Todo el contenido
+    images: Imágenes
+    videos: Videos
+    websites: Páginas Web
+    groups: Grupos
+    success: Se subió con éxito el contenido
+    success_without_video: Se subió con éxito el contenido pero el bilbo no acepta videos
+    bilbo_select: Elige el contenido para
+    upload_image: Subir imágenes
+    upload_video: Subir videos
+    upload_content: Subir contenidos
+    add_web_content: Agregar Contenido web

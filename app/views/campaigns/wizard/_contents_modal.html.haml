@@ -1,48 +1,47 @@
 .modal-header
-  %h5.modal-title.tx-bold Elige el contenido para #{@board_name}
+  %h5.modal-title.tx-bold #{t("content.bilbo_select")} #{@board.name}
   %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
     %span{"aria-hidden" => "true"} ×
 .modal-body
   .container-fluid
     .row
       .col-3
-        //= render "contents/sidebar"
         .dropdown.dropdown-icon.flex-fill
           %button.btn.btn-xs.btn-block.btn-secondary{"aria-expanded" => "true", "data-toggle" => "dropdown"}
             %i.fe.fe-plus
-            Subir Contenido
+            =t("content.upload_content")
           .dropdown-menu.tx-13{:style => "position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 27px, 0px);", "x-placement" => "bottom-start"}
-            = link_to new_multimedia_contents_path(content_modal: @accept_only_images), remote: true, class: "dropdown-item" do
+            = link_to new_multimedia_contents_path(content_modal: @board.images_only), remote: true, class: "dropdown-item" do
               %i.fe.fe-large.fe-file-image.pd-r-5.tx-16
-              %span Subir imagen
-            = link_to new_multimedia_contents_path(content_modal: @accept_only_images), remote: true, class: "dropdown-item" do
+              %span=t("content.upload_image")
+            = link_to new_multimedia_contents_path(content_modal: @board.images_only), remote: true, class: "dropdown-item" do
               %i.fe.fe-large.fe-file-image.pd-r-5.tx-16
-              %span Subir video
-            = link_to new_url_contents_path(content_modal: @accept_only_images), remote: true, class: "dropdown-item" do
+              %span=t("content.upload_video")
+            = link_to new_url_contents_path(content_modal: @board.images_only), remote: true, class: "dropdown-item" do
               %i.fe.fe-large.fe-link-external.pd-r-5.tx-16
-              %span Agregar Contenido web
+              %span=t("content.add_web_content")
         .pd-t-20.pd-b-10
           %label.tx-sans.tx-uppercase.tx-medium.tx-10.tx-spacing-1.tx-color-03.pd-l-10
-            Filtrar Contenido
+            =t("content.filter_content")
           %nav.nav.nav-sidebar.tx-13
             %a#noFilter.nav-link.active{:href => ""}
               %i.pd-x-5.fnt-md.fe.fe-file
-              %span Todo el contenido
+              %span=t("content.all_content")
             %a#imageFilter.nav-link{:href => ""}
               %i.pd-x-5.fnt-md.fe.fe-file-image
-              %span Imágenes
+              %span=t("content.images")
             %a#imageFilter.nav-link{:href => ""}
               %i.pd-x-5.fnt-md.fe.fe-file-movie
-              %span Videos
+              %span=t("content.videos")
             %a#imageFilter.nav-link{:href => ""}
               %i.pd-x-5.fnt-md.fe.fe-link-external
-              %span Páginas Web
+              %span=t("content.websites")
             %a#imageFilter.nav-link{:href => ""}
               %i.pd-x-5.fnt-md.fe.fe-folder
-              %span Grupos
+              %span=t("content.groups")
       .col-9
         .card-columns#single_content
           = render :partial => 'campaigns/wizard/single_content_modal', collection: @content, as: :content
 .modal-footer
-  = button_tag "Siguiente", type: 'button', onclick: "append_content();", class: "btn btn-primary"
-%input#slug-board.d-none{:readonly => "readonly", :value => "#{@slug.to_s}"}/
+  = button_tag t("wizard.next"), type: 'button', onclick: "append_content();", class: "btn btn-primary"
+%input#slug-board.d-none{:readonly => "readonly", :value => "#{@board.slug.to_s}"}/

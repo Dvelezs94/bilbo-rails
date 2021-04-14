@@ -46,16 +46,13 @@ Rails.application.routes.draw do
 
   resources :ads do
     resources :attachments, only:  [:create, :destroy, :update]
-      member do
-        get :modal_action
-      end
       collection do
         get :wizard_fetch
       end
   end
   resources :campaigns do
-    collection do
-      get :content_info
+    member do
+      get :get_boards_content_info
     end
     resources :campaign_subscribers, path: "subscribers", as: :subscribers, except: [:edit] do
       collection do
@@ -67,7 +64,7 @@ Rails.application.routes.draw do
       get :redirect_to_external_link
       put :toggle_state
       get :wizard_fetch
-      get :getAds
+      get :get_content
       get :get_used_boards
       get :get_used_contents
       get :download_qr_instructions

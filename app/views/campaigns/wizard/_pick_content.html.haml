@@ -2,14 +2,14 @@
 %section.mg-t-15
   .col-12
     %table.table
-      %thead{style: "background-color: #e5eef4; border-radius: 5px; "}
+      %thead{style: "background-color: #e5eef4;"}
         %tr.ht-45
           %th{:scope => "col"}
-          %th{:scope => "col"} Bilbo
-          %th{:scope => "col"} Duración
-          %th{:scope => "col"} Tamaño
-          %th{:scope => "col"} Formatos
-          %th{:scope => "col"} Anuncios
+          %th{:scope => "col"}= t("bilbos.bilbo")
+          %th{:scope => "col"}= t("bilbos.duration")
+          %th{:scope => "col"}= t("general_inputs.size")
+          %th{:scope => "col"}= t("bilbos.formats")
+          %th{:scope => "col"}= t("bilbos.ads")
       %tbody#content_inf
 = render partial: 'campaigns/wizard/content'
-%input#campaign_id.d-none{:readonly => "readonly", :value => "#{@campaign.id}"}/
+%input#campaign_id.d-none{:readonly => "readonly", :value => "#{@campaign.slug}"}/
