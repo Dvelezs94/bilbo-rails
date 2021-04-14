@@ -17,9 +17,10 @@
             = link_to new_multimedia_contents_path(content_modal: @board.images_only), remote: true, class: "dropdown-item" do
               %i.fe.fe-large.fe-file-image.pd-r-5.tx-16
               %span=t("content.upload_video")
-            = link_to new_url_contents_path(content_modal: @board.images_only), remote: true, class: "dropdown-item" do
-              %i.fe.fe-large.fe-link-external.pd-r-5.tx-16
-              %span=t("content.add_web_content")
+            -if current_user.is_provider?
+              = link_to new_url_contents_path(content_modal: @board.images_only), remote: true, class: "dropdown-item" do
+                %i.fe.fe-large.fe-link-external.pd-r-5.tx-16
+                %span=t("content.add_web_content")
         .pd-t-20.pd-b-10
           %label.tx-sans.tx-uppercase.tx-medium.tx-10.tx-spacing-1.tx-color-03.pd-l-10
             =t("content.filter_content")
@@ -33,9 +34,10 @@
             %a#imageFilter.nav-link{:href => ""}
               %i.pd-x-5.fnt-md.fe.fe-file-movie
               %span=t("content.videos")
-            %a#imageFilter.nav-link{:href => ""}
-              %i.pd-x-5.fnt-md.fe.fe-link-external
-              %span=t("content.websites")
+            -if current_user.is_provider?
+              %a#imageFilter.nav-link{:href => ""}
+                %i.pd-x-5.fnt-md.fe.fe-link-external
+                %span=t("content.websites")
             %a#imageFilter.nav-link{:href => ""}
               %i.pd-x-5.fnt-md.fe.fe-folder
               %span=t("content.groups")
