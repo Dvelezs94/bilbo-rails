@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   end
 
   resources :contents do
+    member do
+      get :contents_modal_review
+    end
     collection do
       get :new_multimedia
       get :new_url
@@ -36,23 +39,20 @@ Rails.application.routes.draw do
 
   resources :contents_board_campaign do
     collection do
-      get :multimedia
-      get :get_content
+      get :get_contents_wizard_modal
+      get :get_selected_content
     end
   end
 
   resources :ads do
     resources :attachments, only:  [:create, :destroy, :update]
-      member do
-        get :modal_action
-      end
       collection do
         get :wizard_fetch
       end
   end
   resources :campaigns do
-    collection do
-      get :content_info
+    member do
+      get :get_boards_content_info
     end
     resources :campaign_subscribers, path: "subscribers", as: :subscribers, except: [:edit] do
       collection do
@@ -64,7 +64,7 @@ Rails.application.routes.draw do
       get :redirect_to_external_link
       put :toggle_state
       get :wizard_fetch
-      get :getAds
+      get :get_content
       get :get_used_boards
       get :get_used_contents
       get :download_qr_instructions

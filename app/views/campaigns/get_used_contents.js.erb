@@ -1,2 +1,3 @@
+$('#button-content<%=@board_campaigns.board.slug%>').remove()
 $('#content<%=@board_campaigns.board.slug%>').html('<%= j (render "campaigns/display_content", object: { content: @contents, campaign: @campaign, board_campaigns: @board_campaigns }) %>');
 initLightbox();

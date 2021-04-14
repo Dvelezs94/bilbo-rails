@@ -65,7 +65,14 @@ function scroll_ads() {
 
 function remove_on_click(){
   //for fix the bug select content
-  $('div[data-content]').each(function() {console.log(this);
+if($('div[data-content]').length){
+  $('div[data-content]').each(function() {
     $(this).unbind();
   });
+}
+if($('.img-caption').length){
+  $('.img-caption').each(function() {
+  $(this).unbind();
+  });
+}
 }

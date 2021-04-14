@@ -355,6 +355,9 @@ en:
       could_not_delete: An error ocurred while deleting subscriber
       maximum_number_reached: You reached the maximum number of subscribers allowed for this campaign
   bilbos:
+    bilbo: Bilbo
+    formats: Formats
+    ads: Ads
     hour_start: Playing schedule
     new_bilbo: New Bilbo
     name: Bilbo name
@@ -385,6 +388,7 @@ en:
     displays_number_desc: Your ad will be displayed on these number of screens at the same time (counts as 1 impression).
     duration: Duration
     seconds: seconds
+    sec: Sec
     image_size: Image size
     image_recommended_size: "Image size on pixels: %{pixels}"
     price_per_print: Price/Impression
@@ -425,6 +429,8 @@ en:
     reload_success: Bilbo reloaded successfully
     reload_off: The bilbo is off
     reload_fail: The bilbo could not be reloaded
+    image: Image
+    both_image_video: Image, video
     ads_rotation_error:
       max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time
@@ -787,3 +793,16 @@ en:
     content: Content
     display_content: View content
     view_contents_used: View contents used
+    filter_content: Filter Content
+    all_content: All content
+    images: Images
+    videos: Videos
+    websites: Websites
+    groups: Groups
+    success: The content was uploaded successfully
+    success_without_video: The content was uploaded successfully but the bilbo does not accept videos
+    bilbo_select: Choose the content for
+    upload_image: Upload image
+    upload_video: Upload video
+    upload_content: Upload contents
+    add_web_content: Add Web content

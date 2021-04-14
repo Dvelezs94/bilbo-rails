@@ -6,7 +6,7 @@
           = image_tag content.multimedia_url(:large), class: "img-inherit", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted'
       -elsif content.is_url?
         = link_to content.url, class: "glightbox img-inherit", :data => {caption: content.url, group: ""} do
-          %iframe{:src => "#{content.url}", class: "img-inherit"}
+          %iframe{:src => "#{content.url}", class: "img-inherit", :scrolling => "no"}
       -else
         -if content.multimedia(:large).height <= 1080
           = link_to content.multimedia_url(:large), class: "glightbox img-inherit", :data => {caption: content.multimedia.metadata["filename"], group: "", type: "image"} do

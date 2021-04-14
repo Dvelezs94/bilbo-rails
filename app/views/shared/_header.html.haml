@@ -43,10 +43,6 @@
           %li{:class => "nav-item #{"active" if menu == "ads"}"}
             %a.nav-link{:href => contents_path}
               %i.fe.fe-box
-              = t('header.ads')
-          %li{:class => "nav-item #{"active" if menu == "ads"}"}
-            %a.nav-link{:href => ads_path}
-              %i.fe.fe-box
               = t('header.content')
         %li{:class => "nav-item"}
           %a.nav-link{:href => "https://bilbo.freshdesk.com/support/home", :target => "_blank", id: "helpLink", "data-intro": t("introjs.help")}
