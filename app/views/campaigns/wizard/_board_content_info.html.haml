@@ -25,8 +25,6 @@
       %div.d-flex{:id => "images-#{board.slug}", style: "overflow-x: scroll;"}
         -if board.board_campaigns.find_by(campaign_id: @campaign).present?
           = render partial: 'campaigns/wizard/show_selected_content', collection: board.board_campaigns.find_by(board_id: board.id, campaign_id: @campaign).contents_board_campaign.map{|cont| cont.content}, as: :img, locals: {board: board}
-        -else
-          = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded"
       - if board.board_campaigns.find_by(campaign_id: @campaign).present?
         = hidden_field_tag "content_board_campaign_id", board.board_campaigns.find_by(board_id: board.id, campaign_id: @campaign).contents_board_campaign.map{|cc| cc.content_id}, :id => "#{board.slug}"
       -else
