@@ -7,7 +7,7 @@ $(document).on('turbolinks:load', function() {
   if ($("#searchMultimedia").length) {
     $("#searchMultimedia").on("input", function() {
       var inputText = $(this).val().toLowerCase();
-      $('.mmtitle').closest('.mmcard').hide();
+      $('.mmcard').hide();
       $('.mmtitle:Contains("'+ inputText +'")').closest('.mmcard').show();
     });
   }
@@ -25,9 +25,9 @@ function initialize_content_filter(){
     e.preventDefault();
     const filt = $(e.currentTarget).attr("href").replace('#','');
     if (filt == "none") {
-      $('.mmtitle').closest('.mmcard').show();
+      $('.mmcard').show();
     } else {
-      $('.mmtitle').closest('.mmcard').hide();
+      $('.mmcard').hide();
       $('[data-multimedia-type="' + filt + '"]').show()
     }
   });
