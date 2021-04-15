@@ -2,3 +2,4 @@ $("#modalContent").append("<%= j (render 'campaigns/wizard/content', locals: {co
 $("#modalContent").modal();
 $("#content_modal").html("<%= j render partial: 'campaigns/wizard/contents_modal'%>");
 select_content();
+initialize_content_filter();
