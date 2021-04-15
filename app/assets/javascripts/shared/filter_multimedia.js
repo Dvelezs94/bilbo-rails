@@ -12,3 +12,23 @@ $(document).on('turbolinks:load', function() {
     });
   }
 });
+
+$(document).on('turbolinks:load', function() {
+  if ($(".filter_content").length) {
+    initialize_content_filter();
+  }
+});
+
+
+function initialize_content_filter(){
+  $(".filter_content").on("click", function(e) {
+    e.preventDefault();
+    const filt = $(e.currentTarget).attr("href").replace('#','');
+    if (filt == "none") {
+      $('.mmtitle').closest('.mmcard').show();
+    } else {
+      $('.mmtitle').closest('.mmcard').hide();
+      $('[data-multimedia-type="' + filt + '"]').show()
+    }
+  });
+}
