@@ -1,1 +1,1 @@
-<option value="<%= board_counter %>" <%= "selected" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id] %>><%= "#{board.name} - #{board.face}" %></option>
+<option value="<%= board_counter %>" <%= "selected" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id] %>><%= "#{board.name} - #{board.face.capitalize}" %></option>
