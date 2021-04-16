@@ -34,33 +34,38 @@ namespace :update_campaign_with_contents do
             File.open(original_ad, 'wb') do |f|
               f.write(attachment.download)
             end
+              p "Transformando"
             content = image_data(original_ad, mime_type, filename)
+              p "Creando contenido"
             content_created = campaign.project.contents.create(multimedia_data: content, slug: "#{ad.slug}#{index}")
+              p "Contenido creado"
             campaign.board_campaigns.each do |bc|
+              p "Creando ContentBoardsCampaigns"
               cont = ContentsBoardCampaign.new
               cont.boards_campaigns_id = bc.id
               cont.content_id = content_created.id
               cont.skip_some_callbacks = true
               cont.save
+              p "Creado ContentBoardsCampaigns"
             end
             p "Finalizado"
           end
           FileUtils.remove_dir("tmp/content",true)
       else
           ad.multimedia.attachments.each.with_index do |attachment, index|
+            p "Creando contenido: #{ad.slug}#{index}"
            content_repeat = Content.find_by(slug: "#{ad.slug}#{index}")
-           p "Creando contenido: #{ad.slug}#{index}"
             campaign.board_campaigns.each do |bc|
+              p "Creando ContentBoardsCampaigns"
               cont = ContentsBoardCampaign.new
               cont.boards_campaigns_id = bc.id
               cont.content_id = content_repeat.id
               cont.skip_some_callbacks = true
               cont.save
-              cont
+              p "Creado ContentBoardsCampaigns"
             end
           p "Finalizado"
         end
-
       end
       rescue => e
         SlackNotifyWorker.perform_async(e)
@@ -96,23 +101,24 @@ namespace :update_campaign_with_contents do
           File.open(original_ad, 'wb') do |f|
             f.write(attachment.download)
           end
+          p "Transformando"
           content = image_data(original_ad, mime_type, filename)
+          p "Creando contenido"
           content_created = ad.project.contents.create(multimedia_data: content)
-          p "Contenido creado: #{content_created.multimedia_data}"
+          p "Contenido creado"
         end
         p "Finalizado"
       end
-      p "Borrando carpeta"
-
       p "Proceso Finalizado"
-
     rescue => e
       SlackNotifyWorker.perform_async(e)
       puts "Error en proceso de anuncios"
       FileUtils.remove_dir("tmp/content",true)
       raise e
     end
+    p "Borrando carpeta"
     FileUtils.remove_dir("tmp/content",true)
+    p "Fin"
   end
 end
 
@@ -154,13 +160,11 @@ def image_data(original_ad, mime_type, filename)
         small:  uploaded_image(magick.resize_to_limit!(640, 360), "image/jpeg", filename),
       )
   end
-
   attacher.column_data # or attacher.data in case of postgres jsonb column
 end
 
 def uploaded_image(original_ad, mime_type, filename)
   file = File.open(original_ad, binmode: true)
-
   # for performance we skip metadata extraction and assign test metadata
   uploaded_file = Shrine.upload(file, :store, metadata: true)
   uploaded_file.metadata.merge!(
@@ -168,6 +172,5 @@ def uploaded_image(original_ad, mime_type, filename)
     "mime_type" => mime_type,
     "filename"  => filename,
   )
-
   uploaded_file
 end

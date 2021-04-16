@@ -15,10 +15,6 @@
             %a.nav-link{:href => campaigns_path, id: "campaignLink", "data-intro": t("introjs.campaigns"), "data-step": 1}
               %i.fe.fe-box
               = t('header.campaigns')
-          %li{:class => "nav-item #{"active" if menu == "ads"}"}
-            %a.nav-link{:href => ads_path, id: "adLink", "data-intro": t("introjs.ads"), "data-step": 2}
-              %i.fe.fe-box
-              = t('header.ads')
           %li{:class => "nav-item #{"active" if menu == "contents"}"}
             %a.nav-link{:href => contents_path, id: "adLink", "data-intro": t("introjs.contents"), "data-step": 2}
               %i.fe.fe-box
