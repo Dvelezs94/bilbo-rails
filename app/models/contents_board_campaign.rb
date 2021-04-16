@@ -2,9 +2,9 @@ class ContentsBoardCampaign < ApplicationRecord
   belongs_to :content
   belongs_to :boards_campaigns
 
-  after_create :set_board_campaigns_to_review
-  before_destroy :set_board_campaigns_to_review
-
+  attr_accessor :skip_some_callbacks
+  after_create :set_board_campaigns_to_review, unless: :skip_some_callbacks
+  before_destroy :set_board_campaigns_to_review, unless: :skip_some_callbacks
   private
 
   def set_board_campaigns_to_review
