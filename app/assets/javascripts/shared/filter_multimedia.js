@@ -7,8 +7,30 @@ $(document).on('turbolinks:load', function() {
   if ($("#searchMultimedia").length) {
     $("#searchMultimedia").on("input", function() {
       var inputText = $(this).val().toLowerCase();
-      $('.mmtitle').closest('.mmcard').hide();
+      $('.mmcard').hide();
       $('.mmtitle:Contains("'+ inputText +'")').closest('.mmcard').show();
     });
   }
 });
+
+$(document).on('turbolinks:load', function() {
+  if ($(".filter_content").length) {
+    initialize_content_filter();
+  }
+});
+
+
+function initialize_content_filter(){
+  $(".filter_content").on("click", function(e) {
+    e.preventDefault();
+    $(".filter_content.nav-link.active").removeClass("active");
+    $(e.currentTarget).addClass("active");
+    const filt = $(e.currentTarget).attr("href").replace('#','');
+    if (filt == "none") {
+      $('.mmcard').show();
+    } else {
+      $('.mmcard').hide();
+      $('[data-multimedia-type="' + filt + '"]').show()
+    }
+  });
+}
