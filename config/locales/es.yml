@@ -365,6 +365,7 @@ es:
     extra_percentage_earnings: ganancias extras
     enabled: Habilitado
     filter: Filtros del Mapa
+    smart_filter: "Filtrar Bilbos SMART. Los Bilbos SMART tienen gráficas y métricas avanzadas"
     approved: Aprobado
     in_review: En revisión
     denied: Denegado

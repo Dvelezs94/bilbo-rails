@@ -1,0 +1,35 @@
+#campaignEditMapFilter.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "campaignEditMapFilter", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-header
+        %h5#exampleModalCenterTitle.modal-title= t('bilbos.filter')
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        .d-flex.flex-wrap
+          = form_with url: boards_path, method: :get, id: "filter-bilbos",class: "row", remote: true do |f|
+            .form-group.col-12.col-lg-6
+              = f.text_field :location, class: 'form-control rounded', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
+                value: (params[:location].present?)? params[:location] : "" ,                                                               |
+                lat: (params[:location].present?)? params[:lat] : "",                                                                       |
+                lng: (params[:location].present?)? params[:lng] : ""                                                                        |
+            .form-group.col-12.col-lg-6
+              = f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification')}, {class: 'custom-select'})
+            .form-group.col-12.col-lg-6
+              = f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select'})
+            .form-group.col-12.col-lg-6
+              = f.number_field :cycle_price, class: "form-control", placeholder: t('bilbos.search.max_per_impression'), value: params[:cycle_price], step: "0.001", autocomplete: "off"
+            .form-group.col-12.col-lg-6
+              .input-group
+                = f.number_field :min_width, class: "form-control", placeholder: t('bilbos.search.min_width'), value: params[:min_width], autocomplete: "off"
+                = f.number_field :min_height, class: "form-control", placeholder: t('bilbos.search.min_height'), value: params[:min_height], autocomplete: "off"
+            .form-group.col-12.col-lg-6.center_image_vertically
+              .custom-control.custom-switch
+                = f.check_box :smart, class: "custom-control-input"
+                %label.custom-control-label{:for => "smart"}
+                  %i.fe.fe-star
+                  %span{"data-toggle": "tooltip", title: t("bilbos.smart_filter") } SMART
+            = f.submit "Enviar", class: "d-none"
+      .modal-footer
+        %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"}= t('general_inputs.close')
+        %button.btn.btn-primary{:form => "filter-bilbos", :type => "submit"}= t('general_inputs.apply_filter')

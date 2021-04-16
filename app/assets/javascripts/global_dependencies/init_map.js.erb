@@ -63,7 +63,7 @@ function build_markers(bilbos) {
       var marker = new google.maps.Marker({
       position: { lat: bilbo["lat"], lng: bilbo["lng"] },
       map: window.bilbomap,
-      icon: "https://content-bilbo.app.bilbo.mx/statics/maps/markers/" + bilbo["category"] + "_svg.svg"
+      icon: "https://content-bilbo.app.bilbo.mx/statics/maps/markers/" + bilbo["category"] + (bilbo["smart"] ? "_smart_svg.svg" : "_svg.svg")
     });
 
     // close infowindow if clicked in another region of map
@@ -127,8 +127,41 @@ function build_markers(bilbos) {
     return marker;
   });
 
+  // markercluster custom icons
+  var markerStyles = [
+    {
+      textColor: 'white',
+      url: 'https://content-bilbo.app.bilbo.mx/statics/maps/markercluster/15-apr-2021/m1.svg',
+      height: 53,
+      width: 52
+    },
+    {
+      textColor: 'white',
+      url: 'https://content-bilbo.app.bilbo.mx/statics/maps/markercluster/15-apr-2021/m2.svg',
+      height: 55,
+      width: 54
+    },
+    {
+      textColor: 'white',
+      url: 'https://content-bilbo.app.bilbo.mx/statics/maps/markercluster/15-apr-2021/m3.svg',
+      height: 57,
+      width: 56
+    },
+    {
+      textColor: 'white',
+      url: 'https://content-bilbo.app.bilbo.mx/statics/maps/markercluster/15-apr-2021/m4.svg',
+      height: 59,
+      width: 58
+    },
+    {
+      textColor: 'white',
+      url: 'https://content-bilbo.app.bilbo.mx/statics/maps/markercluster/15-apr-2021/m5.svg',
+      height: 61,
+      width: 60
+    },
+  ]
   var options = {
-    imagePath: "https://content-bilbo.app.bilbo.mx/statics/maps/markercluster/m"
+    styles: markerStyles
   };
 
   window.markerCluster = new MarkerClusterer(window.bilbomap, window.markers, options);
