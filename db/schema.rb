@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_12_220914) do
+ActiveRecord::Schema.define(version: 2021_04_16_155107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,9 +156,9 @@ ActiveRecord::Schema.define(version: 2021_04_12_220914) do
     t.string "mac_address"
     t.integer "displays_number", default: 1
     t.datetime "ads_rotation_updated_at"
-    t.boolean "external", default: false
     t.string "restrictions"
     t.float "minimum_budget", default: 50.0
+    t.boolean "smart", default: true
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -217,6 +217,7 @@ ActiveRecord::Schema.define(version: 2021_04_12_220914) do
     t.integer "impression_count", default: 0
     t.float "total_invested", default: 0.0
     t.integer "people_reached", default: 0
+    t.integer "duration", default: 10
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
@@ -389,7 +390,7 @@ ActiveRecord::Schema.define(version: 2021_04_12_220914) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-02-26 23:19:07"
+    t.datetime "expires_at", default: "2031-04-07 17:35:38"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
@@ -485,6 +486,8 @@ ActiveRecord::Schema.define(version: 2021_04_12_220914) do
   add_foreign_key "campaign_subscribers", "campaigns"
   add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "projects"
+  add_foreign_key "contents", "projects"
+  add_foreign_key "contents_board_campaigns", "boards_campaigns", column: "boards_campaigns_id"
   add_foreign_key "contents_board_campaigns", "contents"
   add_foreign_key "impression_hours", "campaigns"
   add_foreign_key "impressions", "boards"
