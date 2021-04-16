@@ -28,7 +28,7 @@
                 = f.check_box :smart, class: "custom-control-input"
                 %label.custom-control-label{:for => "smart"}
                   %i.fe.fe-star
-                  %span{"data-toggle": "tooltip", title: "Filtrar SMART bilbos. Los Bilbos SMART tienen gráficas y métricas avanzadas" } SMART
+                  %span{"data-toggle": "tooltip", title: t("bilbos.smart_filter") } SMART
             = f.submit "Enviar", class: "d-none"
       .modal-footer
         %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"}= t('general_inputs.close')

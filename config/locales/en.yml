@@ -361,6 +361,7 @@ en:
     extra_percentage_earnings: extra earnings
     enabled: Enabled
     filter: Map filters
+    smart_filter: Filter SMART Bilbos. SMART Bilbos offer advanced metrics and detailed graphs
     approved: Approved
     in_review: In review
     denied: Denied
