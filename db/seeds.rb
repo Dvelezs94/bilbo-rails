@@ -47,6 +47,7 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.end_time = Time.now + rand(-300..480).minutes
             board.utc_offset = rand(-300..0)
             board.default_images.attach(io: File.open('app/assets/images/placeholder_active_storage.png'), filename: 'placeholder.png', content_type: 'image/png')
+            board.smart = Faker::Boolean.boolean
             board.save
           end
         end

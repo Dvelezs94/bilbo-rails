@@ -68,13 +68,14 @@ class Board < ApplicationRecord
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
   # and the user is not able to click the marker because it is a cluster
   def self.get_map_markers(pinpoints: [])
-    boards = enabled.select(:lat, :lng, :category).group_by { |b| [b.lat, b.lng]}
+    boards = enabled.select(:lat, :lng, :category, :smart).group_by { |b| [b.lat, b.lng]}
     j = []
     boards.keys.each do |k|
       j << {
         lat: k[0],
         lng: k[1],
-        category: boards[k][0]["category"]
+        category: boards[k][0]["category"],
+        smart: boards[k][0]["smart"]
       }
     end
     pinpoints.each do |p|
