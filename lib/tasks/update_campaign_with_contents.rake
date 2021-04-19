@@ -38,7 +38,7 @@ namespace :update_campaign_with_contents do
               filename = attachment.blob.filename.to_s
               download_for_campaign(index, ad, campaign, attachment, original_ad, mime_type, filename)
             else
-              unless @campaigns_name.include? campaign.name
+              if !@campaigns_name.include? campaign.name
                 @campaigns_name.push(campaign.name)
                 error1 = []
                 item[:name] = campaign.name
@@ -53,8 +53,8 @@ namespace :update_campaign_with_contents do
           FileUtils.remove_dir('tmp/content', true)
         else
           ad.multimedia.attachments.each.with_index do |attachment, index|
-            unless attachment.blob.filename.to_s.ends_with?('.jpg') || attachment.blob.filename.to_s.ends_with?('.jpeg') || attachment.blob.filename.to_s.ends_with?('.png') || attachment.blob.filename.to_s.ends_with?('.mp4')
-              unless @campaigns_name.include? campaign.name
+            if attachment.blob.filename.to_s.ends_with?('.jpg') || attachment.blob.filename.to_s.ends_with?('.jpeg') || attachment.blob.filename.to_s.ends_with?('.png') || attachment.blob.filename.to_s.ends_with?('.mp4')
+              if @campaigns_name.include? campaign.name
                 @campaigns_name.push(campaign.name)
                 error1 = []
                 item[:name] = campaign.name
@@ -219,7 +219,7 @@ def download_to_campaign_without_campaign(ad, attachment, original_ad, mime_type
 end
 
 def report
-  unless @errors.empty?
+  if @errors.empty?
     report_url = Rails.root.join("storage/campaign_with_different_type_of_format_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.txt")
     File.open(report_url, 'w+') do |report|
       @errors.each do |title, values|
@@ -230,5 +230,6 @@ def report
         report.write("\n")
       end
     end
+    SlackNotifyWorker.perform_async("Se encontraron campañas con formatos de multimedia diferentes, reporte: #{report_url.to_s}")
   end
 end
