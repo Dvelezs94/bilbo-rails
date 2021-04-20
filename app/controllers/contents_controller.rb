@@ -1,9 +1,9 @@
 class ContentsController < ApplicationController
   access user: :all, provider: :all
+  before_action :get_all_content, only: [:index]
   before_action :get_content, only: [:update, :destroy]
 
   def index
-    @contents = @project.contents
   end
 
   def new_multimedia
@@ -94,6 +94,10 @@ class ContentsController < ApplicationController
 
   def get_content
     @content = @project.contents.find(params[:id])
+  end
+
+  def get_all_content
+    @contents = @project.contents.order(created_at: :desc)
   end
 
   def content_params
