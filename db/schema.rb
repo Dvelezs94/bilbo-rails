@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_225620) do
+ActiveRecord::Schema.define(version: 2021_04_16_155107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,6 +157,8 @@ ActiveRecord::Schema.define(version: 2021_03_24_225620) do
     t.integer "displays_number", default: 1
     t.datetime "ads_rotation_updated_at"
     t.string "restrictions"
+    t.float "minimum_budget", default: 50.0
+    t.boolean "smart", default: true
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
