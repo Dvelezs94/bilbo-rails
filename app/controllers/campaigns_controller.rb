@@ -7,7 +7,7 @@ class CampaignsController < ApplicationController
   before_action :campaign_not_active, only: [:edit]
 
   def index
-    @created_ads = @project.ads.present?
+    @created_ads = @project.contents.present?
     @created_campaigns = @project.campaigns.present?
     @purchased_credits = current_user.payments.present?
     @verified_profile = current_user.verified
@@ -74,7 +74,7 @@ class CampaignsController < ApplicationController
     end
     @ad_upcoming = Kaminari.paginate_array(@ads).page(params[:ad_upcoming_page]).per(11)
     factor = (@campaign.classification == "per_hour" && !@campaign.provider_campaign?)? 1.2 : 1
-    @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor} ] }
+    @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor, 'data-slug': board.slug } ] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
     if current_user.is_provider?

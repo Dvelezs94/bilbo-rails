@@ -13,3 +13,4 @@
       %tbody#content_inf
 = render partial: 'campaigns/wizard/content'
 %input#campaign_id.d-none{:readonly => "readonly", :value => "#{@campaign.slug}"}/
+%span#error_adding.d-none= t('content.adding_content')
