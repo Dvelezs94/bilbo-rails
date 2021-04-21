@@ -533,7 +533,7 @@ Usage
 /* End google maps */
 
 iframe {
-  pointer-events: none;
+  /* pointer-events: none; */
   border-width: 0px !important;
 }
 
