@@ -1,0 +1,27 @@
+.card.mmcard{"data-content": "#{content.id}"}
+  -if content.is_url?
+    %iframe.d-block{:src => "#{content.url}", class: "card-img-top ht-100", scrolling: "no"}
+  -elsif content.is_video?
+    = image_tag content.multimedia_url(:small), class: "card-img-top ht-100 o-fit-cover"
+  - else
+    -if content.multimedia(:large).height <= 1080
+      = image_tag content.multimedia_url(:small), class: "card-img-top ht-100 o-fit-cover"
+    - else
+      = image_tag "construction_video.webp", class: "card-img-top ht-100 o-fit-cover"
+  .card-body.pd-5-f
+    -if content.is_url?
+      %p.card-text{style: "margin-bottom: 0.5rem;"}= content.url.truncate(20)
+      .d-flex.justify-content-between
+        %p.card-text.mg-b-0-f
+          %small.text-muted= t("content.responsive")
+        .custom-control.custom-checkbox
+          %input.custom-control-input{:type => "checkbox", id: "pickContent#{content.id}"}/
+          %label.custom-control-label{:for => "pickContent#{content.id}"}
+    -else
+      %p.card-text{style: "margin-bottom: 0.5rem;"}= content.multimedia.metadata["filename"].truncate(20)
+      .d-flex.justify-content-between
+        %p.card-text.mg-b-0-f
+          %small.text-muted= "#{content.multimedia(:large).width.round(0)} x #{content.multimedia(:large).height.round(0)}"
+        .custom-control.custom-checkbox
+          %input.custom-control-input{:type => "checkbox", id: "pickContent#{content.id}"}/
+          %label.custom-control-label{:for => "pickContent#{content.id}"}

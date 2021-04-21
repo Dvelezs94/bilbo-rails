@@ -71,6 +71,7 @@ es:
     export_csv: EXPORTAR A CSV
     print: IMPRIMIR
     wizard: Cómo funciona
+    content: Contenido
   introjs:
     skip: Cerrar
     done: Hecho
@@ -358,6 +359,9 @@ es:
       could_not_delete: Ocurrió un error al intentar eliminar el subscriptor
       maximum_number_reached: Ya haz alcanzado el máximo número de subscriptores para esta campaña
   bilbos:
+    bilbo: Bilbo
+    formats: Formatos
+    ads: Anuncios
     hour_start: Horario
     new_bilbo: Nuevo Bilbo
     name: Nombre del Bilbo
@@ -389,6 +393,7 @@ es:
     displays_number_desc: Número de pantallas en las que se reproducirá tu anuncio al mismo tiempo (cuenta como 1 impresión).
     duration: Duración
     seconds: segundos
+    sec: Seg
     image_size: Tamaño de imagen
     image_recommended_size: "Tamaño de imagen en pixeles: %{pixels}px"
     price_per_print: Precio/Impresión
@@ -430,6 +435,8 @@ es:
     reload_success: Bilbo recargado con éxito
     reload_off: El bilbo se encuentra apagado
     reload_fail: El bilbo no se pudo recargar
+    image: Imagen
+    both_image_video: Imagen, video
     ads_rotation_error:
       max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
@@ -479,9 +486,11 @@ es:
         error: Error al actualizar transición
     action:
       media_removed: El archivo multimedia se ha eliminado con éxito
+      content_deleted: El contenido fue eliminado con éxito
       update_duration: El anuncio se ha actualizado exitosamente.
     errors:
       wont_be_able_to_delete: Este anuncio no puede eliminarse porque tiene campañas activas
+      cant_delete_content: El contenido no puede ser eliminado porque está siendo usado por una campaña activa
       wont_be_able_to_update: Este anuncio no puede actualizarse porque tiene campañas activas
       is_not_multiple_of_10: La duración no es múltiplo de 10
     no_ad: Sin anuncio
@@ -789,3 +798,25 @@ es:
         display_entries: "Mostrando %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> en total"
   map:
     create_campaign: "Crear una campaña"
+  content:
+    content: Contenido
+    display_content: Ver contenido
+    view_contents_used: Ver los contenidos utilizados
+    filter_content: Filtrar Contenido
+    all_content: Todo el contenido
+    images: Imágenes
+    videos: Videos
+    websites: Páginas Web
+    groups: Grupos
+    success: Se subió con éxito el contenido
+    success_without_video: Se subió con éxito el contenido pero el bilbo no acepta videos
+    bilbo_select: Elige el contenido para
+    upload_image: Subir imagen
+    upload_video: Subir video
+    upload_content: Subir contenidos
+    add_web_content: Agregar Contenido web
+    new_content: Nuevo
+    responsive: Responsivo
+    new_url:  Nueva URL
+    save: Guardar
+    adding_content: Falta agregar contenidos a bilbos

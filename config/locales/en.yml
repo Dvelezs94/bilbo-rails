@@ -71,6 +71,7 @@ en:
     export_csv: EXPORT TO CSV
     print: PRINT
     wizard: How it works
+    content: Content
   introjs:
     skip: Close
     done: Done
@@ -354,6 +355,9 @@ en:
       could_not_delete: An error ocurred while deleting subscriber
       maximum_number_reached: You reached the maximum number of subscribers allowed for this campaign
   bilbos:
+    bilbo: Bilbo
+    formats: Formats
+    ads: Ads
     hour_start: Playing schedule
     new_bilbo: New Bilbo
     name: Bilbo name
@@ -385,6 +389,7 @@ en:
     displays_number_desc: Your ad will be displayed on these number of screens at the same time (counts as 1 impression).
     duration: Duration
     seconds: seconds
+    sec: Sec
     image_size: Image size
     image_recommended_size: "Image size on pixels: %{pixels}"
     price_per_print: Price/Impression
@@ -425,6 +430,8 @@ en:
     reload_success: Bilbo reloaded successfully
     reload_off: The bilbo is off
     reload_fail: The bilbo could not be reloaded
+    image: Image
+    both_image_video: Image, video
     ads_rotation_error:
       max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time
@@ -475,9 +482,11 @@ en:
         error: Could not update transition
     action:
       media_removed: Multimedia has been deleted succesfully
+      content_deleted: The content has been deleted successfully
       update_duration: Ad was successfully updated.
     errors:
       wont_be_able_to_delete: This ad can't be deleted because of active campaigns
+      cant_delete_content: The content can't be deleted because it is being used by an active campaign
       wont_be_able_to_update: This ad can't be updated because of active campaigns
       is_not_multiple_of_10: Duration is not multiple of 10
     new_ad_description: Create a new amazing and beautiful image or video for your campaigns
@@ -781,3 +790,25 @@ en:
         display_entries: "Displaying %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> in total"
   map:
     create_campaign: Create campaign
+  content:
+    content: Content
+    display_content: View content
+    view_contents_used: View contents used
+    filter_content: Filter Content
+    all_content: All content
+    images: Images
+    videos: Videos
+    websites: Websites
+    groups: Groups
+    success: The content was uploaded successfully
+    success_without_video: The content was uploaded successfully but the bilbo does not accept videos
+    bilbo_select: Choose the content for
+    upload_image: Upload image
+    upload_video: Upload video
+    upload_content: Upload contents
+    add_web_content: Add Web content
+    new_content: New
+    responsive: Responsive
+    new_url:  New URL
+    save: Save
+    adding_content: Adding content to bilbo's is missing

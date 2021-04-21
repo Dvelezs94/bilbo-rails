@@ -1,0 +1,24 @@
+%tr
+  %th
+    -if board.images.attachments.present?
+      - board.images.each do |image|
+        = image_tag image, class: "img wd-50 ht-50 rounded"
+    -else
+      = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded"
+  %td.valign-middle-f.tx-bold= board.name
+  %td.valign-middle-f.tx-gray-700 #{board.duration} #{t("bilbos.sec")}
+  %td.valign-middle-f.tx-gray-700= board.recommended_image_size
+  -if board.images_only
+    %td.valign-middle-f.tx-gray-700= t("bilbos.image")
+  -else
+    %td.valign-middle-f.tx-gray-700= t("bilbos.both_image_video")
+  %td<
+    %div.d-flex
+      = render partial: 'campaigns/wizard/add_content_button', locals: {board: board, campaign: @campaign}
+      %div.d-flex{:id => "images-#{board.slug}", style: "overflow-x: scroll;"}
+        -if board.board_campaigns.find_by(campaign_id: @campaign).present?
+          = render partial: 'campaigns/wizard/show_selected_content', collection: board.board_campaigns.find_by(board_id: board.id, campaign_id: @campaign).contents_board_campaign.map{|cont| cont.content}, as: :img, locals: {board: board}
+      - if board.board_campaigns.find_by(campaign_id: @campaign).present?
+        = hidden_field_tag "content_board_campaign_id", board.board_campaigns.find_by(board_id: board.id, campaign_id: @campaign).contents_board_campaign.map{|cc| cc.content_id}, :id => "#{board.slug}"
+      -else
+        = hidden_field_tag "content_board_campaign_id", board.board_campaigns.where(board_id: board.id, campaign_id: @campaign).map{|cc| cc.content_id}, :id => "#{board.slug}"

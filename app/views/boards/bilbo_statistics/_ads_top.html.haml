@@ -10,21 +10,18 @@
     .card-body.pd-lg-30
       #adsCarousel.carousel.slide{"data-ride" => "carousel"}
         .carousel-inner
-          -if @board.campaigns.present? && @board.campaigns.find_by_name(@bilbo_top[0]).present? && @board.campaigns.find_by_name(@bilbo_top[0]).has_multimedia?
-            - if @board.images_only
-              - @board.campaigns.find_by_name(@bilbo_top[0]).ad.images.each.with_index do |media_first,i|
-                %div{class: "carousel-item #{'active' if i == 0}"}
-                  = link_to url_from_media(media_first), class: "glightbox", :data => {type: "image"} do
-                    = image_tag generate_thumbnail(media_first, 600, 300), size:"600x300", class: "d-block w-100 obj-fit-scale-down"
-            - else
-              - @board.campaigns.find_by_name(@bilbo_top[0]).ad.multimedia.each.with_index do |media_first,i|
-                %div{class: "carousel-item #{'active' if i == 0}"}
-                  -if media_first.video?
-                    = link_to url_from_media(media_first), class: "glightbox" do
-                      = image_tag generate_thumbnail(media_first, 600, 300), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted', style: "object-fit: contain;"
-                  -else
-                    = link_to url_from_media(media_first), class: "glightbox", :data => {type: "image"} do
-                      = image_tag generate_thumbnail(media_first, 600, 300), size:"600x300", class: "d-block w-100 obj-fit-scale-down"
+          -if Campaign.find_by_name(@bilbo_top[0]).present? && @board.board_campaigns.find_by(board_id: @board.id, campaign_id: Campaign.find_by_name(@bilbo_top[0]).id).contents_board_campaign.present?
+            -@board.board_campaigns.find_by(board_id: @board.id, campaign_id: Campaign.find_by_name(@bilbo_top[0]).id).contents_board_campaign.each.with_index do |media_first,i|
+              %div{class: "carousel-item #{'active' if i == 0}"}
+                -if media_first.content.is_video?
+                  = link_to media_first.content.multimedia_url(:transcoded), class: "glightbox", :data => {caption: media_first.content.multimedia.metadata["filename"], group: @project.slug} do
+                    = image_tag media_first.content.multimedia_url(:large), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted'
+                -elsif media_first.content.is_url?
+                  = link_to media_first.content.url, class: "glightbox", :data => {caption: media_first.content.url, group: ""} do
+                    %iframe{:src => "#{media_first.content.url}", class: "d-block w-100", :height => "300", :width => "600", :scrolling => "no"}
+                -else
+                  = link_to media_first.content.multimedia_url(:large), class: "glightbox", :data => {type: "image"} do
+                    = image_tag media_first.content.multimedia_url(:small), size:"600x300", class: "d-block w-100 obj-fit-scale-down"
             = render partial: "boards/bilbo_statistics/board_top", collection: @board.campaigns.where(name: @bilbo_top.map{|sub| sub.values_at(0)}.join(",").split(",").values_at(1,2,3)), as: :campaign
           -else
             .carousel-item.active

@@ -1,13 +1,13 @@
 class CampaignsController < ApplicationController
   include UserActivityHelper
-  access [:user, :provider] => :all, all: [:analytics, :shortened_analytics, :redirect_to_external_link]
+  access [:user, :provider] => :all, all: [:analytics, :shortened_analytics, :redirect_to_external_link, :get_boards_content_info]
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :download_qr_instructions, :copy_campaign, :create_copy]
-  before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards]
+  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :download_qr_instructions, :copy_campaign, :create_copy, :get_used_contents, :get_boards_content_info]
+  before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :get_used_contents, :get_boards_content_info]
   before_action :campaign_not_active, only: [:edit]
 
   def index
-    @created_ads = @project.ads.present?
+    @created_ads = @project.contents.present?
     @created_campaigns = @project.campaigns.present?
     @purchased_credits = current_user.payments.present?
     @verified_profile = current_user.verified
@@ -16,16 +16,13 @@ class CampaignsController < ApplicationController
 
   def provider_index
     if params[:q] == "review"
-      Campaign.active.where.not(ad_id: nil).joins(:boards).merge(@project.boards).uniq.pluck(:id).each do |c|
+      Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id).each do |c|
         @campaign_loop = Campaign.find(c)
-        #Search for ads that haven't been processed
-         if Ad.find(@campaign_loop.ad_id).processed?
-           # to be optimized
-           if @campaign_loop.owner.has_had_credits? || @campaign_loop.provider_campaign?
-             @camp = Array(@camp).push(c)
-           end
-         end
-       end
+        # to be optimized
+        if @campaign_loop.owner.has_had_credits? || @campaign_loop.provider_campaign?
+          @camp = Array(@camp).push(c)
+        end
+      end
       @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: @camp).in_review
     elsif params[:bilbo].present?
       @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.friendly.find(params[:bilbo]), campaign_id: Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved rescue nil
@@ -34,17 +31,23 @@ class CampaignsController < ApplicationController
     end
   end
 
-  def getAds
+  def get_content
     campaign = Campaign.find(params[:id])
     if campaign.should_run?(params[:board_id].to_i)
-      @append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: campaign.ad.multimedia, locals: {campaign: campaign},as: :media)
+      content = Board.find(params[:board_id]).get_content(campaign)
+      @append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign})
     else
       @append_msg = ""
     end
   end
 
   def get_used_boards
-    @board_campaigns = @campaign.board_campaigns.includes(:board)
+    @board_campaigns = @campaign.board_campaigns.includes(:board, :contents_board_campaign)
+  end
+
+  def get_used_contents
+   @board_campaigns = BoardsCampaigns.find(params[:board_campaign])
+   @contents = @board_campaigns.contents_board_campaign
   end
 
   def analytics
@@ -71,7 +74,7 @@ class CampaignsController < ApplicationController
     end
     @ad_upcoming = Kaminari.paginate_array(@ads).page(params[:ad_upcoming_page]).per(11)
     factor = (@campaign.classification == "per_hour" && !@campaign.provider_campaign?)? 1.2 : 1
-    @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor} ] }
+    @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor, 'data-slug': board.slug } ] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
     if current_user.is_provider?
@@ -104,6 +107,7 @@ class CampaignsController < ApplicationController
   def update
     current_user.with_lock do
       respond_to do |format|
+        @campaign.board_campaigns.where.not(board_id: campaign_params[:boards]).map{ |bc| bc.destroy}
         if @campaign.update(campaign_params.merge(state: is_state, owner_updated_campaign: true))
           track_activity( action: "campaign.campaign_updated", activeness: @campaign)
           # Create a notification per project
@@ -249,10 +253,17 @@ class CampaignsController < ApplicationController
     render 'copy_campaign', :locals => {:obj => @campaign}
   end
 
+  # this gets called in the second step of wizard for call the boards
+  def get_boards_content_info
+    @campaign
+    @selected_boards = Board.where(id: params[:selected_boards].split(","), status: "enabled")
+    #render  'get_boards_content_info', :locals => {:selected_boards_content => @selected_boards, :campaign => @campaign}
+  end
+
   private
 
   def campaign_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :ad_id, :starts_at, :ends_at, :budget, :link, :imp, :minutes, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :starts_at, :ends_at, :budget, :link, :imp, :minutes, :content_ids, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
     if @campaign_params[:boards].present?
       @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
     end
@@ -279,6 +290,7 @@ class CampaignsController < ApplicationController
     @campaign_params = params.require(:campaign).permit(:name, :description)
     @campaign_params[:state] = false
     @campaign_params[:impression_count] = 0
+    @campaign_params[:total_invested] = 0
     @campaign_params
   end
 

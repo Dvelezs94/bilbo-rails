@@ -15,6 +15,7 @@ class Project < ApplicationRecord
   has_many :ads
   has_many :boards
   has_many :reports
+  has_many :contents
   # the project has notifications so all users in the project can see them
   has_many :notifications, foreign_key: :recipient_id
   after_commit :disable_campaigns!, on: :update
@@ -86,20 +87,17 @@ class Project < ApplicationRecord
 
   # campaigns that require provider feedback to be aither approved or denied
   def campaigns_for_review
-    Campaign.active.where.not(ad_id: nil).joins(:boards).merge(self.boards).pluck(:id).each do |c|
+    Campaign.active.joins(:boards).merge(self.boards).pluck(:id).each do |c|
       @campaign_loop = Campaign.find(c)
-      #Search for ads that haven't been processed
-       if Ad.find(@campaign_loop.ad_id).processed?
-         # to be optimized
-         if @campaign_loop.owner.has_had_credits? || @campaign_loop.provider_campaign?
-           @camp = Array(@camp).push(c)
-         end
-       end
-     end
+      # to be optimized
+      if @campaign_loop.owner.has_had_credits? || @campaign_loop.provider_campaign?
+        @camp = Array(@camp).push(c)
+      end
+    end
     BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: @camp).in_review.count
   end
 
   def active_campaigns
-    BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: Campaign.active.where.not(ad_id: nil).joins(:boards).merge(self.boards).pluck(:id)).approved.count
+    BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: Campaign.active.joins(:boards).merge(self.boards).pluck(:id)).approved.count
   end
 end

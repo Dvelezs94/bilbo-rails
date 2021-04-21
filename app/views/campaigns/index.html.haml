@@ -1,68 +1,66 @@
 = render 'shared/header', menu: "dashboard"
 .content.content-fixed
-  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
-    .d-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
-      %div
-        %nav{"aria-label" => "breadcrumb"}
-          %ol.breadcrumb.breadcrumb-style1.mg-b-10
-            %li.breadcrumb-item
-              %a{:href => "/"}= t("campaign.home")
-            %li.breadcrumb-item.active{"aria-current" => "page"}= t("campaign.campaign")
-        %h4.mg-b-0.tx-spacing--1= t("campaign.campaign")
-      .d-block
-        %a{"data-toggle" => "modal", :href => "#modalNewCampaign"}
-          %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
-            %i.wd-10.mg-r-5.fe.fe-plus
-            = t("campaign.new_campaign")
-    - if current_user.is_user?
-      - if !@project.owner.verified
-        .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
-          %i.mg-r-10{class: "fe fe-warning"}
-          = t('alert.verify_profile')
-          %a{class: "pd-l-5", "data-toggle" => "modal", :href => "#modalVerify", :style => "color:white; font-weight: bold;"}= t('campaign.enable_campaigns').downcase
-          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
-      - elsif current_user == @project.owner && current_user.balance < 20 && @project.campaigns.any?
-        .alert.alert-warning.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
-          %i.mg-r-10{class: "fe fe-warning"}
-          %a{class: "pd-l-5", "data-toggle" => "modal", :href => "#modalNewPayment", :style => "color: #856404;font-weight: bold; text-decoration:underline"}= " #{t('alert.purchase_credits')}."
-          %span.mg-l-5= "#{t('alert.project_out_of_credits')}"
-          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
-      - elsif @project.owner.balance < 20 && @project.campaigns.any?
-        .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
-          %i.mg-r-10{class: "fe fe-warning"}
-          = t('alert.more_credits')
-          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
-    - if @project.campaigns.active.size > 0
-      .row
-        .table-responsive
-          %table#userCampaignTable.table
-            %thead
-              %tr
-                %th
-                %th= t("campaign.campaign_name")
-                %th= t("campaign.objective")
-                %th= t("campaign.type")
-                %th= t("campaign.bilbos_in_use")
-                %th= t("campaign.ad_name")
-                %th= t("campaign.start_date")
-                %th= t("campaign.end_date")
-                %th= t("campaign.impressions")
-                %th= t("campaign.daily_budget")
-                %th= t("campaign.total_invested")
-                %th.no-sort
-                  %span
-                    = t("campaign.qr_code")
-                    %i.fe.fe-question.tx-primary{"data-toggle" => "tooltip", :title => t("campaign.qr_code_tooltip")}
-                %th.no-sort
-            %tbody= render partial: "campaigns/campaign_row", collection: @campaigns, as: :campaign
-    - else
-      .ht-100p.d-flex.flex-column.align-items-center.justify-content-center
-        .wd-150.wd-sm-250.mg-b-30
-          = image_tag image_path("humaaans/illustration_nothinghere"), class: "img-fluid"
-        %a{"data-toggle" => "modal", :href => "#modalNewCampaign"}
-          %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
-            %i.wd-10.mg-r-5.fe.fe-plus
-            = t("campaign.new_campaign")
+  .d-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+    %div
+      %nav{"aria-label" => "breadcrumb"}
+        %ol.breadcrumb.breadcrumb-style1.mg-b-10
+          %li.breadcrumb-item
+            %a{:href => "/"}= t("campaign.home")
+          %li.breadcrumb-item.active{"aria-current" => "page"}= t("campaign.campaign")
+      %h4.mg-b-0.tx-spacing--1= t("campaign.campaign")
+    .d-block
+      %a{"data-toggle" => "modal", :href => "#modalNewCampaign"}
+        %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
+          %i.wd-10.mg-r-5.fe.fe-plus
+          = t("campaign.new_campaign")
+  - if current_user.is_user?
+    - if !@project.owner.verified
+      .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
+        %i.mg-r-10{class: "fe fe-warning"}
+        = t('alert.verify_profile')
+        %a{class: "pd-l-5", "data-toggle" => "modal", :href => "#modalVerify", :style => "color:white; font-weight: bold;"}= t('campaign.enable_campaigns').downcase
+        %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+    - elsif current_user == @project.owner && current_user.balance < 20 && @project.campaigns.any?
+      .alert.alert-warning.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
+        %i.mg-r-10{class: "fe fe-warning"}
+        %a{class: "pd-l-5", "data-toggle" => "modal", :href => "#modalNewPayment", :style => "color: #856404;font-weight: bold; text-decoration:underline"}= " #{t('alert.purchase_credits')}."
+        %span.mg-l-5= "#{t('alert.project_out_of_credits')}"
+        %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+    - elsif @project.owner.balance < 20 && @project.campaigns.any?
+      .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
+        %i.mg-r-10{class: "fe fe-warning"}
+        = t('alert.more_credits')
+        %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+  - if @project.campaigns.active.size > 0
+    .row
+      .table-responsive
+        %table#userCampaignTable.table
+          %thead
+            %tr
+              %th
+              %th= t("campaign.campaign_name")
+              %th= t("campaign.objective")
+              %th= t("campaign.type")
+              %th= t("campaign.bilbos_in_use")
+              %th= t("campaign.start_date")
+              %th= t("campaign.end_date")
+              %th= t("campaign.impressions")
+              %th= t("campaign.daily_budget")
+              %th= t("campaign.total_invested")
+              %th.no-sort
+                %span
+                  = t("campaign.qr_code")
+                  %i.fe.fe-question.tx-primary{"data-toggle" => "tooltip", :title => t("campaign.qr_code_tooltip")}
+              %th.no-sort
+          %tbody= render partial: "campaigns/campaign_row", collection: @campaigns, as: :campaign
+  - else
+    .ht-100p.d-flex.flex-column.align-items-center.justify-content-center
+      .wd-150.wd-sm-250.mg-b-30
+        = image_tag image_path("humaaans/illustration_nothinghere"), class: "img-fluid"
+      %a{"data-toggle" => "modal", :href => "#modalNewCampaign"}
+        %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
+          %i.wd-10.mg-r-5.fe.fe-plus
+          = t("campaign.new_campaign")
   / container
 / content
 - if @project.owned?(current_user.id) && current_user.is_user? && @show_hint

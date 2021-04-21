@@ -9,7 +9,7 @@
         .row
           .col-12.m-auto
             %ul.list-group.list-group-flush.tx-13
-            - @board_campaigns.each do |board_campaign|
+            -@board_campaigns.each do |board_campaign|
               %li.list-group-item.d-flex.pd-sm-x-20
                 .avatar
                   - if board_campaign.board.images.attached?
@@ -18,7 +18,13 @@
                     = image_tag image_path("board_placeholder")
                 .pd-l-10
                   %p.tx-medium.mg-b-0= board_campaign.board.name
-                  %small.tx-12.tx-color-03.mg-b-0= board_campaign.board.face
+                  %small.tx-12.tx-color-03.mg-b-0= "#{board_campaign.board.face} - "
+                  -if board_campaign.contents_board_campaign.present?
+                    = link_to get_used_contents_campaign_path(@campaign, board_campaign: board_campaign.id ), id: "button-content#{board_campaign.board.slug}", :remote=> true do
+                      %small.tx-12.mg-b-0
+                        = t("content.display_content")
+                        %i.fe.fe-arrow-down
+                    .mg-l-auto.d-flex.align-self-center{id: "content#{board_campaign.board.slug}"}
                 .mg-l-auto.d-flex.align-self-center
                   %nav.nav.nav-icon-only
                     - if board_campaign.in_review?
