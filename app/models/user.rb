@@ -23,7 +23,8 @@ class User < ApplicationRecord
 
   validates :email, presence: true, format: Devise.email_regexp
   validates :name, format: { :with => /\A[^0-9`!@#\$%\^&*+_=]+\z/, multiline: false, message: 'Invalid name' }
-  validates_format_of :phone_number, with: /\A\+\d{1,3}\d{10}\z/i, allow_nil: true, message: I18n.t("validations.only_numbers_for_phone")
+  validates_with PhoneValidator
+  #validates_format_of :phone_number, with: /\A\+\d{1,3}\d{10}\z/i, allow_nil: true, message: I18n.t("validations.only_numbers_for_phone")
   has_many :boards
   # project related methods
   has_many :project_users, dependent: :destroy
@@ -178,8 +179,7 @@ class User < ApplicationRecord
   def charge!(amount: 0, camp_id: nil)
     begin
       self.with_lock do
-        self.balance -= amount.to_f
-        save!
+        self.update_column(:balance, self.balance -= amount.to_f)
       end
       # Increase total invested on campaign
       if camp_id.is_a? Integer
