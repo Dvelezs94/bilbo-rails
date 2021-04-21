@@ -179,8 +179,7 @@ class User < ApplicationRecord
   def charge!(amount: 0, camp_id: nil)
     begin
       self.with_lock do
-        self.balance -= amount.to_f
-        save!
+        self.update_column(:balance, self.balance -= amount.to_f)
       end
       # Increase total invested on campaign
       if camp_id.is_a? Integer
