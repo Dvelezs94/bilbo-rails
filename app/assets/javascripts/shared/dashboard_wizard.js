@@ -30,7 +30,11 @@ $(document).on('turbolinks:load', function () {
 
           if (currentIndex === 1) {
             updateHiddenFieldContent();
-            return validateContent();
+            if (validateContent()){
+              return true;
+            }else {
+              show_error($('#error_adding').html());
+            }
           }
 
           // Step 2 form validation
@@ -209,7 +213,11 @@ $(document).on('turbolinks:load', function () {
           if ($('#impressions').length == 1)
             $('#impressions')[0].style.width =
               ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
+        } else if(priorIndex === 1){
+          append_content_to_carousel_wizard();
         } else if (priorIndex === 2) {
+
+          showHideCarouselContent();
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());
           make_summary_selected_hours();
@@ -600,6 +608,7 @@ function content_info(){
 
 function append_content(){
   $('#modalContent').modal('hide');
+  board_slug = $('#slug-board').val();
   content_board = $('#'+$('#slug-board').val());
   content_board.val("");
   checkbox_selected = $('input[type="checkbox"]:checked');
@@ -610,14 +619,16 @@ function append_content(){
   });
   cont_ids = content_ids.toString().replace(/,/g , " ");
   content_board.val(cont_ids);
-  showContent(content_board);
+  showContent(content_board, board_slug);
 }
 
-function showContent(content_board){
+
+
+function showContent(content_board, board_slug){
   $.ajax({
     url:  "/contents_board_campaign/get_selected_content",
     dataType: "script",
-    data: {selected_contents: content_board.val(), board_slug: $('#slug-board').val(), campaign: $("#campaign_id").val()},
+    data: {selected_contents: content_board.val(), board_slug: board_slug, campaign: $("#campaign_id").val()},
     success: function(data) {
     },
     error: function(data) {
@@ -630,6 +641,7 @@ function delete_content(content_id, board_slug){
   //find in the front-end the content to delete
   $('#content-delete-'+content_id+"-"+board_slug).remove();
   $('#content-'+content_id+"-"+board_slug).remove();
+  $('#wizard-content-'+content_id+"-"+board_slug).remove();
   //delete in the hiddenfield the contents
   var arr = $('#'+board_slug).val().split(" ");
     for( var i = 0; i < arr.length; i++){
@@ -665,4 +677,30 @@ function validateContent(){
     }
   }
   return validation;
+}
+
+function showHideCarouselContent(){
+  board = $("#aspect_ratio_select").val()
+  wizard = $('div*[id*=wizard-div]');
+  wizard.each(function () {
+      $(this).hide();
+      console.log(this)
+      });
+  $("#wizard-div-"+board).show();
+
+}
+
+
+function append_content_to_carousel_wizard(){
+  contents_selected = $('input*[id*=bilbo-]');
+  contents_selected.each(function () {
+    board_slug = this.id;
+    content_board = $("#" + board_slug);
+
+    showContent(content_board, board_slug);
+    setTimeout(function(){
+      showHideCarouselContent();
+    },1);
+  });
+
 }
