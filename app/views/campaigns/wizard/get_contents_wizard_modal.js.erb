@@ -1,0 +1,5 @@
+$("#modalContent").append("<%= j (render 'campaigns/wizard/content', locals: {content: @content, board: @board, :campaign => @campaign}) %>");
+$("#modalContent").modal();
+$("#content_modal").html("<%= j render partial: 'campaigns/wizard/contents_modal'%>");
+select_content();
+initialize_content_filter();

@@ -19,16 +19,26 @@ $(document).on('turbolinks:load', function () {
         if (currentIndex < newIndex) {
           // Step 1 form validation
           if (currentIndex === 0) {
-            var campaignadid = $('#campaign_ad_id').parsley();
-            if (campaignadid.isValid()) {
+            var campaignboards = $('#campaign_boards').parsley();
+
+            if (campaignboards.isValid()) {
               return true;
             } else {
-              campaignadid.validate();
+              campaignboards.validate();
+            }
+          }
+
+          if (currentIndex === 1) {
+            updateHiddenFieldContent();
+            if (validateContent()){
+              return true;
+            }else {
+              show_error($('#error_adding').html());
             }
           }
 
           // Step 2 form validation
-          if (currentIndex === 1) {
+          if (currentIndex === 2) {
             //this is for count the Schedules added in campaign for hour
             if ($('#add_schedule').length) {
               if (
@@ -59,13 +69,6 @@ $(document).on('turbolinks:load', function () {
             calculateMaxImpressions();
             if ($('#impressions').length) {
               calculateImpressions();
-            }
-            var campaignboards = $('#campaign_boards').parsley();
-
-            if (campaignboards.isValid()) {
-              return true;
-            } else {
-              campaignboards.validate();
             }
           }
 
@@ -191,12 +194,9 @@ $(document).on('turbolinks:load', function () {
         }
       },
       onStepChanged: function (event, currentIndex, priorIndex) {
-        // update summary on ads change
+        // update summary on map change
         if (priorIndex === 0) {
-          $('#adName').text($('.wizard_selected_ad .card-body').text());
-          getadwizard();
-          // update summary on map change
-        } else if (priorIndex === 1) {
+          content_info();
           // update summary on budget and date change
           $('#bilbosAddress').empty();
           $('#selected_boards option:not(:eq(0))').each(function () {
@@ -213,7 +213,11 @@ $(document).on('turbolinks:load', function () {
           if ($('#impressions').length == 1)
             $('#impressions')[0].style.width =
               ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
+        } else if(priorIndex === 1){
+          append_content_to_carousel_wizard();
         } else if (priorIndex === 2) {
+
+          showHideCarouselContent();
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());
           make_summary_selected_hours();
@@ -580,4 +584,123 @@ function validatesPerHour() {
     }
   }
   return valid;
+}
+
+
+function content_info(){
+  boards = $("#campaign_boards");
+  if(boards.length > 1){
+    selected_boards = boards.val().substring(1);
+  }else{
+    selected_boards = boards.val();
+  }
+  $.ajax({
+    url:  "/campaigns/"+$("#campaign_id").val()+"/get_boards_content_info",
+    dataType: "script",
+    data: {selected_boards: selected_boards},
+    success: function(data) {
+    },
+    error: function(data) {
+      alert("Oops.. Ocurrio un error..");
+    }
+  });
+}
+
+function append_content(){
+  $('#modalContent').modal('hide');
+  board_slug = $('#slug-board').val();
+  content_board = $('#'+$('#slug-board').val());
+  content_board.val("");
+  checkbox_selected = $('input[type="checkbox"]:checked');
+  content_ids = [];
+  $('input[type="checkbox"]:checked').each(function() {
+     content = this.id.split("pickContent");
+     content_ids.push(content[1]);
+  });
+  cont_ids = content_ids.toString().replace(/,/g , " ");
+  content_board.val(cont_ids);
+  showContent(content_board, board_slug);
+}
+
+
+
+function showContent(content_board, board_slug){
+  $.ajax({
+    url:  "/contents_board_campaign/get_selected_content",
+    dataType: "script",
+    data: {selected_contents: content_board.val(), board_slug: board_slug, campaign: $("#campaign_id").val()},
+    success: function(data) {
+    },
+    error: function(data) {
+      alert("Oops.. Ocurrio un error..");
+    }
+  });
+}
+
+function delete_content(content_id, board_slug){
+  //find in the front-end the content to delete
+  $('#content-delete-'+content_id+"-"+board_slug).remove();
+  $('#content-'+content_id+"-"+board_slug).remove();
+  $('#wizard-content-'+content_id+"-"+board_slug).remove();
+  //delete in the hiddenfield the contents
+  var arr = $('#'+board_slug).val().split(" ");
+    for( var i = 0; i < arr.length; i++){
+        if ( arr[i] === content_id) {
+            arr.splice(i, 1);
+            i--;
+        }
+    }
+    $('#'+board_slug).val(arr.toString().replace(/,/g , " "));
+}
+
+function updateHiddenFieldContent(){
+  contents_selected = $('input*[id*=bilbo-]');
+  var content_board_campaign = {}
+  var i;
+  for (i = 0; i < contents_selected.length; i++) {
+    x = $("#"+contents_selected[i].id)
+    content_board_campaign[contents_selected[i].id] = x.val()
+  }
+  $("#content_ids").val(JSON.stringify(content_board_campaign))
+}
+
+function validateContent(){
+  contents = $("#content_ids");
+  var i;
+  validation = true;
+  for (i = 0; i < contents.val().split(",").length; i++) {
+    if ((contents.val().split(",")[i].split(":")[1] === '""') || (contents.val().split(",")[i].split(":")[1] === '""}')){
+      validation = false;
+      break;
+    }else{
+      validation = true;
+    }
+  }
+  return validation;
+}
+
+function showHideCarouselContent(){
+  board = $("#aspect_ratio_select").val()
+  wizard = $('div*[id*=wizard-div]');
+  wizard.each(function () {
+      $(this).hide();
+      console.log(this)
+      });
+  $("#wizard-div-"+board).show();
+
+}
+
+
+function append_content_to_carousel_wizard(){
+  contents_selected = $('input*[id*=bilbo-]');
+  contents_selected.each(function () {
+    board_slug = this.id;
+    content_board = $("#" + board_slug);
+
+    showContent(content_board, board_slug);
+    setTimeout(function(){
+      showHideCarouselContent();
+    },1);
+  });
+
 }

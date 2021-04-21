@@ -253,7 +253,7 @@ function isWorkTime(start, end) {
    function requestAds(campaign_id) {
      board_id = $("#board_id").val();
      Rails.ajax({
-       url: "/campaigns/" + String(campaign_id) + "/getAds",
+       url: "/campaigns/" + String(campaign_id) + "/get_content",
        type: "get",
        data: "board_id=" + String(board_id),
        success: function(data) {

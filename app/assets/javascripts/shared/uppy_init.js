@@ -39,7 +39,7 @@ $(document).on('turbolinks:load', function() {
     })
 
     uppy.on('upload-error', (file, error, response) => {
-      show_error("Make sure you have all ad blockers disabled");
+      show_error(error);
     })
   }
 });

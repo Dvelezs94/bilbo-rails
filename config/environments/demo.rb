@@ -113,7 +113,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # GTM
-  GoogleTagManager.gtm_id = ENV.fetch("GOOGLE_TAG_MANAGER_ID")
+  GoogleTagManager.gtm_id = "xxxxx"
 
   Rails.application.routes.default_url_options[:host] = "https://demo.app.bilbo.mx"
   config.action_mailer.default_url_options = { host: "https://demo.app.bilbo.mx" }

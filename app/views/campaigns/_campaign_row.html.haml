@@ -9,7 +9,6 @@
   %td.text-right{"data-placement" => "right", "data-toggle" => "tooltip", :title => t("campaign.view_bilbos_used")}
     = "#{campaign.boards.enabled.length} "
     = link_to "<i class='fe fe-list-bullet'></i>".html_safe,  get_used_boards_campaign_path(campaign.slug), remote: true, data: { toggle: "modal" }
-  %td.text-right= link_to(campaign.ad.name, ad_path(campaign.ad)) rescue t("ads.no_ad")
   %td.text-right= I18n.l(campaign.starts_at.to_date, format: :long) rescue "-"
   %td.text-right= I18n.l(campaign.ends_at.to_date, format: :long) rescue "-"
   %td.text-right.tx-medium= campaign.impression_count

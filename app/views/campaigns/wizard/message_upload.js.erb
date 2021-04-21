@@ -1,0 +1,8 @@
+<% if @success_message.present? %>
+  show_success("<%= escape_javascript(@success_message)%>");
+<% else %>
+  show_error("<%= escape_javascript(@error_message)%>");
+<% end %>
+if($("#modalNewMultimedia").length){
+  $('#modalNewMultimedia').modal('hide');
+}

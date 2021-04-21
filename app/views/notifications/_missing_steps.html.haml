@@ -18,16 +18,17 @@
         .col-2
           %i.fe.fe-arrow-left
       %hr.hr-border-white
-      .row{"data-toggle" => "modal", :href => "#modalNewAd"}
-        .col-10
-          %span.tx-normal
-            - if @created_ads
-              %i.tx-16.fe.fe-check-circle
-            - else
-              %i.tx-16.fe.fe-check-circle-o
-            = t('main_wizard.upload_ad')
-        .col-2
-          %i.fe.fe-arrow-right
+      = link_to new_multimedia_contents_path, remote: true do
+        .row{"data-toggle" => "modal", :href => "#modalNewAd"}
+          .col-10
+            %span.tx-normal{style: "color:white;"}
+              - if @created_ads
+                %i.tx-16.fe.fe-check-circle{style: "color:#fff;"}
+              - else
+                %i.tx-16.fe.fe-check-circle-o{style: "color:#fff;"}
+              = t('main_wizard.upload_ad')
+          .col-2
+            %i.fe.fe-arrow-right{style: "color:#fff;"}
       %hr.hr-border-white
       .row.mg-b-10{"data-toggle" => "modal", :href => "#modalNewCampaign"}
         .col-10
