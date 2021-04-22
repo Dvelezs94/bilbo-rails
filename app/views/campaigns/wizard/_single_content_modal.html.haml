@@ -1,6 +1,6 @@
 .card.mmcard{"data-content": "#{content.id}"}
   -if content.is_url?
-    %iframe.d-block{:src => "#{content.url}", class: "card-img-top ht-100", scrolling: "no"}
+    %iframe.d-block.no-pointer{:src => "#{content.url}", class: "card-img-top ht-100", scrolling: "no"}
   -elsif content.is_video?
     = image_tag content.multimedia_url(:small), class: "card-img-top ht-100 o-fit-cover"
   - else

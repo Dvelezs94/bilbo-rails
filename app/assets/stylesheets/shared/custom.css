@@ -537,6 +537,10 @@ iframe {
   border-width: 0px !important;
 }
 
+.no-pointer {
+  pointer-events: none;
+}
+
 a[href="#previous"] {
    background-color: #ACB6C8 !important;
 }

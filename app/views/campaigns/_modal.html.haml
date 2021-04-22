@@ -16,7 +16,7 @@
                   = image_tag media.multimedia_url(:large), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted'
               -elsif media.is_url?
                 = link_to media.url, class: "glightbox", :data => {caption: media.url, group: ""} do
-                  %iframe{:src => "#{media.url}", class: "d-block w-100", :height => "300", :width => "600"}
+                  %iframe.no-pointer{:src => "#{media.url}", class: "d-block w-100", :height => "300", :width => "600"}
               -else
                 = link_to media.multimedia_url(:large), class: "glightbox", :data => {caption: media.multimedia.metadata["filename"], group: @project.slug, type: "image"} do
                   = image_tag media.multimedia_url(:small), size:"600x300", class: "d-block w-100"

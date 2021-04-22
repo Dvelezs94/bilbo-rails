@@ -7,7 +7,7 @@
             = image_tag contents.content.multimedia_url(:small), {class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded o-fit-cover"}
         -elsif contents.content.is_url?
           = link_to contents.content.url, class: "glightbox mg-r-5 mg-b-5 img wd-50 ht-50 rounded o-fit-cover", :data => {caption: contents.content.url, group: ""} do
-            %iframe{:src => "#{contents.content.url}", class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded o-fit-cover", :scrolling => "no"}
+            %iframe.no-pointer{:src => "#{contents.content.url}", class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded o-fit-cover", :scrolling => "no"}
         -else
           = link_to contents.content.multimedia_url(:large), class: "glightbox mg-r-5 mg-b-5 img wd-50 ht-50 rounded o-fit-cover", :data => {caption: contents.content.multimedia.metadata["filename"], group: "", type: "image"} do
             = image_tag contents.content.multimedia_url(:small), {class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded o-fit-cover"}
