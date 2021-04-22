@@ -13,7 +13,7 @@ if Rails.env.production? || Rails.env.demo? || Rails.env.staging?
     store: Shrine::Storage::S3.new(**s3_options),
   }
 
-  plugin :url_options, store: { host: "https://#{ENV.fetch('CDN_HOST') {""}}/" }
+  Shrine.plugin :url_options, store: { host: "https://#{ENV.fetch('CDN_HOST') {""}}/" }
 
 else
   Shrine.storages = {
