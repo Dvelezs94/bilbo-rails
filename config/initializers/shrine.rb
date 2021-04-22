@@ -30,3 +30,4 @@ Shrine.plugin :validation_helpers
 Shrine.plugin :store_dimensions, analyzer: :mini_magick
 Shrine.plugin :derivatives
 Shrine.plugin :add_metadata
+Shrine.plugin :determine_mime_type

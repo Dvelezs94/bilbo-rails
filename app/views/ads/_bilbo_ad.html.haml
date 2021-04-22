@@ -1,5 +1,5 @@
 - @board.default_images.each do |di|
   - if di.video?
-    = video_tag(url_from_media(di), class: "bilbo-official-ad", loop: true, preload: "auto", muted: 'muted')
+    = video_tag(di, class: "bilbo-official-ad", loop: true, preload: "auto", muted: 'muted')
   - else
-    = image_tag url_from_media(di), class: "bilbo-official-ad"
+    = image_tag di, class: "bilbo-official-ad"
