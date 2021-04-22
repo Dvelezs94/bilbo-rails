@@ -5,7 +5,7 @@ require "shrine/storage/s3"
 if Rails.env.production? || Rails.env.demo? || Rails.env.staging?
   s3_options = {
     bucket: ENV.fetch('S3_BUCKET_NAME') {""},
-    region: ENV.fetch('AWS_REGION') {'us-east-1'},
+    region: ENV.fetch('S3_AWS_REGION') {'us-east-1'},
   }
 
   Shrine.storages = {
