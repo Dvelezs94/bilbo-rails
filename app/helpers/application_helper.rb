@@ -124,5 +124,5 @@ module ApplicationHelper
       url_for(media.image)
     end
   end
-  
+
 end
