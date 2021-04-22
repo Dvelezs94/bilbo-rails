@@ -149,7 +149,7 @@
 <div class="d-flex">
   <% board.images.each do |img| %>
   <figure class="img-caption pos-relative mg-b-0 fit-content" signed_id="<%= img.signed_id %>">
-    <%= image_tag url_from_media(img), class: "img-thumbnail", width: "200px" %>
+    <%= image_tag img, class: "img-thumbnail", width: "200px" %>
     <figcaption class="pos-absolute a-0 wd-100p pd-20 d-flex flex-column justify-content-center bg-white-9 transition-base op-0">
       <%= link_to delete_image_board_path(board.slug, signed_id: img.signed_id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do %>
       <i class="fe fe-trash"></i>
@@ -171,9 +171,9 @@
   <% board.default_images.each do |b| %>
   <figure class="img-caption pos-relative mg-b-0 fit-content" signed_id="<%= b.signed_id %>">
     <% if b.video? %>
-    <%= video_tag url_from_media(b), class: "img-thumbnail", width: "200px", autoplay: true, loop: true, controls: false, muted: true  %>
+    <%= video_tag b, class: "img-thumbnail", width: "200px", autoplay: true, loop: true, controls: false, muted: true  %>
     <% else %>
-    <%= image_tag url_from_media(b), class: "img-thumbnail", width: "200px" %>
+    <%= image_tag b, class: "img-thumbnail", width: "200px" %>
     <% end%>
     <figcaption class="pos-absolute a-0 wd-100p pd-20 d-flex flex-column justify-content-center bg-white-9 transition-base op-0">
       <%= link_to delete_default_image_board_path(board.slug, signed_id: b.signed_id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do %>

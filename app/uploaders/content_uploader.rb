@@ -38,7 +38,11 @@ class ContentUploader < Shrine
 
     # transcode video
     movie = FFMPEG::Movie.new(original.path)
-    movie.transcode(transcoded.path, video_encoding_settings)
+    if movie.height.to_i > 1080
+      movie.transcode(transcoded.path, video_encoding_settings )
+    else
+      movie.transcode(transcoded.path)
+    end
 
     # get screenshot from transcoded video
     screen = FFMPEG::Movie.new(transcoded.path)
