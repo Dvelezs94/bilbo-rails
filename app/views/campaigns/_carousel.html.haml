@@ -7,7 +7,7 @@
           -if media.is_video?
             = image_tag media.multimedia_url(:large), class: "center-block d-block w-100 h-100", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted', style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;"
           -elsif media.is_url?
-            %iframe{:src => "#{media.url}", class: "center-block d-block w-100 h-100", style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;", :scrolling => "no"}
+            %iframe.no-pointer{:src => "#{media.url}", class: "center-block d-block w-100 h-100", style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;", :scrolling => "no"}
           -else
             -if media.multimedia(:large).height <= 1080
               = image_tag media.multimedia_url(:small), class: "center-block d-block w-100 h-100", style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;"

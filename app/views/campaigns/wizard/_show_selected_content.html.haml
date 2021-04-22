@@ -2,6 +2,6 @@
   -if !img.url?
     = image_tag img.multimedia_url(:small), {class: "mg-r-5 img wd-50 ht-50 rounded o-fit-cover"}
   -else
-    %iframe{:src => "#{img.url}", class: "mg-r-5 img wd-50 ht-50 rounded o-fit-cover d-block", scrolling: "no"}
+    %iframe.no-pointer{:src => "#{img.url}", class: "mg-r-5 img wd-50 ht-50 rounded o-fit-cover d-block", scrolling: "no"}
   %figcaption.pos-absolute.a-0.wd-50.ht-50.mg-r-5.rounded.d-flex.flex-column.justify-content-center.bg-white-9.transition-base.op-0
     = link_to('<i class="fe fe-trash" style="vertical-align: bottom;"></i>'.html_safe, "javascript: delete_content('#{img.id}', '#{board.slug}');", :id => "content-delete-#{img.id}-#{board.slug}", class: "btn btn-danger btn-icon wd-100p ht-100p align-items-center")
