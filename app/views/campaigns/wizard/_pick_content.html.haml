@@ -1,5 +1,13 @@
 %h3= t("campaign.wizard.pick_ad")
 %section.mg-t-15
+  .row.row-xs
+    .col-6.col-md-6
+      %label= t("content.content_selected")
+    -if current_user.is_provider?
+      .input-group.mg-b-10.col-6.col-md-3.ml-auto
+        %label.tx-bold= t('content.playback_duration')
+        .input-group-prepend
+          = f.select(:duration, [["10 #{t("bilbos.sec")}", 10],["20 #{t("bilbos.sec")}", 20],["30 #{t("bilbos.sec")}", 30],["40 #{t("bilbos.sec")}", 40],["50 #{t("bilbos.sec")}", 50],["60 #{t("bilbos.sec")}", 60]], {selected: ["#{@campaign.duration} #{t("bilbos.sec")}", @campaign.duration]}, { :class => 'custom-select mg-l-30', id:"campaign_bilbo_duration" })
   .col-12
     %table.table.wizard-table
       %thead.bg-ui-01
@@ -10,6 +18,7 @@
           %th{:scope => "col"}= t("general_inputs.size")
           %th{:scope => "col"}= t("bilbos.formats")
           %th{:scope => "col"}= t("bilbos.ads")
+      #values-cont
       %tbody#content_inf
 = render partial: 'campaigns/wizard/content'
 %input#campaign_id.d-none{:readonly => "readonly", :value => "#{@campaign.slug}"}/
