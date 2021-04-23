@@ -267,7 +267,7 @@ en:
       finish: Finish
       choose_bilbos: Choose your Bilbos
       selected_bilbos: Selected Bilbos
-      pick_ad: Pick an ad
+      pick_ad: Pick an ad for each Bilbo
       need_help: Need help?
       date_and_budget: Date and Budget
       per_hour: Per hour
@@ -812,3 +812,5 @@ en:
     new_url:  New URL
     save: Save
     adding_content: Adding content to bilbo's is missing
+    playback_duration: Playback duration
+    content_selected: Select the content to display in each bilbo

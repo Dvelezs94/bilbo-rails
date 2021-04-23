@@ -1,5 +1,5 @@
 // Append the images of selected bilbo
-$('#images-'+$('#slug-board').val()).html("<%= j render partial: 'campaigns/wizard/show_selected_content', collection: @selected_contents, as: :img, locals: {board: @board, campaign: @campaign} %>");
+$('#images-<%=@board.slug%>').html("<%= j render partial: 'campaigns/wizard/show_selected_content', collection: @selected_contents, as: :img, locals: {board: @board, campaign: @campaign} %>");
 if($("#wizard-div-<%=@board.id%>").length){
   $('#wizard-div-<%=@board.id%>').remove();
   $("#carousel_wizard").append("<div id='wizard-div-<%=@board.id%>'></div>");

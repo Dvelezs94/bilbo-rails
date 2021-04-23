@@ -19,8 +19,8 @@ $(document).on('turbolinks:load', function () {
         if (currentIndex < newIndex) {
           // Step 1 form validation
           if (currentIndex === 0) {
+            change_duration();
             var campaignboards = $('#campaign_boards').parsley();
-
             if (campaignboards.isValid()) {
               return true;
             } else {
@@ -192,6 +192,7 @@ $(document).on('turbolinks:load', function () {
         } else {
           return true;
         }
+
       },
       onStepChanged: function (event, currentIndex, priorIndex) {
         // update summary on map change
@@ -213,10 +214,7 @@ $(document).on('turbolinks:load', function () {
           if ($('#impressions').length == 1)
             $('#impressions')[0].style.width =
               ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
-        } else if(priorIndex === 1){
-          append_content_to_carousel_wizard();
         } else if (priorIndex === 2) {
-
           showHideCarouselContent();
           $('#perMinute').text($('#imp_minute').val());
           $('#perMinuteEnd').text($('#campaign_minutes').val());
@@ -684,7 +682,6 @@ function showHideCarouselContent(){
   wizard = $('div*[id*=wizard-div]');
   wizard.each(function () {
       $(this).hide();
-      console.log(this)
       });
   $("#wizard-div-"+board).show();
 
@@ -692,15 +689,26 @@ function showHideCarouselContent(){
 
 
 function append_content_to_carousel_wizard(){
-  contents_selected = $('input*[id*=bilbo-]');
-  contents_selected.each(function () {
+  board_content_selected = $('input*[id*=bilbo-]');
+  board_content_selected.each(function () {
     board_slug = this.id;
     content_board = $("#" + board_slug);
-
     showContent(content_board, board_slug);
-    setTimeout(function(){
       showHideCarouselContent();
-    },1);
   });
 
+}
+
+function change_duration(){
+  campaign_bilbo_duration = $("#campaign_bilbo_duration");
+  campaign_bilbo_duration.change(function() {
+  replace_duration();
+});
+}
+
+function replace_duration(){
+  campaign_bilbo_duration = $("#campaign_bilbo_duration");
+$('td*[id*=bilbo_duration]').each(function(){
+  bilbo_duration_change = $(this);
+  bilbo_duration_change.text(bilbo_duration_change.text().replace(bilbo_duration_change.text().split(" ")[0], campaign_bilbo_duration.val()));  });
 }

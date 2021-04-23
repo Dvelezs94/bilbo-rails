@@ -1,3 +1,6 @@
 $("#content_inf").html("<%= j render partial: 'campaigns/wizard/board_content_info', collection: @selected_boards, as: :board%>");
 hover_img();
 append_content_to_carousel_wizard();
+if($("#campaign_bilbo_duration").length){
+  replace_duration();
+}
