@@ -269,7 +269,7 @@ es:
       finish: Finalizar
       choose_bilbos: Escoge tus Bilbos
       selected_bilbos: Bilbos seleccionados
-      pick_ad: Elige tu anuncio para cada Bilbo
+      pick_ad: Elige tu contenido para cada Bilbo
       need_help: ¿Necesitas Ayuda?
       date_and_budget: Fecha y Presupuesto
       per_hour: Por Hora
@@ -336,7 +336,7 @@ es:
       cant_update_when_active: La campaña no puede editarse cuando está activa
       no_save: La campaña no ha podido guardarse
       not_accepted: La campaña no ha podido aceptarse
-      no_images: Tu anuncio no cuenta con imágenes para correr en los bilbos que no admiten video
+      no_images: Tu campaña no cuenta con contenidos para correr en los bilbos
       verification_required: Verifica tu perfil para activar tu campaña
       processing_creatives: Procesando videos e imágenes
       not_enough_permissions: No tienes suficientes permisos

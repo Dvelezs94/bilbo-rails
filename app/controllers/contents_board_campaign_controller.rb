@@ -1,7 +1,9 @@
 class ContentsBoardCampaignController < ApplicationController
   def get_contents_wizard_modal
     #Return the content for modal step 2
-    @board = Board.friendly.find(params[:board_slug])
+    @slug = params[:board_slug]
+    @slug.slice! "slug-"
+    @board = Board.friendly.find(@slug)
     @campaign = Campaign.friendly.find(params[:campaign])
     if @board.images_only
       @content = []
@@ -17,9 +19,11 @@ class ContentsBoardCampaignController < ApplicationController
   end
 
   def get_selected_content
+    @slug = params[:board_slug]
+    @slug.slice! "slug-"
     #Return the selected contents for show bilbos
     @selected_contents = Content.where(id: params[:selected_contents].split(" "))
-    @board = Board.friendly.find(params[:board_slug])
+    @board = Board.friendly.find(@slug)
     @campaign = params[:campaign]
     render  'campaigns/wizard/get_selected_content', :locals => {:selected_content => @selected_contents, :board => @board, :campaign => @campaign}
   end
