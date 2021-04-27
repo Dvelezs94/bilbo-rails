@@ -19,6 +19,7 @@ $(document).on('turbolinks:load', function () {
         if (currentIndex < newIndex) {
           // Step 1 form validation
           if (currentIndex === 0) {
+            updateHiddenFieldContent();
             change_duration();
             var campaignboards = $('#campaign_boards').parsley();
             if (campaignboards.isValid()) {
@@ -30,7 +31,7 @@ $(document).on('turbolinks:load', function () {
 
           if (currentIndex === 1) {
             updateHiddenFieldContent();
-            if (validateContent()){
+            if (validateContent()  && $("#content_ids").val() != ""){
               return true;
             }else {
               show_error($('#error_adding').html());
@@ -70,6 +71,7 @@ $(document).on('turbolinks:load', function () {
             if ($('#impressions').length) {
               calculateImpressions();
             }
+
           }
 
           if (currentIndex === 2) {
@@ -182,6 +184,7 @@ $(document).on('turbolinks:load', function () {
 
           if (currentIndex === 3) {
             var campaign_link = $('#campaign_link').parsley();
+
             if (campaign_link.isValid()) {
               return true;
             } else {
@@ -641,25 +644,31 @@ function delete_content(content_id, board_slug){
   $('#content-'+content_id+"-"+board_slug).remove();
   $('#wizard-content-'+content_id+"-"+board_slug).remove();
   //delete in the hiddenfield the contents
-  var arr = $('#'+board_slug).val().split(" ");
+  var arr = $('#'+"slug-"+board_slug).val().split(" ");
     for( var i = 0; i < arr.length; i++){
         if ( arr[i] === content_id) {
             arr.splice(i, 1);
             i--;
         }
     }
-    $('#'+board_slug).val(arr.toString().replace(/,/g , " "));
+    $('#slug-'+board_slug).val(arr.toString().replace(/,/g , " "));
+    updateHiddenFieldContent();
 }
 
 function updateHiddenFieldContent(){
-  contents_selected = $('input*[id*=bilbo-]');
+  contents_selected = $('input*[id*=slug-bilbo-]');
   var content_board_campaign = {}
   var i;
   for (i = 0; i < contents_selected.length; i++) {
-    x = $("#"+contents_selected[i].id)
-    content_board_campaign[contents_selected[i].id] = x.val()
+    var str = contents_selected[i].id;
+    var slug = str.split("slug-").pop();
+    x = $("#"+contents_selected[i].id);
+    content_board_campaign[slug] = x.val();
   }
   $("#content_ids").val(JSON.stringify(content_board_campaign))
+  if($("#content_ids").val() === "{}" ){
+    $("#content_ids").val("");
+  }
 }
 
 function validateContent(){
@@ -689,7 +698,7 @@ function showHideCarouselContent(){
 
 
 function append_content_to_carousel_wizard(){
-  board_content_selected = $('input*[id*=bilbo-]');
+  board_content_selected = $('input*[id*=slug-bilbo-]');
   board_content_selected.each(function () {
     board_slug = this.id;
     content_board = $("#" + board_slug);
@@ -709,6 +718,7 @@ function change_duration(){
 function replace_duration(){
   campaign_bilbo_duration = $("#campaign_bilbo_duration");
 $('td*[id*=bilbo_duration]').each(function(){
-  bilbo_duration_change = $(this);
-  bilbo_duration_change.text(bilbo_duration_change.text().replace(bilbo_duration_change.text().split(" ")[0], campaign_bilbo_duration.val()));  });
+    bilbo_duration_change = $(this);
+    bilbo_duration_change.text(bilbo_duration_change.text().replace(bilbo_duration_change.text().split(" ")[0], campaign_bilbo_duration.val()));
+  });
 }

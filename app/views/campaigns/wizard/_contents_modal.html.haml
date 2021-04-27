@@ -43,4 +43,4 @@
           = render :partial => 'campaigns/wizard/single_content_modal', collection: @content, as: :content
 .modal-footer
   = button_tag t("wizard.next"), type: 'button', onclick: "append_content();", class: "btn btn-primary"
-%input#slug-board.d-none{:readonly => "readonly", :value => "#{@board.slug.to_s}"}/
+%input#slug-board.d-none{:readonly => "readonly", :value => "slug-#{@board.slug.to_s}"}/
