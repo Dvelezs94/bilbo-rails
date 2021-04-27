@@ -105,48 +105,54 @@ class CampaignsController < ApplicationController
 
 
   def update
-    current_user.with_lock do
-      respond_to do |format|
-        @campaign.board_campaigns.where.not(board_id: campaign_params[:boards]).map{ |bc| bc.destroy}
-        if @campaign.update(campaign_params.merge(state: is_state, owner_updated_campaign: true))
-          track_activity( action: "campaign.campaign_updated", activeness: @campaign)
-          # Create a notification per project
-          @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
-          # send notification only if the owner of the project has credits
-          if @campaign.owner.has_had_credits?
-            create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
-                                action: "created", notifiable: @campaign,
-                                sms: !current_user.is_provider?)
-          end
-          if @campaign.starts_at.present? && @campaign.ends_at.present?
-            @campaign.boards.each do |b|
-              #difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
-              #difference_in_seconds_end = (@campaign.to_utc(@campaign.ends_at, b.utc_offset) - Time.now.utc).to_i
-              difference_in_seconds = (@campaign.starts_at - Time.now).to_i
-              difference_in_seconds_end = (@campaign.ends_at - Time.now).to_i
-              ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id, b.id) if difference_in_seconds > 0
-              RemoveScheduleCampaignWorker.perform_at((difference_in_seconds_end.seconds+86401.seconds).from_now, @campaign.id, b.id) if difference_in_seconds_end > 0
+    begin
+      current_user.with_lock do
+        respond_to do |format|
+          @campaign.board_campaigns.where.not(board_id: campaign_params[:boards]).map{ |bc| bc.destroy}
+          if @campaign.update(campaign_params.merge(state: is_state, owner_updated_campaign: true))
+            track_activity( action: "campaign.campaign_updated", activeness: @campaign)
+            # Create a notification per project
+            @campaign.boards.includes(:project).map(&:project).uniq.each do |provider|
+            # send notification only if the owner of the project has credits
+            if @campaign.owner.has_had_credits?
+              create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
+                                  action: "created", notifiable: @campaign,
+                                  sms: !current_user.is_provider?)
+            end
+            if @campaign.starts_at.present? && @campaign.ends_at.present?
+              @campaign.boards.each do |b|
+                #difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
+                #difference_in_seconds_end = (@campaign.to_utc(@campaign.ends_at, b.utc_offset) - Time.now.utc).to_i
+                difference_in_seconds = (@campaign.starts_at - Time.now).to_i
+                difference_in_seconds_end = (@campaign.ends_at - Time.now).to_i
+                ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id, b.id) if difference_in_seconds > 0
+                RemoveScheduleCampaignWorker.perform_at((difference_in_seconds_end.seconds+86401.seconds).from_now, @campaign.id, b.id) if difference_in_seconds_end > 0
+              end
             end
           end
-        end
-          format.js {
-            flash[:success] = I18n.t('campaign.action.updated')
-            if request.referer.include?("gtm_campaign_create")
-              redirect_to campaigns_path(gtm_creation: "complete")
-            elsif request.referer.include?("gtm_campaign_edit")
-              redirect_to campaigns_path(gtm_edit: "complete")
-            else
-              redirect_to campaigns_path
-            end
-           }
-          format.json { head :no_content }
-        else
-          format.js {
-            #nothing, just view
+            format.js {
+              flash[:success] = I18n.t('campaign.action.updated')
+              if request.referer.include?("gtm_campaign_create")
+                redirect_to campaigns_path(gtm_creation: "complete")
+              elsif request.referer.include?("gtm_campaign_edit")
+                redirect_to campaigns_path(gtm_edit: "complete")
+              else
+                redirect_to campaigns_path
+              end
              }
-          format.json { render json: @campaign.errors, status: :unprocessable_entity }
+            format.json { head :no_content }
+          else
+            format.js {
+              #nothing, just view
+               }
+            format.json { render json: @campaign.errors, status: :unprocessable_entity }
+            raise ActiveRecord::Rollback
+          end
         end
       end
+    rescue => e
+      format.json { render json: @campaign.errors, status: :unprocessable_entity }
+      raise e
     end
   end
 

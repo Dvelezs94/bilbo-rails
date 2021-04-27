@@ -332,7 +332,7 @@ en:
       cant_update_when_active: Campaign can't be updated when is active
       no_save: Could not save campaign
       not_accepted: Could not accept campaign
-      no_images: Your ad doesn't have an image to display on the bilbos that don't play videos
+      no_images: Your campaign doesn't have contents to display on the bilbos
       processing_creatives: Processing videos and images
       verification_required: In order to enable your campaign you need to verify your profile
       not_enough_permissions: You don't have enough permissions
