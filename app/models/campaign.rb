@@ -49,12 +49,13 @@ class Campaign < ApplicationRecord
   validates :name, presence: true
   validates :provider_campaign, inclusion: [true, false]
   #validates :ad, presence: true, on: :update
+  validate :validate_content, on: :update, if: :contents_present?
   validate :project_enabled?
   validate :state_change_time, on: :update,  if: :state_changed?
   validate :check_user_verified, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
   #validate :validate_ad_stuff, on: :update
-  validate :ad_processed, on: :update
+  #validate :ad_processed, on: :update
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
   validates :link, format: URI::regexp(%w[http https]), allow_blank: true
@@ -396,18 +397,35 @@ class Campaign < ApplicationRecord
 
   def create_content
     #create relation ContentsBoardCampaign
+    @boards_campaigns_delete = []
     @content = eval(self.content_ids)
     @content.each {|board_slug, content_ids| bc = self.board_campaigns.find_by(board_id: Board.find_by_slug(board_slug).id, campaign: self.id)
-
       content_ids.split(" ").each {|content| bc.contents_board_campaign.where(content_id: content, boards_campaigns_id: bc.id).first_or_create}
       #delete relation ContentsBoardCampaign
+      @boards_campaigns_delete.push(bc.id)
       if bc.contents_board_campaign.where.not(content_id: content_ids.split(" ")).present?
         bc.contents_board_campaign.where.not(content_id: content_ids.split(" ")).each do |x| x.delete end
       end
     }
+
+    BoardsCampaigns.where(campaign_id: self.id).each do |bcb|
+      if !bcb.contents_board_campaign.present?
+        bcb.destroy
+      end
+    end
+
   end
 
   def contents_present?
     self.content_ids.present?
+  end
+
+  def validate_content
+    @content = eval(self.content_ids)
+    @content.each {|board_slug, content_ids|
+      if content_ids == ""
+        return errors.add(:base, I18n.t('campaign.errors.no_images'))
+      end
+    }
   end
 end

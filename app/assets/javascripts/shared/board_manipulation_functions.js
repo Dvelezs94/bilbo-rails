@@ -36,6 +36,7 @@ function addBilbo(el) {
   new_width = $(el).attr("new-width");
   cycle_duration = $(el).attr("data-cycle-duration");
   new_height = $(el).attr("new-height");
+  slug = $(el).attr("data-slug");
   buttons_container = $(el).closest(".info-board");
   address = $(el).attr("data-address");
   max_impressions = $(el).attr("data-max-impressions");
@@ -54,6 +55,7 @@ function addBilbo(el) {
 
 function removeBilbo(el) {
   id = $(el).attr("data-id");
+  slug = $(el).attr("data-slug");
   buttons_container = $(el).closest(".info-board");
   selected_boards = $("#selected_boards");
   aspect_ratio_select = $("#aspect_ratio_select");
@@ -63,6 +65,8 @@ function removeBilbo(el) {
   update_hidden_input(aspect_ratio_select);
   update_buttons("deleted", buttons_container);
   $('#boards_counter').html(parseInt($('#boards_counter').html(), 10)-1)
+  $("#slug-"+slug).remove();
+  updateHiddenFieldContent();
 }
 
 function update_hidden_input(selected_boards) {

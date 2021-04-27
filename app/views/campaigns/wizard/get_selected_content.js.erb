@@ -9,3 +9,4 @@ if($("#wizard-div-<%=@board.id%>").length){
 $("#wizard-div-<%=@board.id%>").html("<%= j (render 'campaigns/carousel', locals: {board: @board, campaign: @campaign}) %>");
 remove_on_click()
 hover_img();
+updateHiddenFieldContent();

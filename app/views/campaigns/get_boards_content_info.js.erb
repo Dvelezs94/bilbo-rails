@@ -1,6 +1,21 @@
 $("#content_inf").html("<%= j render partial: 'campaigns/wizard/board_content_info', collection: @selected_boards, as: :board%>");
 hover_img();
-append_content_to_carousel_wizard();
+  var value_cbc = []
+  $('input*[id*=slug-bilbo-]').each(function(){
+    var bilbo = $(this)
+    var array = [bilbo.attr('id'), bilbo.val()]
+    value_cbc.push(array)
+  });
+  $("#selected_content_campaign").html("<%= j render partial: 'campaigns/wizard/hidden_values_content', collection: @selected_boards, as: :board%>");
+  $("#selected_content_campaign").append("<div id='no'></div>");
+  var i;
+  for (i = 0; i < value_cbc.length; i++) {
+    if($("#"+value_cbc[i][0]).length){
+     $("#"+value_cbc[i][0]).val(value_cbc[i][1])
+   }
+  }
+  append_content_to_carousel_wizard()
+
 if($("#campaign_bilbo_duration").length){
   replace_duration();
 }
