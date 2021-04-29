@@ -28,6 +28,7 @@ if ENV.fetch("RAILS_ENV") != "production"
         lat = Faker::Address.latitude
         lng = Faker::Address.longitude
         4.times do |y|
+          provider_earnings = Faker::Number.between(from: 40000, to: 200000)
           provider.projects.first.boards.new do |board|
             board.lat = lat
             board.lng = lng
@@ -40,7 +41,8 @@ if ENV.fetch("RAILS_ENV") != "production"
             board.name = "#{x}#{y}#{Faker::Lorem.sentence}"
             board.address = Faker::Address.full_address
             board.category = ["television", "billboard", "wallboard"].sample
-            board.base_earnings = Faker::Number.between(from: 40000, to: 200000)
+            board.base_earnings = provider_earnings * 1.25
+            board.provider_price = provider_earnings
             board.social_class = Faker::Number.between(from: 0, to: 3)
             board.start_time = Time.now
             board.images_only = Faker::Boolean.boolean(true_ratio: 0.5)
