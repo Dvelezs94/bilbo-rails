@@ -46,19 +46,21 @@
               #expectedProfit.form-group
                 .row
                   .col-sm-12.col-md-6
-                    = f.label t('bilbos.expected_profit')
+                    = f.label "Precio de proveedor"
+                    .input-group.mg-b-10
+                      .input-group-prepend
+                        %span#basic-addon1.input-group-text $
+                      = f.text_field :provider_price, class: "form-control", autocomplete: "off", required: true, placeholder: "200"
+                      .input-group-append
+                        %span#bilbobaseearnings.input-group-text= ENV.fetch("CURRENCY")
+                  .col-sm-12.col-md-6
+                    = f.label "Precio en Bilbo (lista)"
                     .input-group.mg-b-10
                       .input-group-prepend
                         %span#basic-addon1.input-group-text $
                       = f.text_field :base_earnings, class: "form-control", autocomplete: "off", required: true, placeholder: "200", aria: { describedby: "bilbobaseearnings", label: "Base Earnings"}
                       .input-group-append
                         %span#bilbobaseearnings.input-group-text= ENV.fetch("CURRENCY")
-                  .col-sm-12.col-md-6
-                    = f.label t('bilbos.extra_percentage_earnings')
-                    .input-group.mg-b-10
-                      = f.text_field :extra_percentage_earnings, class: "form-control", placeholder: "0"
-                      .input-group-append
-                        %span.input-group-text %
               #face.form-group
                 = f.label t('bilbos.face')
                 %br/
@@ -110,10 +112,10 @@
                 = f.label t("bilbos.mac_address")
                 = f.text_field :mac_address, class: "form-control", placeholder: "aa:bb:cc:dd:ee:ff"
               #images.form-group
-                = f.label :images
+                = f.label "Imagenes para mostrar en el mapa"
                 = f.file_field :images, required: true, multiple: true, class: "form-control"
               #defaultImages.form-group
-                = f.label :default_images
+                = f.label "Multimedia default"
                 = f.file_field :default_images, multiple: true, required: true, class: "form-control"
               .actions.col-sm-12.col-md-6.m-auto
                 = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block", id: "submit_board"

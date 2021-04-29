@@ -7,7 +7,7 @@ class Impression < ApplicationRecord
   #validate :ten_seconds_validate_board_campaign
   belongs_to :board
   belongs_to :campaign
-  before_create :set_total_price
+  before_create :set_prices
   after_create :update_balance_and_remaining_impressions, :increase_campaign_impression_count, :update_people_reached, :continue_running_campaign
 
   def action #is used to make the action in board
@@ -32,11 +32,17 @@ class Impression < ApplicationRecord
     end
   end
 
-  def set_total_price
+  def provider_price
+    board.provider_price
+  end
+
+  def set_prices
     if self.campaign.provider_campaign
       self.total_price = 0
+      self.provider_price = 0
     else
       self.total_price = (board.get_cycle_price(campaign) * cycles).round(3)
+      self.provider_price = (board.provider_cycle_price * cycles).round(3)
     end
   end
 

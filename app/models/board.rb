@@ -164,11 +164,17 @@ class Board < ApplicationRecord
 
   # get the maximum number of earnings based on base_price + extra earnings percentage form the provider
   # this is so we charge 20% and they get their corresponding extra % of the base earnings
-  def calculate_max_earnings(bilbo_percentage: 20)
+  def calculate_max_earnings(bilbo_percentage: 0)
     # (base_earnings * 1.5)
     bilbo_percentage_earnings = bilbo_percentage/100.0
     provider_extra_percentage = extra_percentage_earnings/100.0
     (base_earnings * ((1+provider_extra_percentage)/(1-bilbo_percentage_earnings))).round(2)
+  end
+
+  # This is the price we display in bilbo to the clients
+  # we also have provider_price which is the price we give to the provider
+  def list_price
+    base_earnings
   end
 
   # a cycle is the total time of an impression duration
@@ -188,7 +194,7 @@ class Board < ApplicationRecord
     return current_sale.present?? (cycle_price * ((current_sale.percent - 100).abs * 0.01)) : cycle_price
   end
 
-  def calculate_old_max_earnings(bilbo_percentage: 20)
+  def calculate_old_max_earnings(bilbo_percentage: 0)
     bilbo_percentage_earnings = bilbo_percentage/100.0
     provider_extra_percentage = extra_percentage_earnings_was/100.0
     (base_earnings_was * ((1+provider_extra_percentage)/(1-bilbo_percentage_earnings))).round(2)
@@ -204,6 +210,13 @@ class Board < ApplicationRecord
   def get_cycle_price(campaign, bc = nil) #campaigns can use an old cycle price
     bc = BoardsCampaigns.find_by(board: self, campaign: campaign) if bc.nil?
     (bc.cycle_price * (( ((bc.sale.present?)? bc.sale.percent : 0) - 100).abs * 0.01))
+  end
+
+  # this is the amount we're giving the provider for each impression
+  def provider_cycle_price
+    daily_seconds = working_minutes(start_time, end_time) * 60
+    total_days_in_month = 30
+    (provider_price / (daily_seconds * total_days_in_month)) * duration
   end
 
   def get_content(campaign)
@@ -444,14 +457,14 @@ class Board < ApplicationRecord
     @daily_earnings = {}
     @impressions = Impression.joins(:board).where(boards: {project: project}, created_at: time_range)
     @impressions.group_by_day(:created_at).count.each do |key, value|
-      @daily_earnings[key] = {impressions_count: value, gross_earnings: @impressions.group_by_day(:created_at).sum(:total_price)[key].round(2)}
+      @daily_earnings[key] = {impressions_count: value, gross_earnings: @impressions.group_by_day(:created_at).sum(:provider_price)[key].round(2)}
     end
     @daily_earnings
   end
 
   #this method returns the monthly earnings of a board, we use it on the provider_statistics
   def self.monthly_earnings_by_board(project, time_range = 30.days.ago..Time.now)
-    @monthly_earnings = Impression.joins(:board).where(boards: {project: project},created_at: time_range).sum(:total_price).round(2)
+    @monthly_earnings = Impression.joins(:board).where(boards: {project: project},created_at: time_range).sum(:provider_price).round(2)
   end
 
   def self.monthly_impressions(project,time_range = 30.days.ago..Time.now)
@@ -459,7 +472,7 @@ class Board < ApplicationRecord
   end
 
   def self.daily_provider_earnings_graph(project, time_range = 30.days.ago..Time.now)
-  h = Impression.joins(:board).where(boards: {project: project}, created_at: time_range).group_by_day(:created_at).sum(:total_price)
+  h = Impression.joins(:board).where(boards: {project: project}, created_at: time_range).group_by_day(:created_at).sum(:provider_price)
       h.each { |key,value| h[key] = value.round(2) }
 end
 
