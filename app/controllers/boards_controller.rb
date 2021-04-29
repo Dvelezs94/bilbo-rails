@@ -223,6 +223,7 @@ class BoardsController < ApplicationController
                                   :mac_address,
                                   :keep_old_cycle_price_on_active_campaigns,
                                   :displays_number,
+                                  :provider_price,
                                   :restrictions,
                                   images: [],
                                   default_images: []
