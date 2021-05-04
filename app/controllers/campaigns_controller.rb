@@ -263,7 +263,6 @@ class CampaignsController < ApplicationController
   def get_boards_content_info
     @campaign
     @selected_boards = Board.where(id: params[:selected_boards].split(","), status: "enabled")
-    #render  'get_boards_content_info', :locals => {:selected_boards_content => @selected_boards, :campaign => @campaign}
   end
 
   private
