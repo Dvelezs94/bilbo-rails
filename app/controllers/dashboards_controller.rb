@@ -30,11 +30,11 @@ class DashboardsController < ApplicationController
     @daily_impressions = @project.daily_provider_board_impressions(@start_date..@end_date).group_by_day(:created_at).count
     @graph_earnings = Board.daily_provider_earnings_graph(@project, @start_date..@end_date)
     @earnings = Board.daily_provider_earnings_by_boards(@project, @start_date..@end_date)
-    @monthly_earnings = Board.monthly_earnings_by_board(@project, @start_date..@end_date)
+    @monthly_earnings = Board.provider_monthly_earnings_by_board(@project, @start_date..@end_date)
     @monthly_impressions = Board.monthly_impressions(@project, @start_date..@end_date)
-    @tops = Board.top_campaigns(@project, @start_date..@end_date).first(3)
+    @tops = Board.provider_top_campaigns(@project, @start_date..@end_date).first(3)
     @campaigns_executed = @project_impressions.pluck(:campaign_id).uniq.count
-    @substraction_tops = @project_impressions.sum(:total_price)
+    @substraction_tops = @project_impressions.sum(:provider_price)
     @tops_four = Board.top_campaigns(@project, @start_date..@end_date).first(4)
     @percentage = Board.top_campaigns(@project, @start_date..@end_date).each.map{|p| p[1]}.sum
     @substraction = Board.top_campaigns(@project, @start_date..@end_date).each.map{|p| p[1]}.sum-@tops.each.map{|p| p[1]}.sum

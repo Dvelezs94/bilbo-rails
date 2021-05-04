@@ -32,10 +32,6 @@ class Impression < ApplicationRecord
     end
   end
 
-  def provider_price
-    board.provider_price
-  end
-
   def set_prices
     if self.campaign.provider_campaign
       self.total_price = 0
