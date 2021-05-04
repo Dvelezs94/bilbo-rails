@@ -143,12 +143,24 @@ class Board < ApplicationRecord
       impressions.where(created_at: @start_date..@end_date).sum(:total_price)
   end
 
+  def provider_monthly_earnings(start = Time.now)
+      @chosen_month = Time.zone.now.beginning_of_month
+      @start_date = @chosen_month - 1.month + 25.days
+      @end_date = @chosen_month + 25.days
+      impressions.where(created_at: @start_date..@end_date).sum(:provider_price)
+  end
+
   def impressions_single
     self.impressions.where(created_at: 3.months.ago..Time.now).group_by_day(:created_at).count
   end
 
   def daily_earnings(time_range = 3.months.ago..Time.now )
     h = impressions.where(board_id: self, created_at: time_range ).group_by_day(:created_at).sum(:total_price)
+    h.each { |key,value| h[key] = value.round(3) }
+  end
+
+  def provider_daily_earnings(time_range = 3.months.ago..Time.now )
+    h = impressions.where(board_id: self, created_at: time_range ).group_by_day(:created_at).sum(:provider_price)
     h.each { |key,value| h[key] = value.round(3) }
   end
 
@@ -167,7 +179,7 @@ class Board < ApplicationRecord
   def calculate_max_earnings(bilbo_percentage: 0)
     # (base_earnings * 1.5)
     bilbo_percentage_earnings = bilbo_percentage/100.0
-    provider_extra_percentage = extra_percentage_earnings/100.0
+    provider_extra_percentage = 0/100.0
     (base_earnings * ((1+provider_extra_percentage)/(1-bilbo_percentage_earnings))).round(2)
   end
 
@@ -464,6 +476,11 @@ class Board < ApplicationRecord
 
   #this method returns the monthly earnings of a board, we use it on the provider_statistics
   def self.monthly_earnings_by_board(project, time_range = 30.days.ago..Time.now)
+    @monthly_earnings = Impression.joins(:board).where(boards: {project: project},created_at: time_range).sum(:total_price).round(2)
+  end
+
+  #this method returns the provider monthly earnings of a board, we use it on the provider_statistics
+  def self.provider_monthly_earnings_by_board(project, time_range = 30.days.ago..Time.now)
     @monthly_earnings = Impression.joins(:board).where(boards: {project: project},created_at: time_range).sum(:provider_price).round(2)
   end
 
@@ -487,6 +504,17 @@ end
     end
     if type == 2
       h = Impression.joins(:campaign, :board).where(board_id: id, created_at: time_range).group('campaigns.name').pluck("campaigns.name", model[:id].count, model[:total_price].sum)
+    end
+    h.sort_by{|n, c, s| -c}
+  end
+
+  def self.provider_top_campaigns(id, time_range = 30.days.ago..Time.now, type = 1)
+    model = Impression.arel_table
+    if type == 1
+      h = Impression.joins(:campaign, :board).where(boards: {project: id}, created_at: time_range).group('campaigns.name').pluck("campaigns.name", model[:id].count, model[:provider_price].sum)
+    end
+    if type == 2
+      h = Impression.joins(:campaign, :board).where(board_id: id, created_at: time_range).group('campaigns.name').pluck("campaigns.name", model[:id].count, model[:provider_price].sum)
     end
     h.sort_by{|n, c, s| -c}
   end

@@ -171,7 +171,7 @@ class BoardsController < ApplicationController
 
   # statistics of a singular board
   def statistics
-    @bilbo_top = Board.top_campaigns(@board, 3.months.ago..Time.now, 2).first(4)
+    @bilbo_top = Board.provider_top_campaigns(@board, 3.months.ago..Time.now, 2).first(4)
     @percentage = @bilbo_top.each_with_index.map{|p, i| p[1]}.sum
     if @bilbo_top.length >= 1
       @percentage_top_1 = '%.2f' %(@bilbo_top[0][1].to_f * 100 / @percentage)
