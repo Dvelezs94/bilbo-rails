@@ -99,5 +99,33 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "create contents campaigns image png" do
+    @image_attachment = fixture_file_upload('test_image.png','image/png')
+    post contents_url, params: { content: { multimedia: @image_attachment } }
+    @content = @user.projects.first.contents.first
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
+    @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
+    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.present?
+    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_image?
+  end
 
+  test "create contents campaigns image jpg" do
+    @image_attachment = fixture_file_upload('test_image.jpg','image/jpg')
+    post contents_url, params: { content: { multimedia: @image_attachment } }
+    @content = @user.projects.first.contents.first
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
+    @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
+    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.present?
+    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_image?
+  end
+
+  test "create contents campaigns video" do
+    @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
+    post contents_url, params: { content: { multimedia: @video_attachment } }
+    @content = @user.projects.first.contents.first
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
+    @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
+    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.present?
+    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_video?
+  end
 end

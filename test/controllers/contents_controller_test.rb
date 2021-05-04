@@ -27,7 +27,7 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_difference @project.contents, 1 do
       post contents_url, params: { content: { url: "https://bilbo.mx" } }
     end
-    assert Content.last.is_url?
+    assert_equal true, Content.last.is_url?
     assert_redirected_to contents_path
   end
 
@@ -36,7 +36,7 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_difference @project.contents, 1 do
       post contents_url, params: { content: { multimedia: @image_attachment } }
     end
-    assert Content.last.is_image?
+    assert_equal true, Content.last.is_image?
     assert_redirected_to contents_path
   end
 
@@ -45,7 +45,7 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_difference @project.contents, 1 do
       post contents_url, params: { content: { multimedia: @video_attachment } }
     end
-    assert Content.last.is_video?
+    assert_equal true, Content.last.is_video?
     assert_redirected_to contents_path
   end
 
@@ -83,7 +83,7 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     @campaign = create(:campaign, name: "Review", project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?)
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
-    post contents_url, params: { content: { id: @boards_campaigns.id, images_only: false }}, xhr: true
+    get contents_modal_review_content_url(@boards_campaigns.id), params: { content: { images_only: false }}, xhr: true
     assert_response :success
   end
 end
