@@ -6,7 +6,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     @user = create(:user, name: @campaign_name )
     @board = create(:board,project: @user.projects.first, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720",
       address: "mineria 908", category: "A", base_earnings: "5000", face: "north")
-    @project =  create(:project, name: @campaign_name)
+    @project =  @user.projects.first
     @campaign = create(:campaign, name: @campaign_name,project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?)
     sign_in @user
   end
@@ -93,4 +93,11 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     assert_equal campaign_2.state, false
     assert_equal campaign_2.impression_count, 0
   end
+
+  test "get boards and content for campaign" do
+    get get_boards_content_info_campaign_url(@campaign.slug, selected_boards: @board.id), xhr: true
+    assert_response :success
+  end
+
+
 end

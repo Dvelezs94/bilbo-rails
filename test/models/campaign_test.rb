@@ -30,9 +30,12 @@ class CampaignTest < ActiveSupport::TestCase
       ", base_earnings: "5000", face: "north")
       assert 1, @campaign.boards.count
   end
-  test "has creative" do
-    @ad = create(:ad, name: "Coca-Cola", project: @user.projects.first)
-    assert true, @campaign.has_multimedia?
+  test "has content" do
+    @content = create(:content, project: @project, url: "", multimedia_data: TestData.image_data)
+    @board = create(:board,project: @user.projects.first, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "5000", face: "north")
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
+    @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
+    assert true, @campaign.board_campaigns.last.contents_board_campaign.present?
   end
   test "should run" do
     @board = create(:board,project: @user.projects.first, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A
