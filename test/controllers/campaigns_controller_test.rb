@@ -1,6 +1,8 @@
 require 'test_helper'
+require 'shrine_helper'
 
 class CampaignsControllerTest < ActionDispatch::IntegrationTest
+  i_suck_and_my_tests_are_order_dependent!
   setup do
     @campaign_name = "Zoro"
     @user = create(:user, name: @campaign_name )
@@ -99,7 +101,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "create contents campaigns image png" do
+  test "create image(png) content for campaign" do
     @image_attachment = fixture_file_upload('test_image.png','image/png')
     post contents_url, params: { content: { multimedia: @image_attachment } }
     @content = @user.projects.first.contents.first
@@ -109,7 +111,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_image?
   end
 
-  test "create contents campaigns image jpg" do
+  test "create image(jpg) content for campaign" do
     @image_attachment = fixture_file_upload('test_image.jpg','image/jpg')
     post contents_url, params: { content: { multimedia: @image_attachment } }
     @content = @user.projects.first.contents.first
@@ -119,7 +121,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_image?
   end
 
-  test "create contents campaigns video" do
+  test "create video content for campaign" do
     @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
     post contents_url, params: { content: { multimedia: @video_attachment } }
     @content = @user.projects.first.contents.first
@@ -127,5 +129,32 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
     assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.present?
     assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_video?
+  end
+
+  test "create url content for campaign" do
+    post contents_url, params: { content: { url: "https://bilbo.mx" } }
+    @content = @user.projects.first.contents.first
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
+    @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
+    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.present?
+    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_url?
+  end
+
+  test "copy campaign with contents" do
+    @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, classification: 0, provider_campaign: @user.is_provider?)
+    @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
+    post contents_url, params: { content: { multimedia: @video_attachment } }
+    @content = @user.projects.first.contents.first
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
+    @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
+    post create_copy_campaign_path(@campaign), params: {campaign: {name: "CopyCampaign", description: "XXXXXXX"} }
+    #get the new record (the one we created in the previous line)
+    campaign_2 = Campaign.find_by(name: "CopyCampaign", description: "XXXXXXX")
+    attributes_1 = @campaign.attributes.delete_if{|key, value| !["project_id", "budget", "starts_at", "ends_at", "ad_id", "provider_campaign", "classification", "objective"].include?(key)}
+    attributes_1.merge({boards: @campaign.boards.pluck(:id).sort})
+    attributes_2 = campaign_2.attributes.delete_if{|key, value| !["project_id", "budget", "starts_at", "ends_at", "ad_id", "provider_campaign", "classification", "objective"].include?(key)}
+    attributes_2.merge({boards: campaign_2.boards.pluck(:id).sort})
+    assert_equal attributes_1, attributes_2
+    assert_equal @campaign.board_campaigns.last.contents_board_campaign.last.content_id, campaign_2.board_campaigns.last.contents_board_campaign.last.content_id
   end
 end

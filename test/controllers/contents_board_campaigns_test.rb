@@ -86,4 +86,11 @@ class ContentsBoardCampaignsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, @project.contents.size
   end
 
+  test "can delete content" do
+    @content = create(:content, project: @project, url: "", multimedia_data: TestData.image_data)
+    @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
+    ContentsBoardCampaign.last.delete
+    assert true, @content_board_campaign.present?
+  end
+
 end

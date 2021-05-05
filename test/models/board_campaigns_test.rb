@@ -16,4 +16,11 @@ class BoardCampaignsTest < ActiveSupport::TestCase
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
     assert true, @content_board_campaign.present?
   end
+
+  test "cant create content board campaigns" do
+    @content = create(:content, project: @project, url: "https://bilbo.mx")
+    assert_raises ActiveRecord::RecordInvalid do
+      create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: "")
+    end
+  end
 end
