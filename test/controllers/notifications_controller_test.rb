@@ -3,9 +3,9 @@ require 'test_helper'
 class NotificationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @name = "Notification"
-    @project =  create(:project, name: @name)
     @user = create(:user,name: "Provider" , email: "#{name}@bilbo.mx".downcase, roles: "provider")
-    @campaign = create(:campaign, name: "notif", project: @user.projects.first, project_id: @project.id, state: false, provider_campaign: @user.is_provider?)
+    @project =  @user.projects.first
+    @campaign = create(:campaign, name: "notif", project: @user.projects.first, project_id: @user.projects.first.id, state: false, provider_campaign: @user.is_provider?)
     @board = create(:board,project: @user.projects.first, name: "Board", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "5000", face: "north")
   end
 
@@ -22,22 +22,25 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :no_content
   end
 
-  test 'notification campaign created url' do
-    sign_in @user
-    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 0)
-    @notification = create(:notification, recipient_id: @project.id, actor_id: @campaign.project.id, action: "created", notifiable: @campaign)
-    get provider_index_campaigns_url(q: "review")
-    assert_response :success
-  end
 
   test 'notification campaign approved url' do
+    sign_in @user
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
-    @notification = create(:notification, recipient_id: @project.id, actor_id: @campaign.project.id, action: "approved", notifiable: @campaign, reference: @board)
+    @notification = create(:notification, recipient_id: @user.projects.first.id, actor_id: @campaign.project.id, action: "approved", notifiable: @campaign, reference: @board)
     get analytics_campaign_url(@notification.notifiable.slug)
     assert_response :success
   end
 
+  test 'notification campaign created url' do
+    sign_in @user
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 0)
+    @notification = create(:notification, recipient_id: @user.projects.first.id, actor_id: @campaign.project.id, action: "created", notifiable: @campaign, reference: @board)
+    get provider_index_campaigns_url(q: "review")
+    assert_response :success
+  end
+
   test 'notification campaign denied url' do
+    sign_in @user
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 2)
     @notification = create(:notification, recipient_id: @project.id, actor_id: @campaign.project.id, action: "denied", notifiable: @campaign, reference: @board)
     get analytics_campaign_url(@notification.notifiable.slug)
@@ -78,9 +81,10 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
 
   test 'notification csv' do
     sign_in @user
-    @report = create(:report, name: "report 1", project: @project)
-    @notification = create(:notification, recipient_id: @project.id, actor_id: @project.id , action: "csv ready", notifiable: @user, reference: @project.reports.first)
-    head download_csv_csv_index_url(reference: @project.reports.first.name), headers: { "Content-Type": "text/csv" }
+    @project_csv =  create(:project, name: @name)
+    @report = create(:report, name: "report 1", project: @project_csv)
+    @notification = create(:notification, recipient_id: @project_csv.id, actor_id: @project_csv.id , action: "csv ready", notifiable: @user, reference: @project_csv.reports.first)
+    head download_csv_csv_index_url(reference: @project_csv.reports.first.name), headers: { "Content-Type": "text/csv" }
     assert_response :success
   end
 end
