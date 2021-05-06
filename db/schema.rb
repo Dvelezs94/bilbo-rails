@@ -227,7 +227,6 @@ ActiveRecord::Schema.define(version: 2021_04_16_155107) do
     t.string "slug"
     t.string "url"
     t.string "multimedia_data"
-    t.integer "duration", default: 10
     t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -390,7 +389,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_155107) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-04-07 17:35:38"
+    t.datetime "expires_at", default: "2031-04-20 15:09:31"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
