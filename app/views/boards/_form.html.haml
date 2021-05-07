@@ -33,7 +33,7 @@
         .input-group.mg-b-10
           .input-group-prepend
             %span#basic-addon1.input-group-text $
-          = f.text_field :provider_price, class: "form-control", autocomplete: "off", required: true, placeholder: "200"
+          = f.text_field :provider_earnings, class: "form-control", autocomplete: "off", required: true, placeholder: "200"
           .input-group-append
             %span#bilbobaseearnings.input-group-text= ENV.fetch("CURRENCY")
       .col-sm-12.col-md-6

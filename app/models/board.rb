@@ -228,7 +228,7 @@ class Board < ApplicationRecord
   def provider_cycle_price
     daily_seconds = working_minutes(start_time, end_time) * 60
     total_days_in_month = 30
-    (provider_price / (daily_seconds * total_days_in_month)) * duration
+    (provider_earnings / (daily_seconds * total_days_in_month)) * duration
   end
 
   def get_content(campaign)
