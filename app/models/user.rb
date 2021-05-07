@@ -216,12 +216,12 @@ class User < ApplicationRecord
     # current month
     get_month_cycle(date: date)
     @project = self.projects.first
-    @gross_earnings = Board.monthly_earnings_by_board(@project, @start_date..@end_date)
-    @net_earnings = (@gross_earnings * 0.80).round(2)
+    @gross_earnings = Board.provider_monthly_earnings_by_board(@project, @start_date..@end_date)
+    @net_earnings = (@gross_earnings).round(2)
 
     # previous month
     get_month_cycle(date: date - 1.month)
-    @gross_earnings_previous = Board.monthly_earnings_by_board(@project, @start_date..@end_date)
+    @gross_earnings_previous = Board.provider_monthly_earnings_by_board(@project, @start_date..@end_date)
     @earnings_percentage = get_percentage(@gross_earnings_previous, @gross_earnings)
     if @earnings_percentage.positive?
       @earnings_percentage = I18n.t('campaign.percentage_plus', percentage: @earnings_percentage)
@@ -230,7 +230,6 @@ class User < ApplicationRecord
     end
     report = Hash.new
     report[:month] = I18n.t('date.month_names')[date.month]
-    report[:gross_earnings] = @gross_earnings
     report[:earnings_percentage_comparison] = @earnings_percentage
     report[:net_earnings] = @net_earnings
     report[:campaigns_count] = @project.campaigns_count

@@ -29,7 +29,12 @@ class ProviderImpressionsCsvWorker
           @impressions = @project.daily_provider_board_impressions(10.years.ago..Time.zone.now)
           @report = @project.reports.create!(name: name, category: "project")
         end
-      result = @impressions.to_csv(name, ["campaign", "board", "created_at", "total_price"])
+      if @project.provider?
+        @report_fields = ["campaign", "board", "created_at", "provider_price"]
+      else
+        @report_fields = ["campaign", "board", "created_at", "total_price"]
+      end
+      result = @impressions.to_csv(name, @report_fields)
       file_csv = File.open(result)
       @report.attachment.attach(io: file_csv, filename: name, content_type: 'text/csv')
       puts report_url
