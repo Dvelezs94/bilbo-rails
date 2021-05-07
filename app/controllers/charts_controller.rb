@@ -32,7 +32,7 @@ class ChartsController < ApplicationController
   end
 
   def daily_earnings
-    render json: @board.daily_earnings
+    render json: @board.provider_daily_earnings
   end
 
   def campaign_of_day
@@ -44,7 +44,7 @@ class ChartsController < ApplicationController
   end
 
   def top_campaigns
-    render json: Board.top_campaigns(@board, 3.months.ago..Time.now, 2).first(4)
+    render json: Board.provider_top_campaigns(@board, 3.months.ago..Time.now, 2).first(4)
   end
   # End Campaign Charts
 

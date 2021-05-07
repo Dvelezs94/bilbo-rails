@@ -85,6 +85,10 @@ class Project < ApplicationRecord
     Impression.joins(:board).where(boards: {project_id: id}, created_at: time_range)
   end
 
+  def boards_count
+    boards.size
+  end
+
   # campaigns that require provider feedback to be aither approved or denied
   def campaigns_for_review
     Campaign.active.joins(:boards).merge(self.boards).pluck(:id).each do |c|

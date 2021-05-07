@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_16_155107) do
+ActiveRecord::Schema.define(version: 2021_04_24_141809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,6 +159,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_155107) do
     t.string "restrictions"
     t.float "minimum_budget", default: 50.0
     t.boolean "smart", default: true
+    t.float "provider_earnings"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -272,6 +273,7 @@ ActiveRecord::Schema.define(version: 2021_04_16_155107) do
     t.datetime "created_at", null: false
     t.float "total_price"
     t.integer "duration"
+    t.float "provider_price"
     t.index ["board_id"], name: "index_impressions_on_board_id"
     t.index ["campaign_id"], name: "index_impressions_on_campaign_id"
     t.index ["created_at", "board_id"], name: "index_impressions_on_created_at_and_board_id", unique: true
