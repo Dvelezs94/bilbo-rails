@@ -1,6 +1,6 @@
 .col-sm-6.col-lg-3.mg-t-5.mg-sm-t-0
     .card.card-body
-        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8 Ingresos
+        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8=t("campaign.statistics.income")
         .d-flex.d-lg-block.d-xl-flex.align-items-end
         %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1
             = number_to_currency_usd(@monthly_earnings)
@@ -13,7 +13,7 @@
 
 .col-sm-6.col-lg-3.mg-t-10.mg-sm-t-0
     .card.card-body
-        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8 Núm. de Bilbos
+        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8=t("campaign.statistics.bilbos_number")
         .d-flex.d-lg-block.d-xl-flex.align-items-end
         %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1
             = @project.boards_count
@@ -26,7 +26,7 @@
 
 .col-sm-6.col-lg-3.mg-t-10.mg-lg-t-0
     .card.card-body
-        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8 Campañas ejecutadas
+        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8=t("campaign.statistics.campaigns_processed")
         .d-flex.d-lg-block.d-xl-flex.align-items-end
         %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1
             = @campaigns_executed
@@ -38,7 +38,7 @@
         .chart-three
 .col-sm-6.col-lg-3.mg-t-10.mg-lg-t-0
     .card.card-body
-        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8= t('campaign.monthly_impressions')
+        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-semibold.mg-b-8= t('campaign.statistics.monthly_impressions')
         .d-flex.d-lg-block.d-xl-flex.align-items-end
         %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1
             = (@monthly_impressions)
