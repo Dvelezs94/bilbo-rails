@@ -236,8 +236,7 @@ en:
       monthly_impressions: Monthly impressions
       campaigns_processed: Campaigns processed
       bilbos_number: Bilbos owned
-    minimum_budget_per_bilbo: El mínimo por bilbo es de $50 al día.
-    minimum_budget_per_bilbo: The minimum is $50 per chosen bilbo.
+    minimum_budget_per_bilbo: The daily minimum is $50 per chosen bilbo.
     metrics: Metrics
     campaign: Campaign
     campaign_status: Status
