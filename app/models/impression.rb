@@ -16,10 +16,10 @@ class Impression < ApplicationRecord
 
   def update_people_reached
     begin
-      total_people_reached = (self.board.people_per_second * self.campaign.true_duration(self.board_id)).round(0)
-      campaign = self.campaign
-      new_value = campaign.people_reached += total_people_reached.to_i
-      campaign.update_column(:people_reached, new_value)
+      increase_count = (self.board.people_per_second * self.campaign.true_duration(self.board_id)).round(0)
+      self.campaign.with_lock do
+        self.campaign.increment!(:people_reached, by = increase_count)
+      end
     rescue => e
       Bugsnag.notify(e)
     end
@@ -71,7 +71,7 @@ class Impression < ApplicationRecord
 
   def increase_campaign_impression_count
     self.campaign.with_lock do
-    self.campaign.increment!(:impression_count)
-  end
+      self.campaign.increment!(:impression_count)
+    end
   end
 end
