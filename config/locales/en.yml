@@ -231,6 +231,12 @@ en:
     campaign_deactivated: The campaign was deactivated
     campaign_updated: The campaign was updated
     campaign_created: The campaign was created
+    statistics:
+      income: Income
+      monthly_impressions: Monthly impressions
+      campaigns_processed: Campaigns processed
+      bilbos_number: Bilbos owned
+    minimum_budget_per_bilbo: El mínimo por bilbo es de $50 al día.
     minimum_budget_per_bilbo: The minimum is $50 per chosen bilbo.
     metrics: Metrics
     campaign: Campaign

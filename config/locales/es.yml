@@ -233,6 +233,11 @@ es:
     campaign_deactivated: La campaña fue desactivada
     campaign_updated: La campaña fue actualizada
     campaign_created: La campaña fue creada
+    statistics:
+      income: Ingresos
+      monthly_impressions: Impresiones del mes
+      campaigns_processed: "Campañas procesadas"
+      bilbos_number: "Núm. de Bilbos"
     minimum_budget_per_bilbo: El mínimo por bilbo es de $50 al día.
     metrics: Métricas
     campaign: Campaña
