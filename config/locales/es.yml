@@ -137,6 +137,7 @@ es:
     know_more_about_roles: Leer más sobre los roles y permisos
     from: de
     read_more: Leer más
+    uploading: "Subiendo"
   campaign:
     1_month: 1 mes
     2_months: 2 meses
@@ -476,6 +477,7 @@ es:
     transition: Efecto de transición
     measures: No hay medidas disponibles
     processing: Procesando %{filename}
+    processing_continuous: Procesando contenido
     view: Ver anuncio
     attachment_saved: Archivo adjunto guardado
     convert_video_external: Convierte tu video a formato mp4 a 1080p aquí

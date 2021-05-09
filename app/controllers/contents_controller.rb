@@ -24,9 +24,6 @@ class ContentsController < ApplicationController
 
   def create
     @content = @project.contents.create(content_params)
-    if  @content.multimedia.present?
-      @content.multimedia_derivatives!
-    end
     if !@content.save
         flash[:error] = "Error"
         redirect_to contents_path
@@ -42,7 +39,7 @@ class ContentsController < ApplicationController
         elsif params[:content_modal].present? && @content.is_video? && params[:content_modal] == "true"
           @success_message = t("content.success_without_video")
           render 'campaigns/wizard/message_upload', :locals => { :message => @success_message }
-        else
+        else # else it was uploaded to content page
           flash[:success] = @success_message
           redirect_to contents_path
         end
