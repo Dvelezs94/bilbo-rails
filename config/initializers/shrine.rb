@@ -28,6 +28,12 @@ Shrine.plugin :restore_cached_data    # extracts metadata for assigned cached fi
 Shrine.plugin :validation
 Shrine.plugin :validation_helpers
 Shrine.plugin :store_dimensions, analyzer: :mini_magick
-Shrine.plugin :derivatives
+Shrine.plugin :derivatives, create_on_promote: true # Save image in multiple versions
+Shrine.plugin :backgrounding # Background processing
 Shrine.plugin :add_metadata
 Shrine.plugin :determine_mime_type
+
+
+Shrine::Attacher.promote_block do
+  ConvertShrineUploadsWorker.perform_async(self.class.name, record.class.name, record.id, name, file_data)
+end

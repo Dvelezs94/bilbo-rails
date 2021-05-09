@@ -9,11 +9,11 @@
           .row
             .col-12.m-auto
               = f.hidden_field :multimedia, value: @content.cached_multimedia_data
-              = f.file_field :multimedia, accept: "image/jpeg, image/png, image/jpg, video/mp4", class: "form-control"
+              = f.file_field :multimedia, accept: "image/jpeg, image/png, image/jpg, video/mp4", class: "form-control", required: true
 
         .modal-footer
           %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
-          = f.submit t("content.save"), class: "btn btn-primary"
+          = f.submit t("content.save"), class: "btn btn-primary", data: { :disable_with => " #{t("general_inputs.uploading")}...".html_safe}
         / modal-footer
       / modal-content
     / modal-dialog

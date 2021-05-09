@@ -37,6 +37,11 @@ class Content < ApplicationRecord
     end
   end
 
+  # wether or not the content has already been processed
+  def processed?
+    multimedia_url(:large).present? ? true : false
+  end
+
   private
   def multimedia_or_url
     if url.present?

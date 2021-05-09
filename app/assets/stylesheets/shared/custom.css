@@ -544,3 +544,26 @@ iframe {
 a[href="#previous"] {
    background-color: #ACB6C8 !important;
 }
+
+/* fix card ordering in wizard */
+@media (min-width:768px) {
+    .card-deck > .card
+    {
+        width: 31%;
+        flex-wrap: wrap;
+        flex: initial;
+    }
+}
+
+.rotate {
+  animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
