@@ -10,33 +10,14 @@ $(document).on('turbolinks:load', function() {
   }
 });
 
-function select_ad() {
-  // choose ad in wizard
-  if ($('.wizard-height').length) {
-    $('.card-ad-link').click(function(e) {
-      e.preventDefault();
-      $('.wizard_selected_ad').removeClass('wizard_selected_ad');
-      $(this).find('div:first-child > .card').addClass('wizard_selected_ad');
-      $('#campaign_ad_id').val($(this).attr('id'));
-    });
-
-    if ($('#campaign_ad_id').val()) {
-      var selected_ad_id = $('#campaign_ad_id').val();
-      var selected_ad = $('#' + selected_ad_id);
-      selected_ad
-        .find('div:first-child > .card')
-        .addClass('wizard_selected_ad');
-    }
-  }
-}
-
 function select_content() {
-  // choose ad in wizard
-  if ($('div[data-content]').length) {
-
-    $('div[data-content]').click(function(e) {
-      var content_id = $(this).attr("data-content")
+  // choose content in wizard
+    var items = $('div[data-content][data-processed="true"]');
+    // clear event handler on click and reinitialize
+    items.off("click");
+    items.on("click", function(e) {
       e.preventDefault();
+      var content_id = $(this).attr("data-content")
       // Click on nearest checkbox
       $("#pickContent" + content_id).prop("checked", !$("#pickContent" + content_id).prop("checked"));
       //append_content_live();
@@ -50,7 +31,6 @@ function select_content() {
         $("#pickContent" + selected_ad).prop("checked", !$("#pickContent" + selected_ad).prop("checked"));
       }
     }
-  }
 }
 
 function scroll_ads() {
@@ -65,14 +45,14 @@ function scroll_ads() {
 
 function remove_on_click(){
   //for fix the bug select content
-if($('div[data-content]').length){
-  $('div[data-content]').each(function() {
+  if($('div[data-content]').length){
+    $('div[data-content]').each(function() {
+      $(this).unbind();
+    });
+  }
+  if($('.img-caption').length){
+    $('.img-caption').each(function() {
     $(this).unbind();
-  });
-}
-if($('.img-caption').length){
-  $('.img-caption').each(function() {
-  $(this).unbind();
-  });
-}
+    });
+  }
 }

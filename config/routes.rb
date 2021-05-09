@@ -42,6 +42,9 @@ Rails.application.routes.draw do
       get :get_contents_wizard_modal
       get :get_selected_content
     end
+    member do
+      get :fetch_single_wizard_content
+    end
   end
 
   resources :ads do

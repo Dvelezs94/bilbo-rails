@@ -136,6 +136,7 @@ en:
     height: height
     know_more_about_roles: Read more about roles and permissions
     from: from
+    uploading: Uploading
   campaign:
     1_month: 1 month
     2_months: 2 months
@@ -472,6 +473,7 @@ en:
     transition: Effect transition
     measures: No measures available
     processing: Processing %{filename}
+    processing_continuous: Processing content
     view: View ad
     attachment_saved: Attachment saved
     convert_video_external: Convert your video to mp4 at 1080p here

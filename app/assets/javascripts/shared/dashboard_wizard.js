@@ -407,10 +407,6 @@ $(document).on('turbolinks:load', function () {
       $('#campaign_starts_at').prop('disabled', false);
       $('#campaign_ends_at').prop('disabled', false);
     }
-    // End toggle
-
-    select_ad();
-    // end choose ad
 
     $("#add_schedule").on('click', function(){
       setTimeout(function(){

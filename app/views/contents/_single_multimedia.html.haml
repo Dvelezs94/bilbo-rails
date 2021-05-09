@@ -2,33 +2,42 @@
   .card.card-file
     .card-file-thumb.bg-white
       -if content.is_video?
-        = link_to content.multimedia_url(:transcoded), class: "glightbox img-inherit", :data => {caption: content.multimedia.metadata["filename"], group: ""} do
-          = image_tag content.multimedia_url(:large), class: "img-inherit", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted'
+        - begin
+          = link_to content.multimedia_url(:transcoded), class: "glightbox img-inherit", :data => {caption: content.multimedia.metadata["filename"], group: ""} do
+            = image_tag content.multimedia_url(:large), class: "img-inherit", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted'
+        - rescue
+          = image_tag "construction_video.webp", class: "img-inherit"
       -elsif content.is_url?
         = link_to content.url, class: "glightbox img-inherit", :data => {caption: content.url, group: ""} do
           %iframe.no-pointer{:src => "#{content.url}", class: "img-inherit", :scrolling => "no"}
-      -else
-        -if content.multimedia(:large).height <= 1080
-          = link_to content.multimedia_url(:large), class: "glightbox img-inherit", :data => {caption: content.multimedia.metadata["filename"], group: "", type: "image"} do
-            = image_tag content.multimedia_url(:small), class: "img-inherit"
-        -else
+      -else # else is an image
+        - begin
+          -if content.multimedia(:large).height <= 1080
+            = link_to content.multimedia_url(:large), class: "glightbox img-inherit", :data => {caption: content.multimedia.metadata["filename"], group: "", type: "image"} do
+              = image_tag content.multimedia_url(:small), class: "img-inherit"
+        - rescue
           = image_tag "construction_video.webp", class: "img-inherit"
     .card-body
-      -if content.is_video?
-        %h6.mmtitle= content.multimedia.metadata["filename"].truncate(30)
-      -else
-        -if !content.is_url? && content.multimedia(:large).height <= 1080
+      - begin
+        -if content.is_video?
           %h6.mmtitle= content.multimedia.metadata["filename"].truncate(30)
-        -elsif content.is_url?
-          %h6.mmtitle{"data-toggle" => "tooltip",:title => content.url}= content.url.truncate(40)
-        - else
-          %h6.mmtitle= I18n.t('ads.processing', filename: content.multimedia.metadata["filename"].truncate(30))
-      - if !content.url? && content.multimedia(:large).width.nil?
-        %span= t("ads.measures")
-      -elsif content.url?
-        %span= t("content.responsive")
-      -else
-        %span= "#{content.multimedia(:large).width.round(0)} x #{content.multimedia(:large).height.round(0)}"
+        -else
+          -if !content.is_url? && content.multimedia(:large).height <= 1080
+            %h6.mmtitle= content.multimedia.metadata["filename"].truncate(30)
+          -elsif content.is_url?
+            %h6.mmtitle{"data-toggle" => "tooltip",:title => content.url}= content.url.truncate(40)
+      -rescue
+        %span= I18n.t('ads.processing', filename: content.multimedia.metadata["filename"].truncate(30))
+
+      - begin
+        - if !content.url? && content.multimedia(:large).width.nil?
+          %span= t("ads.measures")
+        -elsif content.url?
+          %span= t("content.responsive")
+        -else
+          %span= "#{content.multimedia(:large).width.round(0)} x #{content.multimedia(:large).height.round(0)}"
+      - rescue
+        %span= t("ads.processing_continuous")
       -# %div.pd-t-10
       -# %span= I18n.t('ads.transition')
       -# = select_tag "",options_for_select(Ad.transitions.map{|x|  [t("ads.transitions.#{x[0]}"),x[1]]}, content.multimedia.transition) ,onchange: "$.post('#{ad_attachment_path(content.multimedia.record,multimedia)}',{'_method':'put', 'effect': this.value} );", class: 'custom-select'
