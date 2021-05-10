@@ -6,7 +6,7 @@ class BoardCampaignsControllerTest < ActionDispatch::IntegrationTest
     @name = "Board Campaign Test with contents"
     @user = create(:user, name: @name, roles: "provider")
     @project = @user.projects.first
-    @board = create(:board, project: @user.projects.first, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "5000", face: "north")
+    @board = create(:board, project: @user.projects.first, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: 50000, provider_earnings: 40000, face: "north")
     @campaign = create(:campaign, name: "raw", project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?)
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
     sign_in @user

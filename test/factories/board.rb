@@ -10,7 +10,9 @@ FactoryBot.define do
         address {Faker::Address.full_address_as_hash(:full_address)}
         category{"A"}
         base_earnings {"100000"}
-        provider_earnings {base_earnings * 0.80}
+        provider_earnings { (base_earnings * 0.80) }
         face {Faker::Compass.direction}
+        start_time {Time.zone.now.beginning_of_day + 8.hours}
+        end_time {Time.zone.now.beginning_of_day + 22.hours}
     end
   end
