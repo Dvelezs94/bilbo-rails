@@ -39,19 +39,19 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     assert err.empty? && occupation > 0
   end
 
-  test "Budget campaigns high occupation" do
-    #~95% use
-    campaign_1 = create(:campaign, name: "1 Budget", project: @project, classification: 0, provider_campaign: true, duration: 10, state: true, status: 0, budget: 400)
-    campaign_2 = create(:campaign, name: "2 Budget", project: @project, classification: 0, provider_campaign: true, duration: 20, state: true, status: 0, budget: 700)
-    campaign_3 = create(:campaign, name: "3 Budget", project: @project, classification: 0, provider_campaign: true, duration: 30, state: true, status: 0, budget: 1200)
-    campaign_1.board_campaigns.first.update(status: "approved")
-    campaign_2.board_campaigns.first.update(status: "approved")
-    campaign_3.board_campaigns.first.update(status: "approved")
-    err = @board.update_ads_rotation(force_generate = true)
-    ads = JSON.parse(@board.ads_rotation)
-    occupation = 1-ads.count('-').to_f/ads.length
-    assert err.empty? && occupation > 0
-  end
+  # test "Budget campaigns high occupation" do
+  #   #~95% use
+  #   campaign_1 = create(:campaign, name: "1 Budget", project: @project, classification: 0, provider_campaign: true, duration: 10, state: true, status: 0, budget: 400)
+  #   campaign_2 = create(:campaign, name: "2 Budget", project: @project, classification: 0, provider_campaign: true, duration: 20, state: true, status: 0, budget: 700)
+  #   campaign_3 = create(:campaign, name: "3 Budget", project: @project, classification: 0, provider_campaign: true, duration: 30, state: true, status: 0, budget: 1200)
+  #   campaign_1.board_campaigns.first.update(status: "approved")
+  #   campaign_2.board_campaigns.first.update(status: "approved")
+  #   campaign_3.board_campaigns.first.update(status: "approved")
+  #   err = @board.update_ads_rotation(force_generate = true)
+  #   ads = JSON.parse(@board.ads_rotation)
+  #   occupation = 1-ads.count('-').to_f/ads.length
+  #   assert err.empty? && occupation > 0
+  # end
 
   test "Campaigns per minute low occupation" do
     #25% use
@@ -200,29 +200,29 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     assert err.empty? && occupation > 0
   end
 
-  test "Multiple types high occupation" do
-    campaign_1 = create(:campaign, name: "1 Budget", project: @project, classification: 0, provider_campaign: true, duration: 10, state: true, status: 0, budget: 350)
-    campaign_2 = create(:campaign, name: "2 Per Hour", project: @project, classification: 2, provider_campaign: true, duration: 10, state: true, status: 0)
-    campaign_3 = create(:campaign, name: "3 Per Hour", project: @project, classification: 2, provider_campaign: true, duration: 10, state: true, status: 0)
-    campaign_4 = create(:campaign, name: "4 Budget", project: @project, classification: 0, provider_campaign: true, duration: 10, state: true, status: 0, budget: 400)
-    campaign_5 = create(:campaign, name: "5 Per minute", project: @project, classification: 1, provider_campaign: true, duration: 10, state: true, status: 0, imp: 1, minutes: 1)
-    campaign_6 = create(:campaign, name: "6 Per minute", project: @project, classification: 1, provider_campaign: true, duration: 10, state: true, status: 0, imp: 2, minutes: 1)
-    campaign_2.impression_hours.create(start: "2000-01-01 18:00:00", end: "2000-01-01 20:00:00", imp: 360, day: "everyday")
-    campaign_2.impression_hours.create(start: "2000-01-01 14:00:00", end: "2000-01-01 16:00:00", imp: 360, day: "everyday")
-    campaign_3.impression_hours.create(start: "2000-01-01 16:00:00", end: "2000-01-01 18:00:00", imp: 150, day: "everyday")
-    campaign_3.impression_hours.create(start: "2000-01-01 12:00:00", end: "2000-01-01 14:00:00", imp: 150, day: "everyday")
-
-    campaign_1.board_campaigns.first.update(status: "approved")
-    campaign_2.board_campaigns.first.update(status: "approved")
-    campaign_3.board_campaigns.first.update(status: "approved")
-    campaign_4.board_campaigns.first.update(status: "approved")
-    campaign_5.board_campaigns.first.update(status: "approved")
-    campaign_6.board_campaigns.first.update(status: "approved")
-    err = @board.update_ads_rotation(force_generate = true)
-    ads = JSON.parse(@board.ads_rotation)
-    occupation = 1-ads.count('-').to_f/ads.length
-    assert err.empty? && occupation > 0
-  end
+  # test "Multiple types high occupation" do
+  #   campaign_1 = create(:campaign, name: "1 Budget", project: @project, classification: 0, provider_campaign: true, duration: 10, state: true, status: 0, budget: 350)
+  #   campaign_2 = create(:campaign, name: "2 Per Hour", project: @project, classification: 2, provider_campaign: true, duration: 10, state: true, status: 0)
+  #   campaign_3 = create(:campaign, name: "3 Per Hour", project: @project, classification: 2, provider_campaign: true, duration: 10, state: true, status: 0)
+  #   campaign_4 = create(:campaign, name: "4 Budget", project: @project, classification: 0, provider_campaign: true, duration: 10, state: true, status: 0, budget: 400)
+  #   campaign_5 = create(:campaign, name: "5 Per minute", project: @project, classification: 1, provider_campaign: true, duration: 10, state: true, status: 0, imp: 1, minutes: 1)
+  #   campaign_6 = create(:campaign, name: "6 Per minute", project: @project, classification: 1, provider_campaign: true, duration: 10, state: true, status: 0, imp: 2, minutes: 1)
+  #   campaign_2.impression_hours.create(start: "2000-01-01 18:00:00", end: "2000-01-01 20:00:00", imp: 360, day: "everyday")
+  #   campaign_2.impression_hours.create(start: "2000-01-01 14:00:00", end: "2000-01-01 16:00:00", imp: 360, day: "everyday")
+  #   campaign_3.impression_hours.create(start: "2000-01-01 16:00:00", end: "2000-01-01 18:00:00", imp: 150, day: "everyday")
+  #   campaign_3.impression_hours.create(start: "2000-01-01 12:00:00", end: "2000-01-01 14:00:00", imp: 150, day: "everyday")
+  #
+  #   campaign_1.board_campaigns.first.update(status: "approved")
+  #   campaign_2.board_campaigns.first.update(status: "approved")
+  #   campaign_3.board_campaigns.first.update(status: "approved")
+  #   campaign_4.board_campaigns.first.update(status: "approved")
+  #   campaign_5.board_campaigns.first.update(status: "approved")
+  #   campaign_6.board_campaigns.first.update(status: "approved")
+  #   err = @board.update_ads_rotation(force_generate = true)
+  #   ads = JSON.parse(@board.ads_rotation)
+  #   occupation = 1-ads.count('-').to_f/ads.length
+  #   assert err.empty? && occupation > 0
+  # end
 
   # test "Multiple types high occupation" do
   #   campaign_1 = create(:campaign, name: "1 Budget", project: @project, classification: 0, provider_campaign: true, duration: 10, state: true, status: 0, budget: 350)
