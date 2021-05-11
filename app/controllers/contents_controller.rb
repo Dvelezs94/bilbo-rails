@@ -116,8 +116,4 @@ class ContentsController < ApplicationController
   def content_params
     params.require(:content).permit(:url, :multimedia).merge(:project_id => @project.id)
   end
-
-  def create_post_steps
-
-  end
 end
