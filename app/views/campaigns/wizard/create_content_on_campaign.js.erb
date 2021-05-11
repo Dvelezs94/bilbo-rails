@@ -6,6 +6,8 @@ if ($('div[data-images-only="true"]').length && <%= format == "video" %>) {
   remove_on_click();
   select_content();
   initialize_content_filter();
+  // run auto reload on recently created content
+  auto_fetch_content("<%= @content.id %>");
   //show_success("<%= t('content.success') %>");
 }
 

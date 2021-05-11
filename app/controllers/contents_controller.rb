@@ -33,9 +33,6 @@ class ContentsController < ApplicationController
         ref = Rails.application.routes.recognize_path(request.referrer)
         if ref[:controller] == "campaigns" && ref[:action] == "edit"
           format.js { render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message, format: @content_format  }, :status => :created }
-        elsif params[:content_modal].present? && @content.is_video? && params[:content_modal] == "true"
-          @success_message = t("content.success_without_video")
-          format.js { render 'campaigns/wizard/message_upload', :locals => { :message => @success_message }, :status => :created }
         else # else it was uploaded to content page
           format.js { render :template => "contents/create_multimedia.js.erb", :status => :created }
         end
