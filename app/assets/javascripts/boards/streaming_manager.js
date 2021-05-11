@@ -26,7 +26,7 @@
        var d = new Date();
        //console.log("reloading iframes at: " + d.toDateString())
        $('iframe').each(function() {
-         this.contentWindow.location.reload(true);
+         this.src = this.src;
        });
      }, 3600000) //run every hour of the day
 

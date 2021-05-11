@@ -39,7 +39,11 @@ class Content < ApplicationRecord
 
   # wether or not the content has already been processed
   def processed?
-    multimedia_url(:large).present? ? true : false
+    if get_format == "html"
+      true  
+    else
+      multimedia_url(:large).present? ? true : false
+    end
   end
 
   private
