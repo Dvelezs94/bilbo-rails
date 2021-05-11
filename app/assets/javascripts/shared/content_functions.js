@@ -16,7 +16,7 @@ function get_single_content(content_id){
 
 // automatic refreshes content every 5 seconds for the uploaded content
 function auto_fetch_content(content_id) {
-  console.log("attempting to auto fetch content for: " + content_id)
+  //console.log("attempting to auto fetch content for: " + content_id)
   var tid = setInterval(function() {
     div_elem = $("#reload_single_content_" + content_id);
     if (div_elem.length) { // if element hasn't been processed yet, so keep trying

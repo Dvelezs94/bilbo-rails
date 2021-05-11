@@ -2,6 +2,17 @@ $(document).on('turbolinks:load', function() {
   if ($("#bilbomap").length > 0){
     var infowindow = null;
     google.maps.event.addDomListener(window, 'turbolinks:load', initializeMap);
+
+    // just in case map doesn't load initially, retry until it does
+    var map_load_interval = setInterval(function(){
+      //console.log("attempting to load map");
+      if (typeof google === 'object' && typeof google.maps === 'object') {
+        //console.log("map has loaded so im not retrying anymore");
+        clearInterval(map_load_interval);
+      } else {
+        initializeMap();
+      }
+    }, 1500)
   }
 });
 
