@@ -21,6 +21,9 @@
        setInterval(requestAdsRotation,86400000) // 1 day interval (ms)
      },(timeUntilNextStart()-5)*1000) //Time for next start hour of the board
 
+     // reload Bilbo after running 24 hours straight
+     setTimeout(function(){ window.location.reload() }, 86400000);
+
      //reload all iframes every hour
      setInterval(function(){
        var d = new Date();
