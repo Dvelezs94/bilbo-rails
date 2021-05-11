@@ -1,15 +1,17 @@
-$("#single_content").prepend("<%= j render partial: 'campaigns/wizard/single_content_modal', collection: @content_array, as: :content%>");
-remove_on_click();
-select_content();
-initialize_content_filter();
-<% if @success_message.present? %>
-  show_success("<%= escape_javascript(@success_message)%>");
-<% else %>
-  show_error("<%= escape_javascript(@error_message)%>");
-<% end %>
+// check wether this bilbo accepts videos and images
+if ($('div[data-images-only="true"]').length && <%= format == "video" %>) {
+  show_success("<%= t('content.success_without_video') %>");
+} else { // this is in case the bilbo only accepts images
+  $("#single_content").prepend("<%= j render partial: 'campaigns/wizard/single_content_modal', collection: @content_array, as: :content%>");
+  remove_on_click();
+  select_content();
+  initialize_content_filter();
+  //show_success("<%= t('content.success') %>");
+}
+
+// after complete close all modals
 if($("#modalNewMultimedia").length){
   $('#modalNewMultimedia').modal('hide');
 }else if ($('#modalNewUrl').length) {
   $('#modalNewUrl').modal('hide');
 }
-//$('#modalContent').css("overflow-y", "scroll");

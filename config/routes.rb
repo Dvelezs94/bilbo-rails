@@ -34,6 +34,8 @@ Rails.application.routes.draw do
       get :new_multimedia
       get :new_url
       get :create_content_on_campaign
+      post :create_multimedia
+      post :create_url
     end
   end
 

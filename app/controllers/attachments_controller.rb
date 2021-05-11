@@ -11,7 +11,6 @@ class AttachmentsController < ApplicationController
     else
       flash[:error] = I18n.t('ads.errors.wont_be_able_to_update')
     end
-
   end
 
   def destroy
