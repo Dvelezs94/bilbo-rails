@@ -4,7 +4,7 @@ require 'shrine_helper'
 class ContentsBoardCampaignsControllerTest < ActionDispatch::IntegrationTest
   i_suck_and_my_tests_are_order_dependent!
   setup do
-    @name = "Content Board Campaign Test"
+    @name = "Content Board Campaign Test #{Faker::Name.name}"
     @user = create(:user, name: @name, roles: "provider")
     @project = @user.projects.first
     @board = create(:board, project: @user.projects.first, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: 50000, provider_earnings: 40000, face: "north")
@@ -23,7 +23,7 @@ class ContentsBoardCampaignsControllerTest < ActionDispatch::IntegrationTest
   test "can get contents for wizard modal image png" do
     sign_in @user
     @image_attachment = fixture_file_upload('test_image.png','image/png')
-    post contents_url, params: { content: { multimedia: @image_attachment } }
+    post create_multimedia_contents_url, params: { multimedia: @image_attachment }, xhr: true
     get get_contents_wizard_modal_contents_board_campaign_index_url, params: { board_slug: "slug-"+@board.slug, board_name: @board.name, campaign: @campaign.slug}, xhr: true
     assert_response :success
     assert_equal true, @user.projects.first.contents.first.present?
@@ -32,7 +32,7 @@ class ContentsBoardCampaignsControllerTest < ActionDispatch::IntegrationTest
   test "can get contents for wizard modal image jpg" do
     sign_in @user
     @image_attachment = fixture_file_upload('test_image.jpg','image/jpg')
-    post contents_url, params: { content: { multimedia: @image_attachment } }
+    post create_multimedia_contents_url, params: { multimedia: @image_attachment }, xhr: true
     get get_contents_wizard_modal_contents_board_campaign_index_url, params: { board_slug: "slug-"+@board.slug, board_name: @board.name, campaign: @campaign.slug}, xhr: true
     assert_response :success
     assert_equal true, @user.projects.first.contents.first.present?
@@ -41,7 +41,7 @@ class ContentsBoardCampaignsControllerTest < ActionDispatch::IntegrationTest
   test "can get contents for wizard modal video" do
     sign_in @user
     @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
-    post contents_url, params: { content: { multimedia: @video_attachment } }
+    post create_multimedia_contents_url, params: { multimedia: @video_attachment }, xhr: true
     get get_contents_wizard_modal_contents_board_campaign_index_url, params: { board_slug: "slug-"+@board.slug, board_name: @board.name, campaign: @campaign.slug}, xhr: true
     assert_response :success
     assert_equal true, @user.projects.first.contents.first.present?
@@ -66,7 +66,7 @@ class ContentsBoardCampaignsControllerTest < ActionDispatch::IntegrationTest
   test "can get selected contents for wizard modal video" do
     sign_in @user
     @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
-    post contents_url, params: { content: { multimedia: @video_attachment } }
+    post create_multimedia_contents_url, params: { multimedia: @video_attachment }, xhr: true
     get get_selected_content_contents_board_campaign_index_url, params: {selected_contents: @content.to_s, board_slug: "slug-"+@board.slug, campaign: @campaign.slug}, xhr: true
     assert_response :success
     assert_equal true, @user.projects.first.contents.first.present?
