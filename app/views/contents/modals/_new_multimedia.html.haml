@@ -1,20 +1,18 @@
-= form_with(model: @content, url: contents_path(content_modal: @content_modal), method: :post, :html => { :id => "new_content", data: { parsley_validate: true } }, remote: true) do |f|
-  #modalNewMultimedia.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
-    .modal-dialog.modal-dialog-centered{:role => "document"}
-      .modal-content
-        .modal-body.pd-20
-          %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-            %span{"aria-hidden" => "true"} ×
-          -# %h5.tx-18.tx-sm-20= t("campaign.bilbos_used")
-          .row
-            .col-12.m-auto
-              = f.hidden_field :multimedia, value: @content.cached_multimedia_data
-              = f.file_field :multimedia, accept: "image/jpeg, image/png, image/jpg, video/mp4", class: "form-control", required: true
-
-        .modal-footer
-          %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
-          = f.submit t("content.save"), class: "btn btn-primary", data: { :disable_with => " #{t("general_inputs.uploading")}...".html_safe}
-        / modal-footer
-      / modal-content
-    / modal-dialog
-  / modal
+:javascript
+  init_uppy();
+#modalNewMultimedia.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        / row
+        #drag-drop-area
+        .tx-center
+          = link_to t("ads.convert_video_external"), "https://www.freeconvert.com/video-converter", target: "_blank"
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+      / modal-footer
+    / modal-content
+  / modal-dialog
+/ modal
