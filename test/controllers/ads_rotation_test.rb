@@ -4,7 +4,7 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
   setup do
     @user = create(:user,name: "Provider" , email: "#{name}@bilbo.mx".downcase, roles: "provider")
     @project = @user.projects.first
-    @board = create(:board, project: @project, name: "Board", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "50000", provider_earnings: "40000", face: "north", start_time: Time.zone.parse("8:00"), end_time: Time.zone.parse("02:00"))
+    @board = create(:board, project: @project, name: "Board", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "75000", provider_earnings: "60000", face: "north", start_time: Time.zone.parse("8:00"), end_time: Time.zone.parse("02:00"))
     # @ad_10 = create(:ad, name: "10 secs", project: @project, duration: 10)
     # @ad_20 = create(:ad, name: "20 secs", project: @project, duration: 20)
     # @ad_30 = create(:ad, name: "30 secs", project: @project, duration: 30)
@@ -39,19 +39,19 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     assert err.empty? && occupation > 0
   end
 
-  # test "Budget campaigns high occupation" do
-  #   #~95% use
-  #   campaign_1 = create(:campaign, name: "1 Budget", project: @project, classification: 0, provider_campaign: true, duration: 10, state: true, status: 0, budget: 400)
-  #   campaign_2 = create(:campaign, name: "2 Budget", project: @project, classification: 0, provider_campaign: true, duration: 20, state: true, status: 0, budget: 700)
-  #   campaign_3 = create(:campaign, name: "3 Budget", project: @project, classification: 0, provider_campaign: true, duration: 30, state: true, status: 0, budget: 1200)
-  #   campaign_1.board_campaigns.first.update(status: "approved")
-  #   campaign_2.board_campaigns.first.update(status: "approved")
-  #   campaign_3.board_campaigns.first.update(status: "approved")
-  #   err = @board.update_ads_rotation(force_generate = true)
-  #   ads = JSON.parse(@board.ads_rotation)
-  #   occupation = 1-ads.count('-').to_f/ads.length
-  #   assert err.empty? && occupation > 0
-  # end
+  test "Budget campaigns high occupation" do
+    #~95% use
+    campaign_1 = create(:campaign, name: "1 Budget", project: @project, classification: 0, provider_campaign: true, duration: 10, state: true, status: 0, budget: 400)
+    campaign_2 = create(:campaign, name: "2 Budget", project: @project, classification: 0, provider_campaign: true, duration: 20, state: true, status: 0, budget: 700)
+    campaign_3 = create(:campaign, name: "3 Budget", project: @project, classification: 0, provider_campaign: true, duration: 30, state: true, status: 0, budget: 1200)
+    campaign_1.board_campaigns.first.update(status: "approved")
+    campaign_2.board_campaigns.first.update(status: "approved")
+    campaign_3.board_campaigns.first.update(status: "approved")
+    err = @board.update_ads_rotation(force_generate = true)
+    ads = JSON.parse(@board.ads_rotation)
+    occupation = 1-ads.count('-').to_f/ads.length
+    assert err.empty? && occupation > 0
+  end
 
   test "Campaigns per minute low occupation" do
     #25% use
@@ -245,6 +245,7 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
   #   err = @board.update_ads_rotation(force_generate = true)
   #   ads = JSON.parse(@board.ads_rotation)
   #   occupation = 1-ads.count('-').to_f/ads.length
+  #   debugger
   #   assert err.empty? && occupation > 0
   # end
 

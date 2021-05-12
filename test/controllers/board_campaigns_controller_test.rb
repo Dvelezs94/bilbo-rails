@@ -13,7 +13,7 @@ class BoardCampaignsControllerTest < ActionDispatch::IntegrationTest
   end
   test "create video for board campaign" do
     @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
-    post contents_url, params: { content: { multimedia: @video_attachment } }
+    post create_multimedia_contents_url, params: {  multimedia: @video_attachment }, xhr: true 
     @content = @user.projects.first.contents.first
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
     assert_equal @boards_campaigns.id, @content_board_campaign.boards_campaigns_id
@@ -21,7 +21,7 @@ class BoardCampaignsControllerTest < ActionDispatch::IntegrationTest
 
   test "create image png for board campaign" do
     @image_attachment = fixture_file_upload('test_image.png','image/png')
-    post contents_url, params: { content: { multimedia: @image_attachment } }
+    post create_multimedia_contents_url, params: {  multimedia: @image_attachment }, xhr: true 
     @content = @project.contents.first
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
     assert_equal true, @content_board_campaign.present?
@@ -31,7 +31,7 @@ class BoardCampaignsControllerTest < ActionDispatch::IntegrationTest
 
   test "create image jpg for board campaign" do
     @image_attachment = fixture_file_upload('test_image.jpg','image/jpg')
-    post contents_url, params: { content: { multimedia: @image_attachment } }
+    post create_multimedia_contents_url, params: {  multimedia: @image_attachment }, xhr: true 
     @content = @project.contents.first
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
     assert_equal true, @content_board_campaign.present?
@@ -49,7 +49,7 @@ class BoardCampaignsControllerTest < ActionDispatch::IntegrationTest
 
   test "can delete content for board campaign" do
     @image_attachment = fixture_file_upload('test_image.png','image/png')
-    post contents_url, params: { content: { multimedia: @image_attachment } }
+    post create_multimedia_contents_url, params: {  multimedia: @image_attachment }, xhr: true 
     @content = @project.contents.first
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
     @boards_campaigns.contents_board_campaign.last.delete
@@ -60,7 +60,7 @@ class BoardCampaignsControllerTest < ActionDispatch::IntegrationTest
     @campaign_2 = create(:campaign, name: "rar", project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?, state: true)
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign_2.id , board_id: @board.id, status: 1)
     @image_attachment = fixture_file_upload('test_image.png','image/png')
-    post contents_url, params: { content: { multimedia: @image_attachment } }
+    post create_multimedia_contents_url, params: {  multimedia: @image_attachment }, xhr: true 
     @content = @project.contents.first
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
     delete content_path(@content.id)

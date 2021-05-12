@@ -11,14 +11,14 @@
             %i.fe.fe-plus
             =t("content.upload_content")
           .dropdown-menu.tx-13{:style => "position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 27px, 0px);", "x-placement" => "bottom-start"}
-            = link_to new_multimedia_contents_path(content_modal: @board.images_only), remote: true, class: "dropdown-item" do
+            = link_to new_multimedia_contents_path, remote: true, class: "dropdown-item" do
               %i.fe.fe-large.fe-file-image.pd-r-5.tx-16
               %span=t("content.upload_image")
-            = link_to new_multimedia_contents_path(content_modal: @board.images_only), remote: true, class: "dropdown-item" do
+            = link_to new_multimedia_contents_path, remote: true, class: "dropdown-item" do
               %i.fe.fe-large.fe-file-image.pd-r-5.tx-16
               %span=t("content.upload_video")
             -if current_user.is_provider?
-              = link_to new_url_contents_path(content_modal: @board.images_only), remote: true, class: "dropdown-item" do
+              = link_to new_url_contents_path, remote: true, class: "dropdown-item" do
                 %i.fe.fe-large.fe-link-external.pd-r-5.tx-16
                 %span=t("content.add_web_content")
         .pd-t-20.pd-b-10

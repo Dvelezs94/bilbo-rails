@@ -8,42 +8,55 @@ class ContentsController < ApplicationController
 
   def new_multimedia
     @content = Content.new
-    @content_modal = params[:content_modal]
     if params[:content_modal].present?
-      render  'new_multimedia', :locals => {:content_modal => @content_modal}
+      render  'new_multimedia'
     end
   end
 
   def new_url
     @content = Content.new
-    @content_modal = params[:content_modal]
     if params[:content_modal].present?
-      render  'new_url', :locals => {:content_modal => @content_modal}
+      render  'new_url'
     end
   end
 
-  def create
+  def create_multimedia
+    @content = @project.contents.create(multimedia: params[:multimedia])
+    if !@content.save
+        flash[:error] = "Error"
+        redirect_to contents_path
+    else
+      respond_to do |format|
+        @success_message = t("content.success")
+        @content_array = [@content]
+        @content_format = @content.get_format
+        ref = Rails.application.routes.recognize_path(request.referrer)
+        if ref[:controller] == "campaigns" && ref[:action] == "edit"
+          format.js { render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message, format: @content_format  }, :status => :created }
+        else # else it was uploaded to content page
+          format.js { render :template => "contents/create_multimedia.js.erb", :status => :created }
+        end
+      end
+    end
+  end
+
+  def create_url
     @content = @project.contents.create(content_params)
     if !@content.save
         flash[:error] = "Error"
         redirect_to contents_path
-      else
-        @success_message = t("content.success")
-        @content_array = [@content]
-        if params[:content_modal].present? && params[:content_modal] == "false"
-          render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message  }
-        elsif params[:content_modal].present? && @content.is_url? && params[:content_modal] == "true"
-          render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message }
-        elsif params[:content_modal].present? && @content.is_image? && params[:content_modal] == "true"
-          render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message }
-        elsif params[:content_modal].present? && @content.is_video? && params[:content_modal] == "true"
-          @success_message = t("content.success_without_video")
-          render 'campaigns/wizard/message_upload', :locals => { :message => @success_message }
-        else # else it was uploaded to content page
-          flash[:success] = @success_message
-          redirect_to contents_path
-        end
+    else
+      @success_message = t("content.success")
+      @content_array = [@content]
+      if params[:content_modal].present? && params[:content_modal] == "false"
+        render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message  }
+      elsif params[:content_modal].present? && params[:content_modal] == "true"
+        render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message }
+      else # else it was uploaded to content page
+        flash[:success] = @success_message
+        redirect_to contents_path
       end
+    end
   end
 
   def destroy

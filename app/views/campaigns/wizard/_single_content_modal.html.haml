@@ -31,4 +31,4 @@
             %input.custom-control-input{:type => "checkbox", id: "pickContent#{content.id}"}/
             %label.custom-control-label{:for => "pickContent#{content.id}"}
         - else
-          %i.fe.fe-sync.cursor-pointer#reload_single_content{ onclick: "get_single_content(event)" }
+          %i.fe.fe-sync.cursor-pointer{id: "reload_single_content_#{content.id}", onclick: "get_single_content(#{content.id})" }

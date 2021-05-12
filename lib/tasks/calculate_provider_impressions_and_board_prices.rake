@@ -4,8 +4,9 @@ namespace :calculate_provider_impressions_and_board_prices do
     p "=== Empezando a actualizar boards"
     Board.all.each do |board|
       begin
-        price = board.base_earnings * 0.80
-        board.update_columns(provider_earnings: price)
+        current_base_earnings = board.base_earnings * 1.20
+        new_base_earnings = board.base_earnings * 1.5
+        board.update_columns(provider_earnings: current_base_earnings, base_earnings: new_base_earnings)
       rescue
         "Error al actualizar el board #{board.name}"
       end
