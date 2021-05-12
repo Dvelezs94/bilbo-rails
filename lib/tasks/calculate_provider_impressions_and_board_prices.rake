@@ -14,7 +14,7 @@ namespace :calculate_provider_impressions_and_board_prices do
     p "Se han terminado de actualizar los boards"
 
     p "=== Empezando a actualizar impresiones"
-    Impression.all.each do |imp|
+    Impression.where("total_price > ?", 0.0).all.each do |imp|
       begin
         imp.update_columns(provider_price: (imp.total_price * 0.80).round(3))
       rescue => e
