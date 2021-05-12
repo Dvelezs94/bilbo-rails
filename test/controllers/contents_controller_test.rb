@@ -6,8 +6,6 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     @name = "Content Test"
     @user = create(:user, name: @name)
     @project = @user.projects.first
-    @image_attachment = fixture_file_upload('test_image.png','image/png')
-    @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
   end
 
   test "can access content" do
@@ -25,7 +23,7 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
   test "can create url content" do
     sign_in @user
     assert_difference @project.contents, 1 do
-      post contents_url, params: { content: { url: "https://bilbo.mx" } }
+      post create_url_contents_url, params: { content: { url: "https://bilbo.mx" } }
     end
     assert_equal true, Content.last.is_url?
     assert_redirected_to contents_path
@@ -33,28 +31,31 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
 
   test "can create image content" do
     sign_in @user
+    @image_attachment = fixture_file_upload('test_image.png','image/png')
     assert_difference @project.contents, 1 do
-      post contents_url, params: { content: { multimedia: @image_attachment } }
+      post create_multimedia_contents_url, params: { multimedia: @image_attachment }, xhr: true
     end
     assert_equal true, Content.last.is_image?
-    assert_redirected_to contents_path
+    assert_response :created
   end
 
   test "can create video content" do
     sign_in @user
+    @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
     assert_difference @project.contents, 1 do
-      post contents_url, params: { content: { multimedia: @video_attachment } }
+      post create_multimedia_contents_url, params: { multimedia: @video_attachment }, xhr: true
     end
     assert_equal true, Content.last.is_video?
-    assert_redirected_to contents_path
+    assert_response :created
   end
 
   test "can delete content" do
     sign_in @user
+    @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
     assert_difference @project.contents, 1 do
-      post contents_url, params: { content: { multimedia: @video_attachment } }
+      post create_multimedia_contents_url, params: { multimedia: @video_attachment }, xhr: true
     end
-    assert_redirected_to contents_path
+    assert_response :created
 
     assert_difference @project.contents, -1 do
       delete content_path(Content.last.id)
@@ -64,15 +65,14 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
 
   test "cannot delete content if not logged in" do
     sign_in @user
+    @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
     assert_difference @project.contents, 1 do
-      post contents_url, params: { content: { multimedia: @video_attachment } }
+      post create_multimedia_contents_url, params: { multimedia: @video_attachment }, xhr: true
     end
-    assert_redirected_to contents_path
+    assert_response :created
 
     sign_out :user
-    assert_difference @project.contents, 0 do
-      delete content_path(Content.last.id)
-    end
+    delete content_path(Content.last.id)
     assert_redirected_to user_session_path
   end
 

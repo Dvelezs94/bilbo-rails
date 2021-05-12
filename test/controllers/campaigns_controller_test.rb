@@ -103,7 +103,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
 
   test "create image(png) content for campaign" do
     @image_attachment = fixture_file_upload('test_image.png','image/png')
-    post contents_url, params: { content: { multimedia: @image_attachment } }
+    post create_multimedia_contents_url, params: {  multimedia: @image_attachment }, xhr: true
     @content = @user.projects.first.contents.first
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
@@ -113,7 +113,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
 
   test "create image(jpg) content for campaign" do
     @image_attachment = fixture_file_upload('test_image.jpg','image/jpg')
-    post contents_url, params: { content: { multimedia: @image_attachment } }
+    post create_multimedia_contents_url, params: {  multimedia: @image_attachment }, xhr: true
     @content = @user.projects.first.contents.first
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
@@ -123,7 +123,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
 
   test "create video content for campaign" do
     @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
-    post contents_url, params: { content: { multimedia: @video_attachment } }
+    post create_multimedia_contents_url, params: {  multimedia: @video_attachment }, xhr: true
     @content = @user.projects.first.contents.first
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
@@ -132,7 +132,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create url content for campaign" do
-    post contents_url, params: { content: { url: "https://bilbo.mx" } }
+    post create_url_contents_url, params: { content: { url: "https://bilbo.mx" } }
     @content = @user.projects.first.contents.first
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
@@ -143,7 +143,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
   test "copy campaign with contents" do
     @campaign = create(:campaign, name: "budget campaign", project: @user.projects.first, classification: 0, provider_campaign: @user.is_provider?)
     @video_attachment = fixture_file_upload('test_video.mp4','video/mp4')
-    post contents_url, params: { content: { multimedia: @video_attachment } }
+    post create_multimedia_contents_url, params: {  multimedia: @video_attachment }, xhr: true
     @content = @user.projects.first.contents.first
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
