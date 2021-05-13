@@ -64,6 +64,7 @@ class Campaign < ApplicationRecord
   before_save :update_state_updated_at, if: :state_changed?
   before_save :notify_in_a_week, if: :ad_id_changed?
   before_update :set_in_review_and_update_price
+  before_update :update_budget
   after_commit :broadcast_to_all_boards
   after_commit :create_content, if: :contents_present?
   after_update :update_bc
@@ -457,4 +458,12 @@ class Campaign < ApplicationRecord
       board_campaign.budget = dist[board_campaign.board_id.to_s].to_f
     end
   end
+
+  def update_budget
+    if budget_distribution.present?
+      total_budget = JSON.parse(budget_distribution).values.sum
+      self.budget = total_budget
+    end
+  end
+
 end
