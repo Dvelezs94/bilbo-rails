@@ -14,7 +14,7 @@ class ProcessGraphqlImpressionsWorker
             )
         rescue ActiveRecord::RecordNotUnique => e
             if !Rails.env.test? && !Rails.env.development?
-                Bugsnag.notify("record not unique for impression with hour #{created_at}")
+                Bugsnag.notify("record not unique for impression with hour #{created_at} on board #{board_slug}")
             else
                 puts "====record not unique for impression with hour #{created_at}"
             end
