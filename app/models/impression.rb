@@ -8,21 +8,16 @@ class Impression < ApplicationRecord
   belongs_to :board
   belongs_to :campaign
   before_create :set_prices
-  #after_create :update_balance_and_remaining_impressions, :increase_campaign_impression_count, :update_people_reached, :continue_running_campaign
+  after_create :update_balance_and_remaining_impressions, :update_campaign_fields, :continue_running_campaign
 
   def action #is used to make the action in board
     @action  || "delete" #default action is delete in front, if specified then keep
   end
 
-  def update_people_reached
-    begin
-      increase_count = (self.board.people_per_second * self.campaign.true_duration(self.board_id)).round(0)
-      self.campaign.with_lock do
-        self.campaign.increment!(:people_reached, by = increase_count)
-      end
-    rescue => e
-      Bugsnag.notify(e)
-    end
+  def update_campaign_fields
+    increase_count = (self.board.people_per_second * self.campaign.true_duration(self.board_id)).round(0)
+    self.campaign.increment!(:people_reached, by = increase_count)
+    self.campaign.increment!(:impression_count)
   end
   private
 
