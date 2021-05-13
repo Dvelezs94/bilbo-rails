@@ -184,9 +184,7 @@ class User < ApplicationRecord
       # Increase total invested on campaign
       if camp_id.is_a? Integer
         camp = Campaign.find(camp_id)
-        camp.with_lock do
-          camp.update_column(:total_invested, camp.total_invested += amount.to_f)
-        end
+        camp.update_column(:total_invested, camp.total_invested += amount.to_f)
       end
     rescue => e
       ## make sure we send an alert if the impressions fail to create

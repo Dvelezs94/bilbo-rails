@@ -1,6 +1,6 @@
 class ProcessGraphqlImpressionsWorker
     include Sidekiq::Worker
-    sidekiq_options retry: 0, backtrace: 10
+    sidekiq_options retry: 2, backtrace: 10
   
     def perform(api_token, board_slug, campaign_id, cycles, created_at)
         begin
