@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_020751) do
     t.float "cycle_price"
     t.bigint "sale_id"
     t.integer "remaining_impressions", default: 0
+    t.float "budget"
     t.index ["board_id", "campaign_id"], name: "index_boards_campaigns_on_board_id_and_campaign_id"
     t.index ["campaign_id", "board_id"], name: "index_boards_campaigns_on_campaign_id_and_board_id"
     t.index ["sale_id"], name: "index_boards_campaigns_on_sale_id"
@@ -393,7 +394,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_020751) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-05-06 23:32:54"
+    t.datetime "expires_at", default: "2031-05-10 20:49:50"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"

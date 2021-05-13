@@ -27,13 +27,25 @@ module AdRotationAlgorithm
       err = test_hour_campaigns(new_campaign,new_campaign_hours)
       return err if err.present?
 
-    elsif new_campaign.provider_campaign && new_campaign.classification == "budget" && new_campaign.budget.present?
-      imp = (new_campaign.budget_per_bilbo/(self.sale_cycle_price * new_campaign.duration/self.duration)).to_i
+    elsif new_campaign.provider_campaign && new_campaign.classification == "budget"
+      imp = (new_campaign.budget_per_bilbo(self)/(self.sale_cycle_price * new_campaign.duration/self.duration)).to_i
       # puts "X"*200
       # puts imp
       # puts t_cycles*10/new_campaign.duration
       if imp > t_cycles*10/new_campaign.duration
         err << I18n.t("bilbos.ads_rotation_error.max_budget_impressions", name: self.name)
+        return err
+      end
+    end
+    if new_campaign.classification == "budget"
+      if new_campaign.budget_distribution.present?
+        dist = JSON.parse(new_campaign.budget_distribution)
+      else
+        dist = {}
+        dist["#{self.id}"] = new_campaign.budget_per_bilbo(self)
+      end
+      if dist["#{self.id}"].to_f < self.minimum_budget
+        err << I18n.t('campaign.minimum_budget_per_bilbo', name: self.name, min_budget: self.minimum_budget)
         return err
       end
     end
@@ -189,7 +201,7 @@ module AdRotationAlgorithm
 
     #{p1: [60,10], p2: [50,10], p3:  [67,20]} #these are the required campaigns of the provider and their duration
     if testing
-      r_cps = @r_cps_first.map{ |c| [ c.id, [ (c.budget_per_bilbo/(self.get_cycle_price(c) * c.duration/self.duration)).to_i, (c.duration/10).to_i ] ] }.to_h
+      r_cps = @r_cps_first.map{ |c| [ c.id, [ (c.budget_per_bilbo(self)/(self.get_cycle_price(c) * c.duration/self.duration)).to_i, (c.duration/10).to_i ] ] }.to_h
     else
       r_cps = @r_cps_first.map{ |c| [ c.id, [ c.remaining_impressions(self), (c.duration/10).to_i ]] }.to_h
     end
@@ -211,9 +223,9 @@ module AdRotationAlgorithm
         end
         @hour_campaign_remaining_impressions[new_campaign.id] = new_campaign.remaining_impressions(self.id)
         @campaign_names[new_campaign.id] = new_campaign.name
-      elsif new_campaign.budget.present?
+      elsif new_campaign.board_campaigns.find_by(board: self).budget.present?
         if testing
-          r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo/(self.get_cycle_price(new_campaign) * new_campaign.duration/self.duration)).to_i, (new_campaign.duration/10).to_i]
+          r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo(self)/(self.get_cycle_price(new_campaign) * new_campaign.duration/self.duration)).to_i, (new_campaign.duration/10).to_i]
         else
           r_cps[new_campaign.id] = [new_campaign.remaining_impressions(self), (new_campaign.duration/10).to_i]
         end

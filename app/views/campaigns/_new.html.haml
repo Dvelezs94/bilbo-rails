@@ -16,10 +16,11 @@
                   %br/
                   = f.text_field :name, class: "form-control", value: "", autocomplete: "off", required: true, placeholder: t("general_inputs.name")
                 .form-group
-                  = f.label t("general_inputs.description")
+                  = f.label t('campaign.wizard.campaign_duration')
                   %br/
-                  = f.text_area :description, class: "form-control", value: "", autocomplete: "off", placeholder: t("general_inputs.description")
-
+                  .form-row
+                    .col-6= f.text_field :starts_at, :class => "form-control", placeholder: t('campaign.wizard.start_date'), required: true, autocomplete: "off"
+                    .col-6= f.text_field :ends_at, :class => "form-control", placeholder: t('campaign.wizard.end_date'), required: true, autocomplete: "off"
                 .form-group
                   .divider-text= t('campaign.objective')
                   = f.text_field :objective, class: "d-none", value: "awareness"
