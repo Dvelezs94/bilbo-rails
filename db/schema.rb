@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_24_141809) do
+ActiveRecord::Schema.define(version: 2021_05_13_020751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,6 +219,7 @@ ActiveRecord::Schema.define(version: 2021_04_24_141809) do
     t.float "total_invested", default: 0.0
     t.integer "people_reached", default: 0
     t.integer "duration", default: 10
+    t.integer "lock_version"
     t.index ["ad_id"], name: "index_campaigns_on_ad_id"
     t.index ["project_id"], name: "index_campaigns_on_project_id"
     t.index ["slug"], name: "index_campaigns_on_slug", unique: true
@@ -274,6 +275,7 @@ ActiveRecord::Schema.define(version: 2021_04_24_141809) do
     t.float "total_price"
     t.integer "duration"
     t.float "provider_price"
+    t.integer "lock_version"
     t.index ["board_id"], name: "index_impressions_on_board_id"
     t.index ["campaign_id"], name: "index_impressions_on_campaign_id"
     t.index ["created_at", "board_id"], name: "index_impressions_on_created_at_and_board_id", unique: true
@@ -446,6 +448,7 @@ ActiveRecord::Schema.define(version: 2021_04_24_141809) do
     t.string "payment_preference"
     t.integer "sign_in_count", default: 0, null: false
     t.string "captcha"
+    t.integer "lock_version"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
