@@ -148,6 +148,11 @@ en:
     must_add_schedule: You must add a schedule
     active_campaigns: Active Campaigns
     review_campaigns: Review Campaigns
+    dates: Dates
+    details: Campaign Details
+    missing_date: The campaign must have start date and end date
+    total_investment: This is the total investment according to your selection
+    select_budget: Choose the budget for each selected board
     accept: Accept campaign
     deny: Deny campaign
     share: Share Campaign
@@ -220,6 +225,8 @@ en:
     people: people
     impressions: Impressions
     daily_budget: Daily Budget
+    daily_spots: Daily Spots
+    total_budget: Total Budget
     total_invested: Total Invested
     invested_on: Analyze the week days where you campaign has been most active
     popular_hours: Popular hours
@@ -237,7 +244,7 @@ en:
       monthly_impressions: Monthly impressions
       campaigns_processed: Campaigns processed
       bilbos_number: Bilbos owned
-    minimum_budget_per_bilbo: The daily minimum is $50 per chosen bilbo.
+    minimum_budget_per_bilbo: The minimum budget in the bilbo %{name} is $%{min_budget} per day.
     metrics: Metrics
     campaign: Campaign
     campaign_status: Status

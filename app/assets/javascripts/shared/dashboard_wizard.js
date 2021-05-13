@@ -23,6 +23,8 @@ $(document).on('turbolinks:load', function () {
             change_duration();
             var campaignboards = $('#campaign_boards').parsley();
             if (campaignboards.isValid()) {
+              var x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
+              if($("#board_count").length) $("#board_count")[0].innerHTML= x.length
               return true;
             } else {
               campaignboards.validate();
@@ -31,6 +33,14 @@ $(document).on('turbolinks:load', function () {
 
           if (currentIndex === 1) {
             updateHiddenFieldContent();
+            if ($("#budget_distribution").length){
+              fillBoardClasses();
+              setBudgetAndImpressionsListeners();
+              var x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
+              $.each(x, function(index, board_id){
+                calculateImpressions(board_id, $("#budget-"+board_id).val())
+              });
+            }
             if (validateContent()  && $("#content_ids").val() != ""){
               return true;
             }else {
@@ -142,41 +152,34 @@ $(document).on('turbolinks:load', function () {
               }
             }
             // check if the user set a minimum of 50 per board
-            if ($('#campaign_budget').length) {
-              var campaignbudget = $('#campaign_budget').parsley();
+            if ($('#budget_distribution').length) {
               var campaignstartsat = $('#campaign_starts_at').parsley();
               var campaignendsat = $('#campaign_ends_at').parsley();
               if ($('#date_campaign').prop('checked')) {
-                if (
-                  parseInt($('#campaign_budget').val().replace(',', '')) /
-                    parseInt($('#boards_counter').html()) <
-                  50
-                ) {
-                  show_error($('#budget_error_message').html());
+                [valid_budget, failed_at] = validateBudgetPerBilbo();
+                if ( !valid_budget ) {
+                  show_error($('#budget_error_message-'+failed_at).html());
                   return false;
                 }
 
                 if (
-                  campaignbudget.isValid() &&
                   campaignstartsat.isValid() &&
                   campaignendsat.isValid()
                 ) {
+                  updateBudgetDistribution();
                   return true;
                 } else {
-                  campaignbudget.validate();
                   campaignstartsat.validate();
                   campaignendsat.validate();
                   return false;
                 }
               }
-              if (
-                parseInt($('#campaign_budget').val().replace(',', '')) /
-                  parseInt($('#boards_counter').html()) >=
-                50
-              ) {
+              [valid_budget, failed_at] = validateBudgetPerBilbo();
+              if ( valid_budget ) {
+                updateBudgetDistribution();
                 return true;
               } else {
-                show_error($('#budget_error_message').html());
+                show_error($('#budget_error_message-'+failed_at).html());
                 return false;
               }
             }
@@ -226,19 +229,19 @@ $(document).on('turbolinks:load', function () {
           // $('#impPerHour').text($('#impressionsPerHour').val());
           // $('#timeStart').text($('#timePickerStart').val());
           // $('#timeEnd').text($('#timePickerEnd').val());
-          $('#dailyBudget').text($('#campaign_budget').val());
-          if ($('#date_campaign').prop('checked')) {
-            $('#campaignStarts').text($('#campaign_starts_at').val());
-            $('#campaignEnds').text($('#campaign_ends_at').val());
-          } else {
-            $('#campaignStarts').text('');
-            $('#campaignEnds').text('');
-          }
+          if($("#total_budget").length) $('#dailyBudget').text($("#total_budget")[0].innerHTML);
+          $('#campaignStarts').text($('#campaign_starts_at').val());
+          $('#campaignEnds').text($('#campaign_ends_at').val());
         }
       },
     });
     // End Jquery steps
 
+    if($("#budget_distribution").length){
+      new PerfectScrollbar('#tablebody', {
+        suppressScrollX: true
+      });
+    }
     // calculate budget when input is updated
     $('#campaign_budget').keyup(function() {
       $("#impressions")[0].style.width = (this.value.length + 5) * 8 + 'px';
@@ -252,69 +255,102 @@ $(document).on('turbolinks:load', function () {
       $('#impressions').width(($('#impressions').val().length + 5) * 8 + 'px');
     }
 
-    // function to calculate impressions
-    function calculateImpressions(testBudget = null) {
-      max_estimated_impressions = 0;
-      var changed_for_max_imp = false;
-      total_budget = (testBudget != null) ? testBudget : $('#campaign_budget').val();
-      if (typeof(total_budget) == "string") total_budget = total_budget.replace(',', ''); // removes comma from number given by user because parseFLoat thinks its decimal after comma
-      budget_per_bilbo = parseFloat(total_budget) / ($('#selected_boards option:not(:eq(0))').length);
-      $('#selected_boards option:not(:eq(0))').each(function() {
-        cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
-        bilbo_max_impressions = parseInt($(this).data('max-impressions') * 10 / cycles)
-        current_impressions_for_bilbo = parseInt(budget_per_bilbo / ($(this).data('price') * cycles)) || 0;
-        if (current_impressions_for_bilbo > bilbo_max_impressions){
-          max_estimated_impressions+= bilbo_max_impressions;
-          changed_for_max_imp = true;
-          if (testBudget == null) {
-            calculateBudget(1000000);
-            return false;
-          }
-        } else {
-          max_estimated_impressions+=current_impressions_for_bilbo;
+    function validateBudgetPerBilbo(){
+      x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
+      var valid = true
+      var failed_at = null
+      $.each(x, function(index, board_id){
+        assigned_budget = parseFloat($("#budget-"+board_id).val())
+        minimum_budget = parseFloat($("#minimum-"+board_id).val())
+        if(assigned_budget < minimum_budget){
+          valid = false
+          failed_at = board_id
+          return
         }
       });
-      if (testBudget == null && !changed_for_max_imp) $('#impressions').val(max_estimated_impressions);
-      return [max_estimated_impressions,changed_for_max_imp];
+      return [valid, failed_at]
     }
-    function calculateBudget(desired_impressions) {
-      if (desired_impressions == "") return true;
-      max_boards_impr = parseInt($('#max_impressions').val());
-      if (desired_impressions > max_boards_impr) desired_impressions = max_boards_impr;
-      budget = 0;
-      var changed_for_max_imp;
-      var obtained_impressions;
-      var final_impressions;
-      for (var b = 256.0; b >= 0.49; b /= 2) {
-        while(true){
-          let result = calculateImpressions(budget+b);
-          obtained_impressions = result[0];
-          changed_for_max_imp = result[1];
-          if (changed_for_max_imp || obtained_impressions > desired_impressions) break;
-          budget+=b;
-          final_impressions = obtained_impressions;
-        }
+
+    function setBudgetAndImpressionsListeners(){
+      x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
+      $.each(x, function(index, board_id) {
+        $("#budget-"+board_id).on("keyup change paste", function(){
+          calculateImpressions(board_id,$("#budget-"+board_id).val())
+        });
+        $("#impressions-"+board_id).on("keyup change paste", function(){
+          calculateBudget(board_id,$("#impressions-"+board_id).val())
+        });
+      });
+    }
+
+    function updateBudgetDistribution(){
+      x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
+      distribution = {}
+      $.each(x, function(index, board_id){
+        distribution[board_id] = $("#budget-"+board_id).val()
+      })
+      $("#budget_values").val(JSON.stringify(distribution))
+    }
+
+    function calculateImpressions(board_id, budget){
+      // console.log(board);
+      board = $("#selected_boards [value="+board_id+"]")[0]
+      cycles = parseInt($("#campaign_bilbo_duration").val() || parseInt($(board).data('cycle-duration')));
+      budget = parseFloat(budget)
+      imp = parseInt(budget / ($(board).data('price')*cycles)) || 0
+      max_imp = $(board).data('max-impressions')
+      if (imp > max_imp) {
+        imp = parseInt($(board).data('max-impressions'))
+        calculateBudget(board_id, imp)
+        $("#impressions-"+board_id).val(imp)
+      } else {
+      $("#impressions-"+board_id).val(imp)
+      updateTotalBudget();
       }
-      //when we select multiple boards, the lower arrow cant select some numbers, so this is a fix so we "jump" that numbers.
-      if (desired_impressions < max_boards_impr && final_impressions != desired_impressions && window.impressions < desired_impressions) {
-        var b = 0.5;
-        while(true){
-          let result = calculateImpressions(budget+b);
-          obtained_impressions = result[0];
-          changed_for_max_imp = result[1];
-          if (changed_for_max_imp || obtained_impressions > max_boards_impr) break;
-          if (obtained_impressions != final_impressions){
-            budget+=b;
-            final_impressions = obtained_impressions;
-            break;
-          }
-          b+=0.5;
-        }
+    }
+
+    function fillBoardClasses(){
+      x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
+      classes = []
+      $.each(x, function(index, board_id){
+        classes.push($("#board-class-"+board_id).val())
+      });
+      uniqueClasses = [];
+      $.each(classes, function(i, el){
+        if($.inArray(el, uniqueClasses) === -1) uniqueClasses.push(el);
+      });
+      result = uniqueClasses.join(', ')
+      // console.log(result)
+      $("#board_class")[0].innerHTML = result
+    }
+
+    function calculateBudget(board_id, desired_impressions){
+      max_imp = parseInt($(board).data('max-impressions'))
+      desired_impressions = parseInt(desired_impressions)
+      if(desired_impressions > max_imp){
+        desired_impressions = max_imp
+        $("#impressions-"+board_id).val(desired_impressions)
       }
-      $("#campaign_budget").val(budget);
-      $('#impressions').val(final_impressions);
-      window.impressions = final_impressions;
-      return true;
+      board = $("#selected_boards [value="+board_id+"]")[0]
+      cycles = parseInt($("#campaign_bilbo_duration").val() || parseInt($(board).data('cycle-duration')));
+      budget = (desired_impressions * $(board).data('price')*cycles) || 0
+      budget = Math.ceil(budget*2)/2;
+      $("#budget-"+board_id).val(budget)
+      updateTotalBudget();
+    }
+
+    function updateTotalBudget(){
+      var x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
+      total_budget = 0
+      $.each(x, function(index, board_id){
+        total_budget += parseFloat($("#budget-"+board_id).val() || 0)
+      })
+      $("#total_budget")[0].innerHTML=currencyFormat(total_budget*parseInt($("#active_days").val()) || "0")
+    }
+
+    function currencyFormat(num) {
+      // console.log(num)
+      return '$' + (parseFloat(num) || 0.00).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
     function updateOnChanges(e, obj) {
@@ -346,7 +382,7 @@ $(document).on('turbolinks:load', function () {
       $('#selected_boards option:not(:eq(0))').each(function () {
         cycles =
           parseInt(
-            $('.wizard_selected_ad').find('.ad-duration').data('duration')
+            $("#campaign_bilbo_duration").val()
           ) || parseInt($(this).data('cycle-duration'));
         max_impr +=
           parseInt(($(this).data('max-impressions') * 10) / cycles) || 0;
@@ -422,7 +458,7 @@ $(document).on('turbolinks:load', function () {
     function computeImpressionsPerHour(budget){
       price = 0;
       $('#selected_boards option:not(:eq(0))').each(function() {
-        cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
+        cycles = parseInt($("#campaign_bilbo_duration").val() || parseInt($(this).data('cycle-duration')));
         price += $(this).data('price') * cycles;
       });
       impressions = parseInt(budget/price);
@@ -434,7 +470,7 @@ $(document).on('turbolinks:load', function () {
     function computeBudget(impressions){
       total_price = 0
       $('#selected_boards option:not(:eq(0))').each(function() {
-        cycles = parseInt($(".wizard_selected_ad").find(".ad-duration").data("duration")) || parseInt($(this).data('cycle-duration'));
+        cycles = parseInt($("#campaign_bilbo_duration").val() || parseInt($(this).data('cycle-duration')));
         board_price = impressions * $(this).data('price') * cycles;
         total_price += board_price;
       });
