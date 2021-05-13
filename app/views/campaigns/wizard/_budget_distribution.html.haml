@@ -1,0 +1,32 @@
+%tr.ht-85
+  %td.border-0
+    -if board.images.attachments.present?
+      - board.images.each do |image|
+        = image_tag image, class: "img wd-80 ht-80 rounded"
+    -else
+      = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-80 ht-80 rounded"
+  %td.border-0
+    %span{class: "#{'invisible' if !board.smart}"}
+      .badge.badge-info.wizard-badge-smart
+        %i.fe.fe-star
+        SMART
+    %h6.pd-t-10.tx-bold=board.name
+    %p.tx-12.tx-gray-2="#{t("bilbos.face")}: #{(board.face.in? ["north","south","east","west"])? I18n.t("bilbos.#{board.face}") : board.face.capitalize}"
+  %td.border-0
+    .row
+      %span.col-11
+        .input-group.pd-x-0
+          .input-group-prepend
+            %span.input-group-text.bg-transparent
+              $
+          %input.bd-l-0{id: "budget-#{board.id}", type: "number", :class => "form-control input-number", required: true, value: "#{BoardsCampaigns.find_by(campaign: @campaign, board: board).present?? BoardsCampaigns.find_by(campaign: @campaign, board: board).budget : ''}", placeholder: "#{board.minimum_budget}"}
+          .input-group-append
+            %span.input-group-text.bd-r-0.bg-transparent
+              %i.fe.fe-play
+          %input.bd-l-0{:id => "impressions-#{board.id}", :min => "1", :step => "1", :type => "number", :class => "form-control input-number"}
+          %span.d-none{id: "budget_error_message-#{board.id}"}=t('campaign.minimum_budget_per_bilbo', {name: board.name, min_budget: board.minimum_budget})
+        %input.d-none{:id => "minimum-#{board.id}", :readonly => "readonly", :type => "number", :value => "#{board.minimum_budget}"}
+        %input.d-none{:id => "board-class-#{board.id}", :value => t("bilbos.#{board.category}")}
+    .row.pd-t-10
+      %p.col-5.tx-12.tx-gray-3=t('campaign.daily_budget')
+      %p.col-6.tx-12.tx-gray-3=t('campaign.daily_spots')

@@ -118,6 +118,11 @@ td {
   border-color: #1C68F0 !important;
 }
 
+.wizard-badge-smart {
+  color: #0168f0;
+  background-color: #1c68f033;
+}
+
 .wizard_selected_ad_primary {
   border-width: 2px !important;
   border-color: #0168fa !important;
@@ -360,6 +365,18 @@ table.dataTable tbody tr:hover {
 
 .tx-line-through {
   text-decoration: line-through;
+}
+
+.tx-gray-1 {
+  color: #484e61;
+}
+
+.tx-gray-2 {
+  color: #676f8a;
+}
+
+.tx-gray-3 {
+  color: #acb6c8;
 }
 
 .b-r-100{

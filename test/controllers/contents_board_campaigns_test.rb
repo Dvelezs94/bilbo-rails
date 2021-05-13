@@ -8,8 +8,8 @@ class ContentsBoardCampaignsControllerTest < ActionDispatch::IntegrationTest
     @user = create(:user, name: @name, roles: "provider")
     @project = @user.projects.first
     @board = create(:board, project: @user.projects.first, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: 50000, provider_earnings: 40000, face: "north")
-    @campaign = create(:campaign, name: "raw", project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?, state: true)
-    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
+    @campaign = create(:campaign, name: "raw", project: @user.projects.first, project_id: @project.id, boards: [@board], provider_campaign: @user.is_provider?, state: true, budget_distribution: {"#{@board.id}": "50.0"}.to_json)
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1, budget: 50.0)
   end
 
   test "can get contents for wizard modal url" do
