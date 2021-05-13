@@ -13,27 +13,19 @@ class Mutations::CreateImpression < Mutations::BaseMutation
 
 
   def resolve(api_token:, board_slug:, campaign_id:, cycles:, created_at:, mutationid:)
-    impression = Impression.new(
-      board: Board.friendly.find(board_slug),
-      campaign_id: campaign_id.to_i,
-      cycles: cycles,
-      duration: Campaign.find(campaign_id).true_duration(board_slug),
-      created_at: created_at,
-      api_token: api_token
-    )
-
     begin
-      success = impression.save
+      impression = ProcessGraphqlImpressionsWorker.perform_async(api_token, board_slug, campaign_id.to_i, cycles, created_at)
+      # once processed, delete the impression on the player js
+      imp_action = "delete"
     rescue => e
       Bugsnag.notify(e)
+      # keep the impression since there was an error queuing the impression
+      imp_action = "keep"
     end
-    ##### CURRENTLY THE OBJECT IMPRESSION HAS NO USE IN STREAMING MANAGER #####
-      {
-        impression: impression,
-        mutationid: mutationid,
-        action: impression.action,
-        errors: [impression.errors.full_messages.join(", ")]
-      }
-
+    res = {
+      mutationid: mutationid,
+      action: imp_action
+    }
+    return res
   end
 end
