@@ -8,7 +8,7 @@ class Impression < ApplicationRecord
   belongs_to :board
   belongs_to :campaign
   before_create :set_prices
-  after_create :update_balance_and_remaining_impressions, :increase_campaign_impression_count, :update_people_reached, :continue_running_campaign
+  #after_create :update_balance_and_remaining_impressions, :increase_campaign_impression_count, :update_people_reached, :continue_running_campaign
 
   def action #is used to make the action in board
     @action  || "delete" #default action is delete in front, if specified then keep
