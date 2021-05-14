@@ -210,8 +210,9 @@ class Campaign < ApplicationRecord
       elsif classification == "per_hour" && self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5)
         return true
       end
+    else
+      return false
     end
-    return false
   end
 
   def remaining_impressions(board_id)
