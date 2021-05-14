@@ -3,6 +3,7 @@ class Impression < ApplicationRecord
   attribute :api_token
   attr_accessor :action
   validate :validate_api_token
+  validates_presence_of :uuid
   # validates_uniqueness_of :created_at, scope: [:board_id, :campaign_id]
   #validate :ten_seconds_validate_board_campaign
   belongs_to :board
