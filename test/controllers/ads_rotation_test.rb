@@ -309,7 +309,7 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     start_time -= 1.day if start_time >= end_time and Time.zone.now < end_time
     count = 0
     [campaign_1.board_campaigns.first.remaining_impressions, Faker::Number.between(from: 10, to: 500)].min.times do
-      Impression.create(campaign_id: campaign_1.id, board_id: @board.id, created_at: rand_time(start_time, end_time), api_token: @board.api_token, duration: campaign_1.duration)
+      Impression.create(uuid: Faker::Alphanumeric.alpha(number: 15), campaign_id: campaign_1.id, board_id: @board.id, created_at: rand_time(start_time, end_time), api_token: @board.api_token, duration: campaign_1.duration)
       count += 1
     end
     campaign_1.board_campaigns.update(update_remaining_impressions: true)
@@ -326,7 +326,7 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     campaign_1.board_campaigns.first.update(status: "approved", budget: 700)
     err = @board.update_ads_rotation(force_generate = true)
     campaign_1.board_campaigns.first.remaining_impressions.times do
-      Impression.create(campaign_id: campaign_1.id, board_id: @board.id, created_at: rand_time(start_time-1.day, end_time-1.day), api_token: @board.api_token, duration: campaign_1.duration)
+      Impression.create(uuid: Faker::Alphanumeric.alpha(number: 15), campaign_id: campaign_1.id, board_id: @board.id, created_at: rand_time(start_time-1.day, end_time-1.day), api_token: @board.api_token, duration: campaign_1.duration)
     end
     campaign_1.board_campaigns.update(update_remaining_impressions: true)
     assert_equal (campaign_1.budget_per_bilbo(@board)/(@board.get_cycle_price(campaign_1) * campaign_1.duration/@board.duration)).to_i, campaign_1.remaining_impressions(@board)
