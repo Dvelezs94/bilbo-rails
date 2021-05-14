@@ -2,10 +2,11 @@ class ProcessGraphqlImpressionsWorker
     include Sidekiq::Worker
     sidekiq_options retry: 2, backtrace: 10
   
-    def perform(api_token, board_slug, campaign_id, cycles, created_at)
+    def perform(mutation_id, api_token, board_slug, campaign_id, cycles, created_at)
         begin
              Impression.create!(
                 board: Board.friendly.find(board_slug),
+                uuid: mutation_id,
                 campaign_id: campaign_id,
                 cycles: cycles,
                 duration: Campaign.find(campaign_id).true_duration(board_slug),
@@ -17,13 +18,6 @@ class ProcessGraphqlImpressionsWorker
                 Bugsnag.notify("record not unique for impression with hour #{created_at} on board #{board_slug}")
             else
                 puts "====record not unique for impression with hour #{created_at}"
-            end
-        rescue => e
-            if !Rails.env.test? && !Rails.env.development?
-                SlackNotifyWorker.perform_async("Error al crear impresion para el board #{board_slug}. \n #{e}")
-            else
-                #puts "Error al crear impresion para el board #{board_slug}. \n #{e}"
-                puts "An error of type #{e.class} happened, message is #{e.message}"
             end
         end
     end
