@@ -57,12 +57,12 @@ class BoardCampaignsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "cant delete content for board campaign" do
-    @campaign_2 = create(:campaign, name: "rar", project: @user.projects.first, boards: [@board], project_id: @project.id, provider_campaign: @user.is_provider?, state: true, budget_distribution: {"#{@board.id}": "50.0"}.to_json)
-    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign_2.id , board_id: @board.id, status: 1, budget: 50.0)
+    @campaign_2 = create(:campaign, name: "rar", boards: [@board], project_id: @project.id, provider_campaign: @user.is_provider?, state: true, budget_distribution: {"#{@board.id}": "50.0"}.to_json)
+    @board_campaign_delete = create(:boards_campaigns, campaign_id: @campaign_2.id , board_id: @board.id, status: 1, budget: 50.0)
     @image_attachment = fixture_file_upload('test_image.png','image/png')
     post create_multimedia_contents_url, params: {  multimedia: @image_attachment }, xhr: true
     @content = @project.contents.first
-    @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
+    @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @board_campaign_delete.id)
     delete content_path(@content.id)
     assert_equal 1, @project.contents.size
   end
