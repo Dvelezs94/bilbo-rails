@@ -53,9 +53,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test "charge credits" do
     @campaign = create(:campaign, name: "test charge", project_id: @user.projects.first.id)
     @balance = @user.balance
-    @user.charge!(amount: 10, camp_id: @campaign.id)
+    @user.charge!(amount: 10)
     assert @balance - 10, @user.balance
-    assert @campaign.total_invested, 10
   end
 
   test "toggle ban" do

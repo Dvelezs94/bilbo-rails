@@ -14,7 +14,8 @@ class Mutations::CreateImpression < Mutations::BaseMutation
 
   def resolve(api_token:, board_slug:, campaign_id:, cycles:, created_at:, mutationid:)
     begin
-      impression = ProcessGraphqlImpressionsWorker.perform_async(api_token, board_slug, campaign_id.to_i, cycles, created_at)
+      mutation_short = mutationid.first(15)
+      ProcessGraphqlImpressionsWorker.perform_async(mutation_short, api_token, board_slug, campaign_id.to_i, cycles, created_at)
       # once processed, delete the impression on the player js
       imp_action = "delete"
     rescue => e
