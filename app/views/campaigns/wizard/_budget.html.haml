@@ -21,7 +21,7 @@
               %td.border-0.tx-gray-2="#{@campaign.active_days.to_s} #{t("week_days.days")}"
             %tr
               %td.border-0.tx-gray-3=t("campaign.dates")
-              %td.border-0.tx-gray-2="#{(I18n.l @campaign.starts_at, format: "%d-%b") if @campaign.starts_at.present?} #{t("campaign.wizard.to")} #{I18n.l(@campaign.ends_at, format: "%d-%b") if @campaign.ends_at.present?}"
+              %td.border-0.tx-gray-2="#{(I18n.l @campaign.starts_at, format: "%d-%b")} #{t("campaign.wizard.to")} #{I18n.l(@campaign.ends_at, format: "%d-%b")}" rescue t('campaign.wizard.ongoing_campaign')
             %tr
               %td.border-0.tx-gray-3=t("campaign.objective")
               %td.border-0.tx-gray-2=t("campaign.objectives.#{@campaign.objective}")
