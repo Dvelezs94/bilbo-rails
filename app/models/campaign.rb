@@ -462,7 +462,7 @@ class Campaign < ApplicationRecord
 
   def update_budget
     if budget_distribution.present?
-      total_budget = JSON.parse(budget_distribution).values.sum
+      total_budget = JSON.parse(budget_distribution).values.map{|x| x.to_f}.sum
       self.budget = total_budget
     end
   end
