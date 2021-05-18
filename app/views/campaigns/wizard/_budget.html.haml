@@ -1,28 +1,38 @@
-%h3= t('campaign.wizard.budget')
-%section.mg-t-30
-  %form
-    = hidden_field_tag :max_impressions, ''
-    %label.d-block= t('campaign.wizard.daily_budget_description')
-    .input-group.col-sm-12.col-md-6.col-xl-4.pd-x-0
-      .input-group-prepend
-        %span.input-group-text
-          $
-      = f.text_field :budget, :class => "form-control input-number", required: true
-      %span#budget_error_message.d-none= t('campaign.minimum_budget_per_bilbo')
-      .input-group-append
-        %span.input-group-text.pd-t-0.pd-b-0.pd-l-0.pd-r-10{"data-placement" => "top", "data-toggle" => "tooltip", :title => t('campaign.wizard.impressions_forecast')}
-          %input#impressions.input-group-text.border-0.text-center.no-outline-focus.pd-l-0.pd-r-0.input-number_integer{:min => "1", :step => "1", :type => "number"}
-            %i.pd-l-5.fe.fe-desktop
-    .col-4
-    .divider-text= t('campaign.wizard.campaign_duration')
-    .form-row
-      .col-12
-        .custom-control.custom-radio
-          = radio_button_tag "customRadio", "", @campaign.ongoing?, class: "custom-control-input", id: "ongoing_campaign"
-          %label.custom-control-label{:for => "ongoing_campaign"}= t('campaign.wizard.ongoing_campaign')
-        .custom-control.custom-radio
-          = radio_button_tag "customRadio", "", !@campaign.ongoing?, class: "custom-control-input", id: "date_campaign"
-          %label.custom-control-label{:for => "date_campaign"}= t('campaign.wizard.pick_date')
-      .col-12.form-row
-        .col-6= f.text_field :starts_at, :class => "form-control", placeholder: t('campaign.wizard.start_date')
-        .col-6= f.text_field :ends_at, :class => "form-control", placeholder: t('campaign.wizard.end_date')
+%h3.d-none=t("campaign.wizard.budget")
+%section
+  .row
+    .col-sm-12.col-md-12.col-lg-8.col-xl-8
+      %h3.tx-bold= t('campaign.wizard.budget')
+      %label.d-block= t('campaign.select_budget')
+      %div#tablebody.ht-350.mg-t-30.pos-relative
+        %table.table.wizard-table.border-0#tablebody
+          %tbody#budget_distribution
+    .col-sm-12.col-md-12.col-lg-4.col-xl-4
+      %h3.tx-bold= t('campaign.details')
+      %label.d-block= t('campaign.total_investment')
+      .table-responsive.ht-350.mg-t-30
+        %table.table.wizard-table.border-0
+          %tbody
+            %tr
+              %td.border-0.tx-gray-3=t("general_inputs.name")
+              %td.border-0.tx-gray-2=@campaign.name
+            %tr
+              %td.border-0.tx-gray-3=t("bilbos.duration")
+              %td.border-0.tx-gray-2="#{@campaign.active_days.to_s} #{t("week_days.days")}"
+            %tr
+              %td.border-0.tx-gray-3=t("campaign.dates")
+              %td.border-0.tx-gray-2="#{(I18n.l @campaign.starts_at, format: "%d-%b")} #{t("campaign.wizard.to")} #{I18n.l(@campaign.ends_at, format: "%d-%b")}" rescue t('campaign.wizard.ongoing_campaign')
+            %tr
+              %td.border-0.tx-gray-3=t("campaign.objective")
+              %td.border-0.tx-gray-2=t("campaign.objectives.#{@campaign.objective}")
+            %tr
+              %td.border-0.tx-gray-3=t("campaign.wizard.selected_bilbos")
+              %td.border-0.tx-gray-2{id: 'board_count'}
+            %tr
+              %td.border-0.tx-gray-3=t("bilbos.search.media_type")
+              %td.border-0.tx-gray-2{id: 'board_class'}
+            %tr
+              %td.border-0.h2="Total"
+              %td.border-0.h2.tx-gray-1{id: 'total_budget'}
+%input.d-none#active_days{"value": "#{@campaign.active_days}"}
+= f.hidden_field :budget_distribution, value: "", id: "budget_values"

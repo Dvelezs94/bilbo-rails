@@ -37,6 +37,15 @@ class Content < ApplicationRecord
     end
   end
 
+  # wether or not the content has already been processed
+  def processed?
+    if get_format == "html"
+      true  
+    else
+      multimedia_url(:large).present? ? true : false
+    end
+  end
+
   private
   def multimedia_or_url
     if url.present?

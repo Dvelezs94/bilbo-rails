@@ -176,17 +176,10 @@ class User < ApplicationRecord
     end
   end
 
-  def charge!(amount: 0, camp_id: nil)
+  def charge!(amount: 0)
     begin
       self.with_lock do
         self.update_column(:balance, self.balance -= amount.to_f)
-      end
-      # Increase total invested on campaign
-      if camp_id.is_a? Integer
-        camp = Campaign.find(camp_id)
-        camp.with_lock do
-          camp.update_column(:total_invested, camp.total_invested += amount.to_f)
-        end
       end
     rescue => e
       ## make sure we send an alert if the impressions fail to create

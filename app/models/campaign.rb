@@ -6,7 +6,7 @@ class Campaign < ApplicationRecord
   include ProjectConcern
   include ReviewBoardCampaignsConcern
   extend FriendlyId
-  attr_accessor :owner_updated_campaign, :content_ids
+  attr_accessor :owner_updated_campaign, :content_ids, :budget_distribution
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :impressions
@@ -14,12 +14,13 @@ class Campaign < ApplicationRecord
   has_many :impression_hours
   accepts_nested_attributes_for :impression_hours, reject_if: :all_blank, allow_destroy: true
   belongs_to :ad, optional: true
-  has_many :board_campaigns, class_name: "BoardsCampaigns"
+  has_many :board_campaigns, class_name: "BoardsCampaigns", before_add: :set_budget
   has_many :boards, through: :board_campaigns
   has_many :provider_invoices
   has_many :witnesses
   validate :duration_multiple_of_10, if: :duration_changed?
   validate :duration_multiple_of_10, on: :create
+  validate :valid_active_time, on: :create
   amoeba do
     enable
     include_association :impression_hours, if: :is_per_hour?
@@ -61,10 +62,10 @@ class Campaign < ApplicationRecord
   validate :check_build_ad_rotation, if: :provider_campaign
   validates :link, format: URI::regexp(%w[http https]), allow_blank: true
   after_validation :return_to_old_state_id_invalid
-  validate :budget_validation, if: :is_per_budget?
   before_save :update_state_updated_at, if: :state_changed?
   before_save :notify_in_a_week, if: :ad_id_changed?
   before_update :set_in_review_and_update_price
+  before_update :update_budget
   after_commit :broadcast_to_all_boards
   after_commit :create_content, if: :contents_present?
   after_update :update_bc
@@ -85,8 +86,8 @@ class Campaign < ApplicationRecord
 
   # Get the medium frecuency of the campaign per minute (1 impression every x minutes)
   def frequency
-    active_days = impressions.group_by_day(:created_at).count.keys
-    number_of_days = active_days.length
+    running_days = impressions.group_by_day(:created_at).count.keys
+    number_of_days = running_days.length
     total_minutes = boards.sum(&:working_minutes) * number_of_days
     freq = total_minutes.to_f / (impression_count * boards.count)
     freq.round(1)
@@ -156,8 +157,13 @@ class Campaign < ApplicationRecord
   end
 
   # distribute budget evenly between all bilbos
-  def budget_per_bilbo
-    self.budget / boards.length
+  def budget_per_bilbo(board)
+    if budget_distribution.present? #When editing a budget campaign we need to validate the new desired budget, not the one that is stored in the database
+      dist = JSON.parse(budget_distribution)
+      return dist["#{board.id}"].to_f
+    else
+      BoardsCampaigns.find_by(campaign: self, board: board).budget
+    end
   end
 
   def check_build_ad_rotation
@@ -187,16 +193,27 @@ class Campaign < ApplicationRecord
     #self.status == "active" check the status of campaign
     #self.budget > 0 Check that the budget is greater than 0 of campaign
     brd = Board.find(board_id)
+    if self.is_per_budget?
+      if budget_distribution.present?
+        dist = JSON.parse(budget_distribution)
+        campaign_budget = dist["#{board_id}"].to_f
+      else
+        campaign_budget = BoardsCampaigns.find_by(campaign: self, board: brd).budget
+      end
+    else
+      campaign_budget = 0.0 #if campaign is not per budget we initialize this variable as 0 so it can be compared with the minimum_budget of the board
+    end
     if self.status == "active" && self.state && campaign_active_in_board?(board_id) && time_to_run?(brd)
-      if classification == "budget" && self.budget >= 50 && self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5)
+      if classification == "budget" && campaign_budget >= brd.minimum_budget && self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5)
         return true
       elsif classification == "per_minute"
         return true
       elsif classification == "per_hour" && self.remaining_impressions(board_id) > 0 && (provider_campaign || project.owner.balance >= 5)
         return true
       end
+    else
+      return false
     end
-    return false
   end
 
   def remaining_impressions(board_id)
@@ -388,14 +405,6 @@ class Campaign < ApplicationRecord
     self.per_minute?
   end
 
-  def budget_validation
-    if budget.present?
-      if budget_per_bilbo < 50
-        errors.add(:base, I18n.t('campaign.minimum_budget_per_bilbo'))
-      end
-    end
-  end
-
   def create_content
     #create relation ContentsBoardCampaign
     @boards_campaigns_delete = []
@@ -429,4 +438,34 @@ class Campaign < ApplicationRecord
       end
     }
   end
+
+  def active_days
+    begin
+      ((self.ends_at - self.starts_at)/1.days + 1).to_i
+    rescue
+      #Campaign do not have starts_at or ends_at
+      1
+    end
+  end
+
+  def valid_active_time
+    if starts_at.nil? or ends_at.nil?
+      errors.add(:base, I18n.t('campaign.missing_date'))
+    end
+  end
+
+  def set_budget(board_campaign)
+    if budget_distribution.present?
+      dist = JSON.parse(budget_distribution)
+      board_campaign.budget = dist[board_campaign.board_id.to_s].to_f
+    end
+  end
+
+  def update_budget
+    if budget_distribution.present?
+      total_budget = JSON.parse(budget_distribution).values.map{|x| x.to_f}.sum
+      self.budget = total_budget
+    end
+  end
+
 end

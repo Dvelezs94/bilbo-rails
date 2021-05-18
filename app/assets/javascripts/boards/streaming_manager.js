@@ -21,6 +21,18 @@
        setInterval(requestAdsRotation,86400000) // 1 day interval (ms)
      },(timeUntilNextStart()-5)*1000) //Time for next start hour of the board
 
+     // reload Bilbo after running 24 hours straight
+     setTimeout(function(){ window.location.reload() }, 86400000);
+
+     //reload all iframes every hour
+     setInterval(function(){
+       var d = new Date();
+       //console.log("reloading iframes at: " + d.toDateString())
+       $('iframe').each(function() {
+         this.src = this.src;
+       });
+     }, 3600000) //run every hour of the day
+
      // Start stream
        rotation_key = getIndex($("#start_time").val());
        $(".board-ads").attr('style', 'display:block !important');
@@ -44,13 +56,7 @@
           cycles: 1,
           createdAt: $created_at
         }) {
-          impression {
-            id
-            totalPrice
-            createdAt
-          }
           mutationid
-          errors
           action
         }
       `);
@@ -71,18 +77,23 @@
        try {
          graph.commit('buildImpression').then(function(response) {
            // All base fields will be in response return.
-           // console.log("Response");
-           // console.log(response);
+          //  console.log("Response");
+          //  console.log(response);
            // console.log("DisplayedAdsAntes");
            // console.log(displayedAds);
            // console.log(displayedAds.length);
            response["createImpression"].forEach((value, index) => {
              // console.log("ACTION");
              // console.log(value["action"]);
-             if (value["action"] != "delete") return;
-             displayedAds = displayedAds.filter((impression) => {
-               return impression.mutationid != value["mutationid"]
-             });
+             // if action is not delete, then keep it because it means there was an error
+            //  console.log(value);
+             if (value["action"] != "delete") {
+              return;
+             } else {
+              displayedAds = displayedAds.filter((impression) => {
+                return impression.mutationid != value["mutationid"]
+              });
+             }
            });
            // console.log("DisplayedAdsDespues");
            // console.log(displayedAds);

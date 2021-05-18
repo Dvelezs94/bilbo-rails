@@ -1,4 +1,4 @@
-#modalContent.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+#modalContent.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", "data-images-only": "#{@board.images_only?}"}
   .modal-dialog.modal-dialog-centered.modal-lg{:role => "document"}
     .modal-content
       %input#board_slug.d-none{:readonly => "readonly", :value => "#{@slug}"}/

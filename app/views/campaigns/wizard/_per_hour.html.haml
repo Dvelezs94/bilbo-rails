@@ -10,16 +10,3 @@
       .links.w-100.d-flex.justify-content-center.mg-t-10
         = link_to_add_association I18n.t('campaign.add_schedule'), f, :impression_hours, class: "text-light btn btn-primary", :id => "add_schedule", :onclick => "buttonCount();"
         %span#button_schedule_error_message.d-none= t('campaign.must_add_schedule')
-    .col-4
-    .divider-text= t('campaign.wizard.campaign_duration')
-    .form-row
-      .col-12
-        .custom-control.custom-radio
-          = radio_button_tag "customRadio", "", @campaign.ongoing?, class: "custom-control-input", id: "ongoing_campaign"
-          %label.custom-control-label{:for => "ongoing_campaign"}= t('campaign.wizard.ongoing_campaign')
-        .custom-control.custom-radio
-          = radio_button_tag "customRadio", "", !@campaign.ongoing?, class: "custom-control-input", id: "date_campaign"
-          %label.custom-control-label{:for => "date_campaign"}= t('campaign.wizard.pick_date')
-      .col-12.form-row
-        .col-6= f.text_field :starts_at, :class => "form-control", placeholder: t('campaign.wizard.start_date')
-        .col-6= f.text_field :ends_at, :class => "form-control", placeholder: t('campaign.wizard.end_date')
