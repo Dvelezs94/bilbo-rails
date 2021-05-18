@@ -531,7 +531,7 @@ module AdRotationAlgorithm
     # current index at first, so we can maximize the earnings
     st = Time.parse(board.start_time.strftime("%H:%M"))
     et = Time.parse(board.end_time.strftime("%H:%M"))
-    ct = Time.parse(Time.zone.now.strftime("%H:%M:%S"))
+    ct = Time.now.utc + self.utc_offset.minutes
     et = et+1.day if et<=st
     rotation_key = 0
     if ct.between?(st,et)
