@@ -42,12 +42,15 @@
                 %i.fe.fe-clock.mg-r-5
                 = t('campaign.6_months')
       .d-none.d-md-block
-        = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-3' do
-          %i.fe.fe-download
-          = t('dashboards.export_to_csv')
-        %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()', 'style' => "margin-right: 5px;" }
-          %i.fe.fe-print
-          = t('dashboards.print')
+        = form_with(model: @witness, local: true) do |form|
+          = form.hidden_field :campaign_id, value: "#{@campaign.id}"
+          = form.submit "Solicitar Testigos", class: 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-3'
+          %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()'}
+            %i.fe.fe-print
+            = t('dashboards.print')
+          = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-3', 'style' => "margin-right: 5px;" do
+            %i.fe.fe-download
+            = t('dashboards.export_to_csv')
   .row.row-xs
     = render 'campaigns/user_charts/top_cards'
     = render 'campaigns/user_charts/daily_impressions'
@@ -55,6 +58,7 @@
     = render 'campaigns/user_charts/peak_hours'
     = render 'campaigns/user_charts/qr_tracking' if @campaign.interaction?
     = render 'campaigns/user_charts/history_data'
+    = render 'campaigns/user_charts/witnesses'
     = render 'campaigns/user_charts/campaign_activity'
   .card.card-body.ht-lg-100.mg-t-10
     .media

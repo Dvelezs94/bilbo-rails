@@ -732,6 +732,14 @@ es:
         subject: <strong>%{user_name}</strong> fue eliminado del proyecto
         message: <strong>%{user_name}</strong> fue eliminado del proyecto
         url_string: Ir al proyecto
+      evidences:
+        subject: La campaña <strong>%{campaign_name}</strong> solicita testigos
+        message: La campaña <strong>%{campaign_name}</strong> solicita testigos
+        url_string: Subir evidencias
+      witness:
+        subject: Testigos de la campaña <strong>%{campaign_name}</strong>
+        message: Testigos de la campaña <strong>%{campaign_name}</strong>
+        url_string: Ir a campaña
     report:
       weekly_ready:
         subject: Tu reporte semanal está listo para descargar
