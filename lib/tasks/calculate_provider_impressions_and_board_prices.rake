@@ -4,8 +4,9 @@ namespace :calculate_provider_impressions_and_board_prices do
     p "=== Empezando a actualizar boards"
     Board.all.each do |board|
       begin
-        price = board.base_earnings * 0.80
-        board.update_columns(provider_earnings: price)
+        current_base_earnings = board.base_earnings * 1.20
+        new_base_earnings = board.base_earnings * 1.5
+        board.update_columns(provider_earnings: current_base_earnings, base_earnings: new_base_earnings)
       rescue
         "Error al actualizar el board #{board.name}"
       end
@@ -13,7 +14,7 @@ namespace :calculate_provider_impressions_and_board_prices do
     p "Se han terminado de actualizar los boards"
 
     p "=== Empezando a actualizar impresiones"
-    Impression.all.each do |imp|
+    Impression.where("total_price > ?", 0.0).all.each do |imp|
       begin
         imp.update_columns(provider_price: (imp.total_price * 0.80).round(3))
       rescue => e

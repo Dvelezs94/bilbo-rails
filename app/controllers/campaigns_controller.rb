@@ -156,8 +156,10 @@ class CampaignsController < ApplicationController
         end
       end
     rescue => e
-      format.json { render json: @campaign.errors, status: :unprocessable_entity }
-      raise e
+      respond_to do |format|
+        format.json { render json: @campaign.errors, status: :unprocessable_entity }
+        raise e
+      end
     end
   end
 
@@ -165,13 +167,14 @@ class CampaignsController < ApplicationController
     @campaign = Campaign.new(create_params)
       if @campaign.save
         track_activity(action: 'campaign.campaign_created', activeness: @campaign)
+        if @campaign.interaction?
+          render "create_interaction"
+        else
+          redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
+        end
       else
         flash[:error] = I18n.t('campaign.errors.no_save')
-      end
-      if @campaign.interaction?
-        render "create_interaction"
-      else
-        redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
+        redirect_to campaigns_path
       end
   end
 
@@ -273,13 +276,10 @@ class CampaignsController < ApplicationController
   private
 
   def campaign_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :starts_at, :ends_at, :budget, :link, :imp, :minutes, :duration, :content_ids, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :budget, :link, :imp, :minutes, :duration, :content_ids, :budget_distribution, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
     if @campaign_params[:boards].present?
       @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
     end
-
-    @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
-    @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
 
     if @campaign_params[:budget].present?
       @campaign_params[:budget] = @campaign_params[:budget].tr(",","").to_f
@@ -291,8 +291,10 @@ class CampaignsController < ApplicationController
   end
 
   def create_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :classification, :link, :objective).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :classification, :link, :objective, :starts_at, :ends_at).merge(:project_id => @project.id)
     @campaign_params[:provider_campaign] = @project.classification == 'provider'
+    @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
+    @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
     @campaign_params
   end
 

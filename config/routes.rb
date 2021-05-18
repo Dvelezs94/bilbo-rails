@@ -34,6 +34,8 @@ Rails.application.routes.draw do
       get :new_multimedia
       get :new_url
       get :create_content_on_campaign
+      post :create_multimedia
+      post :create_url
     end
   end
 
@@ -41,6 +43,9 @@ Rails.application.routes.draw do
     collection do
       get :get_contents_wizard_modal
       get :get_selected_content
+    end
+    member do
+      get :fetch_single_wizard_content
     end
   end
 

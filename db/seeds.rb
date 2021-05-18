@@ -85,11 +85,15 @@ if ENV.fetch("RAILS_ENV") != "production"
             ad.campaigns.create! do |cp|
               cp.name    = "#{Faker::Company.name} #{Faker::Commerce.product_name}"
               cp.budget  = Faker::Number.between(from: 500, to: 5000)
-              cp.state   = Faker::Boolean.boolean
               cp.status  = Faker::Number.between(from: 0, to: 1)
+              dist = (1..Board.count).to_a.sample(Faker::Number.between(from: 2, to: 7)).map{|id| ["#{id}", "#{Faker::Number.between(from: 500, to:5000)}"]}.to_h
+              cp.budget_distribution = dist.to_json
+              cp.boards  = Board.where(id: dist.keys)
               cp.project = ad.project
-              cp.boards  = Board.order('RANDOM()').first(Faker::Number.between(from: 2, to: 7))
               cp.provider_campaign = false
+              cp.starts_at = (rand*365).days.ago.beginning_of_day
+              cp.ends_at = cp.starts_at + (rand*30 + 1).to_i.days
+              cp.state   = Faker::Boolean.boolean
             end
           end
         end
@@ -106,6 +110,7 @@ if ENV.fetch("RAILS_ENV") != "production"
       rand(*100).times do
         board.impressions.create! do |im|
           im.campaign = cp
+          im.uuid = Faker::Alphanumeric.alpha(number: 15)
           im.created_at = (rand*365).days.ago
           im.api_token = board.api_token
           im.duration = cp.ad.duration

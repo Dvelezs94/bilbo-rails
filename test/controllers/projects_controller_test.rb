@@ -20,13 +20,13 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "user has 2 projects" do
-    @new_project_name = "videl"
+    @new_project_name = "Videl"
 
     assert_difference 'Project.count', 1 do
       post projects_url, params: { project: { name: @new_project_name } }
     end
 
-    assert_equal ["Gohan", @new_project_name], @user.projects.pluck(:name)
+    assert_equal ["Gohan", @new_project_name], @user.projects.order(id: :asc).pluck(:name)
   end
 
   test "can remove project" do

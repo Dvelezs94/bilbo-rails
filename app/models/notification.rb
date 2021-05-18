@@ -106,15 +106,17 @@ class Notification < ApplicationRecord
   private
 
   def notificate_recipients
-    # notify each user by email
-     notif_body = self.build_notification_body
-    recipient.users.each do |user|
-      NotificationMailer.new_notification(user: user, message: ActionView::Base.full_sanitizer.sanitize(notif_body[:message]),
-        subject: ActionView::Base.full_sanitizer.sanitize(notif_body[:subject]),
-        link: notif_body[:url], link_text: notif_body[:url_string]).deliver
+    if !Rails.env.test?
+      # notify each user by email
+      notif_body = self.build_notification_body
+      recipient.users.each do |user|
+        NotificationMailer.new_notification(user: user, message: ActionView::Base.full_sanitizer.sanitize(notif_body[:message]),
+          subject: ActionView::Base.full_sanitizer.sanitize(notif_body[:subject]),
+          link: notif_body[:url], link_text: notif_body[:url_string]).deliver
 
-      if sms && user.phone_number.present?
-        send_sms(user.phone_number, "#{ActionView::Base.full_sanitizer.sanitize(notif_body[:message])}. #{notifications_url}")
+        if sms && user.phone_number.present?
+          send_sms(user.phone_number, "#{ActionView::Base.full_sanitizer.sanitize(notif_body[:message])}. #{notifications_url}")
+        end
       end
     end
   end
