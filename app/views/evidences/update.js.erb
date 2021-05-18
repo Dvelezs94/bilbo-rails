@@ -1,0 +1,6 @@
+$('#evidences-<%=@evidence.board.slug%>').html("<%= j render partial: 'evidences/show_selected_evidences' %>");
+remove_on_click()
+hover_img();
+if($("#modalNewMultimedia").length){
+  $('#modalNewMultimedia').modal('hide');
+}

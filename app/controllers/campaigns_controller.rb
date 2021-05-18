@@ -12,6 +12,9 @@ class CampaignsController < ApplicationController
     @purchased_credits = current_user.payments.present?
     @verified_profile = current_user.verified
     @show_hint = !(@created_ads && @created_campaigns && @purchased_credits && @verified_profile)
+    if params[:witness].present?
+      @witness = Witness.find(params[:witness])
+    end
   end
 
   def provider_index
@@ -55,6 +58,8 @@ class CampaignsController < ApplicationController
     @date_end = DateTime.parse(params[:date_end]) rescue Time.zone.now
     @campaign = Campaign.includes(:boards, :impressions).friendly.find(params[:id])
     @history_campaign = UserActivity.where( activeness: @campaign).order(created_at: :desc)
+    @witnesses = @campaign.witnesses.order(created_at: :desc)
+    @witness = Witness.new
     @campaign_impressions = time_range_init(@date_start, @date_end)
     @impressions = Impression.where(campaign: @campaign, created_at: @date_start..@date_end)
     @total_invested = @campaign.total_invested
