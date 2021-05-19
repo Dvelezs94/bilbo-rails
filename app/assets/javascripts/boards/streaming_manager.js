@@ -11,37 +11,40 @@
      // starts depending on the hour
      var rotation_key = 0;
      // create the impressions every 60 seconds
-     setInterval(createImpression, 60000);
-     // Convert seconds to milliseconds
-     board_duration = parseInt($("#duration").val()) * 1000;
+     if(initializePlayer()){
+       setInterval(createImpression, 60000);
+       // Convert seconds to milliseconds
+       board_duration = parseInt($("#duration").val()) * 1000;
 
-     //request a new ads_rotation at the beginning of each day
-     setTimeout(function(){
-       requestAdsRotation();
-       setInterval(requestAdsRotation,86400000) // 1 day interval (ms)
-     },(timeUntilNextStart()-5)*1000) //Time for next start hour of the board
+       //request a new ads_rotation at the beginning of each day
+       setTimeout(function(){
+         requestAdsRotation();
+         setInterval(requestAdsRotation,86400000) // 1 day interval (ms)
+       },(timeUntilNextStart()-5)*1000) //Time for next start hour of the board
 
-     // reload Bilbo after running 24 hours straight
-     setTimeout(function(){ window.location.reload() }, 86400000);
+       // reload Bilbo after running 24 hours straight
+       setTimeout(function(){ window.location.reload() }, 86400000);
 
-     //reload all iframes every hour
-     setInterval(function(){
-       var d = new Date();
-       //console.log("reloading iframes at: " + d.toDateString())
-       $('iframe').each(function() {
-         this.src = this.src;
-       });
-     }, 3600000) //run every hour of the day
+       //reload all iframes every hour
+       setInterval(function(){
+         var d = new Date();
+         //console.log("reloading iframes at: " + d.toDateString())
+         $('iframe').each(function() {
+           this.src = this.src;
+         });
+       }, 3600000) //run every hour of the day
 
-     // Start stream
-       rotation_key = getIndex($("#start_time").val());
-       $(".board-ads").attr('style', 'display:block !important');
-       // give 5 seconds to load all images and videos
-       setTimeout(function() {
-         showAd();
-         rotateAds = setInterval(showAd, board_duration);
-       }, 5000);
-
+       // Start stream
+         rotation_key = getIndex($("#start_time").val());
+         $(".board-ads").attr('style', 'display:block !important');
+         // give 5 seconds to load all images and videos
+         setTimeout(function() {
+           showAd();
+           rotateAds = setInterval(showAd, board_duration);
+         }, 5000);
+     } else {
+       alert("La hora del sistema no coincide con la hora del servidor\nAjuste la hora e intente nuevamente\nHora del servidor: "+$("#server_time").val());
+     }
 
      ///////////////////// FUNCTIONS  /////////////////////
 
@@ -308,6 +311,25 @@ function isWorkTime(start, end) {
         console.log("error retrieving new ads rotation");
       }
     })
+  }
+
+  function initializePlayer(){
+    server_hours = parseInt($("#server_time").val().split(':')[0]);
+    server_minutes = parseInt($("#server_time").val().split(':')[1]);
+    server_minutes = server_minutes + server_hours*60;
+
+    player_time = new Date();
+    player_hours = player_time.getHours();
+    player_minutes = player_time.getMinutes();
+    player_minutes = player_minutes + player_hours*60;
+
+    time_difference = Math.abs(player_minutes - server_minutes);
+
+    if(time_difference > 5 && Math.abs(player_minutes+server_minutes - 1440) > 5){
+      Bugsnag.notify("La hora del sistema en el bilbo " + board_slug + " no coincide con la hora del servidor\nHora del servidor: "+ $("#server_time").val() + "\nHora del sistema: " + player_hours + ':' + player_minutes);
+      return false;
+    }
+    return true
   }
 
   function timeUntilNextStart(){
