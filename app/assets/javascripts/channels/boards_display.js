@@ -10,8 +10,7 @@ $(document).on('turbolinks:load', function() {
       received: function(data) {
         // Called when the admin want reload the board
         if( data['action'] == "reload" ) {
-        url = window.location.href;
-        Turbolinks.visit(location.toString());
+          window.location.reload();
         }
         // Called when there's incoming data on the websocket for this channel
         if( data['action'] == "enable" ) {
