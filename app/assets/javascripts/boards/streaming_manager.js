@@ -321,11 +321,13 @@ function isWorkTime(start, end) {
     player_time = new Date();
     player_hours = player_time.getHours();
     player_minutes = player_time.getMinutes();
-    player_minutes = player_minutes + player_hours*60;
+    player_total_minutes = player_minutes + player_hours*60;
 
-    time_difference = Math.abs(player_minutes - server_minutes);
+    time_difference = Math.abs(player_total_minutes - server_minutes);
+    // this calculation is for the time difference when one time is around 23:xx and the other is around 00:xx
+    low, high = [server_minutes, player_total_minutes].sort(function(a,b){return a-b;});
 
-    if(time_difference > 5 && Math.abs(player_minutes+server_minutes - 1440) > 5){
+    if(time_difference > 5 && (1440 - high) + low > 5){
       Bugsnag.notify("La hora del sistema en el bilbo " + board_slug + " no coincide con la hora del servidor\nHora del servidor: "+ $("#server_time").val() + "\nHora del sistema: " + player_hours + ':' + player_minutes);
       return false;
     }
