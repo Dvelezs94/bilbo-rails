@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_225153) do
+ActiveRecord::Schema.define(version: 2021_05_18_215719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -252,7 +252,9 @@ ActiveRecord::Schema.define(version: 2021_05_07_225153) do
     t.bigint "witness_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "slug"
     t.index ["board_id"], name: "index_evidences_on_board_id"
+    t.index ["slug"], name: "index_evidences_on_slug", unique: true
     t.index ["witness_id"], name: "index_evidences_on_witness_id"
   end
 
@@ -406,7 +408,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_225153) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-05-07 21:47:01"
+    t.datetime "expires_at", default: "2031-05-20 22:06:52"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
@@ -495,10 +497,10 @@ ActiveRecord::Schema.define(version: 2021_05_07_225153) do
 
   create_table "witnesses", force: :cascade do |t|
     t.integer "status", default: 0
-    t.string "slug"
     t.bigint "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "slug"
     t.index ["campaign_id"], name: "index_witnesses_on_campaign_id"
     t.index ["slug"], name: "index_witnesses_on_slug", unique: true
   end

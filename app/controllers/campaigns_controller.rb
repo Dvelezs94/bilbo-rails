@@ -13,7 +13,7 @@ class CampaignsController < ApplicationController
     @verified_profile = current_user.verified
     @show_hint = !(@created_ads && @created_campaigns && @purchased_credits && @verified_profile)
     if params[:witness].present?
-      @witness = Witness.find(params[:witness])
+      @witness = Witness.friendly.find(params[:witness])
     end
   end
 

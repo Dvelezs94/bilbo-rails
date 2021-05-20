@@ -71,4 +71,4 @@
 -if current_user.is_user? && current_user.sign_in_count == 0
   = render partial: "campaigns/business_type"
 -if current_user.is_provider? && @witness.present?
-  = render "witnesses/new_evidences"
+  = render "witnesses/upload_evidences"

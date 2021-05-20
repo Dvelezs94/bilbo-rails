@@ -744,10 +744,10 @@ es:
       evidences:
         subject: La campaña <strong>%{campaign_name}</strong> solicita testigos
         message: La campaña <strong>%{campaign_name}</strong> solicita testigos
-        url_string: Subir evidencias
+        url_string: Subir evidencia
       witness:
-        subject: Testigos de la campaña <strong>%{campaign_name}</strong>
-        message: Testigos de la campaña <strong>%{campaign_name}</strong>
+        subject: Solicitud de testigos completada <strong>%{campaign_name}</strong>
+        message: Solicitud de testigos completada <strong>%{campaign_name}</strong>
         url_string: Ir a campaña
     report:
       weekly_ready:
@@ -844,3 +844,23 @@ es:
     adding_content: Falta agregar contenidos a bilbos
     playback_duration: Duración de reproducción
     content_selected: Selecciona el contenido a mostrar en cada bilbo
+  evidence:
+    witnesses: Testigos
+    upload_file: Subir archivo
+    upload_evidence_description: Aquí podras subir las evidencias de las campañas que solicitan testigos
+    upload_evidence_description_2: Si requieres evidencia de tu campaña activa en los bilbos seleccionados, solicítala aquí
+    bilbo_selected: Bilbo seleccionado
+    files: Archivos
+    pending: Pendiente
+    view: Ver
+    succesfully: Evidencias creadas con éxito
+    error: Error al crear evidencias
+    upload_evidences: Subir archivos para testigos
+    request: Fecha de petición
+  witness:
+    succesfully: Testigos solicitados con éxito
+    error: Error al solicitar testigos
+    without_bilbos: La campaña no cuenta con bilbos aprobados
+    campaign_active: La campaña no se encuentra activa
+    validate_weekly_generation: Sólo esta permitido crear testigos una vez cada siete dias
+    request_witnesses: Solicitar testigos

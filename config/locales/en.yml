@@ -733,6 +733,14 @@ en:
         subject: <strong>%{user_name}</strong> was removed from the project
         message: <strong>%{user_name}</strong> was removed from the project
         url_string: Go to project
+      evidences:
+        subject: The <strong>%{campaign_name}</strong> campaign requests witnesses
+        message: The <strong>%{campaign_name}</strong> campaign requests witnesses
+        url_string: Upload evidence
+      witness:
+        subject: Witness Request Completed <strong>%{campaign_name}</strong>
+        message: Witness Request Completed <strong>%{campaign_name}</strong>
+        url_string: Ir a campaña
     report:
       weekly_ready:
         subject: Your weekly report is ready to be downloaded
@@ -828,3 +836,23 @@ en:
     adding_content: Adding content to bilbo's is missing
     playback_duration: Playback duration
     content_selected: Select the content to display in each bilbo
+  evidence:
+    witnesses: Witnesses
+    upload_file: Upload file
+    upload_evidence_description: Here you can upload the evidence of the campaigns that request witnesses
+    upload_evidence_description_2: If you require evidence of your active campaign in the selected bilbos, request it here
+    bilbo_selected: Bilbo selected
+    files: Files
+    pending: Pending
+    view: View
+    succesfully: Evidences successfully created
+    error: Error creating evidences
+    upload_evidences: Upload files for witnesses
+    reques: Request date
+  witness:
+    succesfully: Witnesses successfully requested
+    error: Error requesting witnesses
+    without_bilbos: The campaign does not have approved bilbos
+    campaign_active: The campaign is not active
+    validate_weekly_generation: It is only allowed to create witnesses once every seven days
+    request_witnesses: Request witnesses
