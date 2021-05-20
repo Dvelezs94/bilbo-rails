@@ -52,5 +52,8 @@ class DashboardsController < ApplicationController
       @percentage_top_4 = '%.2f' %(100.to_f - @percentage_top_1.to_f - @percentage_top_2.to_f - @percentage_top_3.to_f)
       @others_earnings = @substraction_tops - @tops.first[2] - @tops.second[2] - @tops.third[2]
     end
+    if params[:witness].present?
+      @witness = Witness.friendly.find(params[:witness])
+    end
   end
 end

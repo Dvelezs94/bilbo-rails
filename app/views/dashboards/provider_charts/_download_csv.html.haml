@@ -1,0 +1,13 @@
+.card.mg-t-10
+  .card-header
+    %h6.mg-b-0.tx-bold
+      = t('dashboards.download_report_in_csv')
+  .card-body.ht-lg-100{:style => "height: 255px;"}
+    .media
+      .media-body.mg-l-20
+        %p.tx-15.tx-color-03.mg-b-0.pd-t-10
+          = t('dashboards.download_report_in_csv_description')
+        .mg-l-auto.text-right
+          %span
+            = link_to generate_provider_report_csv_index_path, class: 'tx-color-04' do
+              %i.ht-60.fnt-xlg.fe.fe-download.tx-50

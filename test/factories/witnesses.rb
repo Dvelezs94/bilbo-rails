@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :witness do
-    status { 1 }
-    campaign { nil }
-    evidence { nil }
+    status { 0 }
+    campaign { }
+    evidence { }
   end
 end

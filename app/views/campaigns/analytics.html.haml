@@ -44,7 +44,7 @@
       .d-none.d-md-block
         = form_with(model: @witness, local: true) do |form|
           = form.hidden_field :campaign_id, value: "#{@campaign.id}"
-          = form.submit "Solicitar Testigos", class: 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-3'
+          = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-3'
           %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()'}
             %i.fe.fe-print
             = t('dashboards.print')
@@ -60,12 +60,17 @@
     = render 'campaigns/user_charts/history_data'
     = render 'campaigns/user_charts/witnesses'
     = render 'campaigns/user_charts/campaign_activity'
-  .card.card-body.ht-lg-100.mg-t-10
-    .media
-      %span.tx-color-04
-        %a.tx-color-04{:href => "#{generate_campaign_report_csv_index_path(campaign: @campaign.id)}"}
-          %i.ht-60.fe.fe-download.tx-50
-      .media-body.mg-l-20
-        %h6.mg-b-10= t('dashboards.download_report_in_csv')
-        %p.tx-color-03.mg-b-0
-          = t('dashboards.download_report_in_csv_description')
+    .col-md-4.col-xl-4.mg-t-10.order-md-3
+      .card
+        .card-header
+          %h6.mg-b-0.tx-bold
+            = t('dashboards.download_report_in_csv')
+        .card-body.ht-lg-100{:style => "height: 255px;"}
+          .media
+            .media-body.mg-l-20
+              %p.tx-color-03.mg-b-0
+                = t('dashboards.download_report_in_csv_description')
+              .mg-l-auto.text-center
+                %span.tx-color-04
+                  %a.tx-color-04{:href => "#{generate_campaign_report_csv_index_path(campaign: @campaign.id)}"}
+                    %i.ht-60.fnt-xlg.fe.fe-download.tx-50

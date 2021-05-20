@@ -28,11 +28,9 @@ class EvidencesController < ApplicationController
   def create
     evidence = Evidence.new(evidence_params)
     if evidence.save
-      flash[:success] = "Evidencia creada con éxito"
-      #redirect_to analytics_campaign_path(@campaign.slug)
+      flash[:success] = I18n.t('evidence.succesfully')
       else
-        flash[:error] = "Error"
-        #redirect_to analytics_campaign_path(@campaign.slug)
+      flash[:error] = I18n.t('evidence.error')
       end
   end
 
@@ -42,8 +40,9 @@ class EvidencesController < ApplicationController
       @evidence.multimedia_derivatives!
     end
     if @evidence.save
-
+      @success_message = I18n.t('evidence.succesfully')
     else
+      @error_message = I18n.t('evidence.error')
     end
   end
 

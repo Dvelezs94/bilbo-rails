@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :evidence do
-    multimedia { "MyString" }
-    board { nil }
+    multimedia_data { }
+    board { }
   end
 end
