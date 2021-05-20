@@ -12,7 +12,7 @@ class Board < ApplicationRecord
   has_many :board_sales
   has_many :sales, through: :board_sales
   has_many :witnesses
-  validate :dont_edit_online, if: :connected?
+  # validate :dont_edit_online, if: :connected?
   has_many_attached :images
   has_many_attached :default_images
   before_save :generate_access_token, :if => :new_record?
@@ -42,6 +42,7 @@ class Board < ApplicationRecord
     super.nil?? 0  : super
   end
   ###################################################
+
 
   def di_images
     default_images.select(&:image?)
