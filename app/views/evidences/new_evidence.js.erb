@@ -1,3 +1,3 @@
 $("#modalNewEvidence").remove();
-$('body').append('<%= j (render "evidences/new_evidence", :locals => {:evidence => @evidence}) %>');
+$('body').append('<%= j (render "evidences/new_evidence_modal", :locals => {:evidence => @evidence}) %>');
 $("#modalNewEvidence").modal('show');
