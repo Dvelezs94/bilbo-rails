@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   end
 
   post "/api", to: "graphql#execute"
+  mount Bilbo::API => '/'
 
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", sessions: "sessions", invitations: "users/invitations" }
   root :to => 'dashboards#index'
