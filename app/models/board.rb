@@ -11,7 +11,7 @@ class Board < ApplicationRecord
   has_many :impressions
   has_many :board_sales
   has_many :sales, through: :board_sales
-  has_many :witnesses
+  has_many :evidences, dependent: :delete_all
   # validate :dont_edit_online, if: :connected?
   has_many_attached :images
   has_many_attached :default_images
