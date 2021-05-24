@@ -3,10 +3,10 @@ class Witness < ApplicationRecord
   extend FriendlyId
   friendly_id :friendly_uuid, use: :slugged
   belongs_to :campaign
-  has_many :evidences
+  has_many :evidences, dependent: :delete_all
   enum status: { pending: 0, ready: 1 }
   after_create :create_notification_evidence
-  accepts_nested_attributes_for :evidences
+
 
   def friendly_uuid
       SecureRandom.uuid

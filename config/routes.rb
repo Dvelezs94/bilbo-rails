@@ -49,13 +49,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :witnesses do
+  resources :witnesses, only: [ :show, :create, :edit, :update] do
     member do
     get  :evidences_witness_modal
     end
   end
 
-  resources :evidences do
+  resources :evidences, only: [:update] do
     member do
       get :new_evidence
     end

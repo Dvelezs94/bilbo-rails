@@ -1,15 +1,8 @@
 class WitnessesController < ApplicationController
   before_action :get_campaign, only:[:create, :validate_weekly_generation]
   before_action :validate_weekly_generation, only:[:create]
-  before_action :set_witness, only: [:show, :edit, :update, :destroy, :evidences_witness_modal]
-  access all: [ :new, :edit, :create, :update, :destroy], user: :all
-
-  def new
-    @witness = Witness.new
-  end
-
-  def edit
-  end
+  before_action :set_witness, only: [:evidences_witness_modal]
+  access all: [:create], user: :all
 
   def create
     if @campaign.state
@@ -32,15 +25,6 @@ class WitnessesController < ApplicationController
     end
   end
 
-  def update
-    @witness.update(witness_params)
-    if @witness.save
-      redirect_to edit_witness_url(@witness)
-    else
-      redirect_to edit_witness_url(@witness)
-    end
-  end
-
   def evidences_witness_modal
     @evidences = @witness.evidences.map{|evidence| evidence}
   end
@@ -55,24 +39,15 @@ class WitnessesController < ApplicationController
   private
 
   def get_campaign
-    @campaign= Campaign.friendly.find(create_params[:campaign_id])
-  end
-
-  def get_witness
-    @witness= Witness.friendly.find(witness_params[:id])
+    @campaign= Campaign.friendly.find(witness_params[:campaign_id])
   end
 
   def get_all_witnesses
     @witnesses = @campaign.witnesses.order(created_at: :desc)
   end
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_witness
     @witness = Witness.friendly.find(params[:id])
-  end
-
-  def get_campaign
-    @campaign = Campaign.friendly.find(witness_params[:campaign_id])
   end
 
   def witness_params
