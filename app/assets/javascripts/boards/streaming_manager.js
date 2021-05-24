@@ -324,7 +324,7 @@ function isWorkTime(start, end) {
     time_api_path = url.protocol + "//" + url.host + "/api/v1/boards/board_time?slug="+board_slug
     for(var i = 0; i < 5; i++){
       response = await fetch(time_api_path)
-      if(response.status !== 200){ return;}
+      if(response.status !== 200){ continue;}
       response.json().then(function(data){
         server_time = data["board_time"];
         return;
