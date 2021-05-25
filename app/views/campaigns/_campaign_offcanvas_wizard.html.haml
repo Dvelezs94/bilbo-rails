@@ -4,19 +4,21 @@
       %line{:x1 => "18", :x2 => "6", :y1 => "6", :y2 => "18"}
       %line{:x1 => "6", :x2 => "18", :y1 => "6", :y2 => "18"}
   .pd-25.ht-100p.tx-13
-    %h5.tx-inverse.mg-t-25.mg-b-25= t("campaign.wizard.pick_ad")
-    %p.mg-b-25= t("campaign.wizard.offcanvas.pick_ad_desc")
-    %p.mg-b-25.tx-bold= t("campaign.wizard.offcanvas.pick_ad_try_to")
-    %p.mg-b-25= t("campaign.wizard.offcanvas.pick_ad_ad_campaign")
-    %p.mg-b-25= t("campaign.wizard.offcanvas.pick_ad_disclaimer")
-    %hr
-    %h5.tx-inverse.mg-t-25.mg-b-25= t("campaign.wizard.choose_bilbos")
+    / Choose bilbo
+    %h5.tx-inverse.mg-t-25.mg-b-25= "1. #{t("campaign.wizard.choose_bilbos")}"
     %p.mg-b-25= t("campaign.wizard.offcanvas.choose_bilbos_desc")
     .alert.alert-warning{role: "alert"}= t("campaign.wizard.offcanvas.choose_bilbos_disclaimer")
-    = render partial: "campaigns/guide/#{@campaign.classification}"
-    %p.mg-t-25.mg-b-25= t("campaign.wizard.offcanvas.choose_date_desc")
-    %p.mg-b-25= t("campaign.wizard.offcanvas.schedule_campaign")
     %hr
+    / Content
+    %h5.tx-inverse.mg-t-25.mg-b-25= "2. #{t("campaign.wizard.pick_ad")}"
+    %p.mg-b-25= t("campaign.wizard.offcanvas.pick_ad_desc")
+    %p.mg-b-25.tx-bold= t("campaign.wizard.offcanvas.pick_ad_try_to")
+    %p.mg-b-25= t("campaign.wizard.offcanvas.pick_ad_disclaimer")
+    %hr
+    / Budget
+    = render partial: "campaigns/guide/#{@campaign.classification}"
+    %hr
+    / Summary
     %h5.tx-inverse.mg-t-25.mg-b-25= t("campaign.wizard.summary")
     %p.mg-b-25= t("campaign.wizard.offcanvas.summary_desc")
     %p.tx-bold.mg-b-25= t("campaign.wizard.offcanvas.summary_disclaimer")
