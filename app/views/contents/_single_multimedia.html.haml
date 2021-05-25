@@ -19,7 +19,7 @@
           = image_tag "construction_video.webp", class: "img-inherit"
     .card-body
       - begin
-        -if content.is_video?
+        -if content.is_video? || content.is_image?
           %h6.mmtitle= content.multimedia.metadata["filename"].truncate(30)
         -else
           -if !content.is_url? && content.multimedia(:large).height <= 1080
@@ -27,7 +27,7 @@
           -elsif content.is_url?
             %h6.mmtitle{"data-toggle" => "tooltip",:title => content.url}= content.url.truncate(40)
       -rescue
-        %span= I18n.t('ads.processing', filename: content.multimedia.metadata["filename"].truncate(30))
+        %h6.mmtitle= content.multimedia.metadata["filename"].truncate(30)
 
       - begin
         - if !content.url? && content.multimedia(:large).width.nil?
@@ -42,10 +42,13 @@
       -# %span= I18n.t('ads.transition')
       -# = select_tag "",options_for_select(Ad.transitions.map{|x|  [t("ads.transitions.#{x[0]}"),x[1]]}, content.multimedia.transition) ,onchange: "$.post('#{ad_attachment_path(content.multimedia.record,multimedia)}',{'_method':'put', 'effect': this.value} );", class: 'custom-select'
     .card-footer.pd-t-0
-      -if !content.url?
+      -if !content.url? && content.processed?
         %span.d-sm-inline
           = t("general_inputs.size")
           \:
-        = number_to_human_size(content.multimedia.size, precision: 2)
+        - if content.is_video?
+          = number_to_human_size(content.multimedia(:transcoded).size, precision: 2) rescue ""
+        - else
+          = number_to_human_size(content.multimedia(:large).size, precision: 2) rescue ""
       = link_to raw("<i class='fe fe-trash fnt-md tx-danger a-right'></i>"), content_path(content), class: "float-right", method: :delete, data: { confirm: t("general_inputs.delete_confirmation") }
 / col
