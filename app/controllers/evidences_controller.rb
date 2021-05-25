@@ -20,14 +20,13 @@ class EvidencesController < ApplicationController
     render 'update'
   end
 
-  def check_owner
-    raise_not_found if @project.id != @evidence.board.project_id
-  end
-
-
   private
   def set_evidence
     @evidence = Evidence.find(params[:id])
+  end
+
+  def check_owner
+    raise_not_found if @project.id != @evidence.board.project_id
   end
 
   def evidence_params
