@@ -50,6 +50,19 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :witnesses, only: [ :show, :create, :edit, :update] do
+    member do
+      get  :evidences_witness_modal
+      get  :evidences_dashboard_provider
+    end
+  end
+
+  resources :evidences, only: [:update] do
+    member do
+      get :new_evidence
+    end
+  end
+
   resources :ads do
     resources :attachments, only:  [:create, :destroy, :update]
       collection do

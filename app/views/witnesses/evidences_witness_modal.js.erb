@@ -1,0 +1,3 @@
+$("#modalEvidences").remove();
+$('body').append('<%= j (render "witnesses/carousel_evidences_modal", :locals => {:evidences => @evidences}) %>');
+$("#modalEvidences").modal('show');

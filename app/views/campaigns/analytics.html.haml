@@ -17,6 +17,16 @@
           %li.breadcrumb-item.active{"aria-current" => "page"}= @campaign.name
       %h4.mg-b-0.tx-spacing--1= @campaign.name
     .d-flex.flex-row-reverse
+      .d-none.d-md-block
+        = form_with(model: @witness, local: true) do |form|
+          = form.hidden_field :campaign_id, value: "#{@campaign.id}"
+          = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-3'
+          %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase', 'onclick' => 'window.print()'}
+            %i.fe.fe-print
+            = t('dashboards.print')
+          = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase', 'style' => "margin-right: 5px;" do
+            %i.fe.fe-download
+            = t('dashboards.export_to_csv')
       .dropdown
         %button.btn.btn-secondary{'class'=>'btn btn-sm btn-white', "aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
           %i.fe.fe-calendar
@@ -41,13 +51,7 @@
               %a.dropdown-item{:href => analytics_campaign_path(:date_start => 6.months.ago.beginning_of_day, date_end: Time.zone.now)}
                 %i.fe.fe-clock.mg-r-5
                 = t('campaign.6_months')
-      .d-none.d-md-block
-        = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-3' do
-          %i.fe.fe-download
-          = t('dashboards.export_to_csv')
-        %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5', 'onclick' => 'window.print()', 'style' => "margin-right: 5px;" }
-          %i.fe.fe-print
-          = t('dashboards.print')
+
   .row.row-xs
     = render 'campaigns/user_charts/top_cards'
     = render 'campaigns/user_charts/daily_impressions'
@@ -55,13 +59,19 @@
     = render 'campaigns/user_charts/peak_hours'
     = render 'campaigns/user_charts/qr_tracking' if @campaign.interaction?
     = render 'campaigns/user_charts/history_data'
+    = render 'campaigns/user_charts/witnesses'
     = render 'campaigns/user_charts/campaign_activity'
-  .card.card-body.ht-lg-100.mg-t-10
-    .media
-      %span.tx-color-04
-        %a.tx-color-04{:href => "#{generate_campaign_report_csv_index_path(campaign: @campaign.id)}"}
-          %i.ht-60.fe.fe-download.tx-50
-      .media-body.mg-l-20
-        %h6.mg-b-10= t('dashboards.download_report_in_csv')
-        %p.tx-color-03.mg-b-0
-          = t('dashboards.download_report_in_csv_description')
+    .col-md-4.col-xl-4.mg-t-10.order-md-3
+      .card
+        .card-header
+          %h6.mg-b-0.tx-bold
+            = t('dashboards.download_report_in_csv')
+        .card-body.ht-lg-100{:style => "height: 255px;"}
+          .media
+            .media-body.mg-l-20
+              %p.tx-color-03.mg-b-0
+                = t('dashboards.download_report_in_csv_description')
+              .mg-l-auto.text-center
+                %span.tx-color-04
+                  %a.tx-color-04{:href => "#{generate_campaign_report_csv_index_path(campaign: @campaign.id)}"}
+                    %i.ht-60.fnt-xlg.fe.fe-download.tx-50

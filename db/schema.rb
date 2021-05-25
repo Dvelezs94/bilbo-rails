@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_14_025027) do
+ActiveRecord::Schema.define(version: 2021_05_18_215702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -244,6 +244,16 @@ ActiveRecord::Schema.define(version: 2021_05_14_025027) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["boards_campaigns_id"], name: "index_contents_board_campaigns_on_boards_campaigns_id"
     t.index ["content_id"], name: "index_contents_board_campaigns_on_content_id"
+  end
+
+  create_table "evidences", force: :cascade do |t|
+    t.string "multimedia_data"
+    t.bigint "board_id", null: false
+    t.bigint "witness_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["board_id"], name: "index_evidences_on_board_id"
+    t.index ["witness_id"], name: "index_evidences_on_witness_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -483,6 +493,16 @@ ActiveRecord::Schema.define(version: 2021_05_14_025027) do
     t.index ["user_id"], name: "index_verifications_on_user_id"
   end
 
+  create_table "witnesses", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.bigint "campaign_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "slug"
+    t.index ["campaign_id"], name: "index_witnesses_on_campaign_id"
+    t.index ["slug"], name: "index_witnesses_on_slug", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ads", "projects"
   add_foreign_key "board_sales", "boards"
@@ -496,6 +516,8 @@ ActiveRecord::Schema.define(version: 2021_05_14_025027) do
   add_foreign_key "contents", "projects"
   add_foreign_key "contents_board_campaigns", "boards_campaigns", column: "boards_campaigns_id"
   add_foreign_key "contents_board_campaigns", "contents"
+  add_foreign_key "evidences", "boards"
+  add_foreign_key "evidences", "witnesses"
   add_foreign_key "impression_hours", "campaigns"
   add_foreign_key "impressions", "boards"
   add_foreign_key "impressions", "campaigns"
@@ -511,4 +533,5 @@ ActiveRecord::Schema.define(version: 2021_05_14_025027) do
   add_foreign_key "reports", "projects"
   add_foreign_key "user_activities", "users"
   add_foreign_key "verifications", "users"
+  add_foreign_key "witnesses", "campaigns"
 end

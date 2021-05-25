@@ -38,8 +38,16 @@
   font-size: 20px !important;
 }
 
+.fnt-25px {
+  font-size: 25px !important;
+}
+
 .fnt-lg {
   font-size: 35px !important;
+}
+
+.fnt-xlg {
+  font-size: 70px !important;
 }
 
 .file-input-100 {
