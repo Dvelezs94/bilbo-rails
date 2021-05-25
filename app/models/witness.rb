@@ -9,8 +9,8 @@ class Witness < ApplicationRecord
 
 
   def friendly_uuid
-      SecureRandom.uuid
-    end
+    SecureRandom.uuid
+  end
 
   def create_notification_evidence
     self.campaign.board_campaigns.approved.each do |bc|
