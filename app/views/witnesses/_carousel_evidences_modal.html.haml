@@ -3,7 +3,7 @@
     .modal-content
       .modal-body
         .df-example
-          #carouselExample5.carousel.slide.carousel-fade{"data-ride" => "carousel"}
+          #carouselEvidences.carousel.slide.carousel-fade{"data-ride" => "carousel"}
             %ol.carousel-indicators
             .carousel-inner
               - if @evidences.present?
@@ -23,11 +23,11 @@
               - else
                 .carousel-item.active
                   = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
-              %a.carousel-control-prev{"data-slide" => "prev", href: "#carouselExample5", role: "button"}
+              %a.carousel-control-prev{"data-slide" => "prev", href: "#carouselEvidences", role: "button"}
                 %span.carousel-control-prev-icon{"aria-hidden" => "true"}
                   %i.fe.fe-arrow-left.tx-30
                 %span.sr-only
-              %a.carousel-control-next{"data-slide" => "next", href: "#carouselExample5", role: "button"}
+              %a.carousel-control-next{"data-slide" => "next", href: "#carouselEvidences", role: "button"}
                 %span.carousel-control-next-icon{"aria-hidden" => "true"}
                   %i.fe.fe-arrow-right.tx-30
                 %span.sr-only

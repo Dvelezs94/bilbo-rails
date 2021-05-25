@@ -742,9 +742,9 @@ es:
         message: <strong>%{user_name}</strong> fue eliminado del proyecto
         url_string: Ir al proyecto
       evidences:
-        subject: La campaña <strong>%{campaign_name}</strong> solicita testigos
-        message: La campaña <strong>%{campaign_name}</strong> solicita testigos
-        url_string: Subir evidencia
+        subject: La campaña <strong>%{campaign_name}</strong> solicita evidencias
+        message: La campaña <strong>%{campaign_name}</strong> solicita evidencias
+        url_string: Subir evidencias
       witness:
         subject: Solicitud de testigos completada <strong>%{campaign_name}</strong>
         message: Solicitud de testigos completada <strong>%{campaign_name}</strong>
@@ -857,6 +857,7 @@ es:
     error: Error al crear evidencias
     upload_evidences: Subir archivos para testigos
     request: Fecha de petición
+    accept: Aceptar
   witness:
     succesfully: Testigos solicitados con éxito
     error: Error al solicitar testigos

@@ -1,6 +1,7 @@
 class EvidencesController < ApplicationController
   before_action :set_evidence, only: [:new_evidence, :update]
-  access [:provider] => [:new_evidence, :update]
+  before_action :check_owner, only: [:new_evidence, :update]
+  access [:provider] => [:new_evidence, :update, :set_evidence]
 
   def new_evidence
     render 'new_evidence'
@@ -18,6 +19,11 @@ class EvidencesController < ApplicationController
     end
     render 'update'
   end
+
+  def check_owner
+    raise_not_found if @project.id != @evidence.board.project_id
+  end
+
 
   private
   def set_evidence

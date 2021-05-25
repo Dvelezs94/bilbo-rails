@@ -49,4 +49,12 @@ class WitnessesControllerTest < ActionDispatch::IntegrationTest
     get evidences_witness_modal_witness_url(@witness), xhr: true
     assert_response :success
   end
+
+  test "upload evidences dashboard modal" do
+    @witness = create(:witness, campaign_id: @campaign.id)
+    @evidence = create(:evidence, board_id: @board.id, witness_id: @witness.id, multimedia_data: TestData.image_data)
+    assert_equal 1, @witness.evidences.size
+    get evidences_dashboard_provider_witness_url(@witness), xhr: true
+    assert_response :success
+  end
 end

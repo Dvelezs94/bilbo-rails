@@ -1,7 +1,7 @@
 class WitnessesController < ApplicationController
   before_action :get_campaign, only:[:create, :validate_weekly_generation]
   before_action :validate_weekly_generation, only:[:create]
-  before_action :set_witness, only: [:evidences_witness_modal]
+  before_action :set_witness, only: [:evidences_witness_modal, :evidences_dashboard_provider]
   access all: [:create], user: :all
 
   def create
@@ -29,6 +29,10 @@ class WitnessesController < ApplicationController
     @evidences = @witness.evidences.map{|evidence| evidence}
   end
 
+  def evidences_dashboard_provider
+    render 'evidences/evidences_dashboard'
+  end
+
   def validate_weekly_generation
     if @campaign.witnesses.present?
       @campaign.witnesses.where(created_at: 1.day.ago..Time.zone.now).exists?
@@ -39,7 +43,7 @@ class WitnessesController < ApplicationController
   private
 
   def get_campaign
-    @campaign= Campaign.friendly.find(witness_params[:campaign_id])
+    @campaign= @project.campaigns.friendly.find(witness_params[:campaign_id])
   end
 
   def get_all_witnesses
