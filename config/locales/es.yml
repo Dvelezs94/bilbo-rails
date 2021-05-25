@@ -323,13 +323,12 @@ es:
       title_impressions_per_minute: Selecciona cuantas impresiones por minuto deseas que se muestren
       title_impressions_per_hour: Selecciona en que horas deseas que se muestre tu campaña
       offcanvas:
-        pick_ad_desc: Los anuncios son espacios en donde tu almacenas imagenes y videos para tus campañas. El anuncio se liga a una campaña para que las imágenes y videos se muestren en los bilbos una vez configurada la misma.
+        pick_ad_desc: Los contenidos son los archivos o videos que se corren en tus Bilbos elegidos. Cada Bilbo que elijas puede tener uno o más contenidos asociados.
         pick_ad_try_to: Intenta elegir imagenes y videos que capten la atención del público para que así tu campaña tenga más impacto.
-        pick_ad_ad_campaign: Solo se puede ligar un anuncio por campaña, es por eso que todas las imagenes y videos que necesites tener en una misma campaña, sean subidos al mismo anuncio.
         pick_ad_disclaimer: Ten en cuenta que las imagenes y videos van a rotar aleatoriamente en los bilbos para que así todos tengan oportunidad de aparecer.
-        choose_bilbos_desc: Bilbo cuenta con una creciente oferta de pantallas digitales, por lo que podrás elegir en el mapa todas las que se acomoden al segmento al que estés dirigiendo tu campaña.
+        choose_bilbos_desc: Elige los Bilbos que más se adecúen a las necesidades de tu campaña. Es recomendable elegir Bilbos SMART.
         choose_bilbos_disclaimer: No olvides utilizar los filtros para segmentar aún más los bilbos que más te gusten.
-        choose_budget_desc: Escoge el presupuesto diario que desees para tu campaña. El presupuesto se dividirá entre todos tus bilbos equitativamente. Puedes encontrar más información en la liga debajo
+        choose_budget_desc: Escoge el presupuesto diario por cada Bilbo asociado a tu campaña. El presupuesto es el máximo de inversión diaria por Bilbo, pero eso no asegura que se reproducirá todas las veces, eso depende de la ocupación del Bilbo. Puedes encontrar más información en la liga debajo
         choose_per_minute_desc: Escoge la cantidad de veces que se mostrara tu campaña por minuto. Puedes encontrar más información en la liga debajo
         choose_per_hour_desc: Escoge la hora de inicio y de fin de tu campaña. Cada Bilbo tiene una hora de inicio y una final, con ellas puedes seleccionar a que hora inicia y termina tu campaña entre ese intervalo de tiempo. Puedes encontrar más información en la liga debajo
         how_budget_works: Cómo funciona el presupuesto
@@ -337,8 +336,8 @@ es:
         how_per_minute_works: Cómo funciona las impresiones por minuto
         choose_date_desc: Por defecto las campañas en bilbo son continuas, esto quiere decir que no tienen una fecha de inicio ni de fin, por lo que en cuanto tu campaña sea aceptada, se va a mostrar en el/los bilbos
         schedule_campaign: Si requieres agendar tus campañas, puedes definir una fecha de inicio y fin.
-        summary_desc: Una vez tengas tu campaña configurada, se te presentará un resumen que desplegará toda la configuración elegida. En el podrás ver los bilbos que elegisgte, el presupuesto, la fecha pero sobre todo podrás previsualizar tus imagenes y videos en los bilbos.
-        summary_disclaimer: Siempre previsualiza tus imagenes y videos en todos los bilbos, para asegurarte que se vean del tamaño y forma correcta.
+        summary_desc: Una vez tengas tu campaña configurada, se te presentará un resumen que desplegará toda la configuración elegida. En el podrás ver los bilbos que elegiste, el presupuesto, la fecha pero sobre todo podrás previsualizar tus imagenes y videos en los bilbos.
+        summary_disclaimer: Siempre previsualiza tus imagenes y videos en todos los bilbos, para asegurarte que se tengan el tamaño y dimensión correctos.
         date_and_per_minute: Fecha e Impresiones por minuto
         date_and_per_hour: Fecha y Hora(s)
         full_guide: Ver guía extendida
