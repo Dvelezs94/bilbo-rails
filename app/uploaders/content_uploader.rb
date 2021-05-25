@@ -31,14 +31,16 @@ class ContentUploader < Shrine
   Attacher.derivatives :video do |original|
     video_encoding_settings = {
       #probesize: "100M", analyzeduration: "100M", compression_level: 6, quality: 90, preset: 'default',
-      custom: %w(-vf scale=-1:1080)
+      frame_rate: 30,
+      custom: %w(-vf scale=-2:720 -an)
+      #custom: %w(-vf scale=trunc(iw/2)*2:720 -an)
     }
     transcoded = Tempfile.new ["transcoded", ".mp4"]
     screenshot = Tempfile.new ["screenshot", ".jpg"]
 
     # transcode video
     movie = FFMPEG::Movie.new(original.path)
-    if movie.height.to_i > 1080
+    if movie.height.to_i > 720
       movie.transcode(transcoded.path, video_encoding_settings )
     else
       movie.transcode(transcoded.path)
