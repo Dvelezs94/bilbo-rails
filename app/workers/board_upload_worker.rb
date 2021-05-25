@@ -38,7 +38,7 @@ class BoardUploadWorker
         item[:category] = "wallboard"
       end
 
-      item[:minimum_budget] = [ (row["Mínimo de compra"] || 0).to_f , 50].max
+      item[:minimum_budget] = [ (row["Mínimo de compra"].strip.remove("$").remove(',') || 0).to_f , 50].max
 
       item[:avg_daily_views] = row["Trafico Mensual"].to_i / 30
       item[:displays_number] = row["Numero de pantallas"].to_i || 1
@@ -48,12 +48,20 @@ class BoardUploadWorker
       item[:end_time] = row["Hora Fin"]
       working_minutes = (Time.zone.parse(item[:end_time]) - Time.zone.parse(item[:start_time]))/1.minutes % 1440
       working_minutes = 1440 if working_minutes == 0
-      if row["Ganancias por mes"].present? || row["Precio por Spot"].present?
-        item[:base_earnings] = row["Ganancias por mes"].present?? row["Ganancias por mes"].to_f : row["Precio por Spot"].strip.remove('$').to_f * (working_minutes * 6 * 10.0/row["Duracion de anuncio (s)"].to_i) * 30
+
+      if row["Ganancias proveedor"].present? || row["Precio proveedor"].present?
+        item[:provider_earnings] = row["Ganancias proveedor"].present?? row["Ganancias proveedor"].to_f : row["Precio proveedor"].strip.remove('$').remove(',').to_f * (working_minutes * 6 * 10.0/row["Duracion de anuncio (s)"].to_i) * 30
       else
-        error1.append("No fue posible calcular el precio del bilbo")
+        error1.append("No fue posible calcular el precio del bilbo (precio de proveedor)")
       end
-      item[:extra_percentage_earnings] = row["Porcentaje extra esperado"].strip.remove('%') || 20  #Remove % symbol if its present and store only the value
+
+      if row["Ganancias bilbo"].present? || row["Precio Bilbo"].present?
+        item[:base_earnings] = row["Ganancias bilbo"].present?? row["Ganancias bilbo"].to_f : row["Precio Bilbo"].strip.remove('$').remove(',').to_f * (working_minutes * 6 * 10.0/row["Duracion de anuncio (s)"].to_i) * 30
+      else
+        error1.append("No fue posible calcular el precio del bilbo (precio de lista)")
+      end
+
+      item[:smart] = row["SMART"].downcase.in? ["yes","si", "sí", "s", "y"]
 
       #Set default face to interior in case it is not provided in the file
       item[:face] = row["Cara"].downcase.strip || "interior"
