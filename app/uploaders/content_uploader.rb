@@ -30,10 +30,8 @@ class ContentUploader < Shrine
 
   Attacher.derivatives :video do |original|
     video_encoding_settings = {
-      #probesize: "100M", analyzeduration: "100M", compression_level: 6, quality: 90, preset: 'default',
       frame_rate: 30,
       custom: %w(-vf scale=-2:720 -an)
-      #custom: %w(-vf scale=trunc(iw/2)*2:720 -an)
     }
     transcoded = Tempfile.new ["transcoded", ".mp4"]
     screenshot = Tempfile.new ["screenshot", ".jpg"]
