@@ -24,4 +24,3 @@
   %input#duration.d-none{:readonly => "readonly", :type => "number", :value => "10"}/
   %input#api_token.d-none{:readonly => "readonly", :type => "text", :value => "#{@board.api_token}"}/
   %input#access_token.d-none{:readonly => "readonly", :type => "text", :value => "#{@board.access_token}"}/
-  %input#server_time.d-none{:readonly => "readonly", :type => "text", :value => "#{l(Time.now.utc + @board.utc_offset.minutes, format: '%H:%M:%S')}"}
