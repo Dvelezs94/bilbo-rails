@@ -17,6 +17,7 @@ class Campaign < ApplicationRecord
   has_many :board_campaigns, class_name: "BoardsCampaigns", before_add: :set_budget
   has_many :boards, through: :board_campaigns
   has_many :provider_invoices
+  has_many :witnesses, dependent: :delete_all
   validate :duration_multiple_of_10, if: :duration_changed?
   validate :duration_multiple_of_10, on: :create
   validate :valid_active_time, on: :create

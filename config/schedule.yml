@@ -13,3 +13,6 @@ update_board_offset:
 monitor_impressions:
   cron: "0 12 * * *"
   class: "MonitorImpressionsWorker"
+witness_days_verification_worker:
+  cron: "0 12 * * *"
+  class: "WitnessDaysVerificationWorker"
