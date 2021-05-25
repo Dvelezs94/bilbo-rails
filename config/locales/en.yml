@@ -734,12 +734,12 @@ en:
         message: <strong>%{user_name}</strong> was removed from the project
         url_string: Go to project
       evidences:
-        subject: The <strong>%{campaign_name}</strong> campaign requests witnesses
-        message: The <strong>%{campaign_name}</strong> campaign requests witnesses
-        url_string: Upload evidence
+        subject: The <strong>%{campaign_name}</strong> campaign requests evidences
+        message: The <strong>%{campaign_name}</strong> campaign requests evidences
+        url_string: Upload evidences
       witness:
-        subject: Witness Request Completed <strong>%{campaign_name}</strong>
-        message: Witness Request Completed <strong>%{campaign_name}</strong>
+        subject: Witness request completed <strong>%{campaign_name}</strong>
+        message: Witness request completed <strong>%{campaign_name}</strong>
         url_string: Ir a campaña
     report:
       weekly_ready:
@@ -849,6 +849,7 @@ en:
     error: Error creating evidences
     upload_evidences: Upload files for witnesses
     reques: Request date
+    accept: Accept
   witness:
     succesfully: Witnesses successfully requested
     error: Error requesting witnesses

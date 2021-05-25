@@ -1,4 +1,4 @@
-#modal-window-witnesses.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+#modalWindowWitnesses.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered.modal-lg{:role => "document"}
     .modal-content
       .modal-header
@@ -44,4 +44,4 @@
                                 = image_tag evidence.multimedia_url(:small), {class: "mg-r-5 img wd-80 ht-80 rounded o-fit-cover"}
 
           .modal-footer
-            %button.btn.btn-primary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}Aceptar
+            %button.btn.btn-primary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("evidence.accept")

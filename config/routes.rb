@@ -51,7 +51,8 @@ Rails.application.routes.draw do
 
   resources :witnesses, only: [ :show, :create, :edit, :update] do
     member do
-    get  :evidences_witness_modal
+      get  :evidences_witness_modal
+      get  :evidences_dashboard_provider
     end
   end
 
