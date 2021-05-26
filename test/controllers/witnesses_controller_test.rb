@@ -36,10 +36,10 @@ class WitnessesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, @campaign.witnesses.size
   end
 
-  test "can create witness if not logged" do
+  test "cant create witness if not logged" do
     sign_out @user
     post witnesses_url, params: { witness: { campaign_id: @campaign.id } }
-    assert_redirected_to analytics_campaign_path(@campaign.slug)
+    assert_response :redirect
   end
 
   test "show evidences modal" do
