@@ -4,7 +4,7 @@
   .card
     .card-header.d-flex.align-items-center.justify-content-between
       %h6.mg-b-0.tx-bold= t('evidence.witnesses')
-    -if @campaign.witnesses.present?
+    -if @campaign.witnesses.present? && current_user.present?
       %ul.card.activity-table.list-group.list-group-flush.tx-13{:style => "height: 340px;"}
         -@witnesses.each do |witness|
           %li.list-group-item.d-flex.pd-sm-x-20
