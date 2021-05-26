@@ -307,7 +307,7 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaigns
-    @campaigns = @project.campaigns.includes(:boards).active
+    @campaigns = @project.campaigns.includes(:boards).active.sort_by { |campaign| campaign.state ? 0 : 1 }
   end
 
   def get_campaign
