@@ -9,9 +9,6 @@ class EvidencesController < ApplicationController
 
   def update
     @evidence.update(evidence_params)
-    if  @evidence.multimedia.present?
-      @evidence.multimedia_derivatives!
-    end
     if @evidence.save
       @success_message = I18n.t('evidence.succesfully')
     else

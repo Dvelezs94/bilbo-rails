@@ -15,7 +15,7 @@
               -if witness.pending?
                 %button.btn.btn-warning.btn-uppercase{:type => "button"}= t('evidence.pending')
               -else
-                = link_to evidences_witness_modal_witness_path(witness), {:onclick => "setTimeout(function() {initLightbox();}, 500);",:method => "get", :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: "btn btn-primary btn-uppercase pd-l-30 pd-r-30"} do
+                = link_to evidences_witness_modal_witness_path(witness), {:onclick => "setTimeout(function() {initLightbox();}, 500);", :method => "get", :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: "btn btn-primary btn-uppercase pd-l-30 pd-r-30"} do
                   = t('evidence.view')
                   %i{"class" => "fa fa-arrow-right", "aria-hidden" => "true"}
     -else
