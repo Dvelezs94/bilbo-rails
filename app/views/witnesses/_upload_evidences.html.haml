@@ -32,7 +32,7 @@
                               = image_tag url_from_media(evidence.board.images.first), class: "img wd-80 ht-80 rounded"
                             -else
                               = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-80 ht-80 rounded"
-                            .header.pd-t-30
+                            .header.pd-t-30.mg-l-10
                               %h6.valign-middle-f= evidence.board.name
                               %h6.valign-middle-f.tx-color-03= t("bilbos.#{evidence.board.face}")
                         %td<
@@ -41,7 +41,12 @@
                               %i.fe.fe-plus{style: "vertical-align: bottom;display: -webkit-inline-box;"}
                             %div.d-flex{:id => "evidences-#{evidence.board.slug}", style: "overflow-x: scroll;"}
                               -if evidence.multimedia_data.present?
-                                = image_tag evidence.multimedia_url(:small), {class: "mg-r-5 img wd-80 ht-80 rounded o-fit-cover"}
+                                -if evidence.is_video?
+                                  = link_to evidence.multimedia_url, class: "glightbox", :data => {caption: evidence.multimedia.metadata["filename"], group: @project.slug} do
+                                    = video_tag evidence.multimedia_url, {loop: true, preload: "auto", muted: 'muted', autoplay: false, class: "mg-r-5 img wd-80 ht-80 rounded o-fit-cover"}
+                                -else
+                                  = link_to evidence.multimedia_url, class: "glightbox", :data => {caption: evidence.multimedia.metadata["filename"], group: @project.slug, type: "image"} do
+                                    = image_tag evidence.multimedia_url, {class: "mg-r-5 img wd-80 ht-80 rounded o-fit-cover"}
 
           .modal-footer
             %button.btn.btn-primary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("evidence.accept")

@@ -853,7 +853,7 @@ es:
     pending: Pendiente
     view: Ver
     succesfully: Evidencias creadas con éxito
-    error: Error al crear evidencias
+    error: Error al crear evidencia
     upload_evidences: Subir archivos para testigos
     request: Fecha de petición
     accept: Aceptar
