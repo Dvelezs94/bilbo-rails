@@ -846,7 +846,7 @@ en:
     pending: Pending
     view: View
     succesfully: Evidences successfully created
-    error: Failed to create evidence
+    error: Failed to create evidence, 10 MB limit
     upload_evidences: Upload files for witnesses
     reques: Request date
     accept: Accept

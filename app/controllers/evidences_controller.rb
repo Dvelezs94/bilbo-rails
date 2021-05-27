@@ -8,16 +8,21 @@ class EvidencesController < ApplicationController
   end
 
   def update
-    @evidence.update(evidence_params)
-    if @evidence.save
-      @success_message = I18n.t('evidence.succesfully')
-    else
+    begin
+      @evidence.update(evidence_params)
+      if @evidence.save
+        @success_message = I18n.t('evidence.succesfully')
+      else
+        @error_message = I18n.t('evidence.error')
+      end
+      render 'update'
+    rescue
       @error_message = I18n.t('evidence.error')
     end
-    render 'update'
   end
 
   private
+
   def set_evidence
     @evidence = Evidence.find(params[:id])
   end
