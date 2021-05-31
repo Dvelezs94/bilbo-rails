@@ -95,8 +95,16 @@ class CampaignsController < ApplicationController
 
   def toggle_state
     current_user.with_lock do
-      @campaign.with_lock do
-        @success = @campaign.update(state: !@campaign.state)
+      if !@campaign.state
+        @campaign.with_lock do
+          @success = @campaign.update(state: !@campaign.state, skip_review: true) #Only skips the 'set_in_review_and_update_price' callback, THIS DOES NOT SKIP ALL VALIDATIONS
+        end
+      else
+        @campaign.state = false
+        @success = @campaign.save(validate: false) #Does not run any validation, just turns off the campaign and updates the ads_rotation of every associated board
+        @campaign.boards.each do |b|
+          b.update_ads_rotation
+        end
       end
       if @success
         if @campaign.state
