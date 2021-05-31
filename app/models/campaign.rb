@@ -6,7 +6,7 @@ class Campaign < ApplicationRecord
   include ProjectConcern
   include ReviewBoardCampaignsConcern
   extend FriendlyId
-  attr_accessor :owner_updated_campaign, :content_ids, :budget_distribution
+  attr_accessor :owner_updated_campaign, :content_ids, :budget_distribution, :skip_review
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :impressions
@@ -64,7 +64,7 @@ class Campaign < ApplicationRecord
   after_validation :return_to_old_state_id_invalid
   before_save :update_state_updated_at, if: :state_changed?
   before_save :notify_in_a_week, if: :ad_id_changed?
-  before_update :set_in_review_and_update_price
+  before_update :set_in_review_and_update_price, unless: :skip_review
   before_update :update_budget
   after_commit :broadcast_to_all_boards
   after_commit :create_content, if: :contents_present?
@@ -170,15 +170,9 @@ class Campaign < ApplicationRecord
     if ( state && state_changed? && !have_to_set_in_review_on_boards )
       boards.each do |b|
         if self.should_run?(b.id) && b.get_campaigns
-          #Check the ad rotation with the total impressions (for budget campaigns) but do not save
-          err = b.build_ad_rotation(self,true)
-          if err.present?
-            errors.add(:base, err.first)
-            break
-          end
           #In case no error is found
           #Build again the ad rotation and save it, only with the remaining impressions of the budget campaigns
-          err2 = b.build_ad_rotation
+          err2 = b.build_ad_rotation(self)
           if err2.present?
             errors.add(:base, err2.first)
             break
@@ -250,7 +244,7 @@ class Campaign < ApplicationRecord
 
   def broadcast_to_all_boards
     boards.each do |b|
-      err = b.broadcast_to_board(self)
+      err = b.broadcast_to_board(self) if (board_campaigns.find_by(board: b).approved?) #make the broadcast only in the boards where the campaign is approved
       #currently no use for errors here
     end
   end
@@ -466,6 +460,11 @@ class Campaign < ApplicationRecord
       total_budget = JSON.parse(budget_distribution).values.map{|x| x.to_f}.sum
       self.budget = total_budget
     end
+  end
+
+  def max_impressions(board)
+    bc = board_campaigns.find_by(board: board)
+    return (bc.budget/(board.get_cycle_price(self, bc)*self.duration/board.duration)).to_i
   end
 
 end

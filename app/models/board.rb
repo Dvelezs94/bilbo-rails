@@ -270,8 +270,6 @@ class Board < ApplicationRecord
 
   def update_ads_rotation(force_generate = false)
     if self.get_campaigns
-      err = self.build_ad_rotation(nil,true) if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
-      return err if err.present?
       err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate
       return err if err.present?
       self.ads_rotation = self.new_ads_rotation
