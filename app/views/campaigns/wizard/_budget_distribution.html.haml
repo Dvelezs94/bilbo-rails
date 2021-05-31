@@ -19,7 +19,7 @@
           .input-group-prepend
             %span.input-group-text.bg-transparent
               $
-          %input.bd-l-0{id: "budget-#{board.id}", type: "number", :class => "form-control input-number", required: true, value: "#{BoardsCampaigns.find_by(campaign: @campaign, board: board).present?? BoardsCampaigns.find_by(campaign: @campaign, board: board).budget : ''}", placeholder: "#{board.minimum_budget}"}
+          %input.bd-l-0{id: "budget-#{board.id}", type: "number", :step => "any", :class => "form-control input-number", value: "#{BoardsCampaigns.find_by(campaign: @campaign, board: board).present?? BoardsCampaigns.find_by(campaign: @campaign, board: board).budget : "#{board.minimum_budget}"}", min: "#{board.minimum_budget}"}
           .input-group-append
             %span.input-group-text.bd-r-0.bg-transparent
               %i.fe.fe-play
