@@ -5,6 +5,7 @@ function init_uppy() {
   var uppy = Uppy.Core({
     restrictions: {
       maxFileSize: 20971520,
+      maxNumberOfFiles: 3,
       allowedFileTypes: ["image/png", "image/jpeg", "video/mp4"]
     }
     })
