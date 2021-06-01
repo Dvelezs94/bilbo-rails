@@ -1,0 +1,45 @@
+#modalCampaignBoardsUsed.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h5.tx-18.tx-sm-20= t("campaign.details")
+        %p.tx-14= "#{@campaign.name}"
+        .row
+          .col-12.m-auto
+            = render "campaigns/details/#{@campaign.classification}"
+            .divider-text Bilbos
+            .accordion.accordion-style1
+              - @board_campaigns.each do |board_campaign|
+                %h6.d-flex.justify-content-between.tx-uppercase
+                  = board_campaign.board.name
+                  - if board_campaign.in_review?
+                    %span.badge.badge-pill.badge-warning= t('bilbos.' + board_campaign.status)
+                  - elsif board_campaign.approved?
+                    %span.badge.badge-pill.badge-success= t('bilbos.' + board_campaign.status)
+                  - elsif board_campaign.denied?
+                    %span.badge.badge-pill.badge-danger= t('bilbos.' + board_campaign.status)
+                .media.bd.bg-gray-50.pd-y-10.pd-x-10
+                  .wd-80.ht-80.bg-ui-04.rounded.d-flex.align-items-center.justify-content-center
+                    - if board_campaign.board.images.attached?
+                      = image_tag url_from_media(board_campaign.board.images.first), class: "h-100 w-100"
+                    - else
+                      = image_tag image_path("board_placeholder"), class: "h-100 w-100"
+                  .media-body.pd-l-25
+                    %h6.tx-15.mg-b-3= "#{board_campaign.board.name} - #{board_campaign.board.face}"
+                    %p.mg-b-3
+                      %span.tx-medium.tx-color-02= "#{board_campaign.max_daily_impressions} Impresiones máximas diarias"
+                    -if board_campaign.contents_board_campaign.present?
+                      = link_to get_used_contents_campaign_path(@campaign, board_campaign: board_campaign.id ), id: "button-content#{board_campaign.board.slug}", :remote=> true do
+                        %small.tx-12.mg-b-0
+                          = t("content.display_content")
+                          %i.fe.fe-arrow-down
+                      .mg-l-auto.d-flex.align-self-center{id: "content#{board_campaign.board.slug}"}
+
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+      / modal-footer
+    / modal-content
+  / modal-dialog
+/ modal

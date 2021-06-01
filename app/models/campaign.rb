@@ -75,6 +75,10 @@ class Campaign < ApplicationRecord
     self.project.owner
   end
 
+  def duration_in_days
+    (ends_at.to_date - starts_at.to_date).to_i rescue "-"
+  end
+
   def true_duration(board_slug)
     if self.provider_campaign?
       return duration
@@ -467,4 +471,12 @@ class Campaign < ApplicationRecord
     end
   end
 
+  # total budget expected to invest
+  def expected_investment
+    if starts_at.present? && ends_at.present? && classification == "budget"
+      budget * duration_in_days
+    else
+      "undefined"
+    end
+  end
 end
