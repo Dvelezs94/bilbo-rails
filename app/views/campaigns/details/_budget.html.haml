@@ -1,0 +1,20 @@
+%table.table
+    %tbody
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3 Duración
+            %th.tx-gray-2= "#{@campaign.duration_in_days} #{t('week_days.days')}"
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3 Fechas
+            %th.tx-gray-2= "#{I18n.l(@campaign.starts_at.to_date, format: :short) rescue '-'} - #{I18n.l(@campaign.ends_at.to_date, format: :short) rescue '-'}"
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3 Objetivo
+            %th.tx-gray-2= t("campaign.objectives.#{@campaign.objective}")
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3 Bilbos Seleccionados
+            %th.tx-gray-2= @campaign.boards.count
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3 Presupuesto diario
+            %th.tx-gray-2= "#{number_to_currency_usd(@campaign.budget)} #{ENV.fetch('CURRENCY')}"
+        %tr.bd-hidden
+            %th.wd-50p.tx-14 Total esperado
+            %th.tx-bold= "#{number_to_currency_usd(@campaign.expected_investment)} #{ENV.fetch('CURRENCY')}"
