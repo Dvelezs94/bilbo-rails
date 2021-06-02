@@ -88,6 +88,7 @@ en:
     users: Users
     configuration: Configuration
   account_settings:
+    show_recent_campaigns: Show only recent campaigns
     general_information_divider: General Information
     company_information: Company Information
     name: Full Name

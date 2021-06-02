@@ -82,7 +82,7 @@ class CampaignsController < ApplicationController
     @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor, 'data-slug': board.slug } ] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
-    if current_user.is_provider?
+    if @project.provider?
       @boards = @project.boards
     else
       @boards = Board.enabled
@@ -95,8 +95,16 @@ class CampaignsController < ApplicationController
 
   def toggle_state
     current_user.with_lock do
-      @campaign.with_lock do
-        @success = @campaign.update(state: !@campaign.state)
+      if !@campaign.state
+        @campaign.with_lock do
+          @success = @campaign.update(state: !@campaign.state, skip_review: true) #Only skips the 'set_in_review_and_update_price' callback, THIS DOES NOT SKIP ALL VALIDATIONS
+        end
+      else
+        @campaign.state = false
+        @success = @campaign.save(validate: false) #Does not run any validation, just turns off the campaign and updates the ads_rotation of every associated board
+        @campaign.boards.each do |b|
+          b.update_ads_rotation
+        end
       end
       if @success
         if @campaign.state
@@ -307,7 +315,11 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaigns
-    @campaigns = @project.campaigns.includes(:boards).active.sort_by { |campaign| campaign.state ? 0 : 1 }
+    if current_user.show_recent_campaigns
+      @campaigns = @project.campaigns.includes(:boards).where(updated_at: 30.days.ago.beginning_of_day .. Time.now.end_of_day).active.sort_by { |campaign| campaign.state ? 0 : 1 }
+    else
+      @campaigns = @project.campaigns.includes(:boards).active.sort_by { |campaign| campaign.state ? 0 : 1 }
+    end
   end
 
   def get_campaign
