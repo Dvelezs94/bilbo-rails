@@ -39,7 +39,7 @@
                 %i.pd-x-5.fnt-md.fe.fe-link-external
                 %span=t("content.websites")
       .col-9.ht-500{style: "overflow-y: auto;"}
-        .card-deck.content.align-items-center#single_content
+        .wizard-card-deck.content.align-items-center#single_content
           = render :partial => 'campaigns/wizard/single_content_modal', collection: @content, as: :content
 .modal-footer
   = button_tag t("wizard.next"), type: 'button', onclick: "append_content();", class: "btn btn-primary"

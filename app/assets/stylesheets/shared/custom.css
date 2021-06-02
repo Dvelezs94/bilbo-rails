@@ -572,7 +572,7 @@ a[href="#previous"] {
 
 /* fix card ordering in wizard */
 @media (min-width:768px) {
-    .card-deck > .card
+    .wizard-card-deck > .card
     {
         width: 31%;
         flex-wrap: wrap;
