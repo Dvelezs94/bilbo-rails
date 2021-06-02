@@ -38,6 +38,7 @@ $(document).on('turbolinks:load', function() {
           { orderable: false}
         ]
       });
+
       $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
       $('#example-select-all').on('click', function(){
          // Get all rows with search applied
@@ -46,7 +47,6 @@ $(document).on('turbolinks:load', function() {
          // Check/uncheck checkboxes for all rows in the table
          $('input[type="checkbox"]', rows).prop('checked', this.checked);
          is_checked();
-
       });
 
       // Handle click on checkbox to set state of "Select all" control
@@ -54,7 +54,6 @@ $(document).on('turbolinks:load', function() {
          // If checkbox is not checked
          is_checked();
          if(!this.checked){
-
             var el = $('#example-select-all').get(0);
             // If "Select all" control is checked and has 'indeterminate' property
             if(el && el.checked && ('indeterminate' in el)){
@@ -75,9 +74,6 @@ $(document).on('turbolinks:load', function() {
       }
     });
   }
-
-
-
 
   // Campaigns count chart
   if ($("#chartjsChart1").length) {
