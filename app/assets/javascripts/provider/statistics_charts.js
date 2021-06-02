@@ -1,12 +1,11 @@
 $(document).on('turbolinks:load', function() {
 
   if ($('#campaignsTable').length){
-    $("#placeholderTable").addClass("d-none");
     $(function(){
-    var table =  $('#campaignsTable').DataTable({
-      dom: 'Bfrtip',
-      buttons: {
-        buttons: [
+      var table =  $('#campaignsTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: {
+          buttons: [
              { text: $("#in_review_text").text(),
                attr: {id: 'review' },
                action: function () {multiple_update("in_review")},
@@ -22,23 +21,22 @@ $(document).on('turbolinks:load', function() {
                 action: function () {multiple_update("denied")},
                 className: "btn btn-outline-danger"
              }
-        ],
-    dom: {
-          button: { className: ""},
-          buttonLiner: { tag: null }
-         }
-      },
-      language: {
-        searchPlaceholder: 'Search...',
-        sSearch: '',
-        lengthMenu: '_MENU_ items/page'
-      },
+          ],
+        dom: {
+            button: { className: ""},
+            buttonLiner: { tag: null }
+            }
+          },
+        language: {
+          searchPlaceholder: 'Search...',
+          sSearch: '',
+          lengthMenu: '_MENU_ items/page'
+        },
         responsive: true,
         pageLength: 100,
         columnDefs: [
           { orderable: false, targets: [0, 1] }
         ]
-
       });
       $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
       $('#example-select-all').on('click', function(){
@@ -219,14 +217,13 @@ $(document).on('turbolinks:load', function() {
 
 function board_campaigns_selected(){
   checkbox_selected = $("input:checkbox[id*=checkbox-boardCampaign]:checked");
-    board_campaign_ids = [];
-    checkbox_selected.each(function() {
-       board_campaign_selected = this.value;
-       board_campaign_ids.push(board_campaign_selected);
-    });
-  $("#board_campaign_ids").val("")
-   $("#board_campaign_ids").val(board_campaign_ids)
-  console.log(board_campaign_ids + "  " + $("#board_campaign_ids").val())
+  board_campaign_ids = [];
+  checkbox_selected.each(function() {
+    board_campaign_selected = this.value;
+    board_campaign_ids.push(board_campaign_selected);
+  });
+  $("#board_campaign_ids").val("");
+  $("#board_campaign_ids").val(board_campaign_ids);
 }
 
 function multiple_update(status){
