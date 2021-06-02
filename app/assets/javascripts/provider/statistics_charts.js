@@ -35,10 +35,9 @@ $(document).on('turbolinks:load', function() {
       },
         responsive: true,
         pageLength: 100,
-        columnDefs: [ {
-          "targets"  : 'no-sort',
-          "orderable": false
-        }]
+        columnDefs: [
+          { orderable: false, targets: [0, 1] }
+        ]
 
       });
       $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
@@ -48,30 +47,14 @@ $(document).on('turbolinks:load', function() {
          var counterChecked = 0;
          // Check/uncheck checkboxes for all rows in the table
          $('input[type="checkbox"]', rows).prop('checked', this.checked);
-         if(checkbox_selected = $('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 0){
-           $('#denied').prop("disabled", false)
-           $('#review').prop("disabled", false)
-           $('#approved').prop("disabled", false)
-         }else{
-           $('#denied').prop("disabled", true)
-           $('#review').prop("disabled", true)
-           $('#approved').prop("disabled", true)
-         }
+         is_checked();
 
       });
 
       // Handle click on checkbox to set state of "Select all" control
       $('#campaignsTable tbody').on('change', 'input[type="checkbox"]', function(){
          // If checkbox is not checked
-         if(checkbox_selected = $('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 0){
-           $('#denied').prop("disabled", false)
-           $('#review').prop("disabled", false)
-           $('#approved').prop("disabled", false)
-         }else{
-           $('#denied').prop("disabled", true)
-           $('#review').prop("disabled", true)
-           $('#approved').prop("disabled", true)
-         }
+         is_checked();
          if(!this.checked){
 
             var el = $('#example-select-all').get(0);
@@ -259,6 +242,20 @@ function multiple_update(status){
 
     },
     error: function(data) {
+      alert("Ocurrio un error...");
     }
   });
+}
+
+function is_checked()
+{
+  if(checkbox_selected = $('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 0){
+    $('#denied').prop("disabled", false)
+    $('#review').prop("disabled", false)
+    $('#approved').prop("disabled", false)
+  }else{
+    $('#denied').prop("disabled", true)
+    $('#review').prop("disabled", true)
+    $('#approved').prop("disabled", true)
+  }
 }
