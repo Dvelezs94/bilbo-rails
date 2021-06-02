@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_18_215702) do
+ActiveRecord::Schema.define(version: 2021_06_01_203657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -462,6 +462,7 @@ ActiveRecord::Schema.define(version: 2021_05_18_215702) do
     t.integer "sign_in_count", default: 0, null: false
     t.string "captcha"
     t.integer "lock_version"
+    t.boolean "show_recent_campaigns", default: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

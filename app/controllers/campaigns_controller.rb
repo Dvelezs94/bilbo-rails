@@ -315,7 +315,11 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaigns
-    @campaigns = @project.campaigns.includes(:boards).active.sort_by { |campaign| campaign.state ? 0 : 1 }
+    if current_user.show_recent_campaigns
+      @campaigns = @project.campaigns.includes(:boards).where(updated_at: 30.days.ago.beginning_of_day .. Time.now.end_of_day).active.sort_by { |campaign| campaign.state ? 0 : 1 }
+    else
+      @campaigns = @project.campaigns.includes(:boards).active.sort_by { |campaign| campaign.state ? 0 : 1 }
+    end
   end
 
   def get_campaign

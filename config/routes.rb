@@ -160,6 +160,7 @@ Rails.application.routes.draw do
         get :fetch
         patch :verify
         patch :deny
+        post :toggle_show_recent_campaigns
         post :impersonate
       end
     end
