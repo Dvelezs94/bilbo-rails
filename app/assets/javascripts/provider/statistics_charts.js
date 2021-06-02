@@ -1,17 +1,103 @@
 $(document).on('turbolinks:load', function() {
 
   if ($('#campaignsTable').length){
+    $("#placeholderTable").addClass("d-none");
     $(function(){
-      $('#campaignsTable').DataTable({
-        language: {
-          searchPlaceholder: 'Search...',
-          sSearch: '',
-          lengthMenu: '_MENU_ items/page',
-        }
+    var table =  $('#campaignsTable').DataTable({
+      dom: 'Bfrtip',
+      buttons: {
+        buttons: [
+             { text: $("#in_review_text").text(),
+               attr: {id: 'review' },
+               action: function () {multiple_update("in_review")},
+               className: "btn btn-outline-warning"
+             },
+             {  text: $("#approved_text").text(),
+                attr: {id: 'approved'},
+                action: function () {multiple_update("approved")},
+                className: "btn btn-outline-success"
+             },
+             {  text : $("#denied_text").text(),
+                attr: { id: 'denied'},
+                action: function () {multiple_update("denied")},
+                className: "btn btn-outline-danger"
+             }
+        ],
+    dom: {
+          button: { className: ""},
+          buttonLiner: { tag: null }
+         }
+      },
+      language: {
+        searchPlaceholder: 'Search...',
+        sSearch: '',
+        lengthMenu: '_MENU_ items/page'
+      },
+        responsive: true,
+        pageLength: 100,
+        columnDefs: [ {
+          "targets"  : 'no-sort',
+          "orderable": false
+        }]
+
       });
       $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+      $('#example-select-all').on('click', function(){
+         // Get all rows with search applied
+         var rows = table.rows({ page: 'current'}).nodes();
+         var counterChecked = 0;
+         // Check/uncheck checkboxes for all rows in the table
+         $('input[type="checkbox"]', rows).prop('checked', this.checked);
+         if(checkbox_selected = $('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 0){
+           $('#denied').prop("disabled", false)
+           $('#review').prop("disabled", false)
+           $('#approved').prop("disabled", false)
+         }else{
+           $('#denied').prop("disabled", true)
+           $('#review').prop("disabled", true)
+           $('#approved').prop("disabled", true)
+         }
+
+      });
+
+      // Handle click on checkbox to set state of "Select all" control
+      $('#campaignsTable tbody').on('change', 'input[type="checkbox"]', function(){
+         // If checkbox is not checked
+         if(checkbox_selected = $('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 0){
+           $('#denied').prop("disabled", false)
+           $('#review').prop("disabled", false)
+           $('#approved').prop("disabled", false)
+         }else{
+           $('#denied').prop("disabled", true)
+           $('#review').prop("disabled", true)
+           $('#approved').prop("disabled", true)
+         }
+         if(!this.checked){
+
+            var el = $('#example-select-all').get(0);
+            // If "Select all" control is checked and has 'indeterminate' property
+            if(el && el.checked && ('indeterminate' in el)){
+               // Set visual state of "Select all" control
+               // as 'indeterminate'
+               el.indeterminate = true;
+            }
+         }
+      });
+      $('#denied').prop("disabled", true)
+      $('#review').prop("disabled", true)
+      $('#approved').prop("disabled", true)
+      var urlParams = new URLSearchParams(window.location.search);
+      if(urlParams.has('q')){
+        $('#review').hide()
+      }else{
+        $('#approved').hide()
+      }
     });
   }
+
+
+
+
   // Campaigns count chart
   if ($("#chartjsChart1").length) {
     google.charts.load('current', {
@@ -147,3 +233,32 @@ $(document).on('turbolinks:load', function() {
     }
   }
 });
+
+function board_campaigns_selected(){
+  checkbox_selected = $("input:checkbox[id*=checkbox-boardCampaign]:checked");
+    board_campaign_ids = [];
+    checkbox_selected.each(function() {
+       board_campaign_selected = this.value;
+       board_campaign_ids.push(board_campaign_selected);
+    });
+  $("#board_campaign_ids").val("")
+   $("#board_campaign_ids").val(board_campaign_ids)
+  console.log(board_campaign_ids + "  " + $("#board_campaign_ids").val())
+}
+
+function multiple_update(status){
+  board_campaigns_selected();
+  $("#content_body").hide();
+  $("#placeholderTable").removeClass("d-none");
+  $.ajax({
+    type:"POST",
+    url:  "/board_campaigns/multiple_update",
+    dataType: "script",
+    data: {board_campaign_ids: $("#board_campaign_ids").val(), status: status},
+    success: function(data) {
+
+    },
+    error: function(data) {
+    }
+  });
+}

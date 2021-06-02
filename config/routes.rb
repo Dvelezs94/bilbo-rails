@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
+
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api"
   end
@@ -50,7 +51,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :witnesses, only: [ :show, :create, :edit, :update] do
+  resources :witnesses, only: [:show, :create, :edit, :update] do
     member do
       get  :evidences_witness_modal
       get  :evidences_dashboard_provider
@@ -98,8 +99,12 @@ Rails.application.routes.draw do
       put :deny_campaign
       put :in_review_campaign
     end
+
     resource :provider_invoices, only: :create
   end
+
+  post '/board_campaigns/multiple_update', to: 'board_campaigns#multiple_update'
+
   resources :boards, only: [:index, :show, :create, :edit,:update] do
     collection do
       get :map_frame

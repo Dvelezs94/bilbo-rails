@@ -1,4 +1,6 @@
 %tr
+  %th{:scope => "row"}
+    = check_box_tag "checkbox-boardCampaign-#{board_campaign.id}", board_campaign.id
   %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip", title: ""}
     - if !board_campaign.campaign.owner.has_had_credits? && board_campaign.campaign.owner.is_user?
       %i.fe.fe-warning.tx-danger{"data-toggle" => "tooltip", :href => "#", :title => t("campaign.user_has_no_credits_disclaimer")}
@@ -16,10 +18,3 @@
   %td.text-between= t("campaign.wizard.#{board_campaign.campaign.classification}")
   %td.text-between= number_to_currency_usd(board_campaign.budget) rescue ""
   %td.text-between= board_campaign.campaign.state.to_s == "true" ? t('campaign.status_on') : t('campaign.status_off')
-  %td.d-flex.justify-content-between.align-center
-    -if params[:q] == "review"
-      = link_to '', campaign_board_approve_campaign_path(board_campaign.campaign_id,board_campaign.board_id), class: 'fe fe-check', title: t('campaign.accept'), data: { toggle: 'tooltip', placement: 'top', method: :put, confirm: t('campaign.approve_campaign') }
-      = link_to '', campaign_board_deny_campaign_path(board_campaign.campaign_id,board_campaign.board_id), class: 'fe fe-trash', title: t('campaign.deny'), data: { toggle: 'tooltip', placement: 'top', method: :put, confirm: t('campaign.deny_campaign') }
-    -else
-      = link_to '', campaign_board_in_review_campaign_path(board_campaign.campaign_id,board_campaign.board_id), class: 'fe fe-pause', title: t('campaign.review'), data: { toggle: 'tooltip', placement: 'top', method: :put, confirm: t('campaign.in_review_campaign') }
-      = link_to '', campaign_board_deny_campaign_path(board_campaign.campaign_id,board_campaign.board_id), class: 'fe fe-trash', title: t('campaign.deny'), data: { toggle: 'tooltip', placement: 'top', method: :put, confirm: t('campaign.deny_campaign') }
