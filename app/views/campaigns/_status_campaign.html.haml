@@ -1,5 +1,5 @@
 %tr
-  %th{:scope => "row"}
+  %td
     = check_box_tag "checkbox-boardCampaign-#{board_campaign.id}", board_campaign.id
   %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip", title: ""}
     - if !board_campaign.campaign.owner.has_had_credits? && board_campaign.campaign.owner.is_user?
