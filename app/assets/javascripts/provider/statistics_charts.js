@@ -35,7 +35,7 @@ $(document).on('turbolinks:load', function() {
         responsive: true,
         pageLength: 100,
         columnDefs: [
-          { orderable: false, targets: [0, 1] }
+          { orderable: false}
         ]
       });
       $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
