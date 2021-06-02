@@ -41,8 +41,7 @@ class BoardCampaignsController < ApplicationController
     if params[:board_campaign_ids].present?
       @boards = params[:board_campaign_ids].split(",")
       @boards.each do |board_campaign_id|
-        p board_campaign_id
-        p @board_campaign = BoardsCampaigns.find(board_campaign_id)
+      @board_campaign = BoardsCampaigns.find(board_campaign_id)
         if @board_campaign.update(status: params[:status], make_broadcast: true)
           if @board_campaign.board_errors.nil?
             flash[:success] = I18n.t('campaign.approved', locale: current_user.locale) if params[:status] == "approved"
