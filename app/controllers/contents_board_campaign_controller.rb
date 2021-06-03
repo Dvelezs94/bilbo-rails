@@ -9,15 +9,17 @@ class ContentsBoardCampaignController < ApplicationController
     @board = Board.friendly.find(@slug)
     @campaign = Campaign.friendly.find(params[:campaign])
     if @board.images_only
-      @content = []
-      @campaign.project.contents.order(id: :desc).each do |content|
+      contents = []
+      @campaign.project.contents.order(id: :asc).each do |content|
         if !content.is_video?
-          @content.push(content)
+          contents.push(content)
         end
       end
     else
-      @content = Campaign.friendly.find(params[:campaign]).project.contents.order(id: :desc).map{|content|content}
+      contents = Campaign.friendly.find(params[:campaign]).project.contents.order(id: :asc).map{|content|content}
     end
+    @content = Kaminari.paginate_array(contents).page(params[:ad_upcoming_page]).per(2)
+    p @content
     render  'campaigns/wizard/get_contents_wizard_modal', :locals => {:content => @content, :board => @board, :campaign => @campaign}
   end
 
