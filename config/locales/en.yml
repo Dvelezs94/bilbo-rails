@@ -211,6 +211,9 @@ en:
     enable_campaigns: Enable campaigns
     to_active: The campaign has been activated
     accepted: The campaign has been accepted
+    approved: Campaigns have been accepted
+    denied: Campaigns have been rejected
+    in_review: The campaigns have been sent for review
     to_inactive: The campaign has been deactivated
     new_campaign: New Campaign
     destroy: Remove Campaign
@@ -858,3 +861,7 @@ en:
     campaign_active: The campaign is not active
     validate_weekly_generation: It is only allowed to create witnesses once every seven days
     request_witnesses: Request witnesses
+  provider_index:
+    accept: Accept
+    denied: Denied
+    in_review: In Review
