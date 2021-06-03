@@ -213,6 +213,9 @@ es:
     enable_campaigns: Habilitar campañas
     to_active: La campaña se ha activado
     accepted: La campaña se ha aceptado
+    approved: Las campañas se han aceptado
+    denied: Las campañas se han rechazado
+    in_review: Las campañas se han mandado a revisión
     to_inactive: La campaña se ha desactivado
     new_campaign: Nueva Campaña
     destroy: Remover Campaña
@@ -865,3 +868,7 @@ es:
     campaign_active: La campaña no se encuentra activa
     validate_weekly_generation: Sólo esta permitido crear testigos una vez cada siete dias
     request_witnesses: Solicitar testigos
+  provider_index:
+    accept: Aceptar
+    denied: Rechazar
+    in_review: Revisión

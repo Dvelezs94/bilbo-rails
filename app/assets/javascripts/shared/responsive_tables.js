@@ -49,6 +49,7 @@ $(document).on('turbolinks:load', function() {
   }
 });
 
+
 $(document).on('turbolinks:before-cache', function() {
   if ($('#userCampaignTable').DataTable() != null) $('#userCampaignTable').DataTable().destroy();
   if ($('#invoicesTable').DataTable() != null) $('#invoicesTable').DataTable().destroy();
