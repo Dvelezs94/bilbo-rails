@@ -40,7 +40,7 @@ $(document).on('turbolinks:load', function() {
       });
 
       $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
-      $('#example-select-all').on('click', function(){
+      $('#checkboxSelectAll').on('click', function(){
          // Get all rows with search applied
          var rows = table.rows({ page: 'current'}).nodes();
          var counterChecked = 0;
@@ -54,7 +54,7 @@ $(document).on('turbolinks:load', function() {
          // If checkbox is not checked
          is_checked();
          if(!this.checked){
-            var el = $('#example-select-all').get(0);
+            var el = $('#checkboxSelectAll').get(0);
             // If "Select all" control is checked and has 'indeterminate' property
             if(el && el.checked && ('indeterminate' in el)){
                // Set visual state of "Select all" control
@@ -218,7 +218,6 @@ function board_campaigns_selected(){
     board_campaign_selected = this.value;
     board_campaign_ids.push(board_campaign_selected);
   });
-  $("#board_campaign_ids").val("");
   $("#board_campaign_ids").val(board_campaign_ids);
 }
 
