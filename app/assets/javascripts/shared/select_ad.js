@@ -1,8 +1,8 @@
 $(document).on('turbolinks:load', function() {
-  if ($('#gallery_ads').length) {
-    $(window).scroll(function(e) {
+  if ($('#multimediaElements').length) {
+    $(".filemgr-content-body").scroll(function(e) {
       var url = $("#paginator a:visible").attr('href');
-      if (url && $(window).scrollTop() >= ($(document).height() - $(window).height())) {
+      if (url && $(".filemgr-content-body").scrollTop() >= ($(document).height() - $(".filemgr-content-body").height())) {
         $("#paginator a:visible").remove();
         $.getScript(url);
       }
