@@ -10,7 +10,7 @@ class ContentsBoardCampaignController < ApplicationController
     @campaign = Campaign.friendly.find(params[:campaign])
     if @board.images_only
       contents = []
-      @campaign.project.contents.order(id: :asc).each do |content|
+      @campaign.project.contents.order(id: :desc).each do |content|
         if !content.is_video?
           contents.push(content)
         end
