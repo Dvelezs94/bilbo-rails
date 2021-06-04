@@ -42,10 +42,10 @@
                     %a.filter_content.nav-link{:href => "#web"}
                       %i.pd-x-5.fnt-md.fe.fe-link-external
                       %span=t("content.websites")
-            .col-9.ht-500{style: "overflow-y: auto;"}
-              .wizard-card-deck.content.align-items-center#single_content
+            .col-9.ht-500#content_space{style: "overflow-y: auto;"}
+              .card-deck.wizard-card-deck.content.align-items-center#single_content
               .container#paginator.text-center.tx-13.pd-t-10
-                = link_to_next_page @content, "#{t("ads.more_ads")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "ad_upcoming_page"
+                = link_to_next_page @content, "#{t("content.more_contents")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "ad_upcoming_page"
       .modal-footer
         = button_tag t("wizard.next"), type: 'button', onclick: "append_content();", class: "btn btn-primary"
       %input#slug-board.d-none{:readonly => "readonly", :value => "slug-#{@board.slug.to_s}"}/
