@@ -45,7 +45,7 @@
             .col-9.ht-500#content_space{style: "overflow-y: auto;"}
               .card-deck.wizard-card-deck.content.align-items-center#single_content
               .container#paginator.text-center.tx-13.pd-t-10
-                = link_to_next_page @content, "#{t("content.more_contents")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "ad_upcoming_page"
+                = link_to_next_page @content, "#{t("content.more_contents")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "upcoming_page"
       .modal-footer
         = button_tag t("wizard.next"), type: 'button', onclick: "append_content();", class: "btn btn-primary"
       %input#slug-board.d-none{:readonly => "readonly", :value => "slug-#{@board.slug.to_s}"}/

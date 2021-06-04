@@ -18,7 +18,7 @@ class ContentsBoardCampaignController < ApplicationController
     else
       contents = Campaign.friendly.find(params[:campaign]).project.contents.order(id: :desc).map{|content|content}
     end
-    @content = Kaminari.paginate_array(contents).page(params[:ad_upcoming_page]).per(15)
+    @content = Kaminari.paginate_array(contents).page(params[:upcoming_page]).per(15)
     p @content
     render  'campaigns/wizard/get_contents_wizard_modal', :locals => {:content => @content, :board => @board, :campaign => @campaign}
   end

@@ -8,7 +8,6 @@ $(document).on('turbolinks:load', function() {
       }
     });
   }
-
   scroll_wizard();
 });
 
@@ -32,8 +31,8 @@ function select_content() {
         selected_ad = selected_contents_ids[i]
         if(!$("#pickContent" + selected_ad).prop("checked")){
           $("#pickContent" + selected_ad).prop("checked", !$("#pickContent" + selected_ad).prop("checked"));
+        }
       }
-    }
     }
 }
 

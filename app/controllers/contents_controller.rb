@@ -4,7 +4,7 @@ class ContentsController < ApplicationController
   before_action :get_content, only: [:update, :destroy]
 
   def index
-    @contents = @contents.page(params[:ad_upcoming_page]).per(15)
+    @contents = @contents.page(params[:upcoming_page]).per(15)
     respond_to do |format|
         format.js
         format.html
