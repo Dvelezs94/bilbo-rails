@@ -29,7 +29,7 @@
                   .media-body.pd-l-25
                     %h6.tx-15.mg-b-3= "#{board_campaign.board.name} - #{board_campaign.board.face}"
                     %p.mg-b-3
-                      %span.tx-medium.tx-color-02= "#{board_campaign.max_daily_impressions} Impresiones máximas diarias"
+                      %span.tx-medium.tx-color-02= "#{board_campaign.max_daily_impressions} #{t("campaign.wizard.impressions_forecast")}"
                     -if board_campaign.contents_board_campaign.present?
                       = link_to get_used_contents_campaign_path(@campaign, board_campaign: board_campaign.id ), id: "button-content#{board_campaign.board.slug}", :remote=> true do
                         %small.tx-12.mg-b-0
