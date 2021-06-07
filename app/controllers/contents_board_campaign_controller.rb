@@ -9,7 +9,7 @@ class ContentsBoardCampaignController < ApplicationController
     @board = Board.friendly.find(@slug)
     @campaign = Campaign.friendly.find(params[:campaign])
     contents = []
-    #Returns the selected contents
+    #Returns the selected contents to the beginning of the modal if they exist
     if BoardsCampaigns.find_by(campaign_id: @campaign.id, board_id: @board.id).present?
       BoardsCampaigns.find_by(campaign_id: @campaign.id, board_id: @board.id).contents_board_campaign.each do |content|
         contents.push(Content.find(content.content_id))
