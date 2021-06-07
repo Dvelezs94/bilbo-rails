@@ -473,10 +473,14 @@ class Campaign < ApplicationRecord
 
   # total budget expected to invest
   def expected_investment
-    if starts_at.present? && ends_at.present? && classification == "budget"
-      budget * duration_in_days
-    else
-      "undefined"
+    begin
+      if starts_at.present? && ends_at.present? && classification == "budget"
+        budget * duration_in_days
+      else
+        "undefined"
+      end
+    rescue
+      0
     end
   end
 
