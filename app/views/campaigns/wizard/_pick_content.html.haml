@@ -3,7 +3,7 @@
   .row.row-xs
     .col-6.col-md-6
       %label= t("content.content_selected")
-    -if current_user.is_provider?
+    -if @project.provider?
       .input-group.mg-b-10.col-6.col-md-3.ml-auto
         %label.tx-bold= t('content.playback_duration')
         .input-group-prepend

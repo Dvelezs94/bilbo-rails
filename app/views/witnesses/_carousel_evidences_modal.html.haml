@@ -1,0 +1,34 @@
+#modalEvidences.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body
+        .df-example
+          #carouselEvidences.carousel.slide.carousel-fade{"data-ride" => "carousel"}
+            %ol.carousel-indicators
+            .carousel-inner
+              - if @evidences.present?
+                - @evidences.each.with_index do |media,i|
+                  -if !media.multimedia_data.nil?
+                    %div{class: "carousel-item #{'active' if i == 0}"}
+                      -if media.is_video?
+                        = link_to media.multimedia_url, class: "glightbox", :data => {caption: media.multimedia.metadata["filename"], group: @project.slug} do
+                          = video_tag media.multimedia_url, class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, autoplay: false, muted: 'muted'
+                      -else
+                        = link_to media.multimedia_url, class: "glightbox", :data => {caption: media.multimedia.metadata["filename"], group: @project.slug, type: "image"} do
+                          = image_tag media.multimedia_url, class: "d-block w-100"
+                      .marker= media.board.name.to_s
+                  -else
+                    .carousel-item.active
+                      = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
+              - else
+                .carousel-item.active
+                  = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
+              %a.carousel-control-prev{"data-slide" => "prev", href: "#carouselEvidences", role: "button"}
+                %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+                  %i.fe.fe-arrow-left.tx-30
+                %span.sr-only
+              %a.carousel-control-next{"data-slide" => "next", href: "#carouselEvidences", role: "button"}
+                %span.carousel-control-next-icon{"aria-hidden" => "true"}
+                  %i.fe.fe-arrow-right.tx-30
+                %span.sr-only
+      / modal-footer

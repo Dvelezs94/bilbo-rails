@@ -1,43 +1,48 @@
 = render 'shared/header', menu: "statistics"
 .content.content-fixed
-  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
-    .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-25.mg-xl-b-30
-      %div
-        %nav{"aria-label" => "breadcrumb"}
-          %ol.breadcrumb.breadcrumb-style1.mg-b-10
-            %li.breadcrumb-item
-              %a{:href => "/"}= t("campaign.home")
-            %li.breadcrumb-item{"aria-current" => "page"}= t("header.statistics")
-            -if params[:q] == "review"
-              %li.breadcrumb-item{"aria-current" => "page"}
-                %a{:href => "provider_index", decoration: "underline"}= t("campaign.active_campaigns")
-              %li.breadcrumb-item{"aria-current" => "page", class: "active"}= t("campaign.review_campaigns")
-            -else
-              %li.breadcrumb-item{"aria-current" => "page"}
-                %a{:href => "provider_index?q=review" }= t("campaign.review_campaigns")
-              %li.breadcrumb-item{"aria-current" => "page", class: "active"}= t("campaign.active_campaigns")
-        -if params[:q] == "review"
-          %h4.mg-b-0.tx-spacing--1
-            = t("campaign.review_campaigns")
-        -else
-          %h4.mg-b-0.tx-spacing--1
-            = t("campaign.active_campaigns")
-      .d-none.d-md-block
-        %button.btn.btn-sm.pd-x-15.btn-white.btn-uppercase.mg-l-5{:onclick => "window.print()"}
-          %i.wd-10.mg-r-5.fe.fe-print>
-          = t("header.print")
-    .row
-      .table-responsive
-        %table#campaignsTable.table
-          %thead
-            %tr
-              %th{:scope => "col"}= t("campaign.campaign_name")
-              %th{:scope => "col"} Multimedia
-              %th{:scope => "col"}= t("campaign.start_date")
-              %th{:scope => "col"}= t("campaign.end_date")
-              %th{:scope => "col"} Bilbo
-              %th{:scope => "col"}= t("campaign.wizard.campaign_classification")
-              %th{:scope => "col"}= t("campaign.daily_budget")
-              %th{:scope => "col"}= t("campaign.campaign_status")
-              %th{:scope => "col"}
-            %tbody= render partial: "campaigns/status_campaign", collection: @board_campaigns, as: :board_campaign
+  .d-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+    %div
+      %nav{"aria-label" => "breadcrumb"}
+        %ol.breadcrumb.breadcrumb-style1.mg-b-10
+          %li.breadcrumb-item
+            %a{:href => "/"}= t("campaign.home")
+          %li.breadcrumb-item{"aria-current" => "page"}= t("header.statistics")
+          -if params[:q] == "review"
+            %li.breadcrumb-item{"aria-current" => "page"}
+              %a{:href => "provider_index", decoration: "underline"}= t("campaign.active_campaigns")
+            %li.breadcrumb-item{"aria-current" => "page", class: "active"}= t("campaign.review_campaigns")
+          -else
+            %li.breadcrumb-item{"aria-current" => "page"}
+              %a{:href => "provider_index?q=review" }= t("campaign.review_campaigns")
+            %li.breadcrumb-item{"aria-current" => "page", class: "active"}= t("campaign.active_campaigns")
+      -if params[:q] == "review"
+        %h4.mg-b-0.tx-spacing--1
+          = t("campaign.review_campaigns")
+      -else
+        %h4.mg-b-0.tx-spacing--1
+          = t("campaign.active_campaigns")
+    .d-none.d-md-block
+      %button.btn.btn-sm.pd-x-15.btn-white.btn-uppercase.mg-l-5{:onclick => "window.print()"}
+        %i.wd-10.mg-r-5.fe.fe-print>
+        = t("header.print")
+  .row
+    .table-responsive#table-1
+      %table#campaignsTable.table
+        %thead
+          %tr
+            %th= check_box("post", "validated", :id => "checkboxSelectAll", :class => "mg-r-10")
+            %th= t("campaign.campaign_name")
+            %th Multimedia
+            %th= t("campaign.start_date")
+            %th= t("campaign.end_date")
+            %th Bilbo
+            %th= t("campaign.wizard.campaign_classification")
+            %th= t("campaign.daily_budget")
+            %th= t("campaign.campaign_status")
+          %tbody#content_body= render partial: "campaigns/status_campaign", collection: @board_campaigns, as: :board_campaign
+          %tbody#placeholderTable.d-none= render partial: "shared/table_placeholder"
+
+%label#approved_text.d-none= t("provider_index.accept")
+%label#in_review_text.d-none= t("provider_index.in_review")
+%label#denied_text.d-none= t("provider_index.denied")
+= hidden_field_tag "board_campaign_ids"

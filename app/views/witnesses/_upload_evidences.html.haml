@@ -1,0 +1,52 @@
+#modalWindowWitnesses.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %h5.modal-title.tx-bold= t('evidence.upload_evidences')
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        .col-sm-2.col-lg-6
+        .col-lg-12.col-xl-12.mg-t-10
+          .card{:style => "border: none;" }
+            .card-header.pd-t-20.d-sm-flex.align-items-start.justify-content-between.bd-b-0
+              .d-flex
+                %div.col-6
+                  %label.tx-15.mg-b-0 #{t('campaign.campaign')} #{@witness.campaign.name}
+                %div
+                  %label.tx-15.mg-b-0= t('evidence.request')
+                  %label.tx-15.tx-color-03.mg-b-0= I18n.l @witness.created_at, format: :long
+            / card-body
+            .card.history-table.table-responsive.table-borderless{:style => "height: 312px; border: none;"}
+              %table.table.table-dashboard.mg-b-0.history-table
+                %thead
+                  %tr.ht-45
+                    %th{:scope => "col"}= t('evidence.bilbo_selected')
+                    %th{:scope => "col"}= t('evidence.files')
+                  -@witness.evidences.each do |evidence|
+                    -if current_user.projects.first.board_ids.include? evidence.board_id
+                      %tr
+                        %td<
+                          %div.d-flex
+                            -if evidence.board.images.attachments.present?
+                              = image_tag url_from_media(evidence.board.images.first), class: "img wd-80 ht-80 rounded"
+                            -else
+                              = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-80 ht-80 rounded"
+                            .header.pd-t-30.mg-l-10
+                              %h6.valign-middle-f= evidence.board.name
+                              %h6.valign-middle-f.tx-color-03= t("bilbos.#{evidence.board.face}")
+                        %td<
+                          %div.d-flex
+                            = link_to new_evidence_evidence_path(evidence), {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: "btn btn-outline-primary bd-dotted wd-80 ht-80 btn-icon mg-r-5 mg-b-5"} do
+                              %i.fe.fe-plus{style: "vertical-align: bottom;display: -webkit-inline-box;"}
+                            %div.d-flex{:id => "evidences-#{evidence.board.slug}", style: "overflow-x: scroll;"}
+                              -if evidence.multimedia_data.present?
+                                -if evidence.is_video?
+                                  = link_to evidence.multimedia_url, class: "glightbox", :data => {caption: evidence.multimedia.metadata["filename"], group: @project.slug} do
+                                    = video_tag evidence.multimedia_url, {loop: true, preload: "auto", muted: 'muted', autoplay: false, class: "mg-r-5 img wd-80 ht-80 rounded o-fit-cover"}
+                                -else
+                                  = link_to evidence.multimedia_url, class: "glightbox", :data => {caption: evidence.multimedia.metadata["filename"], group: @project.slug, type: "image"} do
+                                    = image_tag evidence.multimedia_url, {class: "mg-r-5 img wd-80 ht-80 rounded o-fit-cover"}
+
+          .modal-footer
+            %button.btn.btn-primary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("evidence.accept")

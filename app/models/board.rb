@@ -11,6 +11,7 @@ class Board < ApplicationRecord
   has_many :impressions
   has_many :board_sales
   has_many :sales, through: :board_sales
+  has_many :evidences, dependent: :delete_all
   # validate :dont_edit_online, if: :connected?
   has_many_attached :images
   has_many_attached :default_images
@@ -41,7 +42,7 @@ class Board < ApplicationRecord
     super.nil?? 0  : super
   end
   ###################################################
-  
+
 
   def di_images
     default_images.select(&:image?)
@@ -269,8 +270,6 @@ class Board < ApplicationRecord
 
   def update_ads_rotation(force_generate = false)
     if self.get_campaigns
-      err = self.build_ad_rotation(nil,true) if self.new_ads_rotation.nil? || force_generate  #in campaigns this is generated in validation, so it doesnt need to do again
-      return err if err.present?
       err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate
       return err if err.present?
       self.ads_rotation = self.new_ads_rotation
