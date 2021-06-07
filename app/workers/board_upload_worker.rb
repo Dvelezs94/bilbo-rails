@@ -1,12 +1,13 @@
 class BoardUploadWorker
   include Sidekiq::Worker
+  include AwsFunctionsHelper
   sidekiq_options retry: false
 
-  def perform(file_path, project_id)
+  def perform(file_url, project_id)
     files = {} #Store all the files in this hash to avoid downloading a single file multiple times
     successful = 0 #Count the successful uploads
     @errors = []
-    CSV.foreach(file_path, :headers => true).each_with_index do |row, index|
+    CSV.new(open(file_url), :headers => true).each_with_index do |row, index|
       item = {}
       item[:project_id] = project_id
 
@@ -79,11 +80,11 @@ class BoardUploadWorker
 
 
       # Ensure that the board has a name and category before doing anything else
-      error1.append("El nombre del bilbo no puede estar vacío") if item[:name].nil?
-      error1.append("El tipo de medio no es válido o está vacío") if item[:category].nil?
+      error1.append("El nombre del bilbo no puede estar vacio") if item[:name].nil?
+      error1.append("El tipo de medio no es valido o esta vacio") if item[:category].nil?
       if error1.present?
         error1.prepend("No se pudo guardar el board")
-        @errors.append([(item[:name] || "(Sin nombre)") + " (fila #{index+1})", error1])
+        @errors.append([(item[:name] || "(Sin nombre)") + " (fila #{index+2})", error1])
         next
       end
 
@@ -104,7 +105,7 @@ class BoardUploadWorker
               if image.content_type.in? ["image/jpg","image/jpeg","image/png","video/mp4"]
                 files[url] = image
               else
-                brd_errors.append("El enlace #{url} no contiene un archivo multimedia válido (se encontró #{image.content_type})")
+                brd_errors.append("El enlace #{url} no contiene un archivo multimedia valido (se encontro #{image.content_type})")
                 next
               end
             rescue
@@ -126,7 +127,7 @@ class BoardUploadWorker
               if image.content_type.in? ["image/jpg","image/jpeg","image/png","video/mp4"]
                 files[url] = image
               else
-                brd_errors.append("El enlace '#{url}' no contiene un archivo multimedia válido (se encontró #{image.content_type})")
+                brd_errors.append("El enlace '#{url}' no contiene un archivo multimedia valido (se encontro #{image.content_type})")
                 next
               end
             rescue
@@ -157,7 +158,7 @@ class BoardUploadWorker
         brd_errors.prepend("No se pudo guardar el board")
       end
       if brd_errors.present?
-        @errors.append([(@board.name || "(Sin nombre)") + " (fila #{index+1})", brd_errors])
+        @errors.append([(@board.name || "(Sin nombre)") + " (fila #{index+2})", brd_errors])
       else
         successful += 1
       end
@@ -176,8 +177,8 @@ class BoardUploadWorker
     if @errors.empty?
       SlackNotifyWorker.perform_async("#{successful} nuevos bilbos fueron creados correctamente, no se encontraron errores")
     else
-      report_url = Rails.root.join("storage/board_upload_report_#{Time.zone.now.strftime("%Y%m%d%H%M%S")}.txt")
-      File.open(report_url,'w+') do |report|
+      report_tempfile = Tempfile.new("report.txt")
+      File.open(report_tempfile.path,'w+') do |report|
         @errors.each do |title, values|
           report.write(title+":"+"\n")
           values.each do |message|
@@ -186,8 +187,18 @@ class BoardUploadWorker
           report.write("\n")
         end
       end
+      s3_report_url = upload_to_s3(report_tempfile.path, "reports/#{Time.now.strftime("%Y%m%d%H%M%S")}.txt")
 
-      SlackNotifyWorker.perform_async("#{successful} nuevos bilbos fueron creados correctamente, se encontraron errores, revisa el reporte en la siguiente ruta: #{report_url.to_s}: ")
+
+      if s3_report_url.present?
+        SlackNotifyWorker.perform_async("#{successful} nuevos bilbos fueron creados correctamente, se encontraron errores, descarga el reporte en el siguiente enlace:\n#{s3_report_url}: ")
+      else
+        #If its there is any error when uploading the report to s3, make sure that we can check it on the server storage
+        report_path = "storage/#{Time.now.strftime("%Y%m%d%H%M%S")}.txt"
+        FileUtils.mv(report_tempfile.path, report_path)
+        ObjectSpace.undefine_finalizer(report_tempfile)
+        SlackNotifyWorker.perform_async("#{successful} nuevos bilbos fueron creados correctamente\nNo fue posible subir el reporte a s3, revisa el reporte en la ruta: #{report_path}")
+      end
     end
   end
 
