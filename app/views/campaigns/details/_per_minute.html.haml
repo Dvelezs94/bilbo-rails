@@ -1,0 +1,20 @@
+%table.table
+    %tbody
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.wizard.campaign_classification")
+            %th.tx-gray-2= t("campaign.classification.#{@campaign.classification}")
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.wizard.campaign_duration")
+            %th.tx-gray-2= "#{@campaign.duration_in_days} #{t('week_days.days')}"
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.dates")
+            %th.tx-gray-2= "#{I18n.l(@campaign.starts_at.to_date, format: :short) rescue '-'} - #{I18n.l(@campaign.ends_at.to_date, format: :short) rescue '-'}"
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.objective")
+            %th.tx-gray-2= t("campaign.objectives.#{@campaign.objective}")
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.wizard.selected_bilbos")
+            %th.tx-gray-2= @campaign.boards.count
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.frequency.title")
+            %th.tx-gray-2= t("campaign.impressions_every_x_minutes", times: @campaign.imp, minutes: @campaign.minutes)

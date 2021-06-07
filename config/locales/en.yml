@@ -228,6 +228,7 @@ en:
     daily_spots: Daily Spots
     total_budget: Total Budget
     total_invested: Total Invested
+    impressions_every_x_minutes: "%{times} impressions every %{minutes} minutes"
     invested_on: Analyze the week days where you campaign has been most active
     popular_hours: Popular hours
     total_impressions: Total impressions
@@ -309,7 +310,7 @@ en:
       campaign_minute: Impression per minute
       campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
       campaign_hour_description: Select the days and the hours you want your campaign to run. Very powerful for highly targeted ads.
-      campaign_classification: Type of campaign
+      campaign_classification: Campaign type
       ongoing_campaign: Ongoing Campaign
       pick_date: Choose Date
       start_date: Start Date
@@ -778,12 +779,19 @@ en:
     only_numbers_for_phone: "Only numbers allowed for phone. e.g. 5577883344"
   week_days:
     mon: Monday
+    monday: Monday
     tue: Tuesday
+    tuesday: Tuesday
     wed: Wednesday
+    wednesday: Wednesday
     thu: Thursday
+    thursday: Thursday
     fri: Friday
+    friday: Friday
     sat: Saturday
+    saturday: Saturday
     sun: Sunday
+    sunday: Sunday
     everyday: Everyday
     days: Days
   views:
