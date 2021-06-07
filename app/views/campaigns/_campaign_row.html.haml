@@ -3,12 +3,12 @@
     .custom-control.custom-switch.px-4
       = check_box_tag "customSwitch-#{campaign.slug}", nil, campaign.state, class: "custom-control-input", data: { url: toggle_state_campaign_path(campaign.slug), remote: :true, method: :put }
       %label.custom-control-label{:for => "customSwitch-#{campaign.slug}"}
-  %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip", :title => campaign.description}= campaign.name
+  %td.tx-medium.truncate{"data-placement" => "top", "data-toggle" => "tooltip", :title => campaign.description}
+    = link_to campaign.name,  fetch_campaign_details_campaign_path(campaign.slug), remote: true, data: { toggle: "modal" }
   %td= t("campaign.objectives.#{campaign.objective}")
   %td= t("campaign.classification.#{campaign.classification}")
   %td.text-right{"data-placement" => "right", "data-toggle" => "tooltip", :title => t("campaign.view_bilbos_used")}
-    = "#{campaign.boards.length} "
-    = link_to "<i class='fe fe-list-bullet'></i>".html_safe,  fetch_campaign_details_campaign_path(campaign.slug), remote: true, data: { toggle: "modal" }
+    = campaign.boards.length
   %td.text-right= I18n.l(campaign.starts_at.to_date, format: :long) rescue "-"
   %td.text-right= I18n.l(campaign.ends_at.to_date, format: :long) rescue "-"
   %td.text-right.tx-medium= campaign.impression_count
