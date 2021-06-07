@@ -1,4 +1,5 @@
 class BoardsController < ApplicationController
+  include AwsFunctionsHelper
   access [:provider, :admin, :user] => [:index], [:user, :provider] => [:owned, :statistics, :index], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image, :reload_board]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image, :reload_board]
@@ -110,11 +111,13 @@ class BoardsController < ApplicationController
     if board_params[:upload_from_csv].present?
       csvfile = board_params[:upload_from_csv]
       #Save file to use it from the worker
-      file_path = Rails.root.join("storage/CSV_#{Time.zone.now.strftime("%Y%m%d%H%M%S")}.csv")
-      FileUtils.mv(csvfile.path, file_path)
-
-      BoardUploadWorker.perform_async(file_path, board_params[:project_id])
-      flash[:success] = "Creating boards, you will receive a notification once the worker finishes processing all the boards"
+      s3_url = upload_to_s3(csvfile.path, "files/CSV_#{Time.now.strftime("%Y%m%d%H%M%S")}.csv")
+      if s3_url.present?
+        BoardUploadWorker.perform_async(s3_url, board_params[:project_id])
+        flash[:success] = "Creating boards, you will receive a notification once the worker finishes processing all the boards"
+      else
+        flash[:error] = "There was an error when uploading the csv file to s3"
+      end
       redirect_to root_path
     else
       @board = Board.new(board_params)
