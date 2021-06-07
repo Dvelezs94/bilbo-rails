@@ -28,6 +28,8 @@
   .row
     .table-responsive#table-1
       %table#campaignsTable.table
+        .custom-control.custom-switch.pos-absolute.pd-t-7.d-flex.mg-l-200
+          %label#selected_rows
         %thead
           %tr
             %th= check_box("post", "validated", :id => "checkboxSelectAll", :class => "mg-r-10")
@@ -45,4 +47,6 @@
 %label#approved_text.d-none= t("provider_index.accept")
 %label#in_review_text.d-none= t("provider_index.in_review")
 %label#denied_text.d-none= t("provider_index.denied")
+%label#selected_rows_text.d-none= t("provider_index.selected_rows")
+%label#selected_row_text.d-none= t("provider_index.selected_row")
 = hidden_field_tag "board_campaign_ids"

@@ -91,7 +91,7 @@ class Project < ApplicationRecord
 
   # campaigns that require provider feedback to be aither approved or denied
   def campaigns_for_review
-    Campaign.active.joins(:boards).merge(self.boards).pluck(:id).each do |c|
+    Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(self.boards).pluck(:id).each do |c|
       @campaign_loop = Campaign.find(c)
       # to be optimized
       if @campaign_loop.owner.has_had_credits? || @campaign_loop.provider_campaign?
@@ -102,6 +102,6 @@ class Project < ApplicationRecord
   end
 
   def active_campaigns
-    BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: Campaign.active.joins(:boards).merge(self.boards).pluck(:id)).approved.count
+    BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(self.boards).pluck(:id)).approved.count
   end
 end
