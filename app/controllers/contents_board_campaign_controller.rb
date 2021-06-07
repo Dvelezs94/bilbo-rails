@@ -8,16 +8,23 @@ class ContentsBoardCampaignController < ApplicationController
     @slug.slice! "slug-"
     @board = Board.friendly.find(@slug)
     @campaign = Campaign.friendly.find(params[:campaign])
+    contents = []
+    #Returns the selected contents to the beginning of the modal if they exist
+    if BoardsCampaigns.find_by(campaign_id: @campaign.id, board_id: @board.id).present?
+      BoardsCampaigns.find_by(campaign_id: @campaign.id, board_id: @board.id).contents_board_campaign.each do |content|
+        contents.push(Content.find(content.content_id))
+      end
+    end
     if @board.images_only
-      @content = []
       @campaign.project.contents.order(id: :desc).each do |content|
         if !content.is_video?
-          @content.push(content)
+          contents.push(content)
         end
       end
     else
-      @content = Campaign.friendly.find(params[:campaign]).project.contents.order(id: :desc).map{|content|content}
+      @campaign.project.contents.order(id: :desc).map{|content|contents.push(content)}
     end
+    @content = Kaminari.paginate_array(contents.uniq).page(params[:upcoming_page]).per(15)
     render  'campaigns/wizard/get_contents_wizard_modal', :locals => {:content => @content, :board => @board, :campaign => @campaign}
   end
 

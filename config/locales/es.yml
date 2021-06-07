@@ -847,6 +847,7 @@ es:
     adding_content: Falta agregar contenidos a bilbos
     playback_duration: Duración de reproducción
     content_selected: Selecciona el contenido a mostrar en cada bilbo
+    more_contents: Ver más contenidos
   evidence:
     witnesses: Testigos
     upload_file: Subir archivo
