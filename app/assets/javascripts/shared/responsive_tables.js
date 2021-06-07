@@ -1,22 +1,19 @@
 $(document).on('turbolinks:load', function() {
   if ($("#userCampaignTable").length) {
     $('#userCampaignTable').DataTable({
+      dom: 'frtip',
+
       responsive: true,
-      pageLength: 25,
+      pageLength: 100,
       columnDefs: [ {
         "targets"  : 'no-sort',
-        "orderable": false,
+        "orderable": false
       }],
       language: {
         searchPlaceholder: 'Search...',
         sSearch: '',
         lengthMenu: '_MENU_ items/page'
       }
-      // commented because this causes the `actions` dropdown to dissapear
-      // scrollX: true,
-      // fixedColumns:   {
-      //   leftColumns: 2
-      // }
     });
     $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
   }
@@ -51,6 +48,7 @@ $(document).on('turbolinks:load', function() {
     });
   }
 });
+
 
 $(document).on('turbolinks:before-cache', function() {
   if ($('#userCampaignTable').DataTable() != null) $('#userCampaignTable').DataTable().destroy();

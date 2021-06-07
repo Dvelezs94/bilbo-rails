@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function () {
   if ($('#new_board').length) {
-    fields = ["#board_extra_percentage_earnings", "#board_name", "#board_address", "#board_lat", "#board_lng", "#board_utc_offset", "#board_category", "#board_avg_daily_views", "#board_displays_number", "#board_base_earnings", "#board_face", "#board_social_class", "#board_width", "#board_height", "#board_start_time", "#board_end_time", "#board_duration", "#board_images", "#board_default_images"]
+    fields = ["#board_extra_percentage_earnings", "#board_name", "#board_address", "#board_lat", "#board_lng", "#board_utc_offset", "#board_category", "#board_avg_daily_views", "#board_displays_number", "#board_provider_earnings", "#board_base_earnings", "#board_face", "#board_social_class", "#board_width", "#board_height", "#board_start_time", "#board_end_time", "#board_duration", "#board_images", "#board_default_images"]
     form_sections = ["#name", "#address", "#info", "#expectedProfit", "#face", "#socialClass", "#dimensions", "#activeTime", "#imagesOnly", "#macAddr", "#images", "#defaultImages"]
 
     updateForm();

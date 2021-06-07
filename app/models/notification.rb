@@ -80,6 +80,16 @@ class Notification < ApplicationRecord
           url_string: I18n.t("#{translation}.url_string"),
           message: I18n.t("#{translation}.message", user_name: reference.email),
          subject: I18n.t("#{translation}.subject", user_name: reference.email) }
+      when "evidences"
+        { url: campaigns_url(evidence: "true", witness: reference),
+          url_string: I18n.t("#{translation}.url_string"),
+          message: I18n.t("#{translation}.message", campaign_name: reference.campaign.name),
+         subject: I18n.t("#{translation}.subject", campaign_name: reference.campaign.name) }
+       when "witness"
+         { url: analytics_campaign_url(reference.slug),
+           url_string: I18n.t("#{translation}.url_string"),
+           message: I18n.t("#{translation}.message", campaign_name: reference.name),
+          subject: I18n.t("#{translation}.subject", campaign_name: reference.name) }
       end
     when "Report"
       case action
@@ -104,7 +114,7 @@ class Notification < ApplicationRecord
           subject: ActionView::Base.full_sanitizer.sanitize(notif_body[:subject]),
           link: notif_body[:url], link_text: notif_body[:url_string]).deliver
 
-        if sms && user.phone_number.present? 
+        if sms && user.phone_number.present?
           send_sms(user.phone_number, "#{ActionView::Base.full_sanitizer.sanitize(notif_body[:message])}. #{notifications_url}")
         end
       end

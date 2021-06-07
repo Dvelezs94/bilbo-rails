@@ -1,5 +1,5 @@
 %tr
-  %th{:scope => "row"}
+  %td
     .custom-control.custom-switch.px-4
       = check_box_tag "customSwitch-#{campaign.slug}", nil, campaign.state, class: "custom-control-input", data: { url: toggle_state_campaign_path(campaign.slug), remote: :true, method: :put }
       %label.custom-control-label{:for => "customSwitch-#{campaign.slug}"}

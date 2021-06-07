@@ -88,6 +88,7 @@ en:
     users: Users
     configuration: Configuration
   account_settings:
+    show_recent_campaigns: Show only recent campaigns
     general_information_divider: General Information
     company_information: Company Information
     name: Full Name
@@ -210,6 +211,9 @@ en:
     enable_campaigns: Enable campaigns
     to_active: The campaign has been activated
     accepted: The campaign has been accepted
+    approved: Campaigns have been accepted
+    denied: Campaigns have been rejected
+    in_review: The campaigns have been sent for review
     to_inactive: The campaign has been deactivated
     new_campaign: New Campaign
     destroy: Remove Campaign
@@ -734,6 +738,14 @@ en:
         subject: <strong>%{user_name}</strong> was removed from the project
         message: <strong>%{user_name}</strong> was removed from the project
         url_string: Go to project
+      evidences:
+        subject: The <strong>%{campaign_name}</strong> campaign requests evidences
+        message: The <strong>%{campaign_name}</strong> campaign requests evidences
+        url_string: Upload evidences
+      witness:
+        subject: Witness request completed <strong>%{campaign_name}</strong>
+        message: Witness request completed <strong>%{campaign_name}</strong>
+        url_string: Ir a campaña
     report:
       weekly_ready:
         subject: Your weekly report is ready to be downloaded
@@ -836,3 +848,28 @@ en:
     adding_content: Adding content to bilbo's is missing
     playback_duration: Playback duration
     content_selected: Select the content to display in each bilbo
+  evidence:
+    witnesses: Witnesses
+    upload_file: Upload file
+    upload_evidence_description: Here you can upload the evidence of the campaigns that request witnesses
+    upload_evidence_description_2: If you require evidence of your active campaign in the selected bilbos, request it here
+    bilbo_selected: Bilbo selected
+    files: Files
+    pending: Pending
+    view: View
+    succesfully: Evidences successfully created
+    error: Failed to create evidence, 10 MB limit
+    upload_evidences: Upload files for witnesses
+    reques: Request date
+    accept: Accept
+  witness:
+    succesfully: Witnesses successfully requested
+    error: Error requesting witnesses
+    without_bilbos: The campaign does not have approved bilbos
+    campaign_active: The campaign is not active
+    validate_weekly_generation: It is only allowed to create witnesses once every seven days
+    request_witnesses: Request witnesses
+  provider_index:
+    accept: Accept
+    denied: Denied
+    in_review: In Review

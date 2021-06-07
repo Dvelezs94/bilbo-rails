@@ -30,3 +30,6 @@
       = render 'dashboards/provider_charts/pending_campaigns'
       = render 'dashboards/provider_charts/active_campaigns'
       = render 'dashboards/provider_charts/recent_earnings'
+      = render 'evidences/evidences'
+      -if current_user.is_provider? && @witness.present?
+        = render "witnesses/upload_evidences"

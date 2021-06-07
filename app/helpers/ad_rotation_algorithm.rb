@@ -191,7 +191,7 @@ module AdRotationAlgorithm
     return output
   end
 
-  def build_ad_rotation(new_campaign = nil, testing = false)
+  def build_ad_rotation(new_campaign = nil)
 
     err = []
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
@@ -200,13 +200,9 @@ module AdRotationAlgorithm
     ####################### GET AND GIVE FORMAT TO ALL ACTIVE CAMPAIGNS OF THE BOARD #########################
 
     #{p1: [60,10], p2: [50,10], p3:  [67,20]} #these are the required campaigns of the provider and their duration
-    if testing
-      r_cps = @r_cps_first.map{ |c| [ c.id, [ (c.budget_per_bilbo(self)/(self.get_cycle_price(c) * c.duration/self.duration)).to_i, (c.duration/10).to_i ] ] }.to_h
-    else
-      r_cps = @r_cps_first.map{ |c| [ c.id, [ c.remaining_impressions(self), (c.duration/10).to_i ]] }.to_h
-    end
+    r_cps = @r_cps_first.map{ |c| [ c.id, [ c.remaining_impressions(self), (c.duration/10).to_i , c.max_impressions(self)]] }.to_h
     r_cycles = []
-    total_r_cps_spaces = 0
+    # total_r_cps_spaces = 0 #<- not being used
 
     per_time_cps = @per_time_cps_first.map{ |c| [ c.id,[c.imp, c.minutes, c.duration] ]}.to_h  #Input hash for the x_campaings/y_minutes mode
 
@@ -224,11 +220,7 @@ module AdRotationAlgorithm
         @hour_campaign_remaining_impressions[new_campaign.id] = new_campaign.remaining_impressions(self.id)
         @campaign_names[new_campaign.id] = new_campaign.name
       elsif new_campaign.board_campaigns.find_by(board: self).budget.present?
-        if testing
-          r_cps[new_campaign.id] = [(new_campaign.budget_per_bilbo(self)/(self.get_cycle_price(new_campaign) * new_campaign.duration/self.duration)).to_i, (new_campaign.duration/10).to_i]
-        else
-          r_cps[new_campaign.id] = [new_campaign.remaining_impressions(self), (new_campaign.duration/10).to_i]
-        end
+        r_cps[new_campaign.id] = [new_campaign.remaining_impressions(self), (new_campaign.duration/10).to_i, new_campaign.max_impressions(self)]
         @r_cps_first.append(new_campaign)
       end
     end
@@ -244,16 +236,17 @@ module AdRotationAlgorithm
     @h_cps_first.each_with_index do |c,idx|
       name = c.campaign_id.to_s << '/' << idx.to_s
       @h_cps_first[idx][:campaign_id] = name
-      imp = (testing)? c.imp : [c.imp, @hour_campaign_remaining_impressions[c.campaign_id]].min
-      @hour_campaign_remaining_impressions[c.campaign_id] = @hour_campaign_remaining_impressions[c.campaign_id] - imp if !testing
-      h_cps[name] = [imp, c.start, c.end, c.campaign.duration]
+      imp = [@hour_campaign_remaining_impressions[c.campaign_id], c.imp].min
+      @hour_campaign_remaining_impressions[c.campaign_id] = @hour_campaign_remaining_impressions[c.campaign_id] - imp
+      h_cps[name] = [imp, c.start, c.end, c.campaign.duration, c.imp]
     end
     h_cps = sort_by_min_time(h_cps)
 
     r_cps.each do |name, value|
-      displays, block_size = value
+      displays, block_size, max_imp = value
       r_cycles += [[name,block_size]] * displays
-      total_r_cps_spaces += block_size * displays
+      r_cycles += [["b",block_size]] * (max_imp - displays) if max_imp - displays > 0
+      # total_r_cps_spaces += block_size * displays  #<- not being used
     end
     r_cycles = r_cycles.sort_by{|name, block_size| -block_size} #first put the biggest blocks
     if r_cycles.present?
@@ -269,14 +262,14 @@ module AdRotationAlgorithm
 
     ########## PLACE THE H_CPS AT THE START OF THEIR RESPECTIVE HOURS ##############
     h_cps.each do |name, value|
-       reps, start_t, end_t, ad_duration = value
+       reps, start_t, end_t, ad_duration, max_imp = value
        block_size = ad_duration/10
-       fi = (working_minutes(start_time,start_t,true)*6).to_i
-       la = (working_minutes(start_time,end_t,true)*6).to_i
+       fi = (working_minutes(start_time,start_t,true)*6).to_i  #fi and la are the left and right limits for
+       la = (working_minutes(start_time,end_t,true)*6).to_i    #the current campaign (the valid spaces according to the schedule)
        value[1] = fi
        value[2] = la
        index_array = find_free_indexes(output[fi...la],["-"]*(block_size))
-       if index_array.length < reps
+       if index_array.length < max_imp
          id = name.split('/')[0].to_i
          err << I18n.t("bilbos.ads_rotation_error.hour_campaign_space", campaign_name: @campaign_names[id],bilbo_name: self.name)
          return err
@@ -287,6 +280,12 @@ module AdRotationAlgorithm
          #sample_index = push_to_left(output,sample_index,max_block_size)
          index_array.delete(sample_index)
          output[ fi + sample_index ...fi + sample_index +block_size ] = [name] + ["."]*(block_size - 1)
+       end
+       (max_imp - reps).times do |rep|
+         sample_index = index_array.sample
+         #sample_index = push_to_left(output,sample_index,max_block_size)
+         index_array.delete(sample_index)
+         output[ fi + sample_index ...fi + sample_index +block_size ] = ["b"]*block_size
        end
     end
     ################################################################################
@@ -355,7 +354,7 @@ module AdRotationAlgorithm
       place_index = rotation_key + find_substring_index(output[rotation_key..],["-"]*(block_size))
       if place_index != rotation_key - 1
         place_index = push_to_left(output,place_index,block_size)
-        output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
+        output[ place_index...place_index +block_size ] = [name] + [name == "b" ? "b" : "."]*(block_size - 1)
         total_placed += 1
       else
         break
@@ -368,7 +367,7 @@ module AdRotationAlgorithm
       place_index = find_substring_index(output[...rotation_key],["-"]*(block_size))
       if place_index != -1
         place_index = push_to_left(output,place_index,block_size)
-        output[ place_index...place_index +block_size ] = [name] + ["."]*(block_size - 1)
+        output[ place_index...place_index +block_size ] = [name] + [name == "b"? "b" : "."]*(block_size - 1)
       else
         err << I18n.t("bilbos.ads_rotation_error.budget_campaign_space", campaign_name: @r_cps_first.last.name, bilbo_name: self.name)
         return err
@@ -387,7 +386,7 @@ module AdRotationAlgorithm
       end
     end
 
-    self.new_ads_rotation = output unless testing
+    self.new_ads_rotation = (output.include? "b")? JSON.parse(output.to_json.gsub!('b','-')) : output
     return err
   end
 

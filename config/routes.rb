@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
+
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/api"
   end
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
   end
 
   post "/api", to: "graphql#execute"
+  mount Bilbo::API => '/'
 
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: "registrations", sessions: "sessions", invitations: "users/invitations" }
   root :to => 'dashboards#index'
@@ -46,6 +48,19 @@ Rails.application.routes.draw do
     end
     member do
       get :fetch_single_wizard_content
+    end
+  end
+
+  resources :witnesses, only: [:show, :create, :edit, :update] do
+    member do
+      get  :evidences_witness_modal
+      get  :evidences_dashboard_provider
+    end
+  end
+
+  resources :evidences, only: [:update] do
+    member do
+      get :new_evidence
     end
   end
 
@@ -84,8 +99,12 @@ Rails.application.routes.draw do
       put :deny_campaign
       put :in_review_campaign
     end
+
     resource :provider_invoices, only: :create
   end
+
+  post '/board_campaigns/multiple_update', to: 'board_campaigns#multiple_update'
+
   resources :boards, only: [:index, :show, :create, :edit,:update] do
     collection do
       get :map_frame
@@ -146,6 +165,7 @@ Rails.application.routes.draw do
         get :fetch
         patch :verify
         patch :deny
+        post :toggle_show_recent_campaigns
         post :impersonate
       end
     end

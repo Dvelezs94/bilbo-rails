@@ -12,6 +12,9 @@ class CampaignsController < ApplicationController
     @purchased_credits = current_user.payments.present?
     @verified_profile = current_user.verified
     @show_hint = !(@created_ads && @created_campaigns && @purchased_credits && @verified_profile)
+    if params[:witness].present?
+      @witness = Witness.friendly.find(params[:witness])
+    end
   end
 
   def provider_index
@@ -56,6 +59,8 @@ class CampaignsController < ApplicationController
     @date_end = DateTime.parse(params[:date_end]) rescue Time.zone.now
     @campaign = Campaign.includes(:boards, :impressions).friendly.find(params[:id])
     @history_campaign = UserActivity.where( activeness: @campaign).order(created_at: :desc)
+    @witnesses = @campaign.witnesses.order(created_at: :desc)
+    @witness = Witness.new
     @campaign_impressions = time_range_init(@date_start, @date_end)
     @impressions = Impression.where(campaign: @campaign, created_at: @date_start..@date_end)
     @total_invested = @campaign.total_invested
@@ -78,7 +83,7 @@ class CampaignsController < ApplicationController
     @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor, 'data-slug': board.slug } ] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
-    if current_user.is_provider?
+    if @project.provider?
       @boards = @project.boards
     else
       @boards = Board.enabled
@@ -91,8 +96,16 @@ class CampaignsController < ApplicationController
 
   def toggle_state
     current_user.with_lock do
-      @campaign.with_lock do
-        @success = @campaign.update(state: !@campaign.state)
+      if !@campaign.state
+        @campaign.with_lock do
+          @success = @campaign.update(state: !@campaign.state, skip_review: true) #Only skips the 'set_in_review_and_update_price' callback, THIS DOES NOT SKIP ALL VALIDATIONS
+        end
+      else
+        @campaign.state = false
+        @success = @campaign.save(validate: false) #Does not run any validation, just turns off the campaign and updates the ads_rotation of every associated board
+        @campaign.boards.each do |b|
+          b.update_ads_rotation
+        end
       end
       if @success
         if @campaign.state
@@ -303,7 +316,11 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaigns
-    @campaigns = @project.campaigns.includes(:boards).active
+    if current_user.show_recent_campaigns
+      @campaigns = @project.campaigns.includes(:boards).where(updated_at: 30.days.ago.beginning_of_day .. Time.now.end_of_day).active.sort_by { |campaign| campaign.state ? 0 : 1 }
+    else
+      @campaigns = @project.campaigns.includes(:boards).active.sort_by { |campaign| campaign.state ? 0 : 1 }
+    end
   end
 
   def get_campaign

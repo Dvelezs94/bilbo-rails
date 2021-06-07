@@ -1,7 +1,7 @@
 class Admin::UsersController < ApplicationController
   include MailerHelper
-  access admin: :all, all: [:stop_impersonating]
-  before_action :get_user, only: [:fetch, :verify, :deny, :update_credit, :increase_credits, :impersonate, :toggle_ban]
+  access admin: :all, all: [:stop_impersonating, :toggle_show_recent_campaigns]
+  before_action :get_user, only: [:fetch, :verify, :deny, :update_credit, :increase_credits, :impersonate, :toggle_ban, :toggle_show_recent_campaigns]
 
 
   def index
@@ -116,6 +116,11 @@ class Admin::UsersController < ApplicationController
     SyncSendgridContactsWorker.perform_async
     redirect_to admin_users_path(role: "user")
     flash[:success] = "Contactos agregandose"
+  end
+
+  def toggle_show_recent_campaigns
+    @user.update(show_recent_campaigns: !@user.show_recent_campaigns)
+    redirect_to campaigns_path
   end
 
   private
