@@ -2,8 +2,8 @@ class CampaignsController < ApplicationController
   include UserActivityHelper
   access [:user, :provider] => :all, all: [:analytics, :shortened_analytics, :redirect_to_external_link, :get_boards_content_info]
   before_action :get_campaigns, only: [:index]
-  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :download_qr_instructions, :copy_campaign, :create_copy, :get_used_contents, :get_boards_content_info]
-  before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :get_used_contents, :get_boards_content_info]
+  before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :fetch_campaign_details, :download_qr_instructions, :copy_campaign, :create_copy, :get_used_contents, :get_boards_content_info]
+  before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :fetch_campaign_details, :get_used_contents, :get_boards_content_info]
   before_action :campaign_not_active, only: [:edit]
 
   def index
@@ -44,7 +44,8 @@ class CampaignsController < ApplicationController
     end
   end
 
-  def get_used_boards
+  # Modal showing campaign details
+  def fetch_campaign_details
     @board_campaigns = @campaign.board_campaigns.includes(:board, :contents_board_campaign)
   end
 
@@ -280,7 +281,7 @@ class CampaignsController < ApplicationController
     @campaign
     @selected_boards = Board.where(id: params[:selected_boards].split(","), status: "enabled")
   end
-
+  
   private
 
   def campaign_params

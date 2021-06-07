@@ -1,0 +1,23 @@
+%table.table
+    %tbody
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.wizard.campaign_classification")
+            %th.tx-gray-2= t("campaign.classification.#{@campaign.classification}")
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.wizard.campaign_duration")
+            %th.tx-gray-2= "#{@campaign.duration_in_days} #{t('week_days.days')}"
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.dates")
+            %th.tx-gray-2= "#{I18n.l(@campaign.starts_at.to_date, format: :short) rescue '-'} - #{I18n.l(@campaign.ends_at.to_date, format: :short) rescue '-'}"
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.objective")
+            %th.tx-gray-2= t("campaign.objectives.#{@campaign.objective}")
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.wizard.selected_bilbos")
+            %th.tx-gray-2= @campaign.boards.count
+        %tr.bd-hidden
+            %th.wd-50p.tx-14.tx-gray-3= t("campaign.daily_budget")
+            %th.tx-gray-2= "#{number_to_currency_usd(@campaign.budget || 0)} #{ENV.fetch('CURRENCY')}"
+        %tr.bd-hidden
+            %th.wd-50p.tx-14= t("campaign.total_budget")
+            %th.tx-bold= "#{number_to_currency_usd(@campaign.expected_investment)} #{ENV.fetch('CURRENCY')}"
