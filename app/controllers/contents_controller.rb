@@ -4,6 +4,11 @@ class ContentsController < ApplicationController
   before_action :get_content, only: [:update, :destroy]
 
   def index
+    @contents = @contents.page(params[:upcoming_page]).per(15)
+    respond_to do |format|
+        format.js
+        format.html
+      end
   end
 
   def new_multimedia

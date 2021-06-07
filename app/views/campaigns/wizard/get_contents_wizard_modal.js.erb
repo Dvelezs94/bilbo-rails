@@ -1,6 +1,16 @@
-$("#modalContent").remove();
-$("body").append("<%= j (render 'campaigns/wizard/content', locals: {content: @content, board: @board, :campaign => @campaign}) %>");
+if(!$("#modalContent").length){
+  $("body").append("<%= j (render 'campaigns/wizard/content', locals: {content: @content, board: @board, :campaign => @campaign}) %>");
+}
 $("#modalContent").modal();
-$("#content_modal").html("<%= j render partial: 'campaigns/wizard/contents_modal'%>");
-select_content();
-initialize_content_filter();
+$("#paginator a").hide();
+$("#single_content").append('<%= j render(partial: "shared/loading_ads")%>');
+scroll_wizard();
+setTimeout(function() {
+  $('#spinner').remove();
+  $("#single_content").append("<%= j render partial: 'campaigns/wizard/contents_modal'%>");
+  setImageLoader();
+  $('#paginator').html('<%= j (link_to_next_page @content, "#{t("content.more_contents")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "upcoming_page")%>');
+  $("#paginator a").show();
+  select_content();
+  initialize_content_filter();
+}, 1000);

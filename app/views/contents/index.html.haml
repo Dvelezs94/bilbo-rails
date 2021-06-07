@@ -15,3 +15,5 @@
         %h4.mg-b-15.mg-lg-b-25= t("ads.all_multimedia_files")
         #multimediaElements.card-group
           = render partial: "single_multimedia", collection: @contents, as: :content
+        .container#paginator.text-center.tx-13.pd-t-10
+          = link_to_next_page @contents, "#{t("ads.more_ads")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "upcoming_page"

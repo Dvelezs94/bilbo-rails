@@ -840,6 +840,7 @@ en:
     adding_content: Adding content to bilbo's is missing
     playback_duration: Playback duration
     content_selected: Select the content to display in each bilbo
+    more_contents: View more contents
   evidence:
     witnesses: Witnesses
     upload_file: Upload file
