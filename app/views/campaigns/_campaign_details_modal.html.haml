@@ -38,6 +38,7 @@
                       .mg-l-auto.d-flex.align-self-center{id: "content#{board_campaign.board.slug}"}
 
       .modal-footer
+        = link_to t("campaign.metrics"), analytics_campaign_path(@campaign), class: "btn btn-primary"
         %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
       / modal-footer
     / modal-content
