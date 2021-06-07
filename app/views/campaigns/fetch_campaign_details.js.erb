@@ -1,0 +1,10 @@
+$("#modalCampaignBoardsUsed").remove();
+$('body').append('<%= j (render "campaigns/campaign_details_modal",  object: { campaign: @campaign, board_campaigns: @board_campaigns }) %>');
+$("#modalCampaignBoardsUsed").modal('show');
+
+
+$('.accordion').accordion({
+  heightStyle: 'content',
+  icons: { "header": "ui-icon-arrowthick-1-se", "activeHeader": "ui-icon-minus" },
+  collapsible: true
+});

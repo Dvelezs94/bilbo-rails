@@ -76,6 +76,10 @@ class Campaign < ApplicationRecord
     self.project.owner
   end
 
+  def duration_in_days
+    (ends_at.to_date - starts_at.to_date).to_i rescue "-"
+  end
+
   def true_duration(board_slug)
     if self.provider_campaign?
       return duration
@@ -461,10 +465,34 @@ class Campaign < ApplicationRecord
       self.budget = total_budget
     end
   end
+  
+  # total budget expected to invest
+  def expected_investment
+    begin
+      if starts_at.present? && ends_at.present? && classification == "budget"
+        budget * duration_in_days
+      else
+        "undefined"
+      end
+    rescue
+      0
+    end
+  end
 
   def max_impressions(board)
     bc = board_campaigns.find_by(board: board)
     return (bc.budget/(board.get_cycle_price(self, bc)*self.duration/board.duration)).to_i
   end
 
+  def expected_investment
+    begin
+      if starts_at.present? && ends_at.present? && classification == "budget"
+        budget * duration_in_days
+      else
+        "undefined"
+      end
+    rescue
+      0
+    end
+  end
 end

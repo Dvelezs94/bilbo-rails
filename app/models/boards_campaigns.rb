@@ -18,6 +18,16 @@ class BoardsCampaigns < ApplicationRecord
       include_association :contents_board_campaign, class_name: "ContentsBoardCampaign"
     end
 
+    def max_daily_impressions
+      if campaign.classification == "budget"
+        return (budget / cycle_price).to_i
+      elsif campaign.classification == "per_hour"
+        campaign.impression_hours.select{|cpn| self.board.should_run_hour_campaign_in_board?(cpn) }.pluck(:imp).sum
+      elsif campaign.classification == "per_minute"
+        (board.working_minutes / campaign.minutes) * campaign.imp
+      end
+    end
+
     private
 
     def add_or_stop_campaign
@@ -58,7 +68,6 @@ class BoardsCampaigns < ApplicationRecord
           #Compute the total impressions that must be created in the current ads rotation and the difference with the impressions already created
           today_max_imp = c.impression_hours.select{|cpn| self.board.should_run_hour_campaign_in_board?(cpn) }.pluck(:imp).sum
           self.remaining_impressions = today_max_imp - today_impressions
-
         end
       end
     end

@@ -234,6 +234,7 @@ es:
     daily_spots: Impresiones Diarias
     total_budget: Presupuesto Total
     total_invested: Total Invertido
+    impressions_every_x_minutes: "%{times} impresiones cada %{minutes} minutos"
     invested_on: Analiza los días de la semana en los que tu campaña ha estado más activa.
     popular_hours: Horas populares
     total_impressions: Impresiones totales
@@ -797,12 +798,19 @@ es:
     only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 5577883344"
   week_days:
     mon: Lunes
+    monday: Luenes
     tue: Martes
+    tuesday: Martes
     wed: Miércoles
+    wednesday: Miércoles
     thu: Jueves
+    thursday: Jueves
     fri: Viernes
+    friday: Viernes
     sat: Sábado
+    saturday: Sábado
     sun: Domingo
+    sunday: Domingo
     everyday: Todos los días
     days: Días
   views:

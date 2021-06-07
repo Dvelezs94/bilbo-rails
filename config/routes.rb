@@ -85,7 +85,7 @@ Rails.application.routes.draw do
       put :toggle_state
       get :wizard_fetch
       get :get_content
-      get :get_used_boards
+      get :fetch_campaign_details
       get :get_used_contents
       get :download_qr_instructions
       get :copy_campaign
