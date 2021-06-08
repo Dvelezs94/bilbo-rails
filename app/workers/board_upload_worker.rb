@@ -3,11 +3,11 @@ class BoardUploadWorker
   include AwsFunctionsHelper
   sidekiq_options retry: false
 
-  def perform(file_url, project_id)
+  def perform(file, project_id)
     files = {} #Store all the files in this hash to avoid downloading a single file multiple times
     successful = 0 #Count the successful uploads
     @errors = []
-    CSV.new(open(file_url), :headers => true).each_with_index do |row, index|
+    CSV.new((Rails.env.development?? File.open(file) : open(file)), :headers => true).each_with_index do |row, index|
       item = {}
       item[:project_id] = project_id
 
@@ -187,8 +187,7 @@ class BoardUploadWorker
           report.write("\n")
         end
       end
-      s3_report_url = upload_to_s3(report_tempfile.path, "reports/#{Time.now.strftime("%Y%m%d%H%M%S")}.txt")
-
+      s3_report_url = upload_to_s3(report_tempfile.path, "reports/#{Time.now.strftime("%Y%m%d%H%M%S")}.txt") if !Rails.env.development?
 
       if s3_report_url.present?
         SlackNotifyWorker.perform_async("#{successful} nuevos bilbos fueron creados correctamente, se encontraron errores, descarga el reporte en el siguiente enlace:\n#{s3_report_url}: ")
