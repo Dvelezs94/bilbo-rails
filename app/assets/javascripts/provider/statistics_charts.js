@@ -245,7 +245,6 @@ function multiple_update(status){
 function is_checked()
 {
   if(checkbox_selected = $('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 0){
-    $("div.dt-buttons").removeAttr("style")
     if($('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 1){
       $("#selected_rows").text($('input:checkbox[id*=checkbox-boardCampaign]:checked').length + " " + $("#selected_rows_text").text())
     }else{
