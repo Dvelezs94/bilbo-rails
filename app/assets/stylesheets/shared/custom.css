@@ -592,3 +592,18 @@ a[href="#previous"] {
     transform: rotate(359deg);
   }
 }
+
+@media (max-width: 767px) {
+  .btn-xs-mobile {
+    font-size: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 0.25rem;
+    }
+
+  .div-buttons-left{
+    position: absolute;
+    text-align: left !important;
+  }
+
+}
