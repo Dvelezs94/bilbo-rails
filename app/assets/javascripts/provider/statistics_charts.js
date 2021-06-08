@@ -3,23 +3,23 @@ $(document).on('turbolinks:load', function() {
   if ($('#campaignsTable').length){
     $(function(){
       var table =  $('#campaignsTable').DataTable({
-        dom: 'Bfrtip',
+        "dom": 'fBrtip',
         buttons: {
           buttons: [
-             { text: '<i class="fe fe-pause tx-16"></i>'+ "  "+$("#in_review_text").text(),
+             { text: '<i class="fe fe-pause"></i>'+ "  "+$("#in_review_text").text(),
                attr: {id: 'review'},
                action: function () {multiple_update("in_review")},
-               className: "btn btn-secondary mg-r-10"
+               className: "btn btn-xs-mobile btn-secondary mg-r-10"
              },
-             {  text: '<i class="fe fe-check tx-16"></i>'+ "  "+$("#approved_text").text(),
+             {  text: '<i class="fe fe-check"></i>'+ "  "+$("#approved_text").text(),
                 attr: {id: 'approved'},
                 action: function () {multiple_update("approved")},
-                className: "btn btn-secondary mg-r-10"
+                className: "btn btn-secondary btn-xs-mobile mg-r-10"
              },
-             {  text :'<i class="fe fe-close tx-16"></i>'+ "  "+$("#denied_text").text(),
+             {  text :'<i class="fe fe-close"></i>'+ "  "+$("#denied_text").text(),
                 attr: { id: 'denied'},
                 action: function () {multiple_update("denied")},
-                className: "btn btn-secondary"
+                className: "btn btn-xs-mobile btn-secondary "
              }
           ],
         dom: {
@@ -66,6 +66,9 @@ $(document).on('turbolinks:load', function() {
       $('#denied').prop("disabled", true)
       $('#review').prop("disabled", true)
       $('#approved').prop("disabled", true)
+      $("div.dt-buttons").append('<label class="mg-l-10" id= "selected_rows"></label>');
+      $("div.dt-buttons").addClass("mg-b-10 mg-l-10 div-buttons-left");
+
       var urlParams = new URLSearchParams(window.location.search);
       if(urlParams.has('q')){
         $('#review').hide()
@@ -242,6 +245,7 @@ function multiple_update(status){
 function is_checked()
 {
   if(checkbox_selected = $('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 0){
+    $("div.dt-buttons").removeAttr("style")
     if($('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 1){
       $("#selected_rows").text($('input:checkbox[id*=checkbox-boardCampaign]:checked').length + " " + $("#selected_rows_text").text())
     }else{

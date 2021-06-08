@@ -874,5 +874,5 @@ en:
     accept: Accept
     denied: Deny
     in_review: Pause
-    selected_rows: Selected Campaigns
-    selected_row: Selected Campaign
+    selected_rows: Selected
+    selected_row: Selected
