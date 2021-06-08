@@ -110,13 +110,18 @@ class BoardsController < ApplicationController
   def create
     if board_params[:upload_from_csv].present?
       csvfile = board_params[:upload_from_csv]
-      #Save file to use it from the worker
-      s3_url = upload_to_s3(csvfile.path, "files/CSV_#{Time.now.strftime("%Y%m%d%H%M%S")}.csv")
+      s3_url = upload_to_s3(csvfile.path, "files/CSV_#{Time.now.strftime("%Y%m%d%H%M%S")}.csv") if !Rails.env.development?
       if s3_url.present?
         BoardUploadWorker.perform_async(s3_url, board_params[:project_id])
         flash[:success] = "Creating boards, you will receive a notification once the worker finishes processing all the boards"
-      else
+      elsif !Rails.env.development?
         flash[:error] = "There was an error when uploading the csv file to s3"
+      else
+        #Manage the file locally for development
+        file_path = Rails.root.join("storage/CSV_#{Time.zone.now.strftime("%Y%m%d%H%M%S")}.csv")
+        FileUtils.mv(csvfile.path, file_path)
+        BoardUploadWorker.perform_async(file_path, board_params[:project_id])
+        flash[:success] = "Creating boards, you will receive a notification once the worker finishes processing all the boards"
       end
       redirect_to root_path
     else
