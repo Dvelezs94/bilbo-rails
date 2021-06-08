@@ -44,6 +44,11 @@ class CampaignsController < ApplicationController
     end
   end
 
+  def new
+    @campaign = Campaign.new
+  end
+  
+
   # Modal showing campaign details
   def fetch_campaign_details
     @board_campaigns = @campaign.board_campaigns.includes(:board, :contents_board_campaign)
@@ -308,7 +313,7 @@ class CampaignsController < ApplicationController
   end
 
   def copy_params
-    @campaign_params = params.require(:campaign).permit(:name, :description)
+    @campaign_params = params.require(:campaign).permit(:name, :starts_at, :ends_at)
     @campaign_params[:state] = false
     @campaign_params[:impression_count] = 0
     @campaign_params[:total_invested] = 0

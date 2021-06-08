@@ -1,2 +1,7 @@
+<%# remove modal for new campaign since fields id have conflicts %>
+$("#modalNewCampaign").remove();
+$("#modalCopyCampaign").remove();
+
 $("body").append("<%= j (render 'campaigns/copy.html.haml', :locals => {:obj => @campaign}) %>");
 $("#modalCopyCampaign").modal('show');
+initDatePicker();
