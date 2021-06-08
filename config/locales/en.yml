@@ -872,5 +872,7 @@ en:
     request_witnesses: Request witnesses
   provider_index:
     accept: Accept
-    denied: Denied
-    in_review: In Review
+    denied: Deny
+    in_review: Pause
+    selected_rows: Selected Campaigns
+    selected_row: Selected Campaign

@@ -19,7 +19,7 @@ class CampaignsController < ApplicationController
 
   def provider_index
     if params[:q] == "review"
-      Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id).each do |c|
+      Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(@project.boards).uniq.pluck(:id).each do |c|
         @campaign_loop = Campaign.find(c)
         # to be optimized
         if @campaign_loop.owner.has_had_credits? || @campaign_loop.provider_campaign?
@@ -28,9 +28,9 @@ class CampaignsController < ApplicationController
       end
       @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: @camp).in_review
     elsif params[:bilbo].present?
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.friendly.find(params[:bilbo]), campaign_id: Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved rescue nil
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.friendly.find(params[:bilbo]), campaign_id: Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved rescue nil
     else
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: Campaign.active.joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved
+      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved
     end
   end
 
@@ -281,7 +281,7 @@ class CampaignsController < ApplicationController
     @campaign
     @selected_boards = Board.where(id: params[:selected_boards].split(","), status: "enabled")
   end
-  
+
   private
 
   def campaign_params

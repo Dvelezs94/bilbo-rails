@@ -168,7 +168,7 @@ class Board < ApplicationRecord
 
   #Return the number of active campaigns in the board
   def approved_campaign_by_board
-    BoardsCampaigns.where(board_id: self, campaign_id: self.campaigns.active.pluck(:id)).approved.count
+    BoardsCampaigns.where(board_id: self, campaign_id: self.campaigns.active.where("ends_at >= ?", Date.today).pluck(:id)).approved.count
   end
 
   def campaign_of_day

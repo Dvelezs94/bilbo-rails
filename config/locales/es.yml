@@ -880,4 +880,6 @@ es:
   provider_index:
     accept: Aceptar
     denied: Rechazar
-    in_review: Revisión
+    in_review: Pausar
+    selected_rows: Campañas seleccionadas
+    selected_row: Campaña seleccionada

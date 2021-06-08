@@ -6,20 +6,20 @@ $(document).on('turbolinks:load', function() {
         dom: 'Bfrtip',
         buttons: {
           buttons: [
-             { text: $("#in_review_text").text(),
-               attr: {id: 'review' },
+             { text: '<i class="fe fe-pause tx-16"></i>'+ "  "+$("#in_review_text").text(),
+               attr: {id: 'review'},
                action: function () {multiple_update("in_review")},
-               className: "btn btn-outline-warning"
+               className: "btn btn-secondary mg-r-10"
              },
-             {  text: $("#approved_text").text(),
+             {  text: '<i class="fe fe-check tx-16"></i>'+ "  "+$("#approved_text").text(),
                 attr: {id: 'approved'},
                 action: function () {multiple_update("approved")},
-                className: "btn btn-outline-success"
+                className: "btn btn-secondary mg-r-10"
              },
-             {  text : $("#denied_text").text(),
+             {  text :'<i class="fe fe-close tx-16"></i>'+ "  "+$("#denied_text").text(),
                 attr: { id: 'denied'},
                 action: function () {multiple_update("denied")},
-                className: "btn btn-outline-danger"
+                className: "btn btn-secondary"
              }
           ],
         dom: {
@@ -242,10 +242,16 @@ function multiple_update(status){
 function is_checked()
 {
   if(checkbox_selected = $('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 0){
+    if($('input:checkbox[id*=checkbox-boardCampaign]:checked').length != 1){
+      $("#selected_rows").text($('input:checkbox[id*=checkbox-boardCampaign]:checked').length + " " + $("#selected_rows_text").text())
+    }else{
+      $("#selected_rows").text($('input:checkbox[id*=checkbox-boardCampaign]:checked').length + " " + $("#selected_row_text").text())
+    }
     $('#denied').prop("disabled", false)
     $('#review').prop("disabled", false)
     $('#approved').prop("disabled", false)
   }else{
+    $("#selected_rows").text("")
     $('#denied').prop("disabled", true)
     $('#review').prop("disabled", true)
     $('#approved').prop("disabled", true)
