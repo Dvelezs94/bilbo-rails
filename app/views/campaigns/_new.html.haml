@@ -6,7 +6,7 @@
         %h5.modal-title= t("campaign.new_campaign")
         %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} &#215;
-      = form_with(model: Campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, remote: true) do |f|
+      = form_with(model: @campaign, url: campaigns_path, method: :post, :html => { :id => "new_campaign", data: { parsley_validate: true } }, remote: true) do |f|
         .modal-body.pd-20.pd-sm-30.pd-b-0-f
           .container
             .row

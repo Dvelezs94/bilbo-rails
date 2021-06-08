@@ -9,10 +9,9 @@
           %li.breadcrumb-item.active{"aria-current" => "page"}= t("campaign.campaign")
       %h4.mg-b-0.tx-spacing--1= t("campaign.campaign")
     .d-block
-      %a{"data-toggle" => "modal", :href => "#modalNewCampaign"}
-        %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
-          %i.wd-10.mg-r-5.fe.fe-plus
-          = t("campaign.new_campaign")
+      = link_to new_campaign_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modalNewCampaign', class: "btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"} do
+        %i.wd-10.mg-r-5.fe.fe-plus
+        = t("campaign.new_campaign")
   - if @project.user? # check if this is a normal user project
     - if current_user.is_user?
       - if !@project.owner.verified
@@ -61,16 +60,14 @@
     .ht-100p.d-flex.flex-column.align-items-center.justify-content-center
       .wd-150.wd-sm-250.mg-b-30
         = image_tag image_path("humaaans/illustration_nothinghere"), class: "img-fluid"
-      %a{"data-toggle" => "modal", :href => "#modalNewCampaign"}
-        %button.btn.btn-sm.pd-x-15.btn-primary.btn-uppercase.mg-l-5
-          %i.wd-10.mg-r-5.fe.fe-plus
-          = t("campaign.new_campaign")
+      = link_to new_campaign_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modalNewCampaign', class: "btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"} do
+        %i.wd-10.mg-r-5.fe.fe-plus
+        = t("campaign.new_campaign")
   / container
 / content
 - if @project.owned?(current_user.id) && current_user.is_user? && @show_hint
   = render partial: "notifications/missing_steps"
   = render partial: "ads/new"
-= render partial: "campaigns/new"
 -if current_user.is_user? && current_user.sign_in_count == 0
   = render partial: "campaigns/business_type"
 -if current_user.is_provider? && @witness.present?
