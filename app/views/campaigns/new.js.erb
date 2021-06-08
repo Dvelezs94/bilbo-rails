@@ -1,0 +1,7 @@
+<%# remove modal for new campaign since fields id have conflicts %>
+$("#modalNewCampaign").remove();
+$("#modalCopyCampaign").remove();
+
+$("body").append("<%= j (render 'campaigns/new.html.haml', :locals => {:obj => @campaign}) %>");
+$("#modalNewCampaign").modal('show');
+newCampaignOptions();
