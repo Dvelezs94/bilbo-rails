@@ -32,30 +32,29 @@
           = t('alert.more_credits')
           %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
   - if @project.campaigns.active.size > 0
-    .row
-      .table-responsive
-        .custom-control.custom-switch.pos-absolute.pd-t-5
-          = check_box_tag "campaignsSwitch", nil, current_user.show_recent_campaigns, class: "custom-control-input", data: {url: toggle_show_recent_campaigns_admin_user_path(current_user.id), :remote => :true, :method => :post}
-          %label.custom-control-label{:for => "campaignsSwitch"}=t('account_settings.show_recent_campaigns')
-        %table#userCampaignTable.table
-          %thead
-            %tr
-              %th
-              %th= t("campaign.campaign_name")
-              %th= t("campaign.objective")
-              %th= t("campaign.type")
-              %th= t("campaign.bilbos_in_use")
-              %th= t("campaign.start_date")
-              %th= t("campaign.end_date")
-              %th= t("campaign.impressions")
-              %th= t("campaign.daily_budget")
-              %th= t("campaign.total_invested")
-              %th.no-sort
-                %span
-                  = t("campaign.qr_code")
-                  %i.fe.fe-question.tx-primary{"data-toggle" => "tooltip", :title => t("campaign.qr_code_tooltip")}
-              %th.no-sort
-          %tbody= render partial: "campaigns/campaign_row", collection: @campaigns, as: :campaign
+    .table-responsive
+      .custom-control.custom-switch.pos-absolute.pd-t-5
+        = check_box_tag "campaignsSwitch", nil, current_user.show_recent_campaigns, class: "custom-control-input", data: {url: toggle_show_recent_campaigns_admin_user_path(current_user.id), :remote => :true, :method => :post}
+        %label.custom-control-label{:for => "campaignsSwitch"}=t('account_settings.show_recent_campaigns')
+      %table#userCampaignTable.table
+        %thead
+          %tr
+            %th
+            %th= t("campaign.campaign_name")
+            %th= t("campaign.objective")
+            %th= t("campaign.type")
+            %th= t("campaign.bilbos_in_use")
+            %th= t("campaign.start_date")
+            %th= t("campaign.end_date")
+            %th= t("campaign.impressions")
+            %th= t("campaign.daily_budget")
+            %th= t("campaign.total_invested")
+            %th.no-sort
+              %span
+                = t("campaign.qr_code")
+                %i.fe.fe-question.tx-primary{"data-toggle" => "tooltip", :title => t("campaign.qr_code_tooltip")}
+            %th.no-sort
+        %tbody= render partial: "campaigns/campaign_row", collection: @campaigns, as: :campaign
   - else
     .ht-100p.d-flex.flex-column.align-items-center.justify-content-center
       .wd-150.wd-sm-250.mg-b-30
