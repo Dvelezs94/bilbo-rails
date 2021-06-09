@@ -25,22 +25,21 @@
       %button.btn.btn-sm.pd-x-15.btn-white.btn-uppercase.mg-l-5{:onclick => "window.print()"}
         %i.wd-10.mg-r-5.fe.fe-print>
         = t("header.print")
-  .row
-    .table-responsive#table-1
-      %table#campaignsTable.table
-        %thead
-          %tr
-            %th= check_box("post", "validated", :id => "checkboxSelectAll", :class => "mg-r-10")
-            %th= t("campaign.campaign_name")
-            %th Multimedia
-            %th= t("campaign.start_date")
-            %th= t("campaign.end_date")
-            %th Bilbo
-            %th= t("campaign.wizard.campaign_classification")
-            %th= t("campaign.daily_budget")
-            %th= t("campaign.campaign_status")
-          %tbody#content_body= render partial: "campaigns/status_campaign", collection: @board_campaigns, as: :board_campaign
-          %tbody#placeholderTable.d-none= render partial: "shared/table_placeholder"
+  .table-responsive#table-1
+    %table#campaignsTable.table
+      %thead
+        %tr
+          %th= check_box("post", "validated", :id => "checkboxSelectAll", :class => "mg-r-10")
+          %th= t("campaign.campaign_name")
+          %th Multimedia
+          %th= t("campaign.start_date")
+          %th= t("campaign.end_date")
+          %th Bilbo
+          %th= t("campaign.wizard.campaign_classification")
+          %th= t("campaign.daily_budget")
+          %th= t("campaign.campaign_status")
+        %tbody#content_body= render partial: "campaigns/status_campaign", collection: @board_campaigns, as: :board_campaign
+        %tbody#placeholderTable.d-none= render partial: "shared/table_placeholder"
 
 %label#approved_text.d-none= t("provider_index.accept")
 %label#in_review_text.d-none= t("provider_index.in_review")

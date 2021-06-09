@@ -67,7 +67,7 @@ $(document).on('turbolinks:load', function() {
       $('#review').prop("disabled", true)
       $('#approved').prop("disabled", true)
       $("div.dt-buttons").append('<label class="mg-l-10" id= "selected_rows"></label>');
-      $("div.dt-buttons").addClass("mg-b-10 mg-l-10 div-buttons-left");
+      $("div.dt-buttons").addClass("mg-b-10 div-buttons-left");
 
       var urlParams = new URLSearchParams(window.location.search);
       if(urlParams.has('q')){
