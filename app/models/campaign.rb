@@ -76,10 +76,6 @@ class Campaign < ApplicationRecord
     self.project.owner
   end
 
-  def duration_in_days
-    (ends_at.to_date - starts_at.to_date).to_i rescue "-"
-  end
-
   def true_duration(board_slug)
     if self.provider_campaign?
       return duration
@@ -443,6 +439,16 @@ class Campaign < ApplicationRecord
     rescue
       #Campaign do not have starts_at or ends_at
       1
+    end
+  end
+
+  # used for the FRONTEND only
+  def duration_in_days
+    days = self.active_days
+    if active_days == 1
+      return "-"
+    else
+      return days
     end
   end
 
