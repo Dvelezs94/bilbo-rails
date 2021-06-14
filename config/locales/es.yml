@@ -861,6 +861,7 @@ es:
     upload_file: Subir archivo
     upload_evidence_description: Aquí podras subir las evidencias de las campañas que solicitan testigos
     upload_evidence_description_2: Si requieres evidencia de tu campaña activa en los bilbos seleccionados, solicítala aquí
+    campaign_ended: No podrás solicitar testigos ya que tu campaña ha finalizado.
     bilbo_selected: Bilbo seleccionado
     files: Archivos
     pending: Pendiente
@@ -875,7 +876,7 @@ es:
     error: Error al solicitar testigos
     without_bilbos: La campaña no cuenta con bilbos aprobados
     campaign_active: La campaña no se encuentra activa
-    validate_weekly_generation: Sólo esta permitido crear testigos una vez cada siete dias
+    validate_weekly_generation: Sólo esta permitido solicitar testigos una vez cada siete dias
     request_witnesses: Solicitar testigos
   provider_index:
     accept: Aceptar

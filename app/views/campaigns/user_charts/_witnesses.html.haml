@@ -4,18 +4,22 @@
   .card
     .card-header.d-flex.align-items-center.justify-content-between
       %h6.mg-b-0.tx-bold= t('evidence.witnesses')
+      - if @campaign.ongoing?
+        = form_with(model: @witness, local: true) do |form|
+          = form.hidden_field :campaign_id, value: "#{@campaign.id}"
+          = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm  btn-outline-secondary btn-uppercase btn-xs'
     -if @campaign.witnesses.present? && current_user.present?
       %ul.card.activity-table.list-group.list-group-flush.tx-13{:style => "height: 340px;"}
         -@witnesses.each do |witness|
           %li.list-group-item.d-flex.pd-sm-x-20
             %i.fa.fa-camera.fnt-25px{"aria-hidden" => "true"}
-            .pd-sm-l-10.pd-l-5
+            .pd-sm-l-10.pd-l-5.d-flex.align-items-center
               %small.tx-bold.tx-gray-3.tx-12.tx-color-03.mg-b-0= I18n.l witness.created_at, format: :long
             .mg-l-auto.text-right
               -if witness.pending?
-                %button.btn.btn-warning.btn-uppercase{:type => "button"}= t('evidence.pending')
+                %button.btn.btn-warning.btn-uppercase.btn-xs{:type => "button"}= t('evidence.pending')
               -else
-                = link_to evidences_witness_modal_witness_path(witness), {:onclick => "setTimeout(function() {initLightbox();}, 500);", :method => "get", :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: "btn btn-primary btn-uppercase pd-l-30 pd-r-30"} do
+                = link_to evidences_witness_modal_witness_path(witness), {:onclick => "setTimeout(function() {initLightbox();}, 500);", :method => "get", :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: "btn btn-primary btn-uppercase btn-xs pd-l-30 pd-r-30"} do
                   = t('evidence.view')
                   %i{"class" => "fa fa-arrow-right", "aria-hidden" => "true"}
     -else
@@ -23,7 +27,10 @@
         .row-flex
           .col-md-12.text-center
             %i.fa.fa-camera.fnt-xlg{"aria-hidden" => "true"}
-            %h6.tx-color-03.tx-15.tx-color-03.mg-b-0.pd-t-10.pd-b-10= t('evidence.upload_evidence_description_2')
-            = form_with(model: @witness, local: true) do |form|
-              = form.hidden_field :campaign_id, value: "#{@campaign.id}"
-              = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm  btn-outline-primary btn-uppercase'
+            - if @campaign.ongoing?
+              %h6.tx-color-03.tx-15.tx-color-03.mg-b-0.pd-t-10.pd-b-10= t('evidence.upload_evidence_description_2')
+              = form_with(model: @witness, local: true) do |form|
+                = form.hidden_field :campaign_id, value: "#{@campaign.id}"
+                = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm  btn-outline-primary btn-uppercase'
+            - else
+              %h6.tx-color-03.tx-15.tx-color-03.mg-b-0.pd-t-10.pd-b-10= t('evidence.campaign_ended')
