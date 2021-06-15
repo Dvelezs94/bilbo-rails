@@ -18,7 +18,7 @@
       %h4.mg-b-0.tx-spacing--1= @campaign.name
     .d-flex.flex-row-reverse
       .d-none.d-md-block
-        - if @campaign.ongoing?
+        - if @campaign.is_now_ongoing?
           = form_with(model: @witness, local: true) do |form|
             = form.hidden_field :campaign_id, value: "#{@campaign.id}"
             = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm pd-x-15 btn-white btn-uppercase'

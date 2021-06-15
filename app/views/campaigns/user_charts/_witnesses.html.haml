@@ -4,7 +4,7 @@
   .card
     .card-header.d-flex.align-items-center.justify-content-between
       %h6.mg-b-0.tx-bold= t('evidence.witnesses')
-      - if @campaign.ongoing?
+      - if @campaign.is_now_ongoing?
         = form_with(model: @witness, local: true) do |form|
           = form.hidden_field :campaign_id, value: "#{@campaign.id}"
           = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm  btn-outline-secondary btn-uppercase btn-xs'
@@ -27,7 +27,7 @@
         .row-flex
           .col-md-12.text-center
             %i.fa.fa-camera.fnt-xlg{"aria-hidden" => "true"}
-            - if @campaign.ongoing?
+            - if @campaign.is_now_ongoing?
               %h6.tx-color-03.tx-15.tx-color-03.mg-b-0.pd-t-10.pd-b-10= t('evidence.upload_evidence_description_2')
               = form_with(model: @witness, local: true) do |form|
                 = form.hidden_field :campaign_id, value: "#{@campaign.id}"

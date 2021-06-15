@@ -49,7 +49,7 @@ class CampaignTest < ActiveSupport::TestCase
   end
   test "on going campaign" do
     @campaign =  create(:campaign, name: "budget campaign", project: @user.projects.first, classification: 0, starts_at: "2020-10-10 05:00:00", ends_at: "2020-10-11 05:00:00", provider_campaign: @user.is_provider?)
-    assert_equal false, @campaign.ongoing?
+    assert_equal false, @campaign.is_now_ongoing?
   end
   test "user has budget" do
     @user = create(:user, name: "Luffy", balance: "7777")
