@@ -259,18 +259,18 @@ class Board < ApplicationRecord
     end
   end
 
-  def broadcast_to_board(camp, force_generate = false, make_broadcast = true)
+  def broadcast_to_board(camp, force_generate = false, make_broadcast = true, lang = ENV.fetch("RAILS_LOCALE"))
     if camp.provider_campaign
-      err = update_ads_rotation(force_generate)
+      err = update_ads_rotation(force_generate, lang)
       return err if err.present?
     end
     update_campaign_broadcast(camp) if make_broadcast
     return []
   end
 
-  def update_ads_rotation(force_generate = false)
+  def update_ads_rotation(force_generate = false, lang = ENV.fetch("RAILS_LOCALE"))
     if self.get_campaigns
-      err = self.build_ad_rotation if self.new_ads_rotation.nil? || force_generate
+      err = self.build_ad_rotation(nil, lang) if self.new_ads_rotation.nil? || force_generate
       return err if err.present?
       self.ads_rotation = self.new_ads_rotation
       self.ads_rotation_updated_at = Time.now

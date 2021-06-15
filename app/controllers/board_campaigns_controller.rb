@@ -5,7 +5,7 @@ class BoardCampaignsController < ApplicationController
   before_action :validate_provider_admin
 
   def approve_campaign
-    if @board_campaign.update(status: "approved", make_broadcast: true)
+    if @board_campaign.update(status: "approved", make_broadcast: true, user_locale: current_user.locale)
       if @board_campaign.board_errors.nil?
         flash[:success] = I18n.t('campaign.accepted', locale: current_user.locale)
       else
@@ -20,7 +20,7 @@ class BoardCampaignsController < ApplicationController
  end
 
   def deny_campaign
-    if @board_campaign.update(status: "denied", make_broadcast: true)
+    if @board_campaign.update(status: "denied", make_broadcast: true, user_locale: current_user.locale)
       flash[:success] = I18n.t('campaign.action.saved')
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
@@ -29,7 +29,7 @@ class BoardCampaignsController < ApplicationController
  end
 
   def in_review_campaign
-    if @board_campaign.update(status: "in_review", make_broadcast: true)
+    if @board_campaign.update(status: "in_review", make_broadcast: true, user_locale: current_user.locale)
      flash[:success] = I18n.t('campaign.action.to_review', locale: current_user.locale)
     else
      flash[:error] = I18n.t('campaign.errors.no_save', locale: current_user.locale)
@@ -42,13 +42,13 @@ class BoardCampaignsController < ApplicationController
       @boards = params[:board_campaign_ids].split(",")
       @boards.each do |board_campaign_id|
       @board_campaign = BoardsCampaigns.find(board_campaign_id)
-        if @board_campaign.update(status: params[:status], make_broadcast: true)
+        if @board_campaign.update(status: params[:status], make_broadcast: true, user_locale: current_user.locale)
           if @board_campaign.board_errors.nil?
             flash[:success] = I18n.t('campaign.approved', locale: current_user.locale) if params[:status] == "approved"
             flash[:success] = I18n.t('campaign.in_review', locale: current_user.locale) if params[:status] == "in_review"
             flash[:success] = I18n.t('campaign.denied', locale: current_user.locale) if params[:status] == "denied"
           else
-            flash[:error] = I18n.t('campaign.ads_rotation_error.accepted_but_error', error: @board_campaign.board_errors.first, locale: current_user.locale)
+            flash[:error] = ActionView::Base.full_sanitizer.sanitize("#{I18n.t('campaign.ads_rotation_error.accepted_but_error', error: @board_campaign.board_errors.first, locale: current_user.locale)}")
           end
         end
       end

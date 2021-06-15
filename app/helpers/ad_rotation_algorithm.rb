@@ -1,7 +1,8 @@
 module AdRotationAlgorithm
   extend ActiveSupport::Concern
 
-  def test_ad_rotation(new_campaign, new_campaign_hours)
+  def test_ad_rotation(new_campaign, new_campaign_hours, lang = ENV.fetch("RAILS_LOCALE"))
+    I18n.locale = lang
     err = []
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
 
@@ -53,7 +54,8 @@ module AdRotationAlgorithm
     return err
   end
  #################################################################################33
-  def test_hour_campaigns(new_campaign,new_campaign_hours)
+  def test_hour_campaigns(new_campaign,new_campaign_hours, lang = ENV.fetch("RAILS_LOCALE"))
+     I18n.locale = lang
      err = []
      new_campaign_hours.each do |cpn|
        if !valid_start(self, cpn)
@@ -191,8 +193,9 @@ module AdRotationAlgorithm
     return output
   end
 
-  def build_ad_rotation(new_campaign = nil)
+  def build_ad_rotation(new_campaign = nil, lang = ENV.fetch("RAILS_LOCALE"))
 
+    I18n.locale = lang
     err = []
     t_cycles = total_cycles(start_time, end_time)  #total of cycles of the bilbo
     output = ['-'] * t_cycles  #Initialize the output array with only bilbo ads
