@@ -54,6 +54,29 @@ class Notification < ApplicationRecord
           url_string: I18n.t("#{translation}.url_string"),
           message: I18n.t("#{translation}.message", campaign_name: notifiable.name),
           subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name) }
+      when "state on successfully"
+        { url: campaigns_url,
+          url_string: I18n.t("#{translation}.url_string"),
+          message: I18n.t("#{translation}.message", campaign_name: notifiable.name),
+          subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name) }
+      when "state off successfully"
+        { url: campaigns_url,
+          url_string: I18n.t("#{translation}.url_string"),
+          message: I18n.t("#{translation}.message", campaign_name: notifiable.name),
+          subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name) }
+      when "toggle state failed"
+        #Show specific information about the error, if it's available, else show a generic error messsage
+        if custom_message.present?
+          { url: campaigns_url,
+            url_string: I18n.t("#{translation}.url_string"),
+            message: custom_message,
+            subject: custom_message }
+        else
+          { url: campaigns_url,
+            url_string: I18n.t("#{translation}.url_string"),
+            message: I18n.t("#{translation}.message", campaign_name: notifiable.name),
+            subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name) }
+        end
       end
     when "User"
       case action
@@ -107,15 +130,17 @@ class Notification < ApplicationRecord
 
   def notificate_recipients
     if !Rails.env.test?
-      # notify each user by email
-      notif_body = self.build_notification_body
-      recipient.users.each do |user|
-        NotificationMailer.new_notification(user: user, message: ActionView::Base.full_sanitizer.sanitize(notif_body[:message]),
-          subject: ActionView::Base.full_sanitizer.sanitize(notif_body[:subject]),
-          link: notif_body[:url], link_text: notif_body[:url_string]).deliver
+      if !(self.action.in? ["state on successfully", "state off successfully", "toggle state failed"])
+        # notify each user by email
+        notif_body = self.build_notification_body
+        recipient.users.each do |user|
+          NotificationMailer.new_notification(user: user, message: ActionView::Base.full_sanitizer.sanitize(notif_body[:message]),
+            subject: ActionView::Base.full_sanitizer.sanitize(notif_body[:subject]),
+            link: notif_body[:url], link_text: notif_body[:url_string]).deliver
 
-        if sms && user.phone_number.present?
-          send_sms(user.phone_number, "#{ActionView::Base.full_sanitizer.sanitize(notif_body[:message])}. #{notifications_url}")
+          if sms && user.phone_number.present?
+            send_sms(user.phone_number, "#{ActionView::Base.full_sanitizer.sanitize(notif_body[:message])}. #{notifications_url}")
+          end
         end
       end
     end
