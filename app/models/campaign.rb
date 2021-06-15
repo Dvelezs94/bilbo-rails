@@ -6,7 +6,7 @@ class Campaign < ApplicationRecord
   include ProjectConcern
   include ReviewBoardCampaignsConcern
   extend FriendlyId
-  attr_accessor :owner_updated_campaign, :content_ids, :budget_distribution, :skip_review
+  attr_accessor :owner_updated_campaign, :content_ids, :budget_distribution, :skip_review, :user_locale
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :impressions
@@ -166,13 +166,13 @@ class Campaign < ApplicationRecord
     end
   end
 
-  def check_build_ad_rotation
+  def check_build_ad_rotation(lang: user_locale || ENV.fetch("RAILS_LOCALE"))
     if ( state && state_changed? && !have_to_set_in_review_on_boards )
       boards.each do |b|
         if self.should_run?(b.id) && b.get_campaigns
           #In case no error is found
           #Build again the ad rotation and save it, only with the remaining impressions of the budget campaigns
-          err2 = b.build_ad_rotation(self)
+          err2 = b.build_ad_rotation(self, lang)
           if err2.present?
             errors.add(:base, err2.first)
             break
@@ -348,10 +348,10 @@ class Campaign < ApplicationRecord
     name
   end
 
-  def test_for_valid_settings
+  def test_for_valid_settings(lang: user_locale || ENV.fetch("RAILS_LOCALE"))
     if provider_campaign && state
       boards.each do |b|
-        err = b.test_ad_rotation(self, impression_hours.select{|c| !c.marked_for_destruction?})
+        err = b.test_ad_rotation(self, impression_hours.select{|c| !c.marked_for_destruction?}, lang)
         if err.any?
           err.each do |e|
             errors.add(:base, e)
@@ -361,7 +361,7 @@ class Campaign < ApplicationRecord
       end
     elsif classification == "per_hour" && state
       boards.each do |b|
-        err = b.test_hour_campaigns(self, impression_hours.select{|c| !c.marked_for_destruction?})
+        err = b.test_hour_campaigns(self, impression_hours.select{|c| !c.marked_for_destruction?}, lang)
         if err.any?
           err.each do |e|
             errors.add(:base, e)
@@ -471,7 +471,7 @@ class Campaign < ApplicationRecord
       self.budget = total_budget
     end
   end
-  
+
   # total budget expected to invest
   def expected_investment
     begin

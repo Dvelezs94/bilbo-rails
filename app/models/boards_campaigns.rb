@@ -1,7 +1,7 @@
 class BoardsCampaigns < ApplicationRecord
     include BroadcastConcern
     include NotificationsHelper
-    attr_accessor :board_errors, :make_broadcast, :owner_updated_campaign, :update_remaining_impressions
+    attr_accessor :board_errors, :make_broadcast, :owner_updated_campaign, :update_remaining_impressions, :user_locale
     has_many :contents_board_campaign, class_name: "ContentsBoardCampaign", dependent: :delete_all
     belongs_to :campaign
     belongs_to :board
@@ -31,7 +31,7 @@ class BoardsCampaigns < ApplicationRecord
     private
 
     def add_or_stop_campaign
-      err = board.broadcast_to_board(campaign)
+      err = board.broadcast_to_board(campaign, false, true, user_locale) #False for force_generate, true for make_broadcast, pass user_locale
       if err.present?
         campaign.update(state: false)
         self.board_errors = err

@@ -47,7 +47,6 @@ class CampaignsController < ApplicationController
   def new
     @campaign = Campaign.new
   end
-  
 
   # Modal showing campaign details
   def fetch_campaign_details
@@ -100,26 +99,10 @@ class CampaignsController < ApplicationController
   end
 
   def toggle_state
-    current_user.with_lock do
-      if !@campaign.state
-        @campaign.with_lock do
-          @success = @campaign.update(state: !@campaign.state, skip_review: true) #Only skips the 'set_in_review_and_update_price' callback, THIS DOES NOT SKIP ALL VALIDATIONS
-        end
-      else
-        @campaign.state = false
-        @success = @campaign.save(validate: false) #Does not run any validation, just turns off the campaign and updates the ads_rotation of every associated board
-        @campaign.boards.each do |b|
-          b.update_ads_rotation
-        end
-      end
-      if @success
-        if @campaign.state
-          track_activity( action: "campaign.campaign_actived", activeness: @campaign)
-        else
-          track_activity( action: "campaign.campaign_deactivated", activeness: @campaign)
-        end
-      end
-    end
+    @campaign.update_column(:updating_state, true)
+    CampaignToggleStateWorker.perform_async(@campaign.id, current_user.id)
+    flash[:info] = I18n.t("campaign.action.updating_state")
+    redirect_to campaigns_path
   end
 
 
