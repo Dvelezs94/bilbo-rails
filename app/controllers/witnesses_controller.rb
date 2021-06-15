@@ -6,7 +6,7 @@ class WitnessesController < ApplicationController
   before_action :set_witness, only: [:evidences_witness_modal, :evidences_dashboard_provider]
 
   def create
-    if @campaign.state && @campaign.ongoing?
+    if @campaign.state && @campaign.is_now_ongoing?
       if @campaign.board_campaigns.present? && @campaign.board_campaigns.approved.present?
         @witness = Witness.new(witness_params)
         if @witness.save

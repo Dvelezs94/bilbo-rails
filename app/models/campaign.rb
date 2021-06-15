@@ -124,7 +124,7 @@ class Campaign < ApplicationRecord
     # validates if both fields are complete
     !(self.starts_at? && self.ends_at?)
   end
-
+  
   # Function to know if the campaign has multimedia files in the ad
   def has_multimedia?
    ad.present? && ad.multimedia.first.present?
@@ -240,6 +240,20 @@ class Campaign < ApplicationRecord
     #utc is used to compare dates correctly
     (self.starts_at.nil? && self.ends_at.nil?) || (to_utc(self.starts_at,brd.utc_offset).to_date <= Time.now.utc.to_date && to_utc(self.ends_at,brd.utc_offset).to_date  >= Time.now.utc.to_date)
   end
+
+  # See fi the current date is between start and end date
+  def is_now_ongoing?
+    if self.active?
+      if DateTime.now.between?(self.starts_at, self.ends_at)
+        true
+      else
+        false
+      end
+    else
+      false
+    end
+  end
+  
 
 
   def broadcast_to_all_boards
