@@ -100,7 +100,11 @@ class CampaignsController < ApplicationController
 
   def toggle_state
     @campaign.update_column(:updating_state, true)
-    CampaignToggleStateWorker.perform_async(@campaign.id, current_user.id)
+    if @campaign.ready_to_update_state
+      CampaignToggleStateWorker.perform_async(@campaign.id, current_user.id)
+    else
+      CampaignToggleStateWorker.perform_at(12.seconds.from_now, @campaign.id, current_user.id)
+    end
     flash[:info] = I18n.t("campaign.action.updating_state")
     redirect_to campaigns_path
   end

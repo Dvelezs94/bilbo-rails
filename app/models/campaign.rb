@@ -53,7 +53,7 @@ class Campaign < ApplicationRecord
   #validates :ad, presence: true, on: :update
   validate :validate_content, on: :update, if: :contents_present?
   validate :project_enabled?
-  validate :state_change_time, on: :update,  if: :state_changed?
+  # validate :state_change_time, on: :update,  if: :state_changed?
   validate :check_user_verified, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
   #validate :validate_ad_stuff, on: :update
@@ -124,7 +124,7 @@ class Campaign < ApplicationRecord
     # validates if both fields are complete
     !(self.starts_at? && self.ends_at?)
   end
-  
+
   # Function to know if the campaign has multimedia files in the ad
   def has_multimedia?
    ad.present? && ad.multimedia.first.present?
@@ -279,7 +279,7 @@ class Campaign < ApplicationRecord
     self.state
   end
 
-  def state_change_time
+  def ready_to_update_state
     # Value for state to be changed on prod every 2 minutes
     if Rails.env.development?
       minutes_needed = 0.1.minutes
@@ -290,7 +290,7 @@ class Campaign < ApplicationRecord
     end
     #if state_updated_at is nil, is the first time they update
     time_elapsed = (state_updated_at.present?)? ((Time.now - state_updated_at)/1.minutes).minutes : minutes_needed
-    errors.add(:base, "#{I18n.t ('campaign.wont_be_able_to_update_state')} #{distance_of_time_in_words( (minutes_needed - time_elapsed).ago, Time.now, include_seconds: true )}") if (time_elapsed < minutes_needed)
+    return (time_elapsed >= minutes_needed)
   end
 
   def validate_ad_stuff
