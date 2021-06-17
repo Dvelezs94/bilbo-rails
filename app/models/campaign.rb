@@ -243,13 +243,19 @@ class Campaign < ApplicationRecord
 
   # See fi the current date is between start and end date
   def is_now_ongoing?
-    if self.active?
-      if DateTime.now.between?(self.starts_at, self.ends_at)
-        true
+    begin
+      if self.active?
+        if DateTime.now.between?(self.starts_at, self.ends_at)
+          true
+        else
+          false
+        end
       else
         false
       end
-    else
+    # if fails. then return false cuz the campaign doesn't have an end date
+    # this is to prevent users from potentially doing bad stuff
+    rescue
       false
     end
   end
