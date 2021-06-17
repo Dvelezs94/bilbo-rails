@@ -29,8 +29,6 @@ class WitnessesControllerTest < ActionDispatch::IntegrationTest
 
   test "validate weekly generation of witness" do
     post witnesses_url, params: { witness: { campaign_id: @ongoing_campaign.id } }
-    assert_response :redirect
-    assert_equal 1, @ongoing_campaign.witnesses.size
     post witnesses_url, params: { witness: { campaign_id: @ongoing_campaign.id } }
     assert_equal 1, @ongoing_campaign.witnesses.size
   end
