@@ -27,7 +27,7 @@
         .row-flex
           .col-md-12.text-center
             %i.fa.fa-camera.fnt-xlg{"aria-hidden" => "true"}
-            - if @campaign.is_now_ongoing?
+            - if user_signed_in? && @campaign.is_now_ongoing? && @campaign.project.user? && (@campaign.project.users.pluck(:id).include? current_user.id)
               %h6.tx-color-03.tx-15.tx-color-03.mg-b-0.pd-t-10.pd-b-10= t('evidence.upload_evidence_description_2')
               = form_with(model: @witness, local: true) do |form|
                 = form.hidden_field :campaign_id, value: "#{@campaign.id}"
