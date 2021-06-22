@@ -6,7 +6,7 @@
 - else
   = render 'devise/shared/header'
 .content.content-fixed
-  .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+  .d-md-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
     %div
       %nav{"aria-label" => "breadcrumb"}
         %ol.breadcrumb.breadcrumb-style1.mg-b-10
@@ -16,18 +16,7 @@
             %a{:href => "/"}= t("campaign.campaign")
           %li.breadcrumb-item.active{"aria-current" => "page"}= @campaign.name
       %h4.mg-b-0.tx-spacing--1= @campaign.name
-    .d-flex.flex-row-reverse
-      .d-none.d-md-block
-        - if @campaign.is_now_ongoing?
-          = form_with(model: @witness, local: true) do |form|
-            = form.hidden_field :campaign_id, value: "#{@campaign.id}"
-            = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm pd-x-15 btn-white btn-uppercase'
-        %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase', 'onclick' => 'window.print()'}
-          %i.fe.fe-print
-          = t('dashboards.print')
-        = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase', 'style' => "margin-right: 5px;" do
-          %i.fe.fe-download
-          = t('dashboards.export_to_csv')
+    .d-flex
       .dropdown
         %button.btn.btn-secondary.mg-r-5{'class'=>'btn btn-sm btn-white', "aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
           %i.fe.fe-calendar
@@ -52,6 +41,17 @@
               %a.dropdown-item{:href => analytics_campaign_path(:date_start => 6.months.ago.beginning_of_day, date_end: Time.zone.now)}
                 %i.fe.fe-clock.mg-r-5
                 = t('campaign.6_months')
+      - if user_signed_in? && @campaign.is_now_ongoing? && @campaign.project.user? && (@campaign.project.users.pluck(:id).include? current_user.id)
+        = form_with(model: @witness, local: true) do |form|
+          = form.hidden_field :campaign_id, value: "#{@campaign.id}"
+          = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-r-5'
+      %button{ 'class' => 'btn btn-sm pd-x-15 btn-white btn-uppercase mg-r-5', 'onclick' => 'window.print()'}
+        %i.fe.fe-print
+        = t('dashboards.print')
+      - if user_signed_in? && (@campaign.project.users.pluck(:id).include? current_user.id)
+        = link_to generate_campaign_report_csv_index_path(campaign: @campaign.id), class: 'btn btn-sm pd-x-15 btn-primary btn-uppercase' do
+          %i.fe.fe-download
+          = t('dashboards.export_to_csv')
 
   .row.row-xs
     = render 'campaigns/user_charts/top_cards'
