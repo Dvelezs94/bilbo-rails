@@ -80,9 +80,21 @@ module ApplicationHelper
   def send_sms(phone_number, message)
     if phone_number.present? && message.present?
       begin
-        CLICKSEND_CLIENT.messages.send(to: phone_number, message: convert_message_to_sms_format(message))
-      rescue
-        SlackNotifyWorker.perform("Error sending message to: #{phone_number}. Message: #{convert_message_to_sms_format(message)}", senderid: "Bilbo")
+        sms_messages = ClickSendClient::SmsMessageCollection.new
+
+        sms_messages.messages = [
+          ClickSendClient::SmsMessage.new(
+            "to": phone_number,
+            "source": "rails",
+            "body": convert_message_to_sms_format(message)
+          )
+        ]
+
+        CLICKSEND_SMS.sms_send_post(sms_messages)
+      rescue ClickSendClient::ApiError => e
+        raise "Exception when calling Clicksend SMSApi->sms_send_post: #{e.response_body}"
+      rescue => e
+        SlackNotifyWorker.perform_async("Error sending message to: #{phone_number}. Message: #{convert_message_to_sms_format(message)}", senderid: "Bilbo")
       end
     end
   end
