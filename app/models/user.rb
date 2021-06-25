@@ -273,7 +273,7 @@ class User < ApplicationRecord
 
   def sync_contact_mail
     #create a contact in lists of sengrid
-    MailerliteHelper.sync_mailerlite_user(self)
+    sync_mailerlite_user(self)
   end
 
 end
