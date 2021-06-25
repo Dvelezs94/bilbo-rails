@@ -1,8 +1,18 @@
-require 'clicksend'
+require 'clicksend_client'
 
-# put your own credentials here
-username = ENV.fetch('CLICKSEND_USERNAME') {""}     # Your ClickSend username.
-api_key = ENV.fetch('CLICKSEND_API_KEY') {""}   # Your Secure Unique API key.
+# Setup authorization
+ClickSendClient.configure do |config|
+  # Configure HTTP basic authorization: BasicAuth
+  config.username = ENV.fetch('CLICKSEND_USERNAME') {""}
+  config.password = ENV.fetch('CLICKSEND_PASSWORD') {""}
+end
 
-# set up a client to talk to the ClickSend REST API
-CLICKSEND_CLIENT = ClickSend::REST::Client.new(:username => username, :api_key => api_key)
+api_instance = ClickSendClient::AccountApi.new
+
+begin
+  # Test Get account information
+  api_instance.account_get
+  CLICKSEND_SMS = ClickSendClient::SMSApi.new
+rescue ClickSendClient::ApiError => e
+  Bugsnag.notify("Exception when calling Clicksend API AccountApi->account_get: #{e}")
+end
