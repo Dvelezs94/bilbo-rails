@@ -44,9 +44,9 @@ class BoardsCampaigns < ApplicationRecord
         c = self.campaign
         b = self.board
         if c.classification == "budget"
-          st = Time.zone.parse(b.start_time.strftime("%H:%M"))
-          et = Time.zone.parse(b.end_time.strftime("%H:%M"))
-          current_time = Time.zone.now + 15.seconds
+          st = Time.parse(b.start_time.strftime("%H:%M")).utc - b.utc_offset.minutes
+          et = Time.parse(b.end_time.strftime("%H:%M")).utc - b.utc_offset.minutes
+          current_time = Time.now.utc + 15.seconds
           et += 1.day if et<=st and current_time >= et
           st -= 1.day if et<=st and current_time < et
           #Count impressions already created from the current ads rotation
@@ -57,9 +57,9 @@ class BoardsCampaigns < ApplicationRecord
           self.remaining_impressions = max_imp - today_impressions
 
         elsif c.classification == "per_hour"
-          st = Time.zone.parse(b.start_time.strftime("%H:%M"))
-          et = Time.zone.parse(b.end_time.strftime("%H:%M"))
-          current_time = Time.zone.now + 15.seconds
+          st = Time.parse(b.start_time.strftime("%H:%M")).utc - b.utc_offset.minutes
+          et = Time.parse(b.end_time.strftime("%H:%M")).utc - b.utc_offset.minutes
+          current_time = Time.now.utc + 15.seconds
           et += 1.day if et<=st and current_time >= et
           st -= 1.day if et<=st and current_time < et
           #Count impressions already created from the current ads rotation
