@@ -51,7 +51,14 @@ class BoardsController < ApplicationController
     @board.with_lock do
       if @board.should_update_ads_rotation?
         errors = @board.update_ads_rotation
-        return head(:internal_server_error) if errors.any?
+        if errors.any?
+          if !Rails.env.development?
+            Bugsnag.notify("Un error impidió actualizar el ads_rotation en el bilbo #{@board.slug}:\n#{errors.first}")
+          else
+            p "Un error impidió actualizar el ads_rotation en el bilbo #{@board.slug}:\n#{errors.first}"
+          end
+          return head(:internal_server_error)
+        end
         ActionCable.server.broadcast(
           @board.slug,
           action: "update_rotation",
