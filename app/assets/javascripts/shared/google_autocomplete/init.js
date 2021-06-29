@@ -96,12 +96,3 @@ function waitForElement(elementPath, callBack, times = 0) {
     }
   }, 500)
 }
-
-function DeleteMarkers() {
-    window.markerCluster.clearMarkers();
-     // //Loop through all the markers and remove
-     // for (var i = 0; i < window.markers.length; i++) {
-     //     window.markers[i].setMap(null);
-     // }
-     window.markers = [];
- }

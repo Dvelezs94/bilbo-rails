@@ -24,7 +24,7 @@ class BoardsController < ApplicationController
       @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
      }
     format.html {
-      get_boards
+      @boards = Board.enabled.where(smart: true)
      }
    end
   end

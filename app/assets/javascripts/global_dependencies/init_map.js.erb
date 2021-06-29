@@ -64,6 +64,8 @@ function initializeMap() {
 // }
 
 function build_markers(bilbos) {
+  // current max zindex for markers
+  var markersCurrentZIndex = 100
   // build markers from the available bilbos
   window.markers = bilbos.filter(function(bilbo) {
       if ( bilbo["category"] == "pinmarker" ) {
@@ -71,19 +73,42 @@ function build_markers(bilbos) {
       }
       return true;
     }).map(function(bilbo) {
-      var marker = new google.maps.Marker({
-      position: { lat: bilbo["lat"], lng: bilbo["lng"] },
-      map: window.bilbomap,
-      icon: "https://content-bilbo.app.bilbo.mx/statics/maps/markers/" + bilbo["category"] + (bilbo["smart"] ? "_smart_svg.svg" : "_svg.svg")
+    //   var marker = new google.maps.Marker({
+    //   position: { lat: bilbo["lat"], lng: bilbo["lng"] },
+    //   map: window.bilbomap,
+    //   icon: "https://content-bilbo.app.bilbo.mx/statics/maps/markers/" + bilbo["category"] + (bilbo["smart"] ? "_smart_svg.svg" : "_svg.svg")
+    // });
+      var marker = new MarkerWithLabel({
+        position: { lat: bilbo["lat"], lng: bilbo["lng"] },
+        icon: " ",
+        labelContent: "$" + bilbo["cycle_price"].toFixed(2).toString(),
+        labelAnchor: new google.maps.Point(-10, 0),
+        labelClass: "mklabel",
+        zIndex: markersCurrentZIndex,
+        map: window.bilbomap
     });
 
     // close infowindow if clicked in another region of map
-    google.maps.event.addListener(window.bilbomap, "click", function(event) {
+    google.maps.event.addListener(window.bilbomap, "click", function() {
       if (infowindow) {
          infowindow.close();
        }
     });
 
+    // Icon in front on hover
+    google.maps.event.addListener(marker, 'mouseover', function() {
+      markersCurrentZIndex = markersCurrentZIndex + 1;
+      marker.setZIndex(markersCurrentZIndex);
+      marker.setOptions({labelClass: 'mklabel mklabel_selected'})
+    });
+
+    // Remove mklabel_selected class when mouse is out of marker
+    google.maps.event.addListener(marker, 'mouseout', function() {
+      marker.setOptions({labelClass: 'mklabel'})
+    });
+
+
+    // Fetch Board data and display in map
     google.maps.event.addListener(marker, 'click', function() {
       if ($("#bilbomap").length && $("#boardInfo").length){
         $("#boardInfo").addClass("d-none");
@@ -175,5 +200,15 @@ function build_markers(bilbos) {
     styles: markerStyles
   };
 
-  window.markerCluster = new MarkerClusterer(window.bilbomap, window.markers, options);
+  // window.markerCluster = new MarkerClusterer(window.bilbomap, window.markers, options);
+}
+
+
+function DeleteMarkers() {
+   //window.markerCluster.clearMarkers();
+   //Loop through all the markers and remove
+   for (var i = 0; i < window.markers.length; i++) {
+       window.markers[i].setMap(null);
+   }
+   window.markers = [];
 }
