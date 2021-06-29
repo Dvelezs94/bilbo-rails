@@ -607,3 +607,29 @@ a[href="#previous"] {
   }
 
 }
+
+.gm-style-iw-t {
+  bottom: 10px !important;
+}
+
+/* MarkerWithLabel CSS */
+
+.mklabel {
+  background-color: white;
+  border-width: 1px;
+  opacity: 0.75;
+  font-size: 15px;
+  border-radius: 10px;
+  padding: 3px;
+  box-shadow: 0 1px 3px #333;
+  font-weight: 500;
+  transition: transform .2s;
+}
+
+ /* zoom effect on hover */
+
+ .mklabel_selected {
+  transform: scale(1.2);
+ }
+
+/* End MarkerWithLabel CSS */
