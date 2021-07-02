@@ -1,7 +1,6 @@
 namespace :update_campaign_with_contents do
   desc 'Convert campaigns to work with contents'
   task do_it: :environment do
-    Content.all.destroy_all
     @ads_downloads = []
     @errors = []
     @campaigns_name = []

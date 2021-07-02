@@ -1,5 +1,11 @@
-- @board.default_images.each do |di|
-  - if di.video?
-    = video_tag(url_from_media(di), class: "bilbo-official-ad", loop: true, preload: "auto", muted: 'muted')
-  - else
-    = image_tag url_from_media(di), class: "bilbo-official-ad"
+- @board.board_default_contents.each do |media|
+  -if media.content.is_video?
+    = video_tag(media.content.multimedia_url, class: "bilbo-official-ad", loop: true, preload: "auto", muted: "muted")
+  -elsif media.content.is_image?
+    = image_tag media.content.multimedia_url(:large), class: "bilbo-official-ad"
+  -else
+    = content_tag("iframe", '', src: media.content.url, height: "100%", width: "100%",  class: "bilbo-official-ad", :scrolling => "no")
+//  - if di.video?
+//    = video_tag(url_from_media(di), class: "bilbo-official-ad", loop: true, preload: "auto", muted: 'muted')
+//  - else
+//    = image_tag url_from_media(di), class: "bilbo-official-ad"

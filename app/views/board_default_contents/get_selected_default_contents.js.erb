@@ -1,0 +1,4 @@
+// Append the images of selected bilbo
+$('#images-default-<%=@board.slug%>').html("<%= j render partial: 'board_default_contents/show_selected_content', collection: @selected_contents, as: :img, locals: {board: @board} %>");
+remove_on_click()
+hover_img();

@@ -2,6 +2,7 @@ class Content < ApplicationRecord
   include ContentUploader::attachment(:multimedia)
   belongs_to :project
   has_many :contents_board_campaign, class_name: "ContentsBoardCampaign", dependent: :delete_all
+  has_many :board_default_contents
   validate :multimedia_or_url
 
   def is_image?
@@ -40,7 +41,7 @@ class Content < ApplicationRecord
   # wether or not the content has already been processed
   def processed?
     if get_format == "html"
-      true  
+      true
     else
       multimedia_url(:large).present? ? true : false
     end
