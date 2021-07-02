@@ -1,0 +1,16 @@
+if(!$("#modalContent").length){
+  $("body").append("<%= j (render 'board_default_contents/content', locals: {content: @content, board: @board}) %>");
+}
+$("#modalContent").modal();
+$("#paginator a").hide();
+$("#single_content").append('<%= j render(partial: "shared/loading_ads")%>');
+scroll_wizard();
+setTimeout(function() {
+  $('#spinner').remove();
+  $("#single_content").append("<%= j render partial: 'board_default_contents/contents_modal'%>");
+  setImageLoader();
+  $('#paginator').html('<%= j (link_to_next_page @content, "#{t("content.more_contents")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "upcoming_page")%>');
+  $("#paginator a").show();
+  selectDefaultContent();
+  initialize_content_filter();
+}, 1000);

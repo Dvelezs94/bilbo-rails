@@ -1,0 +1,6 @@
+-if media.is_video?
+  = video_tag(media.multimedia_url, class: "bilbo-official-ad", loop: true, preload: "auto", muted: "muted")
+-elsif media.is_image?
+  = image_tag media.multimedia_url(:large), class: "bilbo-official-ad"
+-else
+  = content_tag("iframe", '', src: media.url, height: "100%", width: "100%",  class: "bilbo-official-ad", :scrolling => "no")

@@ -862,6 +862,7 @@ en:
     playback_duration: Playback duration
     content_selected: Select the content to display in each bilbo
     more_contents: View more contents
+    next: Next
   evidence:
     witnesses: Witnesses
     upload_file: Upload file
@@ -890,3 +891,7 @@ en:
     in_review: Pause
     selected_rows: Selected
     selected_row: Selected
+  board_default_content:
+    update_success: Default content updated successfully
+    minimum_one: The minimum default content is 1
+    maximum_ten: The maximum default content is 10

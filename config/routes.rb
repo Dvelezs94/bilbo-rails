@@ -51,6 +51,15 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :board_default_contents do
+    collection do
+      get :edit_default_content
+      get :contents_board_modal
+      get :get_selected_default_contents
+      get :create_or_update_default_content
+    end
+  end
+
   resources :witnesses, only: [:show, :create, :edit, :update] do
     member do
       get  :evidences_witness_modal

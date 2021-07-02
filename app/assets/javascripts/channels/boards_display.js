@@ -12,6 +12,16 @@ $(document).on('turbolinks:load', function() {
         if( data['action'] == "reload" ) {
           window.location.reload();
         }
+        //
+        if( data['action'] == "update_default_content" ) {
+          $('#bilbo-ad').html(data['ad']);
+          console.log("Content");
+        }else{
+          // ad rotation replacement
+          $("#ads_rotation").val(data['ads_rotation']);
+          console.log("Update received");
+        }
+
         // Called when there's incoming data on the websocket for this channel
         if( data['action'] == "enable" ) {
           $('.board-ads').append(data['ad']);
@@ -21,9 +31,6 @@ $(document).on('turbolinks:load', function() {
         else if(data['action'] == "update_rotation"){
           //nothing custom
         }
-        // ad rotation replacement
-        $("#ads_rotation").val(data['ads_rotation']);
-        console.log("Update received");
       }
     });
   }
