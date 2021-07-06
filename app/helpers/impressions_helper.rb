@@ -1,6 +1,6 @@
 module ImpressionsHelper
     # helper to create impressions on a given date
-    def create_custom_imp(imp_day, number_of_impressions, campaign_id, board_id, dry_run=false)
+    def create_custom_imp(imp_day, number_of_impressions, campaign_id, board_id, dry_run=true)
         # imp_day format should be "yyyy-mm-dd"
         # all impressions start at 11 AM just for sake of simplicity
         parsed_imp_day = imp_day.split("-")
@@ -16,7 +16,7 @@ module ImpressionsHelper
             steps = rand(300..450)
     
             parsed_date = parsed_date + steps
-            if dry_run
+            if !dry_run
                 Impression.create(
                     uuid: SecureRandom.hex(5), 
                     cycles: 1, 
