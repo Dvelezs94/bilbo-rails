@@ -673,15 +673,56 @@ a[href="#previous"] {
   transition: transform .2s;
 }
 
-.mklabel_smart {
-  background-color: black;
+.mklabel_billboard_selected {
+  background-color: #FF5900;
   color: white;
 }
 
- /* zoom effect on hover */
+.mklabel_television_selected {
+  background-color: #9F2BD6;
+  color: white;
+}
+
+.mklabel_wallboard_selected {
+  background-color: #2BD67B;
+  color: white;
+}
+
+.mklabel_selected {
+  background-color: #F5F6FA;
+  border: 1.5px solid #ACB6C8;
+}
+
+.mklabel_smart {
+  border: 1px solid #1C68F0;
+  transform: scale(1);
+	animation: pulse_map_marker 2s infinite;
+}
+
+.mklabel_smart_selected {
+  background-color: black;
+  color: white;
+  animation: none !important;
+} .mklabel_smart_selected i {
+  color: white !important;
+}
 
  .mklabel_hover {
   transform: scale(1.2);
  }
+
+ @keyframes pulse_map_marker {
+	0% {
+		box-shadow: 0 0 0 0 rgba(28, 104, 240, 0.7);
+	}
+
+	70% {
+		box-shadow: 0 0 0 10px rgba(28, 104, 240, 0);
+	}
+
+	100% {
+		box-shadow: 0 0 0 0 rgba(28, 104, 240, 0);
+	}
+}
 
 /* End MarkerWithLabel CSS */
