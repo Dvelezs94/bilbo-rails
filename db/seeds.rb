@@ -28,17 +28,18 @@ if ENV.fetch("RAILS_ENV") != "production"
         lat = Faker::Address.latitude
         lng = Faker::Address.longitude
         4.times do |y|
+          loc = Geokit::Geocoders::GoogleGeocoder.reverse_geocode("#{rand(21.8..22.0)},#{rand(-102.4..-102.3)}")
           provider_earnings = Faker::Number.between(from: 40000, to: 200000)
           provider.projects.first.boards.new do |board|
-            board.lat = lat
-            board.lng = lng
+            board.lat = loc.lat
+            board.lng = loc.lng
             board.avg_daily_views = Faker::Number.number(digits: 6)
             board.width = "#{Faker::Number.between(from: 10, to: 14)}.#{Faker::Number.between(from: 30, to: 90)}".to_f
             board.height = "#{Faker::Number.between(from: 7, to: 9)}.#{Faker::Number.between(from: 30, to: 90)}".to_f
             board.duration = Faker::Number.within(range: 7..10)
             board.status = Faker::Number.between(from: 0, to: 1)
             board.face = ["north", "south", "east", "west"].sample
-            board.name = "#{x}#{y}#{Faker::Lorem.sentence}"
+            board.name = "#{y}#{Faker::Lorem.sentence}"
             board.address = Faker::Address.full_address
             board.category = ["television", "billboard", "wallboard"].sample
             board.base_earnings = provider_earnings * 1.25
