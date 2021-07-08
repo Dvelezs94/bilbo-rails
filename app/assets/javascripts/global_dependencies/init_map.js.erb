@@ -103,6 +103,7 @@ function initializeMap() {
 function build_markers(bilbos) {
   // current max zindex for markers
   var markersCurrentZIndex = 100
+  var previousMarker
   // build markers from the available bilbos
   window.markers = bilbos.filter(function(bilbo) {
       if ( bilbo["category"] == "pinmarker" ) {
@@ -117,7 +118,10 @@ function build_markers(bilbos) {
         labelAnchor: new google.maps.Point(-10, 0),
         labelClass: "mklabel pd-x-5 " + (bilbo["smart"] == true ? "mklabel_smart" : ""),
         zIndex: markersCurrentZIndex,
-        map: window.bilbomap
+        map: window.bilbomap,
+        clicked: false,
+        visited: false,
+        smart: bilbo["smart"]
     });
 
     // close infowindow if clicked in another region of map
@@ -125,23 +129,38 @@ function build_markers(bilbos) {
       if (infowindow) {
          infowindow.close();
        }
+       if (marker.clicked) {
+        marker['clicked'] = false
+        marker.setOptions({labelClass: 'mklabel ' + (marker["smart"] == true ? "mklabel_smart" : "")})
+       }
     });
 
     // Icon in front on hover
     google.maps.event.addListener(marker, 'mouseover', function() {
-      markersCurrentZIndex = markersCurrentZIndex + 1;
-      marker.setZIndex(markersCurrentZIndex);
-      marker.setOptions({labelClass: 'mklabel mklabel_hover ' + (bilbo["smart"] == true ? "mklabel_smart" : "")})
+      if (!marker.clicked) {
+        markersCurrentZIndex = markersCurrentZIndex + 1;
+        marker.setZIndex(markersCurrentZIndex);
+        marker.setOptions({labelClass: 'mklabel mklabel_hover ' + (marker["smart"] == true ? "mklabel_smart" : "")})
+      } else {
+        markersCurrentZIndex = markersCurrentZIndex + 1;
+        marker.setZIndex(markersCurrentZIndex);
+      }
     });
 
     // Remove mklabel_selected class when mouse is out of marker
     google.maps.event.addListener(marker, 'mouseout', function() {
-      marker.setOptions({labelClass: 'mklabel ' + (bilbo["smart"] == true ? "mklabel_smart" : "")})
+      if (!marker.clicked) {
+        marker.setOptions({labelClass: 'mklabel ' + (marker["smart"] == true ? "mklabel_smart" : "")})
+      }
     });
 
 
     // Fetch Board data and display in map
     google.maps.event.addListener(marker, 'click', function() {
+      if (typeof previousMarker !== 'undefined' && previousMarker.clicked) {
+        previousMarker['clicked'] = false
+        previousMarker.setOptions({labelClass: 'mklabel ' + (previousMarker["smart"] == true ? "mklabel_smart" : "")})
+       }
       if ($("#bilbomap").length && $("#boardInfo").length){
         $("#boardInfo").addClass("d-none");
         $("#map-layout").removeClass("col-xl-12");
@@ -180,13 +199,19 @@ function build_markers(bilbos) {
                 </div>
               </div>`)
             infowindow.open(window.bilbomap, marker);
+            // add active class to marker
+            previousMarker = marker
+            marker['clicked'] = true
+            // mark marker as visited - we don't currently use this for anything but could be useful in the future
+            marker['visited'] = true
+            marker.setOptions({labelClass: 'mklabel ' + (marker["smart"] == true ? "mklabel_smart_selected" : "mklabel_selected")})
 
           if ($("#bilbomap").length && $("#boardInfo").length){
              $("#loading").removeClass("placeholder-paragraph");
              $("#boardInfo").removeClass("d-none");
            }
           },
-         error: function(data) {
+         error: function() {
            alert("Oops! Occurió un error.");
          }
       });
