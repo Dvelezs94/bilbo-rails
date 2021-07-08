@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_11_170016) do
+ActiveRecord::Schema.define(version: 2021_06_26_181652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 2021_06_11_170016) do
     t.float "minimum_budget", default: 50.0
     t.boolean "smart", default: true
     t.float "provider_earnings"
+    t.float "cycle_price"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
