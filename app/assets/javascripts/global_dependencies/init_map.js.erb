@@ -104,6 +104,8 @@ function build_markers(bilbos) {
   // current max zindex for markers
   var markersCurrentZIndex = 100
   var previousMarker
+  var markersNotSmart = []
+
   // build markers from the available bilbos
   window.markers = bilbos.filter(function(bilbo) {
       if ( bilbo["category"] == "pinmarker" ) {
@@ -253,16 +255,21 @@ function build_markers(bilbos) {
       width: 60
     },
   ]
+  // Separate smart from no smart bilbos to use markercluster
+  for (var mark in window.markers) {
+    if (window.markers[mark]["smart"] == false){
+      markersNotSmart.push(window.markers[mark]);
+    } 
+  }
   var options = {
     styles: markerStyles
   };
-
-  // window.markerCluster = new MarkerClusterer(window.bilbomap, window.markers, options);
+  window.markerCluster = new MarkerClusterer(window.bilbomap, markersNotSmart, options);
 }
 
 
 function DeleteMarkers() {
-   //window.markerCluster.clearMarkers();
+   window.markerCluster.clearMarkers();
    //Loop through all the markers and remove
    for (var i = 0; i < window.markers.length; i++) {
        window.markers[i].setMap(null);
