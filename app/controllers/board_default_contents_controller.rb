@@ -1,5 +1,5 @@
 class BoardDefaultContentsController < ApplicationController
-  access [:provider] => :all
+  access [:user, :provider] => :all
   before_action :verify_identity
 
   def create_or_update_default_content
