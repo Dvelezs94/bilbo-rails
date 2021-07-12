@@ -3,12 +3,6 @@ class ConvertShrineUploadsWorker
   sidekiq_options retry: 3
 
   def perform(attacher_class, record_class, record_id, name, file_data)
-    p "ddddddddddddddddddddddddddddddddddddddddddddddd"
-    p attacher_class
-    p record_class
-    p record_id
-    p name
-    p file_data
     attacher_class = Object.const_get(attacher_class)
     record         = Object.const_get(record_class).find(record_id) # if using Active Record
 
