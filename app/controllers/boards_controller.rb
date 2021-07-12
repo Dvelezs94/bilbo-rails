@@ -12,7 +12,8 @@ class BoardsController < ApplicationController
   def index
     respond_to do |format|
     format.js { #means filter is used
-      get_boards
+      # get all boards within that range and start filtering after
+      get_boards(lat: params[:lat], lng: params[:lng])
       if params[:cycle_price].present?
         @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f }
         @boards = Board.where(id: @boards)
@@ -259,11 +260,13 @@ class BoardsController < ApplicationController
     @banned_boards = Board.banned
   end
 
-  def get_boards
+  # default location to center of mexico
+  # search radius is defaulted to 10km
+  def get_boards(lat: 19.4324451, lng: -99.1333817, radius: 10000)
     if user_signed_in? && @project.provider?
-      @boards = @project.boards
+      @boards = @project.boards.enabled.within_radius(lat, lng, radius)
     else
-      @boards = Board.enabled
+      @boards = Board.enabled.within_radius(lat, lng, radius)
     end
   end
 
