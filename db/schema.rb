@@ -10,9 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_25_151532) do
+ActiveRecord::Schema.define(version: 2021_07_12_131152) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "cube"
+  enable_extension "earthdistance"
   enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -169,7 +171,7 @@ ActiveRecord::Schema.define(version: 2021_06_25_151532) do
     t.float "minimum_budget", default: 50.0
     t.boolean "smart", default: true
     t.float "provider_earnings"
-    t.string "default_multimedia"
+    t.float "cycle_price"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -418,7 +420,7 @@ ActiveRecord::Schema.define(version: 2021_06_25_151532) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-06-17 17:21:24"
+    t.datetime "expires_at", default: "2031-06-21 22:01:54"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"

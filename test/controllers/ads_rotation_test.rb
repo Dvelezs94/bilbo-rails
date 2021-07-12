@@ -303,10 +303,11 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     campaign_1 = create(:campaign, name: "1 Budget", project: @project, boards: [@board], classification: 0, provider_campaign: true, duration: 20, state: true, status: 0, budget_distribution: {"#{@board.id}": "700"}.to_json)
     campaign_1.board_campaigns.first.update(status: "approved", budget: 700)
     err = @board.update_ads_rotation(force_generate = true)
-    start_time = Time.zone.parse(@board.start_time.strftime("%H:%M"))
-    end_time = Time.zone.parse(@board.end_time.strftime("%H:%M"))
-    end_time += 1.day if start_time >= end_time and Time.zone.now >= end_time
-    start_time -= 1.day if start_time >= end_time and Time.zone.now < end_time
+    start_time = Time.parse(@board.start_time.strftime("%H:%M")) - @board.utc_offset.minutes
+    end_time = Time.parse(@board.end_time.strftime("%H:%M")) - @board.utc_offset.minutes
+    current_time = Time.now.utc + 15.seconds
+    end_time += 1.day if start_time >= end_time and current_time >= end_time
+    start_time -= 1.day if start_time >= end_time and current_time < end_time
     count = 0
     [campaign_1.board_campaigns.first.remaining_impressions, Faker::Number.between(from: 10, to: 500)].min.times do
       Impression.create(uuid: Faker::Alphanumeric.alpha(number: 15), campaign_id: campaign_1.id, board_id: @board.id, created_at: rand_time(start_time, end_time), api_token: @board.api_token, duration: campaign_1.duration)
@@ -317,14 +318,11 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     assert_equal (campaign_1.budget_per_bilbo(@board)/(@board.get_cycle_price(campaign_1) * campaign_1.duration/@board.duration)).to_i, campaign_1.remaining_impressions(@board) + count
   end
 
-  test "Second Day test" do
-    #Create a random number of impressions, and verify that that the remaining impressions plus the created impressions match the maximum ammount of imprressions per day
-    start_time = Time.zone.now + 15.seconds
-    end_time = start_time + 20.hours
-    @board.update(start_time: start_time-1.day, end_time: end_time-1.day)
-    campaign_1 = create(:campaign, name: "1 Budget", project: @project, boards: [@board], classification: 0, provider_campaign: true, duration: 20, state: true, status: 0, budget_distribution: {"#{@board.id}": "700"}.to_json)
-    campaign_1.board_campaigns.first.update(status: "approved", budget: 700)
-    err = @board.update_ads_rotation(force_generate = true)
+  test "Second Day test budget" do
+    start_time = Time.parse(@board.start_time.strftime("%H:%M")) - @board.utc_offset.minutes
+    end_time = Time.parse(@board.end_time.strftime("%H:%M")) - @board.utc_offset.minutes
+    campaign_1 = create(:campaign, name: "1 Budget", project: @project, boards: [@board], classification: 0, provider_campaign: true, duration: 20, state: true, status: 0, budget_distribution: {"#{@board.id}": "300"}.to_json)
+    campaign_1.board_campaigns.first.update(status: "approved", budget: 300)
     campaign_1.board_campaigns.first.remaining_impressions.times do
       Impression.create(uuid: Faker::Alphanumeric.alpha(number: 15), campaign_id: campaign_1.id, board_id: @board.id, created_at: rand_time(start_time-1.day, end_time-1.day), api_token: @board.api_token, duration: campaign_1.duration)
     end
@@ -332,11 +330,24 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     assert_equal (campaign_1.budget_per_bilbo(@board)/(@board.get_cycle_price(campaign_1) * campaign_1.duration/@board.duration)).to_i, campaign_1.remaining_impressions(@board)
   end
 
+  test "Second Day test per hour" do
+    start_time = Time.parse(@board.start_time.strftime("%H:%M")) - @board.utc_offset.minutes
+    end_time = Time.parse(@board.end_time.strftime("%H:%M")) - @board.utc_offset.minutes
+    campaign_1 = create(:campaign, name: "1 Per Hour", project: @project, boards: [@board], classification: 2, provider_campaign: true, duration: 10, state: true, status: 0)
+    campaign_1.impression_hours.create(start: "2000-01-01 18:00:00", end: "2000-01-01 19:00:00", imp: 200, day: "everyday")
+    campaign_1.board_campaigns.first.update(status: "approved")
+    campaign_1.board_campaigns.first.remaining_impressions.times do
+      Impression.create(uuid: Faker::Alphanumeric.alpha(number: 15), campaign_id: campaign_1.id, board_id: @board.id, created_at: rand_time(start_time-1.day, end_time-1.day), api_token: @board.api_token, duration: campaign_1.duration)
+    end
+    campaign_1.board_campaigns.update(update_remaining_impressions: true)
+    assert_equal campaign_1.impression_hours.pluck(:imp).sum, campaign_1.remaining_impressions(@board)
+  end
+
   ########################################### End Remaining impressions test ###############################
   private
 
-  def rand_time(from, to=Time.now)
-    Time.zone.at(rand_in_range(from.to_f, to.to_f))
+  def rand_time(from, to=Time.now.utc)
+    Time.at(rand_in_range(from.to_f, to.to_f))
   end
 
   def rand_in_range(from, to)

@@ -124,6 +124,7 @@ class CampaignsController < ApplicationController
               create_notification(recipient_id: provider.id, actor_id: @campaign.project.id,
                                   action: "created", notifiable: @campaign,
                                   sms: !current_user.is_provider?)
+              SlackNotifyWorker.perform_async("El usuario #{current_user.email} ha creado la campaña #{@campaign.name}.")
             end
             if @campaign.starts_at.present? && @campaign.ends_at.present?
               @campaign.boards.each do |b|
@@ -256,6 +257,7 @@ class CampaignsController < ApplicationController
     camp.assign_attributes(copy_params)
     camp.board_campaigns.each { |boardcampaign| boardcampaign.assign_attributes(status: "in_review") } if camp.board_campaigns.present?
     if camp.save
+      SlackNotifyWorker.perform_async("El usuario #{current_user.email} ha creado la campaña #{camp.name} de la copia de #{@campaign.name}.")
       track_activity( action: 'campaign.campaign_created', activeness: camp)
       flash[:success] = I18n.t('campaign.action.saved')
     else

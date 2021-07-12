@@ -113,7 +113,7 @@ class Admin::UsersController < ApplicationController
   # end impersonates
 
   def sync_sendgrid_contacts
-    SyncSendgridContactsWorker.perform_async
+    SyncEmailContactsWorker.perform_async
     redirect_to admin_users_path(role: "user")
     flash[:success] = "Contactos agregandose"
   end

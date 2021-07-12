@@ -145,12 +145,12 @@ gem 'punching_bag', '~> 0.7.0'
 gem 'rubyzip', '~> 2.3'
 #amoeba for copy_campaign
 gem 'amoeba', '~> 3.1'
-gem 'clicksend', '~> 0.0.3'
+gem 'clicksend_client', '~> 1.0', '>= 1.0.2'
 # File uploads to S3
 gem 'carrierwave', '~> 2.2'
 gem 'fog-aws', '~> 3.8'
 gem 'shrine', '~> 3.3'
 # grape for Api
 gem 'grape', '~> 1.5', '>= 1.5.3'
-
 gem 'aws-sdk-s3', '~> 1'
+gem 'mailerlite', '~> 1.13'
