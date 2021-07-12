@@ -5,6 +5,7 @@ class User < ApplicationRecord
   include DatesHelper
   include NumbersHelper
   include SendgridHelper
+  include MailerliteHelper
   include Rails.application.routes.url_helpers
   ############################################################################################
   ## PeterGate Roles                                                                        ##
@@ -30,8 +31,8 @@ class User < ApplicationRecord
   has_many :project_users, dependent: :destroy
   has_many :projects, through: :project_users
   after_commit :set_project, on: :create
-  after_create :send_contact_sendgrid
-  before_save :send_contact_sendgrid, if: :name_changed?
+  after_create :sync_contact_mail
+  before_save :sync_contact_mail, if: :name_changed?
   before_save :notify_credits, if: :balance_changed?
   has_many :payments
   has_many :invoices
@@ -270,9 +271,9 @@ class User < ApplicationRecord
     @project.save
   end
 
-  def send_contact_sendgrid
+  def sync_contact_mail
     #create a contact in lists of sengrid
-    sync_sendgrid_user(self)
+    sync_mailerlite_user(self)
   end
 
 end

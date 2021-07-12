@@ -12,7 +12,8 @@ class BoardsController < ApplicationController
   def index
     respond_to do |format|
     format.js { #means filter is used
-      get_boards
+      # get all boards within that range and start filtering after
+      get_boards(lat: params[:lat], lng: params[:lng])
       if params[:cycle_price].present?
         @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f }
         @boards = Board.where(id: @boards)
@@ -20,7 +21,9 @@ class BoardsController < ApplicationController
       @boards = @boards.where("height > ?", params[:min_height]) if params[:min_height].present?
       @boards = @boards.where("width > ?", params[:min_width]) if params[:min_width].present?
       @boards = @boards.where(category: params[:category]) if params[:category].present?
-      @boards = @boards.where(smart: params[:smart] == "1" ? true : false) if params[:smart].present?
+      if params[:smart] == "1"
+        @boards = @boards.where(smart: true)
+      end
       @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
      }
     format.html {
@@ -53,7 +56,14 @@ class BoardsController < ApplicationController
     @board.with_lock do
       if @board.should_update_ads_rotation?
         errors = @board.update_ads_rotation
-        return head(:internal_server_error) if errors.any?
+        if errors.any?
+          if !Rails.env.development?
+            Bugsnag.notify("Un error impidió actualizar el ads_rotation en el bilbo #{@board.slug}:\n#{errors.first}")
+          else
+            p "Un error impidió actualizar el ads_rotation en el bilbo #{@board.slug}:\n#{errors.first}"
+          end
+          return head(:internal_server_error)
+        end
         ActionCable.server.broadcast(
           @board.slug,
           action: "update_rotation",
@@ -291,11 +301,13 @@ class BoardsController < ApplicationController
     @banned_boards = Board.banned
   end
 
-  def get_boards
+  # default location to center of mexico
+  # search radius is defaulted to 10km
+  def get_boards(lat: 19.4324451, lng: -99.1333817, radius: 10000)
     if user_signed_in? && @project.provider?
-      @boards = @project.boards
+      @boards = @project.boards.enabled.within_radius(lat, lng, radius)
     else
-      @boards = Board.enabled
+      @boards = Board.enabled.within_radius(lat, lng, radius)
     end
   end
 

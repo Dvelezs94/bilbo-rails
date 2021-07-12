@@ -20,6 +20,7 @@ class Board < ApplicationRecord
   has_many_attached :default_images
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
+  after_validation :build_cycle_price
   before_update :save_new_cycle_price, if: :admin_edit
   enum status: { enabled: 0, disabled: 1 }
   enum social_class: { A: 0, AA: 1, AAA: 2, "AAA+": 3 }
@@ -33,6 +34,10 @@ class Board < ApplicationRecord
     end
   end
   scope :images_only, -> { where(images_only: true) }
+  # Add support for radius search
+  # Call it like: Board.within_radius(21.885731,-102.326319, 2000)
+  # (latitude, longitude, radius[km])
+  scope :within_radius, lambda {|latitude, longitude, metres| where("earth_box(ll_to_earth(?, ?), ?) @> ll_to_earth(lat, lng)", latitude, longitude, metres) }
 
   ################ DEMO FIX ##########################
   def start_time
@@ -73,14 +78,15 @@ class Board < ApplicationRecord
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position
   # and the user is not able to click the marker because it is a cluster
   def self.get_map_markers(pinpoints: [])
-    boards = enabled.select(:lat, :lng, :category, :smart).group_by { |b| [b.lat, b.lng]}
+    boards = enabled.select(:lat, :lng, :category, :smart, :cycle_price).group_by { |b| [b.lat, b.lng]}
     j = []
     boards.keys.each do |k|
       j << {
         lat: k[0],
         lng: k[1],
         category: boards[k][0]["category"],
-        smart: boards[k][0]["smart"]
+        smart: boards[k][0]["smart"],
+        cycle_price: boards[k][0]["cycle_price"]
       }
     end
     pinpoints.each do |p|
@@ -197,12 +203,12 @@ class Board < ApplicationRecord
   # a cycle is the total time of an impression duration
   # example a cycle could be of 10 seconds
   # this gives the price of a cycle in a bilbo
-  def cycle_price
+  def build_cycle_price
     daily_seconds = working_minutes(start_time, end_time) * 60
     total_days_in_month = 30
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = calculate_max_earnings
-    (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration
+    self.cycle_price = (total_monthly_possible_earnings / (daily_seconds * total_days_in_month)) * duration
   end
 
   # If a sale is running on the board, this will return the cycle_price with the discount
