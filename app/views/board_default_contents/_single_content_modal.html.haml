@@ -5,8 +5,7 @@
     -elsif content.is_video?
       = image_tag content.multimedia_url(:small), class: "card-img-top ht-100 o-fit-cover"
     - else
-      -if   content.multimedia(:large).height <= 1080
-        = image_tag content.multimedia_url(:small), class: "card-img-top ht-100 o-fit-cover"
+      = image_tag content.multimedia_url(:small), class: "card-img-top ht-100 o-fit-cover"
   - rescue
     = image_tag "construction_video.webp", class: "card-img-top ht-100 o-fit-cover"
   .card-body.pd-5-f

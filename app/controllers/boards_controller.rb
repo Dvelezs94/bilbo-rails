@@ -35,7 +35,6 @@ class BoardsController < ApplicationController
   def edit
     @board = Board.friendly.find(params[:id])
     @content = @board.board_default_contents.map{|bdc| bdc.content}
-    @contents = Content.new
   end
 
   def delete_image
@@ -80,7 +79,6 @@ class BoardsController < ApplicationController
         cont = @board.project.contents.new(multimedia: file )
         if cont.save
           @board.board_default_contents.where(content_id: cont.id).first_or_create
-          sleep 1
         end
       }
     end
@@ -164,7 +162,6 @@ class BoardsController < ApplicationController
             cont = @board.project.contents.new(multimedia: file )
             if cont.save
               @board.board_default_contents.where(content_id: cont.id).first_or_create
-              sleep 1
             end
           }
         end
