@@ -108,31 +108,10 @@ def download_for_campaign(index, board, attachment, original_ad, mime_type, file
   end
   p 'Transformando'
   content = image_data(original_ad, mime_type, filename)
-  p 'Creando contenido'
   content_created = board.project.contents.create(multimedia_data: content)
-  p 'Contenido creado'
-  p 'Creando BoardDefaultContents'
     cont = BoardDefaultContent.new
     cont.board_id = board.id
     cont.content_id = content_created.id
     cont.save
-  p 'Creado ContentBoardsCampaigns'
   p 'Finalizado'
-end
-
-
-def report
-  if @errors.empty?
-    report_url = Rails.root.join("storage/campaign_with_different_type_of_format_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.txt")
-    File.open(report_url, 'w+') do |report|
-      @errors.each do |title, values|
-        report.write(title + ':' + "\n")
-        values.each do |message|
-          report.write("\t" + message + "\n")
-        end
-        report.write("\n")
-      end
-    end
-    SlackNotifyWorker.perform_async("Se encontraron errores al convertir las default_images, reporte: #{report_url.to_s}")
-  end
 end

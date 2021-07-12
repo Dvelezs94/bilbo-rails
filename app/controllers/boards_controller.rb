@@ -43,10 +43,6 @@ class BoardsController < ApplicationController
   end
 
   def delete_default_image
-    #@board.with_lock do
-    #  element = @board.default_images.select { |di| di.signed_id == params[:signed_id] }[0]
-    #  element.purge
-    #end
     @board.board_default_contents.find(params[:default_id]).delete
     if @board.connected?
       UpdateBoardDefaultContentWorker.perform_async(@board.id, "delete_default_content", params[:content_id])

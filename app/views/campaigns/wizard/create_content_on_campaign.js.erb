@@ -4,7 +4,7 @@ if ($('div[data-images-only="true"]').length && <%= format == "video" %>) {
 } else { // this is in case the bilbo only accepts images
   $("#single_content").prepend("<%= j render partial: 'campaigns/wizard/single_content_modal', collection: @content_array, as: :content%>");
   remove_on_click();
-  if($("#contentDefaultModal")){
+  if($("#modalDefaultContent").length){
     selectDefaultContent();
   }else{
     select_content();
