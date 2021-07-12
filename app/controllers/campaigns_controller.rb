@@ -130,8 +130,8 @@ class CampaignsController < ApplicationController
               @campaign.boards.each do |b|
                 #difference_in_seconds = (@campaign.to_utc(@campaign.starts_at, b.utc_offset) - Time.now.utc).to_i
                 #difference_in_seconds_end = (@campaign.to_utc(@campaign.ends_at, b.utc_offset) - Time.now.utc).to_i
-                difference_in_seconds = (@campaign.starts_at - Time.now).to_i
-                difference_in_seconds_end = (@campaign.ends_at - Time.now).to_i
+                difference_in_seconds = @campaign.time_to_start_in_board(b)
+                difference_in_seconds_end = @campaign.time_to_end_in_board(b)
                 ScheduleCampaignWorker.perform_at(difference_in_seconds.seconds.from_now, @campaign.id, b.id) if difference_in_seconds > 0
                 RemoveScheduleCampaignWorker.perform_at((difference_in_seconds_end.seconds+86401.seconds).from_now, @campaign.id, b.id) if difference_in_seconds_end > 0
               end
