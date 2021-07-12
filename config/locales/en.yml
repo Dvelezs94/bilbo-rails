@@ -895,3 +895,5 @@ en:
     update_success: Default content updated successfully
     minimum_one: The minimum default content is 1
     maximum_ten: The maximum default content is 10
+    content_selected: Select the default content to display in the bilbo
+    bilbo_select: Choose the default content for

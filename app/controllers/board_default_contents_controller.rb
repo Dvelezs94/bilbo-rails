@@ -12,9 +12,14 @@ class BoardDefaultContentsController < ApplicationController
             @board_default_content = @board.board_default_contents.where(content_id: content.id).first_or_create
           end
           @board.board_default_contents.where.not(content_id: contents).each do |bdc|
+            if @board.connected?
+              UpdateBoardDefaultContentWorker.perform_async(@board.id, "delete_default_content", bdc.content_id)
+            end
             bdc.delete
           end
-            UpdateBoardDefaultContentWorker.perform_async(@board.id, "update_default_content")
+            if @board.connected?
+              UpdateBoardDefaultContentWorker.perform_async(@board.id, "update_default_content")
+            end
             @success_message = I18n.t("board_default_content.update_success")
           else
             @error_message = I18n.t("board_default_content.maximum_ten")
@@ -34,7 +39,19 @@ class BoardDefaultContentsController < ApplicationController
 
   def contents_board_modal
     @board = Board.friendly.find(params[:board_slug])
-    @content = Kaminari.paginate_array(@project.contents).page(params[:upcoming_page]).per(15)
+    @slug = params[:board_slug]
+    contents = []
+    if @board.images_only
+      @project.contents.order(id: :desc).each do |content|
+        if !content.is_video?
+          contents.push(content)
+        end
+      end
+    else
+      @project.contents.order(id: :desc).map{|content|contents.push(content)}
+    end
+    @content = Kaminari.paginate_array(contents.uniq).page(params[:upcoming_page]).per(15)
+    #@content = Kaminari.paginate_array(@project.contents).page(params[:upcoming_page]).per(15)
   end
 
   def get_selected_default_contents

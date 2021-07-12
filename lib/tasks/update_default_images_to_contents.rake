@@ -1,11 +1,10 @@
 namespace :update_default_images_to_contents do
-  desc 'Convert campaigns to work with contents'
+  desc 'Convert default images to default content'
   task do_it: :environment do
     @ads_downloads = []
     @errors = []
-    #@campaigns_name = []
     item = {}
-    Board.enabled.each do |board|
+    Board.all.each do |board|
       begin
         start_time = Time.zone.now
         p "Trabajando bilbo: #{board.name}"
@@ -41,7 +40,6 @@ namespace :update_default_images_to_contents do
       rescue StandardError => e
         #report
         SlackNotifyWorker.perform_async(e)
-        puts 'Error en proceso de campañas'
         FileUtils.remove_dir('tmp/default_images', true)
         raise e
       end
@@ -135,6 +133,6 @@ def report
         report.write("\n")
       end
     end
-    SlackNotifyWorker.perform_async("Se encontraron campañas con formatos de multimedia diferentes, reporte: #{report_url.to_s}")
+    SlackNotifyWorker.perform_async("Se encontraron errores al convertir las default_images, reporte: #{report_url.to_s}")
   end
 end

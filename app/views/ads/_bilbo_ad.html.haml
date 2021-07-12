@@ -1,10 +1,10 @@
 - @board.board_default_contents.each do |media|
   -if media.content.is_video?
-    = video_tag(media.content.multimedia_url, class: "bilbo-official-ad", loop: true, preload: "auto", muted: "muted")
+    = video_tag(media.content.multimedia_url, class: "bilbo-official-ad", loop: true, preload: "auto", muted: "muted", id: "default-content-#{media.content.id}")
   -elsif media.content.is_image?
-    = image_tag media.content.multimedia_url(:large), class: "bilbo-official-ad"
+    = image_tag media.content.multimedia_url(:large), class: "bilbo-official-ad", id: "default-content-#{media.content.id}"
   -else
-    = content_tag("iframe", '', src: media.content.url, height: "100%", width: "100%",  class: "bilbo-official-ad", :scrolling => "no")
+    = content_tag("iframe", '', src: media.content.url, height: "100%", width: "100%",  class: "bilbo-official-ad", :scrolling => "no", id: "default-content-#{media.content.id}")
 //  - if di.video?
 //    = video_tag(url_from_media(di), class: "bilbo-official-ad", loop: true, preload: "auto", muted: 'muted')
 //  - else

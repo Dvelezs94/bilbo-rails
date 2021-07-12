@@ -135,7 +135,12 @@ class BoardUploadWorker
               next
             end
           end
-          @board.default_images.attach(io: image, filename: File.basename(url), content_type: image.content_type)
+          content = image_data(image, image.content_type, File.basename(url))
+          content_created = @board.project.contents.create(multimedia_data: content)
+            cont = BoardDefaultContent.new
+            cont.board_id = @board.id
+            cont.content_id = content_created.id
+            cont.save
         end
       else #attach the default bilbo image
         if files.keys.include? 'https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png'
@@ -145,7 +150,12 @@ class BoardUploadWorker
           image = open('https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png')
           files['https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png'] = image
         end
-        @board.default_images.attach(io: image, filename: "bilbo-default.png", content_type: image.content_type)
+        content = image_data(image, image.content_type, File.basename(url))
+        content_created = @board.project.contents.create(multimedia_data: content)
+          cont = BoardDefaultContent.new
+          cont.board_id = @board.id
+          cont.content_id = content_created.id
+          cont.save
       end
 
       brd_errors.append("Los formatos admitidos son: image/jpeg, image/png, image/jpg, y video/mp4") if brd_errors.present?
@@ -153,7 +163,7 @@ class BoardUploadWorker
       #Notify if the board doesn't have images even if it was saved
       brd_errors += @board.errors.full_messages
       brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes del bilbo") if @board.images.count == 0
-      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes default del bilbo") if @board.default_images.count == 0
+      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes default del bilbo") if @board.board_default_contents.count == 0
       if !success
         brd_errors.prepend("No se pudo guardar el board")
       end
@@ -162,6 +172,7 @@ class BoardUploadWorker
       else
         successful += 1
       end
+
     end
 
     # Close and delete created temp files
@@ -207,5 +218,61 @@ class BoardUploadWorker
 
     #Separate items by commas
     return concat_restricctions.split(',').map{|s| s.strip}
+  end
+
+  #upload content with shrine
+  def image_data(original_ad, mime_type, filename)
+    attacher = Shrine::Attacher.new
+    attacher.set(uploaded_image(original_ad, filename))
+    magick = ImageProcessing::MiniMagick.source(original_ad)
+
+    # if you're processing derivatives
+    if ['image/png', 'image/jpeg'].include?(mime_type)
+      attacher.set_derivatives(
+        large: uploaded_image(magick.resize_to_limit!(1920, 1080), filename),
+        medium: uploaded_image(magick.resize_to_limit!(960, 540), filename),
+        small: uploaded_image(magick.resize_to_limit!(640, 360), filename)
+      )
+    elsif mime_type == 'video/mp4'
+      video_encoding_settings = {
+        frame_rate: 30,
+        custom: %w(-vf scale=-2:720 -an)
+      }
+      transcoded = Tempfile.new ['transcoded', '.mp4']
+      screenshot = Tempfile.new ['screenshot', '.jpg']
+
+      # transcode video
+      movie = FFMPEG::Movie.new(original_ad.path)
+      if movie.height.to_i > 720
+        movie.transcode(transcoded.path, video_encoding_settings )
+      else
+        movie.transcode(transcoded.path)
+      end
+
+      # get screenshot from transcoded video
+      screen = FFMPEG::Movie.new(transcoded.path)
+      screen.screenshot(screenshot.path)
+
+      # create image versions
+      magick = ImageProcessing::MiniMagick.source(screenshot.path)
+      attacher.set_derivatives(
+        transcoded: uploaded_image(transcoded, filename),
+        large: uploaded_image(magick.resize_to_limit!(1920, 1080), filename),
+        medium: uploaded_image(magick.resize_to_limit!(960, 540), filename),
+        small: uploaded_image(magick.resize_to_limit!(640, 360), filename)
+      )
+    end
+    attacher.column_data # or attacher.data in case of postgres jsonb column
+  end
+
+  def uploaded_image(original_ad, filename)
+    file = File.open(original_ad, binmode: true)
+    # for performance we skip metadata extraction and assign test metadata
+    uploaded_file = Shrine.upload(file, :store, metadata: true)
+    uploaded_file.metadata.merge!(
+      'size' => File.size(file.path),
+      'filename' => filename
+    )
+    uploaded_file
   end
 end
