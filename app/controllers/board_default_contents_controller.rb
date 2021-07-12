@@ -51,16 +51,11 @@ class BoardDefaultContentsController < ApplicationController
       @project.contents.order(id: :desc).map{|content|contents.push(content)}
     end
     @content = Kaminari.paginate_array(contents.uniq).page(params[:upcoming_page]).per(15)
-    #@content = Kaminari.paginate_array(@project.contents).page(params[:upcoming_page]).per(15)
   end
 
   def get_selected_default_contents
     @board = Board.friendly.find(params[:board_slug])
     @selected_contents = Content.where(id: params[:selected_contents].split(" "))
-  end
-
-  def fetch_single_wizard_content
-    @content = Content.find(params[:id])
   end
 
   private
