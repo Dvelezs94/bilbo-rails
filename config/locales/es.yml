@@ -902,3 +902,5 @@ es:
     update_success: Contenido predeterminado actualizado exitosamente
     minimum_one: El contenido predeterminado mínimo es de 1
     maximum_ten: El contenido predeterminado máximo es de 10
+    content_selected: Selecciona el contenido predeterminado a mostrar en el bilbo
+    bilbo_select: Elige el contenido predeterminado para 

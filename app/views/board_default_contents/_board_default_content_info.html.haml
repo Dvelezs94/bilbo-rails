@@ -3,17 +3,17 @@
     .modal-content
       .modal-header
         %input#board_slug_default.d-none{:readonly => "readonly", :value => "#{@board.slug}"}/
-        %h5.modal-title.tx-bold #{t("content.bilbo_select")} #{@board.name}
+        %h5.modal-title.tx-bold #{t("board_default_content.bilbo_select")} #{@board.name}
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
       .modal-body
-        %h3= t("campaign.wizard.pick_ad")
+        //%h3= t("campaign.wizard.pick_ad")
         %section.mg-t-15
           .row.row-xs
-            .col-6.col-md-6
-              %label= t("content.content_selected")
-          .col-12
-            %table.table.wizard-table
+            .col-12.col-md-12
+              %label= t("board_default_content.content_selected")
+          .col-lg-12
+            %table.table.table-responsive
               %thead.bg-ui-01
                 %tr.ht-45
                   %th{:scope => "col"}
@@ -21,7 +21,7 @@
                   %th{:scope => "col"}= t("bilbos.duration")
                   %th{:scope => "col"}= t("general_inputs.size")
                   %th{:scope => "col"}= t("bilbos.formats")
-                  %th{:scope => "col"}= t("bilbos.ads")
+                  %th{:class=>"col-2", :scope => "col"}= t("bilbos.ads")
               %tbody#content_inf
                 %tr
                   %th

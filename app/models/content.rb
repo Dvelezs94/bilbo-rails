@@ -2,7 +2,7 @@ class Content < ApplicationRecord
   include ContentUploader::attachment(:multimedia)
   belongs_to :project
   has_many :contents_board_campaign, class_name: "ContentsBoardCampaign", dependent: :delete_all
-  has_many :board_default_contents
+  has_many :board_default_contents, dependent: :delete_all
   validate :multimedia_or_url
 
   def is_image?

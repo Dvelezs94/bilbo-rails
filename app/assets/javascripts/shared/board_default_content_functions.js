@@ -1,5 +1,5 @@
 function appendContentDefault(){
-  $('#modalContent').modal('hide');
+  $('#modalDefaultContent').modal('hide');
   board_slug = $('#board_slug_default').val();
   content_board = $('#board_default_contents');
   content_board.val("");

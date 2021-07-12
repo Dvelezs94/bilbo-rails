@@ -1,7 +1,7 @@
-if(!$("#modalContent").length){
+if(!$("#modalDefaultContent").length){
   $("body").append("<%= j (render 'board_default_contents/content', locals: {content: @content, board: @board}) %>");
 }
-$("#modalContent").modal();
+$("#modalDefaultContent").modal();
 $("#paginator a").hide();
 $("#single_content").append('<%= j render(partial: "shared/loading_ads")%>');
 scroll_wizard();
