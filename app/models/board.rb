@@ -31,6 +31,10 @@ class Board < ApplicationRecord
     end
   end
   scope :images_only, -> { where(images_only: true) }
+  # Add support for radius search
+  # Call it like: Board.within_radius(21.885731,-102.326319, 2000)
+  # (latitude, longitude, radius[km])
+  scope :within_radius, lambda {|latitude, longitude, metres| where("earth_box(ll_to_earth(?, ?), ?) @> ll_to_earth(lat, lng)", latitude, longitude, metres) }
 
   ################ DEMO FIX ##########################
   def start_time

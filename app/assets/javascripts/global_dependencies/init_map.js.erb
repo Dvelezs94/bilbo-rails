@@ -23,7 +23,7 @@ function close_infowindow(){
 }
 
 // Locate map on user geolocation
-function getUsetLocation() {
+function getUserLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -34,6 +34,7 @@ function getUsetLocation() {
         infowindow.setPosition(pos);
         infowindow.open(window.bilbomap);
         window.bilbomap.setCenter(pos);
+        fetchBoardsFromNewLocation(pos["lat"], pos["lng"])
       },
       () => {
         handleLocationError(true, infowindow, window.bilbomap.getCenter());
@@ -59,8 +60,12 @@ function initializeMap() {
   waitForElement("#bilbomap", function() {
     var bilbos = JSON.parse($("#bilboMarkers").val())
 
+    // default to center of Mexico
+    var mapLat = parseFloat($("#mapLat").val()) || parseFloat($.getUrlVar("lat")) || 19.4324451
+    var mapLng = parseFloat($("#mapLng").val()) || parseFloat($.getUrlVar("lng")) || -99.1333817
+
     // center of mexico
-    var center = new google.maps.LatLng( parseFloat($("#mapLat").val()) || parseFloat($.getUrlVar("lat")) || 19.4324451, parseFloat($("#mapLng").val()) || parseFloat($.getUrlVar("lng")) || -99.1333817);
+    var center = new google.maps.LatLng(mapLat, mapLng);
     var zoom = parseInt($("#mapZoom").val()) || parseInt($.getUrlVar("zoom")) || 12
 
     window.bilbomap = new google.maps.Map(document.getElementById('bilbomap'), {
@@ -75,10 +80,15 @@ function initializeMap() {
 
     infowindow = new google.maps.InfoWindow();
 
-    getUsetLocation();
+    getUserLocation();
 
     build_markers(bilbos);
     // build_circles(bilbos);
+
+    // load bilbos when drag in map
+    google.maps.event.addListener(window.bilbomap, 'idle', function() {
+      fetchBoardsFromNewLocation(window.bilbomap.data.map.center.lat(), window.bilbomap.data.map.center.lng());
+    });
   });
 }
 
@@ -267,6 +277,11 @@ function build_markers(bilbos) {
   window.markerCluster = new MarkerClusterer(window.bilbomap, markersNotSmart, options);
 }
 
+function fetchBoardsFromNewLocation(lat, lng) {
+  $("#lat1").val(lat);
+  $("#lng1").val(lng);
+  $('form#filter-bilbos').find("input[type=submit]").click();
+}
 
 function DeleteMarkers() {
    window.markerCluster.clearMarkers();
