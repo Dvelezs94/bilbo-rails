@@ -1,0 +1,48 @@
+#modalBoardDefaultContent.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", "data-images-only": "#{@board.images_only?}"}
+  .modal-dialog.modal-dialog-centered.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %input#board_slug_default.d-none{:readonly => "readonly", :value => "#{@board.slug}"}/
+        %h5.modal-title.tx-bold #{t("board_default_content.bilbo_select")} #{@board.name}
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+      .modal-body
+        //%h3= t("campaign.wizard.pick_ad")
+        %section.mg-t-15
+          .row.row-xs
+            .col-12.col-md-12
+              %label= t("board_default_content.content_selected")
+          .col-lg-12
+            %table.table.table-responsive
+              %thead.bg-ui-01
+                %tr.ht-45
+                  %th{:scope => "col"}
+                  %th{:scope => "col"}= t("bilbos.bilbo")
+                  %th{:scope => "col"}= t("bilbos.duration")
+                  %th{:scope => "col"}= t("general_inputs.size")
+                  %th{:scope => "col"}= t("bilbos.formats")
+                  %th{:class=>"col-2", :scope => "col"}= t("bilbos.ads")
+              %tbody#content_inf
+                %tr
+                  %th
+                    -if board.images.attachments.present?
+                      - board.images.each do |image|
+                        = image_tag url_from_media(image), class: "img wd-50 ht-50 rounded"
+                    -else
+                      = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded"
+                  %td.valign-middle-f.tx-bold= board.name
+                  %td.valign-middle-f.tx-gray-700#bilbo_duration #{board.duration} #{t("bilbos.sec")}
+                  %td.valign-middle-f.tx-gray-700= board.recommended_image_size
+                  -if board.images_only
+                    %td.valign-middle-f.tx-gray-700= t("bilbos.image")
+                  -else
+                    %td.valign-middle-f.tx-gray-700= t("bilbos.both_image_video")
+                  %td<
+                    %div.d-flex
+                      = render partial: 'board_default_contents/add_default_content_button', locals: {board: board}
+                      %div.d-flex{:id => "images-default-#{board.slug}", style: "overflow-x: scroll;"}
+                      = hidden_field_tag 'board_default_contents', board.board_default_contents.map{|contents_default| contents_default.content_id}, onchange: "alert('Input collected!')"
+
+              #selected_content_campaign
+      .modal-footer
+        = button_tag t("campaign.wizard.finish"), type: 'button', onclick: "createUpdateContentDefault();", class: "btn btn-primary", remote: true

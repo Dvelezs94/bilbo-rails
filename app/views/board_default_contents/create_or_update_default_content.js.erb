@@ -1,0 +1,6 @@
+<% if @success_message.present? %>
+$("#modalBoardDefaultContent").modal('hide');
+  show_success("<%= escape_javascript(@success_message)%>");
+<% else %>
+  show_error("<%= escape_javascript(@error_message)%>");
+<% end %>

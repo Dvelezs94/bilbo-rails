@@ -1,0 +1,33 @@
+.card.mmcard.mg-md-x-5-f.mg-b-10-f{"data-content": content.id, "data-multimedia-type": content.get_format, "data-processed": "#{content.processed?}"}
+  - begin
+    -if content.is_url?
+      %iframe.d-block.no-pointer{:src => "#{content.url}", class: "card-img-top ht-100", scrolling: "no"}
+    -elsif content.is_video?
+      = image_tag content.multimedia_url(:small), class: "card-img-top ht-100 o-fit-cover"
+    - else
+      = image_tag content.multimedia_url(:small), class: "card-img-top ht-100 o-fit-cover"
+  - rescue
+    = image_tag "construction_video.webp", class: "card-img-top ht-100 o-fit-cover"
+  .card-body.pd-5-f
+    -if content.is_url?
+      %p.card-text{style: "margin-bottom: 0.5rem;"}= content.url.truncate(20)
+      .d-flex.justify-content-between
+        %p.card-text.mg-b-0-f
+          %small.text-muted= t("content.responsive")
+        .custom-control.custom-checkbox
+          %input.custom-control-input{:type => "checkbox", id: "pickContent#{content.id}"}/
+          %label.custom-control-label{:for => "pickContent#{content.id}"}
+    -else
+      %p.card-text{style: "margin-bottom: 0.5rem;"}= content.multimedia.metadata["filename"].truncate(15)
+      .d-flex.justify-content-between
+        %small.text-muted
+          - begin
+            = "#{content.multimedia(:large).width.round(0)} x #{content.multimedia(:large).height.round(0)}"
+          - rescue
+            = t("ads.processing_continuous")
+        - if content.processed?
+          .custom-control.custom-checkbox
+            %input.custom-control-input{:type => "checkbox", id: "pickContent#{content.id}"}/
+            %label.custom-control-label{:for => "pickContent#{content.id}"}
+        - else
+          %i.fe.fe-sync.cursor-pointer{id: "reload_single_content_#{content.id}", onclick: "get_single_content(#{content.id})" }

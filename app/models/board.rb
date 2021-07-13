@@ -3,7 +3,7 @@ class Board < ApplicationRecord
   include BroadcastConcern
   include Rails.application.routes.url_helpers
   extend FriendlyId
-  attr_accessor :new_ads_rotation, :admin_edit, :keep_old_cycle_price_on_active_campaigns
+  attr_accessor :new_ads_rotation, :admin_edit, :keep_old_cycle_price_on_active_campaigns, :url
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :board_campaigns, class_name: "BoardsCampaigns"
@@ -12,6 +12,9 @@ class Board < ApplicationRecord
   has_many :board_sales
   has_many :sales, through: :board_sales
   has_many :evidences, dependent: :delete_all
+  has_many :board_default_contents
+
+
   # validate :dont_edit_online, if: :connected?
   has_many_attached :images
   has_many_attached :default_images

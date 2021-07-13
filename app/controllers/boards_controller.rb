@@ -34,6 +34,7 @@ class BoardsController < ApplicationController
 
   def edit
     @board = Board.friendly.find(params[:id])
+    @content = @board.board_default_contents.map{|bdc| bdc.content}
   end
 
   def delete_image
@@ -44,9 +45,9 @@ class BoardsController < ApplicationController
   end
 
   def delete_default_image
-    @board.with_lock do
-      element = @board.default_images.select { |di| di.signed_id == params[:signed_id] }[0]
-      element.purge
+    @board.board_default_contents.find(params[:default_id]).delete
+    if @board.connected?
+      UpdateBoardDefaultContentWorker.perform_async(@board.id, "delete_default_content", params[:content_id])
     end
   end
 
@@ -73,6 +74,25 @@ class BoardsController < ApplicationController
 
   def update
     @success = @board.update(board_params.merge(admin_edit: true))
+    if params[:content].present?
+      params[:content].map { |file|
+        cont = @board.project.contents.new(multimedia: file )
+        if cont.save
+          @board.board_default_contents.where(content_id: cont.id).first_or_create
+        end
+      }
+    end
+
+    if board_params[:url].present?
+        cont = @board.project.contents.new(url: board_params[:url] )
+        if cont.save
+          @board.board_default_contents.where(content_id: cont.id).first_or_create
+        end
+    end
+
+    if @board.connected? && (board_params[:url].present? || params[:content].present? )
+      UpdateBoardDefaultContentWorker.perform_async(@board.id, "update_default_content")
+    end
     #check if needs to deactivate campaigns when updates from admin form
     if @success
       active_provider_campaigns = @board.active_campaigns("provider").sort_by { |c| (c.classification == "per_hour")? 0 : 1}
@@ -137,6 +157,22 @@ class BoardsController < ApplicationController
     else
       @board = Board.new(board_params)
       if @board.save
+        if params[:content].present?
+          params[:content].map { |file|
+            cont = @board.project.contents.new(multimedia: file )
+            if cont.save
+              @board.board_default_contents.where(content_id: cont.id).first_or_create
+            end
+          }
+        end
+
+        if board_params[:url].present?
+
+            cont = @board.project.contents.new(url: board_params[:url] )
+            if cont.save
+              @board.board_default_contents.where(content_id: cont.id).first_or_create
+            end
+        end
         flash[:success] = "Board saved"
       else
         flash[:error] = "Could not save board"
@@ -243,6 +279,8 @@ class BoardsController < ApplicationController
                                   :displays_number,
                                   :provider_earnings,
                                   :restrictions,
+                                  :content,
+                                  :url,
                                   images: [],
                                   default_images: []
                                   )

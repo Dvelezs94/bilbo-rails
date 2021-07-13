@@ -1,8 +1,8 @@
-#modalContent.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", "data-images-only": "#{@board.images_only?}"}
+#modalDefaultContent.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", "data-images-only": "#{@board.images_only?}"}
   .modal-dialog.modal-dialog-centered.modal-lg{:role => "document"}
     .modal-content
-      %input#board_slug.d-none{:readonly => "readonly", :value => "#{@slug}"}/
       .modal-header
+        %input#board_slug_default.d-none{:readonly => "readonly", :value => "#{@board.slug}"}/
         %h5.modal-title.tx-bold #{t("content.bilbo_select")} #{@board.name}
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
@@ -47,5 +47,5 @@
               .container#paginator.text-center.tx-13.pd-t-10
                 = link_to_next_page @content, "#{t("content.more_contents")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "upcoming_page"
       .modal-footer
-        = button_tag t("campaign.wizard.next"), type: 'button', onclick: "append_content();", class: "btn btn-primary"
+        = button_tag t("content.next"), type: 'button', onclick: "appendContentDefault();", class: "btn btn-primary"
       %input#slug-board.d-none{:readonly => "readonly", :value => "slug-#{@board.slug.to_s}"}/

@@ -251,7 +251,7 @@ es:
       monthly_impressions: Impresiones del mes
       campaigns_processed: "Campañas procesadas"
       bilbos_number: "Núm. de Bilbos"
-    minimum_budget_per_bilbo: El presupuesto minimo en el bilbo %{name} es de $%{min_budget} al día.
+    minimum_budget_per_bilbo: El presupuesto mínimo en el bilbo %{name} es de $%{min_budget} al día.
     metrics: Métricas
     campaign: Campaña
     campaign_status: Estado
@@ -869,6 +869,7 @@ es:
     playback_duration: Duración de reproducción
     content_selected: Selecciona el contenido a mostrar en cada bilbo
     more_contents: Ver más contenidos
+    next: Siguiente
   evidence:
     witnesses: Testigos
     upload_file: Subir archivo
@@ -897,3 +898,9 @@ es:
     in_review: Pausar
     selected_rows: seleccionadas
     selected_row: seleccionada
+  board_default_content:
+    update_success: Contenido predeterminado actualizado exitosamente
+    minimum_one: El contenido predeterminado mínimo es de 1
+    maximum_ten: El contenido predeterminado máximo es de 10
+    content_selected: Selecciona el contenido predeterminado a mostrar en el bilbo
+    bilbo_select: Elige el contenido predeterminado para
