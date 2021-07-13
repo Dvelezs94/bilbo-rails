@@ -128,12 +128,15 @@
     .d-flex
       - board.board_default_contents.each do |b|
         %figure.img-caption.pos-relative.mg-b-0.fit-content{:default_id => b.id}
-          -if b.content.is_video?
-            = video_tag(b.content.multimedia_url, class: "img-thumbnail", width: "200px", loop: true, preload: "auto", muted: "muted")
-          -elsif b.content.is_image?
-            = image_tag b.content.multimedia_url(:large), class: "img-thumbnail", width: "200px"
-          -else
-            = content_tag("iframe", '', src: b.content.url, height: "100%", width: "100%",  class: "img-thumbnail", width: "200px", :scrolling => "no")
+          - begin
+            -if b.content.is_video?
+              = video_tag(b.content.multimedia_url, class: "img-thumbnail", width: "200px", loop: true, preload: "auto", muted: "muted")
+            -elsif b.content.is_image?
+              = image_tag b.content.multimedia_url(:large), class: "img-thumbnail", width: "200px"
+            -else
+              = content_tag("iframe", '', src: b.content.url, height: "100%", width: "100%",  class: "img-thumbnail", width: "200px", :scrolling => "no")
+          - rescue
+            = image_tag "construction_video.webp", class: "img-thumbnail", width: "200px"
           %figcaption.pos-absolute.a-0.wd-100p.pd-20.d-flex.flex-column.justify-content-center.bg-white-9.transition-base.op-0
             = link_to delete_default_image_board_path(b.board.slug, default_id: b.id, content_id: b.content.id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do
               %i.fe.fe-trash
