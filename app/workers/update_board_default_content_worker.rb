@@ -1,6 +1,6 @@
 class UpdateBoardDefaultContentWorker
   include Sidekiq::Worker
-  sidekiq_options retry: false, dead: false
+  sidekiq_options retry: 3, dead: false
   include Rails.application.routes.url_helpers
 
   def perform(board_id, action, content_id = nil)
