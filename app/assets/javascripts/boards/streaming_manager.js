@@ -10,10 +10,13 @@
      var work_hour_end = $("#work_hours").val().split("-")[1];
      // starts depending on the hour
      var rotation_key = 0;
+     var last_request_time = {} //prevent for multiple request for a single content download
+     var lost_impressions = 0;
      // create the impressions every 60 seconds
      initializePlayer().then((readyToStart) => {
        if(readyToStart){
          setInterval(createImpression, 60000);
+         setInterval(reloadAdsRotation, 3600000); //update the ads rotation every hour only if there was lost impressions on the board due to media loading
          // Convert seconds to milliseconds
          board_duration = parseInt($("#duration").val()) * 1000;
 
@@ -142,13 +145,14 @@
                }
              }
              //display new ad
-             newAdLength = $('[data-campaign-id="' + chosen + '"]').length;
+             validAds = filterValidMedia($('[data-campaign-id="' + chosen + '"]'));
+             newAdLength = validAds.length;
              if (newAdLength > 0) { // means there is an ad for that campaign on view
                newAdChosen = Math.floor(Math.random() * newAdLength);
-               newAd = $($('[data-campaign-id="' + chosen + '"]')[newAdChosen]).css({
+               newAd = $(validAds[newAdChosen]).css({
                  display: "block"
                });
-               adPausePlay = $('[data-campaign-id="' + chosen + '"]')[newAdChosen]
+               adPausePlay = validAds[newAdChosen]
                if ($(adPausePlay).is("video")) {
                  adPausePlay.play();
                }
@@ -161,12 +165,19 @@
                if (typeof newAdMap["campaign_id"] !== 'undefined') {
                  displayedAds.push(newAdMap);
                }
-               check_next_campaign_ads_present();
              } else { //no ad so i need to display bilbo ad and ask for the ad
                console.log("no ads for campaign " + String(chosen) + ", requesting them and showing bilbo ad for this time");
+               Bugsnag.notify("El contenido de la campaña " + chosen + " no se ha podido mostrar en el bilbo " + board_slug + ", se recargarán los recursos y se mostrará el contenido default esta vez" )
                showBilboAd();
-               requestAds(chosen);
+               //If the HTML has the media object then it's not necessary to request the ads with ajax, we just reload their src to download the resources
+               if($('[data-campaign-id"'+chosen+'"]').length == 0){
+                 requestAds(chosen);
+               } else {
+                 reloadContent(chosen)
+               }
+               lost_impressions += 1;
              }
+             check_next_campaign_ads_present();
              //console.log(displayedAds);
              // else it is empty, so we need to show the bilbo hire
            }
@@ -225,13 +236,15 @@ function isWorkTime(start, end) {
    // show bilbo ad
    function showBilboAd() {
      //pauseAllCampaignVideos();
-     var chosen_default_multimedia = Math.floor(Math.random() * $(".bilbo-official-ad").length);
+     availableAds = filterValidMedia($(".bilbo-official-ad"))
+     var chosen_default_multimedia = Math.floor(Math.random() * availableAds.length);
      $(".board-ads").hide();
      $("#bilbo-ad").attr('style', 'display:block !important');
-     $(".bilbo-official-ad").hide().eq(chosen_default_multimedia).show()
-     if ($($(".bilbo-official-ad")[chosen_default_multimedia]).is("video")) {
-       $(".bilbo-official-ad")[chosen_default_multimedia].currentTime = 0;
-       $(".bilbo-official-ad")[chosen_default_multimedia].play();
+     $(".bilbo-official-ad").hide()
+     availableAds.eq(chosen_default_multimedia).show()
+     if ($(availableAds[chosen_default_multimedia]).is("video")) {
+       availableAds[chosen_default_multimedia].currentTime = 0;
+       availableAds[chosen_default_multimedia].play();
      }
    }
 
@@ -245,6 +258,25 @@ function isWorkTime(start, end) {
        }
      });
    }
+
+  function filterValidMedia(collection){
+    collection = collection.filter((index,element) => {
+      return mediaReady(element)
+    });
+    return collection;
+  }
+
+  function mediaReady(elem){
+    //for each content type, we have a way to verify if the content can be shown
+    if($(elem).is("video")){
+      return elem.readyState == 4;
+    } else if($(elem).is("img")){
+      return elem.complete && elem.naturalHeight != 0;
+    } else {
+      //check conditions for iframes
+      return true
+    }
+  }
 
    function pauseAllCampaignVideos() {
      $(".board-ad-inner").each(function() {
@@ -261,10 +293,22 @@ function isWorkTime(start, end) {
      //check if next campaign has ads to download them
      next_chosen = (rotation_key >= ads.length) ? ads[0] : ads[rotation_key + 1];
      if (next_chosen != "-" && next_chosen != ".") {
-       nextAdLength = $('[data-campaign-id="' + next_chosen + '"]').length;
-       if (nextAdLength == 0) {
-         console.log("next campaign with id " + next_chosen + " has no ads, requesting them");
-         requestAds(next_chosen);
+       nextAds = $('[data-campaign-id="' + next_chosen + '"]');
+       nextAds = filterValidMedia(nextAds);
+       if (nextAds.length == 0) {
+         console.log("next campaign with id " + next_chosen + " has no ads or haven't been completely loaded, requesting them");
+         if($('[data-campaign-id"'+next_chosen+'"]').length == 0){
+           requestAds(next_chosen);
+         } else {
+           reloadContent(next_chosen);
+         }
+       }
+     } else if (next_chosen == "-") {
+       //verify that at least one default content is available
+       defaultContent = filterValidMedia($(".bilbo-official-ad"));
+       if(defaultContent.length == 0){
+         console.log("No default content available, trying to download it");
+         reloadContent('-');
        }
      }
    }
@@ -284,6 +328,27 @@ function isWorkTime(start, end) {
      })
    }
 
+   function reloadContent(campaign_id) {
+     if(campaign_id == '-' && new Date() - last_request_time['-'] > 600000){
+       last_request_time['-'] = new Date();
+       $(".bilbo-official-ad").forEach((item, i) => {
+         //re-assign the url of the content for video and image to force a reload/download of the media
+         if(!mediaReady(item) && ($(item).is("video") || $(item).is("img"))) {
+           item.src = item.src;
+         }
+       });
+     } else if(new Date() - last_request_time[campaign_id] > 600000){
+       last_request_time[campaign_id] = new Date();
+       //Get media that is not available to reload it
+       $('[data-campaign-id="' + campaign_id + '"]').forEach((item, i) => {
+         //reload only the contents that aren't completely loaded
+         if(!mediaReady(item) && ($(item).is("video") || $(item).is("img"))) {
+           item.src = item.src;
+         }
+       });
+     }
+   }
+
    function hideBilboAd() {
      if ($("#bilbo-ad").is(":visible")) {
        //pauseDefaultVideos();
@@ -300,6 +365,13 @@ function isWorkTime(start, end) {
 
     total_seconds = hours*3600 + minutes*60 + seconds;
     return 86400 - total_seconds;
+  }
+
+  function reloadAdsRotation() {
+    if(lost_impressions > 0){
+      requestAdsRotation();
+      lost_impressions = 0;
+    }
   }
 
   function requestAdsRotation() {

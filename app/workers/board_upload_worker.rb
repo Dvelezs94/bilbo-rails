@@ -1,6 +1,7 @@
 class BoardUploadWorker
   include Sidekiq::Worker
   include AwsFunctionsHelper
+  include ShrineContentHelper
   sidekiq_options retry: false
 
   def perform(file, project_id)
@@ -135,7 +136,12 @@ class BoardUploadWorker
               next
             end
           end
-          @board.default_images.attach(io: image, filename: File.basename(url), content_type: image.content_type)
+          content = image_data(image, image.content_type, File.basename(url))
+          content_created = @board.project.contents.create(multimedia_data: content)
+            cont = BoardDefaultContent.new
+            cont.board_id = @board.id
+            cont.content_id = content_created.id
+            cont.save
         end
       else #attach the default bilbo image
         if files.keys.include? 'https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png'
@@ -145,7 +151,12 @@ class BoardUploadWorker
           image = open('https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png')
           files['https://s3.amazonaws.com/cdn.bilbo.mx/Frame+25.png'] = image
         end
-        @board.default_images.attach(io: image, filename: "bilbo-default.png", content_type: image.content_type)
+        content = image_data(image, image.content_type, File.basename(url))
+        content_created = @board.project.contents.create(multimedia_data: content)
+          cont = BoardDefaultContent.new
+          cont.board_id = @board.id
+          cont.content_id = content_created.id
+          cont.save
       end
 
       brd_errors.append("Los formatos admitidos son: image/jpeg, image/png, image/jpg, y video/mp4") if brd_errors.present?
@@ -153,7 +164,7 @@ class BoardUploadWorker
       #Notify if the board doesn't have images even if it was saved
       brd_errors += @board.errors.full_messages
       brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes del bilbo") if @board.images.count == 0
-      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes default del bilbo") if @board.default_images.count == 0
+      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes default del bilbo") if @board.board_default_contents.count == 0
       if !success
         brd_errors.prepend("No se pudo guardar el board")
       end
@@ -162,6 +173,7 @@ class BoardUploadWorker
       else
         successful += 1
       end
+
     end
 
     # Close and delete created temp files

@@ -1,4 +1,4 @@
-= form_with(model: board, :html => { :id => "new_board", data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, local: false) do |f|
+= form_with(model: board, :html => { :id => "new_board", enctype: "multipart/form-data", data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, local: false) do |f|
   .form-group
     = f.label t("general_inputs.name")
     %br/
@@ -117,18 +117,29 @@
         = f.hidden_field :images, multiple: true, value: img.signed_id, signed_id: img.signed_id
   .form-group
     = f.label "Multimedia default"
-    = f.file_field :default_images, multiple: true, class: "form-control"
-  - if board.default_images.attached?
+    %iframe.no-pointer{:src => "https://via.placeholder.com/458x250?text=Type+link+to+preview", class: "ht-250 wd-100p", :scrolling => "no", id: "iframe-modal"}
+    .input-group
+      = f.url_field :url, pattern: "https?://.*", class: "form-control", placeholder: "https://www.google.com/", id: "content_url"
+      .input-group-append
+        %button#button-addon2.btn.btn-outline-light{:type => "button", onclick: "preview_iframe('#content_url', '#iframe-modal')"} Preview
+  .form-group
+    = file_field_tag "content[]", multiple: true, class: "form-control"
+  - if board.board_default_contents.present?
     .d-flex
-      - board.default_images.each do |b|
-        %figure.img-caption.pos-relative.mg-b-0.fit-content{:signed_id => b.signed_id}
-          - if b.video?
-            = video_tag url_from_media(b), class: "img-thumbnail", width: "200px", autoplay: true, loop: true, controls: false, muted: true
-          - else
-            = image_tag url_from_media(b), class: "img-thumbnail", width: "200px"
+      - board.board_default_contents.each do |b|
+        %figure.img-caption.pos-relative.mg-b-0.fit-content{:default_id => b.id}
+          - begin
+            -if b.content.is_video?
+              = video_tag(b.content.multimedia_url, class: "img-thumbnail", width: "200px", loop: true, preload: "auto", muted: "muted")
+            -elsif b.content.is_image?
+              = image_tag b.content.multimedia_url(:large), class: "img-thumbnail", width: "200px"
+            -else
+              = content_tag("iframe", '', src: b.content.url, height: "100%", width: "100%",  class: "img-thumbnail", width: "200px", :scrolling => "no")
+          - rescue
+            = image_tag "construction_video.webp", class: "img-thumbnail", width: "200px"
           %figcaption.pos-absolute.a-0.wd-100p.pd-20.d-flex.flex-column.justify-content-center.bg-white-9.transition-base.op-0
-            = link_to delete_default_image_board_path(board.slug, signed_id: b.signed_id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do
+            = link_to delete_default_image_board_path(b.board.slug, default_id: b.id, content_id: b.content.id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do
               %i.fe.fe-trash
-        = f.hidden_field :default_images, multiple: true, value: b.signed_id, signed_id: b.signed_id
+
   .actions.col-sm-12.col-md-6.m-auto
     = f.submit t("general_inputs.update"), class: "btn btn-primary btn-block", id: "submit_board", data: {disable_with: "Actualizando..."}

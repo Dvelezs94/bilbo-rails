@@ -116,6 +116,15 @@ ActiveRecord::Schema.define(version: 2021_07_12_131152) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "board_default_contents", force: :cascade do |t|
+    t.bigint "content_id", null: false
+    t.bigint "board_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["board_id"], name: "index_board_default_contents_on_board_id"
+    t.index ["content_id"], name: "index_board_default_contents_on_content_id"
+  end
+
   create_table "board_sales", force: :cascade do |t|
     t.bigint "board_id", null: false
     t.bigint "sale_id", null: false
@@ -411,7 +420,7 @@ ActiveRecord::Schema.define(version: 2021_07_12_131152) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-06-21 22:01:54"
+    t.datetime "expires_at", default: "2031-07-12 21:25:57"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
@@ -511,6 +520,8 @@ ActiveRecord::Schema.define(version: 2021_07_12_131152) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ads", "projects"
+  add_foreign_key "board_default_contents", "boards"
+  add_foreign_key "board_default_contents", "contents"
   add_foreign_key "board_sales", "boards"
   add_foreign_key "board_sales", "sales"
   add_foreign_key "boards", "projects"
