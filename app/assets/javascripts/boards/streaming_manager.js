@@ -170,7 +170,7 @@
                Bugsnag.notify("El contenido de la campaña " + chosen + " no se ha podido mostrar en el bilbo " + board_slug + ", se recargarán los recursos y se mostrará el contenido default esta vez" )
                showBilboAd();
                //If the HTML has the media object then it's not necessary to request the ads with ajax, we just reload their src to download the resources
-               if($('[data-campaign-id"'+chosen+'"]').length == 0){
+               if($('[data-campaign-id="'+chosen+'"]').length == 0){
                  requestAds(chosen);
                } else {
                  reloadContent(chosen)
@@ -297,7 +297,7 @@ function isWorkTime(start, end) {
        nextAds = filterValidMedia(nextAds);
        if (nextAds.length == 0) {
          console.log("next campaign with id " + next_chosen + " has no ads or haven't been completely loaded, requesting them");
-         if($('[data-campaign-id"'+next_chosen+'"]').length == 0){
+         if($('[data-campaign-id="'+next_chosen+'"]').length == 0){
            requestAds(next_chosen);
          } else {
            reloadContent(next_chosen);
