@@ -130,7 +130,7 @@
         %figure.img-caption.pos-relative.mg-b-0.fit-content{:default_id => b.id}
           - begin
             -if b.content.is_video?
-              = video_tag(b.content.multimedia_url, class: "img-thumbnail", width: "200px", loop: true, preload: "auto", muted: "muted")
+              = video_tag(b.content.multimedia_url, class: "img-thumbnail", width: "200px", autoplay: true, loop: true, preload: "auto", muted: "muted")
             -elsif b.content.is_image?
               = image_tag b.content.multimedia_url(:large), class: "img-thumbnail", width: "200px"
             -else
