@@ -15,27 +15,36 @@ namespace :update_default_images_to_contents do
         tmp_dir = "tmp/default_images/#{board.slug}"
         Dir.mkdir('tmp/default_images') unless Dir.exist?('tmp/default_images')
         Dir.mkdir(tmp_dir) unless Dir.exist?(tmp_dir)
-
         default_images.attachments.each.with_index do |attachment, index|
-          if attachment.blob.filename.to_s.ends_with?('.jpg') || attachment.blob.filename.to_s.ends_with?('.jpeg')
-            original_ad = Tempfile.new([attachment.blob.key.to_s, '.jpeg'], "tmp/default_images/#{board.slug}")
-            file_extension = 'jpeg'
-            mime_type = 'image/jpeg'
-            filename = attachment.blob.filename.to_s
-            download_for_board(index, board, attachment, original_ad, mime_type, filename)
-          elsif attachment.blob.filename.to_s.ends_with?('.png')
-            original_ad = Tempfile.new([attachment.blob.key.to_s, '.png'], "tmp/default_images/#{board.slug}")
-            file_extension = 'png'
-            mime_type = 'image/png'
-            filename = attachment.blob.filename.to_s
-            download_for_board(index, board, attachment, original_ad, mime_type, filename)
-          else attachment.blob.filename.to_s.ends_with?('.mp4')
-            original_ad = Tempfile.new([attachment.blob.key.to_s, '.mp4'], "tmp/default_images/#{board.slug}")
-            file_extension = 'mp4'
-            mime_type = 'video/mp4'
-            filename = attachment.blob.filename.to_s
-            download_for_board(index, board, attachment, original_ad, mime_type, filename)
-
+        content_repeat = board.project.contents.find_by_slug(attachment.filename.to_s + board.project.slug)
+          if content_repeat.present?
+            if !BoardDefaultContent.find_by(board_id: board.id, content_id: content_repeat.id).present?
+              content = board.project.contents.find_by_slug(attachment.filename.to_s + board.project.slug)
+              cont = BoardDefaultContent.new
+              cont.board_id = board.id
+              cont.content_id = content.id
+              cont.save
+            end
+          else
+            if attachment.blob.filename.to_s.ends_with?('.jpg') || attachment.blob.filename.to_s.ends_with?('.jpeg')
+              original_ad = Tempfile.new([attachment.blob.key.to_s, '.jpeg'], "tmp/default_images/#{board.slug}")
+              file_extension = 'jpeg'
+              mime_type = 'image/jpeg'
+              filename = attachment.blob.filename.to_s
+              download_for_board(index, board, attachment, original_ad, mime_type, filename)
+            elsif attachment.blob.filename.to_s.ends_with?('.png')
+              original_ad = Tempfile.new([attachment.blob.key.to_s, '.png'], "tmp/default_images/#{board.slug}")
+              file_extension = 'png'
+              mime_type = 'image/png'
+              filename = attachment.blob.filename.to_s
+              download_for_board(index, board, attachment, original_ad, mime_type, filename)
+            else attachment.blob.filename.to_s.ends_with?('.mp4')
+              original_ad = Tempfile.new([attachment.blob.key.to_s, '.mp4'], "tmp/default_images/#{board.slug}")
+              file_extension = 'mp4'
+              mime_type = 'video/mp4'
+              filename = attachment.blob.filename.to_s
+              download_for_board(index, board, attachment, original_ad, mime_type, filename)
+            end
           end
         end
       rescue StandardError => e
@@ -53,7 +62,7 @@ def download_for_board(index, board, attachment, original_ad, mime_type, filenam
   end
   p 'Transformando'
   content = image_data(original_ad, mime_type, filename)
-  content_created = board.project.contents.create(multimedia_data: content)
+  content_created = board.project.contents.create(multimedia_data: content, slug: filename+board.project.slug)
     cont = BoardDefaultContent.new
     cont.board_id = board.id
     cont.content_id = content_created.id
