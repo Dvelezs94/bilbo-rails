@@ -269,7 +269,7 @@ function isWorkTime(start, end) {
   function mediaReady(elem){
     //for each content type, we have a way to verify if the content can be shown
     if($(elem).is("video")){
-      return elem.readyState == 4;
+      return elem.readyState >= 1 && [1,2].includes(elem.networkState);
     } else if($(elem).is("img")){
       return elem.complete && elem.naturalHeight != 0;
     } else {
