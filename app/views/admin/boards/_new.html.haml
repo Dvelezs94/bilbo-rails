@@ -113,7 +113,7 @@
                 = f.text_field :mac_address, class: "form-control", placeholder: "aa:bb:cc:dd:ee:ff"
               #images.form-group
                 = f.label "Imagenes para mostrar en el mapa"
-                = f.file_field :images, required: true, multiple: true, class: "form-control"
+                = f.file_field :images, required: true, multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'
               #defaultImages.form-group
                 = f.label "Multimedia default"
                 .form-group
@@ -123,7 +123,7 @@
                     .input-group-append
                       %button#button-addon2.btn.btn-outline-light{:type => "button", onclick: "preview_iframe('#content_url', '#iframe-modal')"} Preview
                 .form-group
-                  = file_field_tag "content[]", multiple: true, class: "form-control"
+                  = file_field_tag "content[]", multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'
               .actions.col-sm-12.col-md-6.m-auto
                 = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block", id: "submit_board"
       .modal-footer

@@ -105,12 +105,12 @@
           %br/
   .form-group
     = f.label "Imagenes para mostrar en el mapa"
-    = f.file_field :images, multiple: true, class: "form-control"
+    = f.file_field :images, multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'
   - if board.images.attached?
     .d-flex
       - board.images.each do |img|
         %figure.img-caption.pos-relative.mg-b-0.fit-content{:signed_id => img.signed_id}
-          = image_tag img, class: "img-thumbnail", width: "200px"
+          = image_tag url_from_media(img), class: "img-thumbnail", width: "200px"
           %figcaption.pos-absolute.a-0.wd-100p.pd-20.d-flex.flex-column.justify-content-center.bg-white-9.transition-base.op-0
             = link_to delete_image_board_path(board.slug, signed_id: img.signed_id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do
               %i.fe.fe-trash
@@ -123,7 +123,7 @@
       .input-group-append
         %button#button-addon2.btn.btn-outline-light{:type => "button", onclick: "preview_iframe('#content_url', '#iframe-modal')"} Preview
   .form-group
-    = file_field_tag "content[]", multiple: true, class: "form-control"
+    = file_field_tag "content[]", multiple: true, class: "form-control", :accept => 'image/png, image/jpeg, video/mp4'
   - if board.board_default_contents.present?
     .d-flex
       - board.board_default_contents.each do |b|

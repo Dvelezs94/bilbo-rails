@@ -2,11 +2,12 @@ class BoardsController < ApplicationController
   include AwsFunctionsHelper
   access [:provider, :admin, :user] => [:index], [:user, :provider] => [:owned, :statistics, :index], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image, :reload_board]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image, :reload_board]
+  before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image, :reload_board, :validate_default_contents_size]
   before_action :update_boardscampaigns, only: [:requestAdsRotation, :show]
   before_action :restrict_access, only: [:show]
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
   before_action :validate_just_api_token, only: [:requestAdsRotation]
+  before_action :validate_default_contents_size, only: [:create, :update]
   before_action :allow_iframe_requests, only: :map_frame
 
   def index
@@ -45,9 +46,17 @@ class BoardsController < ApplicationController
   end
 
   def delete_default_image
-    @board.board_default_contents.find(params[:default_id]).delete
-    if @board.connected?
-      UpdateBoardDefaultContentWorker.perform_async(@board.id, "delete_default_content", params[:content_id])
+    if @board.board_default_contents.size > 1
+      if @board.board_default_contents.find(params[:default_id]).delete
+        @success_message = I18n.t("board_default_content.update_success")
+      else
+        @error_message = I18n.t("error.error_ocurred")
+      end
+      if  @board.connected?
+        UpdateBoardDefaultContentWorker.perform_async(@board.id, "delete_default_content", params[:content_id])
+      end
+    else
+      @error_message = I18n.t("board_default_content.minimum_one")
     end
   end
 
@@ -164,14 +173,12 @@ class BoardsController < ApplicationController
               @board.board_default_contents.where(content_id: cont.id).first_or_create
             end
           }
-        end
-
-        if board_params[:url].present?
-
+          if board_params[:url].present?
             cont = @board.project.contents.new(url: board_params[:url] )
             if cont.save
               @board.board_default_contents.where(content_id: cont.id).first_or_create
             end
+          end
         end
         flash[:success] = "Board saved"
       else
@@ -347,5 +354,33 @@ class BoardsController < ApplicationController
 
   def allow_iframe_requests
     response.headers.delete('X-Frame-Options')
+  end
+
+  def validate_default_contents_size
+    if !board_params[:upload_from_csv].present?
+      if params[:content].present?
+        if params[:url].present?
+          content_size = params[:content].size + 1
+        else
+          content_size = params[:content].size
+        end
+      elsif  params[:url].present?
+        content_size = 1
+      else
+        content_size = 0
+      end
+      
+      if @board.present?
+        content_size = content_size + @board.board_default_contents.size
+      end
+
+      if !(content_size < 10)
+        flash[:alert] =  I18n.t("board_default_content.maximum_ten")
+        redirect_to request.referer
+      elsif (content_size == 0)
+        flash[:alert] =  I18n.t("board_default_content.minimum_one")
+        redirect_to request.referer
+      end
+    end
   end
 end
