@@ -5,7 +5,7 @@ class BoardDefaultContentsController < ApplicationController
   def create_or_update_default_content
     begin
       @board = Board.friendly.find(params[:board_slug])
-      contents = Content.where(id: params[:selected_contents].split(" "))
+      contents = @project.contents.where(id: params[:selected_contents].split(" "))
       if contents.length != 0
         if contents.length <= 10
           contents.each do |content|

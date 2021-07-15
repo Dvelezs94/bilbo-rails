@@ -1,1 +1,6 @@
-$("[default_id=<%= params[:default_id] %>]").remove();
+<% if @success_message.present? %>
+  show_success("<%= escape_javascript(@success_message)%>");
+  $("[default_id=<%= params[:default_id] %>]").remove();
+<% else %>
+  show_error("<%= escape_javascript(@error_message)%>");
+<% end %>
