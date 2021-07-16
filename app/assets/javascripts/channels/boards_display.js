@@ -12,6 +12,21 @@ $(document).on('turbolinks:load', function() {
         if( data['action'] == "reload" ) {
           window.location.reload();
         }
+
+        if(data['action'] == "delete_default_content" ) {
+          $("#default-content-" + data['ad']).remove();
+          console.log("Update content default received");
+        }
+
+        if(data['action'] == "update_default_content" ) {
+        $(data['ad']).each(function() {
+          if($("#"+$(this).attr('id')).length == 0) {
+            $('#bilbo-ad').append($(this));
+            console.log("Update content default received");
+          }
+          });
+        }
+
         // Called when there's incoming data on the websocket for this channel
         if( data['action'] == "enable" ) {
           $('.board-ads').append(data['ad']);
@@ -21,9 +36,12 @@ $(document).on('turbolinks:load', function() {
         else if(data['action'] == "update_rotation"){
           //nothing custom
         }
-        // ad rotation replacement
-        $("#ads_rotation").val(data['ads_rotation']);
-        console.log("Update received");
+
+        if(data['action'] != "update_default_content" && data['action'] != "delete_default_content" ){
+          // ad rotation replacement
+          $("#ads_rotation").val(data['ads_rotation']);
+          console.log("Update received");
+        }
       }
     });
   }

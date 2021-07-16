@@ -1,0 +1,6 @@
+$("body").append("<%= j render partial: 'board_default_contents/board_default_content_info', locals: {board: @board}%>");
+$('#board_slug_default').val("<%= @board.slug%>")
+$("#modalBoardDefaultContent").modal();
+if($('#board_default_contents').length){
+  showContentDefault($('#board_default_contents'), $('#board_slug_default').val() )
+}

@@ -113,10 +113,17 @@
                 = f.text_field :mac_address, class: "form-control", placeholder: "aa:bb:cc:dd:ee:ff"
               #images.form-group
                 = f.label "Imagenes para mostrar en el mapa"
-                = f.file_field :images, required: true, multiple: true, class: "form-control"
+                = f.file_field :images, required: true, multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'
               #defaultImages.form-group
                 = f.label "Multimedia default"
-                = f.file_field :default_images, multiple: true, required: true, class: "form-control"
+                .form-group
+                  %iframe.no-pointer{:src => "https://via.placeholder.com/458x250?text=Type+link+to+preview", class: "ht-250 wd-100p", :scrolling => "no", id: "iframe-modal"}
+                  .input-group
+                    = f.url_field :url, pattern: "https?://.*", class: "form-control", placeholder: "https://www.google.com/", id: "content_url"
+                    .input-group-append
+                      %button#button-addon2.btn.btn-outline-light{:type => "button", onclick: "preview_iframe('#content_url', '#iframe-modal')"} Preview
+                .form-group
+                  = file_field_tag "content[]", multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'
               .actions.col-sm-12.col-md-6.m-auto
                 = f.submit t("general_inputs.create"), class: "btn btn-primary btn-block", id: "submit_board"
       .modal-footer
