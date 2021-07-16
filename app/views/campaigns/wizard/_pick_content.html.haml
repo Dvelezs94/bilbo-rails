@@ -9,15 +9,15 @@
         .input-group-prepend
           = f.select(:duration, [["10 #{t("bilbos.sec")}", 10],["20 #{t("bilbos.sec")}", 20],["30 #{t("bilbos.sec")}", 30],["40 #{t("bilbos.sec")}", 40],["50 #{t("bilbos.sec")}", 50],["60 #{t("bilbos.sec")}", 60]], {selected: ["#{@campaign.duration} #{t("bilbos.sec")}", @campaign.duration]}, { :class => 'custom-select mg-l-30', id:"campaign_bilbo_duration" })
   .col-12
-    %table.table.wizard-table
+    %table.table.table-responsive
       %thead.bg-ui-01
         %tr.ht-45
-          %th{:scope => "col"}
-          %th{:scope => "col"}= t("bilbos.bilbo")
-          %th{:scope => "col"}= t("bilbos.duration")
-          %th{:scope => "col"}= t("general_inputs.size")
-          %th{:scope => "col"}= t("bilbos.formats")
-          %th{:scope => "col"}= t("bilbos.ads")
+          %th.col-2{:scope => "col"}
+          %th.col-2{:scope => "col"}= t("bilbos.bilbo")
+          %th.col-2{:scope => "col"}= t("bilbos.duration")
+          %th.col-2{:scope => "col"}= t("general_inputs.size")
+          %th.col-1{:scope => "col"}= t("bilbos.formats")
+          %th.col-3{:scope => "col"}= t("bilbos.ads")
       %tbody#content_inf
       #selected_content_campaign
 %input#campaign_id.d-none{:readonly => "readonly", :value => "#{@campaign.slug}"}/

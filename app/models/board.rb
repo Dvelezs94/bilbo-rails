@@ -3,7 +3,7 @@ class Board < ApplicationRecord
   include BroadcastConcern
   include Rails.application.routes.url_helpers
   extend FriendlyId
-  attr_accessor :new_ads_rotation, :admin_edit, :keep_old_cycle_price_on_active_campaigns
+  attr_accessor :new_ads_rotation, :admin_edit, :keep_old_cycle_price_on_active_campaigns, :url
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :board_campaigns, class_name: "BoardsCampaigns"
@@ -12,6 +12,9 @@ class Board < ApplicationRecord
   has_many :board_sales
   has_many :sales, through: :board_sales
   has_many :evidences, dependent: :delete_all
+  has_many :board_default_contents, dependent: :delete_all
+
+
   # validate :dont_edit_online, if: :connected?
   has_many_attached :images
   has_many_attached :default_images
@@ -31,6 +34,10 @@ class Board < ApplicationRecord
     end
   end
   scope :images_only, -> { where(images_only: true) }
+  # Add support for radius search
+  # Call it like: Board.within_radius(21.885731,-102.326319, 2000)
+  # (latitude, longitude, radius[km])
+  scope :within_radius, lambda {|latitude, longitude, metres| where("earth_box(ll_to_earth(?, ?), ?) @> ll_to_earth(lat, lng)", latitude, longitude, metres) }
 
   ################ DEMO FIX ##########################
   def start_time
