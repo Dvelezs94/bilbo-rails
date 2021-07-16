@@ -10,9 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_26_181652) do
+ActiveRecord::Schema.define(version: 2021_07_12_131152) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "cube"
+  enable_extension "earthdistance"
   enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -112,6 +114,15 @@ ActiveRecord::Schema.define(version: 2021_06_26_181652) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
+  end
+
+  create_table "board_default_contents", force: :cascade do |t|
+    t.bigint "content_id", null: false
+    t.bigint "board_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["board_id"], name: "index_board_default_contents_on_board_id"
+    t.index ["content_id"], name: "index_board_default_contents_on_content_id"
   end
 
   create_table "board_sales", force: :cascade do |t|
@@ -509,6 +520,8 @@ ActiveRecord::Schema.define(version: 2021_06_26_181652) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ads", "projects"
+  add_foreign_key "board_default_contents", "boards"
+  add_foreign_key "board_default_contents", "contents"
   add_foreign_key "board_sales", "boards"
   add_foreign_key "board_sales", "sales"
   add_foreign_key "boards", "projects"
