@@ -162,7 +162,8 @@ class Campaign < ApplicationRecord
       dist = JSON.parse(budget_distribution)
       return dist["#{board.id}"].to_f
     else
-      BoardsCampaigns.find_by(campaign: self, board: board).budget
+      bc = BoardsCampaigns.find_by(campaign: self, board: board)
+      return bc.present?? bc.budget : 0
     end
   end
 
@@ -192,7 +193,8 @@ class Campaign < ApplicationRecord
         dist = JSON.parse(budget_distribution)
         campaign_budget = dist["#{board_id}"].to_f
       else
-        campaign_budget = BoardsCampaigns.find_by(campaign: self, board: brd).budget
+        bc = BoardsCampaigns.find_by(campaign: self, board: brd)
+        campaign_budget = bc.present?? bc.budget :  0.0
       end
     else
       campaign_budget = 0.0 #if campaign is not per budget we initialize this variable as 0 so it can be compared with the minimum_budget of the board
