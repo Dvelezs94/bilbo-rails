@@ -98,7 +98,7 @@ class BoardsController < ApplicationController
   end
 
   def map_frame
-    get_boards
+    get_boards(lat: params[:lat], lng: params[:lng])
   end
 
   # provider boards
