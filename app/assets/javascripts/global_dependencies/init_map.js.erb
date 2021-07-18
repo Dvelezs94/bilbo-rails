@@ -1,3 +1,4 @@
+var loaded_markers = [];
 $(document).on('turbolinks:load', function() {
   if ($("#bilbomap").length > 0){
     var infowindow = null;
@@ -33,8 +34,8 @@ function getUserLocation() {
         };
         infowindow.setPosition(pos);
         infowindow.open(window.bilbomap);
+        // move to the user location
         window.bilbomap.setCenter(pos);
-        fetchBoardsFromNewLocation(pos["lat"], pos["lng"])
       },
       () => {
         handleLocationError(true, infowindow, window.bilbomap.getCenter());
@@ -58,8 +59,9 @@ function handleLocationError(browserHasGeolocation, infowindow, pos) {
 
 function initializeMap() {
   waitForElement("#bilbomap", function() {
-    var bilbos = JSON.parse($("#bilboMarkers").val())
-
+    // reset value before map is loaded the first time
+    // this is due to how turbolinks works
+    window.loaded_markers = [];
     // default to center of Mexico
     var mapLat = parseFloat($("#mapLat").val()) || parseFloat($.getUrlVar("lat")) || 19.4324451
     var mapLng = parseFloat($("#mapLng").val()) || parseFloat($.getUrlVar("lng")) || -99.1333817
@@ -82,42 +84,48 @@ function initializeMap() {
 
     getUserLocation();
 
-    build_markers(bilbos);
+    // commented in case we need to use circles
     // build_circles(bilbos);
 
-    // load bilbos when drag in map
+    // load bilbos when moved in map
     google.maps.event.addListener(window.bilbomap, 'idle', function() {
       fetchBoardsFromNewLocation(window.bilbomap.data.map.center.lat(), window.bilbomap.data.map.center.lng());
     });
   });
 }
 
-// function build_circles(bilbos) {
-//   for (const pinpoint in bilbos) {
-//     if (bilbos[pinpoint]["category"] == "pinmarker") {
-//       // Add the cicrircle for this city to the map.
-//       const branchCircle = new google.maps.Circle({
-//       strokeColor: "#7CA0C0",
-//       strokeOpacity: 0.8,
-//       strokeWeight: 2,
-//       fillColor: "#7CA0C0",
-//       fillOpacity: 0.35,
-//       map: window.bilbomap,
-//       center: { lat: bilbos[pinpoint]["lat"], lng: bilbos[pinpoint]["lng"] },
-//       radius: 2000,
-//     });
-//     }
-//   }
-// }
+function build_circles(bilbos) {
+  for (const pinpoint in bilbos) {
+    if (bilbos[pinpoint]["category"] == "pinmarker") {
+      // Add the cicrircle for this city to the map.
+      const branchCircle = new google.maps.Circle({
+      strokeColor: "#7CA0C0",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: "#7CA0C0",
+      fillOpacity: 0.35,
+      map: window.bilbomap,
+      center: { lat: bilbos[pinpoint]["lat"], lng: bilbos[pinpoint]["lng"] },
+      radius: 2000,
+    });
+    }
+  }
+}
 
-function build_markers(bilbos) {
+function build_markers(bilbos, push_new=false) {
   // current max zindex for markers
   var markersCurrentZIndex = 100
   var previousMarker
   var markersNotSmart = []
+  
 
   // build markers from the available bilbos
   window.markers = bilbos.filter(function(bilbo) {
+      // check if marker already exists, so we don't duplicate them
+      if ( loaded_markers.includes([bilbo["lat"], bilbo["lng"]].toString()) ) {
+        // marker already exists, so skip it
+        return false;
+      }
       if ( bilbo["category"] == "pinmarker" ) {
         return false; // skip pin markers because we want them to be circles
       }
@@ -135,6 +143,9 @@ function build_markers(bilbos) {
         visited: false,
         smart: bilbo["smart"]
     });
+
+    // add markers to loaded_markers variable so we can keep track of existing markers
+    window.loaded_markers.push([bilbo["lat"], bilbo["lng"]].toString());
 
     // close infowindow if clicked in another region of map
     google.maps.event.addListener(window.bilbomap, "click", function() {
