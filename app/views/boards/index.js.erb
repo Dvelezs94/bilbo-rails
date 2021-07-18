@@ -1,5 +1,15 @@
-DeleteMarkers();
-// build markers from the available bilbos
-build_markers(<%=  raw @boards.get_map_markers.to_json %>);
+
+var pushed_bilbos = <%=  raw @boards.get_map_markers.to_json %>
+
+/*
+No longer used since we don't delete markers now, however this could be used in the future
+to delete markers for memory optimization
+*/
+//DeleteMarkers();
+
+/*
+build markers from the available bilbos
+*/
+build_markers(bilbos=pushed_bilbos);
 toastr.clear($('.toast:contains(Cargando)'));
 $('.modal').modal('hide'); 
