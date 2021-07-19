@@ -288,7 +288,7 @@ function build_markers(bilbos) {
   ]
   // Separate smart from no smart bilbos to use markercluster
   for (var mark in window.markers) {
-    if (window.markers[mark]["smart"] == false){
+    if (window.markers[mark]["smart"] == false && window.markers[mark].visible ){
       markersNotSmart.push(window.markers[mark]);
     } 
   }
@@ -320,6 +320,9 @@ function DeleteMarkers() {
 
 // hides all markers
 function hideAllMarkers() {
+  if (typeof window.markerCluster !== 'undefined') {
+    window.markerCluster.clearMarkers();
+  }
   if (typeof window.markers !== 'undefined') {
     for (var i = 0; i < window.markers.length; i++) {
       window.markers[i].setVisible(false);
