@@ -1,4 +1,6 @@
 var loaded_markers = [];
+var markers = []
+
 $(document).on('turbolinks:load', function() {
   if ($("#bilbomap").length > 0){
     var infowindow = null;
@@ -61,7 +63,10 @@ function initializeMap() {
   waitForElement("#bilbomap", function() {
     // reset value before map is loaded the first time
     // this is due to how turbolinks works
+    // loaded_markers is used as a quick reference to load or not a new marker object into the map
     window.loaded_markers = [];
+    // markers variable is used so google maps objects are saved there
+    window.markers
     // default to center of Mexico
     var mapLat = parseFloat($("#mapLat").val()) || parseFloat($.getUrlVar("lat")) || 19.4324451
     var mapLng = parseFloat($("#mapLng").val()) || parseFloat($.getUrlVar("lng")) || -99.1333817
@@ -117,17 +122,22 @@ function build_markers(bilbos) {
   var markersCurrentZIndex = 100
   var previousMarker
   var markersNotSmart = []
-  
 
   // build markers from the available bilbos
-  window.markers = bilbos.filter(function(bilbo) {
+  // push new markers to markers global variable
+  window.markers.push.apply(window.markers, bilbos.filter(function(bilbo) {
       // check if marker already exists, so we don't duplicate them
       if ( loaded_markers.includes([bilbo["lat"], bilbo["lng"]].toString()) ) {
+        // set marker to visible since it already existed
+        for (var i = 0; i < window.markers.length; i++) {
+          var position = new google.maps.LatLng(bilbo["lat"], bilbo["lng"]);
+          if (window.markers[i].getPosition().equals(position)) {
+              window.markers[i].setVisible(true);
+              break;
+          }
+        }
         // marker already exists, so skip it
         return false;
-      }
-      if ( bilbo["category"] == "pinmarker" ) {
-        return false; // skip pin markers because we want them to be circles
       }
       return true;
     }).map(function(bilbo) {
@@ -241,7 +251,7 @@ function build_markers(bilbos) {
     });
 
     return marker;
-  });
+  }));
 
   // markercluster custom icons
   var markerStyles = [
@@ -295,10 +305,24 @@ function fetchBoardsFromNewLocation(lat, lng) {
 }
 
 function DeleteMarkers() {
-   window.markerCluster.clearMarkers();
-   //Loop through all the markers and remove
-   for (var i = 0; i < window.markers.length; i++) {
-       window.markers[i].setMap(null);
-   }
-   window.markers = [];
+  // if (typeof window.markerCluster !== 'undefined') {
+  //   window.markerCluster.clearMarkers();
+  // }
+  //Loop through all the markers and remove
+  if (typeof window.markerCluster !== 'undefined') {
+    for (var i = 0; i < window.markers.length; i++) {
+      window.markers[i].setMap(null);
+      //marker.setVisible(false)
+    }
+  }
+  //window.markers = [];
+}
+
+// hides all markers
+function hideAllMarkers() {
+  if (typeof window.markers !== 'undefined') {
+    for (var i = 0; i < window.markers.length; i++) {
+      window.markers[i].setVisible(false);
+    }
+  }
 }

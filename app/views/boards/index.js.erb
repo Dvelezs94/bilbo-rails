@@ -5,7 +5,13 @@ var pushed_bilbos = <%=  raw @boards.get_map_markers.to_json %>
 No longer used since we don't delete markers now, however this could be used in the future
 to delete markers for memory optimization
 */
-//DeleteMarkers();
+// DeleteMarkers();
+
+/*
+Hide all markers before setting them as visible again, this is for filter to work properly
+Because otherwise all markers would be shown
+*/
+hideAllMarkers();
 
 /*
 build markers from the available bilbos
