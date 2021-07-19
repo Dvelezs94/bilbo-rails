@@ -22,7 +22,7 @@ class BoardsController < ApplicationController
       @boards = @boards.where("height > ?", params[:min_height]) if params[:min_height].present?
       @boards = @boards.where("width > ?", params[:min_width]) if params[:min_width].present?
       @boards = @boards.where(category: params[:category]) if params[:category].present?
-      @boards = @boards = @boards.where(smart: true) if params[:smart] == "1"
+      @boards = @boards.where(smart: true) if params[:smart] == "1"
       @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
      }
     format.html {
