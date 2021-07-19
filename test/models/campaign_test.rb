@@ -27,8 +27,6 @@ class CampaignTest < ActiveSupport::TestCase
     assert_equal "per_hour", @campaign.classification
   end
   test "has board" do
-    # @board = create(:board,project: @user.projects.first, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A
-    #   ", base_earnings: "5000", face: "north")
       assert 1, @campaign.boards.count
   end
   test "has content" do
