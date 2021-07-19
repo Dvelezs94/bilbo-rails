@@ -162,7 +162,8 @@ class Campaign < ApplicationRecord
       dist = JSON.parse(budget_distribution)
       return dist["#{board.id}"].to_f
     else
-      BoardsCampaigns.find_by(campaign: self, board: board).budget
+      bc = BoardsCampaigns.find_by(campaign: self, board: board)
+      return bc.present?? bc.budget : 0
     end
   end
 
@@ -192,7 +193,8 @@ class Campaign < ApplicationRecord
         dist = JSON.parse(budget_distribution)
         campaign_budget = dist["#{board_id}"].to_f
       else
-        campaign_budget = BoardsCampaigns.find_by(campaign: self, board: brd).budget
+        bc = BoardsCampaigns.find_by(campaign: self, board: brd)
+        campaign_budget = bc.present?? bc.budget :  0.0
       end
     else
       campaign_budget = 0.0 #if campaign is not per budget we initialize this variable as 0 so it can be compared with the minimum_budget of the board
@@ -231,15 +233,33 @@ class Campaign < ApplicationRecord
   end
 
   def to_utc(time,utc_offset)
+    time = (time + time.utc_offset).utc # keeps the same hour in utc zone Example: "03:25 -05:00" -> "03:25 +00:00"
+                                        # this is useful because the timezone of the campaign can be different than
+                                        # the timezone of the board, which is what we need
     time - utc_offset.minutes
   end
 
   def time_to_run?(brd)
     # if set start and end to august 4, it runs all august 4 day
     # if set from 4 aug to 5 aug, it runs entire both days
-    #utc is used to compare dates correctly
-    (self.starts_at.nil? && self.ends_at.nil?) || (to_utc(self.starts_at,brd.utc_offset).to_date <= Time.now.utc.to_date && to_utc(self.ends_at,brd.utc_offset).to_date  >= Time.now.utc.to_date)
+    (self.starts_at.nil? && self.ends_at.nil?) || (time_to_start_in_board(brd) <= 0 && time_to_end_in_board(brd) + 86400 > 0)
   end
+
+  def time_to_start_in_board(board)
+    campaign_starts_at = (self.starts_at + self.starts_at.utc_offset).utc
+    real_start_time = campaign_starts_at - board.utc_offset.minutes
+    #If this returns a negative value means the campaign has started, else this is the ammount of seconds remaining to start
+    return (real_start_time - Time.now.utc).ceil
+  end
+
+  def time_to_end_in_board(board)
+    campaign_ends_at = (self.ends_at + self.ends_at.utc_offset).utc
+    real_end_time = campaign_ends_at - board.utc_offset.minutes
+    #This is the remaining time in seconds for the end date of the campaign (start of day)
+    #if we want the end of the day we just need to add 1 day (86400 seconds) to this value
+    return (real_end_time - Time.now.utc).ceil
+  end
+
 
   # See fi the current date is between start and end date
   def is_now_ongoing?
@@ -259,7 +279,7 @@ class Campaign < ApplicationRecord
       false
     end
   end
-  
+
 
 
   def broadcast_to_all_boards
