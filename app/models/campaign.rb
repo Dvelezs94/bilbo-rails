@@ -286,6 +286,7 @@ class Campaign < ApplicationRecord
     boards.each do |b|
       err = b.broadcast_to_board(self) if (board_campaigns.find_by(board: b).approved?) #make the broadcast only in the boards where the campaign is approved
       #currently no use for errors here
+      b.update(occupation: b.new_occupation)
     end
   end
 

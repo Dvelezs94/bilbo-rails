@@ -36,6 +36,7 @@ class BoardsCampaigns < ApplicationRecord
         campaign.update(state: false)
         self.board_errors = err
       end
+      board.update(occupation: board.new_occupation)
     end
 
     def calculate_remaining_impressions
