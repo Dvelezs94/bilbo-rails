@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_12_131152) do
+ActiveRecord::Schema.define(version: 2021_07_20_145934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "cube"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 2021_07_12_131152) do
     t.boolean "smart", default: true
     t.float "provider_earnings"
     t.float "cycle_price"
+    t.float "occupation", default: 0.0
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -420,7 +421,7 @@ ActiveRecord::Schema.define(version: 2021_07_12_131152) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-06-21 22:01:54"
+    t.datetime "expires_at", default: "2031-07-09 16:06:21"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"

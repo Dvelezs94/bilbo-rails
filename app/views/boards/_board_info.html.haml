@@ -77,7 +77,7 @@
       %tr
         %td.tx-medium= t('campaign.occupied')
         %td
-          - occupation = board.occupation
+          - occupation = board.get_occupation
           .progress.ht-15
             - if occupation[:occupation] < 30
               - percentage_bar_builder = { bg: "success"}
