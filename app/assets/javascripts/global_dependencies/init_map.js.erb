@@ -1,5 +1,6 @@
 var loaded_markers = [];
-var markers = []
+var markers = [];
+var circles = [];
 
 $(document).on('turbolinks:load', function() {
   if ($("#bilbomap").length > 0){
@@ -66,7 +67,8 @@ function initializeMap() {
     // loaded_markers is used as a quick reference to load or not a new marker object into the map
     window.loaded_markers = [];
     // markers variable is used so google maps objects are saved there
-    window.markers
+    window.markers = [];
+    // circles variable is used 
     // default to center of Mexico
     var mapLat = parseFloat($("#mapLat").val()) || parseFloat($.getUrlVar("lat")) || 19.4324451
     var mapLng = parseFloat($("#mapLng").val()) || parseFloat($.getUrlVar("lng")) || -99.1333817
@@ -94,27 +96,45 @@ function initializeMap() {
 
     // load bilbos when moved in map
     google.maps.event.addListener(window.bilbomap, 'idle', function() {
-      fetchBoardsFromNewLocation(window.bilbomap.data.map.center.lat(), window.bilbomap.data.map.center.lng());
+      fetchBoardsFromNewLocation();
     });
+
+    /*
+    Useful for debugging and creating circles in the map
+    */
+    // google.maps.event.addListener(window.bilbomap, 'bounds_changed', function() {
+    //   delete_all_circles();
+    //   draw_map_bounds_circle();
+    // });
   });
 }
 
-function build_circles(bilbos) {
-  for (const pinpoint in bilbos) {
-    if (bilbos[pinpoint]["category"] == "pinmarker") {
-      // Add the cicrircle for this city to the map.
-      const branchCircle = new google.maps.Circle({
-      strokeColor: "#7CA0C0",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: "#7CA0C0",
-      fillOpacity: 0.35,
-      map: window.bilbomap,
-      center: { lat: bilbos[pinpoint]["lat"], lng: bilbos[pinpoint]["lng"] },
-      radius: 2000,
-    });
+function delete_all_circles() {
+  if (typeof window.circles !== 'undefined') {
+    for (var i = 0; i < window.circles.length; i++) {
+      window.circles[i].setMap(null);
     }
   }
+}
+
+function draw_map_bounds_circle() {
+  var bounds = window.bilbomap.getBounds();
+  var ne_bounds = bounds.getNorthEast();
+  var circle_center = bounds.getCenter();
+  var circle_radius = google.maps.geometry.spherical.computeDistanceBetween(circle_center, ne_bounds);
+  
+  const newCircle = new google.maps.Circle({
+    strokeColor: "#7CA0C0",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#7CA0C0",
+    fillOpacity: 0.35,
+    map: window.bilbomap,
+    center: circle_center,
+    radius: circle_radius
+  });
+  // Store circle object to array
+  window.circles.push(newCircle)
 }
 
 function build_markers(bilbos) {
@@ -298,9 +318,15 @@ function build_markers(bilbos) {
   window.markerCluster = new MarkerClusterer(window.bilbomap, markersNotSmart, options);
 }
 
-function fetchBoardsFromNewLocation(lat, lng) {
-  $("#lat1").val(lat);
-  $("#lng1").val(lng);
+function fetchBoardsFromNewLocation() {
+  var bounds = window.bilbomap.getBounds();
+  var ne_bounds = bounds.getNorthEast();
+  var center = bounds.getCenter();
+  var radius = google.maps.geometry.spherical.computeDistanceBetween(center, ne_bounds);
+
+  $("#lat1").val(center.lat());
+  $("#lng1").val(center.lng());
+  $("#radius").val(radius);
   $('form#filter-bilbos').find("input[type=submit]").click();
 }
 
