@@ -1,5 +1,6 @@
 var loaded_markers = [];
-var markers = []
+var markers = [];
+var circles = [];
 
 $(document).on('turbolinks:load', function() {
   if ($("#bilbomap").length > 0){
@@ -66,7 +67,9 @@ function initializeMap() {
     // loaded_markers is used as a quick reference to load or not a new marker object into the map
     window.loaded_markers = [];
     // markers variable is used so google maps objects are saved there
-    window.markers
+    window.markers = [];
+    // circles variable is used to store created circles
+    window.circles= [];
     // default to center of Mexico
     var mapLat = parseFloat($("#mapLat").val()) || parseFloat($.getUrlVar("lat")) || 19.4324451
     var mapLng = parseFloat($("#mapLng").val()) || parseFloat($.getUrlVar("lng")) || -99.1333817
@@ -78,7 +81,7 @@ function initializeMap() {
     window.bilbomap = new google.maps.Map(document.getElementById('bilbomap'), {
       zoom: zoom,
       center: center,
-      minZoom: 11,
+      minZoom: 1,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       styles: [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"color":"#7c93a3"},{"lightness":"-10"}]},{"featureType":"administrative.country","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"color":"#a0a4a5"}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"color":"#62838e"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#dde3e3"}]},{"featureType":"landscape.man_made","elementType":"geometry.stroke","stylers":[{"color":"#3f4a51"},{"weight":"0.30"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"poi.attraction","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.government","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.park","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.place_of_worship","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.school","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi.sports_complex","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":"-100"},{"visibility":"on"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#bbcacf"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"lightness":"0"},{"color":"#bbcacf"},{"weight":"0.50"}]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.stroke","stylers":[{"color":"#a9b4b8"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"invert_lightness":true},{"saturation":"-7"},{"lightness":"3"},{"gamma":"1.80"},{"weight":"0.01"}]},{"featureType":"transit.line","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#a3c7df"}]},{ "featureType": "road.arterial", "elementType": "labels", "stylers": [ { "visibility": "off" } ] }],
       disableDefaultUI: true,
@@ -94,27 +97,45 @@ function initializeMap() {
 
     // load bilbos when moved in map
     google.maps.event.addListener(window.bilbomap, 'idle', function() {
-      fetchBoardsFromNewLocation(window.bilbomap.data.map.center.lat(), window.bilbomap.data.map.center.lng());
+      fetchBoardsFromNewLocation();
     });
+
+    /*
+    Useful for debugging and creating circles in the map
+    */
+    // google.maps.event.addListener(window.bilbomap, 'bounds_changed', function() {
+    //   delete_all_circles();
+    //   draw_map_bounds_circle();
+    // });
   });
 }
 
-function build_circles(bilbos) {
-  for (const pinpoint in bilbos) {
-    if (bilbos[pinpoint]["category"] == "pinmarker") {
-      // Add the cicrircle for this city to the map.
-      const branchCircle = new google.maps.Circle({
-      strokeColor: "#7CA0C0",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: "#7CA0C0",
-      fillOpacity: 0.35,
-      map: window.bilbomap,
-      center: { lat: bilbos[pinpoint]["lat"], lng: bilbos[pinpoint]["lng"] },
-      radius: 2000,
-    });
+function delete_all_circles() {
+  if (typeof window.circles !== 'undefined') {
+    for (var i = 0; i < window.circles.length; i++) {
+      window.circles[i].setMap(null);
     }
   }
+}
+
+function draw_map_bounds_circle() {
+  var bounds = window.bilbomap.getBounds();
+  var ne_bounds = bounds.getNorthEast();
+  var circle_center = bounds.getCenter();
+  var circle_radius = google.maps.geometry.spherical.computeDistanceBetween(circle_center, ne_bounds);
+  
+  const newCircle = new google.maps.Circle({
+    strokeColor: "#7CA0C0",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#7CA0C0",
+    fillOpacity: 0.35,
+    map: window.bilbomap,
+    center: circle_center,
+    radius: circle_radius
+  });
+  // Store circle object to array
+  window.circles.push(newCircle)
 }
 
 function build_markers(bilbos) {
@@ -298,9 +319,15 @@ function build_markers(bilbos) {
   window.markerCluster = new MarkerClusterer(window.bilbomap, markersNotSmart, options);
 }
 
-function fetchBoardsFromNewLocation(lat, lng) {
-  $("#lat1").val(lat);
-  $("#lng1").val(lng);
+function fetchBoardsFromNewLocation() {
+  var bounds = window.bilbomap.getBounds();
+  var ne_bounds = bounds.getNorthEast();
+  var center = bounds.getCenter();
+  var radius = google.maps.geometry.spherical.computeDistanceBetween(center, ne_bounds);
+
+  $("#lat1").val(center.lat());
+  $("#lng1").val(center.lng());
+  $("#radius").val(radius);
   $('form#filter-bilbos').find("input[type=submit]").click();
 }
 

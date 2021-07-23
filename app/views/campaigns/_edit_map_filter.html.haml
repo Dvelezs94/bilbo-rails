@@ -11,8 +11,10 @@
             .form-group.col-12.col-lg-6
               = f.text_field :location, class: 'form-control rounded', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
                 value: (params[:location].present?)? params[:location] : "" ,                                                               |
-                lat: (params[:location].present?)? params[:lat] : "",                                                                       |
-                lng: (params[:location].present?)? params[:lng] : ""                                                                        |
+                lat: (params[:lat].present?)? params[:lat] : "",                                                                            |
+                lng: (params[:lng].present?)? params[:lng] : "",                                                                            |
+                rad: (params[:rad].present?)? params[:rad] : ""                                                                             |
+              = f.hidden_field :radius, value: params[:radius]
             .form-group.col-12.col-lg-6
               = f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification')}, {class: 'custom-select'})
             .form-group.col-12.col-lg-6
