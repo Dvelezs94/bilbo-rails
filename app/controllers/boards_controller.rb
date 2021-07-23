@@ -267,6 +267,7 @@ class BoardsController < ApplicationController
                                   :height,
                                   :lat,
                                   :lng,
+                                  :radius,
                                   :address,
                                   :category,
                                   :start_time,
