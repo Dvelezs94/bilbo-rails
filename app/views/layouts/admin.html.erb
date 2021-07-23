@@ -15,7 +15,7 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'admin', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY") + '&libraries=places&callback=activatePlacesSearch', :async => true, 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY") + '&libraries=places,geometry&callback=activatePlacesSearch', :async => true, 'data-turbolinks-track': 'reload' %>
 
 
     <title>Bilbo</title>

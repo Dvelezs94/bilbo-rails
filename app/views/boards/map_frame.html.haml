@@ -13,8 +13,10 @@
     .form-group.col-6.col-md-4.col-lg-2
       = f.text_field :location, class: 'form-control rounded', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
         value: (params[:location].present?)? params[:location] : "" ,                                                               |
-        lat: (params[:location].present?)? params[:lat] : "",                                                                       |
-        lng: (params[:location].present?)? params[:lng] : ""                                                                        |
+        lat: (params[:lat].present?)? params[:lat] : "",                                                                            |
+        lng: (params[:lng].present?)? params[:lng] : "",                                                                            |
+        rad: (params[:rad].present?)? params[:rad] : ""                                                                             |
+      = f.hidden_field :radius, value: params[:radius]
     = f.submit "Enviar", class: "d-none"
 #bilbomap.ht-100p
   
