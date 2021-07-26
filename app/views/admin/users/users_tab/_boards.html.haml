@@ -66,7 +66,7 @@
             %p.tx-10.tx-uppercase.tx-medium.tx-color-03.tx-spacing-1.mg-b-5=  t('campaign.occupied')
             .d-flex.align-items-center
               .wd-10.ht-10.rounded-circle.bg-orange.mg-r-5
-              %h5.tx-normal.tx-rubik.mg-b-0= "#{board.occupation[:occupation]} %"
+              %h5.tx-normal.tx-rubik.mg-b-0= "#{board.get_occupation[:occupation]} %"
           / col
           .col-12.mg-t-20
             .row

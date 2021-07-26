@@ -25,7 +25,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="https://s3.amazonaws.com/cdn.bilbo.mx/Bilbo-Favicon.png">
     <%= javascript_include_tag 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', :defer => true, 'data-turbolinks-eval': 'false' %>
     <%= javascript_include_tag 'https://unpkg.com/@googlemaps/markerwithlabel@1.2.2/dist/index.min.js', :defer => true, 'data-turbolinks-eval': 'false' %>
-    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY")+"&libraries=places", :defer => true, 'data-turbolinks-eval': 'false' %>
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ ENV.fetch("MAPS_API_KEY")+"&libraries=places,geometry", :defer => true, 'data-turbolinks-eval': 'false' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <% if !user_signed_in? && request.fullpath == "/external_sources/setup" %>
