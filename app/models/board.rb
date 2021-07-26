@@ -99,26 +99,31 @@ class Board < ApplicationRecord
     return j
   end
 
+  def new_occupation
+    used_cycles = 0
+    #sum the occupation by campaigns per minute
+    used_cycles += self.campaigns.where(classification: "budget").select{|c| c.should_run?(self.id)}.sum{|c| c.board_campaigns.find_by(board: self).max_daily_impressions}
+    #sum the occupation by campaigns per hour
+    used_cycles += self.campaigns.where(classification: "per_hour").select{|c| c.should_run?(self.id)}.sum{|c| c.impression_hours.select{|cpn| self.should_run_hour_campaign_in_board?(cpn)}.pluck(:imp).sum*(c.duration/10)}
+    #sum the occupation by campaigns per minute
+    used_cycles += self.campaigns.where(classification: "per_minute").select{|c| c.should_run?(self.id)}.sum{|c| (c.imp.to_f/c.minutes)*(c.duration/10)*self.working_minutes}
+    new_occupation = 100.0*used_cycles / (self.working_minutes*6)
+    return new_occupation  #Return the used_cycles percentage on the board
+  end
 
   # Get percentage occupied by active campaigns and minimum investment required to appear in the board
-  def occupation
+  def get_occupation
     begin
-      rotation = JSON.parse(self.ads_rotation)
-      # total places available
-      rotation_size = rotation.size
-      # free places for people to run ads
-      free_places = rotation.group_by(&:itself).transform_values(&:count)["-"] || 1
-      # regla de 3
-      occupation = ((free_places * 100 / rotation_size) - 100).abs
-      if occupation >= 95
+      if self.occupation >= 95
         # campaign with lowest budget that is currently running
+        rotation = JSON.parse(self.ads_rotation)
         lowest_running_campaign = rotation.group_by(&:itself).transform_values(&:count).except("-").sort_by { |key, value| value }.first[0]
         minimum_investment = Campaign.find(lowest_running_campaign).budget + 84 # 84 is a random number :)
       else
         minimum_investment = 50
       end
       {
-        occupation: occupation,
+        occupation: self.occupation.round(2),
         minimum_investment: minimum_investment
       }
     rescue
