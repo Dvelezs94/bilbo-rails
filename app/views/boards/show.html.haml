@@ -2,10 +2,10 @@
 :javascript
   Bugsnag.start({ apiKey: '#{ENV.fetch("BUGSNAG_BOARD_FRONTEND_API_KEY") {""}}' })
 .content.content-fixed.content-auth-alt.board-display.m-0.p-0.minh-100-vh.maxh-100-vh.w-100
-  .container.ht-100p.tx-center
+  .d-none
     .row.justify-content-center
       .col-10.col-sm-6.col-md-4.col-lg-3.mg-t-40.mg-sm-t-0.d-flex.flex-column
-        .start-stream{"data-board" => "#{@board.slug}"}
+        %div{"data-board" => "#{@board.slug}"}
       / col
     / row
   / container
