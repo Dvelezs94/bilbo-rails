@@ -104,7 +104,7 @@ class Board < ApplicationRecord
     #sum the occupation by campaigns per minute
     used_cycles += self.campaigns.where(classification: "budget").select{|c| c.should_run?(self.id)}.sum{|c| c.board_campaigns.find_by(board: self).max_daily_impressions}
     #sum the occupation by campaigns per hour
-    used_cycles += self.campaigns.where(classification: "per_hour").select{|c| c.should_run?(self.id)}.sum{|c| c.impression_hours.select{|cpn| self.should_run_hour_campaign_in_board?(cpn)}.sum(:imp)*(c.duration/10)}
+    used_cycles += self.campaigns.where(classification: "per_hour").select{|c| c.should_run?(self.id)}.sum{|c| c.impression_hours.select{|cpn| self.should_run_hour_campaign_in_board?(cpn)}.pluck(:imp).sum*(c.duration/10)}
     #sum the occupation by campaigns per minute
     used_cycles += self.campaigns.where(classification: "per_minute").select{|c| c.should_run?(self.id)}.sum{|c| (c.imp.to_f/c.minutes)*(c.duration/10)*self.working_minutes}
     new_occupation = 100.0*used_cycles / (self.working_minutes*6)
