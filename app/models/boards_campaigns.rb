@@ -20,7 +20,7 @@ class BoardsCampaigns < ApplicationRecord
 
     def max_daily_impressions
       if campaign.classification == "budget"
-        return (budget / cycle_price).to_i
+        return (budget / (cycle_price * campaign.duration / 10)).to_i
       elsif campaign.classification == "per_hour"
         campaign.impression_hours.select{|cpn| self.board.should_run_hour_campaign_in_board?(cpn) }.pluck(:imp).sum
       elsif campaign.classification == "per_minute"
