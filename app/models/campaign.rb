@@ -59,6 +59,7 @@ class Campaign < ApplicationRecord
   #validate :validate_ad_stuff, on: :update
   #validate :ad_processed, on: :update
   validate :test_for_valid_settings
+  validate :no_smart_budget, if: :is_per_budget?
   validate :check_build_ad_rotation, if: :provider_campaign
   validates :link, format: URI::regexp(%w[http https]), allow_blank: true
   after_validation :return_to_old_state_id_invalid
@@ -259,7 +260,7 @@ class Campaign < ApplicationRecord
       false
     end
   end
-  
+
 
 
   def broadcast_to_all_boards
@@ -366,6 +367,18 @@ class Campaign < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def no_smart_budget
+    self.board_campaigns.each do |bc|
+      if bc.board.steps
+        dist = JSON.parse(budget_distribution)
+        budget_board_campaign =  dist["#{bc.board.id}"].to_i
+        if !(bc.board.no_smart_prices.include? ["$  #{budget_board_campaign} MXN", budget_board_campaign])
+          errors.add(:base, I18n.t('campaign.errors.budget_no_valid', name: bc.board.name))
+        end
+      end
+    end
   end
 
   def test_for_valid_settings(lang: user_locale || ENV.fetch("RAILS_LOCALE"))

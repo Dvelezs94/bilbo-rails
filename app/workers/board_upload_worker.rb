@@ -78,7 +78,34 @@ class BoardUploadWorker
       item[:restrictions] = split_restrictions(row["Restricciones"] || "").to_json
 
       item[:images_only] = !(["mp4","video"].map{|format| row["Formato"].downcase.include? format}.any?) #Set images only to true if video or mp4 is not present in format column
-
+      if row["Steps"].present?
+        item[:steps] = true
+        p "entre"
+        if row["Spots mínimos por día"].present? && !row["Multiplos"].present?
+          p "spots"
+          @prices = []
+          base_earnings = item[:base_earnings]
+          daily_seconds = working_minutes*60
+          duration = item[:duration]
+          cycle_price = (base_earnings / (daily_seconds * 30)) * duration
+          minimum_budget = item[:minimum_budget]
+          index = 0
+          loop do
+            index = index + 1
+            price = (minimum_budget * (index)).to_i
+            minimum_budget/cycle_price > row["Spots mínimos por día"].to_i
+            break if  minimum_budget/cycle_price > row["Spots mínimos por día"].to_i
+            @prices.push([price])
+          end
+          if @prices.present?
+            item[:multiplier] = @prices.size
+          else
+            item[:multiplier] = 1
+          end
+        elsif row["Multiplos"].present?
+          item[:multiplier] = row["Multiplos"].to_i
+        end
+      end
 
       # Ensure that the board has a name and category before doing anything else
       error1.append("El nombre del bilbo no puede estar vacio") if item[:name].nil?
