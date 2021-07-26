@@ -725,4 +725,12 @@ a[href="#previous"] {
 	}
 }
 
+
+@media (max-width:768px) {
+  .w-100-mobile{
+    width: 100% !important;
+  }
+}
+
+
 /* End MarkerWithLabel CSS */

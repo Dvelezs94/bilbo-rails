@@ -157,4 +157,11 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     assert_equal attributes_1, attributes_2
     assert_equal @campaign.board_campaigns.last.contents_board_campaign.last.content_id, campaign_2.board_campaigns.last.contents_board_campaign.last.content_id
   end
+
+  test "campaign with steps" do
+    @board_steps = create(:board,project: @user.projects.first, name: "STEPS", lat: "25.66508", lng: "-100.33103", avg_daily_views: "-100.33103", width: "1280", height: "720",
+      address: "Av. Ignacio Morones Prieto 1616, Zona Los Callejones, 66230 Monterrey, N.L., Mexico", category: "AA", base_earnings: "5000", face: "north", steps: true, multiplier: 1)
+      @campaign = create(:campaign, name: "steps",project: @user.projects.first, project_id: @project.id, state: true, provider_campaign: @user.is_provider?)
+      @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board_steps.id, status: 1, budget: @board_steps.no_smart_prices[0][1])
+  end
 end
