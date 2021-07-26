@@ -16,7 +16,7 @@ class Impression < ApplicationRecord
   def action #is used to make the action in board
     @action  || "delete" #default action is delete in front, if specified then keep
   end
-  
+
   private
   def update_balance_and_remaining_impressions
     begin
@@ -58,6 +58,7 @@ class Impression < ApplicationRecord
       true
     else
       remove_campaign(self.campaign.id, self.board.id)
+      self.board.update(occupation: self.board.new_occupation)
     end
   end
 
