@@ -13,7 +13,6 @@ class AdBroadcastWorker
       else
         append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign, board: board})
       end
-
       # build html to append
       broadcast_to_boards(board.slug, action, append_msg, campaign.slug, board.add_bilbo_campaigns.to_s)
     end
