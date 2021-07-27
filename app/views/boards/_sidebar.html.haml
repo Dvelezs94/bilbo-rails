@@ -1,0 +1,80 @@
+.filemgr-sidebar.board-sidebar-width
+  .filemgr-sidebar-header.ht-150-imp
+    .filemgr-content-header.white-background.d-flex.align-items-center.justify-content-between.ht-150-imp
+      .d-block.flex-wrap.wd-100p
+        = form_with url: boards_path, method: :get, id: "filter-bilbos",class: "send-on-change mg-x-2 row flex-wrap", remote: true do |f|
+          .search-form.sf-boards.pd-l-5.pd-r-5.rounded.col-12.mg-b-15
+            %i.fe.fe-search.pd-r-5.fnt-md
+            = f.text_field :location, class: 'form-control', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
+              value: (params[:location].present?)? params[:location] : "" ,                                                               |
+              lat: (params[:lat].present?)? params[:lat] : "",                                                                            |
+              lng: (params[:lng].present?)? params[:lng] : ""                                                                             |
+            = f.hidden_field :radius, value: params[:radius]
+          .col-6.col-lg-3.pd-0
+            %button.btn.filter-button{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+              Tipo de medio
+            .dropdown-menu{aria: {labelledby: "drop1"}}
+              = f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select'})
+          .col-6.col-lg-3.pd-0.text-center
+            %button.btn.filter-button{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+              Clasificación
+            .dropdown-menu{aria: {labelledby: "drop1"}}
+
+          .col-6.col-lg-3.pd-0.text-center
+            %button.btn.filter-button{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+              Precio
+            .dropdown-menu{aria: {labelledby: "drop1"}}
+
+          .col-6.col-lg-3.pd-0.text-right
+            %button.btn.filter-button{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+              Dimensiones
+            .dropdown-menu{aria: {labelledby: "drop1"}}
+
+
+          -# .form-group.col-6.col-md-4.col-lg-2
+          -#   = f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification')}, {class: 'custom-select'})
+          -# .form-group.col-6.col-md-4.col-lg-2
+          -#   = f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select'})
+          -# .form-group.col-6.col-md-4.col-lg-2
+          -#   = f.number_field :cycle_price, class: "form-control", placeholder: t('bilbos.search.max_per_impression'), value: params[:cycle_price], step: "0.001", autocomplete: "off"
+          -# .form-group.col-6.col-md-4.col-lg-2
+          -#   .input-group
+          -#     = f.number_field :min_width, class: "form-control", placeholder: t('bilbos.search.min_width'), value: params[:min_width], autocomplete: "off"
+          -#     = f.number_field :min_height, class: "form-control", placeholder: t('bilbos.search.min_height'), value: params[:min_height], autocomplete: "off"
+          -# .form-group.col-6.col-md-4.col-lg-2.center_image_vertically
+          -#   .custom-control.custom-switch
+          -#     = f.check_box :smart, class: "custom-control-input"
+          -#     %label.custom-control-label{:for => "smart"}
+          -#       %i.fe.fe-star
+          -#       %span{"data-toggle": "tooltip", title: t("bilbos.smart_filter") } SMART
+          = f.submit "Enviar", class: "d-none"
+
+  / filemgr-sidebar-header
+  .filemgr-sidebar-body.top-150-imp
+    .pd-t-20.pd-b-10.pd-x-10
+      %label.tx-sans.tx-uppercase.tx-medium.tx-10.tx-spacing-1.tx-color-03.pd-l-10
+        =t("content.filter_content")
+      %nav.nav.nav-sidebar.tx-13
+        %a.filter_content.nav-link.active{:href => "#none"}
+          %i.pd-x-5.fnt-md.fe.fe-file
+          %span=t("content.all_content")
+        %a.filter_content.nav-link{:href => "#image"}
+          %i.pd-x-5.fnt-md.fe.fe-file-image
+          %span=t("content.images")
+        %a.filter_content.nav-link{:href => "#video"}
+          %i.pd-x-5.fnt-md.fe.fe-file-movie
+          %span=t("content.videos")
+        -if current_user.is_provider?
+          %a.filter_content.nav-link{:href => "#web"}
+            %i.pd-x-5.fnt-md.fe.fe-link-external
+            %span=t("content.websites")
+    -#     %a#imageFilter.nav-link{:href => ""}
+    -#       %i.pd-x-5.fnt-md.fe.fe-folder
+    -#       %span=t("content.groups")
+    -# #content-groups.pd-10.pre-scrollable
+    -#   %label.tx-sans.tx-uppercase.tx-medium.tx-10.tx-spacing-1.tx-color-03.pd-l-10
+    -#     =t("content.groups")
+    -#   %nav.nav.nav-sidebar.tx-13
+    -#     %a#imageFilter.nav-link{:href => ""}
+    -#       %i.pd-x-5.fnt-md.fe.fe-folder-open
+    -#       %span.text-single-line Ejemplo 1

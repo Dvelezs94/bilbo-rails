@@ -726,3 +726,41 @@ a[href="#previous"] {
 }
 
 /* End MarkerWithLabel CSS */
+
+.board-sidebar-width{
+  width: 33vw !important;
+}
+.map-left-space {
+  left: 33vw !important;
+}
+#bilbomap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.sf-boards {
+  background-color: rgb(245,246,250);
+}
+.ht-150-imp{
+  height: 100px !important;
+}
+.top-150-imp{
+  top: 100px !important;
+}
+
+.filter-button{
+  border: 1px solid rgb(158,163,178);
+  color: rgb(158,163,178);
+  padding: 3px 2px;
+  font-size: 10px;
+}
+
+.filter-button:hover{
+  border: 1px solid #0168fa;
+  color: #0168fa;
+}
+.filter-button::-ms-expand {
+    display: none;
+}
