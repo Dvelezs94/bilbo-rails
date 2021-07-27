@@ -2,57 +2,65 @@
   = render 'shared/header', menu: "boards"
 - else
   = render 'devise/shared/header'
-.content.content-fixed
-  -# .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
-  -#   %div
-  -#     %nav{"aria-label" => "breadcrumb"}
-  -#       %ol.breadcrumb.breadcrumb-style1.mg-b-10
-  -#         %li.breadcrumb-item
-  -#           %a{:href => "#"}= t("home")
-  -#         %li.breadcrumb-item.active{"aria-current" => "page"}= t('header.map')
-  -#     %h4.mg-b-0.tx-spacing--1= t('header.map')
-  .row.row-xs
-    .d-block.flex-wrap.wd-100p
-      = form_with url: boards_path, method: :get, id: "filter-bilbos",class: "row send-on-change", remote: true do |f|
-        .form-group.col-6.col-md-4.col-lg-2
-          = f.text_field :location, class: 'form-control rounded', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
-            value: (params[:location].present?)? params[:location] : "" ,                                                               |
-            lat: (params[:lat].present?)? params[:lat] : "",                                                                            |
-            lng: (params[:lng].present?)? params[:lng] : ""                                                                             |
-          = f.hidden_field :radius, value: params[:radius]
-        .form-group.col-6.col-md-4.col-lg-2
-          = f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification')}, {class: 'custom-select'})
-        .form-group.col-6.col-md-4.col-lg-2
-          = f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select'})
-        .form-group.col-6.col-md-4.col-lg-2
-          = f.number_field :cycle_price, class: "form-control", placeholder: t('bilbos.search.max_per_impression'), value: params[:cycle_price], step: "0.001", autocomplete: "off"
-        .form-group.col-6.col-md-4.col-lg-2
-          .input-group
-            = f.number_field :min_width, class: "form-control", placeholder: t('bilbos.search.min_width'), value: params[:min_width], autocomplete: "off"
-            = f.number_field :min_height, class: "form-control", placeholder: t('bilbos.search.min_height'), value: params[:min_height], autocomplete: "off"
-        .form-group.col-6.col-md-4.col-lg-2.center_image_vertically
-          .custom-control.custom-switch
-            = f.check_box :smart, class: "custom-control-input"
-            %label.custom-control-label{:for => "smart"}
-              %i.fe.fe-star
-              %span{"data-toggle": "tooltip", title: t("bilbos.smart_filter") } SMART
-        = f.submit "Enviar", class: "d-none"
-    #boardInfo.col-md-12.col-xl-3.mg-t-10.order-1.d-none
-      / card
-      %ul#boardTab.nav.nav-tabs.nav-justified.d-none{:role => "tablist"}
-        / content filled with js
-      %ul.nav.nav-tabs.nav-justified.pd-b-5{:role => "tablist"}
-        %li.nav-item
-          %select#boardSelect.custom-select.custom-select-blue
-            / content filled with js
-      #boardTabContent.tab-content.bd.bd-gray-300.bd-t-0.pd-10.rounded
-        / content filled with js
-    / end card
-    / loading effect
+
+.filemgr-wrapper
+  = render "boards/sidebar"
+  #multimediaTab.filemgr-content.map-left-space
     = render partial: 'boards/map/loading_effect'
-    / loading effect end
-    / map start
     = render partial: 'boards/board_map'
-    / map end
-  / container
-/ content
+
+  -#####################################################
+-# .content.content-fixed
+-#   -# .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+-#   -#   %div
+-#   -#     %nav{"aria-label" => "breadcrumb"}
+-#   -#       %ol.breadcrumb.breadcrumb-style1.mg-b-10
+-#   -#         %li.breadcrumb-item
+-#   -#           %a{:href => "#"}= t("home")
+-#   -#         %li.breadcrumb-item.active{"aria-current" => "page"}= t('header.map')
+-#   -#     %h4.mg-b-0.tx-spacing--1= t('header.map')
+-#   .row.row-xs
+-#     .d-block.flex-wrap.wd-100p
+-#       = form_with url: boards_path, method: :get, id: "filter-bilbos",class: "row send-on-change", remote: true do |f|
+-#         .form-group.col-6.col-md-4.col-lg-2
+-#           = f.text_field :location, class: 'form-control rounded', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
+-#             value: (params[:location].present?)? params[:location] : "" ,                                                               |
+-#             lat: (params[:lat].present?)? params[:lat] : "",                                                                            |
+-#             lng: (params[:lng].present?)? params[:lng] : ""                                                                             |
+-#           = f.hidden_field :radius, value: params[:radius]
+-#         .form-group.col-6.col-md-4.col-lg-2
+-#           = f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification')}, {class: 'custom-select'})
+-#         .form-group.col-6.col-md-4.col-lg-2
+-#           = f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select'})
+-#         .form-group.col-6.col-md-4.col-lg-2
+-#           = f.number_field :cycle_price, class: "form-control", placeholder: t('bilbos.search.max_per_impression'), value: params[:cycle_price], step: "0.001", autocomplete: "off"
+-#         .form-group.col-6.col-md-4.col-lg-2
+-#           .input-group
+-#             = f.number_field :min_width, class: "form-control", placeholder: t('bilbos.search.min_width'), value: params[:min_width], autocomplete: "off"
+-#             = f.number_field :min_height, class: "form-control", placeholder: t('bilbos.search.min_height'), value: params[:min_height], autocomplete: "off"
+-#         .form-group.col-6.col-md-4.col-lg-2.center_image_vertically
+-#           .custom-control.custom-switch
+-#             = f.check_box :smart, class: "custom-control-input"
+-#             %label.custom-control-label{:for => "smart"}
+-#               %i.fe.fe-star
+-#               %span{"data-toggle": "tooltip", title: t("bilbos.smart_filter") } SMART
+-#         = f.submit "Enviar", class: "d-none"
+-#     #boardInfo.col-md-12.col-xl-3.mg-t-10.order-1.d-none
+-#       / card
+-#       %ul#boardTab.nav.nav-tabs.nav-justified.d-none{:role => "tablist"}
+-#         / content filled with js
+-#       %ul.nav.nav-tabs.nav-justified.pd-b-5{:role => "tablist"}
+-#         %li.nav-item
+-#           %select#boardSelect.custom-select.custom-select-blue
+-#             / content filled with js
+-#       #boardTabContent.tab-content.bd.bd-gray-300.bd-t-0.pd-10.rounded
+-#         / content filled with js
+-#     / end card
+-#     / loading effect
+-#     = render partial: 'boards/map/loading_effect'
+-#     / loading effect end
+-#     / map start
+-#     = render partial: 'boards/board_map'
+-#     / map end
+-#   / container
+-# / content
