@@ -727,8 +727,13 @@ a[href="#previous"] {
 
 
 @media (max-width:767px) {
-  #invisible {
+  .invisible-sm {
     visibility: hidden;
+  }
+}
+@media (min-width: 767px) {
+  .bd-md-l-0 {
+    border-left: 0px;
   }
 }
 
