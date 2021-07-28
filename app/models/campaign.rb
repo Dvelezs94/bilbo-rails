@@ -59,7 +59,7 @@ class Campaign < ApplicationRecord
   #validate :validate_ad_stuff, on: :update
   #validate :ad_processed, on: :update
   validate :test_for_valid_settings
-  #comentario check steps
+  #valid prices of the bilbo steps
   validate :validate_price_steps, if: :is_per_budget?
   validate :check_build_ad_rotation, if: :provider_campaign
   validates :link, format: URI::regexp(%w[http https]), allow_blank: true
