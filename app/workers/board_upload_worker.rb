@@ -80,12 +80,10 @@ class BoardUploadWorker
       item[:images_only] = !(["mp4","video"].map{|format| row["Formato"].downcase.include? format}.any?) #Set images only to true if video or mp4 is not present in format column
       if row["Steps"].present?
         item[:steps] = true
-        p "entre"
         if row["Spots mínimos por día"].present? && !row["Multiplos"].present?
-          p "spots"
           @prices = []
           base_earnings = item[:base_earnings]
-          daily_seconds = working_minutes*60
+          daily_seconds = working_minutes * 60
           duration = item[:duration]
           cycle_price = (base_earnings / (daily_seconds * 30)) * duration
           minimum_budget = item[:minimum_budget]

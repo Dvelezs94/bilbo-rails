@@ -726,9 +726,9 @@ a[href="#previous"] {
 }
 
 
-@media (max-width:768px) {
-  .w-100-mobile{
-    width: 100% !important;
+@media (max-width:767px) {
+  #invisible {
+    visibility: hidden;
   }
 }
 

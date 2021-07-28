@@ -209,7 +209,7 @@ class Board < ApplicationRecord
   # example a cycle could be of 10 seconds
   # this gives the price of a cycle in a bilbo
   def build_cycle_price
-    p daily_seconds = working_minutes(start_time, end_time) * 60
+    daily_seconds = working_minutes(start_time, end_time) * 60
     total_days_in_month = 30
     # this is 100% of possible earnings in the month
     total_monthly_possible_earnings = calculate_max_earnings
@@ -454,31 +454,28 @@ class Board < ApplicationRecord
     return true
   end
 
-  def no_smart_prices
+  def calculate_steps_prices
     @prices = []
     if self.multiplier.nil?
       index = 0
       loop do
         index = index + 1
         price = (self.minimum_budget * (index)).to_i
-        p price
-        p price/self.cycle_price
-        p self.working_minutes*6
         break if price/self.cycle_price > self.working_minutes*6
-        @prices.push(["$  #{price} MXN", price])
+        @prices.push(["$  #{price} #{ENV.fetch("CURRENCY")}", price])
       end
     else
       self.multiplier.times do |index|
         index = index + 1
         price = (self.minimum_budget * (index)).to_i
-        @prices.push(["$  #{price} MXN", price])
+        @prices.push(["$  #{price} #{ENV.fetch("CURRENCY")}", price])
       end
     end
     if @prices.present?
       return @prices
     else
         price = (self.minimum_budget * (1)).to_i
-        @prices.push(["$  #{price} MXN", price])
+        @prices.push(["$  #{price} #{ENV.fetch("CURRENCY")}", price])
       return @prices
     end
   end

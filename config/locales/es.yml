@@ -231,7 +231,7 @@ es:
     people: personas
     impressions: Impresiones
     daily_budget: Presupuesto Diario
-    daily_spots: Impresiones Diarias
+    daily_spots: Reproducciones Diarias
     total_budget: Presupuesto Total
     total_invested: Total Invertido
     impressions_every_x_minutes: "%{times} impresiones cada %{minutes} minutos"
