@@ -473,9 +473,18 @@ es:
       location: Ubicación
       classification: Clasificación
       media_type: Tipo de Medio
-      max_per_impression: $max. / impresión
+      all: Todos
+      billboard: Espectacular
+      television: Televisión
+      wallboard: Cartelón
+      min_per_impression: Desde
+      max_per_impression: Hasta
+      price_per_imp: Precio por impresión
+      min_dim: Dimensión mínima
       min_width: Ancho min. (mts)
       min_height: Alto min. (mts)
+      by_social_class: Por clase social
+      by_social_class_faq: Clases sociales ordenadas de menor a mayor
   ads:
     ads: Anuncios
     name: Nombre

@@ -469,9 +469,18 @@ en:
       location: Location
       classification: Classification
       media_type: Media Type
-      max_per_impression: $max. / impression
+      all: All
+      billboard: Billboard
+      television: Television
+      wallboard: Wallboard
+      min_per_impression: From
+      max_per_impression: To
+      price_per_imp: Price per impression
+      min_dim: Minimum dimension
       min_width: Min width. (mts)
       min_height: Min height. (mts)
+      by_social_class: By social class
+      by_social_class_faq: Social classes ordered from lowest to highest 
   ads:
     ads: Ads
     name: Name

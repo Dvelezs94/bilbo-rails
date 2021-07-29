@@ -15,10 +15,10 @@ class BoardsController < ApplicationController
     format.js { #means filter is used
       # get all boards within that range and start filtering after
       get_boards(lat: params[:lat], lng: params[:lng], radius: params[:radius])
-      if params[:cycle_price].present?
-        @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f }
-        @boards = Board.where(id: @boards)
-      end
+      #filter boards
+      @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f && board.cycle_price >= params[:cycle_price_min].to_f }
+      @boards = Board.where(id: @boards)
+
       @boards = @boards.where("height > ?", params[:min_height]) if params[:min_height].present?
       @boards = @boards.where("width > ?", params[:min_width]) if params[:min_width].present?
       @boards = @boards.where(category: params[:category]) if params[:category].present?
@@ -368,7 +368,7 @@ class BoardsController < ApplicationController
       else
         content_size = 0
       end
-      
+
       if @board.present?
         content_size = content_size + @board.board_default_contents.size
       end
