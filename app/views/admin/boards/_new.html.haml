@@ -43,6 +43,12 @@
                   .col-sm-12.col-md-4
                     = f.label t('bilbos.displays_number')
                     = f.text_field :displays_number, class: "form-control", autocomplete: "off", placeholder: "1"
+                  .col-6.pd-t-10
+                    = f.label t('bilbos.steps')
+                    = f.check_box :steps, class: "form-control"
+                  .col-6.pd-t-10
+                    = f.label t("bilbos.multiplier")
+                    = f.number_field :multiplier, class: "form-control"
               #expectedProfit.form-group
                 .row
                   .col-sm-12.col-md-6

@@ -48,6 +48,8 @@ class Campaign < ApplicationRecord
   # Trigger broadcast or remove campaign
   before_destroy :remove_campaign
 
+  #valid prices of the bilbo steps
+  validate :validate_price_steps, if: :is_per_budget?
   validates :name, presence: true
   validates :provider_campaign, inclusion: [true, false]
   #validates :ad, presence: true, on: :update
@@ -387,6 +389,18 @@ class Campaign < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def validate_price_steps
+    self.board_campaigns.each do |bc|
+      if bc.board.steps
+        dist = JSON.parse(budget_distribution)
+        budget_board_campaign =  dist["#{bc.board.id}"].to_i
+        if !(bc.board.calculate_steps_prices.include? ["$  #{budget_board_campaign} #{ENV.fetch("CURRENCY")}", budget_board_campaign])
+          errors.add(:base, I18n.t('campaign.errors.budget_no_valid', name: bc.board.name))
+        end
+      end
+    end
   end
 
   def test_for_valid_settings(lang: user_locale || ENV.fetch("RAILS_LOCALE"))

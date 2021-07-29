@@ -231,7 +231,7 @@ es:
     people: personas
     impressions: Impresiones
     daily_budget: Presupuesto Diario
-    daily_spots: Impresiones Diarias
+    daily_spots: Reproducciones Diarias
     total_budget: Presupuesto Total
     total_invested: Total Invertido
     impressions_every_x_minutes: "%{times} impresiones cada %{minutes} minutos"
@@ -347,6 +347,7 @@ es:
         date_and_per_hour: Fecha y Hora(s)
         full_guide: Ver guía extendida
     errors:
+      budget_no_valid: El presupuesto del bilbo %{name} no es correcto
       no_ad: La campaña no tiene asociado un anuncio
       no_multimedia: El anuncio de la campaña no contiene imagenes ni videos
       ad_deleted: El anuncio de la campaña ya no existe
@@ -379,6 +380,8 @@ es:
   bilbos:
     bilbo: Bilbo
     formats: Formatos
+    steps: Por pasos
+    multiplier: Multiplos de precio minimo
     ads: Anuncios
     hour_start: Horario
     new_bilbo: Nuevo Bilbo

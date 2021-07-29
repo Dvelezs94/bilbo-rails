@@ -375,6 +375,8 @@ en:
       maximum_number_reached: You reached the maximum number of subscribers allowed for this campaign
   bilbos:
     bilbo: Bilbo
+    steps: Steps
+    multiplier: Minimum price multiples
     formats: Formats
     ads: Ads
     hour_start: Playing schedule
