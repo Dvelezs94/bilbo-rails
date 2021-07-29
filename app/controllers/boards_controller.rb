@@ -27,6 +27,7 @@ class BoardsController < ApplicationController
      }
     format.html {
       get_boards
+      puts @boards.count
      }
    end
   end

@@ -2,9 +2,9 @@ $(document).on('turbolinks:load', function() {
   window.price_slider = $("#price_slider").ionRangeSlider({
         type: "double",
         min: 0,
-        max: 500,
         from: 0,
-        to: 500,
+        //max: number,
+        //to: number,  //the number is in the html because it uses the highest value of cycle price of boards
         step: 1,
         grid: true,
         skin: "round",
@@ -17,7 +17,7 @@ $(document).on('turbolinks:load', function() {
             // Called then action is done and mouse is released
             $("#cycle_price_min").val(data.from);
             $("#cycle_price").val(data.to);
-            $("#cycle_price_min").trigger("change"); //triggers change so the filter is sent
+            $("#filter-bilbos").trigger("change"); //triggers change so the filter is sent
         }
     });
   window.price_slider = window.price_slider.data('ionRangeSlider');
