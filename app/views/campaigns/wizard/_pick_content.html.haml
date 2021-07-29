@@ -12,12 +12,12 @@
     %table.table.table-responsive
       %thead.bg-ui-01
         %tr.ht-45
-          %th.col-2{:scope => "col"}
-          %th.col-2{:scope => "col"}= t("bilbos.bilbo")
-          %th.col-2{:scope => "col"}= t("bilbos.duration")
-          %th.col-2{:scope => "col"}= t("general_inputs.size")
-          %th{:scope => "col"}= t("bilbos.formats")
-          %th.col-4{:scope => "col"}= t("bilbos.ads")
+          %th.col-2
+          %th.col-2= t("bilbos.bilbo")
+          %th.col-2= t("bilbos.duration")
+          %th.col-2= t("general_inputs.size")
+          %th= t("bilbos.formats")
+          %th.col-4= t("bilbos.ads")
       %tbody#content_inf
       #selected_content_campaign
 %input#campaign_id.d-none{:readonly => "readonly", :value => "#{@campaign.slug}"}/
