@@ -33,7 +33,7 @@
               Clasificación
             .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop2"}}
               .pd-10.tx-gray-700
-                %div{data: {toggle: "tooltip", placement: "top", title: "Clases sociales ordenadas de menor a mayor"}}
+                %div{data: {toggle: "tooltip", placement: "top", title: t('bilbos.search.by_social_class_faq')} }
                   %h6.tx-gray-700.d-inline.text-center= t('bilbos.search.by_social_class')
                   %i.fe.fe-info.d-inline
                 .dropdown-divider.mg-b-5
@@ -76,7 +76,8 @@
                   .input-group-prepend
                     %span.input-group-text $
                   = f.number_field :cycle_price, class: "form-control", value: params[:cycle_price], step: "1", autocomplete: "off"
-                = f.text_field :ionslider, class: 'form-control', id: "price_slider"
+                - max_price = Board.maximum("cycle_price").ceil
+                = f.text_field :ionslider, class: 'form-control', id: "price_slider", data: { to: max_price, max: max_price  }
           .col-6.col-lg-3.pd-0.text-right
             %button.btn.filter-button{type: "button", id: "drop4", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
               Dimensiones
@@ -88,24 +89,6 @@
                 = f.number_field :min_width, class: "form-control mg-b-5", value: params[:min_width], autocomplete: "off"
                 %label.tx-gray-700{for: "min_height"}= t('bilbos.search.min_height')
                 = f.number_field :min_height, class: "form-control", value: params[:min_height], autocomplete: "off"
-
-
-          -# .form-group.col-6.col-md-4.col-lg-2
-          -#   = f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification')}, {class: 'custom-select'})
-          -# .form-group.col-6.col-md-4.col-lg-2
-          -#   = f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select'})
-          -# .form-group.col-6.col-md-4.col-lg-2
-          -#   = f.number_field :cycle_price, class: "form-control", placeholder: t('bilbos.search.max_per_impression'), value: params[:cycle_price], step: "0.001", autocomplete: "off"
-          -# .form-group.col-6.col-md-4.col-lg-2
-          -#   .input-group
-          -#     = f.number_field :min_width, class: "form-control", placeholder: t('bilbos.search.min_width'), value: params[:min_width], autocomplete: "off"
-          -#     = f.number_field :min_height, class: "form-control", placeholder: t('bilbos.search.min_height'), value: params[:min_height], autocomplete: "off"
-          -# .form-group.col-6.col-md-4.col-lg-2.center_image_vertically
-          -#   .custom-control.custom-switch
-          -#     = f.check_box :smart, class: "custom-control-input"
-          -#     %label.custom-control-label{:for => "smart"}
-          -#       %i.fe.fe-star
-          -#       %span{"data-toggle": "tooltip", title: t("bilbos.smart_filter") } SMART
           = f.submit "Enviar", class: "d-none"
 
   / filemgr-sidebar-header
