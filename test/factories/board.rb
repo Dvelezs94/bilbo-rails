@@ -14,5 +14,7 @@ FactoryBot.define do
         face {Faker::Compass.direction}
         start_time {Time.zone.now.beginning_of_day + 8.hours}
         end_time {Time.zone.now.beginning_of_day + 22.hours}
+        steps{false}
+        multiplier{nil}
     end
   end

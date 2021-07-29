@@ -33,7 +33,13 @@
             .input-group-prepend
               %span.input-group-text.bg-transparent.tx-14.bd-0.d-none.d-sm-block
                 %i.icon.ion-locked.tx-gray-3
-            = select_tag "budget-#{board.id}", options_for_select(board.calculate_steps_prices, board.calculate_steps_prices[0][0]), class:"form-control input-number tx-gray-3"
+            -if board.board_campaigns.find_by(campaign: @campaign.id).present? && board.board_campaigns.find_by(campaign: @campaign.id).budget.present?
+              -if board.calculate_steps_prices.include? ["$  #{board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i} #{ENV.fetch("CURRENCY")}", board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i]
+                = select_tag "budget-#{board.id}", options_for_select(board.calculate_steps_prices.unshift(["$  #{board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i} #{ENV.fetch("CURRENCY")}", board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i]), board.calculate_steps_prices.unshift(["$  #{board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i} #{ENV.fetch("CURRENCY")}", board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i])[0][0]), class:"form-control input-number tx-gray-3"
+              -else
+                = select_tag "budget-#{board.id}", options_for_select(board.calculate_steps_prices, board.calculate_steps_prices[0][0]), class:"form-control input-number tx-gray-3"
+            -else
+              = select_tag "budget-#{board.id}", options_for_select(board.calculate_steps_prices, board.calculate_steps_prices[0][0]), class:"form-control input-number tx-gray-3"
             .input-group-append
               .input-group-text.bd-r-0.bg-transparent.d-none.d-sm-block
                 %span.material-icons.tx-14.tx-gray-3
