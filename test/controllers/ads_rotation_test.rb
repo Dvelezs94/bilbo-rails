@@ -4,7 +4,7 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
   setup do
     @user = create(:user,name: "Provider" , email: "#{name}@bilbo.mx".downcase, roles: "provider")
     @project = @user.projects.first
-    @board = create(:board, project: @project, name: "Board", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "75000", provider_earnings: "60000", face: "north", start_time: Time.zone.parse("8:00"), end_time: Time.zone.parse("02:00"))
+    @board = create(:board, project: @project, name: "Board", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "75000", provider_earnings: "60000", face: "north", start_time: Time.zone.parse("8:00"), end_time: Time.zone.parse("02:00"), steps: false)
     # @ad_10 = create(:ad, name: "10 secs", project: @project, duration: 10)
     # @ad_20 = create(:ad, name: "20 secs", project: @project, duration: 20)
     # @ad_30 = create(:ad, name: "30 secs", project: @project, duration: 30)
@@ -326,7 +326,8 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     campaign_1.board_campaigns.first.remaining_impressions.times do
       Impression.create(uuid: Faker::Alphanumeric.alpha(number: 15), campaign_id: campaign_1.id, board_id: @board.id, created_at: rand_time(start_time-1.day, end_time-1.day), api_token: @board.api_token, duration: campaign_1.duration)
     end
-    campaign_1.board_campaigns.update(update_remaining_impressions: true)
+    board_campaign = BoardsCampaigns.where(campaign_id: campaign_1.id)
+    board_campaign.update(update_remaining_impressions: true)
     assert_equal (campaign_1.budget_per_bilbo(@board)/(@board.get_cycle_price(campaign_1) * campaign_1.duration/@board.duration)).to_i, campaign_1.remaining_impressions(@board)
   end
 

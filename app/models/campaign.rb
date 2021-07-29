@@ -48,6 +48,7 @@ class Campaign < ApplicationRecord
   # Trigger broadcast or remove campaign
   before_destroy :remove_campaign
 
+  validate :validate_price_steps, if: :is_per_budget?
   validates :name, presence: true
   validates :provider_campaign, inclusion: [true, false]
   #validates :ad, presence: true, on: :update
@@ -60,7 +61,6 @@ class Campaign < ApplicationRecord
   #validate :ad_processed, on: :update
   validate :test_for_valid_settings
   #valid prices of the bilbo steps
-  validate :validate_price_steps, if: :is_per_budget?
   validate :check_build_ad_rotation, if: :provider_campaign
   validates :link, format: URI::regexp(%w[http https]), allow_blank: true
   after_validation :return_to_old_state_id_invalid

@@ -162,13 +162,13 @@ class CampaignTest < ActiveSupport::TestCase
       assert_equal @board_steps.calculate_steps_prices[0][1],@campaign.budget
       assert_equal @board_steps.calculate_steps_prices.size, @board_steps.multiplier
   end
+  
   test "campaign with steps error" do
-    #@board_steps = create(:board, project: @user.projects.first, name: "STEPS ERROR", lat: "25.66508", lng: "-100.33103", avg_daily_views: "190000", width: "1280", height: "720",
-    #  address: "Av. Ignacio Morones Prieto 1616, Zona Los Callejones, 66230 Monterrey, N.L., Mexico", category: "AA", base_earnings: "1296000", face: "north", steps: true, multiplier: 1, minimum_budget: "2500")
-    #  @campaign = create(:campaign, boards: [@board_steps], name: "steps campaign", project: @user.projects.first, classification: 0, provider_campaign: @user.is_provider?, budget_distribution: {"#{@board_steps.id}": "2499"}.to_json, budget: "2499")
-    #  @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board_steps.id, status: 1, budget: @board_steps.minimum_budget)
-    #  p "xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    #  p @campaign.errors.full_messages
-    #  assert_equal @campaign.valid?, false
+    @board_steps = create(:board, project: @user.projects.first, name: "STEPS ERROR", lat: "25.66508", lng: "-100.33103", avg_daily_views: "190000", width: "1280", height: "720",
+      address: "Av. Ignacio Morones Prieto 1616, Zona Los Callejones, 66230 Monterrey, N.L., Mexico", category: "AA", base_earnings: "1296000", face: "north", steps: true, multiplier: 1, minimum_budget: "2500")
+      @campaign = Campaign.create(boards: [@board_steps], name: "steps campaign", project: @user.projects.first, classification: 0, provider_campaign: @user.is_provider?, budget_distribution: {"#{@board_steps.id}": "2499"}.to_json, budget: "2499", starts_at: 1.day.from_now.beginning_of_day, ends_at: 5.days.from_now.beginning_of_day)
+      assert_equal @campaign.valid?, false
+      assert_equal @campaign.errors.full_messages, ["El presupuesto del bilbo STEPS ERROR no es correcto"]
+
   end
 end
