@@ -12,16 +12,16 @@
           .row.row-xs
             .col-12.col-md-12
               %label= t("board_default_content.content_selected")
-          .col-lg-12
+          .col-12
             %table.table.table-responsive
               %thead.bg-ui-01
                 %tr.ht-45
-                  %th{:scope => "col"}
-                  %th{:scope => "col"}= t("bilbos.bilbo")
-                  %th{:scope => "col"}= t("bilbos.duration")
-                  %th{:scope => "col"}= t("general_inputs.size")
-                  %th{:scope => "col"}= t("bilbos.formats")
-                  %th{:class=>"col-2", :scope => "col"}= t("bilbos.ads")
+                  %th{:class=>"col-2"}
+                  %th{:class=>"col-2"}= t("bilbos.bilbo")
+                  %th{:class=>"col-2"}= t("bilbos.duration")
+                  %th{:class=>"col-2"}= t("general_inputs.size")
+                  %th{:class=>"col-2"}= t("bilbos.formats")
+                  %th{:class=>"col-2"}= t("bilbos.ads")
               %tbody#content_inf
                 %tr
                   %th

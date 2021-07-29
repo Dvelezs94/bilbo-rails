@@ -12,7 +12,7 @@ class BoardDefaultContentsControllerTest < ActionDispatch::IntegrationTest
 
   test "can get contents for board default content modal url" do
     sign_in @user
-    p @content = create(:content, project: @project, url: "https://bilbo.mx")
+    @content = create(:content, project: @project, url: "https://bilbo.mx")
     get contents_board_modal_board_default_contents_url, params: { board_slug: @board.slug}, xhr: true
     assert_response :success
     assert_equal true, @user.projects.first.contents.first.present?

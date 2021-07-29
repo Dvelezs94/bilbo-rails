@@ -103,6 +103,16 @@
           %br/
           = f.label :keep_old_cycle_price_on_active_campaigns, t("bilbos.keep_old_cycle_price_on_active_campaigns"), class: "custom-control-label"
           %br/
+      .col-6
+        .custom-control.custom-checkbox
+          = f.check_box :steps, class: "custom-control-input"
+          %br/
+          = f.label :steps, t("bilbos.steps"), class: "custom-control-label"
+          %br/
+      .col-6.pd-t-10
+        = f.label :multiplier, t("bilbos.multiplier")
+        = f.number_field :multiplier, class: "form-control"
+        %br/
   .form-group
     = f.label "Imagenes para mostrar en el mapa"
     = f.file_field :images, multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'

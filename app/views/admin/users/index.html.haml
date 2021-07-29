@@ -2,9 +2,12 @@
 .contact-wrapper
   .contact-sidebar
     .contact-sidebar-header
-      %i.fe.fe-search.tx-20
-      .search-form
-        %input.form-control{:placeholder => "Search #{params[:role]}", :type => "search"}/
+      = form_tag admin_users_path, method: 'get' do
+        .search-form
+          = hidden_field_tag :role, "#{params[:role]}"
+          %button.btn{:type => "submit", :style=>"border: none;"}
+            %i.fe.fe-search.tx-20
+          = text_field_tag :search, params[:search], placeholder: "Search #{params[:role]}", class: "form-control"
       - if params[:role] == "provider"
         %a.btn.btn-xs.btn-icon.btn-primary{"data-toggle" => "modal", :href => "#modalNewContact"}
           %span

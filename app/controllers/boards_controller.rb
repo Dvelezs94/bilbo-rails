@@ -287,6 +287,8 @@ class BoardsController < ApplicationController
                                   :restrictions,
                                   :content,
                                   :url,
+                                  :multiplier,
+                                  :steps,
                                   images: [],
                                   default_images: []
                                   )
@@ -368,7 +370,7 @@ class BoardsController < ApplicationController
       else
         content_size = 0
       end
-      
+
       if @board.present?
         content_size = content_size + @board.board_default_contents.size
       end

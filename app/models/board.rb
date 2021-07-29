@@ -454,6 +454,32 @@ class Board < ApplicationRecord
     return true
   end
 
+  def calculate_steps_prices
+    @prices = []
+    if self.multiplier.nil?
+      index = 0
+      loop do
+        index = index + 1
+        price = (self.minimum_budget * (index)).to_i
+        break if price/self.cycle_price > self.working_minutes*6
+        @prices.push(["$  #{price} #{ENV.fetch("CURRENCY")}", price])
+      end
+    else
+      self.multiplier.times do |index|
+        index = index + 1
+        price = (self.minimum_budget * (index)).to_i
+        @prices.push(["$  #{price} #{ENV.fetch("CURRENCY")}", price])
+      end
+    end
+    if @prices.present?
+      return @prices
+    else
+        price = (self.minimum_budget * (1)).to_i
+        @prices.push(["$  #{price} #{ENV.fetch("CURRENCY")}", price])
+      return @prices
+    end
+  end
+
   private
   def total_cycles(st,et,zero_if_equal = false )
     working_minutes(st,et,zero_if_equal)*6
