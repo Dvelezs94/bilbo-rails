@@ -733,6 +733,16 @@ a[href="#previous"] {
 .map-left-space {
   left: 33vw !important;
 }
+
+@media(min-width: 1400px){
+  .board-sidebar-width{
+    width: 25vw !important;
+  }
+  .map-left-space {
+    left: 25vw !important;
+  }
+
+}
 #bilbomap {
   position: absolute;
   top: 0;
@@ -763,4 +773,11 @@ a[href="#previous"] {
 }
 .filter-button::-ms-expand {
     display: none;
+}
+
+#filter-bilbos :checked + label{
+  color: #0168fa
+}
+.min-wd-200{
+  min-width: 200px;
 }
