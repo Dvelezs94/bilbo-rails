@@ -469,6 +469,8 @@ en:
       location: Location
       classification: Classification
       media_type: Media Type
+      price: Price
+      dimensions: Dimensions
       all: All
       billboard: Billboard
       television: Television
@@ -480,7 +482,7 @@ en:
       min_width: Min width. (mts)
       min_height: Min height. (mts)
       by_social_class: By social class
-      by_social_class_faq: Social classes ordered from lowest to highest 
+      by_social_class_faq: Social classes ordered from lowest to highest
   ads:
     ads: Ads
     name: Name

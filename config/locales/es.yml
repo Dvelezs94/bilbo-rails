@@ -473,6 +473,8 @@ es:
       location: Ubicación
       classification: Clasificación
       media_type: Tipo de Medio
+      price: Precio
+      dimensions: Dimensiones
       all: Todos
       billboard: Espectacular
       television: Televisión
