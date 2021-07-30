@@ -454,6 +454,22 @@ class Board < ApplicationRecord
     return true
   end
 
+  def parse_active_time
+    # Return the active time range of the board for the current day (used to calculate remaining impressions)
+    st = Time.parse(start_time.strftime("%H:%M")).utc - utc_offset.minutes
+    et = Time.parse(end_time.strftime("%H:%M")).utc - utc_offset.minutes
+    current_time = Time.now.utc + 15.seconds
+    et += 1.day if et<=st and current_time >= et
+    st -= 1.day if et<=st and current_time < et
+    if current_time.between?(st-1.day, et-1.day)
+      return [st-1.day, et-1.day]
+    elsif current_time.between?(st+1.day, et+1.day)
+      return [st+1.day, et+1.day]
+    elsif current_time.between?(st, et)
+      return [st, et]
+    end
+  end
+
   def calculate_steps_prices
     @prices = []
     if self.multiplier.nil?
