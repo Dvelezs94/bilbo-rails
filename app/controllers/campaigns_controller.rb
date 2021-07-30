@@ -61,14 +61,14 @@ class CampaignsController < ApplicationController
   def analytics
     @date_start = Date.parse(params[:date_start]) rescue 30.days.ago
     @date_end = DateTime.parse(params[:date_end]) rescue Time.zone.now
-    @campaign = Campaign.includes(:boards, :impressions).friendly.find(params[:id])
+    @campaign = Campaign.friendly.find(params[:id])
+    @impressions = Impression.where(campaign: @campaign, created_at: @date_start..@date_end)
     @history_campaign = UserActivity.where( activeness: @campaign).order(created_at: :desc)
     @witnesses = @campaign.witnesses.order(created_at: :desc)
     @witness = Witness.new
     @campaign_impressions = time_range_init(@date_start, @date_end)
-    @impressions = Impression.where(campaign: @campaign, created_at: @date_start..@date_end)
     @total_invested = @campaign.total_invested
-    @total_impressions = @impressions.count
+    @total_impressions = @campaign.impression_count
     @impressions.group_by_day(:created_at).count.each do |key, value|
       @campaign_impressions[key] = {impressions_count: value, total_invested: @impressions.group_by_day(:created_at).sum(:total_price)[key].round(3)}
     end
