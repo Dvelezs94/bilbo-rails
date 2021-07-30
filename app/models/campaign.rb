@@ -394,8 +394,12 @@ class Campaign < ApplicationRecord
   def validate_price_steps
     self.board_campaigns.each do |bc|
       if bc.board.steps
-        dist = JSON.parse(budget_distribution)
-        budget_board_campaign =  dist["#{bc.board.id}"].to_i
+        if budget_distribution.present?
+          dist = JSON.parse(budget_distribution)
+          budget_board_campaign =  dist["#{bc.board.id}"].to_i
+        else
+          budget_board_campaign = bc.budget.to_i
+        end
         if !(bc.board.calculate_steps_prices.include? ["$  #{budget_board_campaign} #{ENV.fetch("CURRENCY")}", budget_board_campaign])
           errors.add(:base, I18n.t('campaign.errors.budget_no_valid', name: bc.board.name))
         end
