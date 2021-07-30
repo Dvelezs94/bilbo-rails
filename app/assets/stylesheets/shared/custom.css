@@ -781,3 +781,24 @@ a[href="#previous"] {
 .min-wd-200{
   min-width: 200px;
 }
+
+.card-img-left {
+  top: 0;
+  bottom:0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+}
+.content-right {
+  margin-left: 150px;
+  min-height: 150px;
+}
+.mg-auto-0 {
+  margin: auto 0;
+}
+.color-smart {
+  color: rgb(60,108,223);
+}
+.background-smart{
+  background-color: rgb(227,240,252);
+}
