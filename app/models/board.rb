@@ -465,7 +465,7 @@ class Board < ApplicationRecord
       return [st-1.day, et-1.day]
     elsif current_time.between?(st+1.day, et+1.day)
       return [st+1.day, et+1.day]
-    elsif current_time.between?(st, et)
+    else
       return [st, et]
     end
   end
