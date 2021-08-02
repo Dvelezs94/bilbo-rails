@@ -1,9 +1,9 @@
 .filemgr-sidebar.board-sidebar-width
-  .filemgr-sidebar-header.ht-150-imp
-    .filemgr-content-header.white-background.d-flex.align-items-center.justify-content-between.ht-150-imp
+  .filemgr-sidebar-header.ht-100-f
+    .filemgr-content-header.white-background.d-flex.align-items-center.justify-content-between.ht-100-f.border-bottom-0
       .d-block.flex-wrap.wd-100p
         = form_with url: boards_path, method: :get, id: "filter-bilbos",class: "send-on-change mg-x-2 row flex-wrap", remote: true do |f|
-          .search-form.sf-boards.pd-l-5.pd-r-5.rounded.col-12.mg-b-15
+          .search-form.bg-light.pd-l-5.pd-r-5.rounded.col-12.mg-b-15
             %i.fe.fe-search.pd-r-5.fnt-md
             = f.text_field :location, class: 'form-control', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
               value: (params[:location].present?)? params[:location] : "" ,                                                               |
@@ -11,7 +11,7 @@
               lng: (params[:lng].present?)? params[:lng] : ""                                                                             |
             = f.hidden_field :radius, value: params[:radius]
           .col-6.col-lg-3.pd-0
-            %button.btn.filter-button{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+            %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
               = t('bilbos.search.media_type')
             .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop1"}}
               .pd-10.tx-gray-700
@@ -29,7 +29,7 @@
                   %label.custom-control-label{for: "categoryRadio3", onclick: "$('#category').val('wallboard')"}= t('bilbos.search.wallboard')
                 = f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select d-none'})
           .col-6.col-lg-3.pd-0.text-center
-            %button.btn.filter-button{type: "button", id: "drop2", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+            %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop2", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
               = t('bilbos.search.classification')
             .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop2"}}
               .pd-10.tx-gray-700
@@ -60,9 +60,9 @@
                     %i.fe.fe-star
                     %span{"data-toggle": "tooltip", title: t("bilbos.smart_filter") } SMART
           .col-6.col-lg-3.pd-0.text-center
-            %button.btn.filter-button{type: "button", id: "drop3", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+            %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop3", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
               = t('bilbos.search.price')
-            .dropdown-menu.dont-close-dropdown.min-wd-200{aria: {labelledby: "drop3"}}
+            .dropdown-menu.dont-close-dropdown.mn-wd-200{aria: {labelledby: "drop3"}}
               .pd-10
                 %h6.tx-gray-700.text-center= t('bilbos.search.price_per_imp')
                 .dropdown-divider.mg-b-5
@@ -79,7 +79,7 @@
                 - max_price = Board.maximum("cycle_price").ceil
                 = f.text_field :ionslider, class: 'form-control', id: "price_slider", data: { to: max_price, max: max_price  }
           .col-6.col-lg-3.pd-0.text-right
-            %button.btn.filter-button{type: "button", id: "drop4", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+            %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop4", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
               = t('bilbos.search.dimensions')
             .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop4"}}
               .pd-10
@@ -92,24 +92,7 @@
           = f.submit "Enviar", class: "d-none"
 
   / filemgr-sidebar-header
-  .filemgr-sidebar-body.top-150-imp
-    .pd-t-20.pd-b-10.pd-x-10
-      .card.position-relative
-        .card-img-left.position-absolute.mg-auto-0
-          = image_tag image_path("board_placeholder"), class: "w-100 h-100 pd-10 rounded", alt: "No Image"
-        .content-right.pd-10.d-flex.flex-column
-          .d-flex.tx-xl-16
-            .col-9.card-title.pd-3.font-weight-bold.mg-auto-0.text-truncate{"data-toggle": "tooltip", title: Board.first.name }= Board.first.name
-            .col-3.tx-gray-500.mg-auto-0.text-nowrap{"data-toggle": "tooltip", title: t('bilbos.search.price_per_imp')}= "$#{Board.first.cycle_price.truncate(2)}"
-          .card-body.pd-3.tx-xl-14.font-weight-normal.d-flex.align-items-center= Board.first.address
-          .d-flex.tx-gray-400.text-nowrap.text-center
-            .col-3.pd-0
-              %i.fe.fe-eye{"data-toggle": "tooltip", title: "#{number_with_delimiter(Board.first.avg_daily_views, :delimiter => ',')} vistas por día aprox." }= "#{number_to_human(Board.first.avg_daily_views, :format => '%n%u', :units => { :thousand => 'K', :million => "M" })}/d"
-            .col-3.pd-0
-              %i.fe.fe-target{"data-toggle": "tooltip", title: "Clase social que transita" }= Board.first.social_class
-            .col-3.pd-0
-              %i.fe.fe-expand{"data-toggle": "tooltip", title: "Resolución de #{Board.first.diagonal_inches} pulgadas" }= " #{Board.first.diagonal_inches}”"
-            - if Board.first.smart
-              .col-3.pd-0
-                %span.tx-normal.tx-12.color-smart.background-smart.pd-2.rounded{"data-toggle": "tooltip", title: "Tiene métricas avanzadas" }
-                  %i.fe.fe-star= " SMART"
+  .filemgr-sidebar-body.t-100-f
+    .pd-t-2.pd-b-10.pd-x-10
+      %label.pd-l-10.pd-r-10.tx-gray-700{ data:{ board_number: "" } }
+      %div{ data:{ board_cards: "" } }

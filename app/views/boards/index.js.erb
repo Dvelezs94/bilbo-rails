@@ -18,4 +18,10 @@ build markers from the available bilbos
 */
 build_markers(bilbos=pushed_bilbos);
 toastr.clear($('.toast:contains(Cargando)'));
-$('.modal').modal('hide'); 
+$('.modal').modal('hide');
+/*
+add bilbos to sidebar
+*/
+$("[data-board-number]").html('<%= "#{@boards.count} #{t('bilbos.search.results')}" %>');
+$("[data-board-cards]").html("<%= j render(partial: 'boards/search_board', collection: @boards) %>");
+$('[data-toggle="tooltip"]').tooltip(); /*bilbo card uses tooltips*/

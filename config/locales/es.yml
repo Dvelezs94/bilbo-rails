@@ -487,6 +487,10 @@ es:
       min_height: Alto min. (mts)
       by_social_class: Por clase social
       by_social_class_faq: Clases sociales ordenadas de menor a mayor
+      smart: "Tiene métricas avanzadas"
+      target: "Clase social que transita"
+      resolution: "Resolución de %{diagonal_inches} pulgadas"
+      results: "Resultados"
   ads:
     ads: Anuncios
     name: Nombre
