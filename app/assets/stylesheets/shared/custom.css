@@ -743,62 +743,30 @@ a[href="#previous"] {
   }
 
 }
-#bilbomap {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-.sf-boards {
-  background-color: rgb(245,246,250);
-}
-.ht-150-imp{
-  height: 100px !important;
-}
-.top-150-imp{
+.t-100-f{
   top: 100px !important;
 }
-
-.filter-button{
-  border: 1px solid rgb(158,163,178);
-  color: rgb(158,163,178);
-  padding: 3px 2px;
-  font-size: 10px;
-}
-
 .filter-button:hover{
-  border: 1px solid #0168fa;
-  color: #0168fa;
+  border: 1px solid #0168fa !important;
+  color: #0168fa !important;
 }
 .filter-button::-ms-expand {
     display: none;
 }
 
 #filter-bilbos :checked + label{
-  color: #0168fa
-}
-.min-wd-200{
-  min-width: 200px;
-}
-
-.card-img-left {
-  top: 0;
-  bottom:0;
-  left: 0;
-  width: 150px;
-  height: 150px;
-}
-.content-right {
-  margin-left: 150px;
-  min-height: 150px;
+  color: #0168fa;
 }
 .mg-auto-0 {
   margin: auto 0;
 }
-.color-smart {
-  color: rgb(60,108,223);
+.hover-gray:hover {
+  background-color: #F5F6FA;
 }
-.background-smart{
-  background-color: rgb(227,240,252);
+[data-single-board] {
+  cursor: pointer;
+}
+[data-single-board]:hover figcaption {
+  background-color: rgba(1, 104, 250, 0.7);
+  opacity: 100%;
 }
