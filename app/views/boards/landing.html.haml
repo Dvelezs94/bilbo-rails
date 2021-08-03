@@ -1,0 +1,99 @@
+- if user_signed_in?
+  - if current_user.is_admin?
+    = render 'shared/header_admin', menu: "account"
+  - else
+    = render 'shared/header', menu: "dashboard"
+- else
+  = render 'devise/shared/header'
+
+
+.content.content-fixed.bg-white
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .row
+      .col-12.col-lg-6
+        %h1#bilboName.d-block IOS Office Citi Angelópolis
+        .d-flex.align-items-center
+          %span
+            .badge{class: "#{@board.category}-badge"}
+              %i.fe{class: "icon-#{@board.category}"}
+              = t("bilbos.#{@board.category}")
+          -# %span{class: "#{'invisible' if !@board.smart}"}
+          %span.mg-l-10
+            .badge.wizard-badge-smart
+              %i.fe.fe-star
+              SMART
+          %span.tx-gray-700.mg-l-10
+            .fe.fe-location
+            Cholula, Puebla
+        %p.mg-t-20 Atlixcáyotl 1499 Col, Reserva Territorial Atlixcáyotl, PISO 3, 72810 San Andrés Cholula, Pue., Mexico.
+
+        #carouselBilboLanding.carousel.slide{"data-ride" => "carousel", "align" => "center", "data-interval" => "false"}
+          .carousel-inner.ht-400.d-flex.align-items-center.bg-gray-700
+            - @board.images.each.with_index do |media,i|
+              %div{class: "carousel-item #{'active' if i == 0}"}
+                = image_tag url_from_media(media), class: "d-block img-fluid"
+        .row.row-xs.ht-80.mg-t-10{style: "overflow-x: scroll; overflow-y: hidden; opacity: 0.7;"}
+          - @board.images.each.with_index do |media,i|
+            .col.pd-x-5.mx-wd-25p.cursor-pointer
+              %a.selected{"id" => "carousel-selector-#{i}", "data-slide-to" => i, "data-target" => "#carouselBilboLanding"}
+                = image_tag url_from_media(media), class: "ht-100p wd-100p o-fit-cover"
+        %input#bilboLat{type: "hidden", value: @board.lat}
+        %input#bilboLng{type: "hidden", value: @board.lng}
+        #landing-map-frame.ht-250.mg-t-20
+        %a.tx-gray-500{href: "#"}
+          Street View
+          .fe.fe-link-external.mg-l-5
+          
+
+      .col-12.col-lg-6.pd-lg-x-80.mg-t-20.mg-lg-t-0
+        %div.sticky-top.t-150.z-index-50
+          .row
+            .col-4
+              %h3.d-block $0.25
+              %span.tx-gray-500 PRECIO POR SPOT
+            .col-4.bd-x.bd-2
+              %h3.d-block 59
+              %span.tx-gray-500 VISTAS POR DIA
+            .col-4
+              %h3.d-block 1
+              %span.tx-gray-500 # PANTALLAS
+          .b-block 
+            %table.table.borderless{style: "background-color: initial;"}
+              %thead
+                %tr
+                  %th
+                  %th
+              %tbody
+                %tr
+                  %td.tx-gray-600.pd-l-0-f Cara
+                  %td.tx-gray-800 Este
+                %tr
+                  %td.tx-gray-600.pd-l-0-f Duracion
+                  %td.tx-gray-800 10 segundos
+                %tr
+                  %td.tx-gray-600.pd-l-0-f Dimensiones
+                  %td.tx-gray-800 1.12 x 0.63 mts
+                %tr
+                  %td.tx-gray-600.pd-l-0-f Tamaño de imagen
+                  %td.tx-gray-800 1920x1080 px
+                %tr
+                  %td.tx-gray-600.pd-l-0-f Tipo
+                  %td.tx-gray-800 Pantalla
+                %tr
+                  %td.tx-gray-600.pd-l-0-f Clasificación
+                  %td.tx-gray-800 AA
+                %tr
+                  %td.tx-gray-600.pd-l-0-f Horario
+                  %td.tx-gray-800 09:00 - 22:00
+          .d-flex.justify-content-evenly
+            %a.btn.btn-outline-primary.btn-lg{href: "#"}
+              .fe.fe-plus
+              Agregar a Cotización
+            %a.btn.btn-primary.btn-lg{href: "#"}
+              Crear Campaña
+
+      .col-12.tx-center.mg-t-40
+        %h3.tx-gradient-landing Desde $50 MXN diarios
+        %h1.tx-bold.mg-t-15 Publicidad exterior en México
+        %p.tx-gray-600.tx-16 Invierte en publicidad exterior digital para tu negocio con precios accesibles.
+             

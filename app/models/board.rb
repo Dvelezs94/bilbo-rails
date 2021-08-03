@@ -67,6 +67,10 @@ class Board < ApplicationRecord
     ]
   end
 
+  def short_address
+    
+  end
+
   def self.search(search_board)
     if search_board
       where('lower(name) LIKE ?', "%#{search_board.downcase}%")

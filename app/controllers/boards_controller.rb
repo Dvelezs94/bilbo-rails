@@ -1,6 +1,6 @@
 class BoardsController < ApplicationController
   include AwsFunctionsHelper
-  access [:provider, :admin, :user, :all] => [:index], [:user, :provider] => [:owned, :statistics], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation, :index], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image, :reload_board]
+  access [:provider, :admin, :user, :all] => [:index], [:user, :provider] => [:owned, :statistics], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation, :index, :landing], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image, :reload_board]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image, :reload_board, :validate_default_contents_size]
   before_action :update_boardscampaigns, only: [:requestAdsRotation, :show]
@@ -141,6 +141,10 @@ class BoardsController < ApplicationController
       value: @board.api_token,
       path: request.env['PATH_INFO']
     }
+  end
+
+  def landing
+    @board = Board.friendly.find(params[:id])
   end
 
 
