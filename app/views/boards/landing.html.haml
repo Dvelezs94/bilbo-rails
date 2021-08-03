@@ -11,21 +11,20 @@
   .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
     .row
       .col-12.col-lg-6
-        %h1#bilboName.d-block.tx-bold IOS Office Citi Angelópolis
+        %h1#bilboName.d-block.tx-bold= @board.name
         .d-flex.align-items-center
           %span
             .badge.tx-uppercase{class: "#{@board.category}-badge"}
               %i.fe{class: "icon-#{@board.category}"}
               = t("bilbos.#{@board.category}")
-          -# %span{class: "#{'invisible' if !@board.smart}"}
-          %span.mg-l-10
+          %span.mg-l-10{class: "#{'invisible' if !@board.smart}"}
             .badge.wizard-badge-smart
               %i.fe.fe-star
               SMART
           %span.tx-gray-700.mg-l-10
             .fe.fe-location
-            Cholula, Puebla
-        %p.mg-t-20 Atlixcáyotl 1499 Col, Reserva Territorial Atlixcáyotl, PISO 3, 72810 San Andrés Cholula, Pue., Mexico.
+            = @board.short_address
+        %p.mg-t-20= @board.address
 
         #carouselBilboLanding.carousel.slide{"data-ride" => "carousel", "align" => "center"}
           .carousel-inner.ht-400.d-flex.align-items-center.bg-gray-700.rounded
@@ -49,14 +48,14 @@
         %div.sticky-top.t-150.z-index-50
           .row
             .col-4
-              %h3.d-block.tx-bold $0.25
-              %strong.tx-gray-500 PRECIO / SPOT
+              %h3.d-block.tx-bold= number_to_currency_usd(@board.cycle_price)
+              %strong.tx-gray-500.tx-uppercase PRECIO / SPOT
             .col-4.bd-x.bd-2
-              %h3.d-block.tx-bold 59
-              %strong.tx-gray-500 VISTAS POR DIA
+              %h3.d-block.tx-bold= number_with_delimiter(@board.avg_daily_views, :delimiter => ',')
+              %strong.tx-gray-500.tx-uppercase= t("bilbos.avg_views")
             .col-4
-              %h3.d-block.tx-bold 1
-              %strong.tx-gray-500 # PANTALLAS
+              %h3.d-block.tx-bold= @board.displays_number
+              %strong.tx-gray-500.tx-uppercase= t("bilbos.displays_number")
           .b-block 
             %table.table.borderless{style: "background-color: initial;"}
               %thead
@@ -65,26 +64,26 @@
                   %th
               %tbody
                 %tr
-                  %td.tx-gray-600.pd-l-0-f Cara
-                  %td.tx-gray-800 Este
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.face")
+                  %td.tx-gray-800= @board.face
                 %tr
-                  %td.tx-gray-600.pd-l-0-f Duracion
-                  %td.tx-gray-800 10 segundos
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.duration")
+                  %td.tx-gray-800= "#{@board.duration} #{t("bilbos.seconds")}"
                 %tr
-                  %td.tx-gray-600.pd-l-0-f Dimensiones
-                  %td.tx-gray-800 1.12 x 0.63 mts
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.dimensions")
+                  %td.tx-gray-800= "#{@board.width} x #{@board.height} mts"
                 %tr
-                  %td.tx-gray-600.pd-l-0-f Tamaño de imagen
-                  %td.tx-gray-800 1920x1080 px
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.image_size")
+                  %td.tx-gray-800= "#{@board.recommended_image_size} px"
                 %tr
-                  %td.tx-gray-600.pd-l-0-f Tipo
-                  %td.tx-gray-800 Pantalla
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.type")
+                  %td.tx-gray-800t= t("bilbos.#{@board.category}")
                 %tr
-                  %td.tx-gray-600.pd-l-0-f Clasificación
-                  %td.tx-gray-800 AA
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.social_class")
+                  %td.tx-gray-800= @board.social_class
                 %tr
-                  %td.tx-gray-600.pd-l-0-f Horario
-                  %td.tx-gray-800 09:00 - 22:00
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.hour_start")
+                  %td.tx-gray-800= "#{@board.start_time.to_s(:time)} - #{@board.end_time.to_s(:time)}"
           .d-block
             %a.btn.btn-outline-primary.btn-lg{href: "#"}
               .fe.fe-plus
