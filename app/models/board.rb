@@ -68,7 +68,9 @@ class Board < ApplicationRecord
   end
 
   def short_address
-    
+    # Returns for example
+    # CDMX, Ciudad de Mexico
+    address.split(", ").last(2).join(", ")
   end
 
   def self.search(search_board)
