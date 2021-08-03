@@ -11,10 +11,10 @@
   .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
     .row
       .col-12.col-lg-6
-        %h1#bilboName.d-block IOS Office Citi Angelópolis
+        %h1#bilboName.d-block.tx-bold IOS Office Citi Angelópolis
         .d-flex.align-items-center
           %span
-            .badge{class: "#{@board.category}-badge"}
+            .badge.tx-uppercase{class: "#{@board.category}-badge"}
               %i.fe{class: "icon-#{@board.category}"}
               = t("bilbos.#{@board.category}")
           -# %span{class: "#{'invisible' if !@board.smart}"}
@@ -27,8 +27,8 @@
             Cholula, Puebla
         %p.mg-t-20 Atlixcáyotl 1499 Col, Reserva Territorial Atlixcáyotl, PISO 3, 72810 San Andrés Cholula, Pue., Mexico.
 
-        #carouselBilboLanding.carousel.slide{"data-ride" => "carousel", "align" => "center", "data-interval" => "false"}
-          .carousel-inner.ht-400.d-flex.align-items-center.bg-gray-700
+        #carouselBilboLanding.carousel.slide{"data-ride" => "carousel", "align" => "center"}
+          .carousel-inner.ht-400.d-flex.align-items-center.bg-gray-700.rounded
             - @board.images.each.with_index do |media,i|
               %div{class: "carousel-item #{'active' if i == 0}"}
                 = image_tag url_from_media(media), class: "d-block img-fluid"
@@ -36,10 +36,10 @@
           - @board.images.each.with_index do |media,i|
             .col.pd-x-5.mx-wd-25p.cursor-pointer
               %a.selected{"id" => "carousel-selector-#{i}", "data-slide-to" => i, "data-target" => "#carouselBilboLanding"}
-                = image_tag url_from_media(media), class: "ht-100p wd-100p o-fit-cover"
+                = image_tag url_from_media(media), class: "ht-100p wd-100p o-fit-cover rounded"
         %input#bilboLat{type: "hidden", value: @board.lat}
         %input#bilboLng{type: "hidden", value: @board.lng}
-        #landing-map-frame.ht-250.mg-t-20
+        #landing-map-frame.ht-350.mg-t-20.rounded.mg-b-10
         %a.tx-gray-500{href: "#"}
           Street View
           .fe.fe-link-external.mg-l-5
@@ -49,14 +49,14 @@
         %div.sticky-top.t-150.z-index-50
           .row
             .col-4
-              %h3.d-block $0.25
-              %span.tx-gray-500 PRECIO POR SPOT
+              %h3.d-block.tx-bold $0.25
+              %strong.tx-gray-500 PRECIO / SPOT
             .col-4.bd-x.bd-2
-              %h3.d-block 59
-              %span.tx-gray-500 VISTAS POR DIA
+              %h3.d-block.tx-bold 59
+              %strong.tx-gray-500 VISTAS POR DIA
             .col-4
-              %h3.d-block 1
-              %span.tx-gray-500 # PANTALLAS
+              %h3.d-block.tx-bold 1
+              %strong.tx-gray-500 # PANTALLAS
           .b-block 
             %table.table.borderless{style: "background-color: initial;"}
               %thead
@@ -85,15 +85,53 @@
                 %tr
                   %td.tx-gray-600.pd-l-0-f Horario
                   %td.tx-gray-800 09:00 - 22:00
-          .d-flex.justify-content-evenly
+          .d-block
             %a.btn.btn-outline-primary.btn-lg{href: "#"}
               .fe.fe-plus
               Agregar a Cotización
-            %a.btn.btn-primary.btn-lg{href: "#"}
+            %a.btn.btn-primary.btn-lg.mg-l-10{href: "#"}
               Crear Campaña
 
-      .col-12.tx-center.mg-t-40
-        %h3.tx-gradient-landing Desde $50 MXN diarios
+      .col-12.tx-center.mg-t-50
+        %strong.tx-26.tx-gradient-landing Desde $50 MXN diarios
         %h1.tx-bold.mg-t-15 Publicidad exterior en México
         %p.tx-gray-600.tx-16 Invierte en publicidad exterior digital para tu negocio con precios accesibles.
+
+      .col-12.d-block#suggestedBilbos
+        .row.row-xs
+          .col-12.col-md-3
+            %img{:src => "https://via.placeholder.com/150", class: "ht-200 o-fit-cover wd-100p rounded"}
+            %h5.tx-gray-800.mg-t-15 IOS Office Citi Angelópolis - Recepción
+            %span.tx-gray-500 $1.10 MXN / spot
+          .col-12.col-md-3
+            %img{:src => "https://via.placeholder.com/150", class: "ht-200 o-fit-cover wd-100p rounded"}
+            %h5.tx-gray-800.mg-t-15 IOS Office Citi Angelópolis - Recepción
+            %span.tx-gray-500 $1.10 MXN / spot
+          .col-12.col-md-3
+            %img{:src => "https://via.placeholder.com/150", class: "ht-200 o-fit-cover wd-100p rounded"}
+            %h5.tx-gray-800.mg-t-15 IOS Office Citi Angelópolis - Recepción
+            %span.tx-gray-500 $1.10 MXN / spot
+          .col-12.col-md-3
+            %img{:src => "https://via.placeholder.com/150", class: "ht-200 o-fit-cover wd-100p rounded"}
+            %h5.tx-gray-800.mg-t-15 IOS Office Citi Angelópolis - Recepción
+            %span.tx-gray-500 $1.10 MXN / spot
+%footer.footer.bg-white
+  %div.mg-y-20
+    %nav.nav
+      %a.nav-link.tx-10{:href => "#"}
+        Centro de Ayuda
+      %a.nav-link.tx-10{:href => "#"}
+        Blog
+      %a.nav-link.tx-10{:href => "#"}
+        Términos y Condiciones
+      %a.nav-link.tx-10{:href => "#"}
+        Contacto
+  %div
+    %nav.nav
+      %a.nav-link.tx-18{:href => "#"}
+        .fe.fe-instagram
+      %a.nav-link.tx-18{:href => "#"}
+        .fe.fe-facebook
+      %a.nav-link.tx-18{:href => "#"}
+        .fe.fe-youtube
              
