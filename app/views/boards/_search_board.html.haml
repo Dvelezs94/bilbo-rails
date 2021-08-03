@@ -1,15 +1,14 @@
-.card.position-relative.border-left-0.border-right-0.border-bottom-0.rounded-0.hover-gray{data: {single_board: ""}}
-  .position-absolute.pd-20.b-0.l-0.t-0.wd-150.ht-150
-    %figure.pos-relative
-      = image_tag image_path("board_placeholder"), class: "w-100 h-100 rounded", alt: "No Image"
-      %figcaption.pos-absolute.a-0.d-flex.flex-column.text-center.justify-content-center.rounded.text-white.tx-24.op-0
-        %i.fe.fe-arrow-right
-  .mn-ht-150.pd-l-0.pd-r-10.pd-y-20.d-flex.flex-column.mg-l-150
+.media.hover-gray.pd-20.border-top.flex-wrap{data: {single_board: ""}}
+  %figure.pos-relative.mg-b-0.col-12.col-md-3.pd-0.mg-auto-0
+    = image_tag image_path("board_placeholder"), class: "wd-100p rounded", alt: "No Image"
+    %figcaption.pos-absolute.a-0.d-flex.flex-column.text-center.justify-content-center.rounded.text-white.tx-24.op-0
+      %i.fe.fe-arrow-right
+  .media-body.d-flex.flex-column.col-12.col-md-9.pd-r-0.mg-auto-0
     .d-flex.tx-xl-16
       .col-9.card-title.pd-3.font-weight-bold.mg-auto-0.text-truncate
         %i{class: "icon-#{search_board.category}", "data-toggle": "tooltip", title: t('bilbos.'+search_board.category)}
         %span{"data-toggle": "tooltip", title: search_board.name }= search_board.name
-      .col-3.tx-gray-500.mg-auto-0.text-nowrap{"data-toggle": "tooltip", title: t('bilbos.search.price_per_imp')}= "$#{search_board.cycle_price.truncate(2)}"
+      .col-3.tx-gray-500.mg-auto-0.text-nowrap.pd-0.text-right{"data-toggle": "tooltip", title: t('bilbos.search.price_per_imp')}= "$#{search_board.cycle_price.truncate(2)}"
     .card-body.pd-3.tx-xl-14.font-weight-normal.d-flex.align-items-center= search_board.address
     .d-flex.tx-gray-400.text-nowrap.text-center
       .col-3.pd-0
