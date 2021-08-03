@@ -131,6 +131,7 @@ Rails.application.routes.draw do
       get :statistics
       get :toggle_status
       get :reload_board
+      get :landing
     end
   end
   resources :payments, only: [:new, :create] do
@@ -250,6 +251,12 @@ Rails.application.routes.draw do
       post :configure
     end
   end
+
+  # resources :landing_pages, as: 'landings' do
+  #   member do
+  #     #get :landing, controller: "landing_pages#show_board"
+  #   end
+  # end
 
   get 'c/:id', to: "campaigns#shortened_analytics", as: "campaign_shortened"
   get 's/:id', to: "shorteners#show", as: "shorten"
