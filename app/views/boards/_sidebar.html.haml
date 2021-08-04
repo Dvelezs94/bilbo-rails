@@ -2,32 +2,32 @@
   .filemgr-sidebar-header.ht-100-f
     .filemgr-content-header.white-background.d-flex.align-items-center.justify-content-between.ht-100-f.border-bottom-0
       .d-block.flex-wrap.wd-100p
-        = form_with url: boards_path, method: :get, id: "filter-bilbos",class: "send-on-change mg-x-2 row flex-wrap", remote: true do |f|
+        .mg-x-2.row.flex-wrap{data: {form: "filter-bilbos"}}
           .search-form.bg-light.pd-l-5.pd-r-5.rounded.col-12.mg-b-15
             %i.fe.fe-search.pd-r-5.fnt-md
-            = f.text_field :location, class: 'form-control', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
+            = text_field_tag :location, nil, class: 'form-control', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
               value: (params[:location].present?)? params[:location] : "" ,                                                               |
               lat: (params[:lat].present?)? params[:lat] : "",                                                                            |
               lng: (params[:lng].present?)? params[:lng] : ""                                                                             |
-            = f.hidden_field :radius, value: params[:radius]
+            = hidden_field_tag :radius, value: params[:radius]
           .col-6.col-lg-3.pd-0
             %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
               = t('bilbos.search.media_type')
             .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop1"}}
               .pd-10.tx-gray-700
                 .custom-control.custom-checkbox.mg-b-5
-                  = f.radio_button :categoryR, 'all', :checked => true, :class => "custom-control-input", :id =>"categoryRadio0"
+                  = radio_button_tag :categoryR, 'all', true, :class => "custom-control-input", :id =>"categoryRadio0"
                   %label.custom-control-label{for: "categoryRadio0", onclick: "$('#category').val('')"}= t('bilbos.search.all')
                 .custom-control.custom-checkbox.mg-b-5
-                  = f.radio_button :categoryR, 'billboard', :checked => false, :class => "custom-control-input", :id =>"categoryRadio1"
+                  = radio_button_tag :categoryR, 'billboard', false, :class => "custom-control-input", :id =>"categoryRadio1"
                   %label.custom-control-label{for: "categoryRadio1", onclick: "$('#category').val('billboard')"}= t('bilbos.search.billboard')
                 .custom-control.custom-checkbox.mg-b-5
-                  = f.radio_button :categoryR, 'television', :checked => false, :class => "custom-control-input", :id =>"categoryRadio2"
+                  = radio_button_tag :categoryR, 'television', false, :class => "custom-control-input", :id =>"categoryRadio2"
                   %label.custom-control-label{for: "categoryRadio2", onclick: "$('#category').val('television')"}= t('bilbos.search.television')
                 .custom-control.custom-checkbox
-                  = f.radio_button :categoryR, 'wallboard', :checked => false, :class => "custom-control-input", :id =>"categoryRadio3"
+                  = radio_button_tag :categoryR, 'wallboard', false, :class => "custom-control-input", :id =>"categoryRadio3"
                   %label.custom-control-label{for: "categoryRadio3", onclick: "$('#category').val('wallboard')"}= t('bilbos.search.wallboard')
-                = f.select(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type')}, {class: 'custom-select d-none'})
+                = select_tag(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type'), class: 'custom-select d-none'})
           .col-6.col-lg-3.pd-0.text-center
             %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop2", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
               = t('bilbos.search.classification')
@@ -38,24 +38,24 @@
                   %i.fe.fe-info.d-inline
                 .dropdown-divider.mg-b-5
                 .custom-control.custom-checkbox.mg-b-5
-                  = f.radio_button :social_classR, 'all', :checked => true, :class => "custom-control-input", :id =>"social_classRadio0"
+                  = radio_button_tag :social_classR, 'all',true, :class => "custom-control-input", :id =>"social_classRadio0"
                   %label.custom-control-label{for: "social_classRadio0", onclick: "$('#social_class').val('')"}= t('bilbos.search.all')
                 .custom-control.custom-checkbox.mg-b-5
-                  = f.radio_button :social_classR, 'A', :checked => false, :class => "custom-control-input", :id =>"social_classRadio1"
+                  = radio_button_tag :social_classR, 'A',false, :class => "custom-control-input", :id =>"social_classRadio1"
                   %label.custom-control-label{for: "social_classRadio1", onclick: "$('#social_class').val('A')"} A
                 .custom-control.custom-checkbox.mg-b-5
-                  = f.radio_button :social_classR, 'AA', :checked => false, :class => "custom-control-input", :id =>"social_classRadio2"
+                  = radio_button_tag :social_classR, 'AA',false, :class => "custom-control-input", :id =>"social_classRadio2"
                   %label.custom-control-label{for: "social_classRadio2", onclick: "$('#social_class').val('AA')"} AA
                 .custom-control.custom-checkbox.mg-b-5
-                  = f.radio_button :social_classR, 'AAA', :checked => false, :class => "custom-control-input", :id =>"social_classRadio3"
+                  = radio_button_tag :social_classR, 'AAA',false, :class => "custom-control-input", :id =>"social_classRadio3"
                   %label.custom-control-label{for: "social_classRadio3", onclick: "$('#social_class').val('AAA')"} AAA
                 .custom-control.custom-checkbox
-                  = f.radio_button :social_classR, 'AAA+', :checked => false, :class => "custom-control-input", :id =>"social_classRadio4"
+                  = radio_button_tag :social_classR, 'AAA+',false, :class => "custom-control-input", :id =>"social_classRadio4"
                   %label.custom-control-label{for: "social_classRadio4", onclick: "$('#social_class').val('AAA+')"} AAA+
-                = f.select(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification')}, {class: 'custom-select d-none'})
+                = select_tag(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification'), class: 'custom-select d-none'})
                 %hr
                 .custom-control.custom-switch
-                  = f.check_box :smart, class: "custom-control-input"
+                  = check_box_tag :smart,'1',false, class: "custom-control-input"
                   %label.custom-control-label{:for => "smart"}
                     %i.fe.fe-star
                     %span{"data-toggle": "tooltip", title: t("bilbos.smart_filter") } SMART
@@ -70,14 +70,14 @@
                 .input-group.mg-b-5
                   .input-group-prepend
                     %span.input-group-text $
-                  = f.number_field :cycle_price_min, class: "form-control", value: params[:cycle_price_min], step: "1", autocomplete: "off"
+                  = number_field_tag :cycle_price_min, nil, class: "form-control", value: params[:cycle_price_min], step: "1", autocomplete: "off"
                 %label.tx-gray-700{for: "cycle_price"}= t('bilbos.search.max_per_impression')
                 .input-group.mg-b-5
                   .input-group-prepend
                     %span.input-group-text $
-                  = f.number_field :cycle_price, class: "form-control", value: params[:cycle_price], step: "1", autocomplete: "off"
+                  = number_field_tag :cycle_price, nil, class: "form-control", value: params[:cycle_price], step: "1", autocomplete: "off"
                 - max_price = Board.maximum("cycle_price").ceil
-                = f.text_field :ionslider, class: 'form-control', id: "price_slider", data: { to: max_price, max: max_price  }
+                = text_field_tag :ionslider, nil, class: 'form-control', id: "price_slider", data: { to: max_price, max: max_price  }
           .col-6.col-lg-3.pd-0.text-right
             %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop4", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
               = t('bilbos.search.dimensions')
@@ -86,10 +86,10 @@
                 %h6.tx-gray-700.text-center= t('bilbos.search.min_dim')
                 .dropdown-divider.mg-b-5
                 %label.tx-gray-700{for: "min_width"}= t('bilbos.search.min_width')
-                = f.number_field :min_width, class: "form-control mg-b-5", value: params[:min_width], autocomplete: "off"
+                = number_field_tag :min_width, nil, class: "form-control mg-b-5", value: params[:min_width], autocomplete: "off"
                 %label.tx-gray-700{for: "min_height"}= t('bilbos.search.min_height')
-                = f.number_field :min_height, class: "form-control", value: params[:min_height], autocomplete: "off"
-          = f.submit "Enviar", class: "d-none"
+                = number_field_tag :min_height, nil, class: "form-control", value: params[:min_height], autocomplete: "off"
+          = submit_tag "Enviar", class: "d-none"
 
   / filemgr-sidebar-header
   .filemgr-sidebar-body.t-100-f

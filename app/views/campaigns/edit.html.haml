@@ -29,4 +29,6 @@
 
 = render partial: "ads/new"
 = render 'campaign_offcanvas_wizard'
-= render partial: 'edit_map_filter'
+= form_with url: boards_path, method: :get, id: "filter-bilbos",class: "send-on-change d-none", remote: true # content in [data-form='filter-bilbos'] div, because this form cant be inside edit campaigns form, so js fills it dynamically
+
+/= render partial: 'edit_map_filter'

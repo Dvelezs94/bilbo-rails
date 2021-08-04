@@ -754,7 +754,7 @@ a[href="#previous"] {
     display: none;
 }
 
-#filter-bilbos :checked + label{
+[data-form] :checked + label{
   color: #0168fa;
 }
 .mg-auto-0 {

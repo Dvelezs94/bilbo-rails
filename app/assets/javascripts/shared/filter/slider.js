@@ -17,7 +17,7 @@ $(document).on('turbolinks:load', function() {
             // Called then action is done and mouse is released
             $("#cycle_price_min").val(data.from);
             $("#cycle_price").val(data.to);
-            $("#filter-bilbos").trigger("change"); //triggers change so the filter is sent
+            set_change_in("filter-bilbos"); // filter is sent
         }
     });
   window.price_slider = window.price_slider.data('ionRangeSlider');
