@@ -16,12 +16,6 @@ $(document).on('turbolinks:load', function() {
 });
 
 function set_change_in(form_id) {
-  content = $("[data-form='"+ form_id +"']").clone().removeAttr('data-form').attr("remove", "yes"); //get content outside form and remove attribute to prevent duplicated events
-  content.find( "select" ).each(function() { //select values doesnt get copied git clone, have to do it manually
-    $( this ).val( $("[data-form='"+ form_id +"']").find("select#"+this.id).val() );
-  });
   form = $("#"+form_id); //get form
-  form.find("[remove='yes']").remove(); //remove old content
-  form.append(content); //append new content
   if ( form.hasClass("send-on-change") ) form.find("input[type=submit]").click(); //send form
 }
