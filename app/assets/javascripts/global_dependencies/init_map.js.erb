@@ -123,7 +123,7 @@ function draw_map_bounds_circle() {
   var ne_bounds = bounds.getNorthEast();
   var circle_center = bounds.getCenter();
   var circle_radius = google.maps.geometry.spherical.computeDistanceBetween(circle_center, ne_bounds);
-  
+
   const newCircle = new google.maps.Circle({
     strokeColor: "#7CA0C0",
     strokeOpacity: 0.8,
@@ -311,7 +311,7 @@ function build_markers(bilbos) {
   for (var mark in window.markers) {
     if (window.markers[mark]["smart"] == false && window.markers[mark].visible ){
       markersNotSmart.push(window.markers[mark]);
-    } 
+    }
   }
   var options = {
     styles: markerStyles
@@ -328,7 +328,7 @@ function fetchBoardsFromNewLocation() {
   $("#lat1").val(center.lat());
   $("#lng1").val(center.lng());
   $("#radius").val(radius);
-  $('form#filter-bilbos').find("input[type=submit]").click();
+  set_change_in("filter-bilbos");
 }
 
 function DeleteMarkers() {
