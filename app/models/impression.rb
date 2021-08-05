@@ -31,7 +31,7 @@ class Impression < ApplicationRecord
 
   # update all campaign fields in a single method
   def update_campaign_fields
-    increase_count = (self.board.people_per_second * self.campaign.true_duration(self.board_id)).round(0)
+    increase_count = self.board.people_per_second * self.campaign.true_duration(self.board_id)
     self.campaign.increment!(:people_reached, by = increase_count)
     self.campaign.increment!(:impression_count)
     self.campaign.increment!(:total_invested, by = self.total_price)

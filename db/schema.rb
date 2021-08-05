@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_05_014149) do
+ActiveRecord::Schema.define(version: 2021_08_02_144216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "cube"
@@ -240,7 +240,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_014149) do
     t.integer "objective", default: 0
     t.integer "impression_count", default: 0
     t.float "total_invested", default: 0.0
-    t.integer "people_reached", default: 0
+    t.float "people_reached", default: 0.0
     t.integer "duration", default: 10
     t.integer "lock_version"
     t.boolean "updating_state", default: false
