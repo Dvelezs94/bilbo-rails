@@ -907,3 +907,7 @@ es:
     maximum_ten: El contenido predeterminado máximo es de 10
     content_selected: Selecciona el contenido predeterminado a mostrar en el bilbo
     bilbo_select: Elige el contenido predeterminado para
+  dashboard_player: 
+    add_bilbo: Bilbo agregado exitosamente
+    remove_bilbo: Bilbo removido exitosamente
+    error_player: Error al crear el reproductor
