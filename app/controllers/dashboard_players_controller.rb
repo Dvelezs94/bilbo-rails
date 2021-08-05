@@ -15,7 +15,6 @@ class DashboardPlayersController < ApplicationController
       if @dashboard_player.save
         if @dashboard_player_board = @dashboard_player.board_dashboard_players.where(board_id: Board.friendly.find(dashboard_player_params[:board_slug]).id).first_or_create
           @success_message = I18n.t("dashboard_player.add_bilbo")
-          @player= @project.dashboard_player
         else
           @error_message = I18n.t("dashboard_player.error_player")
         end
