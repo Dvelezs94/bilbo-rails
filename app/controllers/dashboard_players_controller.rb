@@ -1,8 +1,8 @@
 class DashboardPlayersController < ApplicationController
+  before_action :verify_provider_project
   before_action :verify_identity
   before_action :verify_not_exist_board_on_player, only: [:create]
-  access all: [:index, :show, :new, :edit, :create, :update, :destroy], user: :all
-  autocomplete :board, :name
+  access user: :all, provider: :all
   def index
     if @project.dashboard_player.present?
       @dashboard_players = @project.dashboard_player.board_dashboard_players
@@ -45,13 +45,17 @@ class DashboardPlayersController < ApplicationController
     end
 
     def verify_not_exist_board_on_player
+    #in the future do the validation on model
       if @project.dashboard_player.present?
-        @project.dashboard_player.board_dashboard_players.map{|player| p player.board.slug}
         if @project.dashboard_player.board_dashboard_players.map{|player| player.board.slug}.include? dashboard_player_params[:board_slug].to_s
           @error_message = I18n.t("dashboard_player.transitions.update.error")
           render 'dashboard_players/message'
         end
       end
+    end
+
+    def verify_provider_project
+      raise_not_found if !@project.provider_project?
     end
 
     def dashboard_player_params
