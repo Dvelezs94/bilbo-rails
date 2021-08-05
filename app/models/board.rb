@@ -1,4 +1,10 @@
 class Board < ApplicationRecord
+  # this is for geokit functions
+  acts_as_mappable :default_units => :kms,
+                   :default_formula => :sphere,
+                   :distance_field_name => :distance,
+                   :lat_column_name => :lat,
+                   :lng_column_name => :lng
   include AdRotationAlgorithm
   include BroadcastConcern
   include Rails.application.routes.url_helpers
@@ -34,6 +40,7 @@ class Board < ApplicationRecord
     end
   end
   scope :images_only, -> { where(images_only: true) }
+  # All this is done thanks to 
   # Add support for radius search
   # Call it like: Board.within_radius(21.885731,-102.326319, 2000)
   # (latitude, longitude, radius[km])
