@@ -1,0 +1,13 @@
+if($("#iframe-<%=@dashboard_player_board.board.slug%>").length){
+    console.log($("#iframe-<%=@dashboard_player_board.board.slug%>"))
+}else{
+$("#index_dashboard_player").append("<%= j render partial: 'dashboard_players/iframe_dashboard_player', :locals => {:dashboard_player => @dashboard_player_board}%>");
+    remove_on_click();
+    hover_img();
+}
+
+<% if @success_message.present? %>
+  show_success("<%= escape_javascript(@success_message)%>");
+<% else %>
+  show_error("<%= escape_javascript(@error_message)%>");
+<% end %>
