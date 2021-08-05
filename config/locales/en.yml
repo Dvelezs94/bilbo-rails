@@ -899,3 +899,9 @@ en:
     maximum_ten: The maximum default content is 10
     content_selected: Select the default content to display in the bilbo
     bilbo_select: Choose the default content for
+  dashboard_player:
+      add_bilbo: Bilbo added successfully
+      remove_bilbo: Bilbo removed successfully
+      error_player: Error creating player
+      error_remove: Error removing bilbo
+      add: Add Bilbo
