@@ -909,5 +909,7 @@ es:
     bilbo_select: Elige el contenido predeterminado para
   dashboard_player: 
     add_bilbo: Bilbo agregado exitosamente
-    remove_bilbo: Bilbo removido exitosamente
+    remove_bilbo: Bilbo eliminado exitosamente
     error_player: Error al crear el reproductor
+    error_remove: Error al eliminar el Bilbo
+    add: Agregar Bilbo
