@@ -1,4 +1,8 @@
 .col-12.col-md-3
-    %img{:src => "https://via.placeholder.com/150", class: "ht-200 o-fit-cover wd-100p rounded"}
-    %h5.tx-gray-800.mg-t-15 IOS Office Citi Angelópolis - Recepción
-    %span.tx-gray-500 $1.10 MXN / spot
+    = link_to landing_board_path(board) do
+        -if board.images.attachments.present?
+            = image_tag url_from_media(image), class: "ht-200 o-fit-cover wd-100p rounded"
+        -else
+            = image_tag "#{image_path("placeholder_sm")}", class: "ht-200 o-fit-cover wd-100p rounded"
+        %h5.tx-gray-800.mg-t-15= board.name
+        %span.tx-gray-500= "#{number_to_currency_usd(board.cycle_price)} #{ENV.fetch("CURRENCY")} / spot"

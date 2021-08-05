@@ -145,6 +145,7 @@ class BoardsController < ApplicationController
 
   def landing
     @board = Board.friendly.find(params[:id])
+    @suggested_boards = Board.by_distance(origin: [@board.lat, @board.lng]).first(10).shuffle.first(4)
   end
 
 

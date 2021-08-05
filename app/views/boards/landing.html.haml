@@ -17,7 +17,7 @@
             .badge.tx-uppercase{class: "#{@board.category}-badge"}
               %i.fe{class: "icon-#{@board.category}"}
               = t("bilbos.#{@board.category}")
-          %span.mg-l-10{class: "#{'invisible' if !@board.smart}"}
+          %span.mg-l-10{class: "#{'d-none' if !@board.smart}"}
             .badge.wizard-badge-smart
               %i.fe.fe-star
               SMART
@@ -98,22 +98,7 @@
 
       .col-12.d-block#suggestedBilbos
         .row.row-xs
-          .col-12.col-md-3
-            %img{:src => "https://via.placeholder.com/150", class: "ht-200 o-fit-cover wd-100p rounded"}
-            %h5.tx-gray-800.mg-t-15 IOS Office Citi Angelópolis - Recepción
-            %span.tx-gray-500 $1.10 MXN / spot
-          .col-12.col-md-3
-            %img{:src => "https://via.placeholder.com/150", class: "ht-200 o-fit-cover wd-100p rounded"}
-            %h5.tx-gray-800.mg-t-15 IOS Office Citi Angelópolis - Recepción
-            %span.tx-gray-500 $1.10 MXN / spot
-          .col-12.col-md-3
-            %img{:src => "https://via.placeholder.com/150", class: "ht-200 o-fit-cover wd-100p rounded"}
-            %h5.tx-gray-800.mg-t-15 IOS Office Citi Angelópolis - Recepción
-            %span.tx-gray-500 $1.10 MXN / spot
-          .col-12.col-md-3
-            %img{:src => "https://via.placeholder.com/150", class: "ht-200 o-fit-cover wd-100p rounded"}
-            %h5.tx-gray-800.mg-t-15 IOS Office Citi Angelópolis - Recepción
-            %span.tx-gray-500 $1.10 MXN / spot
+          = render partial: "landing_pages/single_board_suggestion", collection: @suggested_boards, as: :board
 %footer.footer.bg-white
   %div.mg-y-20
     %nav.nav
