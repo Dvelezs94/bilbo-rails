@@ -102,6 +102,10 @@ class Project < ApplicationRecord
     BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: @camp).in_review.count
   end
 
+  def provider_project?
+    self.classification == "provider"
+  end
+
   def active_campaigns
     BoardsCampaigns.where(board: self.boards.enabled.pluck(:id), campaign: Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(self.boards).pluck(:id)).approved.count
   end
