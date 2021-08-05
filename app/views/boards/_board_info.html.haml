@@ -99,6 +99,6 @@
         = t("bilbos.remove_bilbo")
   - else
     .info-board.mg-t-5
-      = link_to campaigns_path(openModal: "modalNewCampaign"), class: "btn btn-dark btn-block" do
+      = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-dark btn-block" do
         %i.material-icons.md-18.material-icon-middle add_circle
         = t("map.create_campaign")
