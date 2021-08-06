@@ -8,6 +8,8 @@ class Board < ApplicationRecord
   belongs_to :project
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :campaigns, through: :board_campaigns
+  has_many :board_dashboard_players, class_name: "BoardDashboardPlayer"
+  has_many :dashboard_players, through: :board_dashboard_players
   has_many :impressions
   has_many :board_sales
   has_many :sales, through: :board_sales
