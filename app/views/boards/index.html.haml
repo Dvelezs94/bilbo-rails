@@ -6,7 +6,6 @@
 .filemgr-wrapper
   = render "boards/sidebar"
   #multimediaTab.filemgr-content.map-left-space
-    = render partial: 'boards/map/loading_effect'
     = render partial: 'boards/board_map'
   = form_with url: boards_path, method: :get, id: "filter-bilbos",class: "send-on-change d-none", remote: true do |f| # content in [data-form='filter-bilbos'] div, because this form cant be inside edit campaigns form
     = f.submit "Enviar", class: "d-none"

@@ -219,11 +219,11 @@ function build_markers(bilbos) {
         previousMarker['clicked'] = false
         previousMarker.setOptions({labelClass: 'mklabel ' + (previousMarker["smart"] == true ? "mklabel_smart" : "")})
        }
-      if ($("#bilbomap").length && $("#boardInfo").length){
-        $("#boardInfo").addClass("d-none");
-        $("#map-layout").removeClass("col-xl-12");
-        $("#map-layout").addClass("col-xl-9");
+      if ($("#bilbomap").length && $("[filter-and-boards]").length){
+        $('[board-info] [role="tabpanel"]').remove(); //removes old content of board info
         $("#loading").addClass("placeholder-paragraph");
+        $("[filter-and-boards]").addClass("translateX-m100p");
+        $('[board-info]').removeClass("translateX-100p");
       }
       // alert('marker ' + marker.getPosition().lat() + ' clicked');
       $.ajax({
@@ -264,9 +264,8 @@ function build_markers(bilbos) {
             marker['visited'] = true
             marker.setOptions({labelClass: 'mklabel ' + (marker["smart"] == true ? "mklabel_smart_selected" : "mklabel_selected")})
 
-          if ($("#bilbomap").length && $("#boardInfo").length){
+          if ($("#bilbomap").length && $("[filter-and-boards]").length){
              $("#loading").removeClass("placeholder-paragraph");
-             $("#boardInfo").removeClass("d-none");
            }
           },
          error: function() {
