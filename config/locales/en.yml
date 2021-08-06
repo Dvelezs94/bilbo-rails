@@ -413,7 +413,7 @@ en:
     sec: Sec
     image_size: Image size
     image_recommended_size: "Image size on pixels: %{pixels}"
-    price_per_print: Price/Impression
+    price_per_print: Price / spot
     credits_per_print: Credits/Impression
     dimensions: Dimensions
     expected_profit: Expected profit

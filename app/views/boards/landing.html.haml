@@ -49,7 +49,7 @@
           .row
             .col-4
               %h3.d-block.tx-bold= number_to_currency_usd(@board.cycle_price)
-              %strong.tx-gray-500.tx-uppercase PRECIO / SPOT
+              %strong.tx-gray-500.tx-uppercase= t("bilbos.price_per_print")
             .col-4.bd-x.bd-2
               %h3.d-block.tx-bold= number_with_delimiter(@board.avg_daily_views, :delimiter => ',')
               %strong.tx-gray-500.tx-uppercase= t("bilbos.avg_views")
@@ -85,10 +85,10 @@
                   %td.tx-gray-600.pd-l-0-f= t("bilbos.hour_start")
                   %td.tx-gray-800= "#{@board.start_time.to_s(:time)} - #{@board.end_time.to_s(:time)}"
           .d-block
-            %a.btn.btn-outline-primary.btn-lg{href: "#"}
+            = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-outline-primary btn-lg" do
               .fe.fe-plus
               Agregar a Cotización
-            %a.btn.btn-primary.btn-lg.mg-l-10{href: "#"}
+            = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg mg-l-10" do
               Crear Campaña
 
       .col-12.tx-center.mg-t-50
@@ -99,23 +99,35 @@
       .col-12.d-block#suggestedBilbos
         .row.row-xs
           = render partial: "landing_pages/single_board_suggestion", collection: @suggested_boards, as: :board
-%footer.footer.bg-white
-  %div.mg-y-20
-    %nav.nav
-      %a.nav-link.tx-10{:href => "#"}
-        Centro de Ayuda
-      %a.nav-link.tx-10{:href => "#"}
-        Blog
-      %a.nav-link.tx-10{:href => "#"}
-        Términos y Condiciones
-      %a.nav-link.tx-10{:href => "#"}
-        Contacto
-  %div
-    %nav.nav
-      %a.nav-link.tx-18{:href => "#"}
-        .fe.fe-instagram
-      %a.nav-link.tx-18{:href => "#"}
-        .fe.fe-facebook
-      %a.nav-link.tx-18{:href => "#"}
-        .fe.fe-youtube
+      
+      .col-12.mg-t-20.mg-lg-t-50
+        .row
+          .col-12.col-lg-6.mg-t-20
+            %strong.tx-26.tx-gradient-landing Desde $50 MXN diarios
+            %h1.strong Bilbo es la nueva forma de anunciarte en exteriores.
+            = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg mg-l-10" do
+              Crear Campaña
+          .col-12.col-lg-6.mg-t-20
+            .accordion.accordion-style1
+              %h6 ¿Qué es Bilbo?
+              %div
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo laboriosam exercitationem ratione officia, incidunt quibusdam deserunt dolorem obcaecati doloribus magnam beatae soluta dolores impedit blanditiis aut aliquam iusto perferendis voluptatum!
+              %h6 ¿Cómo puedo anunciar mi negocio?
+              %div
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo laboriosam exercitationem ratione officia, incidunt quibusdam deserunt dolorem obcaecati doloribus magnam beatae soluta dolores impedit blanditiis aut aliquam iusto perferendis voluptatum!
+              %h6 ¿Cuál es el precio?
+              %div
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo laboriosam exercitationem ratione officia, incidunt quibusdam deserunt dolorem obcaecati doloribus magnam beatae soluta dolores impedit blanditiis aut aliquam iusto perferendis voluptatum!
+              %h6 ¿En qué ciudades puedo anunciarme?
+              %div
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo laboriosam exercitationem ratione officia, incidunt quibusdam deserunt dolorem obcaecati doloribus magnam beatae soluta dolores impedit blanditiis aut aliquam iusto perferendis voluptatum!
+
              
+= render "footers/white"
+
+:javascript
+  $('.accordion').accordion({
+    heightStyle: 'content',
+    icons: { "header": "ui-icon-arrowthick-1-se", "activeHeader": "ui-icon-minus" },
+    collapsible: true
+  });
