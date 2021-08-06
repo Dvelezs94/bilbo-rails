@@ -8,13 +8,15 @@
     %br/
     .row
       .col-12.mg-b-10
-        = f.text_field :address, class: "form-control google_autocomplete", required: true, autocomplete: "off",placeholder: t("general_inputs.address")
-      .col-6
+        = f.text_field :address, class: "form-control google_autocomplete", required: true, autocomplete: "off", placeholder: t("general_inputs.address")
+      .col-6.col-md-4
         = f.text_field :lat, class: "form-control", placeholder: "Latitud", required: true
-      .col-6
+      .col-6.col-md-4
         = f.text_field :lng, class: "form-control", placeholder: "Longitud", required: true
-      .col-6
+      .col-6.col-md-4
         = f.text_field :utc_offset, class: "form-control", placeholder: "Minutos con UTC", required: true
+      .col-12.mg-y-10
+        = f.text_field :street_view_url, class: "form-control", autocomplete: "off", placeholder: "Street view URL"
   .form-group
     .row
       .col-sm-12.col-md-4
