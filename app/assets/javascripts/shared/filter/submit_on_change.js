@@ -13,9 +13,12 @@ $(document).on('turbolinks:load', function() {
   $( "button[form=filter-bilbos]").on("click",function(){ //display loading when using the modal
     set_change_in("filter-bilbos");
   });
+  $(".send-on-change").on("change", function(){
+    $(this).find("input[type=submit]").click();
+  });
 });
 
 function set_change_in(form_id) {
   form = $("#"+form_id); //get form
-  if ( form.hasClass("send-on-change") ) form.find("input[type=submit]").click(); //send form
+  form.trigger("change");
 }

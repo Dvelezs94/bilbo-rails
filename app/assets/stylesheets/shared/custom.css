@@ -763,7 +763,7 @@ a[href="#previous"] {
 .hover-gray:hover {
   background-color: #F5F6FA;
 }
-[data-single-board] {
+.cursor-pointer {
   cursor: pointer;
 }
 [data-single-board]:hover figcaption {

@@ -97,6 +97,10 @@ function initializeMap() {
 
     // load bilbos when moved in map
     google.maps.event.addListener(window.bilbomap, 'idle', function() {
+      if (window.OpenInMapTriggered == true){
+        OpenInMapTriggered = false;
+        return 0;
+      }
       fetchBoardsFromNewLocation();
     });
 
@@ -355,4 +359,20 @@ function hideAllMarkers() {
       window.markers[i].setVisible(false);
     }
   }
+}
+function OpenInMap(element){
+  window.OpenInMapTriggered = true;
+  var lat = parseFloat(element.getAttribute("lat"));
+  var lng = parseFloat(element.getAttribute("lng"));
+  $.each( window.markers, function( index, marker ){
+    markerLat = parseFloat(marker.position.lat());
+    markerLng = parseFloat(marker.position.lng())
+    if (markerLat == lat && markerLng == lng){
+      //if (window.activeInfowindow) window.activeInfowindow.close();
+      window.bilbomap.setZoom(15);
+      google.maps.event.trigger(marker, 'click');
+      window.bilbomap.setCenter(new google.maps.LatLng(lat, lng));
+      return false;
+    }
+  });
 }
