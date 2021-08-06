@@ -5,4 +5,5 @@
         -else
             = image_tag "#{image_path("placeholder_sm")}", class: "ht-200 o-fit-cover wd-100p rounded"
         %h5.tx-gray-800.mg-t-15= board.name
-        %span.tx-gray-500= "#{number_to_currency_usd(board.cycle_price)} #{ENV.fetch("CURRENCY")} / spot"
+        %span.tx-gray-500.d-block= board.short_address
+        %span.tx-gray-500.d-block= "#{number_to_currency_usd(board.cycle_price)} #{ENV.fetch("CURRENCY")} / spot"

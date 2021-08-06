@@ -85,14 +85,16 @@
                 %tr
                   %td.tx-gray-600.pd-l-0-f= t("bilbos.hour_start")
                   %td.tx-gray-800= "#{@board.start_time.to_s(:time)} - #{@board.end_time.to_s(:time)}"
-          .d-block
-            = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-outline-primary btn-lg" do
-              .fe.fe-plus
-              = t("main_wizard.add_to_cart")
-            = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg mg-l-10" do
+            - if @board.street_view_url.present?
+              = link_to @board.street_view_url, class: "tx-gray-700 tx-semibold", target: "_blank" do
+                .span.d-inline.tx-underline Ver en Street View
+                
+          .d-block.mg-t-10
+            = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg d-block" do
               = t("main_wizard.create_campaign")
+              .fe.fe-arrow-right.mg-l-5
 
-      .col-12.tx-center.mg-t-50
+      .col-12.tx-center.mg-t-100
         %strong.tx-26.tx-gradient-landing= t("landing.starting_at")
         %h1.tx-bold.mg-t-15= t("landing.outdoor_ad")
         %p.tx-gray-600.tx-16= t("landing.low_prices")
@@ -101,27 +103,25 @@
         .row.row-xs
           = render partial: "landing_pages/single_board_suggestion", collection: @suggested_boards, as: :board
       
-      .col-12.mg-t-20.mg-lg-t-50
+      .col-12.mg-t-20.mg-lg-y-80
         .row
           .col-12.col-lg-6.mg-t-20
             %strong.tx-26.tx-gradient-landing= t("landing.starting_at")
-            %h1.strong= t("landing.new_way_of_advertising")
+            %h1.tx-bold= t("landing.new_way_of_advertising")
             = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg" do
               = t("main_wizard.create_campaign")
+              .fe.fe-arrow-right.mg-l-5
           .col-12.col-lg-6.mg-t-20
             .accordion
-              %h6 ¿Qué es Bilbo?
+              %h6 ¿Cuánto cuesta rentar un espectacular digital?
               %div
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo laboriosam exercitationem ratione officia, incidunt quibusdam deserunt dolorem obcaecati doloribus magnam beatae soluta dolores impedit blanditiis aut aliquam iusto perferendis voluptatum!
-              %h6 ¿Cómo puedo anunciar mi negocio?
+                Con Bilbo puedes comenzar a rentar un espectacular digital desde <strong>$50</strong> MXN al día y correr tu anuncio por los días y horas que decidas en Bilbos Afiliados.
+              %h6 ¿Qué disponibilidad tienen?
               %div
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo laboriosam exercitationem ratione officia, incidunt quibusdam deserunt dolorem obcaecati doloribus magnam beatae soluta dolores impedit blanditiis aut aliquam iusto perferendis voluptatum!
-              %h6 ¿Cuál es el precio?
+                La disponibilidad de los espectaculares la puedes ver al momento de hacer la compra por la plataforma.
+              %h6 ¿Cómo funciona Bilbo?
               %div
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo laboriosam exercitationem ratione officia, incidunt quibusdam deserunt dolorem obcaecati doloribus magnam beatae soluta dolores impedit blanditiis aut aliquam iusto perferendis voluptatum!
-              %h6 ¿En qué ciudades puedo anunciarme?
-              %div
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo laboriosam exercitationem ratione officia, incidunt quibusdam deserunt dolorem obcaecati doloribus magnam beatae soluta dolores impedit blanditiis aut aliquam iusto perferendis voluptatum!
+                Bilbo Funciona como una plataforma donde puedes rentar un espacio publicitario sin necesidad de plazos. Simplemente sube tu anuncio; video o imagen y selecciona el espectacular en el que quieres mostrarlo.
 
              
 = render "footers/white"
