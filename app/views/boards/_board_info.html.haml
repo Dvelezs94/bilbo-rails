@@ -1,7 +1,5 @@
 %div{"aria-labelledby" => "#{board.slug}-tab", :class => "tab-pane fade show #{"active" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id]}", :id => "#{board.slug}", :role => "tabpanel"}
   %ul.d-none#boardTab
-  %i.fe.fe-arrow-left.tx-gray-700.mg-y-10.cursor-pointer{"return-filter": ""}= " Volver a los resultados"
-
   #carouselBoardInfo.carousel.slide{"data-ride" => "carousel"}
     .pos-relative
       .marker.pos-absolute.b-10.r-10{:style => "z-index: 10; box-shadow: 0px 0px 0px, 0 0 7px;"}

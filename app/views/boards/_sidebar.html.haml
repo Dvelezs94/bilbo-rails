@@ -1,5 +1,5 @@
 .filemgr-sidebar.board-sidebar-width
-  %div{"filter-and-boards": ""}
+  %div.transition-delay{"filter-and-boards": ""}
     .filemgr-sidebar-header.ht-100-f
       .filemgr-content-header.white-background.d-flex.align-items-center.justify-content-between.ht-100-f.border-bottom-0
         .d-block.flex-wrap.wd-100p
@@ -97,4 +97,6 @@
       .pd-t-2.pd-b-10.pd-x-10
         %label.pd-l-10.pd-r-10.tx-gray-700{ data:{ board_number: "" } }
         %div{ data:{ board_cards: "" } }
-  .pd-10{"board-info": ""} 
+  .pd-10.translateX-100p.transition-delay{"board-info": ""}
+    %i.fe.fe-arrow-left.tx-gray-700.mg-b-10.mg-t-5.cursor-pointer{"return-filter": ""}= " Volver a los resultados"
+    = render partial: 'boards/map/loading_effect'

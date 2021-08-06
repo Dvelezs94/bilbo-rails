@@ -770,3 +770,12 @@ a[href="#previous"] {
   background-color: rgba(1, 104, 250, 0.7);
   opacity: 100%;
 }
+.translateX-100p{
+  transform: translateX(100%);
+}
+.translateX-m100p{
+  transform: translateX(-100%);
+}
+.transition-delay{
+  transition: all 0.5s;
+}

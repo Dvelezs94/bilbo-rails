@@ -16,8 +16,7 @@ function countDown(timeElemId='.countDownTime', countDownDate){
 }
 
 try {clearInterval(countTimer);} catch {true}
-
-$("[board-info]").empty();
+//removing old content of board info and displaying loading effect its in initmap.js
 $("[board-info]").append("<%= j render partial: 'boards/board_info', collection: @boards, as: :board %>");
 $("[board-info] #boardTab").append("<%= j render partial: 'boards/board_tab', collection: @boards, as: :board %>");
 $("#boardSelect").html("<%= j render partial: 'boards/board_select_tab', collection: @boards, as: :board %>");
