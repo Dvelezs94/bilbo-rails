@@ -39,9 +39,10 @@
         %input#bilboLat{type: "hidden", value: @board.lat}
         %input#bilboLng{type: "hidden", value: @board.lng}
         #landing-map-frame.ht-350.mg-t-20.rounded.mg-b-10
-        %a.tx-gray-500{href: "#"}
-          Street View
-          .fe.fe-link-external.mg-l-5
+        = if @board.street_view_url.present?
+          %a.tx-gray-500{href: @board.street_view_url, target: "_blank"}
+            Street View
+            .fe.fe-link-external.mg-l-5
           
 
       .col-12.col-lg-6.pd-lg-x-80.mg-t-20.mg-lg-t-0
@@ -87,14 +88,14 @@
           .d-block
             = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-outline-primary btn-lg" do
               .fe.fe-plus
-              Agregar a Cotización
+              = t("main_wizard.add_to_cart")
             = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg mg-l-10" do
-              Crear Campaña
+              = t("main_wizard.create_campaign")
 
       .col-12.tx-center.mg-t-50
-        %strong.tx-26.tx-gradient-landing Desde $50 MXN diarios
-        %h1.tx-bold.mg-t-15 Publicidad exterior en México
-        %p.tx-gray-600.tx-16 Invierte en publicidad exterior digital para tu negocio con precios accesibles.
+        %strong.tx-26.tx-gradient-landing= t("landing.starting_at")
+        %h1.tx-bold.mg-t-15= t("landing.outdoor_ad")
+        %p.tx-gray-600.tx-16= t("landing.low_prices")
 
       .col-12.d-block#suggestedBilbos
         .row.row-xs
@@ -103,12 +104,12 @@
       .col-12.mg-t-20.mg-lg-t-50
         .row
           .col-12.col-lg-6.mg-t-20
-            %strong.tx-26.tx-gradient-landing Desde $50 MXN diarios
-            %h1.strong Bilbo es la nueva forma de anunciarte en exteriores.
-            = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg mg-l-10" do
-              Crear Campaña
+            %strong.tx-26.tx-gradient-landing= t("landing.starting_at")
+            %h1.strong= t("landing.new_way_of_advertising")
+            = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg" do
+              = t("main_wizard.create_campaign")
           .col-12.col-lg-6.mg-t-20
-            .accordion.accordion-style1
+            .accordion
               %h6 ¿Qué es Bilbo?
               %div
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo laboriosam exercitationem ratione officia, incidunt quibusdam deserunt dolorem obcaecati doloribus magnam beatae soluta dolores impedit blanditiis aut aliquam iusto perferendis voluptatum!

@@ -40,7 +40,7 @@ class Board < ApplicationRecord
     end
   end
   scope :images_only, -> { where(images_only: true) }
-  # All this is done thanks to 
+  # All this is done thanks to earthdistance postgresql extension
   # Add support for radius search
   # Call it like: Board.within_radius(21.885731,-102.326319, 2000)
   # (latitude, longitude, radius[km])
