@@ -294,6 +294,7 @@ class BoardsController < ApplicationController
                                   :url,
                                   :multiplier,
                                   :steps,
+                                  :street_view_url,
                                   images: [],
                                   default_images: []
                                   )

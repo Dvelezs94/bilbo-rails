@@ -39,8 +39,8 @@
         %input#bilboLat{type: "hidden", value: @board.lat}
         %input#bilboLng{type: "hidden", value: @board.lng}
         #landing-map-frame.ht-350.mg-t-20.rounded.mg-b-10
-        = if @board.street_view_url.present?
-          %a.tx-gray-500{href: @board.street_view_url, target: "_blank"}
+        - if @board.street_view_url.present?
+          %a.tx-gray-500{href: "#{@board.street_view_url}", target: "_blank"}
             Street View
             .fe.fe-link-external.mg-l-5
           
