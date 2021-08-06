@@ -33,7 +33,7 @@ class DashboardPlayersController < ApplicationController
     @board = Board.friendly.find(params[:board_id_dashboard_player])
     if @project.dashboard_player.board_dashboard_players.find_by(board_id: @board.id).destroy
       @success_message = I18n.t("dashboard_player.remove_bilbo")
-    else 
+    else
       @error_message = I18n.t("dashboard_player.error_remove")
     end
   end
@@ -47,7 +47,7 @@ class DashboardPlayersController < ApplicationController
     #in the future do the validation on model
       if @project.dashboard_player.present?
         if @project.dashboard_player.board_dashboard_players.map{|player| player.board.slug}.include? dashboard_player_params[:board_slug].to_s
-          @error_message = I18n.t("dashboard_player.transitions.update.error")
+          @error_message = "El Bilbo ya existe"
           render 'dashboard_players/message'
         end
       end
@@ -59,5 +59,5 @@ class DashboardPlayersController < ApplicationController
 
     def dashboard_player_params
       params.require(:dashboard_player).permit(:board_slug, :project_id)
-    end 
+    end
 end
