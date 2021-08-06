@@ -1,4 +1,4 @@
-.media.hover-gray.pd-20.border-top.flex-wrap{data: {single_board: ""}}
+.media.hover-gray.pd-20.border-top.flex-wrap.cursor-pointer{data: {single_board: ""}, onclick: "OpenInMap($(this)[0])", lat: search_board.lat, lng: search_board.lng}
   %figure.pos-relative.mg-b-0.col-12.col-md-3.pd-0.mg-auto-0
     = image_tag image_path("board_placeholder"), class: "wd-100p rounded", alt: "No Image"
     %figcaption.pos-absolute.a-0.d-flex.flex-column.text-center.justify-content-center.rounded.text-white.tx-24.op-0
