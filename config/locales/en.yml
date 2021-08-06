@@ -20,6 +20,7 @@ en:
     pending_items: Pending Items
     upload_ad: Upload ad
     create_campaign: Create Campaign
+    add_to_cart: Add to cart
     verify_profile: Verify Profile
     purchase_credits: Purchase Credits
     hide_message: Hide message
@@ -413,7 +414,7 @@ en:
     sec: Sec
     image_size: Image size
     image_recommended_size: "Image size on pixels: %{pixels}"
-    price_per_print: Price/Impression
+    price_per_print: Price / spot
     credits_per_print: Credits/Impression
     dimensions: Dimensions
     expected_profit: Expected profit
@@ -899,6 +900,11 @@ en:
     maximum_ten: The maximum default content is 10
     content_selected: Select the default content to display in the bilbo
     bilbo_select: Choose the default content for
+  landing:
+      starting_at: "Starting at $50 MXN"
+      outdoor_ad: Outdoor advertising in Mexico
+      low_prices: Invest in digital outdoor advertising for your business with affordable prices.
+      new_way_of_advertising: Bilbo is the new way for doing outdoor advertising.
   dashboard_player:
       add_bilbo: Bilbo added successfully
       remove_bilbo: Bilbo removed successfully

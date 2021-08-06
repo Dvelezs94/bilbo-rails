@@ -645,6 +645,10 @@ a[href="#previous"] {
   content: "\e900";
   color: #FF5900;
 }
+.billboard-badge {
+  color: #FF5900;
+  background-color: #FFEFE6;
+}
 .icon-horizontal-screen:before {
   content: "\e901";
 }
@@ -652,12 +656,20 @@ a[href="#previous"] {
   content: "\e902";
   color: #9F2BD6;
 }
+.television-badge {
+  color: #9F2BD6;
+  background-color: #F6EAFB;
+}
 .icon-vertical-screen:before {
   content: "\e903";
 }
 .icon-wallboard:before {
   content: "\e904";
   color: #2BD67B;
+}
+.wallboard-badge {
+  color: #2BD67B;
+  background-color: #EAFBF2;
 }
 
 .mklabel {
@@ -739,3 +751,14 @@ a[href="#previous"] {
 
 
 /* End MarkerWithLabel CSS */
+
+/* Borderless class for tables. Use it like .borderless */
+.borderless td, .borderless th {
+  border: none;
+}
+
+.tx-gradient-landing {
+  background-image: linear-gradient(60deg, #1C68F0, #A3D6FE);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
