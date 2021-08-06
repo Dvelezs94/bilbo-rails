@@ -20,6 +20,7 @@ es:
     pending_items: Sigue estos pasos para publicar tu anuncio
     upload_ad: Subir anuncio
     create_campaign: Crear campaña
+    add_to_cart: Agregar al carrito
     verify_profile: Verifica tu perfil
     purchase_credits: Comprar créditos
     hide_message: Esconder mensaje
@@ -907,3 +908,10 @@ es:
     maximum_ten: El contenido predeterminado máximo es de 10
     content_selected: Selecciona el contenido predeterminado a mostrar en el bilbo
     bilbo_select: Elige el contenido predeterminado para
+  landing:
+    starting_at: "Desde $50 MXN diarios"
+    outdoor_ad: Publicidad exterior en México
+    low_prices: Invierte en publicidad exterior digital para tu negocio con precios accesibles.
+    new_way_of_advertising: Bilbo es la nueva forma de anunciarte en exteriores.
+
+    
