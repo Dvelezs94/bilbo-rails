@@ -913,5 +913,9 @@ es:
     outdoor_ad: Publicidad exterior en México
     low_prices: Invierte en publicidad exterior digital para tu negocio con precios accesibles.
     new_way_of_advertising: Bilbo es la nueva forma de anunciarte en exteriores.
-
-    
+  dashboard_player: 
+    add_bilbo: Bilbo agregado exitosamente
+    remove_bilbo: Bilbo eliminado exitosamente
+    error_player: Error al crear el reproductor
+    error_remove: Error al eliminar el Bilbo
+    add: Agregar Bilbo
