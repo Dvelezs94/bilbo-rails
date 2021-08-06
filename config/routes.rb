@@ -200,6 +200,7 @@ Rails.application.routes.draw do
   resources :searches, only:[] do
     collection do
       get :autocomplete_user_email
+      get :autocomplete_board_name
     end
   end
   resources :csv, controller: "csv", only: [] do
@@ -253,6 +254,12 @@ Rails.application.routes.draw do
 
   get 'c/:id', to: "campaigns#shortened_analytics", as: "campaign_shortened"
   get 's/:id', to: "shorteners#show", as: "shorten"
+
+  resources :dashboard_players, only: [:index, :create, :destroy, :update] do
+    collection do
+      delete :delete_player
+    end
+  end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
