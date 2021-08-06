@@ -1,5 +1,8 @@
-%figure.img-caption.col-sm-12.col-md-6.col-lg-4.mg-b-10{:board_id_dashboard_player => dashboard_player.board.slug}
+.card.col-sm-12.col-md-6.col-lg-4.mg-b-10{:board_id_dashboard_player => dashboard_player.board.slug}
   = content_tag("iframe", '', src: "#{board_url(dashboard_player.board, access_token: dashboard_player.board.access_token, mac_address: dashboard_player.board.mac_address)}", height: "100%", width: "100%", id:"iframe-#{dashboard_player.board.slug}",  class: "", data: { }, :scrolling => "no")
-  %figcaption.pos-absolute.b-0.wd-100p.transition-base.op-0
-    = link_to delete_player_dashboard_players_path(board_id_dashboard_player: dashboard_player.board.slug), method: :delete, remote: true, class: "btn btn-danger btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do
-      %i.fe.fe-trash.btn-danger
+  .card-body
+    .d-block= dashboard_player.board.name
+    .d-block
+      = link_to delete_player_dashboard_players_path(board_id_dashboard_player: dashboard_player.board.slug), method: :delete, remote: true, class: "tx-danger", data: { confirm: t("general_inputs.confirm_deletion") } do
+        Eiminar del Dashboard
+    
