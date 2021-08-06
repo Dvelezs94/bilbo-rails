@@ -905,3 +905,9 @@ en:
       outdoor_ad: Outdoor advertising in Mexico
       low_prices: Invest in digital outdoor advertising for your business with affordable prices.
       new_way_of_advertising: Bilbo is the new way for doing outdoor advertising.
+  dashboard_player:
+      add_bilbo: Bilbo added successfully
+      remove_bilbo: Bilbo removed successfully
+      error_player: Error creating player
+      error_remove: Error removing bilbo
+      add: Add Bilbo
