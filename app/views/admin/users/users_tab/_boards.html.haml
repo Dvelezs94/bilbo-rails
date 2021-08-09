@@ -79,6 +79,11 @@
                   = link_to("Disable bilbo", toggle_status_board_path(board.slug, status: "disabled"), class: "btn btn-sm btn-block btn-warning", :data => {:confirm => 'Are you sure you want to DISABLE this bilbo?'})
                 - else
                   = link_to("Enable bilbo", toggle_status_board_path(board.slug, status: "enabled"), class: "btn btn-sm btn-block btn-info", :data => {:confirm => 'Are you sure you want to ENABLE this bilbo?'})
+              .col-4.pd-r-5
+                - begin
+                  = link_to("Landing", bilbo_landing_path(board.country_state, board.city, board.parameterized_name), class: "btn btn-sm btn-block btn-success", target: "_blank")
+                - rescue
+                  = link_to("Sin landing", "#", class: "btn btn-sm btn-block btn-danger")
           / row
         / card-footer
   %end
