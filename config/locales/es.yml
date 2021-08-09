@@ -1,4 +1,6 @@
 es:
+  yes: Sí
+  no: No
   time_day:
     seconds: segundos
     minutes: minutos
@@ -415,7 +417,7 @@ es:
     image_size: Tamaño de imagen
     image_recommended_size: "Tamaño de imagen en pixeles: %{pixels}px"
     price_per_print: Precio/Impresión
-    credits_per_print: Créditos/Impresión
+    credits_per_print: Precio por spot
     dimensions: Dimensiones
     expected_profit: Ganancia Esperada
     north: Norte
@@ -424,6 +426,7 @@ es:
     west: Oeste
     face: Cara
     images_only: Este bilbo solo acepta imágenes
+    accepts_video: Acepta video
     address: Dirección
     add_bilbo: Agregar Bilbo
     remove_bilbo: Eliminar Bilbo
@@ -470,6 +473,7 @@ es:
       ad_duration_less_than_required: La duración del anuncio es inválida en el bilbo <strong>%{name}</strong>
       overlapping_schedules: Los horarios %{n1} y %{n2} de esta campaña se traslapan. Realiza los cambios necesarios e intenta nuevamente
     search:
+      return: Volver a los resultados
       location: Ubicación
       classification: Clasificación
       media_type: Tipo de Medio

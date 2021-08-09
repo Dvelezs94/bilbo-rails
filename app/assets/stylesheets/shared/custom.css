@@ -779,3 +779,12 @@ a[href="#previous"] {
 .transition-delay{
   transition: all 0.5s;
 }
+.overflow-visible {
+  overflow: visible;
+}
+.flex-2 {
+  flex: 2;
+}
+.flex-10 {
+  flex: 10;
+}

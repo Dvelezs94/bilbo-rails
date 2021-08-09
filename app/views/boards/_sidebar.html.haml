@@ -97,6 +97,6 @@
       .pd-t-2.pd-b-10.pd-x-10
         %label.pd-l-10.pd-r-10.tx-gray-700{ data:{ board_number: "" } }
         %div{ data:{ board_cards: "" } }
-  .pd-10.translateX-100p.transition-delay{"board-info": ""}
-    %i.fe.fe-arrow-left.tx-gray-700.mg-b-10.mg-t-5.cursor-pointer{"return-filter": ""}= " Volver a los resultados"
+  .pd-10.translateX-100p.transition-delay.ht-100p.d-flex.flex-column{"board-info": ""}
+    %i.fe.fe-arrow-left.tx-gray-700.mg-b-10.mg-t-5.cursor-pointer{"return-filter": ""}=" #{t('bilbos.search.return')}"
     = render partial: 'boards/map/loading_effect'

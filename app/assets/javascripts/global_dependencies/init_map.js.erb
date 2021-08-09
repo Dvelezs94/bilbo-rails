@@ -221,7 +221,8 @@ function build_markers(bilbos) {
        }
       if ($("#bilbomap").length && $("[filter-and-boards]").length){
         $('[board-info] [role="tabpanel"]').remove(); //removes old content of board info
-        $("#loading").addClass("placeholder-paragraph");
+        $("#loading").addClass("placeholder-paragraph"); //loading effect
+        //transition effects
         $("[filter-and-boards]").addClass("translateX-m100p");
         $('[board-info]').removeClass("translateX-100p");
       }
