@@ -28,6 +28,7 @@ class Board < ApplicationRecord
   has_many_attached :default_images
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
+  before_validation :parameterize_address_components
   after_validation :build_cycle_price
   before_update :save_new_cycle_price, if: :admin_edit
   enum status: { enabled: 0, disabled: 1 }
@@ -616,4 +617,11 @@ end
     name
   end
 
+  def parameterize_address_components
+    self.country = country.parameterize if country.present?
+    self.country_state = country_state.parameterize if country_state.present?
+    self.city = city.parameterize if city.present?
+    self.postal_code = postal_code.parameterize if postal_code.present?
+    self.parameterized_name = name.parameterize if name.present?
+  end
 end

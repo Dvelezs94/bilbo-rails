@@ -19,10 +19,17 @@ function activatePlacesSearch() {
     };
     var search_autocomplete = new google.maps.places.Autocomplete(search_input, options)
     google.maps.event.addListener(search_autocomplete, 'place_changed', function () {
+      place = search_autocomplete.getPlace();
+      address_components = place.address_components;
+      parsed_address = parseGoogleAddressComponents(address_components)
       // update lat and lng when choosing location
-      $("#board_lat").val(search_autocomplete.getPlace().geometry.location.lat);
-      $("#board_lng").val(search_autocomplete.getPlace().geometry.location.lng);
-      $("#board_utc_offset").val(search_autocomplete.getPlace().utc_offset_minutes);
+      $("#board_lat").val(place.geometry.location.lat);
+      $("#board_lng").val(place.geometry.location.lng);
+      $("#board_utc_offset").val(place.utc_offset_minutes);
+      $("#board_country").val(parsed_address["country"]);
+      $("#board_country_state").val(parsed_address["state"]);
+      $("#board_city").val(parsed_address["city"]);
+      $("#board_postal_code").val(parsed_address["postal_code"]);
       // IsplaceChange = true;
     });
 
@@ -38,4 +45,35 @@ function activatePlacesSearch() {
     //   }
     // });
   });
+}
+
+function parseGoogleAddressComponents(components) {
+  var country = ""
+  var state = ""
+  var city = ""
+  var postal_code = ""
+
+  $.each(components, function(i, component) {
+    $.each(component.types, function(i, type) {
+      if (type === 'country') {
+        country = component.long_name
+      }
+      if (type === 'administrative_area_level_1') {
+        state = component.long_name
+      }
+      if (type === 'locality') {
+        city = component.long_name
+      }
+      if (type === 'postal_code') {
+        postal_code = component.long_name
+      }
+    })
+  });
+
+  return {
+    city: city,
+    country: country,
+    postal_code: postal_code,
+    state: state
+  }
 }
