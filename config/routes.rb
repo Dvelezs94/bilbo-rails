@@ -268,7 +268,7 @@ Rails.application.routes.draw do
   get 'c/:id', to: "campaigns#shortened_analytics", as: "campaign_shortened"
   get 's/:id', to: "shorteners#show", as: "shorten"
 
-  get ':state/:city/:name', to: 'landing_pages#show', as: 'bilbo_landing'
+  get '/pantallas/:state/:city/:name', to: 'landing_pages#show', as: 'bilbo_landing'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
