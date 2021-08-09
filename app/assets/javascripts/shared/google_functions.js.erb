@@ -26,7 +26,6 @@ function activatePlacesSearch() {
       $("#board_lat").val(place.geometry.location.lat);
       $("#board_lng").val(place.geometry.location.lng);
       $("#board_utc_offset").val(place.utc_offset_minutes);
-      console.log(parsed_address);
       $("#board_country").val(parsed_address["country"]);
       $("#board_country_state").val(parsed_address["state"]);
       $("#board_city").val(parsed_address["city"]);
