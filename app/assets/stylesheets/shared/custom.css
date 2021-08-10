@@ -788,3 +788,6 @@ a[href="#previous"] {
 .flex-10 {
   flex: 10;
 }
+#selected_boards {
+  border-bottom-left-radius: 0.25rem !important;
+}

@@ -1,13 +1,11 @@
 %h3= t('campaign.wizard.choose_bilbos')
 %section.mg-t-15
-  .row.row-xs.pos-relative
+  .row.pos-relative
     .col-6.col-md-3
       -# %button.btn.btn-outline-primary{"data-target" => "#campaignEditMapFilter", "data-toggle" => "modal", :onclick => "return false"}
       -#   = t('bilbos.filter')
-    .input-group.pos-absolute.r-0.b--5.wd-300.z-index-10
-      .input-group-prepend
-        %span#boards_counter.input-group-text.pd-x-15.bg-dark.tx-white= "#{@campaign_boards.size} #{t('campaign.wizard.selected_bilbos')}"
-      = f.select(:boards, options_for_select(@campaign_boards), {include_blank: true}, {:class => "custom-select", :id => "selected_boards"})
+    = f.select(:boards, options_for_select(@campaign_boards), {include_blank: "#{@campaign_boards.size} #{t('campaign.wizard.selected_bilbos')}"},
+     {:class => "pos-absolute r-0 t-0 wd-300 z-index-10 bg-dark tx-white form-select pd-15", :id => "selected_boards"})
     = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true
     .wd-100p.ht-700.position-relative
       .position-absolute.a-0

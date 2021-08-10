@@ -16,6 +16,7 @@ $(document).on('turbolinks:load', function() {
       waitForMarkersLoad(function() { //wait for boards marker load so it can be clicked in map
         OpenInMap(board[0]);
       });
+      $(this).val(""); //put placeholder again
     }
   });
 });
@@ -42,7 +43,7 @@ function addBilbo(el) {
     update_hidden_input(selected_boards);
     update_buttons("added", buttons_container);
   }
-  $('#boards_counter').html(parseInt($('#boards_counter').html(), 10)+1)
+  update_select_count(1);
 }
 
 function removeBilbo(el) {
@@ -56,9 +57,16 @@ function removeBilbo(el) {
   aspect_ratio_select.find("option[value=" + id + "]").remove();
   update_hidden_input(aspect_ratio_select);
   update_buttons("deleted", buttons_container);
-  $('#boards_counter').html(parseInt($('#boards_counter').html(), 10)-1)
+  update_select_count(-1);
   $("#slug-"+slug).remove();
   updateHiddenFieldContent();
+}
+
+function update_select_count(number){
+  placeholder = $("#selected_boards").find("option").eq(0);
+  new_number = parseInt(placeholder.html(), 10)+number;
+  new_text = placeholder.html().replace(/^[0-9]/g, new_number);
+  placeholder.html(new_text);
 }
 
 function update_hidden_input(selected_boards) {
