@@ -5,8 +5,6 @@ es:
     hours: horas
     days: "días"
     months: meses
-  error:
-    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
   input:
     search: Buscar
     submit: Enviar
@@ -788,6 +786,8 @@ es:
       500_main: Error interno del servidor
       message: Oops. Ocurrió un error, vuelve a intentarlo
       500_description: El servidor encontró un error interno del servidor y no pudo completar su solicitud.
+    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
+    default_content_present: Este contenido es default de un bilbo
   alert:
     project_out_of_credits: Tu proyecto se quedó sin créditos para correr tus campañas!
     verify_profile: Verifica tu perfil para
