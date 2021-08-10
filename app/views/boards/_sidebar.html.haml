@@ -4,15 +4,15 @@
       .filemgr-content-header.white-background.d-flex.align-items-center.justify-content-between.ht-100-f.border-bottom-0
         .d-block.flex-wrap.wd-100p
           .mg-x-2.row.flex-wrap{data: {form: "filter-bilbos"}}
-            .search-form.bg-light.pd-l-5.pd-r-5.rounded.col-12.mg-b-15
-              %i.fe.fe-search.pd-r-5.fnt-md
+            .search-form.bg-light.pd-l-10.pd-r-5.rounded.col-12.mg-b-15
+              %i.fe.fe-search.pd-r-5.fnt-md.tx-gray-300{onclick: "$('#search_autocomplete').focus()"}
               = text_field_tag :location, nil, class: 'form-control', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
                 value: (params[:location].present?)? params[:location] : "" ,                                                               |
                 lat: (params[:lat].present?)? params[:lat] : "",                                                                            |
                 lng: (params[:lng].present?)? params[:lng] : "",                                                                             |
                 form: "filter-bilbos"                                                                                                          |
               = hidden_field_tag :radius, params[:radius], {form: "filter-bilbos"}
-            .col-6.col-lg-3.pd-0
+            .flex-1
               %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                 = t('bilbos.search.media_type')
               .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop1"}}
@@ -30,7 +30,7 @@
                     = radio_button_tag :categoryR, 'wallboard', false, :class => "custom-control-input", :id =>"categoryRadio3"
                     %label.custom-control-label{for: "categoryRadio3", onclick: "$('#category').val('wallboard')"}= t('bilbos.search.wallboard')
                   = select_tag(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type'), class: 'custom-select d-none', form: "filter-bilbos"})
-            .col-6.col-lg-3.pd-0.text-center
+            .flex-1.text-center
               %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop2", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                 = t('bilbos.search.classification')
               .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop2"}}
@@ -61,7 +61,7 @@
                     %label.custom-control-label{:for => "smart"}
                       %i.fe.fe-star
                       %span{"data-toggle": "tooltip", title: t("bilbos.smart_filter") } SMART
-            .col-6.col-lg-3.pd-0.text-center
+            .flex-1.text-center
               %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop3", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                 = t('bilbos.search.price')
               .dropdown-menu.dont-close-dropdown.mn-wd-200{aria: {labelledby: "drop3"}}
@@ -80,7 +80,7 @@
                     = number_field_tag :cycle_price, nil, class: "form-control", value: params[:cycle_price], step: "1", autocomplete: "off", form: "filter-bilbos"
                   - max_price = Board.maximum("cycle_price").ceil
                   = text_field_tag :ionslider, nil, class: 'form-control', id: "price_slider", data: { to: max_price, max: max_price  }
-            .col-6.col-lg-3.pd-0.text-right
+            .flex-1.text-right
               %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop4", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                 = t('bilbos.search.dimensions')
               .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop4"}}

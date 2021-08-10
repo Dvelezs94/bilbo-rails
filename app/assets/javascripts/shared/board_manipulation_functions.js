@@ -8,10 +8,7 @@ $(document).on('turbolinks:load', function() {
   $(document).on('change',"#selected_boards",function(){
     var id = this.value
     if (id != "") {
-      $("#map-layout").removeClass("col-xl-12");
-      $("#map-layout").addClass("col-xl-9");
-      $("#boardInfo").addClass("d-none");
-      $("#loading").addClass("placeholder-paragraph");
+      showBoardInfo();
       $.ajax({
         url:  "/boards/get_info",
         dataType: "script",

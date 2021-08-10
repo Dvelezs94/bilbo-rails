@@ -20,6 +20,7 @@ try {clearInterval(countTimer);} catch {true}
 $("[board-info]").append("<%= j render partial: 'boards/board_info', collection: @boards, as: :board %>");
 $("[board-info] #boardTab").append("<%= j render partial: 'boards/board_tab', collection: @boards, as: :board %>");
 $("#boardSelect").html("<%= j render partial: 'boards/board_select_tab', collection: @boards, as: :board %>");
+
 var countDownDate = new Date($('.countDownTime').html()).getTime();
 // call it once so the user doesn't see the text of the full date on the board tab
 countDown('.countDownTime', countDownDate);
