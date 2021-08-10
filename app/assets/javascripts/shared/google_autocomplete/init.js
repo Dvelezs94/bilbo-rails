@@ -96,3 +96,18 @@ function waitForElement(elementPath, callBack, times = 0) {
     }
   }, 500)
 }
+
+function waitForMarkersLoad(callBack, times = 0) {
+  timeout = setTimeout(function() {
+    if (window.markersLoaded == true) {
+      callBack(true);
+    }
+    else if (times == 20) {
+      show_error("Oops, something went wrong");
+      clearTimeout(timeout);
+    }
+    else {
+      waitForMarkersLoad(callBack, times+1);
+    }
+  }, 500)
+}

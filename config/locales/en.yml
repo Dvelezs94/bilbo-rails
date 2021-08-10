@@ -491,6 +491,7 @@ en:
       target: "Social class that transits"
       resolution: "%{diagonal_inches} inch resolution"
       results: "Results"
+      ends_in: Ends in
   ads:
     ads: Ads
     name: Name
