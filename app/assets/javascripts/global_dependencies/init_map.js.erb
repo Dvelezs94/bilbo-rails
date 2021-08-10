@@ -220,7 +220,6 @@ function build_markers(bilbos) {
         previousMarker.setOptions({labelClass: 'mklabel ' + (previousMarker["smart"] == true ? "mklabel_smart" : "")})
        }
       if ($("#bilbomap").length && $("[filter-and-boards]").length){
-        $('[board-info] [role="tabpanel"]').remove(); //removes old content of board info
         //transition effects
         showBoardInfo();
       }
@@ -263,9 +262,7 @@ function build_markers(bilbos) {
             marker['visited'] = true
             marker.setOptions({labelClass: 'mklabel ' + (marker["smart"] == true ? "mklabel_smart_selected" : "mklabel_selected")})
 
-          if ($("#bilbomap").length && $("[filter-and-boards]").length){
-             $("#loading").removeClass("placeholder-paragraph");
-           }
+          finishedLoadingBoardInfo();
           },
          error: function() {
            alert("Oops! Occurió un error.");
@@ -319,6 +316,7 @@ function build_markers(bilbos) {
     styles: markerStyles
   };
   window.markerCluster = new MarkerClusterer(window.bilbomap, markersNotSmart, options);
+  window.markersLoaded = true;
 }
 
 function fetchBoardsFromNewLocation() {

@@ -8,20 +8,13 @@ $(document).on('turbolinks:load', function() {
   $(document).on('change',"#selected_boards",function(){
     var id = this.value
     if (id != "") {
-      showBoardInfo();
-      $.ajax({
-        url:  "/boards/get_info",
-        dataType: "script",
-        data: {selected_id: id, selected_boards: $("#campaign_boards").val()},
-        success: function(data) {
-          $("#map-layout").removeClass("col-xl-12");
-          $("#map-layout").addClass("col-xl-9");
-          $("#loading").removeClass("placeholder-paragraph");
-          $("#boardInfo").removeClass("d-none");
-        },
-        error: function(data) {
-          alert("Oops.. Ocurrio un error..");
-        }
+      board = $(this).find("option:selected");
+      lat = board.attr("lat");
+      lng = board.attr("lng");
+      window.markersLoaded = false; //set to true when markers loaded in build_markers
+      window.bilbomap.setCenter(new google.maps.LatLng(lat, lng)); //change location so the board is shown
+      waitForMarkersLoad(function() { //wait for boards marker load so it can be clicked in map
+        OpenInMap(board[0]);
       });
     }
   });
@@ -29,6 +22,8 @@ $(document).on('turbolinks:load', function() {
 
 function addBilbo(el) {
   id = $(el).attr("data-id");
+  lat = $(el).attr("data-lat");
+  lng = $(el).attr("data-lng");
   cycle_price = $(el).attr("data-price");
   new_width = $(el).attr("new-width");
   cycle_duration = $(el).attr("data-cycle-duration");
@@ -40,7 +35,7 @@ function addBilbo(el) {
   selected_boards = $("#selected_boards");
   aspect_ratio_select = $("#aspect_ratio_select");
   if (selected_boards.find("option[value=" + id + "]").length == 0) {
-    build_option = "<option value='" + id + "' data-max-impressions='" + max_impressions + "' data-price='" + cycle_price + "' new-height='" + new_height + "' data-cycle-duration='" + cycle_duration + "' new-width='" + new_width + "'>"+ address + "</option>"
+    build_option = "<option value='" + id + "' data-max-impressions='" + max_impressions + "' data-price='" + cycle_price + "' new-height='" + new_height + "' data-cycle-duration='" + cycle_duration + "' new-width='" + new_width + "' lat='"+lat+"' lng='"+lng +"' >"+ address + "</option>"
     selected_boards.append(build_option);
     aspect_ratio_select.append(build_option);
     selected_boards.val(selected_boards.find("option:last").val() );

@@ -2,12 +2,12 @@
   %ul.d-none#boardTab
   #carouselBoardInfo.carousel.slide.rounded-5{"data-ride" => "carousel"}
     .pos-relative
-      .marker.pos-absolute.b-10.r-10{:style => "z-index: 10; box-shadow: 0px 0px 0px, 0 0 7px;"}
-        = "#{t("bilbos.displays_number")}: #{board.displays_number}"
-        %i.fe.fe-question.tx-primary.tx-11{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "#{t('bilbos.displays_number_desc')}"}
+      -# .marker.pos-absolute.b-10.r-10{:style => "z-index: 10; box-shadow: 0px 0px 0px, 0 0 7px;"}
+      -#   = "#{t("bilbos.displays_number")}: #{board.displays_number}"
+      -#   %i.fe.fe-question.tx-primary.tx-11{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "#{t('bilbos.displays_number_desc')}"}
       - if !board.sales.running.empty?
         .marker.pos-absolute.t-10.l-0.bg-danger.tx-white{:style => "z-index: 10;"}
-          = "-#{board.current_sale.percent}% Termina en "
+          = "-#{board.current_sale.percent}% #{t("search.ends_in")} "
           %span.countDownTime= board.current_sale.ends_at.strftime("%b %d, %Y %T")
       .carousel-inner.ht-200.center_image_vertically.rounded
         - if board.images.attached?
@@ -95,7 +95,7 @@
   .info-board.mg-t-5.wd-100p.flex-1
     - if not URI(request.referer).path.match? /boards|map_frame/
       - is_selected = (params[:selected_boards].split(",").include?(board.id.to_s))? true : false
-      %button{:class => "btn btn-primary-custom btn-block add-bilbo #{"d-none" if is_selected}", "data-address" => "#{board.address} - #{board.face}", "data-cycle-duration" => "#{board.duration}", "data-id" => "#{board.id}", "data-slug" => "#{board.slug}", "data-max-impressions" => "#{JSON.parse(board.ads_rotation).size}", "data-price" => "#{board.sale_cycle_price/board.duration}", "new-height" => "#{board.size_change[0].round(0)}", "new-width" => "#{board.size_change[1].round(0)}", :onclick => "addBilbo(this)", :type => "button"}
+      %button{:class => "btn btn-primary-custom btn-block add-bilbo #{"d-none" if is_selected}", "data-lat" => "#{board.lat}", "data-lng" => "#{board.lng}","data-address" => "#{board.address} - #{board.face}", "data-cycle-duration" => "#{board.duration}", "data-id" => "#{board.id}", "data-slug" => "#{board.slug}", "data-max-impressions" => "#{JSON.parse(board.ads_rotation).size}", "data-price" => "#{board.sale_cycle_price/board.duration}", "new-height" => "#{board.size_change[0].round(0)}", "new-width" => "#{board.size_change[1].round(0)}", :onclick => "addBilbo(this)", :type => "button"}
         %i.material-icons.md-18.material-icon-middle add_circle
         = t("bilbos.add_bilbo")
       %button{:class => "btn btn-secondary-custom btn-block remove-bilbo mg-t-0-f #{"d-none" if !is_selected}", "data-slug" => "#{board.slug}", "data-id" => "#{board.id}", :onclick => "removeBilbo(this)", :type => "button"}
