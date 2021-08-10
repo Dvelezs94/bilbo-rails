@@ -1,11 +1,11 @@
 $(document).on('turbolinks:load', function() {
   initGoogleAutocomplete("search_autocomplete", "lat", "lng", "address_name", "", "1", false, "bilbomap");
+  temp_marker = []
 });
 
 
 //HELP FUNCTIONS
-function updateMap(autocomplete, input, map) {
-  place = autocomplete.getPlace();
+function updateMap(place, input, map) {
   if (place.geometry) {
     map.panTo(place.geometry.location);
     map.setZoom(14);
@@ -13,6 +13,25 @@ function updateMap(autocomplete, input, map) {
     input.value = '';
   }
 }
+
+function setTmpMarker(place, map) {
+  // Attempt to delete previous marker
+  for (let i = 0; i < temp_marker.length; i++) {
+    temp_marker[i].setMap(null);
+    window.temp_marker = []
+  }
+
+  // build new marker on exact location
+  if (place.geometry) {
+    const newTempMarker = new google.maps.Marker({
+      position: place.geometry.location,
+      map: map
+    });
+    temp_marker.push(newTempMarker);
+  }
+}
+
+
 
 //the three hidden input are created by the function, you just have to specify their new ids
 function initGoogleAutocomplete(input_id, lat_name, lng_name, address_name, model, id_sufix, send_on_select = false, map_id = "") {
@@ -56,7 +75,9 @@ function initGoogleAutocomplete(input_id, lat_name, lng_name, address_name, mode
     }
       //change map when autocomplete changes
       search_autocomplete.addListener('place_changed', function() {
-        updateMap(this, search_input, window.bilbomap);
+        place = this.getPlace();
+        updateMap(place, search_input, window.bilbomap);
+        setTmpMarker(place, window.bilbomap);
       });
 
     }
