@@ -409,8 +409,10 @@ class Campaign < ApplicationRecord
   end
 
   def date_is_possible?
-    if starts_at > ends_at || starts_at == ends_at
-      errors.add(:base, I18n.t('campaign.error_date'))
+    if starts_at.present? && ends_at.present?
+      if starts_at > ends_at || starts_at == ends_at
+        errors.add(:base, I18n.t('campaign.error_date'))
+      end
     end
   end
 
