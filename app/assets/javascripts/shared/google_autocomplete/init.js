@@ -98,6 +98,7 @@ function waitForElement(elementPath, callBack, times = 0) {
 }
 
 function waitForMarkersLoad(callBack, times = 0) {
+  //using this function requires set window.markersLoaded = false beofre it
   timeout = setTimeout(function() {
     if (window.markersLoaded == true) {
       callBack(true);
