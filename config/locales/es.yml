@@ -151,6 +151,7 @@ es:
     review_campaigns: Campañas en Revisión
     dates: Fechas
     details: Detalles de la campaña
+    error_date: La campaña debe tener una fecha de inicio mayor y diferente que la fecha de fin
     missing_date: La campaña debe tener fecha de inicio y de fin
     total_investment: Esta es la inversión total de acuerdo a tu selección
     select_budget: Seleccione un monto de inversión para cada bilbo seleccionado
@@ -913,7 +914,7 @@ es:
     outdoor_ad: Publicidad exterior en México
     low_prices: Invierte en publicidad exterior digital para tu negocio con precios accesibles.
     new_way_of_advertising: Bilbo es la nueva forma de anunciarte en exteriores.
-  dashboard_player: 
+  dashboard_player:
     add_bilbo: Bilbo agregado exitosamente
     remove_bilbo: Bilbo eliminado exitosamente
     error_player: Error al crear el reproductor

@@ -10,7 +10,7 @@
           = link_to multimedia, class: "glightbox img-inherit", :data => {caption: multimedia.filename.base, group: multimedia.record.id, type: "image"} do
             = image_tag generate_thumbnail(multimedia, 600, 600), class: "img-inherit"
         -else
-          = image_tag "construction_video.webp", class: "img-inherit"
+          = image_tag "construction_video.gif", class: "img-inherit"
     .card-body
       -if multimedia.video?
         %h6.mmtitle= multimedia.filename.base

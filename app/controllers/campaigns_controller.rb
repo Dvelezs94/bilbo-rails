@@ -167,17 +167,17 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = Campaign.new(create_params)
-      if @campaign.save
-        track_activity(action: 'campaign.campaign_created', activeness: @campaign)
-        if @campaign.interaction?
-          render "create_interaction"
-        else
-          redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
-        end
+    if @campaign.save
+      track_activity(action: 'campaign.campaign_created', activeness: @campaign)
+      if @campaign.interaction?
+        render "create_interaction"
       else
-        flash[:error] = I18n.t('campaign.errors.no_save')
-        redirect_to campaigns_path
+        redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
       end
+    else
+      flash[:error] = I18n.t('campaign.errors.no_save')
+      redirect_to campaigns_path
+    end
   end
 
   def destroy
