@@ -152,6 +152,7 @@ en:
     review_campaigns: Review Campaigns
     dates: Dates
     details: Campaign Details
+    error_date: The campaign must have a start date greater and different than the end date
     missing_date: The campaign must have start date and end date
     total_investment: This is the total investment according to your selection
     select_budget: Choose the budget for each selected board
