@@ -18,8 +18,7 @@ function initDatePicker() {
       to.datepicker('option','minDate', date.addDays(1) );
       setTimeout(function(){
         to.datepicker('show');
-        }, 16);
-    console.log(  document.getElementById('campaign_ends_at').click());
+      }, 16);
     }),
     to = $('[id$=campaign_ends_at]').datepicker({
       defaultDate: '+1w',
