@@ -7,7 +7,7 @@
     - else
       = image_tag content.multimedia_url(:small), class: "card-img-top ht-100 o-fit-cover"
   - rescue
-    = image_tag "construction_video.webp", class: "card-img-top ht-100 o-fit-cover"
+    = image_tag "construction_video.gif", class: "card-img-top ht-100 o-fit-cover"
   .card-body.pd-5-f
     -if content.is_url?
       %p.card-text{style: "margin-bottom: 0.5rem;"}= content.url.truncate(20)
