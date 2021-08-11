@@ -471,6 +471,8 @@ en:
     search:
       return: Return to results
       location: Location
+      map_view: Map view
+      list_view: List view
       classification: Classification
       media_type: Media Type
       price: Price

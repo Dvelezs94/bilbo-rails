@@ -27,7 +27,7 @@
     .tx-20.mg-y-10
       %i{class: "icon-#{board.category}", "data-toggle": "tooltip", title: t('bilbos.'+board.category)}
       %span{"data-toggle": "tooltip", title: board.name }= board.name
-    = board.address
+    %span= board.address
     .d-flex.mg-y-10.wd-100p
       .col-4.pd-x-10.border-right
         - if board.sales.running.empty?
