@@ -167,6 +167,8 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = Campaign.new(create_params)
+    p "u"*800
+      p create_params
       if @campaign.save
         track_activity(action: 'campaign.campaign_created', activeness: @campaign)
         if @campaign.interaction?
@@ -175,6 +177,8 @@ class CampaignsController < ApplicationController
           redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
         end
       else
+        p "x"*800
+        p @campaign.errors.full_messages
         flash[:error] = I18n.t('campaign.errors.no_save')
         redirect_to campaigns_path
       end

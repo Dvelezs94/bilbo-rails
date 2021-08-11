@@ -6,7 +6,7 @@
           = link_to content.multimedia_url(:transcoded), class: "glightbox img-inherit", :data => {caption: content.multimedia.metadata["filename"], group: ""} do
             = image_tag content.multimedia_url(:large), class: "img-inherit", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted'
         - rescue
-          = image_tag "construction_video.webp", class: "img-inherit"
+          = image_tag "construction_video.gif", class: "img-inherit"
       -elsif content.is_url?
         = link_to content.url, class: "glightbox img-inherit", :data => {caption: content.url, group: ""} do
           %iframe.no-pointer{:src => "#{content.url}", class: "img-inherit", :scrolling => "no"}
@@ -16,7 +16,7 @@
             = link_to content.multimedia_url(:large), class: "glightbox img-inherit", :data => {caption: content.multimedia.metadata["filename"], group: "", type: "image"} do
               = image_tag content.multimedia_url(:small), class: "img-inherit"
         - rescue
-          = image_tag "construction_video.webp", class: "img-inherit"
+          = image_tag "construction_video.gif", class: "img-inherit"
     .card-body
       - begin
         -if content.is_video? || content.is_image?
