@@ -9,6 +9,7 @@ $(document).on('turbolinks:load', function() {
     var id = this.value;
     if (id != "") {
       showBoardInfo();
+      if(window.fullScreenMap == true) mapToggle(false);
       $.ajax({
         url:  "/boards/get_info",
         dataType: "script",
