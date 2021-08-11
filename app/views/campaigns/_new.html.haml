@@ -19,8 +19,8 @@
                   = f.label t('campaign.wizard.campaign_duration')
                   %br/
                   .form-row
-                    .col-6= f.text_field :starts_at, :class => "white-background-f form-control", placeholder: t('campaign.wizard.start_date'), required: true, readonly:"readonly", autocomplete: "off"
-                    .col-6= f.text_field :ends_at, :class => "white-background-f form-control", placeholder: t('campaign.wizard.end_date'), required: true, autocomplete: "off", readonly:"readonly"
+                    .col-6= f.text_field :starts_at, :class => "white-background-f form-control", placeholder: t('campaign.wizard.start_date'), required: true, readonly: "readonly", autocomplete: "off"
+                    .col-6= f.text_field :ends_at, :class => "white-background-f form-control", placeholder: t('campaign.wizard.end_date'), required: true, autocomplete: "off", readonly: "readonly"
                 .form-group
                   .divider-text= t('campaign.objective')
                   = f.text_field :objective, class: "d-none", value: "awareness"
