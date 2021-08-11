@@ -25,6 +25,7 @@ $(document).on('turbolinks:load', function () {
             if (campaignboards.isValid()) {
               var x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
               if($("#board_count").length) $("#board_count")[0].innerHTML= x.length
+              $("#board_count_summary")[0].innerHTML= x.length
               return true;
             } else {
               campaignboards.validate();
@@ -221,17 +222,20 @@ $(document).on('turbolinks:load', function () {
             $('#impressions')[0].style.width =
               ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
         } else if (priorIndex === 2) {
-          showHideCarouselContent();
-          $('#perMinute').text($('#imp_minute').val());
-          $('#perMinuteEnd').text($('#campaign_minutes').val());
-          make_summary_selected_hours();
-          make_spend_summary_selected_hours();
-          // $('#impPerHour').text($('#impressionsPerHour').val());
-          // $('#timeStart').text($('#timePickerStart').val());
-          // $('#timeEnd').text($('#timePickerEnd').val());
-          if($("#total_budget").length) $('#dailyBudget').text($("#total_budget")[0].innerHTML);
-          $('#campaignStarts').text($('#campaign_starts_at').val());
-          $('#campaignEnds').text($('#campaign_ends_at').val());
+          $('.accordion').accordion({
+            heightStyle: 'content',
+            icons: { "header": "ui-icon-arrowthick-1-se", "activeHeader": "ui-icon-minus" },
+            collapsible: true,
+            active: false
+          });
+          x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
+          $.each(x, function(index, board_id){
+            if($("#budget-summary-"+board_id).length) $("#budget-summary-"+board_id)[0].innerHTML = currencyFormat($("#budget-"+board_id).val() || "0")+ " MXN"
+            if($("#impressions-summary-"+board_id).length) $("#impressions-summary-"+board_id)[0].innerHTML = $("#impressions-"+board_id).val()
+          });
+          showAllContents();
+          computePerMinuteTotalBudget();
+          if($("#total_budget").length) $('#total_budget_summary').text($("#total_budget")[0].innerHTML);
         }
       },
     });
@@ -346,11 +350,6 @@ $(document).on('turbolinks:load', function () {
         total_budget += parseFloat($("#budget-"+board_id).val() || 0)
       })
       $("#total_budget")[0].innerHTML=currencyFormat(total_budget*parseInt($("#active_days").val()) || "0")
-    }
-
-    function currencyFormat(num) {
-      // console.log(num)
-      return '$' + (parseFloat(num) || 0.00).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
     function updateOnChanges(e, obj) {
@@ -479,65 +478,96 @@ $(document).on('turbolinks:load', function () {
 
   }
 });
+function currencyFormat(num) {
+  // console.log(num)
+  return '$' + (parseFloat(num) || 0.00).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
+function computePerMinuteTotalBudget(){
+  var total_budget = 0
+  $('#selected_boards option:not(:eq(0))').each(function() {
+    var working_minutes = parseFloat($(this).data('max-impressions'))/6
+    cycles = parseInt($("#campaign_bilbo_duration").val() || parseInt($(this).data('cycle-duration')));
+    price = $(this).data('price') * cycles;
+    total_budget += price * parseFloat($("#imp_minute").val()) / $("#campaign_minutes").val() * working_minutes
+  });
+  $("#frequency")[0].innerHTML = $("#imp_minute").val() + " " + $("#translation_impressions_each").val() + " " + $("#campaign_minutes").val() + " " + $("#translation_minutes").val()
+
+  $("#total_budget_summary")[0].innerHTML = currencyFormat(total_budget*parseInt($("#summary_active_days").val())) + " MXN"
+}
+
+function count_rows_per_day_of_week(){
+  //count how many rows we need to use for the summary table for campaigns per hour
+  rows_count = {}
+  daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  var hour_rows = $('[hour_row]');
+  $.each(hour_rows, function (index, elem) {
+    week_day = elem.querySelectorAll('select')[0].value
+    if(week_day == 'everyday'){
+      $.each(daysOfWeek, function(index, day){
+        if(rows_count[day]){ rows_count[day] += 1 }
+        else{ rows_count[day] = 1 }
+      });
+    } else {
+      if(rows_count[week_day]){ rows_count[week_day] += 1 }
+      else{ rows_count[week_day] = 1 }
+    }
+  });
+  return rows_count
+}
 
 
 function make_summary_selected_hours() {
-  hour_rows = $('[hour_row]');
-  partial = $('#hours_summary');
-  $('.current_row_hours').remove();
+  //  $("[hour_row]")[i].querySelectorAll('select')[0].value <- day of week
+  //  $("[hour_row]")[i].querySelectorAll('input.budget')[0].value <- budget
+  //  $("[hour_row]")[i].querySelectorAll('input.impressionsPerHour')[0].value <- impressions
+  //  $("[hour_row]")[i].querySelectorAll('timePickerStart')[0].value <- start time
+  //  $("[hour_row]")[i].querySelectorAll('timePickerEnd')[0].value <- end time
+
+  var hour_rows = $('[hour_row]');
+  daysOfWeek= ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  day_row = {}
+  $.each(daysOfWeek, function(index,elem){
+    day_row[elem] = 0;
+  });
   $.each(hour_rows, function (index, elem) {
-    new_partial = partial.clone();
-    new_partial.removeClass('d-none');
-    new_partial.addClass('current_row_hours');
-    new_partial.removeAttr('id');
-    dayOfWeek = new_partial.find('.dayOfWeek');
-    impPerHour = new_partial.find('.impPerHour');
-    timeStart = new_partial.find('.timeStart');
-    timeEnd = new_partial.find('.timeEnd');
-    dayOfWeek.text(
-      $(elem).find('.days_of_week:not(.noValid) :selected').html() + ' - '
-    );
-    impPerHour.text($(elem).find('.impressionsPerHour:not(.noValid)').val());
-    timeStart.text($(elem).find('.timePickerStart:not(.noValid)').val());
-    timeEnd.text($(elem).find('.timePickerEnd:not(.noValid)').val());
-    if (
-      $(elem).find('.days_of_week:not(.noValid) :selected').val() !=
-        undefined &&
-      $(elem).find('.impressionsPerHour:not(.noValid)').val() != undefined &&
-      $(elem).find('.timePickerStart:not(.noValid)').val() != undefined &&
-      $(elem).find('.days_of_week:not(.noValid) :selected').val() != undefined
-    ) {
-      $('#current_row_hours').append(new_partial);
+    week_day = elem.querySelectorAll('select')[0].value
+    row_budget = parseFloat(elem.querySelectorAll('input.budget')[0].value)
+    row_impressions = parseInt(elem.querySelectorAll('input.impressionsPerHour')[0].value)
+    row_start_time = elem.querySelectorAll('.timePickerStart')[0].value
+    row_end_time = elem.querySelectorAll('.timePickerEnd')[0].value
+    if(week_day == "everyday"){
+      $.each(daysOfWeek, function(index, day){
+        $("#budget_"+day)[0].innerHTML = (parseFloat($("#budget_"+day)[0].innerHTML) || 0) + row_budget
+        $("#impressions_"+day+"_"+day_row[day])[0].innerHTML = row_impressions
+        $("#ranges_"+day+"_"+day_row[day])[0].innerHTML += (row_start_time.slice(0,5) + ' - ' + row_end_time.slice(0,5))
+        day_row[day] += 1
+      });
+    } else {
+      $("#budget_"+week_day)[0].innerHTML = (parseFloat($("#budget_"+week_day)[0].innerHTML) || 0) + row_budget
+      $("#impressions_"+week_day+"_"+day_row[week_day])[0].innerHTML = row_impressions
+      $("#ranges_"+week_day+"_"+day_row[week_day])[0].innerHTML += (row_start_time.slice(0,5) + ' - ' + row_end_time.slice(0,5))
+      day_row[week_day] += 1
     }
   });
-}
-function make_spend_summary_selected_hours(){
-  hour_rows = $("[hour_row]");
-  partial = $("#spend_summary");
-  $(".current_spend").remove();
-  daysOfWeek= ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-  $.each(daysOfWeek, function(index, day) {
-    new_partial = partial.clone();
-    new_partial.removeClass("d-none");
-    new_partial.addClass("current_spend");
-    new_partial.removeAttr("id");
-    dayOfWeek = new_partial.find(".dayOfWeek");
-    money = new_partial.find(".money");
-    total = 0;
-    $.each(hour_rows, function(index2, hr) {
-      if ($(hr).find('.days_of_week:not(.noValid) :selected').val() != undefined &&
-        $(hr).find('.impressionsPerHour:not(.noValid)').val() != undefined && $(hr).find('.timePickerStart:not(.noValid)').val() != undefined &&
-        $(hr).find('.days_of_week:not(.noValid) :selected').val() != undefined &&
-        $(hr).find("select.days_of_week option:selected").val() == day || $(hr).find("select.days_of_week option:selected").val() == "everyday") {
-        hr_budget = parseFloat($(hr).find(".budget").val());
-        total += hr_budget;
-      }
-    });
-    day_name = hour_rows.find("select.days_of_week option[value="+ day +"]").html();
-    dayOfWeek.append(day_name+ " - $");
-    money.append(total );
-    $("#current_spend").append(new_partial);
+
+  //Compute the total budget according to each week_day investment and the start and end date of the campaign
+  var start = new Date($("#start_date").val())
+  var end = new Date($("#end_date").val())
+  total_budget = 0
+  number_of_days = (end-start)/86400000
+  for(var i = 0; i<= number_of_days; i++){
+    week_day_number = new Date(start.getTime() + 86400000*i).getDay()
+    week_day = week_day_number == 0? "sunday" : daysOfWeek[week_day_number - 1]
+    total_budget += parseFloat($("#budget_"+week_day)[0].innerHTML)
+  }
+
+  $("#total_budget_summary")[0].innerHTML = currencyFormat(total_budget) + " MXN"
+
+  $.each(daysOfWeek, function(index, day){
+    $("#budget_"+day)[0].innerHTML = currencyFormat($("#budget_"+day)[0].innerHTML) + " MXN"
   });
+
 }
 
 function buttonCount() {
@@ -655,7 +685,18 @@ function append_content(){
   showContent(content_board, board_slug);
 }
 
-
+function showAllContents(){
+  $.ajax({
+    url:  "/contents_board_campaign/get_all_selected_contents",
+    dataType: "script",
+    data: {selected_contents: $("#content_ids").val(), table_rows: JSON.stringify(count_rows_per_day_of_week())},
+    success: function(data) {
+    },
+    error: function(data) {
+      alert("Oops.. Ocurrio un error..");
+    }
+  });
+}
 
 function showContent(content_board, board_slug){
   $.ajax({

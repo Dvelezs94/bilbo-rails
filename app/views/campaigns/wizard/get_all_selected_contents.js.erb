@@ -1,0 +1,22 @@
+// Append the images of selected bilbo
+<% @selected_contents.each do |slug, contents| %>
+  board_carousel = $("#carousel-<%=slug.to_s%>")[0]
+  <% contents.each_with_index do |content, index| %>
+    var carousel_item = document.createElement('div')
+    carousel_item.classList = "carousel-item"
+    <% if index == 0 %>
+      carousel_item.classList += " active"
+    <% end %>
+    <% if content.is_image? %>
+      carousel_item.innerHTML = '<img src=<%=content.multimedia_url%> style="width: 100%; height: auto;"/>'
+    <% elsif content.is_video? %>
+      carousel_item.innerHTML = '<video src=<%=content.multimedia_url%> style="width: 100%; height: auto;" loop autoplay muted/>'
+    <% else %>
+      carousel_item.innerHTML = '<iframe src=<%=content.url%> style="width: 100%; height: auto;"/>'
+    <% end %>
+    board_carousel.getElementsByClassName('carousel-inner')[0].append(carousel_item)
+  <% end %>
+<% end %>
+$("#modalSummary").remove();
+$('body').append('<%= j render "campaigns/wizard/per_hour_summary"%>');
+make_summary_selected_hours(); // Fill ads schedule table

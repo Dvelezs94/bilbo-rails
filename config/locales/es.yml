@@ -814,7 +814,7 @@ es:
     only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 5577883344"
   week_days:
     mon: Lunes
-    monday: Luenes
+    monday: Lunes
     tue: Martes
     tuesday: Martes
     wed: Miércoles

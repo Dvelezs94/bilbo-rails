@@ -1,0 +1,33 @@
+.modal.fade.effect-slide-in-top#modalSummary{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h3.tx-18.tx-sm-20="Programación de anuncios"
+        %p.tx-14= "Así se mostrarán tus anuncios, el presupuesto destinado por día de la semana y la cantidad de impresiones"
+        .table-responsive.ht-350.mg-t-30
+          %table.table.wizard-table
+            %tbody
+              %tr
+                %td="Día"
+                %td="Presupuesto"
+                %td="Impresiones"
+                %td="Horarios"
+              -@rows_per_day.each do |day, rows|
+                - rows.times do |i|
+                  %tr
+                    -if i==0
+                      %td{rowspan: rows}=t("week_days.#{day}")
+                      %td{rowspan: rows, id: "budget_#{day}"}
+                    %td{id: "impressions_#{day}_#{i}"}
+                    %td{id: "ranges_#{day}_#{i}"}
+                - if rows == 0
+                  %tr
+                    %td=t("week_days.#{day}")
+                    %td -
+                    %td -
+                    %td -
+
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
