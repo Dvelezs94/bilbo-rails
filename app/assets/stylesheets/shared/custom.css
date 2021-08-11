@@ -239,6 +239,10 @@ details[open] summary:after {
   background-color: #fff;
 }
 
+.white-background-f {
+  background-color: #fff !important;
+}
+
 .btn-primary-custom {
   color: white;
   background-color: #2b78fb;
