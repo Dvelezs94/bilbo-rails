@@ -16,6 +16,10 @@ function initDatePicker() {
       }
       var date = new Date();
       to.datepicker('option','minDate', date.addDays(1) );
+      setTimeout(function(){
+        to.datepicker('show');
+        }, 16);
+    console.log(  document.getElementById('campaign_ends_at').click());
     }),
     to = $('[id$=campaign_ends_at]').datepicker({
       defaultDate: '+1w',
