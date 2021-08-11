@@ -1,0 +1,48 @@
+.accordion.accordion-style1
+  .d-flex
+    = board.name
+    -if board.smart
+      .pd-l-5
+        .badge.badge-info.wizard-badge-smart
+          .pd-t-2
+            %i.fe.fe-star
+            SMART
+  %div
+    %table.table-responsive.wizard-table.border-0.bg-transparent
+      %tbody
+        %tr
+          %td
+            -if board.images.attachments.present?
+              - image = board.images.first
+              = image_tag url_from_media(image), class: "img wd-100 ht-100 rounded"
+
+            -else
+              = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-100 ht-100 rounded"
+          %td
+            %p.pd-t-10="Face: #{board.face.capitalize}"
+            %p="Price per spot: $#{board.cycle_price.round(2)}"
+            %p.pd-bt-5="Ads: #{2}"
+          %td
+            .carousel.slide.carousel-fade.pd-l-10{"data-ride" => "carousel", style:"position: static !important; width: 100%", id: "carousel-#{board.slug}", :rowspan => (@campaign.is_per_budget?? 2 : 1)}
+              //carousel for each board
+              -# .carousel.slide.ht-200{id: "carousel_wizard_#{board.id}", "data-ride" => "carousel"}
+
+              %ol.carousel-indicators
+              .carousel-inner{style: "position: static !important;"}
+
+              %a.carousel-control-prev{"data-slide" => "prev", href: "#carousel-#{board.slug}", role: "button"}
+                %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+                  %i.fe.fe-arrow-left.tx-30
+                %span.sr-only Previous
+              %a.carousel-control-next{"data-slide" => "next", href: "#carousel-#{board.slug}", role: "button"}
+                %span.carousel-control-next-icon{"aria-hidden" => "true"}
+                  %i.fe.fe-arrow-right.tx-30
+                %span.sr-only Next
+
+        -if @campaign.is_per_budget?
+          %tr
+            %td{:colspan => 2}
+              .row.justify-content-around
+                %p{id: "budget-summary-#{board.id}"}
+                %i.fe.fe-arrow-right
+                %p{id: "impressions-summary-#{board.id}"}

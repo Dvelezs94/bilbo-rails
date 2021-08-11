@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     collection do
       get :get_contents_wizard_modal
       get :get_selected_content
+      get :get_all_selected_contents
     end
     member do
       get :fetch_single_wizard_content

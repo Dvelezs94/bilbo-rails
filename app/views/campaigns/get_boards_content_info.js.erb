@@ -1,5 +1,6 @@
 $("#content_inf").html("<%= j render partial: 'campaigns/wizard/board_content_info', collection: @selected_boards, as: :board%>");
 $("#budget_distribution").html("<%= j render partial: 'campaigns/wizard/budget_distribution', collection: @selected_boards, as: :board%>");
+$("#summary_boards").html("<%= j render partial: 'campaigns/wizard/summary_boards', collection: @selected_boards, as: :board%>");
 hover_img();
   var value_cbc = []
   $('input*[id*=slug-bilbo-]').each(function(){
