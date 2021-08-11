@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function() {
   $(document).on('click', '[return-filter]', function(e){
-    if(window.fullScreenMap == true)  mapToggle();
+    if(window.fullScreenMap == true)  mapToggle(false);
     showFilterAndBilbos();
     infowindow.close();
   });
