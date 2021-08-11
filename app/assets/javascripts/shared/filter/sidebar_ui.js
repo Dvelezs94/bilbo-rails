@@ -19,7 +19,6 @@ function showFilterAndBilbos() {
   $('[board-info]').addClass("translateX-100p");
   $("[filter-and-boards]").removeClass("d-none");
   $('[board-info]').addClass("translateX-100p");
-
 }
 function finishedLoadingBoardInfo() {
   $("#loading").removeClass("placeholder-paragraph");

@@ -37,7 +37,7 @@
           %span.tx-20.tx-success.tx-bold= number_to_currency_usd(board.sale_cycle_price)
         .tx-10.text-uppercase.text-secondary= t("bilbos.credits_per_print")
       .col-4.pd-x-10.border-right
-        %span.tx-20= number_with_delimiter(board.avg_daily_views, :delimiter => ',')
+        %span.tx-20#board_info_daily_views= number_with_delimiter(board.avg_daily_views, :delimiter => ',')
         .tx-10.text-uppercase.text-secondary= t("bilbos.avg_views")
       .col-4.pd-x-10{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "#{t('bilbos.displays_number_desc')}"}
         %span.tx-20= board.displays_number
@@ -45,40 +45,46 @@
 
   %table.wd-100p.flex-10
     %tbody
-      %tr.mg-b-15
+      %tr
         %td.tx-medium.text-secondary.text-capitalize= t("bilbos.face")
         %td.text-left#board_info_face
           %select#boardSelect.form-select.form-select-sm.tx-primary.border-primary.bg-white.rounded.pd-2
-      %tr.mg-b-15
+      %tr
         %td.tx-medium.text-secondary.text-capitalize= t("bilbos.type")
         %td.text-left.text-dark= t("bilbos.#{board.category}")
-      %tr.mg-b-15
+      %tr
         %td.tx-medium.text-secondary.text-capitalize= t("bilbos.duration")
         %td.text-left.text-dark
           = board.duration
           = t("bilbos.seconds")
-      %tr.mg-b-15
+      %tr
         %td.tx-medium.text-secondary.text-capitalize= t("bilbos.dimensions")
         %td.text-left.text-dark
           %span.tx-12
             = board.width
             x #{board.height} mts
-      %tr.mg-b-15
+      %tr
+        %td.tx-medium.text-secondary.text-capitalize= t('bilbos.search.resolution')
+        %td.text-left.text-dark
+          %span.tx-12#board_info_diagonal_inches
+            = board.diagonal_inches
+            ”
+      %tr
         %td.tx-medium.text-secondary= t("bilbos.image_size")
         %td.text-left.text-dark
           = board.recommended_image_size
           px
-      %tr.mg-b-15
+      %tr
         %td.tx-medium.text-secondary= t("bilbos.accepts_video")
         %td.text-left.text-dark
           = (board.images_only)? t("no") : t("yes")
-      %tr.mg-b-15
+      %tr
         %td.tx-medium.text-secondary.text-capitalize= t("bilbos.social_class")
         %td.text-left.text-dark#board_info_classification= board.social_class
-      %tr.mg-b-15
+      %tr
         %td.tx-medium.text-secondary.text-capitalize= t("bilbos.hour_start")
         %td.text-left.text-dark= "#{board.start_time.to_s(:time)} - #{board.end_time.to_s(:time)}"
-      %tr.mg-b-15
+      %tr
         %td.tx-medium.text-secondary.text-capitalize= t('campaign.occupied')
         %td
           - occupation = board.get_occupation

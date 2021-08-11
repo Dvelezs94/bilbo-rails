@@ -495,7 +495,8 @@ es:
       by_social_class_faq: Clases sociales ordenadas de menor a mayor
       smart: "Tiene métricas avanzadas"
       target: "Clase social que transita"
-      resolution: "Resolución de %{diagonal_inches} pulgadas"
+      resolution: Resolución
+      resolution_of: "Resolución de %{diagonal_inches} pulgadas"
       results: "Resultados"
       ends_in: Termina en
   ads:

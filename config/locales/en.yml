@@ -491,7 +491,8 @@ en:
       by_social_class_faq: Social classes ordered from lowest to highest
       smart: Has advanced metrics
       target: "Social class that transits"
-      resolution: "%{diagonal_inches} inch resolution"
+      resolution: Resolution
+      resolution_of: "%{diagonal_inches} inch resolution"
       results: "Results"
       ends_in: Ends in
   ads:
