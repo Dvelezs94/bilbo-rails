@@ -8,11 +8,10 @@
      {:class => "pos-absolute r-0 t-0 wd-300 z-index-10 bg-dark tx-white form-select pd-15", :id => "selected_boards"})
     = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true
     .wd-100p.ht-700.position-relative
-      .position-absolute.a-0
-        = render "boards/sidebar"
-        #multimediaTab.filemgr-content.map-left-space
-          = render partial: 'boards/map/loading_effect'
-          = render partial: 'boards/board_map'
+      = render "boards/sidebar"
+      .pos-absolute.t-0.b-0.r-0.transition-delay.map-left-space
+        = render partial: 'boards/map/loading_effect'
+        = render partial: 'boards/board_map'
     #boardInfo.col-md-12.col-xl-3.mg-t-10.order-1.d-none
       / card
       %ul#boardTab.nav.nav-tabs.nav-justified.d-none{:role => "tablist"}

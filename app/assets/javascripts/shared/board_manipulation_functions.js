@@ -6,15 +6,20 @@ $(document).on('turbolinks:load', function() {
   });
 
   $(document).on('change',"#selected_boards",function(){
-    var id = this.value
+    var id = this.value;
     if (id != "") {
-      board = $(this).find("option:selected");
-      lat = board.attr("lat");
-      lng = board.attr("lng");
-      window.markersLoaded = false; //set to true when markers loaded in build_markers
-      window.bilbomap.setCenter(new google.maps.LatLng(lat, lng)); //change location so the board is shown
-      waitForMarkersLoad(function() { //wait for boards marker load so it can be clicked in map
-        OpenInMap(board[0]);
+      showBoardInfo();
+      $.ajax({
+        url:  "/boards/get_info",
+        dataType: "script",
+        data: {selected_id: id, selected_boards: $("#campaign_boards").val()},
+        success: function(data) {
+          finishedLoadingBoardInfo();
+        },
+        error: function(data) {
+          showFilterAndBilbos();
+          alert("Oops.. Ocurrio un error..");
+        }
       });
       $(this).val(""); //put placeholder again
     }
@@ -39,7 +44,6 @@ function addBilbo(el) {
     build_option = "<option value='" + id + "' data-max-impressions='" + max_impressions + "' data-price='" + cycle_price + "' new-height='" + new_height + "' data-cycle-duration='" + cycle_duration + "' new-width='" + new_width + "' lat='"+lat+"' lng='"+lng +"' >"+ address + "</option>"
     selected_boards.append(build_option);
     aspect_ratio_select.append(build_option);
-    selected_boards.val(selected_boards.find("option:last").val() );
     update_hidden_input(selected_boards);
     update_buttons("added", buttons_container);
   }

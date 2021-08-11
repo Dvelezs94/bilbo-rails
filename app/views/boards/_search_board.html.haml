@@ -1,16 +1,16 @@
 .media.hover-gray.pd-20.border-top.flex-wrap.cursor-pointer{data: {single_board: ""}, onclick: "OpenInMap(this)", lat: search_board.lat, lng: search_board.lng}
-  %figure.pos-relative.mg-b-0.col-12.col-md-3.pd-0.mg-auto-0
+  %figure.pos-relative.mg-b-0.col-3.pd-0.mg-auto-0
     = image_tag image_path("board_placeholder"), class: "wd-100p rounded", alt: "No Image"
     %figcaption.pos-absolute.a-0.d-flex.flex-column.text-center.justify-content-center.rounded.text-white.tx-24.op-0
       %i.fe.fe-arrow-right
-  .media-body.d-flex.flex-column.col-12.col-md-9.pd-r-0.mg-auto-0
+  .media-body.d-flex.flex-column.col-9.pd-r-0.mg-auto-0
     .d-flex.tx-xl-16
       .col-9.card-title.pd-3.font-weight-bold.mg-auto-0.text-truncate
         %i{class: "icon-#{search_board.category}", "data-toggle": "tooltip", title: t('bilbos.'+search_board.category)}
         %span{"data-toggle": "tooltip", title: search_board.name }= search_board.name
       .col-3.tx-gray-500.mg-auto-0.text-nowrap.pd-0.text-right{"data-toggle": "tooltip", title: t('bilbos.search.price_per_imp')}= "$#{search_board.cycle_price.truncate(2)}"
     .card-body.pd-3.tx-xl-14.font-weight-normal.d-flex.align-items-center= search_board.address
-    .d-flex.tx-gray-400.text-nowrap.text-center
+    .d-flex.flex-wrap.tx-gray-400.text-nowrap.text-center
       .col-6.col-sm-3.pd-0
         %i.fe.fe-eye{"data-toggle": "tooltip", title: "#{number_with_delimiter(search_board.avg_daily_views, :delimiter => ',')} vistas por día aprox." }= " #{number_to_human(search_board.avg_daily_views, :format => '%n%u', :units => { :thousand => 'K', :million => "M" })}/d"
       .col-6.col-sm-3.pd-0

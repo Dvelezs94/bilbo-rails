@@ -104,6 +104,9 @@ function initializeMap() {
       fetchBoardsFromNewLocation();
     });
 
+    control_close = $("[google-control-close]");
+    if (control_close.length > 0) window.bilbomap.controls[google.maps.ControlPosition.TOP_CENTER].push(control_close[0]);
+
     /*
     Useful for debugging and creating circles in the map
     */

@@ -475,6 +475,8 @@ es:
     search:
       return: Volver a los resultados
       location: Ubicación
+      map_view: Ver en mapa
+      list_view: Ver en lista
       classification: Clasificación
       media_type: Tipo de Medio
       price: Precio
