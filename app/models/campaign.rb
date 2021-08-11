@@ -21,6 +21,7 @@ class Campaign < ApplicationRecord
   validate :duration_multiple_of_10, if: :duration_changed?
   validate :duration_multiple_of_10, on: :create
   validate :valid_active_time, on: :create
+  validate :date_is_possible?, on: :create
   amoeba do
     enable
     include_association :impression_hours, if: :is_per_hour?
@@ -404,6 +405,12 @@ class Campaign < ApplicationRecord
           errors.add(:base, I18n.t('campaign.errors.budget_no_valid', name: bc.board.name))
         end
       end
+    end
+  end
+
+  def date_is_possible?
+    if starts_at > ends_at || starts_at == ends_at
+      errors.add(:base, I18n.t('campaign.error_date'))
     end
   end
 
