@@ -1,8 +1,17 @@
 // wizard pick board
 $(document).on('turbolinks:load', function() {
 
-  $(document).on('change', '#boardSelect', function (e) {
-    $('#boardTab li a').eq($(this).val()).tab('show');
+  $(document).on('change', '.boardSelect', function (e) {
+    $(".boardSelect").val(this.value); //put same value on all selects
+    tab = $('#boardTab li').eq($(this).val()).find("a");
+    tab.tab("show");
+    //makes screen size selected tabpanel
+    tabpanel_id = tab.attr("href").slice(1,);
+    tabpanel = $("[board-info] [id='"+tabpanel_id+"']");
+    hidden_tabpanels = $("[board-info] [role='tabpanel']:not([id='"+tabpanel_id+"'])");
+    tabpanel.addClass("d-flex")
+    hidden_tabpanels.removeClass("d-flex");
+    infowindow.setContent(infowindow_content()) //change content of infowindow to current board
   });
 
   $(document).on('change',"#selected_boards",function(){
