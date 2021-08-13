@@ -6,8 +6,8 @@ es:
     days: "días"
     months: meses
     formatted:
-      seconds_ago: hace %{input_time} segundos
-      minutes_ago: hace %{input_time} minutos
+      seconds_ago: hace %{input_time} seg.
+      minutes_ago: hace %{input_time} min.
       hours_ago:  hace %{input_time} horas
       days_ago:  "hace %{input_time} días"
   input:
