@@ -5,6 +5,11 @@ en:
     hours: hours
     days: days
     months: months
+    formatted:
+      seconds_ago: "%{input_time} seconds ago"
+      minutes_ago: "%{input_time} minutes ago"
+      hours_ago:  "%{input_time} minutes ago"
+      days_ago:  "%{input_time} days ago"
   input:
     search: Search
     submit: Submit
@@ -869,10 +874,10 @@ en:
     next: Next
   evidence:
     witnesses: Witnesses
-    upload_file: Upload file
+    upload_file: Upload evidence
     upload_evidence_description: Here you can upload the evidence of the campaigns that request witnesses
     upload_evidence_description_2: If you require evidence of your active campaign in the selected bilbos, request it here
-    campaign_ended: You cannot request witnesses because your campaign has ended.
+    campaign_not_running: You can request campaign evidence while it is being played.
     bilbo_selected: Bilbo selected
     files: Files
     pending: Pending
@@ -889,6 +894,8 @@ en:
     campaign_active: The campaign is not active
     validate_weekly_generation: It is only allowed to create witnesses once every seven days
     request_witnesses: Request witnesses
+    requested: "Requested"
+    completed: Completed
   provider_index:
     accept: Accept
     denied: Deny

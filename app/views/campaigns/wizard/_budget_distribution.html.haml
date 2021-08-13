@@ -22,7 +22,7 @@
                 $
             %input{id: "budget-#{board.id}", type: "number", :step => "any", :class => "form-control tx-gray-3 input-number", value: "#{BoardsCampaigns.find_by(campaign: @campaign, board: board).present?? BoardsCampaigns.find_by(campaign: @campaign, board: board).budget : "#{board.minimum_budget}"}", min: "#{board.minimum_budget}"}
             .input-group-append
-              .input-group-text.bd-r-0.bg-transparent.d-none.d-md-block
+              .input-group-text.bd-r-0.bg-transparent.d-none.d-md-block.lh-normal
                 %span.material-icons.tx-15.tx-gray-3
                   play_circle_outline
             %input.bd-md-l-0{:id => "impressions-#{board.id}", :min => "1", :step => "1", :type => "number", :class => "tx-gray-3 form-control input-number"}
