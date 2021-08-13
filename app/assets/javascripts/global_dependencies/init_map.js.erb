@@ -97,6 +97,7 @@ function initializeMap() {
 
     // load bilbos when moved in map
     google.maps.event.addListener(window.bilbomap, 'idle', function() {
+      //prevents loading boards again when selecting an item from sidebar
       if (window.OpenInMapTriggered == true){
         OpenInMapTriggered = false;
         return 0;
