@@ -6,7 +6,7 @@
       -#   %i.fe.fe-question.tx-primary.tx-11{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "#{t('bilbos.displays_number_desc')}"}
       - if !board.sales.running.empty?
         .marker.pos-absolute.t-10.l-0.bg-danger.tx-white{:style => "z-index: 10;"}
-          = "-#{board.current_sale.percent}% #{t("search.ends_in")} "
+          = "-#{board.current_sale.percent}% #{t("bilbos.search.ends_in")} "
           %span.countDownTime= board.current_sale.ends_at.strftime("%b %d, %Y %T")
       .carousel-inner.ht-200.center_image_vertically.rounded
         - if board.images.attached?
@@ -94,8 +94,8 @@
               - percentage_bar_builder = { bg: "danger"}
             %div{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "25", :class => "progress-bar rounded-10 bg-#{percentage_bar_builder[:bg]} wd-#{up_to_nearest_5(occupation[:occupation])}p", :role => "progressbar"}
               %span.pos-absolute.r--30.text-muted="#{occupation[:occupation]}%"
-  .separator
   .info-board.mg-t-5.wd-100p.flex-1
+    %hr
     - if not URI(request.referer).path.match? /boards|map_frame/
       - is_selected = (params[:selected_boards].split(",").include?(board.id.to_s))? true : false
       %button{:class => "btn btn-primary-custom btn-block add-bilbo #{"d-none" if is_selected}", "data-lat" => "#{board.lat}", "data-lng" => "#{board.lng}","data-address" => "#{board.address} - #{board.face}", "data-cycle-duration" => "#{board.duration}", "data-id" => "#{board.id}", "data-slug" => "#{board.slug}", "data-max-impressions" => "#{JSON.parse(board.ads_rotation).size}", "data-price" => "#{board.sale_cycle_price/board.duration}", "new-height" => "#{board.size_change[0].round(0)}", "new-width" => "#{board.size_change[1].round(0)}", :onclick => "addBilbo(this)", :type => "button"}
