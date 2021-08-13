@@ -443,7 +443,11 @@ ActiveRecord::Schema.define(version: 2021_08_09_150350) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
+<<<<<<< Updated upstream
     t.datetime "expires_at", default: "2031-08-05 01:43:16"
+=======
+    t.datetime "expires_at", default: "2031-08-12 14:09:38"
+>>>>>>> Stashed changes
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
