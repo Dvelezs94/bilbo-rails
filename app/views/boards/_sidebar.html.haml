@@ -96,11 +96,13 @@
     .filemgr-sidebar-body.t-100-f
       .pd-t-2.pd-b-10.pd-x-10
         %span.btn.btn-outline-info.mg-l-auto.mg-r-auto.pd-l-10.pd-r-10.mg-b-5.d-none{class: "mapToggle", onclick: "mapToggle()"}
-          %i.fe.fe-map= " #{t("bilbos.search.map_view")}"
+          %i.fe.fe-map
+          = " #{t("bilbos.search.map_view")}"
         /map span insered on initializeMap
         .d-none
           %span.btn.btn-info.pd-l-10.pd-r-10.mg-y-10.tx-16.d-none{class: "mapToggle", onclick: "mapToggle()", "google-control-close": ""}
-            %i.fe.fe-list-bullet= " #{t("bilbos.search.list_view")}"
+            %i.fe.fe-list-bullet
+            = " #{t("bilbos.search.list_view")}"
         %label.pd-l-10.pd-r-10.tx-gray-700{ data:{ board_number: "" } }
         %div{ data:{ board_cards: "" } }
   .pd-10.translateX-100p.transition-delay.ht-100p.d-flex.flex-column.tab-content.overflow-hidden{"board-info": ""}
