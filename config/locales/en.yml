@@ -877,7 +877,7 @@ en:
     upload_file: Upload evidence
     upload_evidence_description: Here you can upload the evidence of the campaigns that request witnesses
     upload_evidence_description_2: If you require evidence of your active campaign in the selected bilbos, request it here
-    campaign_not_running: You can request campaign evidence while it is being played.
+    campaign_not_running: You can only request campaign evidence while it is running.
     bilbo_selected: Bilbo selected
     files: Files
     pending: Pending
