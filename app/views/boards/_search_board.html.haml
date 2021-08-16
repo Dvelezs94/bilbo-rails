@@ -12,12 +12,19 @@
     .card-body.pd-3.tx-xl-14.font-weight-normal.d-flex.align-items-center= search_board.address
     .d-flex.flex-wrap.tx-gray-400.text-nowrap.text-center
       .col-6.col-sm-3.pd-0
-        %i.fe.fe-eye{"data-toggle": "tooltip", title: "#{number_with_delimiter(search_board.avg_daily_views, :delimiter => ',')} vistas por día aprox." }= " #{number_to_human(search_board.avg_daily_views, :format => '%n%u', :units => { :thousand => 'K', :million => "M" })}/d"
+        %span{"data-toggle": "tooltip", title: "#{number_with_delimiter(search_board.avg_daily_views, :delimiter => ',')} vistas por día aprox." }
+          %i.fe.fe-eye
+          = " #{number_to_human(search_board.avg_daily_views, :format => '%n%u', :units => { :thousand => 'K', :million => "M" })}/d"
       .col-6.col-sm-3.pd-0
-        %i.fe.fe-target{"data-toggle": "tooltip", title: t('bilbos.search.target') }= " #{search_board.social_class}"
+        %span{"data-toggle": "tooltip", title: t('bilbos.search.target') }
+          %i.fe.fe-target
+          = " #{search_board.social_class}"
       .col-6.col-sm-3.pd-0
-        %i.fe.fe-expand{"data-toggle": "tooltip", title: t('bilbos.search.resolution_of', diagonal_inches: search_board.diagonal_inches) }= " #{search_board.diagonal_inches}”"
+        %span{"data-toggle": "tooltip", title: t('bilbos.search.resolution_of', diagonal_inches: search_board.diagonal_inches) }
+          %i.fe.fe-expand
+          = " #{search_board.diagonal_inches}”"
       - if search_board.smart
         .col-6.col-sm-3.pd-0
-          %span.tx-normal.tx-12.text-primary.bg-primary-light.pd-2.rounded{"data-toggle": "tooltip", title: t('bilbos.search.smart') }
-            %i.fe.fe-star= " SMART"
+          %span.tx-normal.tx-12.text-primary.bg-primary-light.pd-5.rounded{"data-toggle": "tooltip", title: t('bilbos.search.smart') }
+            %i.fe.fe-star
+            = " SMART"

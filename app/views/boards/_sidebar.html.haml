@@ -105,5 +105,7 @@
         %div{ data:{ board_cards: "" } }
   .pd-10.translateX-100p.transition-delay.ht-100p.d-flex.flex-column.tab-content.overflow-hidden{"board-info": ""}
     %ul.d-none.nav#boardTab{role: "tablist"}
-    %i.fe.fe-arrow-left.tx-gray-700.mg-b-10.mg-t-5.cursor-pointer{"return-filter": ""}=" #{t('bilbos.search.return')}"
+    %span.cursor-pointer{"return-filter": ""}
+      %i.fe.fe-arrow-left.tx-gray-700.mg-b-10.mg-t-5
+      =" #{t('bilbos.search.return')}"
     = render partial: 'boards/map/loading_effect'
