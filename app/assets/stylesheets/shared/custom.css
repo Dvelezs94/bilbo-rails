@@ -239,6 +239,10 @@ details[open] summary:after {
   background-color: #fff;
 }
 
+.white-background-f {
+  background-color: #fff !important;
+}
+
 .btn-primary-custom {
   color: white;
   background-color: #2b78fb;
@@ -645,6 +649,10 @@ a[href="#previous"] {
   content: "\e900";
   color: #FF5900;
 }
+.billboard-badge {
+  color: #FF5900;
+  background-color: #FFEFE6;
+}
 .icon-horizontal-screen:before {
   content: "\e901";
 }
@@ -652,12 +660,20 @@ a[href="#previous"] {
   content: "\e902";
   color: #9F2BD6;
 }
+.television-badge {
+  color: #9F2BD6;
+  background-color: #F6EAFB;
+}
 .icon-vertical-screen:before {
   content: "\e903";
 }
 .icon-wallboard:before {
   content: "\e904";
   color: #2BD67B;
+}
+.wallboard-badge {
+  color: #2BD67B;
+  background-color: #EAFBF2;
 }
 
 .mklabel {
@@ -724,6 +740,19 @@ a[href="#previous"] {
 		box-shadow: 0 0 0 0 rgba(28, 104, 240, 0);
 	}
 }
+
+
+@media (max-width:767px) {
+  .invisible-sm {
+    visibility: hidden;
+  }
+}
+@media (min-width: 767px) {
+  .bd-md-l-0 {
+    border-left: 0px;
+  }
+}
+
 
 /* End MarkerWithLabel CSS */
 
@@ -807,4 +836,24 @@ a[href="#previous"] {
 }
 .overflow-x-hidden {
   overflow-x: hidden;
+}
+/* Borderless class for tables. Use it like .borderless */
+.borderless td, .borderless th {
+  border: none;
+}
+
+.tx-gradient-landing {
+  background-image: linear-gradient(60deg, #1C68F0, #A3D6FE);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.badge-orange-light {
+  color: #FF610C;
+  background-color: #FFDECC;
+}
+
+.badge-success-light {
+  color: #6ECF9C;
+  background-color: #D5F7E5;
 }

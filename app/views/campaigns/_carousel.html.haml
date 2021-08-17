@@ -12,7 +12,7 @@
             -if media.multimedia(:large).height <= 1080
               = image_tag media.multimedia_url(:small), class: "center-block d-block w-100 h-100", style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;"
             -else
-              = image_tag "construction_video.webp", class: "center-block d-block w-100 h-100", style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;"
+              = image_tag "construction_video.gif", class: "center-block d-block w-100 h-100", style: "max-width: 100%; max-height: 100%; position: absolute; top: 0; bottom: 0; object-fit: contain;"
     %a.carousel-control-prev{"data-slide" => "prev", href: "#carousel-#{@board.slug}", role: "button"}
       %span.carousel-control-prev-icon{"aria-hidden" => "true"}
         %i.fe.fe-arrow-left.tx-30

@@ -21,6 +21,7 @@ class Campaign < ApplicationRecord
   validate :duration_multiple_of_10, if: :duration_changed?
   validate :duration_multiple_of_10, on: :create
   validate :valid_active_time, on: :create
+  validate :date_is_possible?, on: :create
   amoeba do
     enable
     include_association :impression_hours, if: :is_per_hour?
@@ -48,6 +49,8 @@ class Campaign < ApplicationRecord
   # Trigger broadcast or remove campaign
   before_destroy :remove_campaign
 
+  #valid prices of the bilbo steps
+  validate :validate_price_steps, if: :is_per_budget?
   validates :name, presence: true
   validates :provider_campaign, inclusion: [true, false]
   #validates :ad, presence: true, on: :update
@@ -387,6 +390,30 @@ class Campaign < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def validate_price_steps
+    self.board_campaigns.each do |bc|
+      if bc.board.steps
+        if budget_distribution.present?
+          dist = JSON.parse(budget_distribution)
+          budget_board_campaign =  dist["#{bc.board.id}"].to_i
+        else
+          budget_board_campaign = bc.budget.to_i
+        end
+        if !(bc.board.calculate_steps_prices.include? ["$  #{budget_board_campaign} #{ENV.fetch("CURRENCY")}", budget_board_campaign])
+          errors.add(:base, I18n.t('campaign.errors.budget_no_valid', name: bc.board.name))
+        end
+      end
+    end
+  end
+
+  def date_is_possible?
+    if starts_at.present? && ends_at.present?
+      if starts_at > ends_at || starts_at == ends_at
+        errors.add(:base, I18n.t('campaign.error_date'))
+      end
+    end
   end
 
   def test_for_valid_settings(lang: user_locale || ENV.fetch("RAILS_LOCALE"))

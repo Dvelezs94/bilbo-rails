@@ -114,7 +114,7 @@ Rails.application.routes.draw do
 
   post '/board_campaigns/multiple_update', to: 'board_campaigns#multiple_update'
 
-  resources :boards, only: [:index, :show, :create, :edit,:update] do
+  resources :boards, only: [:index, :show, :create, :edit, :update] do
     collection do
       get :map_frame
       get :get_info
@@ -123,6 +123,7 @@ Rails.application.routes.draw do
     end
     member do
       post :requestAdsRotation
+      post :update
       delete :delete_image
       delete :delete_default_image
       get :regenerate_access_token
@@ -200,6 +201,7 @@ Rails.application.routes.draw do
   resources :searches, only:[] do
     collection do
       get :autocomplete_user_email
+      get :autocomplete_board_name
     end
   end
   resources :csv, controller: "csv", only: [] do
@@ -251,8 +253,22 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :dashboard_players, only: [:index, :create, :destroy, :update] do
+    collection do
+      delete :delete_player
+    end
+  end
+
+  # resources :landing_pages, as: 'landings' do
+  #   member do
+  #     #get :landing, controller: "landing_pages#show_board"
+  #   end
+  # end
+
   get 'c/:id', to: "campaigns#shortened_analytics", as: "campaign_shortened"
   get 's/:id', to: "shorteners#show", as: "shorten"
+
+  get '/pantallas/:state/:city/:name', to: 'landing_pages#show', as: 'bilbo_landing'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

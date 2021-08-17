@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_20_145934) do
+ActiveRecord::Schema.define(version: 2021_08_09_150350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "cube"
@@ -116,6 +116,13 @@ ActiveRecord::Schema.define(version: 2021_07_20_145934) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "board_dashboard_players", force: :cascade do |t|
+    t.bigint "board_id", null: false
+    t.bigint "dashboard_player_id", null: false
+    t.index ["board_id"], name: "index_board_dashboard_players_on_board_id"
+    t.index ["dashboard_player_id"], name: "index_board_dashboard_players_on_dashboard_player_id"
+  end
+
   create_table "board_default_contents", force: :cascade do |t|
     t.bigint "content_id", null: false
     t.bigint "board_id", null: false
@@ -173,6 +180,14 @@ ActiveRecord::Schema.define(version: 2021_07_20_145934) do
     t.float "provider_earnings"
     t.float "cycle_price"
     t.float "occupation", default: 0.0
+    t.boolean "steps", default: false
+    t.integer "multiplier"
+    t.string "street_view_url"
+    t.string "country"
+    t.string "country_state"
+    t.string "city"
+    t.string "postal_code"
+    t.string "parameterized_name"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -231,7 +246,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_145934) do
     t.integer "objective", default: 0
     t.integer "impression_count", default: 0
     t.float "total_invested", default: 0.0
-    t.integer "people_reached", default: 0
+    t.float "people_reached", default: 0.0
     t.integer "duration", default: 10
     t.integer "lock_version"
     t.boolean "updating_state", default: false
@@ -258,6 +273,13 @@ ActiveRecord::Schema.define(version: 2021_07_20_145934) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["boards_campaigns_id"], name: "index_contents_board_campaigns_on_boards_campaigns_id"
     t.index ["content_id"], name: "index_contents_board_campaigns_on_content_id"
+  end
+
+  create_table "dashboard_players", force: :cascade do |t|
+    t.bigint "project_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_dashboard_players_on_project_id"
   end
 
   create_table "evidences", force: :cascade do |t|
@@ -521,6 +543,8 @@ ActiveRecord::Schema.define(version: 2021_07_20_145934) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ads", "projects"
+  add_foreign_key "board_dashboard_players", "boards"
+  add_foreign_key "board_dashboard_players", "dashboard_players"
   add_foreign_key "board_default_contents", "boards"
   add_foreign_key "board_default_contents", "contents"
   add_foreign_key "board_sales", "boards"
@@ -534,6 +558,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_145934) do
   add_foreign_key "contents", "projects"
   add_foreign_key "contents_board_campaigns", "boards_campaigns", column: "boards_campaigns_id"
   add_foreign_key "contents_board_campaigns", "contents"
+  add_foreign_key "dashboard_players", "projects"
   add_foreign_key "evidences", "boards"
   add_foreign_key "evidences", "witnesses"
   add_foreign_key "impression_hours", "campaigns"

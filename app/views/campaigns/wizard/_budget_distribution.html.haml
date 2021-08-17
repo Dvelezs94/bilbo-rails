@@ -12,21 +12,43 @@
         SMART
     %h6.pd-t-10.tx-bold=board.name
     %p.tx-12.tx-gray-2="#{t("bilbos.face")}: #{(board.face.in? ["north","south","east","west"])? I18n.t("bilbos.#{board.face}") : board.face.capitalize}"
-  %td.border-0
+  %td.border-0.col-5
     .row
-      %span.col-11
-        .input-group.pd-x-0
-          .input-group-prepend
-            %span.input-group-text.bg-transparent
-              $
-          %input.bd-l-0{id: "budget-#{board.id}", type: "number", :step => "any", :class => "form-control input-number", value: "#{BoardsCampaigns.find_by(campaign: @campaign, board: board).present?? BoardsCampaigns.find_by(campaign: @campaign, board: board).budget : "#{board.minimum_budget}"}", min: "#{board.minimum_budget}"}
-          .input-group-append
-            %span.input-group-text.bd-r-0.bg-transparent
-              %i.fe.fe-play
-          %input.bd-l-0{:id => "impressions-#{board.id}", :min => "1", :step => "1", :type => "number", :class => "form-control input-number"}
-          %span.d-none{id: "budget_error_message-#{board.id}"}=t('campaign.minimum_budget_per_bilbo', {name: board.name, min_budget: board.minimum_budget})
+      -if !board.steps
+        %span.col-12.wd-xs-100p-f.pd-t-20.d-flex
+          .input-group.pd-x-0
+            .input-group-prepend
+              %span.input-group-text.bg-transparent.tx-15.bd-0.tx-gray-3.d-none.d-md-block
+                $
+            %input{id: "budget-#{board.id}", type: "number", :step => "any", :class => "form-control tx-gray-3 input-number", value: "#{BoardsCampaigns.find_by(campaign: @campaign, board: board).present?? BoardsCampaigns.find_by(campaign: @campaign, board: board).budget : "#{board.minimum_budget}"}", min: "#{board.minimum_budget}"}
+            .input-group-append
+              .input-group-text.bd-r-0.bg-transparent.d-none.d-md-block.lh-normal
+                %span.material-icons.tx-15.tx-gray-3
+                  play_circle_outline
+            %input.bd-md-l-0{:id => "impressions-#{board.id}", :min => "1", :step => "1", :type => "number", :class => "tx-gray-3 form-control input-number"}
+            %span.d-none{id: "budget_error_message-#{board.id}"}=t('campaign.minimum_budget_per_bilbo', {name: board.name, min_budget: board.minimum_budget})
+      -else
+        %span.col-12.wd-xs-100p-f.pd-t-20
+          .input-group.pd-x-0
+            .input-group-prepend
+              %span.input-group-text.bg-transparent.tx-15.bd-0.d-none.d-md-block
+                %i.icon.ion-locked.tx-gray-3
+            -if board.board_campaigns.find_by(campaign: @campaign.id).present? && board.board_campaigns.find_by(campaign: @campaign.id).budget.present?
+              -if board.calculate_steps_prices.include? ["$  #{board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i} #{ENV.fetch("CURRENCY")}", board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i]
+                = select_tag "budget-#{board.id}", options_for_select(board.calculate_steps_prices.unshift(["$  #{board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i} #{ENV.fetch("CURRENCY")}", board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i]), board.calculate_steps_prices.unshift(["$  #{board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i} #{ENV.fetch("CURRENCY")}", board.board_campaigns.find_by(campaign: @campaign.id).budget.to_i])[0][0]), class:"form-control input-number tx-gray-3"
+              -else
+                = select_tag "budget-#{board.id}", options_for_select(board.calculate_steps_prices, board.calculate_steps_prices[0][0]), class:"form-control input-number tx-gray-3"
+            -else
+              = select_tag "budget-#{board.id}", options_for_select(board.calculate_steps_prices, board.calculate_steps_prices[0][0]), class:"form-control input-number tx-gray-3"
+            .input-group-append
+              .input-group-text.bd-r-0.bg-transparent.d-none.d-md-block
+                %span.material-icons.tx-15.tx-gray-3
+                  play_circle_outline
+            %input.bd-md-l-0{:id => "impressions-#{board.id}", :min => "1", :step => "1", disabled:"" , :type => "text", :class => "tx-gray-3 bg-transparent form-control input-number"}
+            %span.d-none{id: "budget_error_message-#{board.id}"}=t('campaign.minimum_budget_per_bilbo', {name: board.name, min_budget: board.minimum_budget})
+
         %input.d-none{:id => "minimum-#{board.id}", :readonly => "readonly", :type => "number", :value => "#{board.minimum_budget}"}
         %input.d-none{:id => "board-class-#{board.id}", :value => t("bilbos.#{board.category}")}
-    .row.pd-t-10
-      %p.col-5.tx-12.tx-gray-3=t('campaign.daily_budget')
-      %p.col-6.tx-12.tx-gray-3=t('campaign.daily_spots')
+      .row.pd-t-10.pd-l-30.col-12
+        %p.col-6.tx-12.tx-gray-3.pd-l-30.invisible-sm=t('campaign.daily_budget')
+        %p.col-6.tx-12.tx-gray-3.pd-l-10.invisible-sm=t('campaign.daily_spots')

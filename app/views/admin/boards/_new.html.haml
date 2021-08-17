@@ -26,6 +26,14 @@
                 .row
                   .col-12.mg-b-10
                     = f.text_field :address, class: "form-control google_autocomplete", value: "", required: true, autocomplete: "off",placeholder: t("general_inputs.address")
+                  .col-3
+                    = f.text_field :country, class: "form-control", placeholder: "País", required: true
+                  .col-3
+                    = f.text_field :country_state, class: "form-control", placeholder: "Estado", required: true
+                  .col-3
+                    = f.text_field :city, class: "form-control", placeholder: "Ciudad", required: true
+                  .col-3
+                    = f.text_field :postal_code, class: "form-control", placeholder: "Código postal", required: true
                   .col-4.pd-r-5
                     = f.text_field :lat, class: "form-control", placeholder: "Latitud", required: true
                   .col-4.pd-x-5
@@ -43,6 +51,12 @@
                   .col-sm-12.col-md-4
                     = f.label t('bilbos.displays_number')
                     = f.text_field :displays_number, class: "form-control", autocomplete: "off", placeholder: "1"
+                  .col-6.pd-t-10
+                    = f.label t('bilbos.steps')
+                    = f.check_box :steps, class: "form-control"
+                  .col-6.pd-t-10
+                    = f.label t("bilbos.multiplier")
+                    = f.number_field :multiplier, class: "form-control"
               #expectedProfit.form-group
                 .row
                   .col-sm-12.col-md-6

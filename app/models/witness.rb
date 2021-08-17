@@ -21,4 +21,19 @@ class Witness < ApplicationRecord
      create_notification(recipient_id: project_id, actor_id: project_id , action: "evidences", notifiable: Project.find(project_id), reference: self)
     end
   end
+
+  def has_pending_evidences?(project)
+    # Checks wether all the evidences have been uploaded by a specific project
+    # If true, it means the project has pending evidences
+    # If false, it means the project has sent all evidences (at least 1)
+    # Returns true or false
+
+    boards = project.boards.pluck(:id)
+    pending_project_evidences = self.evidences.where(board_id: boards, multimedia_data: nil)
+    if pending_project_evidences.present?
+      return true
+    else
+      return false
+    end
+  end
 end

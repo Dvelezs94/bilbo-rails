@@ -7,8 +7,11 @@ es:
     hours: horas
     days: "días"
     months: meses
-  error:
-    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
+    formatted:
+      seconds_ago: hace %{input_time} seg.
+      minutes_ago: hace %{input_time} min.
+      hours_ago:  hace %{input_time} horas
+      days_ago:  "hace %{input_time} días"
   input:
     search: Buscar
     submit: Enviar
@@ -22,6 +25,7 @@ es:
     pending_items: Sigue estos pasos para publicar tu anuncio
     upload_ad: Subir anuncio
     create_campaign: Crear campaña
+    add_to_cart: Agregar al carrito
     verify_profile: Verifica tu perfil
     purchase_credits: Comprar créditos
     hide_message: Esconder mensaje
@@ -154,6 +158,7 @@ es:
     review_campaigns: Campañas en Revisión
     dates: Fechas
     details: Detalles de la campaña
+    error_date: La campaña debe tener una fecha de inicio mayor y diferente que la fecha de fin
     missing_date: La campaña debe tener fecha de inicio y de fin
     total_investment: Esta es la inversión total de acuerdo a tu selección
     select_budget: Seleccione un monto de inversión para cada bilbo seleccionado
@@ -233,7 +238,7 @@ es:
     people: personas
     impressions: Impresiones
     daily_budget: Presupuesto Diario
-    daily_spots: Impresiones Diarias
+    daily_spots: Reproducciones Diarias
     total_budget: Presupuesto Total
     total_invested: Total Invertido
     impressions_every_x_minutes: "%{times} impresiones cada %{minutes} minutos"
@@ -349,6 +354,7 @@ es:
         date_and_per_hour: Fecha y Hora(s)
         full_guide: Ver guía extendida
     errors:
+      budget_no_valid: El presupuesto del bilbo %{name} no es correcto
       no_ad: La campaña no tiene asociado un anuncio
       no_multimedia: El anuncio de la campaña no contiene imagenes ni videos
       ad_deleted: El anuncio de la campaña ya no existe
@@ -381,6 +387,8 @@ es:
   bilbos:
     bilbo: Bilbo
     formats: Formatos
+    steps: Por pasos
+    multiplier: Multiplos de precio minimo
     ads: Anuncios
     hour_start: Horario
     new_bilbo: Nuevo Bilbo
@@ -807,6 +815,8 @@ es:
       500_main: Error interno del servidor
       message: Oops. Ocurrió un error, vuelve a intentarlo
       500_description: El servidor encontró un error interno del servidor y no pudo completar su solicitud.
+    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
+    default_content_present: Este contenido es default de un bilbo
   alert:
     project_out_of_credits: Tu proyecto se quedó sin créditos para correr tus campañas!
     verify_profile: Verifica tu perfil para
@@ -895,10 +905,10 @@ es:
     next: Siguiente
   evidence:
     witnesses: Testigos
-    upload_file: Subir archivo
+    upload_file: Subir testigos
     upload_evidence_description: Aquí podras subir las evidencias de las campañas que solicitan testigos
     upload_evidence_description_2: Si requieres evidencia de tu campaña activa en los bilbos seleccionados, solicítala aquí
-    campaign_ended: No podrás solicitar testigos ya que tu campaña ha finalizado.
+    campaign_not_running: Solo podrás solicitar testigos cuando tu campaña esté corriendo.
     bilbo_selected: Bilbo seleccionado
     files: Archivos
     pending: Pendiente
@@ -915,6 +925,8 @@ es:
     campaign_active: La campaña no se encuentra activa
     validate_weekly_generation: Sólo esta permitido solicitar testigos una vez cada siete dias
     request_witnesses: Solicitar testigos
+    requested: "Solicitado"
+    completed: Completado
   provider_index:
     accept: Aceptar
     denied: Rechazar
@@ -927,3 +939,14 @@ es:
     maximum_ten: El contenido predeterminado máximo es de 10
     content_selected: Selecciona el contenido predeterminado a mostrar en el bilbo
     bilbo_select: Elige el contenido predeterminado para
+  landing:
+    starting_at: "Desde $50 MXN diarios"
+    outdoor_ad: Publicidad exterior en México
+    low_prices: Invierte en publicidad exterior digital para tu negocio con precios accesibles.
+    new_way_of_advertising: Bilbo es la nueva forma de anunciarte en exteriores.
+  dashboard_player:
+    add_bilbo: Bilbo agregado exitosamente
+    remove_bilbo: Bilbo eliminado exitosamente
+    error_player: Error al crear el reproductor
+    error_remove: Error al eliminar el Bilbo
+    add: Agregar Bilbo

@@ -143,7 +143,6 @@ class BoardsController < ApplicationController
     }
   end
 
-
   def create
     if board_params[:upload_from_csv].present?
       csvfile = board_params[:upload_from_csv]
@@ -269,6 +268,10 @@ class BoardsController < ApplicationController
                                   :lng,
                                   :radius,
                                   :address,
+                                  :country,
+                                  :country_state,
+                                  :city,
+                                  :postal_code,
                                   :category,
                                   :start_time,
                                   :end_time,
@@ -287,6 +290,9 @@ class BoardsController < ApplicationController
                                   :restrictions,
                                   :content,
                                   :url,
+                                  :multiplier,
+                                  :steps,
+                                  :street_view_url,
                                   images: [],
                                   default_images: []
                                   )
