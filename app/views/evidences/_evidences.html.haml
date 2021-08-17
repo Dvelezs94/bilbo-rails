@@ -5,7 +5,7 @@
     .card-header.d-flex.align-items-center.justify-content-between
       %h6.mg-b-0.tx-bold=t('evidence.witnesses')
     -if Evidence.where(board_id: current_user.projects.first.board_ids).present?
-      %ul.list-group.tx-13{:style => "height: 340px;"}
+      %ul.list-group.tx-13.pre-scrollable
         - Witness.where(id: Evidence.where(board_id: @project.board_ids).pluck(:witness_id).uniq).order(created_at: :desc).each do |witness|
           %li.list-group-item.d-flex.pd-sm-x-20.bd-x-0
             %div
