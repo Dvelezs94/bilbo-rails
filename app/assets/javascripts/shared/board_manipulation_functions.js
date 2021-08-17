@@ -1,37 +1,45 @@
 // wizard pick board
 $(document).on('turbolinks:load', function() {
 
-  $(document).on('change', '#boardSelect', function (e) {
-    $('#boardTab li a').eq($(this).val()).tab('show');
+  $(document).on('change', '.boardSelect', function (e) {
+    $(".boardSelect").val(this.value); //put same value on all selects
+    tab = $('#boardTab li').eq($(this).val()).find("a");
+    tab.tab("show");
+    //makes screen size selected tabpanel
+    tabpanel_id = tab.attr("href").slice(1,);
+    tabpanel = $("[board-info] [id='"+tabpanel_id+"']");
+    hidden_tabpanels = $("[board-info] [role='tabpanel']:not([id='"+tabpanel_id+"'])");
+    tabpanel.addClass("d-flex")
+    hidden_tabpanels.removeClass("d-flex");
+    infowindow.setContent(infowindow_content()) //change content of infowindow to current board
   });
 
   $(document).on('change',"#selected_boards",function(){
-    var id = this.value
+    var id = this.value;
     if (id != "") {
-      $("#map-layout").removeClass("col-xl-12");
-      $("#map-layout").addClass("col-xl-9");
-      $("#boardInfo").addClass("d-none");
-      $("#loading").addClass("placeholder-paragraph");
+      showBoardInfo();
+      if(window.fullScreenMap == true) mapToggle(false);
       $.ajax({
         url:  "/boards/get_info",
         dataType: "script",
         data: {selected_id: id, selected_boards: $("#campaign_boards").val()},
         success: function(data) {
-          $("#map-layout").removeClass("col-xl-12");
-          $("#map-layout").addClass("col-xl-9");
-          $("#loading").removeClass("placeholder-paragraph");
-          $("#boardInfo").removeClass("d-none");
+          finishedLoadingBoardInfo();
         },
         error: function(data) {
+          showFilterAndBilbos();
           alert("Oops.. Ocurrio un error..");
         }
       });
+      $(this).val(""); //put placeholder again
     }
   });
 });
 
 function addBilbo(el) {
   id = $(el).attr("data-id");
+  lat = $(el).attr("data-lat");
+  lng = $(el).attr("data-lng");
   cycle_price = $(el).attr("data-price");
   new_width = $(el).attr("new-width");
   cycle_duration = $(el).attr("data-cycle-duration");
@@ -43,14 +51,13 @@ function addBilbo(el) {
   selected_boards = $("#selected_boards");
   aspect_ratio_select = $("#aspect_ratio_select");
   if (selected_boards.find("option[value=" + id + "]").length == 0) {
-    build_option = "<option value='" + id + "' data-max-impressions='" + max_impressions + "' data-price='" + cycle_price + "' new-height='" + new_height + "' data-cycle-duration='" + cycle_duration + "' new-width='" + new_width + "'>"+ address + "</option>"
+    build_option = "<option value='" + id + "' data-max-impressions='" + max_impressions + "' data-price='" + cycle_price + "' new-height='" + new_height + "' data-cycle-duration='" + cycle_duration + "' new-width='" + new_width + "' lat='"+lat+"' lng='"+lng +"' >"+ address + "</option>"
     selected_boards.append(build_option);
     aspect_ratio_select.append(build_option);
-    selected_boards.val(selected_boards.find("option:last").val() );
     update_hidden_input(selected_boards);
     update_buttons("added", buttons_container);
   }
-  $('#boards_counter').html(parseInt($('#boards_counter').html(), 10)+1)
+  update_select_count(1);
 }
 
 function removeBilbo(el) {
@@ -64,9 +71,16 @@ function removeBilbo(el) {
   aspect_ratio_select.find("option[value=" + id + "]").remove();
   update_hidden_input(aspect_ratio_select);
   update_buttons("deleted", buttons_container);
-  $('#boards_counter').html(parseInt($('#boards_counter').html(), 10)-1)
+  update_select_count(-1);
   $("#slug-"+slug).remove();
   updateHiddenFieldContent();
+}
+
+function update_select_count(number){
+  placeholder = $("#selected_boards").find("option").eq(0);
+  new_number = parseInt(placeholder.html(), 10)+number;
+  new_text = placeholder.html().replace(/^[0-9]/g, new_number);
+  placeholder.html(new_text);
 }
 
 function update_hidden_input(selected_boards) {

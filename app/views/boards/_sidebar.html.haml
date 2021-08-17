@@ -1,0 +1,113 @@
+.pos-absolute.t-0.b-0.l-0.bg-white.transition-delay.board-sidebar-width.overflow-x-hidden
+  %div.transition-delay{"filter-and-boards": ""}
+    .filemgr-sidebar-header.ht-100-f
+      .filemgr-content-header.white-background.d-flex.align-items-center.justify-content-between.ht-100-f.border-bottom-0
+        .d-block.flex-wrap.wd-100p
+          .mg-x-2.row.flex-wrap{data: {form: "filter-bilbos"}}
+            .search-form.bg-light.pd-l-10.pd-r-5.rounded.col-12.mg-b-15
+              %i.fe.fe-search.pd-r-5.fnt-md.tx-gray-300{onclick: "$('#search_autocomplete').focus()"}
+              = text_field_tag :location, nil, class: 'form-control', id: "search_autocomplete", placeholder: t('bilbos.search.location'), |
+                value: (params[:location].present?)? params[:location] : "" ,                                                               |
+                lat: (params[:lat].present?)? params[:lat] : "",                                                                            |
+                lng: (params[:lng].present?)? params[:lng] : "",                                                                             |
+                form: "filter-bilbos"                                                                                                          |
+              = hidden_field_tag :radius, params[:radius], {form: "filter-bilbos"}
+            .flex-1
+              %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+                = t('bilbos.search.media_type')
+              .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop1"}}
+                .pd-10.tx-gray-700
+                  .custom-control.custom-checkbox.mg-b-5
+                    = radio_button_tag :categoryR, 'all', true, :class => "custom-control-input", :id =>"categoryRadio0"
+                    %label.custom-control-label{for: "categoryRadio0", onclick: "$('#category').val('')"}= t('bilbos.search.all')
+                  .custom-control.custom-checkbox.mg-b-5
+                    = radio_button_tag :categoryR, 'billboard', false, :class => "custom-control-input", :id =>"categoryRadio1"
+                    %label.custom-control-label{for: "categoryRadio1", onclick: "$('#category').val('billboard')"}= t('bilbos.search.billboard')
+                  .custom-control.custom-checkbox.mg-b-5
+                    = radio_button_tag :categoryR, 'television', false, :class => "custom-control-input", :id =>"categoryRadio2"
+                    %label.custom-control-label{for: "categoryRadio2", onclick: "$('#category').val('television')"}= t('bilbos.search.television')
+                  .custom-control.custom-checkbox
+                    = radio_button_tag :categoryR, 'wallboard', false, :class => "custom-control-input", :id =>"categoryRadio3"
+                    %label.custom-control-label{for: "categoryRadio3", onclick: "$('#category').val('wallboard')"}= t('bilbos.search.wallboard')
+                  = select_tag(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type'), class: 'custom-select d-none', form: "filter-bilbos"})
+            .flex-1.text-center
+              %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop2", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+                = t('bilbos.search.classification')
+              .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop2"}}
+                .pd-10.tx-gray-700
+                  %div{data: {toggle: "tooltip", placement: "top", title: t('bilbos.search.by_social_class_faq')} }
+                    %h6.tx-gray-700.d-inline.text-center= t('bilbos.search.by_social_class')
+                    %i.fe.fe-info.d-inline
+                  .dropdown-divider.mg-b-5
+                  .custom-control.custom-checkbox.mg-b-5
+                    = radio_button_tag :social_classR, 'all',true, :class => "custom-control-input", :id =>"social_classRadio0"
+                    %label.custom-control-label{for: "social_classRadio0", onclick: "$('#social_class').val('')"}= t('bilbos.search.all')
+                  .custom-control.custom-checkbox.mg-b-5
+                    = radio_button_tag :social_classR, 'A',false, :class => "custom-control-input", :id =>"social_classRadio1"
+                    %label.custom-control-label{for: "social_classRadio1", onclick: "$('#social_class').val('A')"} A
+                  .custom-control.custom-checkbox.mg-b-5
+                    = radio_button_tag :social_classR, 'AA',false, :class => "custom-control-input", :id =>"social_classRadio2"
+                    %label.custom-control-label{for: "social_classRadio2", onclick: "$('#social_class').val('AA')"} AA
+                  .custom-control.custom-checkbox.mg-b-5
+                    = radio_button_tag :social_classR, 'AAA',false, :class => "custom-control-input", :id =>"social_classRadio3"
+                    %label.custom-control-label{for: "social_classRadio3", onclick: "$('#social_class').val('AAA')"} AAA
+                  .custom-control.custom-checkbox
+                    = radio_button_tag :social_classR, 'AAA+',false, :class => "custom-control-input", :id =>"social_classRadio4"
+                    %label.custom-control-label{for: "social_classRadio4", onclick: "$('#social_class').val('AAA+')"} AAA+
+                  = select_tag(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification'), class: 'custom-select d-none', form: "filter-bilbos"})
+                  %hr
+                  .custom-control.custom-switch
+                    = check_box_tag :smart,'1',false, class: "custom-control-input", form: "filter-bilbos"
+                    %label.custom-control-label{:for => "smart"}
+                      %i.fe.fe-star
+                      %span{"data-toggle": "tooltip", title: t("bilbos.smart_filter") } SMART
+            .flex-1.text-center
+              %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop3", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+                = t('bilbos.search.price')
+              .dropdown-menu.dont-close-dropdown.mn-wd-200{aria: {labelledby: "drop3"}}
+                .pd-10
+                  %h6.tx-gray-700.text-center= t('bilbos.search.price_per_imp')
+                  .dropdown-divider.mg-b-5
+                  %label.tx-gray-700{for: "cycle_price_min"}= t('bilbos.search.min_per_impression')
+                  .input-group.mg-b-5
+                    .input-group-prepend
+                      %span.input-group-text $
+                    = number_field_tag :cycle_price_min, nil, class: "form-control", value: params[:cycle_price_min], step: "1", autocomplete: "off", form: "filter-bilbos"
+                  %label.tx-gray-700{for: "cycle_price"}= t('bilbos.search.max_per_impression')
+                  .input-group.mg-b-5
+                    .input-group-prepend
+                      %span.input-group-text $
+                    = number_field_tag :cycle_price, nil, class: "form-control", value: params[:cycle_price], step: "1", autocomplete: "off", form: "filter-bilbos"
+                  - max_price = Board.maximum("cycle_price").ceil
+                  = text_field_tag :ionslider, nil, class: 'form-control', id: "price_slider", data: { to: max_price, max: max_price  }
+            .flex-1.text-right
+              %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop4", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+                = t('bilbos.search.dimensions')
+              .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop4"}}
+                .pd-10
+                  %h6.tx-gray-700.text-center= t('bilbos.search.min_dim')
+                  .dropdown-divider.mg-b-5
+                  %label.tx-gray-700{for: "min_width"}= t('bilbos.search.min_width')
+                  = number_field_tag :min_width, nil, class: "form-control mg-b-5", value: params[:min_width], autocomplete: "off", form: "filter-bilbos"
+                  %label.tx-gray-700{for: "min_height"}= t('bilbos.search.min_height')
+                  = number_field_tag :min_height, nil, class: "form-control", value: params[:min_height], autocomplete: "off", form: "filter-bilbos"
+
+    / board cards
+    .filemgr-sidebar-body.t-100-f
+      .pd-t-2.pd-b-10.pd-x-10
+        %span.btn.btn-outline-info.mg-l-auto.mg-r-auto.pd-l-10.pd-r-10.mg-b-5.d-none{class: "mapToggle", onclick: "mapToggle()"}
+          %i.fe.fe-map
+          = " #{t("bilbos.search.map_view")}"
+        /map span insered on initializeMap
+        .d-none
+          %span.btn.btn-info.pd-l-10.pd-r-10.mg-y-10.tx-16.d-none{class: "mapToggle", onclick: "mapToggle()", "google-control-close": ""}
+            %i.fe.fe-list-bullet
+            = " #{t("bilbos.search.list_view")}"
+        %label.pd-l-10.pd-r-10.tx-gray-700{ data:{ board_number: "" } }
+        %div{ data:{ board_cards: "" } }
+  .pd-10.translateX-100p.transition-delay.ht-100p.d-flex.flex-column.tab-content.overflow-hidden{"board-info": ""}
+    %ul.d-none.nav#boardTab{role: "tablist"}
+    %span.cursor-pointer{"return-filter": ""}
+      %i.fe.fe-arrow-left.tx-gray-700.mg-b-10.mg-t-5
+      =" #{t('bilbos.search.return')}"
+    = render partial: 'boards/map/loading_effect'
