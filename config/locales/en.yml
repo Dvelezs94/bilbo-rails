@@ -1,4 +1,6 @@
 en:
+  yes: Yes
+  no: No
   time_day:
     seconds: seconds
     minutes: minutes
@@ -418,8 +420,8 @@ en:
     sec: Sec
     image_size: Image size
     image_recommended_size: "Image size on pixels: %{pixels}"
-    price_per_print: Price / spot
-    credits_per_print: Credits/Impression
+    price_per_print: Price/Impression
+    credits_per_print: Price per spot
     dimensions: Dimensions
     expected_profit: Expected profit
     north: North
@@ -428,6 +430,7 @@ en:
     west: West
     face: Face
     images_only: This bilbo only display images
+    accepts_video: Accepts video
     address: Address
     add_bilbo: Add Bilbo
     remove_bilbo: Remove Bilbo
@@ -473,12 +476,32 @@ en:
       ad_duration_less_than_required: The ad duration is invalid for bilbo <strong>%{name}</strong>
       overlapping_schedules: Schedules %{n1} and %{n2} of this campaign overlap. Make the necesssary changes and try again
     search:
+      return: Return to results
       location: Location
+      map_view: Map view
+      list_view: List view
       classification: Classification
       media_type: Media Type
-      max_per_impression: $max. / impression
+      price: Price
+      dimensions: Dimensions
+      all: All
+      billboard: Billboard
+      television: Television
+      wallboard: Wallboard
+      min_per_impression: From
+      max_per_impression: To
+      price_per_imp: Price per impression
+      min_dim: Minimum dimension
       min_width: Min width. (mts)
       min_height: Min height. (mts)
+      by_social_class: By social class
+      by_social_class_faq: Social classes ordered from lowest to highest
+      smart: Has advanced metrics
+      target: "Social class that transits"
+      resolution: Resolution
+      resolution_of: "%{diagonal_inches} inch resolution"
+      results: "Results"
+      ends_in: Ends in
   ads:
     ads: Ads
     name: Name

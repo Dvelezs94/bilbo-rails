@@ -56,9 +56,9 @@ function initGoogleAutocomplete(input_id, lat_name, lng_name, address_name, mode
     //create hidden fields where coordinates are stored
     if ($("#" + lat_id).length == 0) { //just do it once (fix turbolinks problem)
       if (model != "") {
-        $(search_input).after("<input type='hidden' name=" + model + "[" + lat_name + "] id=" + lat_id + " value=" + (search_input.getAttribute('lat') || "") + ">" + "<input type='hidden' name=" + model + "[" + lng_name + "] id=" + lng_id + " value=" + (search_input.getAttribute('lng') || "") + ">" + "<input type='hidden' name=" + model + "[" + address_name + "] id=" + address_id + " value ='" + (search_input.getAttribute('address_name') || "") + "'>");
+        $(search_input).after("<input type='hidden' name=" + model + "[" + lat_name + "] id=" + lat_id + " value='" + (search_input.getAttribute('lat') || "")+ "' form=" + (search_input.getAttribute('form') || "") + ">" + "<input type='hidden' name=" + model + "[" + lng_name + "] id=" + lng_id + " value='" + (search_input.getAttribute('lng') || "") + "' form=" + (search_input.getAttribute('form') || "") + ">" + "<input type='hidden' name=" + model + "[" + address_name + "] id=" + address_id + " value='" + (search_input.getAttribute('address_name') || "") + "' form=" + (search_input.getAttribute('form') || "") + "'>");
       } else {
-        $(search_input).after("<input type='hidden' name=" + lat_name + " id=" + lat_id + " value=" + (search_input.getAttribute('lat') || "") + ">" + "<input type='hidden' name=" + lng_name + " id=" + lng_id + " value=" + (search_input.getAttribute('lng') || "") + ">" + "<input type='hidden' name=" + address_name + " id=" + address_id + " value ='" + (search_input.getAttribute('address_name') || "") + "'>");
+        $(search_input).after("<input type='hidden' name=" + lat_name + " id=" + lat_id + " value='" + (search_input.getAttribute('lat') || "") + "' form=" + (search_input.getAttribute('form') || "") + ">" + "<input type='hidden' name=" + lng_name + " id=" + lng_id + " value='" + (search_input.getAttribute('lng') || "") + "' form=" + (search_input.getAttribute('form') || "") + ">" + "<input type='hidden' name=" + address_name + " id=" + address_id + " value ='" + (search_input.getAttribute('address_name') || "") + "' form=" + (search_input.getAttribute('form') || "") + "'>");
       }
     }
     window.id_sufix++; //prevents same ids on different autocomplete inputs
@@ -114,6 +114,22 @@ function waitForElement(elementPath, callBack, times = 0) {
     }
     else {
       waitForElement(elementPath, callBack, times+1);
+    }
+  }, 500)
+}
+
+function waitForMarkersLoad(callBack, times = 0) {
+  //using this function requires set window.markersLoaded = false beofre it
+  timeout = setTimeout(function() {
+    if (window.markersLoaded == true) {
+      callBack(true);
+    }
+    else if (times == 20) {
+      show_error("Oops, something went wrong");
+      clearTimeout(timeout);
+    }
+    else {
+      waitForMarkersLoad(callBack, times+1);
     }
   }, 500)
 }
