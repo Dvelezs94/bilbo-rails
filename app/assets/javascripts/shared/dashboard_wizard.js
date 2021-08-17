@@ -209,13 +209,6 @@ $(document).on('turbolinks:load', function () {
           $('#bilbosAddress').empty();
           $('#selected_boards option:not(:eq(0))').each(function () {
             $('#bilbosAddress').append('<li>' + $(this).text() + '</li>');
-            // change size of preview in summary
-            $('#parent-carousel').width(
-              $('#aspect_ratio_select option:selected').attr('new-width')
-            );
-            $('#parent-carousel').height(
-              $('#aspect_ratio_select option:selected').attr('new-height')
-            );
           });
           $('#bilbosNum').text($('#bilbosAddress li').length);
           if ($('#impressions').length == 1)
@@ -228,13 +221,22 @@ $(document).on('turbolinks:load', function () {
             collapsible: true,
             active: false
           });
+          $('#selected_boards option:not(:eq(0))').each(function () {
+            // change size of preview in summary
+            $('#carousel-'+$(this).data('slug')).width(
+              $(this).attr('new-width')
+            );
+            $('#carousel-'+$(this).data('slug')).height(
+              $(this).attr('new-height')
+            );
+          });
           x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
           $.each(x, function(index, board_id){
             if($("#budget-summary-"+board_id).length) $("#budget-summary-"+board_id)[0].innerHTML = currencyFormat($("#budget-"+board_id).val() || "0")+ " MXN"
             if($("#impressions-summary-"+board_id).length) $("#impressions-summary-"+board_id)[0].innerHTML = $("#impressions-"+board_id).val()
           });
           showAllContents();
-          computePerMinuteTotalBudget();
+          if($("#frequency").length) computePerMinuteTotalBudget();
           if($("#total_budget").length) $('#total_budget_summary').text($("#total_budget")[0].innerHTML);
         }
       },

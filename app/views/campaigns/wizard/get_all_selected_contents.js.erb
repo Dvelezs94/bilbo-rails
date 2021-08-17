@@ -1,20 +1,32 @@
 // Append the images of selected bilbo
+<% p @selected_contents %>
 <% @selected_contents.each do |slug, contents| %>
   board_carousel = $("#carousel-<%=slug.to_s%>")[0]
+  board_carousel.getElementsByClassName('carousel-indicators')[0].innerHTML = ""
+  board_carousel.getElementsByClassName('carousel-inner')[0].innerHTML = ""
+  $("#ads_count_<%=slug.to_s%>")[0].innerHTML = "<%=t('bilbos.ads')%>: <%=contents.count%>"
   <% contents.each_with_index do |content, index| %>
+    // create a div to place the image, video or iframe
     var carousel_item = document.createElement('div')
+    var indicator = document.createElement('li')
+    indicator.setAttribute('data-target','#carousel-<%=slug.to_s%>')
+    indicator.setAttribute('data-slide-to',<%=index%>)
+    indicator.classList = "bg-color-black"
     carousel_item.classList = "carousel-item"
     <% if index == 0 %>
       carousel_item.classList += " active"
+      indicator.classList += " active"
     <% end %>
-    <% if content.is_image? %>
-      carousel_item.innerHTML = '<img src=<%=content.multimedia_url%> style="width: 100%; height: auto;"/>'
-    <% elsif content.is_video? %>
-      carousel_item.innerHTML = '<video src=<%=content.multimedia_url%> style="width: 100%; height: auto;" loop autoplay muted/>'
+    <% if content.is_video? %>
+      carousel_item.innerHTML = '<video src=<%=content.multimedia_url%> class="center-block d-block rounded" controls="false" controlslist="nodownload" autoplay="false" loop="true" muted="muted" style="max-width: 100%; max-height: 100%; top: 0; bottom: 0; object-fit: contain;"/>'
+    <% elsif content.is_image? %>
+      carousel_item.innerHTML = '<img src=<%=content.multimedia_url%> class="center-block d-block rounded" style="max-width: 100%; max-height: 100%; top: 0; bottom: 0; object-fit: contain;"/>'
     <% else %>
-      carousel_item.innerHTML = '<iframe src=<%=content.url%> style="width: 100%; height: auto;"/>'
+      carousel_item.innerHTML = '<iframe src=<%=content.url%>  class="center-block d-block" style="max-width: 100%; max-height: 100%; top: 0; bottom: 0; object-fit: contain;" scrolling="no"/>'
     <% end %>
+    //append the content to the carousel
     board_carousel.getElementsByClassName('carousel-inner')[0].append(carousel_item)
+    board_carousel.getElementsByClassName('carousel-indicators')[0].append(indicator)
   <% end %>
 <% end %>
 $("#modalSummary").remove();

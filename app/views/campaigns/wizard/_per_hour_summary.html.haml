@@ -4,30 +4,30 @@
       .modal-body.pd-20
         %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
-        %h3.tx-18.tx-sm-20="Programación de anuncios"
-        %p.tx-14= "Así se mostrarán tus anuncios, el presupuesto destinado por día de la semana y la cantidad de impresiones"
+        %h5.tx-18.tx-sm-20.tx-bold="Programación de anuncios"
+        %p.tx-14.tx-gray-2= "Así se mostrarán tus anuncios, el presupuesto destinado por día de la semana y la cantidad de impresiones"
         .table-responsive.ht-350.mg-t-30
           %table.table.wizard-table
             %tbody
               %tr
-                %td="Día"
-                %td="Presupuesto"
-                %td="Impresiones"
-                %td="Horarios"
+                %td.tx-gray-3="Día"
+                %td.tx-gray-3="Presupuesto"
+                %td.tx-gray-3="Impresiones"
+                %td.tx-gray-3="Horarios"
               -@rows_per_day.each do |day, rows|
                 - rows.times do |i|
                   %tr
                     -if i==0
-                      %td{rowspan: rows}=t("week_days.#{day}")
-                      %td{rowspan: rows, id: "budget_#{day}"}
-                    %td{id: "impressions_#{day}_#{i}"}
-                    %td{id: "ranges_#{day}_#{i}"}
+                      %td.tx-gray-2{rowspan: rows}=t("week_days.#{day}")
+                      %td.tx-gray-2{rowspan: rows, id: "budget_#{day}"}
+                    %td.tx-gray-2{id: "impressions_#{day}_#{i}"}
+                    %td.tx-gray-2{id: "ranges_#{day}_#{i}"}
                 - if rows == 0
                   %tr
-                    %td=t("week_days.#{day}")
-                    %td -
-                    %td -
-                    %td -
+                    %td.tx-gray-2=t("week_days.#{day}")
+                    %td.tx-gray-2 -
+                    %td.tx-gray-2 -
+                    %td.tx-gray-2 -
 
       .modal-footer
         %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
