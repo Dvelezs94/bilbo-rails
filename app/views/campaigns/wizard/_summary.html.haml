@@ -34,7 +34,7 @@
             -#   %td.border-0.tx-gray-2{id: 'board_class_summary'}
             -if @campaign.is_per_hour?
               %tr
-                %td=link_to "Programación de anuncios", "#modalSummary", data: { toggle: "modal" }
+                %td.border-0=link_to "Programación de anuncios", "#modalSummary", data: { toggle: "modal" }
             -elsif @campaign.is_per_minute?
               %tr
                 %td.tx-gray-3="Frecuencia"
