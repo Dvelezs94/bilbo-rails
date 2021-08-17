@@ -104,8 +104,8 @@
       %button{:class => "btn btn-secondary-custom btn-block remove-bilbo mg-t-0-f #{"d-none" if !is_selected}", "data-slug" => "#{board.slug}", "data-id" => "#{board.id}", :onclick => "removeBilbo(this)", :type => "button"}
         %i.material-icons.md-18.material-icon-middle remove_circle
         = t("bilbos.remove_bilbo")
-  - else
-    .info-board.mg-t-5
-      = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-dark btn-block" do
-        %i.material-icons.md-18.material-icon-middle add_circle
-        = t("map.create_campaign")
+    - else
+      .info-board.mg-t-5
+        = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-dark btn-block" do
+          %i.material-icons.md-18.material-icon-middle add_circle
+          = t("map.create_campaign")
