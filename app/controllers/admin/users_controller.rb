@@ -15,7 +15,12 @@ class Admin::UsersController < ApplicationController
     else
       user_role = :user
     end
-    @users = User.where(roles: user_role)
+    search = "%#{params[:search]}%"
+    if search.present?
+      @users = User.where(roles: user_role).where("name LIKE ? OR email LIKE ?", search, search )
+    else
+      @users = User.where(roles: user_role)
+    end
   end
 
   def fetch

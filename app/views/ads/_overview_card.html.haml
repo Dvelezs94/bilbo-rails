@@ -11,7 +11,7 @@
             -elsif meta[:height] <= 1080
               %img.lazy-img{"data-src" => "#{generate_thumbnail(ad.multimedia.first, 600, 600)}", :class => "img-inherit"}/
             -else
-              %img.lazy-img{"data-src" => "#{image_path("construction_video.webp")}", :class => "img-inherit"}/
+              %img.lazy-img{"data-src" => "#{image_path("construction_video.gif")}", :class => "img-inherit"}/
           - else
             %img.lazy-img{"data-src" => "#{image_path("placeholder_sm")}", :class => "img-inherit"}/
         .card-body

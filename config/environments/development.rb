@@ -65,6 +65,9 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # allow all hosts to access, including ngrok
+  config.hosts.clear
+
   # paypal active merchannt
   config.after_initialize do
   ActiveMerchant::Billing::Base.mode = :test

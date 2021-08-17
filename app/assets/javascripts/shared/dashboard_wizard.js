@@ -239,7 +239,7 @@ $(document).on('turbolinks:load', function () {
 
     if($("#budget_distribution").length){
       new PerfectScrollbar('#tablebody', {
-        suppressScrollX: true
+          suppressScroll: true
       });
     }
     // calculate budget when input is updated

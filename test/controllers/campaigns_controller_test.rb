@@ -107,18 +107,20 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     @content = @user.projects.first.contents.first
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
-    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.present?
-    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_image?
+    assert_equal true, @boards_campaigns.contents_board_campaign.present?
+    assert_equal true, @boards_campaigns.contents_board_campaign.last.content.is_image?
   end
 
   test "create image(jpg) content for campaign" do
+    @campaign_jpg = create(:campaign, name: "JPG campaign test", project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?)
     @image_attachment = fixture_file_upload('test_image.jpg','image/jpg')
     post create_multimedia_contents_url, params: {  multimedia: @image_attachment }, xhr: true
     @content = @user.projects.first.contents.first
-    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign_jpg.id , board_id: @board.id, status: 1)
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
-    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.present?
-    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_image?
+    #byebug
+    assert_equal true, @boards_campaigns.contents_board_campaign.present?
+    assert_equal true, @boards_campaigns.contents_board_campaign.last.content.is_image?
   end
 
   test "create video content for campaign" do
@@ -127,8 +129,8 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     @content = @user.projects.first.contents.first
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
-    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.present?
-    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_video?
+    assert_equal true, @boards_campaigns.contents_board_campaign.present?
+    assert_equal true, @boards_campaigns.contents_board_campaign.last.content.is_video?
   end
 
   test "create url content for campaign" do
@@ -136,8 +138,8 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     @content = @user.projects.first.contents.first
     @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
     @content_board_campaign = create(:contents_board_campaign, content_id: @content.id, boards_campaigns_id: @boards_campaigns.id)
-    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.present?
-    assert_equal true, @campaign.board_campaigns.last.contents_board_campaign.last.content.is_url?
+    assert_equal true, @boards_campaigns.contents_board_campaign.present?
+    assert_equal true, @boards_campaigns.contents_board_campaign.last.content.is_url?
   end
 
   test "copy campaign with contents" do
@@ -155,6 +157,7 @@ class CampaignsControllerTest < ActionDispatch::IntegrationTest
     attributes_2 = campaign_2.attributes.delete_if{|key, value| !["project_id", "budget", "ad_id", "provider_campaign", "classification", "objective"].include?(key)}
     attributes_2.merge({boards: campaign_2.boards.pluck(:id).sort})
     assert_equal attributes_1, attributes_2
-    assert_equal @campaign.board_campaigns.last.contents_board_campaign.last.content_id, campaign_2.board_campaigns.last.contents_board_campaign.last.content_id
+    #byebug
+    assert_equal @content_board_campaign.content_id, campaign_2.board_campaigns.last.contents_board_campaign.last.content_id
   end
 end

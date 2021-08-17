@@ -113,6 +113,27 @@ module ApplicationHelper
     "#{hours.to_s.rjust(2, '0')}:#{minutes.to_s.rjust(2, '0')}:#{seconds.to_s.rjust(2, '0')}"
   end
 
+  def relative_time(start_time)
+    # returns readable time format
+    # 50 seconds ago
+    # 45 minute ago
+    # 8 hours ago...
+    diff_seconds = (Time.now - start_time).to_i
+    case diff_seconds
+      when 0 .. 59
+        return I18n.t("time_day.formatted.seconds_ago", input_time: diff_seconds) 
+      when 60 .. (3600-1)
+        return I18n.t("time_day.formatted.minutes_ago", input_time: diff_seconds/60)
+      when 3600 .. (3600*24-1)
+        return I18n.t("time_day.formatted.hours_ago", input_time: diff_seconds/3600) 
+      when (3600*24) .. (3600*24*30) 
+        return I18n.t("time_day.formatted.days_ago", input_time: diff_seconds/(3600*24))
+      else
+        return start_time.strftime("%m/%d/%Y")
+    end
+  end
+  
+
   def generate_thumbnail(media, height, width)
     if media.video?
       if media.previewable?
