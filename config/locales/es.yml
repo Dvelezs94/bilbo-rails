@@ -5,6 +5,11 @@ es:
     hours: horas
     days: "días"
     months: meses
+    formatted:
+      seconds_ago: hace %{input_time} seg.
+      minutes_ago: hace %{input_time} min.
+      hours_ago:  hace %{input_time} horas
+      days_ago:  "hace %{input_time} días"
   input:
     search: Buscar
     submit: Enviar
@@ -877,10 +882,10 @@ es:
     next: Siguiente
   evidence:
     witnesses: Testigos
-    upload_file: Subir archivo
+    upload_file: Subir testigos
     upload_evidence_description: Aquí podras subir las evidencias de las campañas que solicitan testigos
     upload_evidence_description_2: Si requieres evidencia de tu campaña activa en los bilbos seleccionados, solicítala aquí
-    campaign_ended: No podrás solicitar testigos ya que tu campaña ha finalizado.
+    campaign_not_running: Solo podrás solicitar testigos cuando tu campaña esté corriendo.
     bilbo_selected: Bilbo seleccionado
     files: Archivos
     pending: Pendiente
@@ -897,6 +902,8 @@ es:
     campaign_active: La campaña no se encuentra activa
     validate_weekly_generation: Sólo esta permitido solicitar testigos una vez cada siete dias
     request_witnesses: Solicitar testigos
+    requested: "Solicitado"
+    completed: Completado
   provider_index:
     accept: Aceptar
     denied: Rechazar

@@ -766,3 +766,13 @@ a[href="#previous"] {
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
+
+.badge-orange-light {
+  color: #FF610C;
+  background-color: #FFDECC;
+}
+
+.badge-success-light {
+  color: #6ECF9C;
+  background-color: #D5F7E5;
+}
