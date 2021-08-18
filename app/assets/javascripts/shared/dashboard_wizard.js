@@ -215,12 +215,6 @@ $(document).on('turbolinks:load', function () {
             $('#impressions')[0].style.width =
               ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
         } else if (priorIndex === 2) {
-          $('.accordion').accordion({
-            heightStyle: 'content',
-            icons: { "header": "ui-icon-arrowthick-1-se", "activeHeader": "ui-icon-minus" },
-            collapsible: true,
-            active: false
-          });
           $('#selected_boards option:not(:eq(0))').each(function () {
             // change size of preview in summary
             $('#carousel-'+$(this).data('slug')).width(
@@ -235,7 +229,7 @@ $(document).on('turbolinks:load', function () {
             if($("#budget-summary-"+board_id).length) $("#budget-summary-"+board_id)[0].innerHTML = currencyFormat($("#budget-"+board_id).val() || "0")+ " MXN"
             if($("#impressions-summary-"+board_id).length) $("#impressions-summary-"+board_id)[0].innerHTML = $("#impressions-"+board_id).val()
           });
-          showAllContents();
+          getSummaryInfo();
           if($("#frequency").length) computePerMinuteTotalBudget();
           if($("#total_budget").length) $('#total_budget_summary').text($("#total_budget")[0].innerHTML);
         }
@@ -687,9 +681,9 @@ function append_content(){
   showContent(content_board, board_slug);
 }
 
-function showAllContents(){
+function getSummaryInfo(){
   $.ajax({
-    url:  "/contents_board_campaign/get_all_selected_contents",
+    url:  "/contents_board_campaign/get_summary_info",
     dataType: "script",
     data: {selected_contents: $("#content_ids").val(), table_rows: JSON.stringify(count_rows_per_day_of_week())},
     success: function(data) {

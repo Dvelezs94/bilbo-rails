@@ -1,4 +1,4 @@
-.accordion.accordion-style1
+.accordion.accordion-style1.summary-accordion
   .d-flex
     = board.name
     -if board.smart
@@ -19,9 +19,10 @@
             -else
               = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-100 ht-100 rounded"
           %td.wd-35p
-            %p.pd-t-10="#{t('bilbos.face')}: #{t("bilbos.#{board.face}")}"
-            %p="Price per spot: $#{board.cycle_price.round(2)}"
-            %p.pd-bt-5{id: "ads_count_#{board.slug}"}
+            %p
+              .pd-b-5.tx-gray-2="#{t('bilbos.face')}: #{t("bilbos.#{board.face}")}"
+              .tx-gray-2="Price per spot: $#{board.cycle_price.round(2)}"
+              .pd-t-5.tx-gray-2{id: "ads_count_#{board.slug}"}
           %td.wd-50p{:rowspan => 2}
             -# %div{id: "carousel-#{board.slug}"}
             .carousel.slide.m-auto{"data-ride" => "carousel", id: "carousel-#{board.slug}"}
@@ -50,13 +51,6 @@
                       %h4{id: "impressions-summary-#{board.id}"}
                   %tr
                     %td
-                      %p Presupuesto Diario
+                      %p.tx-gray-2=t('campaign.daily_budget')
                     %td
-                      %p Spots Diarios
-              -# .row.justify-content-around
-              -#   %h4{id: "budget-summary-#{board.id}"}
-              -#   %i.fe.fe-arrow-right
-              -#   %h4{id: "impressions-summary-#{board.id}"}
-              -# .row
-              -#   %p Presupuesto diario
-              -#   %p Spots diarios
+                      %p.tx-gray-2=t('campaign.daily_spots')
