@@ -33,4 +33,4 @@
                 = form.hidden_field :campaign_id, value: "#{@campaign.id}"
                 = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm  btn-outline-primary btn-uppercase'
             - else
-              %h6.tx-color-03.tx-15.tx-color-03.mg-b-0.pd-t-10.pd-b-10= t('evidence.campaign_ended')
+              %h6.tx-color-03.tx-15.tx-color-03.mg-b-0.pd-t-10.pd-b-10= t('evidence.campaign_not_running')

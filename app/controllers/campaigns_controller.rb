@@ -84,7 +84,7 @@ class CampaignsController < ApplicationController
     end
     @ad_upcoming = Kaminari.paginate_array(@ads).page(params[:ad_upcoming_page]).per(11)
     factor = (@campaign.classification == "per_hour" && !@campaign.provider_campaign?)? 1.2 : 1
-    @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor, 'data-slug': board.slug } ] }
+    @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor, 'data-slug': board.slug, 'lat': board.lat, 'lng': board.lng } ] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
     if @project.provider?
@@ -167,17 +167,17 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = Campaign.new(create_params)
-      if @campaign.save
-        track_activity(action: 'campaign.campaign_created', activeness: @campaign)
-        if @campaign.interaction?
-          render "create_interaction"
-        else
-          redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
-        end
+    if @campaign.save
+      track_activity(action: 'campaign.campaign_created', activeness: @campaign)
+      if @campaign.interaction?
+        render "create_interaction"
       else
-        flash[:error] = I18n.t('campaign.errors.no_save')
-        redirect_to campaigns_path
+        redirect_to edit_campaign_path(@campaign, gtm_campaign_create: true)
       end
+    else
+      flash[:error] = I18n.t('campaign.errors.no_save')
+      redirect_to campaigns_path
+    end
   end
 
   def destroy

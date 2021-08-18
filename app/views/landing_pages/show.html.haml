@@ -1,0 +1,134 @@
+- if user_signed_in?
+  - if current_user.is_admin?
+    = render 'shared/header_admin', menu: "account"
+  - else
+    = render 'shared/header', menu: "dashboard"
+- else
+  = render 'devise/shared/header'
+
+
+.content.content-fixed.bg-white
+  .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
+    .row
+      .col-12.col-lg-6
+        %h1#bilboName.d-block.tx-bold= @board.name
+        .d-flex.align-items-center
+          %span
+            .badge.tx-uppercase{class: "#{@board.category}-badge"}
+              %i.fe{class: "icon-#{@board.category}"}
+              = t("bilbos.#{@board.category}")
+          %span.mg-l-10{class: "#{'d-none' if !@board.smart}"}
+            .badge.wizard-badge-smart
+              %i.fe.fe-star
+              SMART
+          %span.tx-gray-700.mg-l-10
+            .fe.fe-location
+            = @board.short_address
+        %p.mg-t-20= @board.address
+
+        #carouselBilboLanding.carousel.slide{"data-ride" => "carousel", "align" => "center"}
+          .carousel-inner.ht-400.d-flex.align-items-center.bg-gray-700.rounded
+            - @board.images.each.with_index do |media,i|
+              %div{class: "carousel-item #{'active' if i == 0}"}
+                = image_tag url_from_media(media), class: "d-block img-fluid"
+        .row.row-xs.ht-80.mg-t-10{style: "overflow-x: scroll; overflow-y: hidden; opacity: 0.7;"}
+          - @board.images.each.with_index do |media,i|
+            .col.pd-x-5.mx-wd-25p.cursor-pointer
+              %a.selected{"id" => "carousel-selector-#{i}", "data-slide-to" => i, "data-target" => "#carouselBilboLanding"}
+                = image_tag url_from_media(media), class: "ht-100p wd-100p o-fit-cover rounded"
+        %input#bilboLat{type: "hidden", value: @board.lat}
+        %input#bilboLng{type: "hidden", value: @board.lng}
+        #landing-map-frame.ht-350.mg-t-20.rounded.mg-b-10
+        - if @board.street_view_url.present?
+          %a.tx-gray-500{href: "#{@board.street_view_url}", target: "_blank"}
+            Street View
+            .fe.fe-link-external.mg-l-5
+          
+
+      .col-12.col-lg-6.pd-lg-x-80.mg-t-20.mg-lg-t-0
+        %div.sticky-top.t-150.z-index-50
+          .row
+            .col-4
+              %h3.d-block.tx-bold= number_to_currency_usd(@board.cycle_price)
+              %strong.tx-gray-500.tx-uppercase= t("bilbos.price_per_print")
+            .col-4.bd-x.bd-2
+              %h3.d-block.tx-bold= number_with_delimiter(@board.avg_daily_views, :delimiter => ',')
+              %strong.tx-gray-500.tx-uppercase= t("bilbos.avg_views")
+            .col-4
+              %h3.d-block.tx-bold= @board.displays_number
+              %strong.tx-gray-500.tx-uppercase= t("bilbos.displays_number")
+          .b-block 
+            %table.table.borderless{style: "background-color: initial;"}
+              %thead
+                %tr
+                  %th
+                  %th
+              %tbody
+                %tr
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.face")
+                  %td.tx-gray-800= @board.face
+                %tr
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.duration")
+                  %td.tx-gray-800= "#{@board.duration} #{t("bilbos.seconds")}"
+                %tr
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.dimensions")
+                  %td.tx-gray-800= "#{@board.width} x #{@board.height} mts"
+                %tr
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.image_size")
+                  %td.tx-gray-800= "#{@board.recommended_image_size} px"
+                %tr
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.type")
+                  %td.tx-gray-800t= t("bilbos.#{@board.category}")
+                %tr
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.social_class")
+                  %td.tx-gray-800= @board.social_class
+                %tr
+                  %td.tx-gray-600.pd-l-0-f= t("bilbos.hour_start")
+                  %td.tx-gray-800= "#{@board.start_time.to_s(:time)} - #{@board.end_time.to_s(:time)}"
+            - if @board.street_view_url.present?
+              = link_to @board.street_view_url, class: "tx-gray-700 tx-semibold", target: "_blank" do
+                .span.d-inline.tx-underline Ver en Street View
+                
+          .d-block.mg-t-10
+            = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg d-block" do
+              = t("main_wizard.create_campaign")
+              .fe.fe-arrow-right.mg-l-5
+
+      .col-12.tx-center.mg-t-100
+        %strong.tx-26.tx-gradient-landing= t("landing.starting_at")
+        %h1.tx-bold.mg-t-15= t("landing.outdoor_ad")
+        %p.tx-gray-600.tx-16= t("landing.low_prices")
+
+      .col-12.d-block#suggestedBilbos
+        .row.row-xs
+          = render partial: "landing_pages/single_board_suggestion", collection: @suggested_boards, as: :board
+      
+      .col-12.mg-t-20.mg-lg-y-80
+        .row
+          .col-12.col-lg-6.mg-t-20
+            %strong.tx-26.tx-gradient-landing= t("landing.starting_at")
+            %h1.tx-bold= t("landing.new_way_of_advertising")
+            = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg" do
+              = t("main_wizard.create_campaign")
+              .fe.fe-arrow-right.mg-l-5
+          .col-12.col-lg-6.mg-t-20
+            .accordion
+              %h6 ¿Cuánto cuesta rentar un espectacular digital?
+              %div
+                Con Bilbo puedes comenzar a rentar un espectacular digital desde <strong>$50</strong> MXN al día y correr tu anuncio por los días y horas que decidas en Bilbos Afiliados.
+              %h6 ¿Qué disponibilidad tienen?
+              %div
+                La disponibilidad de los espectaculares la puedes ver al momento de hacer la compra por la plataforma.
+              %h6 ¿Cómo funciona Bilbo?
+              %div
+                Bilbo Funciona como una plataforma donde puedes rentar un espacio publicitario sin necesidad de plazos. Simplemente sube tu anuncio; video o imagen y selecciona el espectacular en el que quieres mostrarlo.
+
+             
+= render "footers/white"
+
+:javascript
+  $('.accordion').accordion({
+    heightStyle: 'content',
+    icons: { "header": "ui-icon-arrowthick-1-se", "activeHeader": "ui-icon-minus" },
+    collapsible: true
+  });

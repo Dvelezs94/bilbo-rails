@@ -1,12 +1,17 @@
 es:
+  yes: Sí
+  no: No
   time_day:
     seconds: segundos
     minutes: minutos
     hours: horas
     days: "días"
     months: meses
-  error:
-    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
+    formatted:
+      seconds_ago: hace %{input_time} seg.
+      minutes_ago: hace %{input_time} min.
+      hours_ago:  hace %{input_time} horas
+      days_ago:  "hace %{input_time} días"
   input:
     search: Buscar
     submit: Enviar
@@ -20,6 +25,7 @@ es:
     pending_items: Sigue estos pasos para publicar tu anuncio
     upload_ad: Subir anuncio
     create_campaign: Crear campaña
+    add_to_cart: Agregar al carrito
     verify_profile: Verifica tu perfil
     purchase_credits: Comprar créditos
     hide_message: Esconder mensaje
@@ -152,6 +158,7 @@ es:
     review_campaigns: Campañas en Revisión
     dates: Fechas
     details: Detalles de la campaña
+    error_date: La campaña debe tener una fecha de inicio mayor y diferente que la fecha de fin
     missing_date: La campaña debe tener fecha de inicio y de fin
     total_investment: Esta es la inversión total de acuerdo a tu selección
     select_budget: Seleccione un monto de inversión para cada bilbo seleccionado
@@ -285,7 +292,7 @@ es:
       next: Siguiente
       previous: Anterior
       finish: Finalizar
-      choose_bilbos: Escoge tus Bilbos
+      choose_bilbos: Selección de pantallas
       selected_bilbos: Bilbos seleccionados
       pick_ad: Elige tu contenido para cada Bilbo
       need_help: ¿Necesitas Ayuda?
@@ -418,7 +425,7 @@ es:
     image_size: Tamaño de imagen
     image_recommended_size: "Tamaño de imagen en pixeles: %{pixels}px"
     price_per_print: Precio/Impresión
-    credits_per_print: Créditos/Impresión
+    credits_per_print: Precio por spot
     dimensions: Dimensiones
     expected_profit: Ganancia Esperada
     north: Norte
@@ -427,6 +434,7 @@ es:
     west: Oeste
     face: Cara
     images_only: Este bilbo solo acepta imágenes
+    accepts_video: Acepta video
     address: Dirección
     add_bilbo: Agregar Bilbo
     remove_bilbo: Eliminar Bilbo
@@ -473,12 +481,32 @@ es:
       ad_duration_less_than_required: La duración del anuncio es inválida en el bilbo <strong>%{name}</strong>
       overlapping_schedules: Los horarios %{n1} y %{n2} de esta campaña se traslapan. Realiza los cambios necesarios e intenta nuevamente
     search:
+      return: Volver a los resultados
       location: Ubicación
+      map_view: Ver en mapa
+      list_view: Ver en lista
       classification: Clasificación
       media_type: Tipo de Medio
-      max_per_impression: $max. / impresión
+      price: Precio
+      dimensions: Dimensiones
+      all: Todos
+      billboard: Espectacular
+      television: Televisión
+      wallboard: Cartelón
+      min_per_impression: Desde
+      max_per_impression: Hasta
+      price_per_imp: Precio por impresión
+      min_dim: Dimensión mínima
       min_width: Ancho min. (mts)
       min_height: Alto min. (mts)
+      by_social_class: Por clase social
+      by_social_class_faq: Clases sociales ordenadas de menor a mayor
+      smart: "Tiene métricas avanzadas"
+      target: "Clase social que transita"
+      resolution: Resolución
+      resolution_of: "Resolución de %{diagonal_inches} pulgadas"
+      results: "Resultados"
+      ends_in: Termina en
   ads:
     ads: Anuncios
     name: Nombre
@@ -787,6 +815,8 @@ es:
       500_main: Error interno del servidor
       message: Oops. Ocurrió un error, vuelve a intentarlo
       500_description: El servidor encontró un error interno del servidor y no pudo completar su solicitud.
+    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
+    default_content_present: Este contenido es default de un bilbo
   alert:
     project_out_of_credits: Tu proyecto se quedó sin créditos para correr tus campañas!
     verify_profile: Verifica tu perfil para
@@ -875,10 +905,10 @@ es:
     next: Siguiente
   evidence:
     witnesses: Testigos
-    upload_file: Subir archivo
+    upload_file: Subir testigos
     upload_evidence_description: Aquí podras subir las evidencias de las campañas que solicitan testigos
     upload_evidence_description_2: Si requieres evidencia de tu campaña activa en los bilbos seleccionados, solicítala aquí
-    campaign_ended: No podrás solicitar testigos ya que tu campaña ha finalizado.
+    campaign_not_running: Solo podrás solicitar testigos cuando tu campaña esté corriendo.
     bilbo_selected: Bilbo seleccionado
     files: Archivos
     pending: Pendiente
@@ -895,6 +925,8 @@ es:
     campaign_active: La campaña no se encuentra activa
     validate_weekly_generation: Sólo esta permitido solicitar testigos una vez cada siete dias
     request_witnesses: Solicitar testigos
+    requested: "Solicitado"
+    completed: Completado
   provider_index:
     accept: Aceptar
     denied: Rechazar
@@ -907,3 +939,14 @@ es:
     maximum_ten: El contenido predeterminado máximo es de 10
     content_selected: Selecciona el contenido predeterminado a mostrar en el bilbo
     bilbo_select: Elige el contenido predeterminado para
+  landing:
+    starting_at: "Desde $50 MXN diarios"
+    outdoor_ad: Publicidad exterior en México
+    low_prices: Invierte en publicidad exterior digital para tu negocio con precios accesibles.
+    new_way_of_advertising: Bilbo es la nueva forma de anunciarte en exteriores.
+  dashboard_player:
+    add_bilbo: Bilbo agregado exitosamente
+    remove_bilbo: Bilbo eliminado exitosamente
+    error_player: Error al crear el reproductor
+    error_remove: Error al eliminar el Bilbo
+    add: Agregar Bilbo

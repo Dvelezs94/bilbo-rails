@@ -1,13 +1,47 @@
 function initDatePicker() {
-  $("#campaign_starts_at").datepicker({
-    minDate: 0,
-    dateFormat: 'yy-mm-dd'
-  });
-  $("#campaign_ends_at").datepicker({
-    minDate: 1,
-    dateFormat: 'yy-mm-dd'
-  });
-}
+    var dateFormat = 'yy-mm-dd';
+    from = $('[id$=campaign_starts_at]')
+    .datepicker({
+      defaultDate: '+1w',
+      numberOfMonths: 1,
+      dateFormat: dateFormat,
+      minDate: 0
+    })
+    .on('change', function() {
+      var datepicker = getDate( $(this) )
+      Date.prototype.addDays = function(days) {
+        var date = new Date(datepicker.valueOf());
+        date.setDate(date.getDate() + days);
+        return date;
+      }
+      var date = new Date();
+      to.datepicker('option','minDate', date.addDays(1) );
+      setTimeout(function(){
+        to.datepicker('show');
+      }, 16);
+    }),
+    to = $('[id$=campaign_ends_at]').datepicker({
+      defaultDate: '+1w',
+      numberOfMonths: 1,
+      dateFormat: dateFormat,
+      minDate: 1
+    })
+    .on('change', function() {
+      from.datepicker('option','maxDate', getDate( $(this) ) );
+    });
+
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element[0].value );
+
+      } catch( error ) {
+        date = null;
+      }
+      return date;
+    }
+  }
+
 
 function newCampaignOptions() {
   if($("#budget_card").length){
@@ -36,6 +70,6 @@ function newCampaignOptions() {
       $("#campaign_link").attr("required", false);
     }
   });
-  
+
   initDatePicker();
 }

@@ -1,4 +1,10 @@
 class Board < ApplicationRecord
+  # this is for geokit functions
+  acts_as_mappable :default_units => :kms,
+                   :default_formula => :sphere,
+                   :distance_field_name => :distance,
+                   :lat_column_name => :lat,
+                   :lng_column_name => :lng
   include AdRotationAlgorithm
   include BroadcastConcern
   include Rails.application.routes.url_helpers
@@ -8,6 +14,8 @@ class Board < ApplicationRecord
   belongs_to :project
   has_many :board_campaigns, class_name: "BoardsCampaigns"
   has_many :campaigns, through: :board_campaigns
+  has_many :board_dashboard_players, class_name: "BoardDashboardPlayer"
+  has_many :dashboard_players, through: :board_dashboard_players
   has_many :impressions
   has_many :board_sales
   has_many :sales, through: :board_sales
@@ -20,6 +28,7 @@ class Board < ApplicationRecord
   has_many_attached :default_images
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
+  before_validation :parameterize_address_components
   after_validation :build_cycle_price
   before_update :save_new_cycle_price, if: :admin_edit
   enum status: { enabled: 0, disabled: 1 }
@@ -34,6 +43,7 @@ class Board < ApplicationRecord
     end
   end
   scope :images_only, -> { where(images_only: true) }
+  # All this is done thanks to earthdistance postgresql extension
   # Add support for radius search
   # Call it like: Board.within_radius(21.885731,-102.326319, 2000)
   # (latitude, longitude, radius[km])
@@ -65,6 +75,12 @@ class Board < ApplicationRecord
       ["bilbo", :name],
       ["bilbo", :name, :address]
     ]
+  end
+
+  def short_address
+    # Returns for example
+    # CDMX, Ciudad de Mexico
+    address.split(", ").last(2).join(", ")
   end
 
   def self.search(search_board)
@@ -611,4 +627,11 @@ end
     name
   end
 
+  def parameterize_address_components
+    self.country = country.parameterize if country.present?
+    self.country_state = country_state.parameterize if country_state.present?
+    self.city = city.parameterize if city.present?
+    self.postal_code = postal_code.parameterize if postal_code.present?
+    self.parameterized_name = name.parameterize if name.present?
+  end
 end
