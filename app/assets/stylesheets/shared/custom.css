@@ -789,6 +789,9 @@ a[href="#previous"] {
 .t-100-f{
   top: 100px !important;
 }
+.filter-button {
+  font-size: 0.8rem !important;
+}
 .filter-button:hover{
   border: 1px solid #0168fa !important;
   color: #0168fa !important;
@@ -856,4 +859,23 @@ a[href="#previous"] {
 .badge-success-light {
   color: #6ECF9C;
   background-color: #D5F7E5;
+}
+#dashboardWizard-h-0 {
+  display: none;
+}
+#dashboardWizard > div.actions.clearfix,
+#dashboardWizard > div.steps.clearfix {
+  flex: 1;
+}
+#dashboardWizard > div.content.clearfix {
+  flex: 30;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+/*makes scrollbar visible by default (at first load it doesnt display it, needs to be sccrolled)*/
+[board-info] .ps > .ps__rail-x,
+[board-info] .ps > .ps__rail-y {
+  opacity: 0.6;
 }
