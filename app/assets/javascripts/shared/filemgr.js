@@ -6,10 +6,12 @@ $(document).on('turbolinks:load', function() {
       new PerfectScrollbar('.filemgr-sidebar-body', {
         suppressScrollX: true
       });
+      if ($(".filemgr-content-body").length) {
+        new PerfectScrollbar('.filemgr-content-body', {
+          suppressScrollX: true
+        });
+      }
 
-      new PerfectScrollbar('.filemgr-content-body', {
-        suppressScrollX: true
-      });
 
       $('#filemgrMenu').on('click', function(e){
         e.preventDefault();

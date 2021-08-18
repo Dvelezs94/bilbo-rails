@@ -15,10 +15,10 @@ class BoardsController < ApplicationController
     format.js { #means filter is used
       # get all boards within that range and start filtering after
       get_boards(lat: params[:lat], lng: params[:lng], radius: params[:radius])
-      if params[:cycle_price].present?
-        @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f }
-        @boards = Board.where(id: @boards)
-      end
+      #filter boards
+      @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f } if params[:cycle_price].present?
+      @boards = @boards.select{ |board| board.cycle_price >= params[:cycle_price_min].to_f } if params[:cycle_price_min].present?
+      @boards = Board.where(id: @boards)
       @boards = @boards.where("height > ?", params[:min_height]) if params[:min_height].present?
       @boards = @boards.where("width > ?", params[:min_width]) if params[:min_width].present?
       @boards = @boards.where(category: params[:category]) if params[:category].present?
@@ -26,7 +26,7 @@ class BoardsController < ApplicationController
       @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
      }
     format.html {
-      get_boards
+      #get_boards
      }
    end
   end
@@ -142,7 +142,6 @@ class BoardsController < ApplicationController
       path: request.env['PATH_INFO']
     }
   end
-
 
   def create
     if board_params[:upload_from_csv].present?
@@ -269,6 +268,10 @@ class BoardsController < ApplicationController
                                   :lng,
                                   :radius,
                                   :address,
+                                  :country,
+                                  :country_state,
+                                  :city,
+                                  :postal_code,
                                   :category,
                                   :start_time,
                                   :end_time,
@@ -289,6 +292,7 @@ class BoardsController < ApplicationController
                                   :url,
                                   :multiplier,
                                   :steps,
+                                  :street_view_url,
                                   images: [],
                                   default_images: []
                                   )

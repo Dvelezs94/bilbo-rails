@@ -97,8 +97,16 @@ function initializeMap() {
 
     // load bilbos when moved in map
     google.maps.event.addListener(window.bilbomap, 'idle', function() {
+      //prevents loading boards again when selecting an item from sidebar
+      if (window.OpenInMapTriggered == true){
+        window.OpenInMapTriggered = false;
+        return 0;
+      }
       fetchBoardsFromNewLocation();
     });
+
+    control_close = $("[google-control-close]");
+    if (control_close.length > 0) window.bilbomap.controls[google.maps.ControlPosition.TOP_CENTER].push(control_close[0]);
 
     /*
     Useful for debugging and creating circles in the map
@@ -123,7 +131,7 @@ function draw_map_bounds_circle() {
   var ne_bounds = bounds.getNorthEast();
   var circle_center = bounds.getCenter();
   var circle_radius = google.maps.geometry.spherical.computeDistanceBetween(circle_center, ne_bounds);
-  
+
   const newCircle = new google.maps.Circle({
     strokeColor: "#7CA0C0",
     strokeOpacity: 0.8,
@@ -215,43 +223,20 @@ function build_markers(bilbos) {
         previousMarker['clicked'] = false
         previousMarker.setOptions({labelClass: 'mklabel ' + (previousMarker["smart"] == true ? "mklabel_smart" : "")})
        }
-      if ($("#bilbomap").length && $("#boardInfo").length){
-        $("#boardInfo").addClass("d-none");
-        $("#map-layout").removeClass("col-xl-12");
-        $("#map-layout").addClass("col-xl-9");
-        $("#loading").addClass("placeholder-paragraph");
+      if ($("#bilbomap").length && $("[filter-and-boards]").length){
+        //transition effects
+        showBoardInfo();
       }
       // alert('marker ' + marker.getPosition().lat() + ' clicked');
       $.ajax({
          url:  "/boards/get_info",
          dataType: "script",
-         data: {lat: marker.getPosition().lat(), lng: marker.getPosition().lng(), selected_boards: $("#campaign_boards").val()},
+         data: {lat: marker.getPosition().lat(), lng: marker.getPosition().lng(), selected_boards: $("#campaign_boards").val(), selected_id: window.clickedBoardId},
          success: function(data) {
             if (infowindow) {
                infowindow.close();
              }
-            infowindow.setContent(`
-              <div class="card wd-220">
-                <img src="${$("#boardTabContent").find('img:first').attr("src")}" class="card-img-top o-fit-cover ht-120">
-                <div class="card-body pd-10-f">
-                  <h5 class="card-title">${$("#board_info_name").text()}</h5>
-                  <p class="card-text d-flex align-items-center justify-content-between tx-gray-500 tx-14 mg-b-5">
-                  <span>
-                  <i class="fe fe-eye"></i> ${$("#board_info_daily_views").text()}
-                  </span>
-                  <span>
-                  <i class="fe fe-target"></i> ${$("#board_info_classification").text()}
-                  </span>
-                  <span>
-                  <i class="fe fe-expand"></i> ${$("#board_info_diagonal_inches").text()}"
-                  </span>
-                  </p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <a href="/campaigns?openModal=modalNewCampaign" target="_parent" class="tx-14 ${ $("#dashboardWizard").length ? 'invisible': ''}" style="font-weight: 500">Crear una campaña <i class="fe fe-plus tx-semibold mg-l-10"></i></a>
-                    <small class="tx-gray-500 tx-underline cursor-pointer" onclick="close_infowindow();">cerrar</a>
-                  </div>
-                </div>
-              </div>`)
+            infowindow.setContent(infowindow_content())
             infowindow.open(window.bilbomap, marker);
             // add active class to marker
             previousMarker = marker
@@ -260,10 +245,7 @@ function build_markers(bilbos) {
             marker['visited'] = true
             marker.setOptions({labelClass: 'mklabel ' + (marker["smart"] == true ? "mklabel_smart_selected" : "mklabel_selected")})
 
-          if ($("#bilbomap").length && $("#boardInfo").length){
-             $("#loading").removeClass("placeholder-paragraph");
-             $("#boardInfo").removeClass("d-none");
-           }
+          finishedLoadingBoardInfo();
           },
          error: function() {
            alert("Oops! Occurió un error.");
@@ -311,12 +293,13 @@ function build_markers(bilbos) {
   for (var mark in window.markers) {
     if (window.markers[mark]["smart"] == false && window.markers[mark].visible ){
       markersNotSmart.push(window.markers[mark]);
-    } 
+    }
   }
   var options = {
     styles: markerStyles
   };
   window.markerCluster = new MarkerClusterer(window.bilbomap, markersNotSmart, options);
+  window.markersLoaded = true;
 }
 
 function fetchBoardsFromNewLocation() {
@@ -328,7 +311,7 @@ function fetchBoardsFromNewLocation() {
   $("#lat1").val(center.lat());
   $("#lng1").val(center.lng());
   $("#radius").val(radius);
-  $('form#filter-bilbos').find("input[type=submit]").click();
+  set_change_in("filter-bilbos");
 }
 
 function DeleteMarkers() {
@@ -355,4 +338,44 @@ function hideAllMarkers() {
       window.markers[i].setVisible(false);
     }
   }
+}
+function OpenInMap(element){
+  window.OpenInMapTriggered = true;
+  var lat = parseFloat(element.getAttribute("lat"));
+  var lng = parseFloat(element.getAttribute("lng"));
+  $.each( window.markers, function( index, marker ){
+    markerLat = parseFloat(marker.position.lat());
+    markerLng = parseFloat(marker.position.lng())
+    if (markerLat == lat && markerLng == lng){
+      window.clickedBoardId = $(element).attr("data-id");
+      google.maps.event.trigger(marker, 'click');
+      window.clickedBoardId = "";
+      return false;
+    }
+  });
+}
+function infowindow_content(){
+  //just visible board content has d-flex class
+  return `
+    <div class="card wd-220">
+      <img src="${$("[board-info] [role='tabpanel'].d-flex .carousel").find('img:first').attr("src")}" class="card-img-top o-fit-cover ht-120">
+      <div class="card-body pd-10-f">
+        <h5 class="card-title">${$("[board-info] [role='tabpanel'].d-flex #board_info_name").text()}</h5>
+        <p class="card-text d-flex align-items-center justify-content-between tx-gray-500 tx-14 mg-b-5">
+        <span>
+        <i class="fe fe-eye"></i> ${$("[board-info] [role='tabpanel'].d-flex #board_info_daily_views").text()}
+        </span>
+        <span>
+        <i class="fe fe-target"></i> ${$("[board-info] [role='tabpanel'].d-flex #board_info_classification").text()}
+        </span>
+        <span>
+        <i class="fe fe-expand"></i> ${$("[board-info] [role='tabpanel'].d-flex #board_info_diagonal_inches").text()}
+        </span>
+        </p>
+        <div class="d-flex justify-content-between align-items-center">
+          ${ $("#dashboardWizard").length ? '<span class="btn btn-primary mapToggle d-none" id="moreBoardInfo" onclick="mapToggle(false);infowindow.close();">Más información</span>': '<a href="/campaigns?openModal=modalNewCampaign" target="_parent" class="tx-14" style="font-weight: 500">Crear una campaña <i class="fe fe-plus tx-semibold mg-l-10"></i></a>'}
+          <small class="tx-gray-500 tx-underline cursor-pointer mg-l-auto" onclick="close_infowindow();">cerrar</a>
+        </div>
+      </div>
+    </div>`
 }

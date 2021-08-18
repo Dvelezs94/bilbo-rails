@@ -17,8 +17,8 @@
                 = f.label t('campaign.wizard.campaign_duration')
                 %br/
                 .form-row
-                  .col-6= f.text_field :starts_at, :class => "form-control", placeholder: t('campaign.wizard.start_date'), required: true, autocomplete: "off"
-                  .col-6= f.text_field :ends_at, :class => "form-control", placeholder: t('campaign.wizard.end_date'), required: true, autocomplete: "off"
+                  .col-6= f.text_field :starts_at, :class => "white-background-f form-control", placeholder: t('campaign.wizard.start_date'), required: true, autocomplete: "off", readonly: "readonly"
+                  .col-6= f.text_field :ends_at, :class => "white-background-f form-control", placeholder: t('campaign.wizard.end_date'), required: true, autocomplete: "off", readonly: "readonly"
               .actions
               = f.submit t("campaign.copy"), class: "btn btn-primary btn-block", style: "margin-top: 20px"
       .modal-footer.mg-t-10

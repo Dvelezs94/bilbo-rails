@@ -68,8 +68,11 @@ class ContentsController < ApplicationController
     if content_in_use
       flash[:error] = I18n.t('ads.errors.cant_delete_content')
     else
-      @content.destroy
-      flash[:success] = I18n.t('ads.action.content_deleted')
+      if !@content.destroy
+        flash[:error] = @content.errors.full_messages.first
+      else
+        flash[:success] = I18n.t('ads.action.content_deleted')
+      end
     end
     redirect_to contents_path
   end

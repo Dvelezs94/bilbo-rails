@@ -1,6 +1,6 @@
 = render 'shared/header', menu: "dashboard"
-.content.content-fixed
-  .d-sm-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
+.content.content-fixed.pd-t-75.ht-100v.mg-t-0.d-flex.flex-column
+  .d-sm-flex.align-items-center.justify-content-between.mg-b-10.flex-1
     %div
       %nav{"aria-label" => "breadcrumb"}
         %ol.breadcrumb.breadcrumb-style1.mg-b-10
@@ -14,8 +14,8 @@
     %span#steps_finish.d-none= t("campaign.wizard.finish")
     %span#steps_next.d-none= t("campaign.wizard.next")
     %span#steps_previous.d-none= t("campaign.wizard.previous")
-  = form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true } }, class: "edit_campaign", remote: true) do |f|
-    #dashboardWizard.mg-b-10
+  = form_for(@campaign, :html => { data: { parsley_validate: true, parsley_errors_messages_disabled: true }, class: "edit_campaign flex-10" }, remote: true) do |f|
+    #dashboardWizard.mg-b-10.ht-100p.d-flex.flex-column
       %input.d-none{id: "campaign_starts_at", value: "#{@campaign.starts_at.present?? @campaign.starts_at.strftime("%Y/%m/%d") : ''}"}
       %input.d-none{id: "campaign_ends_at", value: "#{@campaign.ends_at.present?? @campaign.ends_at.strftime("%Y/%m/%d") : ''}"}
       = f.submit("Enviar", class: "d-none")
@@ -29,4 +29,7 @@
 
 = render partial: "ads/new"
 = render 'campaign_offcanvas_wizard'
-= render partial: 'edit_map_filter'
+= form_with url: boards_path, method: :get, id: "filter-bilbos",class: "send-on-change d-none", remote: true do |f| # content in [data-form='filter-bilbos'] div, because this form cant be inside edit campaigns form
+  = f.submit "Enviar", class: "d-none"
+
+/= render partial: 'edit_map_filter'
