@@ -1,5 +1,4 @@
 // Append the images of selected bilbo
-<% p @selected_contents %>
 <% @selected_contents.each do |slug, contents| %>
   board_carousel = $("#carousel-<%=slug.to_s%>")[0]
   board_carousel.getElementsByClassName('carousel-indicators')[0].innerHTML = ""
@@ -31,4 +30,20 @@
 <% end %>
 $("#modalSummary").remove();
 $('body').append('<%= j render "campaigns/wizard/per_hour_summary"%>');
+$('.accordion').accordion({
+  heightStyle: 'content',
+  icons: { "header": "ui-icon-arrowthick-1-se", "activeHeader": "ui-icon-minus" },
+  collapsible: true,
+  active: false
+});
+// Set background white when the element is active, and
+$(".accordion").click(function() {
+  [header, content] = $(this).children()
+  content.classList.add("bg-white")
+  if(header.classList.contains("ui-accordion-header-active")){
+    header.classList.add("bg-white")
+  } else {
+    header.classList.remove("bg-white")
+  }
+})
 make_summary_selected_hours(); // Fill ads schedule table
