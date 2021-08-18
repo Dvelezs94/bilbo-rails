@@ -21,6 +21,14 @@ $("[board-info]").append("<%= j render partial: 'boards/board_info', collection:
 $("#boardTab").html("<%= j render partial: 'boards/board_tab', collection: @boards, as: :board %>");
 $(".boardSelect").html("<%= j render partial: 'boards/board_select_tab', collection: @boards, as: :board %>");
 
+$(".perfectScrollbar").each(function(){ //makes beautiful scrollbar on info partials
+    new PerfectScrollbar(this, {
+      suppressScrollX: false
+    });
+    $(this).scrollTop(1); //fixes bug of scroll hiden at load
+});
+
+
 var countDownDate = new Date($('.countDownTime').html()).getTime();
 // call it once so the user doesn't see the text of the full date on the board tab
 countDown('.countDownTime', countDownDate);
