@@ -90,6 +90,10 @@
   background: white !important;
 }
 
+.board-size-preview {
+  background-color: rgb(255,0,0,0.2);
+}
+
 .unread-notif {
   background-color: ghostwhite;
 }

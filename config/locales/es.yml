@@ -153,6 +153,7 @@ es:
     5_months: 5 meses
     6_months: 6 meses
     add_schedule: Agregar Horario
+    schedules: Horarios
     must_add_schedule: Debe agregar un horario
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
@@ -334,6 +335,12 @@ es:
       impressions_forecast: Impresiones diarias esperadas con el presupuesto elegido
       title_impressions_per_minute: Selecciona cuantas impresiones por minuto deseas que se muestren
       title_impressions_per_hour: Selecciona en que horas deseas que se muestre tu campaña
+      summary_description: Revisa tu seleccion de bilbos, anuncios y presupuesto para lanzar tu campaña
+      total_investment_title: Inversión total
+      ads_schedule: Programación de anuncios
+      ads_schedule_description: Así se mostrarán tus anuncios, el presupuesto destinado por día de la semana y la cantidad de impresiones
+      frequency: Frecuencia
+      not_enough_credits: No cuentas con los créditos suficientes
       offcanvas:
         pick_ad_desc: Los contenidos son los archivos o videos que se corren en tus Bilbos elegidos. Cada Bilbo que elijas puede tener uno o más contenidos asociados.
         pick_ad_try_to: Intenta elegir imagenes y videos que capten la atención del público para que así tu campaña tenga más impacto.
