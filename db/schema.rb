@@ -182,15 +182,12 @@ ActiveRecord::Schema.define(version: 2021_08_09_150350) do
     t.float "occupation", default: 0.0
     t.boolean "steps", default: false
     t.integer "multiplier"
-<<<<<<< HEAD
-=======
     t.string "street_view_url"
     t.string "country"
     t.string "country_state"
     t.string "city"
     t.string "postal_code"
     t.string "parameterized_name"
->>>>>>> 60c169b8fe8d289cb3a43ffe143679c0d21705f3
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -446,11 +443,7 @@ ActiveRecord::Schema.define(version: 2021_08_09_150350) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-<<<<<<< HEAD
     t.datetime "expires_at", default: "2031-08-02 16:38:54"
-=======
-    t.datetime "expires_at", default: "2031-07-26 20:32:02"
->>>>>>> 60c169b8fe8d289cb3a43ffe143679c0d21705f3
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"

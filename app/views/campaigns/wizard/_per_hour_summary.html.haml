@@ -4,16 +4,16 @@
       .modal-body.pd-20
         %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
-        %h5.tx-18.tx-sm-20.tx-bold="Programación de anuncios"
-        %p.tx-14.tx-gray-2= "Así se mostrarán tus anuncios, el presupuesto destinado por día de la semana y la cantidad de impresiones"
+        %h5.tx-18.tx-sm-20.tx-bold=t('campaign.wizard.ads_schedule')
+        %p.tx-14.tx-gray-2=t('campaign.wizard.ads_schedule_description')
         .table-responsive.ht-350.mg-t-30
           %table.table.wizard-table
             %tbody
               %tr
-                %td.tx-gray-3="Día"
-                %td.tx-gray-3="Presupuesto"
-                %td.tx-gray-3="Impresiones"
-                %td.tx-gray-3="Horarios"
+                %td.tx-gray-3=t('bilbos.day')
+                %td.tx-gray-3=t('campaign.classification.budget')
+                %td.tx-gray-3=t('campaign.impressions')
+                %td.tx-gray-3=t('campaign.schedules')
               -@rows_per_day.each do |day, rows|
                 - rows.times do |i|
                   %tr

@@ -229,6 +229,7 @@ $(document).on('turbolinks:load', function () {
             $('#carousel-'+$(this).data('slug')).width(
               $(this).attr('new-width')
             );
+            $('#carousel-'+$(this).data('slug')).children()[0].style="height: " + $(this).attr('new-height') + 'px'
             $('#carousel-'+$(this).data('slug')).height(
               $(this).attr('new-height')
             );
@@ -241,6 +242,14 @@ $(document).on('turbolinks:load', function () {
           getSummaryInfo();
           if($("#frequency").length) computePerMinuteTotalBudget();
           if($("#total_budget").length) $('#total_budget_summary').text($("#total_budget")[0].innerHTML);
+          //show alert if user has not enough credits to run the campaign
+          setTimeout(function(){
+            var campaign_budget = parseFloat($("#total_budget_summary")[0].innerHTML.replace(/[^\d.-]/g, ''))
+            var user_balance = parseFloat($("#user_balance").val())
+            if(user_balance < campaign_budget){
+              $("#out_of_credits")[0].classList.remove('invisible')
+            }
+          },500);
         }
       },
     });

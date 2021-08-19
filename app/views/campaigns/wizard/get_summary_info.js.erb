@@ -1,20 +1,14 @@
 // Append the images of selected bilbo
 <% @selected_contents.each do |slug, contents| %>
   board_carousel = $("#carousel-<%=slug.to_s%>")[0]
-  board_carousel.getElementsByClassName('carousel-indicators')[0].innerHTML = ""
   board_carousel.getElementsByClassName('carousel-inner')[0].innerHTML = ""
   $("#ads_count_<%=slug.to_s%>")[0].innerHTML = "<%=t('bilbos.ads')%>: <%=contents.count%>"
   <% contents.each_with_index do |content, index| %>
     // create a div to place the image, video or iframe
     var carousel_item = document.createElement('div')
-    var indicator = document.createElement('li')
-    indicator.setAttribute('data-target','#carousel-<%=slug.to_s%>')
-    indicator.setAttribute('data-slide-to',<%=index%>)
-    indicator.classList = "bg-color-black"
     carousel_item.classList = "carousel-item"
     <% if index == 0 %>
       carousel_item.classList += " active"
-      indicator.classList += " active"
     <% end %>
     <% if content.is_video? %>
       carousel_item.innerHTML = '<video src=<%=content.multimedia_url%> class="center-block d-block rounded" controls="false" controlslist="nodownload" autoplay="false" loop="true" muted="muted" style="max-width: 100%; max-height: 100%; top: 0; bottom: 0; object-fit: contain;"/>'
@@ -25,9 +19,9 @@
     <% end %>
     //append the content to the carousel
     board_carousel.getElementsByClassName('carousel-inner')[0].append(carousel_item)
-    board_carousel.getElementsByClassName('carousel-indicators')[0].append(indicator)
   <% end %>
 <% end %>
+
 $("#modalSummary").remove();
 $('body').append('<%= j render "campaigns/wizard/per_hour_summary"%>');
 $('.accordion').accordion({
@@ -36,7 +30,7 @@ $('.accordion').accordion({
   collapsible: true,
   active: false
 });
-// Set background white when the element is active, and
+// Set background white when the element is active, and remove (set bg-gray) when its closed
 $(".accordion").click(function() {
   [header, content] = $(this).children()
   content.classList.add("bg-white")
