@@ -300,6 +300,9 @@ en:
       campaign_hour: Hour range
       per_minute: Per minute
       impressions: impressions every
+      minutes: minutes
+      ad_preview: Ad preview
+      ad_size_warning: Your ad doesn't have the exact size
       impressions_hour: impressions per bilbo from
       impressions_hour_budget: Total forecast spending by day of the week
       impressions_hour_explanation: Select the day, budget and time you want to appear. <br>
@@ -307,7 +310,6 @@ en:
            Prints shown are by bilbo.
       preview: Preview
       to: to
-      minutes: minutes
       analize: Analize
       analize_description: Track all the visits through a QR code we will give you, this way you can measure your campaign results more efectively.
       analize_link_description: Enter the link people will be sent to when they read your QR code.

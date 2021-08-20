@@ -40,4 +40,7 @@ $(".accordion").click(function() {
     header.classList.remove("bg-white")
   }
 })
-make_summary_selected_hours(); // Fill ads schedule table
+<% if @campaign.classification == "per_hour" %>
+  make_summary_selected_hours(); // Fill ads schedule table
+<% end %>
+showOrHideSizeAlert();

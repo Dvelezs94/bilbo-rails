@@ -42,10 +42,11 @@ class ContentsBoardCampaignController < ApplicationController
     @selected_contents = {}
     default_rows_per_day = {"monday" => 0, "tuesday" => 0, "wednesday" => 0, "thursday" => 0, "friday" => 0, "saturday" => 0, "sunday" => 0}
     @rows_per_day = default_rows_per_day.merge(JSON.parse(params[:table_rows]))
+    @campaign = Campaign.friendly.find(params[:campaign_id])
     JSON.parse(params[:selected_contents]).each do |slug, content_ids|
       @selected_contents[slug.to_sym] = Content.where(id: content_ids.split(' '))
     end
-    render  'campaigns/wizard/get_summary_info', :locals => {:selected_content => @selected_contents, :board => @board, :campaign => @campaign}
+    render  'campaigns/wizard/get_summary_info', :locals => {:selected_content => @selected_contents, :campaign => @campaign}
   end
 
   def fetch_single_wizard_content

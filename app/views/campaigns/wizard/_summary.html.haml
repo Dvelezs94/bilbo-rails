@@ -37,8 +37,8 @@
                 %td.border-0{colspan: 2}=link_to "#{t('campaign.wizard.ads_schedule')}", "#modalSummary", data: { toggle: "modal" }
             -elsif @campaign.is_per_minute?
               %tr
-                %td.tx-gray-3=t('campaign.wizard.frequency')
-                %td.tx-gray-2{id: "frequency"}
+                %td.border-0.tx-gray-3=t('campaign.wizard.frequency')
+                %td.border-0.tx-gray-2{id: "frequency"}
             %tr
               %td.border-0.h2="Total"
               %td.border-0.h2.tx-gray-1{id: 'total_budget_summary'}
@@ -47,9 +47,9 @@
         %input.d-none#summary_active_days{value: "#{@campaign.active_days}"}
         %input.d-none#translation_impressions_each{value: t("campaign.wizard.impressions")}
         %input.d-none#translation_minutes{value: t("campaign.wizard.minutes")}
-        %input.d-none#user_balance{value: "#{current_user.balance}"}
+        %input.d-none#user_balance{value: "#{@project.owner.balance}"}
       .row.pd-l-10#out_of_credits{class: "invisible"}
         .badge.billboard-badge
           .pd-l-20.pd-r-20.pd-t-5.pd-b-5
-            %i.fa.fa-exclamation-triangle.tx-14
+            %i.fa.fa-exclamation-triangle.tx-14.tx-bold
               =t('campaign.wizard.not_enough_credits')

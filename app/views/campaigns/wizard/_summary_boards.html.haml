@@ -23,7 +23,8 @@
               .pd-b-5.tx-gray-2="#{t('bilbos.face')}: #{(board.face.in? ["north","south","east","west"])? I18n.t("bilbos.#{board.face}") : board.face.capitalize}"
               .tx-gray-2="#{t('bilbos.credits_per_print')}: $#{board.cycle_price.round(2)}"
               .pd-t-5.tx-gray-2{id: "ads_count_#{board.slug}"}
-          %td.wd-50p{:rowspan => 2}
+          %td.wd-50p.tx-center{:rowspan => 2}
+            %p.tx-bold.tx-gray-1.m-auto.pd-b-2.m-t--5=t('campaign.wizard.ad_preview')
             -# %div{id: "carousel-#{board.slug}"}
             .carousel.slide.m-auto.board-size-preview.rounded{"data-ride" => "carousel", id: "carousel-#{board.slug}"}
               -# %ol.carousel-indicators.carousel-circles.carousel-circles-under
@@ -53,3 +54,10 @@
                       %p.tx-gray-2=t('campaign.daily_budget')
                     %td
                       %p.tx-gray-2=t('campaign.daily_spots')
+          %tr
+            %td
+            %td
+            %td.tx-center.pd-t-5.invisible{id: "wrong_size_alert_#{board.slug}"}
+              %i.fa.fa-exclamation-triangle.tx-10.tx-bold.tx-gray-2
+                =t('campaign.wizard.ad_size_warning')
+          %input.d-none{id: "aspect_ratio_#{board.id}", value: "#{board.aspect_ratio}"}
