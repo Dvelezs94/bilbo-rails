@@ -562,12 +562,6 @@ function count_rows_per_day_of_week(){
 
 
 function make_summary_selected_hours() {
-  //  $("[hour_row]")[i].querySelectorAll('select')[0].value <- day of week
-  //  $("[hour_row]")[i].querySelectorAll('input.budget')[0].value <- budget
-  //  $("[hour_row]")[i].querySelectorAll('input.impressionsPerHour')[0].value <- impressions
-  //  $("[hour_row]")[i].querySelectorAll('timePickerStart')[0].value <- start time
-  //  $("[hour_row]")[i].querySelectorAll('timePickerEnd')[0].value <- end time
-
   var hour_rows = $('[hour_row]');
   daysOfWeek= ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
   day_row = {}
