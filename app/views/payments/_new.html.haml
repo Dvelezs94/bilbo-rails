@@ -1,11 +1,11 @@
 #modalNewPayment.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document"}
-    .modal-content
-      .modal-body.pd-20.pd-sm-30
-        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} ×
-        %h5.tx-18.tx-sm-20.mg-b-10= t("payments.buy_credits")
-        - if @project.owner == current_user
+    - if @project.owner == current_user
+      .modal-content.pos-relative
+        .modal-body.pd-20.pd-sm-30
+          %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          %h5.tx-18.tx-sm-20.mg-b-10= t("payments.buy_credits")
           #carouselPayment.carousel.slide{"data-interval" => "false"}
             .carousel-inner
               .carousel-item.carousel-item-fast
@@ -54,13 +54,24 @@
                             = t("general_inputs.generate_payment_sheet")
                       .tx-center.mg-t-10
                         %small.tx-color-03.choose-another-payment-method.cursor-pointer= t("payments.pick_another_payment_method")
-        -else
-          No puedes comprar créditos para este proyecto ya que no eres el dueño, pero puedes mandarle esta liga al dueño para que lo haga.
-          %button.clipboard-btn.dropdown-item{"data-clipboard-text" => "jajaja", :href => ""}
-            %i.mg-r-5.material-icons &#xe14d;
-            %span copiar url
-      .modal-footer
-        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+        .modal-footer
+          %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+    -else
+      .modal-content.pos-relative
+        .marker-icon.marker-primary.pos-absolute.t-0.l-0
+        %i.fe.fe-info.tx-22.mg-l-3.mg-t-3.z-index-10.tx-white
+        .modal-body.pd-20.pd-sm-30
+          %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          %h5.tx-18.tx-sm-20.mg-b-10= t("payments.buy_credits")
+          =t("payments.no_owner_buying_credits")
+          .input-group.mg-t-15
+            %input.form-control#creditBuyUrl{readonly: true, value: change_project_project_url(@project.slug)}
+            .input-group-append
+              %button.clipboard-btn.btn-primary.rounded.tx-10{"data-clipboard-action" => "copy", "data-clipboard-target" => "#creditBuyUrl"}
+                %i.material-icons &#xe14d;
+        .modal-footer
+          %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
       / modal-footer
     / modal-content
   / modal-dialog

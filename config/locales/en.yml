@@ -547,6 +547,7 @@ en:
     if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
     processing_order: Processing order...
     buy_credits: Purchase credits
+    no_owner_buying_credits: Only the owner of the project can purchase credits. You cand send him this url to do it.
     verify_account: Verify Account
     credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 credit equals $1 MXN.
     credit_limit: Credit purchase limit exceeded
