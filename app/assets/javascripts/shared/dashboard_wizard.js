@@ -510,6 +510,36 @@ function computePerMinuteTotalBudget(){
   $("#total_budget_summary")[0].innerHTML = currencyFormat(total_budget*parseInt($("#summary_active_days").val())) + " MXN"
 }
 
+function showOrHideSizeAlert(){
+  $(".carousel").each(function(){
+    // Show or hide message for the first image on each carousel
+    first_image = this.getElementsByClassName('active')
+    slug = String(this.id).slice(9)
+    board = $("#selected_boards [data-slug=" + slug + "]")[0]
+    board_width = $(board).attr('new-width')
+    board_height = $(board).attr('new-height')
+    if(first_image.offsetWidth / first_image.offsetHeight != board_width / board_height){
+      $("#wrong_size_alert_"+slug)[0].classList.remove('invisible')
+    } else {
+      $("#wrong_size_alert_"+slug)[0].classList.add('invisible')
+    }
+    // show or hide message for the rest of the images on the carousel
+    $(this).on('slid.bs.carousel', function(e){
+      slug = String(this.id).slice(9)
+      board = $("#selected_boards [data-slug=" + slug + "]")[0]
+      board_width = $(board).attr('new-width')
+      board_height = $(board).attr('new-height')
+      new_img = e.relatedTarget
+      if(new_img.offsetWidth / new_img.offsetHeight != board_width / board_height){
+        $("#wrong_size_alert_"+slug)[0].classList.remove('invisible')
+      } else {
+        $("#wrong_size_alert_"+slug)[0].classList.add('invisible')
+      }
+    });
+  });
+}
+
+
 function count_rows_per_day_of_week(){
   //count how many rows we need to use for the summary table for campaigns per hour
   rows_count = {}
@@ -703,7 +733,7 @@ function getSummaryInfo(){
   $.ajax({
     url:  "/contents_board_campaign/get_summary_info",
     dataType: "script",
-    data: {selected_contents: $("#content_ids").val(), table_rows: JSON.stringify(count_rows_per_day_of_week())},
+    data: {selected_contents: $("#content_ids").val(), table_rows: JSON.stringify(count_rows_per_day_of_week()), campaign_id: $("#campaign_id").val()},
     success: function(data) {
     },
     error: function(data) {
