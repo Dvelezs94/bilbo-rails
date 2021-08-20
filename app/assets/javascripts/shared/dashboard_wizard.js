@@ -12,10 +12,19 @@ $(document).on('turbolinks:load', function () {
         previous: $('#steps_previous').text(),
       },
       titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+      onInit: function(event, currentIndex) {
+        $("#dashboardWizard .content.clearfix").addClass("pd-0-f"); //removes padding so the map is full screen
+      },
       onFinished: function(event, currentIndex) {
         $('.edit_campaign input[type=submit]').click();
       },
       onStepChanging: function (event, currentIndex, newIndex) {
+        if(newIndex==0) {
+          $("#dashboardWizard .content.clearfix").addClass("pd-0-f");
+        }
+        else {
+          $("#dashboardWizard .content.clearfix").removeClass("pd-0-f");
+        }
         if (currentIndex < newIndex) {
           // Step 1 form validation
           if (currentIndex === 0) {
