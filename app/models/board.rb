@@ -320,9 +320,7 @@ class Board < ApplicationRecord
   end
 
   def size_change
-    # 315x180px
     if self.aspect_ratio.split(':')[0].to_f > self.aspect_ratio.split(':')[1].to_f
-      #horizontal board
       m=self.aspect_ratio.split(':')[0].to_f
       @new_width = (self.aspect_ratio.split(':')[0].to_f/m)*315
       @new_height = (self.aspect_ratio.split(':')[1].to_f/m)*315
