@@ -2,7 +2,7 @@ $(document).on('turbolinks:load', function() {
   $(document).on('click', '[return-filter]', function(e){
     if(window.fullScreenMap == true)  mapToggle(false);
     showFilterAndBilbos();
-    infowindow.close();
+    google.maps.event.trigger(window.bilbomap, 'click'); //this event closes infowindow and unfocuses marker
   });
   //fixes sidebar and map display when window is resized
   $(window).resize(function() {

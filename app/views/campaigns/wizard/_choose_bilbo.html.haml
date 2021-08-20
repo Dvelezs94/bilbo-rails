@@ -1,25 +1,21 @@
 %h3= t('campaign.wizard.choose_bilbos')
-%section.mg-t-15
-  .row.pos-relative
-    .col-6.col-md-3
-      -# %button.btn.btn-outline-primary{"data-target" => "#campaignEditMapFilter", "data-toggle" => "modal", :onclick => "return false"}
-      -#   = t('bilbos.filter')
-    = f.select(:boards, options_for_select(@campaign_boards), {include_blank: "#{@campaign_boards.size} #{t('campaign.wizard.selected_bilbos')}"},
-     {:class => "pos-absolute r-0 t-0 wd-300 z-index-10 bg-dark tx-white form-select pd-15 bd-transparent", :id => "selected_boards"})
-    = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true
-    .wd-100p.ht-800.position-relative
-      = render "boards/sidebar"
-      .pos-absolute.t-0.b-0.r-0.transition-delay.map-left-space
-        = render partial: 'boards/map/loading_effect'
-        = render partial: 'boards/board_map'
-    #boardInfo.col-md-12.col-xl-3.mg-t-10.order-1.d-none
-      / card
-      %ul#boardTab.nav.nav-tabs.nav-justified.d-none{:role => "tablist"}
-        / content filled with js
-      %ul.nav.nav-tabs.nav-justified.pd-b-5{:role => "tablist"}
-        %li.nav-item
-          %select.boardSelect.custom-select.custom-select-blue
-            / content filled with js
-      #boardTabContent.tab-content.bd.bd-gray-300.bd-t-0.pd-5.rounded
-        / content filled with js
-    / end card
+%section.ht-100p-f.row.mg-0.pos-relative-f
+  = f.select(:boards, options_for_select(@campaign_boards), {include_blank: "#{@campaign_boards.size} #{t('campaign.wizard.selected_bilbos')}"},
+   {:class => "pos-absolute r-0 t-0 wd-300 z-index-10 bg-dark tx-white form-select pd-15 bd-transparent", :id => "selected_boards"})
+  = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true
+  .wd-100p.position-relative
+    = render "boards/sidebar"
+    .pos-absolute.t-0.b-0.r-0.transition-delay.map-left-space
+      = render partial: 'boards/map/loading_effect'
+      = render partial: 'boards/board_map'
+  #boardInfo.col-md-12.col-xl-3.mg-t-10.order-1.d-none
+    / card
+    %ul#boardTab.nav.nav-tabs.nav-justified.d-none{:role => "tablist"}
+      / content filled with js
+    %ul.nav.nav-tabs.nav-justified.pd-b-5{:role => "tablist"}
+      %li.nav-item
+        %select.boardSelect.custom-select.custom-select-blue
+          / content filled with js
+    #boardTabContent.tab-content.bd.bd-gray-300.bd-t-0.pd-5.rounded
+      / content filled with js
+  / end card
