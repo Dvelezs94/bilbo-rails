@@ -41,7 +41,7 @@ class BoardUploadWorker
         item[:category] = "billboard"
       elsif screen_type.in? ["televisión","television"]
         item[:category] = "television"
-      elsif screen_type.in? ["cartelon","cartelón","wallboard", "Mupi", "mupi"]
+      elsif screen_type.in? ["cartelon","cartelón","wallboard", "mupi"]
         item[:category] = "wallboard"
       end
 
