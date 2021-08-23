@@ -246,7 +246,7 @@ $(document).on('turbolinks:load', function () {
           setTimeout(function(){
             var campaign_budget = parseFloat($("#total_budget_summary")[0].innerHTML.replace(/[^\d.-]/g, ''))
             var user_balance = parseFloat($("#user_balance").val())
-            if(user_balance < campaign_budget){
+            if(user_balance < campaign_budget && $("#project_classification").val() == "user"){
               $("#out_of_credits")[0].classList.remove('invisible')
             }
           },500);
