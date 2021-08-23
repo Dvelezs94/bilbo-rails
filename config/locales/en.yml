@@ -442,14 +442,14 @@ en:
     images_only: This bilbo only display images
     accepts_video: Accepts video
     address: Address
-    add_bilbo: Add Bilbo
+    add_bilbo: Select Bilbo
     remove_bilbo: Remove Bilbo
     credits: Credits
     type: Type
     television: Television
     televisions: Televisions
     wallboard: Wallboard
-    wallboard: Wallboards
+    wallboards: Wallboards
     billboard: Billboard
     billboards: Billboards
     provider: Provider email
