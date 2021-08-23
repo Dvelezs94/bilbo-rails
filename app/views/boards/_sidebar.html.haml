@@ -29,7 +29,7 @@
                   .custom-control.custom-checkbox
                     = radio_button_tag :categoryR, 'wallboard', false, :class => "custom-control-input", :id =>"categoryRadio3"
                     %label.custom-control-label{for: "categoryRadio3", onclick: "$('#category').val('wallboard')"}= t('bilbos.search.wallboard')
-                  = select_tag(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Cartelón", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type'), class: 'custom-select d-none', form: "filter-bilbos"})
+                  = select_tag(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Mupi", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type'), class: 'custom-select d-none', form: "filter-bilbos"})
             .flex-1.text-center
               %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop2", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                 = t('bilbos.search.classification')

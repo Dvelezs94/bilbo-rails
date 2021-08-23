@@ -437,8 +437,11 @@ en:
     credits: Credits
     type: Type
     television: Television
+    television: Televisions
     wallboard: Wallboard
+    wallboard: Wallboards
     billboard: Billboard
+    billboards: Billboards
     provider: Provider email
     earnings_description: last 3 months of earnings
     impressions_count_description: last 3 months of impressions
