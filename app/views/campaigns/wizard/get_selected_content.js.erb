@@ -1,12 +1,5 @@
 // Append the images of selected bilbo
 $('#images-<%=@board.slug%>').html("<%= j render partial: 'campaigns/wizard/show_selected_content', collection: @selected_contents, as: :img, locals: {board: @board, campaign: @campaign} %>");
-if($("#wizard-div-<%=@board.id%>").length){
-  $('#wizard-div-<%=@board.id%>').remove();
-  $("#carousel_wizard").append("<div id='wizard-div-<%=@board.id%>'></div>");
-}else{
-  $("#carousel_wizard").append("<div id='wizard-div-<%=@board.id%>'></div>");
-}
-$("#wizard-div-<%=@board.id%>").html("<%= j (render 'campaigns/carousel', locals: {board: @board, campaign: @campaign}) %>");
 remove_on_click()
 hover_img();
 updateHiddenFieldContent();

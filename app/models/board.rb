@@ -326,14 +326,22 @@ class Board < ApplicationRecord
   def size_change
     if self.aspect_ratio.split(':')[0].to_f > self.aspect_ratio.split(':')[1].to_f
       m=self.aspect_ratio.split(':')[0].to_f
-      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*250
-      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*250
+      @new_width = (self.aspect_ratio.split(':')[0].to_f/m)*315
+      @new_height = (self.aspect_ratio.split(':')[1].to_f/m)*315
+      if @new_height > 180
+        @new_width = @new_width*180/@new_height
+        @new_height = 180
+      end
     else
       m = self.aspect_ratio.split(':')[1].to_f
-      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*250
-      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*250
+      @new_width = (self.aspect_ratio.split(':')[0].to_f/m)*180
+      @new_height = (self.aspect_ratio.split(':')[1].to_f/m)*180
+      if @new_width > 315
+        @new_height = @new_height*315/@new_width
+        @new_width = 315
+      end
     end
-    return @new_width, @new_height
+    return @new_height, @new_width
   end
 
   def working_minutes(st = self.start_time, et = self.end_time, zero_if_equal = false) #returns minutes of difference

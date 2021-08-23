@@ -153,6 +153,7 @@ es:
     5_months: 5 meses
     6_months: 6 meses
     add_schedule: Agregar Horario
+    schedules: Horarios
     must_add_schedule: Debe agregar un horario
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
@@ -237,8 +238,8 @@ es:
     reach: Alcance est.
     people: personas
     impressions: Impresiones
-    daily_budget: Presupuesto Diario
-    daily_spots: Reproducciones Diarias
+    daily_budget: Presupuesto diario
+    daily_spots: Spots diarios
     total_budget: Presupuesto Total
     total_invested: Total Invertido
     impressions_every_x_minutes: "%{times} impresiones cada %{minutes} minutos"
@@ -301,6 +302,8 @@ es:
       per_minute: Por minuto
       impressions: impresiones cada
       minutes: minutos
+      ad_preview: Previsualización del anuncio
+      ad_size_warning: Tu anuncio no tiene las medidas exactas
       impressions_hour: impresiones por bilbo de
       impressions_hour_budget: Gasto total pronosticado por día de la semana
       impressions_hour_explanation: Selecciona el día, presupuesto y horario en el que quieres aparecer.<br>
@@ -334,6 +337,12 @@ es:
       impressions_forecast: Impresiones diarias esperadas con el presupuesto elegido
       title_impressions_per_minute: Selecciona cuantas impresiones por minuto deseas que se muestren
       title_impressions_per_hour: Selecciona en que horas deseas que se muestre tu campaña
+      summary_description: Revisa tu selección de bilbos, anuncios y presupuesto para lanzar tu campaña
+      total_investment_title: Inversión total
+      ads_schedule: Programación de anuncios
+      ads_schedule_description: Así se mostrarán tus anuncios, el presupuesto destinado por día de la semana y la cantidad de impresiones
+      frequency: Frecuencia
+      not_enough_credits: No cuentas con los créditos suficientes
       offcanvas:
         pick_ad_desc: Los contenidos son los archivos o videos que se corren en tus Bilbos elegidos. Cada Bilbo que elijas puede tener uno o más contenidos asociados.
         pick_ad_try_to: Intenta elegir imagenes y videos que capten la atención del público para que así tu campaña tenga más impacto.
@@ -845,7 +854,7 @@ es:
     only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 5577883344"
   week_days:
     mon: Lunes
-    monday: Luenes
+    monday: Lunes
     tue: Martes
     tuesday: Martes
     wed: Miércoles
