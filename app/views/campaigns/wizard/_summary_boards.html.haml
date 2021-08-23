@@ -20,7 +20,7 @@
               = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-80 ht-80 rounded"
           %td.wd-35p
             %p
-              .pd-b-5.tx-gray-2="#{t('bilbos.face')}: #{(board.face.in? ["north","south","east","west"])? I18n.t("bilbos.#{board.face}") : board.face.capitalize}"
+              .pd-b-5.tx-gray-2="#{t('bilbos.face')}: #{board.face.capitalize}"
               .tx-gray-2="#{t('bilbos.credits_per_print')}: $#{board.cycle_price.round(2)}"
               .pd-t-5.tx-gray-2{id: "ads_count_#{board.slug}"}
           %td.wd-50p.tx-center{:rowspan => 2}
