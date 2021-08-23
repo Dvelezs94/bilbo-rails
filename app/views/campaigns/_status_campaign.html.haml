@@ -17,4 +17,5 @@
   %td.text-between= link_to(board_campaign.board.name, statistics_board_path(board_campaign.board))
   %td.text-between= t("campaign.wizard.#{board_campaign.campaign.classification}")
   %td.text-between= number_to_currency_usd(board_campaign.budget) rescue ""
+  %td.text-between= board_campaign.max_daily_impressions rescue ""
   %td.text-between= board_campaign.campaign.state.to_s == "true" ? t('campaign.status_on') : t('campaign.status_off')
