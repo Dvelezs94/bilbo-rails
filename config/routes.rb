@@ -270,6 +270,7 @@ Rails.application.routes.draw do
   get 's/:id', to: "shorteners#show", as: "shorten"
 
   get '/pantallas/:state/:city/:name', to: 'landing_pages#show', as: 'bilbo_landing'
-
+  get '/sitemap', to: 'pages#sitemap'
+  get '/robots.:format', to: 'pages#robots'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
