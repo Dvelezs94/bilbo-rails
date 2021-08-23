@@ -90,6 +90,10 @@
   background: white !important;
 }
 
+.board-size-preview {
+  background-color: rgba(255,0,0,0.2);
+}
+
 .unread-notif {
   background-color: ghostwhite;
 }
@@ -505,10 +509,19 @@ Usage
  margin: 0 auto;
 }
 
+.m-bt--20{
+  margin: -20px;
+}
+
 .carousel-circles-under {
   margin-bottom: -2rem;
 }
 
+.carousel-circles > li {
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+}
 /*placeholder skeleton */
 
 .shimmer_wrapper {
@@ -713,6 +726,18 @@ a[href="#previous"] {
   border: 1px solid #1C68F0;
   transform: scale(1);
 	animation: pulse_map_marker 2s infinite;
+}
+
+.bg-color-black{
+  background-color: black !important;
+}
+
+.tx-xl {
+  font-size: x-large;
+}
+
+.tx-xxl {
+  font-size: xx-large;
 }
 
 .mklabel_smart_selected {

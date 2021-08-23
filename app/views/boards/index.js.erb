@@ -23,6 +23,6 @@ $('.modal').modal('hide');
 add bilbos to sidebar
 */
 $("[data-board-number]").html('<%= "#{@boards.count} #{t('bilbos.search.results')}" %>');
-$("[data-board-cards]").html("<%= j render(partial: 'boards/search_board', collection: @boards) %>");
+$("[data-board-cards]").html("<%= j render(partial: 'boards/search_board', collection: @boards.sort_by { |b| b.smart ? 0 : 1 }) %>");
 $(".filemgr-sidebar-body").scrollTop(1); ////if scroll is at top, move bottom 1 space to stay at the beginning
 $('[data-toggle="tooltip"]').tooltip(); /*bilbo card uses tooltips*/

@@ -152,6 +152,7 @@ en:
     5_months: 5 months
     6_months: 6 months
     add_schedule: Add Schedule
+    schedules: Schedules
     must_add_schedule: You must add a schedule
     active_campaigns: Active Campaigns
     review_campaigns: Review Campaigns
@@ -300,6 +301,9 @@ en:
       campaign_hour: Hour range
       per_minute: Per minute
       impressions: impressions every
+      minutes: minutes
+      ad_preview: Ad preview
+      ad_size_warning: Your ad doesn't have the exact size from the display
       impressions_hour: impressions per bilbo from
       impressions_hour_budget: Total forecast spending by day of the week
       impressions_hour_explanation: Select the day, budget and time you want to appear. <br>
@@ -307,7 +311,6 @@ en:
            Prints shown are by bilbo.
       preview: Preview
       to: to
-      minutes: minutes
       analize: Analize
       analize_description: Track all the visits through a QR code we will give you, this way you can measure your campaign results more efectively.
       analize_link_description: Enter the link people will be sent to when they read your QR code.
@@ -331,6 +334,12 @@ en:
       impressions_forecast: Expected daily impressions
       title_impressions_per_minute: Select how many impressions per minute you want to be displayed
       title_impressions_per_hour: Select what time you want your images and videos to show
+      summary_description: Check your selection of bilbos, ads and budget to launch your campaign
+      total_investment_title: Total Investment
+      ads_schedule: Ads Schedule
+      ads_schedule_description: This is how your ads will be shown, the budget assigned per day of week and the ammount of impressions
+      frequency: Frequency
+      not_enough_credits: You don't have enough credits
       offcanvas:
         pick_ad_desc: Ads are spaces where you can store images and videos for your campaigns. Ads can be tied to campaigns so these can be shown on the bilbos once you have them configured.
         pick_ad_try_to: Try to create colorful and eye-catching images or videos, that way you can impact the audience even more.
@@ -551,6 +560,7 @@ en:
     if_it_doesnt_redirect: If you don't get redirected in 5 seconds, click
     processing_order: Processing order...
     buy_credits: Purchase credits
+    no_owner_buying_credits: Only the owner of the project can purchase credits. You cand send him this url to do it.
     verify_account: Verify Account
     credits_text: Credits are the method you pay for campaigns. You can buy as much credits as you need. Credits do not have an expiration date. 1 credit equals $1 MXN.
     credit_limit: Credit purchase limit exceeded
