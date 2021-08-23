@@ -27,8 +27,7 @@ $('body').append('<%= j render "campaigns/wizard/per_hour_summary"%>');
 $('.accordion').accordion({
   heightStyle: 'content',
   icons: { "header": "ui-icon-arrowthick-1-se", "activeHeader": "ui-icon-minus" },
-  collapsible: true,
-  active: false
+  collapsible: true
 });
 <% if @campaign.classification == "per_hour" %>
   make_summary_selected_hours(); // Fill ads schedule table
