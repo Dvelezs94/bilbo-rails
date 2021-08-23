@@ -6,13 +6,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Meta -->
-    <meta name="description" content="<%= t("meta_tags.description") %>">
-    <meta name="author" content="Bilbo">
-
-    <%= opengraph_meta_tags %>
+    <!-- Meta  tags-->
     <%= seo_meta_tags %>
-
+    <%= opengraph_meta_tags %>
+    
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="https://s3.amazonaws.com/cdn.bilbo.mx/Bilbo-Favicon.png">
     <%= javascript_include_tag 'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js', :defer => true, 'data-turbolinks-eval': 'false' %>
@@ -23,9 +20,6 @@
     <% if !user_signed_in? && request.fullpath == "/external_sources/setup" %>
       <link rel="manifest" href="/manifest.json" />
     <% end %>
-
-
-    <title>Bilbo</title>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
