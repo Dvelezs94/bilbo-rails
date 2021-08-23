@@ -17,6 +17,16 @@ module MetaTagsHelper
 
     def seo_meta_tags
         # Sets default meta tags for improved SEO search results
-
+        if !user_signed_in? && controller_name.eql?("landing_pages") && action_name.eql?("show") && @board.present?
+            "
+            <title>#{t("bilbos.#{@board.category}")} de publicidad #{@board.name} en  #{@board.short_address}</title>
+            <meta property='description' content='Crea una campaña publicitaria en #{t("bilbos.#{@board.category}")} de #{@board.name} en #{@board.short_address} con Bilbo'/>
+            <meta name='robots' content='follow' />
+            ".html_safe
+        else
+            "
+            <title>Bilbo</title>
+            ".html_safe
+        end
     end
 end
