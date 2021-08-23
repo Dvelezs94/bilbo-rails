@@ -314,9 +314,9 @@ class BoardsController < ApplicationController
   # search radius is defaulted to 10km
   def get_boards(lat: 19.4324451, lng: -99.1333817, radius: 10000)
     if user_signed_in? && @project.provider?
-      @boards = @project.boards.enabled.within_radius(lat, lng, radius.to_i)
+      @boards = @project.boards.enabled.within_radius(lat, lng, radius.to_i).sort_by{|b| b.distance_from_lat_lng(lat,lng) }.first(50).to_a
     else
-      @boards = Board.enabled.within_radius(lat, lng, radius.to_i)
+      @boards = Board.enabled.within_radius(lat, lng, radius.to_i).sort_by{|b| b.distance_from_lat_lng(lat,lng) }.first(50).to_a
     end
   end
 

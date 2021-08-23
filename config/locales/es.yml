@@ -551,6 +551,7 @@ es:
     if_it_doesnt_redirect: Si no lo redirige en 5 segundos, haga click
     processing_order: Procesando la orden...
     buy_credits: Comprar creditos
+    no_owner_buying_credits: Sólo el dueño del proyecto puede comprar créditos. Puedes mandarle esta liga para que lo haga.
     verify_account: Verificar mi Cuenta
     credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiración. 1 crédito equivale a $1 MXN.
     credit_limit: Límite de compra de créditos superada
