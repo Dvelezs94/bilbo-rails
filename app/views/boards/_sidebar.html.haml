@@ -12,11 +12,13 @@
                 lng: (params[:lng].present?)? params[:lng] : "",                                                                             |
                 form: "filter-bilbos"                                                                                                          |
               = hidden_field_tag :radius, params[:radius], {form: "filter-bilbos"}
-            .flex-1
-              %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+            .flex-1.mx-wd-25p
+              %button.btn.filter-button.text-capitalize.tx-gray-500.text-truncate.mx-wd-80p.border-light.pd-y-3.pd-x-2{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                 = t('bilbos.search.media_type')
               .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop1"}}
                 .pd-10.tx-gray-700
+                  %h6.tx-gray-700.text-center= t('bilbos.search.media_type')
+                  .dropdown-divider.mg-b-5
                   .custom-control.custom-checkbox.mg-b-5
                     = radio_button_tag :categoryR, 'all', true, :class => "custom-control-input", :id =>"categoryRadio0"
                     %label.custom-control-label{for: "categoryRadio0", onclick: "$('#category').val('')"}= t('bilbos.search.all')
@@ -80,8 +82,8 @@
                     = number_field_tag :cycle_price, nil, class: "form-control", value: params[:cycle_price], step: "1", autocomplete: "off", form: "filter-bilbos"
                   - max_price = Board.maximum("cycle_price").ceil
                   = text_field_tag :ionslider, nil, class: 'form-control', id: "price_slider", data: { to: max_price, max: max_price  }
-            .flex-1.text-right
-              %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop4", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
+            .flex-1.text-right.mx-wd-25p
+              %button.btn.filter-button.text-capitalize.tx-gray-500.text-truncate.mx-wd-80p.border-light.pd-y-3.pd-x-2{type: "button", id: "drop4", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                 = t('bilbos.search.dimensions')
               .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop4"}}
                 .pd-10
