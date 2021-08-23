@@ -441,8 +441,11 @@ es:
     credits: Créditos
     type: Tipo
     television: Televisión
-    wallboard: Cartelon
+    televisions: Televisiones
+    wallboard: Mupi
+    wallboards: Mupis
     billboard: Espectacular
+    billboards: Espectaculares
     provider: Correo del proveedor
     earnings_description: Ultimos 3 meses de ganancias
     impressions_count_description: Ultimos 3 meses de impresiones
@@ -492,7 +495,7 @@ es:
       all: Todos
       billboard: Espectacular
       television: Televisión
-      wallboard: Cartelón
+      wallboard: Mupi
       min_per_impression: Desde
       max_per_impression: Hasta
       price_per_imp: Precio por impresión
