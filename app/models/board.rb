@@ -49,6 +49,10 @@ class Board < ApplicationRecord
   # (latitude, longitude, radius[km])
   scope :within_radius, lambda {|latitude, longitude, metres| where("earth_box(ll_to_earth(?, ?), ?) @> ll_to_earth(lat, lng)", latitude, longitude, metres) }
 
+  #returns distance in euclidean space, but it doesnt use sqrt to do it faster, this is just needed to sort
+  def distance_from_lat_lng(center_lat,center_lng) #
+    return (center_lat.to_f-lat)**2+(center_lng.to_f-lng)**2
+  end
   ################ DEMO FIX ##########################
   def start_time
     super.nil?? Time.parse("8:00")  : super
