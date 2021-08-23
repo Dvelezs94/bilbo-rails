@@ -1,0 +1,9 @@
+<% if Rails.env.production? %>
+    User-Agent: *
+    Allow: /
+    Disallow: /wizard
+    Sitemap: https://app.bilbo.mx/sitemap
+<% else %>
+    User-Agent: *
+    Disallow: /
+<% end %>
