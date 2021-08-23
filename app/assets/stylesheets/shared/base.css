@@ -36895,6 +36895,12 @@ a.bg-twitter:hover, a.bg-twitter:focus, button.bg-twitter:hover, button.bg-twitt
 .wd-300 {
   width: 300px; }
 
+.wd-315 {
+  width: 315px; }
+
+.wd-315-f {
+  width: 315px !important; }
+
 .wd-300-f {
   width: 300px !important; }
 

@@ -1,62 +1,56 @@
-%h3= t('campaign.wizard.summary')
+%h3.d-none= t('campaign.wizard.summary')
 %section
-  %hr
-    .row
-      .col-xl-6
-        %details{:open => "open"}
-          %summary
-            %strong
-              Bilbos (
-              %span#bilbosNum>
-              )
-          %ul#bilbosAddress{:style => "list-style: none;"}
-        %hr
-          -if "#{@campaign.classification}" == "per_hour"
-            %strong= t('campaign.wizard.campaign_hour')
-            %br
-            %div#current_row_hours
-              %div.d-none#hours_summary
-                %strong.dayOfWeek
-                %strong.impPerHour
-                %span= t('campaign.wizard.impressions_hour')
-                %strong.timeStart
-                %span= t('campaign.wizard.to')
-                %strong.timeEnd
-                %i.fe.fe-clock
-            %hr
-            %strong= t('campaign.wizard.impressions_hour_budget')
-            %br
-            %div#current_spend
-              %div.d-none#spend_summary
-                %span.dayOfWeek
-                %span.money
-          -if "#{@campaign.classification}" == "per_minute"
-            %strong= t('campaign.wizard.campaign_minute')
-            %br
-              %strong#perMinute
-              %span= t('campaign.wizard.impressions')
-              %strong#perMinuteEnd
-              %span= t('campaign.wizard.minute')
-              %i.fe.fe-clock
-          -if "#{@campaign.classification}" == "budget"
-            %strong= t('campaign.total_budget')
-            %br
-              %span#dailyBudget
-          %hr
-            %p
-              %strong= t('campaign.wizard.campaign_duration')
-              %br
-                %span#campaignStarts
-                \-
-                %span#campaignEnds
-      .divider-text.divider-vertical{"data-text" => "and"}= t('campaign.wizard.preview')
-      .col-xl-5
-        .modal-body.pd-x-25.pd-sm-x-30.pd-t-40.pd-sm-t-20.pd-b-15.pd-sm-b-20
-          .nav-wrapper.mg-b-20.tx-13
-            %div
-              = select_tag "", options_for_select(@campaign_boards), onchange: "$('#parent-carousel').width(250); $('#parent-carousel').height(250); $('#parent-carousel').width($('option:selected', this).attr('new-width')); $('#parent-carousel').height($('option:selected', this).attr('new-height')); showHideCarouselContent();", class: 'custom-select wd-100p', id: "aspect_ratio_select"
-          / nav-wrapper
-          #parent-carousel.bg-dark{:style => " margin: 0 auto; display:block !important; height: 250px; width: 250px; display: inline-block; position: relative;"}
-            #carousel_wizard
-              / javascript carousel_wizard
-        / modal-body
+  .row
+    .col-lg-8.col-xl-8.col-sm-12.col-md-12
+      %h3.tx-bold=t('campaign.wizard.summary')
+      %p=t('campaign.wizard.summary_description')
+      %div.accordion#summary_boards
+    .col-sm-12.col-md-12.col-lg-4.col-xl-4
+      %h3.tx-bold=t('campaign.wizard.total_investment_title')
+      %label.d-block= t('campaign.total_investment')
+      .table-responsive.mg-t-30
+        %table.table.wizard-table.border-0
+          %tbody
+            %tr
+              %td.border-0.tx-gray-3=t("general_inputs.name")
+              %td.border-0.tx-gray-2=@campaign.name
+            %tr
+              %td.border-0.tx-gray-3=t("bilbos.duration")
+              %td.border-0.tx-gray-2="#{@campaign.active_days.to_s} #{t("week_days.days")}"
+            %tr
+              %td.border-0.tx-gray-3=t("campaign.dates")
+              %td.border-0.tx-gray-2="#{(I18n.l @campaign.starts_at, format: "%d-%b")} #{t("campaign.wizard.to")} #{I18n.l(@campaign.ends_at, format: "%d-%b")}" rescue t('campaign.wizard.ongoing_campaign')
+            %tr
+              %td.border-0.tx-gray-3=t("campaign.objective")
+              %td.border-0.tx-gray-2=t("campaign.objectives.#{@campaign.objective}")
+            %tr
+              %td.border-0.tx-gray-3=t('campaign.wizard.campaign_classification')
+              %td.border-0.tx-gray-2=t("campaign.classification.#{@campaign.classification}")
+            %tr
+              %td.border-0.tx-gray-3=t("campaign.wizard.selected_bilbos")
+              %td.border-0.tx-gray-2{id: 'board_count_summary'}
+            -# %tr
+            -#   %td.border-0.tx-gray-3=t("bilbos.search.media_type")
+            -#   %td.border-0.tx-gray-2{id: 'board_class_summary'}
+            -if @campaign.is_per_hour?
+              %tr
+                %td.border-0{colspan: 2}=link_to "#{t('campaign.wizard.ads_schedule')}", "#modalSummary", data: { toggle: "modal" }
+            -elsif @campaign.is_per_minute?
+              %tr
+                %td.border-0.tx-gray-3=t('campaign.wizard.frequency')
+                %td.border-0.tx-gray-2{id: "frequency"}
+            %tr
+              %td.border-0.h2="Total"
+              %td.border-0.h2.tx-gray-1{id: 'total_budget_summary'}
+        %input.d-none#start_date{value: @campaign.starts_at}
+        %input.d-none#end_date{value: @campaign.ends_at}
+        %input.d-none#summary_active_days{value: "#{@campaign.active_days}"}
+        %input.d-none#translation_impressions_each{value: t("campaign.wizard.impressions")}
+        %input.d-none#translation_minutes{value: t("campaign.wizard.minutes")}
+        %input.d-none#user_balance{value: "#{@project.owner.balance}"}
+        %input.d-none#project_classification{value: "#{@project.classification}"}
+      .row.pd-l-10#out_of_credits{class: "invisible"}
+        .badge.billboard-badge
+          .pd-l-20.pd-r-20.pd-t-5.pd-b-5
+            %i.fa.fa-exclamation-triangle.tx-14.tx-bold
+              =t('campaign.wizard.not_enough_credits')

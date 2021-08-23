@@ -51,7 +51,7 @@ function addBilbo(el) {
   selected_boards = $("#selected_boards");
   aspect_ratio_select = $("#aspect_ratio_select");
   if (selected_boards.find("option[value=" + id + "]").length == 0) {
-    build_option = "<option value='" + id + "' data-max-impressions='" + max_impressions + "' data-price='" + cycle_price + "' new-height='" + new_height + "' data-cycle-duration='" + cycle_duration + "' new-width='" + new_width + "' lat='"+lat+"' lng='"+lng +"' >"+ address + "</option>"
+    build_option = "<option value='" + id + "' data-max-impressions='" + max_impressions + "' data-price='" + cycle_price + "' new-height='" + new_height + "' data-cycle-duration='" + cycle_duration + "' data-slug='" + slug +"' new-width='" + new_width + "' lat='"+lat+"' lng='"+lng +"' >"+ address + "</option>"
     selected_boards.append(build_option);
     aspect_ratio_select.append(build_option);
     update_hidden_input(selected_boards);

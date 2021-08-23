@@ -1,3 +1,3 @@
 .carousel-item{ class: "#{'active' if image_iteration.first?}"}
-  = link_to image, class: "glightbox d-block w-100", :data => {group: image.record.id} do
+  = link_to url_from_media(image), class: "glightbox d-block w-100", :data => {group: image.record.id} do
     = image_tag generate_thumbnail(image, 600, 600), class: "img-inherit", alt: "No Image"
