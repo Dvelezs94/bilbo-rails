@@ -126,6 +126,9 @@
              
 = render "footers/white"
 
+%script{:type => "application/ld+json"}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Cuánto cuesta rentar un espectacular digital?","acceptedAnswer":{"@type":"Answer","text":"Con Bilbo puedes comenzar a rentar un espectacular digital desde $50 MXN al día y correr tu anuncio por los días y horas que decidas en Bilbos Afiliados. "}},{"@type":"Question","name":"¿Qué disponibilidad tienen?","acceptedAnswer":{"@type":"Answer","text":"La disponibilidad de los espectaculares la puedes ver al momento de hacer la compra por la plataforma. "}},{"@type":"Question","name":"¿Cómo funciona Bilbo?","acceptedAnswer":{"@type":"Answer","text":"Bilbo Funciona como una plataforma donde puedes rentar un espacio publicitario sin necesidad de plazos. Simplemente sube tu anuncio; video o imagen y selecciona el espectacular en el que quieres mostrarlo. "}}]}
+
 :javascript
   $('.accordion').accordion({
     heightStyle: 'content',

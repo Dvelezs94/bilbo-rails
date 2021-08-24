@@ -37,6 +37,7 @@
           %th Bilbo
           %th= t("campaign.wizard.campaign_classification")
           %th= t("campaign.daily_budget")
+          %th= t("campaign.daily_spots")
           %th= t("campaign.campaign_status")
         %tbody#content_body= render partial: "campaigns/status_campaign", collection: @board_campaigns, as: :board_campaign
         %tbody#placeholderTable.d-none= render partial: "shared/table_placeholder"
