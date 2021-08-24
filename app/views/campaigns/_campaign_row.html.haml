@@ -17,10 +17,10 @@
   %td.text-right.tx-medium= campaign.impression_count
   %td.text-right= number_to_currency_usd(campaign.budget)
   %td.text-right= number_to_currency_usd(campaign.total_invested)
-  %td
+  %td.text-center
     - if campaign.interaction?
-      = link_to download_qr_instructions_campaign_path(campaign), method: :get, class: "d-flex align-items-center justify-content-between" do
-        %i.fe.fe-download
+      = link_to download_qr_instructions_campaign_path(campaign), method: :get do
+        %i.fe.fe-download.mg-r-10
         = t("campaign.download_qr")
   %td
     .dropdown

@@ -26,7 +26,7 @@
     .d-flex.flex-wrap.flex-2
       .tx-20.mg-y-10
         %i{class: "icon-#{board.category}", "data-toggle": "tooltip", title: t('bilbos.'+board.category)}
-        %span= board.name
+        %span#board_info_name= board.name
       %span= board.address
       .d-flex.mg-y-10.wd-100p
         .col-4.pd-x-10.border-right

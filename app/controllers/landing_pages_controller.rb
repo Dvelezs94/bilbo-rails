@@ -12,7 +12,7 @@ class LandingPagesController < ApplicationController
 
     private
 
-    def get_board 
+    def get_board
         @board = Board.enabled.where(country_state: params[:state], city: params[:city], parameterized_name: params[:name]).first
     end
 end
