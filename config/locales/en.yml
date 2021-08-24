@@ -237,6 +237,7 @@ en:
     people: people
     impressions: Impressions
     daily_budget: Daily Budget
+    daily_impressions: Daily Impressions
     daily_spots: Daily Spots
     total_budget: Total Budget
     total_invested: Total Invested
@@ -441,13 +442,16 @@ en:
     images_only: This bilbo only display images
     accepts_video: Accepts video
     address: Address
-    add_bilbo: Add Bilbo
+    add_bilbo: Select Bilbo
     remove_bilbo: Remove Bilbo
     credits: Credits
     type: Type
     television: Television
+    televisions: Televisions
     wallboard: Wallboard
+    wallboards: Wallboards
     billboard: Billboard
+    billboards: Billboards
     provider: Provider email
     earnings_description: last 3 months of earnings
     impressions_count_description: last 3 months of impressions

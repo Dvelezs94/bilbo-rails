@@ -7,13 +7,14 @@
     // create a div to place the image, video or iframe
     var carousel_item = document.createElement('div')
     carousel_item.classList = "carousel-item"
+    carousel_item.style = "height: inherit;"
     <% if index == 0 %>
       carousel_item.classList += " active"
     <% end %>
     <% if content.is_video? %>
-      carousel_item.innerHTML = '<video src=<%=content.multimedia_url%> class="center-block d-block rounded" controls="false" controlslist="nodownload" autoplay="true" loop="true" muted="muted" style="max-width: 100%; max-height: 100%; top: 0; bottom: 0; object-fit: contain;"/>'
+      carousel_item.innerHTML = '<video src=<%=content.multimedia_url%> class="center-block d-block rounded pos-absolute" controls="false" controlslist="nodownload" autoplay="true" loop="true" muted="muted" style="max-width: 100%; max-height: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%); object-fit: contain;"/>'
     <% elsif content.is_image? %>
-      carousel_item.innerHTML = '<img src=<%=content.multimedia_url%> class="center-block d-block rounded" style="max-width: 100%; max-height: 100%; top: 0; bottom: 0; object-fit: contain;"/>'
+      carousel_item.innerHTML = '<img src=<%=content.multimedia_url%> class="center-block d-block rounded pos-absolute" style="max-width: 100%; max-height: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%); object-fit: contain;"/>'
     <% else %>
       carousel_item.innerHTML = '<iframe src=<%=content.url%>  class="center-block d-block" style="max-width: 100%; max-height: 100%; top: 0; bottom: 0; object-fit: contain;" scrolling="no"/>'
     <% end %>

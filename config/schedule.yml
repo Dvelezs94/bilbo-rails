@@ -16,3 +16,7 @@ monitor_impressions:
 witness_days_verification_worker:
   cron: "0 12 * * *"
   class: "WitnessDaysVerificationWorker"
+generate_sitemap_job:
+  cron: "0 1 * * *"
+  class: "RegenerateSitemapWorker"
+

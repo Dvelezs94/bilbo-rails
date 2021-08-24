@@ -1,3 +1,8 @@
+# Load rake tasks
+require 'rake'
+Rake::Task.clear # necessary to avoid tasks being loaded several times in dev mode
+Bilbo::Application.load_tasks
+
 class BoardUploadWorker
   include Sidekiq::Worker
   include AwsFunctionsHelper
@@ -36,7 +41,7 @@ class BoardUploadWorker
         item[:category] = "billboard"
       elsif screen_type.in? ["televisión","television"]
         item[:category] = "television"
-      elsif screen_type.in? ["cartelon","cartelón","wallboard"]
+      elsif screen_type.in? ["cartelon","cartelón","wallboard", "mupi"]
         item[:category] = "wallboard"
       end
 
@@ -236,6 +241,8 @@ class BoardUploadWorker
         SlackNotifyWorker.perform_async("#{successful} nuevos bilbos fueron creados correctamente\nNo fue posible subir el reporte a s3, revisa el reporte en la ruta: #{report_path}")
       end
     end
+    # Get board metadata fields for landing pages
+    Rake::Task['set_boards_address_metadata:set'].invoke if !Rails.env.development?
   end
 
   def split_restrictions(concat_restricctions)
