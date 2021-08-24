@@ -18,9 +18,9 @@ SitemapGenerator::Sitemap.create do
   # Links are added to the Sitemap in the order they are specified.
   add root_path
 
-  Board.enabled.each do |board|
+  Board.enabled.find_each do |board|
     begin
-        add bilbo_landing_path(board.country_state, board.city, board.parameterized_name)
+        add bilbo_landing_url(board.country_state, board.city, board.parameterized_name), :lastmod => board.updated_at
     rescue
         true
     end
