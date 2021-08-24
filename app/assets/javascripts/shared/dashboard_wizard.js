@@ -529,7 +529,7 @@ function showOrHideSizeAlert(){
       board = $("#selected_boards [data-slug=" + slug + "]")[0]
       board_width = $(board).attr('new-width')
       board_height = $(board).attr('new-height')
-      new_img = e.relatedTarget
+      new_img = e.relatedTarget.children[0]
       if(new_img.offsetWidth / new_img.offsetHeight != board_width / board_height){
         $("#wrong_size_alert_"+slug)[0].classList.remove('invisible')
       } else {
