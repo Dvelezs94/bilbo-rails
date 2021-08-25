@@ -56,8 +56,8 @@ function addBilbo(el) {
     aspect_ratio_select.append(build_option);
     update_hidden_input(selected_boards);
     update_buttons("added", buttons_container);
+    update_select_count(1);
   }
-  update_select_count(1);
 }
 
 function removeBilbo(el) {
@@ -69,7 +69,6 @@ function removeBilbo(el) {
   selected_boards.find("option[value=" + id + "]").remove();
   update_hidden_input(selected_boards);
   aspect_ratio_select.find("option[value=" + id + "]").remove();
-  update_hidden_input(aspect_ratio_select);
   update_buttons("deleted", buttons_container);
   update_select_count(-1);
   $("#slug-"+slug).remove();

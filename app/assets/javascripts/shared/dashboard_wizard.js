@@ -22,22 +22,22 @@ $(document).on('turbolinks:load', function () {
         if(newIndex==0) {
           $("#dashboardWizard .content.clearfix").addClass("pd-0-f");
         }
-        else {
-          $("#dashboardWizard .content.clearfix").removeClass("pd-0-f");
-        }
+
         if (currentIndex < newIndex) {
           // Step 1 form validation
           if (currentIndex === 0) {
+            var campaignboards = $('#campaign_boards').parsley();
             updateHiddenFieldContent();
             change_duration();
-            var campaignboards = $('#campaign_boards').parsley();
             if (campaignboards.isValid()) {
+              $("#dashboardWizard .content.clearfix").removeClass("pd-0-f");
               var x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
               if($("#board_count").length) $("#board_count")[0].innerHTML= x.length
               $("#board_count_summary")[0].innerHTML= x.length
               return true;
             } else {
-              campaignboards.validate();
+              //campaignboards.validate(); //this shows messages but is not needed because inputs are hidden
+              show_error($('#campaign_boards').attr("data-required-msg"));
             }
           }
 
