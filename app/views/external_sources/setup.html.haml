@@ -7,7 +7,7 @@
         = image_tag("humaaans/illustration_campaign.svg")
       = form_for("", url: configure_external_sources_path, method: :post, :html => { autocomplete: "off", class: "col-8" }) do |f|
         .form-group
-          =f.hidden_field :mac_address, class: "form-control", value: params[:mac_address]
+          = f.hidden_field :mac_address, class: "form-control", value: params[:mac_address]
           = f.text_field :board_slug, class: "form-control", required: true, autofocus: true, placeholder: "Introduce el ID del bilbo. Lo podrás encontrar en tu panel de administración"
         .form-group
           = f.password_field :board_token, class: "form-control", required: true, placeholder: "Introduce el token de acceso"

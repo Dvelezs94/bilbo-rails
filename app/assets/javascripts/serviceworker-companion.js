@@ -1,4 +1,4 @@
-if (navigator.serviceWorker) {
+if (navigator.serviceWorker && getCookie("enableServiceWorker").length) {
   navigator.serviceWorker.register('/serviceworker.js', { scope: './' })
     .then(function(reg) {
       console.log('[Companion]', 'Service worker registered!');
