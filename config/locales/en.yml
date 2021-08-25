@@ -371,6 +371,7 @@ en:
       processing_creatives: Processing videos and images
       verification_required: In order to enable your campaign you need to verify your profile
       not_enough_permissions: You don't have enough permissions
+      no_boards: You must select at least one bilbo
     action:
       deleted: The campaign has been successfully deleted
       updated: The campaign has been successfully updated

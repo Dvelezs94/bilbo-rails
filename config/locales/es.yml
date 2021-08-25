@@ -374,6 +374,7 @@ es:
       verification_required: Verifica tu perfil para activar tu campaña
       processing_creatives: Procesando videos e imágenes
       not_enough_permissions: No tienes suficientes permisos
+      no_boards: Debes escoger al menos un bilbo
     action:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente

@@ -895,10 +895,6 @@ a[href="#previous"] {
 #dashboardWizard > div.content.clearfix {
   flex: 30;
 }
-/*this hides "value required" string when no board is selected because it moves all html*/
-#dashboardWizard-p-0 .parsley-errors-list {
-  display: none;
-}
 
 .overflow-y-scroll {
   overflow-y: scroll;

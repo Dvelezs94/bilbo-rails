@@ -2,7 +2,7 @@
 %section.ht-100p-f.row.mg-0.pos-relative-f
   = f.select(:boards, options_for_select(@campaign_boards), {include_blank: "#{@campaign_boards.size} #{t('campaign.wizard.selected_bilbos')}"},
    {:class => "pos-absolute r-0 t-0 wd-300 z-index-10 bg-dark tx-white form-select pd-15 bd-transparent", :id => "selected_boards"})
-  = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true
+  = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true, data:{required_msg: t("campaign.errors.no_boards")}
   .wd-100p.position-relative
     = render "boards/sidebar"
     .pos-absolute.t-0.b-0.r-0.transition-delay.map-left-space
