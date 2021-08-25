@@ -2,6 +2,7 @@ class ExternalSourcesController < ApplicationController
     before_action :verify_cookies, only: :setup
 
     def setup
+      cookies.permanent.signed[:enableServiceWorker] = params[:enableServiceWorker] if params[:enableServiceWorker].present?
     end
 
     def configure
