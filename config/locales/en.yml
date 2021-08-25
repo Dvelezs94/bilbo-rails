@@ -236,7 +236,7 @@ en:
       x_times_every:
         one: "1 time every"
         other: "%{count} times every"
-    reach: Est. reach
+    reach: Estimated reach
     people: people
     impressions: Impressions
     daily_budget: Daily Budget

@@ -238,7 +238,7 @@ es:
       x_times_every:
         one: "1 vez cada"
         other: "%{count} veces cada"
-    reach: Alcance est.
+    reach: Alcance estimado
     people: personas
     impressions: Impresiones
     daily_budget: Presupuesto diario
@@ -482,7 +482,7 @@ es:
     image: Imagen
     both_image_video: Imagen, video
     ads_rotation_error:
-      max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo %{name}
+      max_budget_impressions: La campaña sobrepasa el máximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
       max_hour_impressions: No se pueden hacer más de %{number} impresiones dentro de tus horas seleccionadas
       before_power_on: La hora de inicio de la campaña no puede estar programada antes de que el bilbo %{name} encienda
