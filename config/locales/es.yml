@@ -234,7 +234,10 @@ es:
     end_date: Fin
     frequency:
       title: Frecuencia de impresiones
-      x_times_every: "1 vez cada"
+      details: Este valor solo es aproximado, la frecuencia real puede ser distinta
+      x_times_every:
+        one: "1 vez cada"
+        other: "%{count} veces cada"
     reach: Alcance est.
     people: personas
     impressions: Impresiones
@@ -479,18 +482,18 @@ es:
     image: Imagen
     both_image_video: Imagen, video
     ads_rotation_error:
-      max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo <strong>%{name}</strong>
+      max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
       max_hour_impressions: No se pueden hacer más de %{number} impresiones dentro de tus horas seleccionadas
-      before_power_on: La hora de inicio de la campaña no puede estar programada antes de que el bilbo <strong>%{name}</strong> encienda
-      after_power_off: La hora límite sobrepasa la hora a la que el bilbo <strong>%{name}</strong> se apaga
-      hour_campaign_time: La hora de la campaña no está dentro del tiempo activo del bilbo <strong>%{name}</strong>
-      hour_campaign_space: No hay espacio para la campaña por hora <strong>%{campaign_name}</strong> en el bilbo <strong>%{bilbo_name}</strong>
-      minute_campaign_space: No hay espacio para la campaña por minutos <strong>%{campaign_name}</strong> en el bilbo <strong>%{bilbo_name}</strong>
-      budget_campaign_space: No hay espacio para la campaña por presupuesto <strong>%{campaign_name}</strong> en el bilbo <strong>%{bilbo_name}</strong>
-      duration_is_not_ten: El bilbo <strong>%{name}</strong> no admite campañas por minuto porque la duración de los anuncios es diferente de diez segundos
+      before_power_on: La hora de inicio de la campaña no puede estar programada antes de que el bilbo %{name} encienda
+      after_power_off: La hora límite sobrepasa la hora a la que el bilbo %{name} se apaga
+      hour_campaign_time: La hora de la campaña no está dentro del tiempo activo del bilbo %{name}
+      hour_campaign_space: No hay espacio para la campaña por hora %{campaign_name} en el bilbo %{bilbo_name}
+      minute_campaign_space: No hay espacio para la campaña por minutos %{campaign_name} en el bilbo %{bilbo_name}
+      budget_campaign_space: No hay espacio para la campaña por presupuesto %{campaign_name} en el bilbo %{bilbo_name}
+      duration_is_not_ten: El bilbo %{name} no admite campañas por minuto porque la duración de los anuncios es diferente de diez segundos
       duration_exceeds_60: La duración del anuncio no puede ser mayor a 60 segundos
-      ad_duration_less_than_required: La duración del anuncio es inválida en el bilbo <strong>%{name}</strong>
+      ad_duration_less_than_required: La duración del anuncio es inválida en el bilbo %{name}
       overlapping_schedules: Los horarios %{n1} y %{n2} de esta campaña se traslapan. Realiza los cambios necesarios e intenta nuevamente
     search:
       return: Volver a los resultados
