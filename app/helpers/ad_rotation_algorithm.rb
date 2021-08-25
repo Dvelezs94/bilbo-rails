@@ -529,16 +529,13 @@ module AdRotationAlgorithm
   end
 
   def get_current_index(board)
-    # Check the current time to start placing the ads from
-    # current index at first, so we can maximize the earnings
-    st = Time.parse(board.start_time.strftime("%H:%M"))
-    et = Time.parse(board.end_time.strftime("%H:%M"))
-    ct = Time.now.utc + self.utc_offset.minutes
-    et = et+1.day if et<=st
-    rotation_key = 0
-    if ct.between?(st,et)
-      elapsed_secs = ct-st
+    start_t, end_t = board.parse_active_time
+    current_time = Time.now.utc
+    if current_time.between?(start_t,end_t)
+      elapsed_secs = current_time - start_t
       rotation_key = (elapsed_secs/10).to_i
+    else
+      rotation_key = 0
     end
     return rotation_key
   end
