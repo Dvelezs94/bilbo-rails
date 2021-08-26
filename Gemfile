@@ -151,7 +151,7 @@ gem 'carrierwave', '~> 2.2'
 gem 'fog-aws', '~> 3.8'
 gem 'shrine', '~> 3.3'
 # grape for Api
-gem 'grape', '~> 1.5', '>= 1.5.2'
+gem 'grape', '~> 1.5', '>= 1.5.3'
 gem 'aws-sdk-s3', '~> 1'
 gem 'mailerlite', '~> 1.13'
 gem 'sitemap_generator', '~> 6.1', '>= 6.1.2'
