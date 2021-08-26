@@ -61,7 +61,6 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'psych', '~> 4.0', '>= 4.0.1'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise', '~> 4.6', '>= 4.6.2'
 gem 'devise_invitable', '~> 2.0', '>= 2.0.1'
@@ -152,7 +151,7 @@ gem 'carrierwave', '~> 2.2'
 gem 'fog-aws', '~> 3.8'
 gem 'shrine', '~> 3.3'
 # grape for Api
-gem 'grape', '~> 1.5', '>= 1.5.3'
+gem 'grape', '~> 1.5', '>= 1.5.2'
 gem 'aws-sdk-s3', '~> 1'
 gem 'mailerlite', '~> 1.13'
 gem 'sitemap_generator', '~> 6.1', '>= 6.1.2'
