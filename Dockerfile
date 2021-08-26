@@ -64,7 +64,7 @@ ARG PAYPAL_SIGNATURE
 ARG MAPS_API_KEY
 
 # Run asset precompile if CI_AGENT key is set
-RUN rails assets:clobber
+RUN rails assets:clean
 RUN if [ -n "$CI_AGENT" ]; then rails assets:precompile --trace; fi
 
 # Prevent server pid from saving
