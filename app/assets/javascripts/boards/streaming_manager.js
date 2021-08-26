@@ -1,5 +1,8 @@
- $(document).on('turbolinks:load', function() {
+$(document).on('turbolinks:load', function() {
    if ($("#api_token").length && document.URL.includes( $("[data-board]").attr("data-board") + "?access_token=" + $("#access_token").val())) {
+     //Remove far contents json
+     src_removed = {}; //save the content src
+     return_src = {};//position to return src
      // initiate graphql
      var graph = graphql("/api")
      var rotateAds;
@@ -28,7 +31,8 @@
 
          // reload Bilbo after running 24 hours straight
          setTimeout(function(){ window.location.reload() }, 86400000);
-
+         //remove some ads for
+         setInterval(function(){ can_remove_ads= true; }, 60000);
          //reload all iframes every hour
          setInterval(function(){
            var d = new Date();
@@ -40,6 +44,7 @@
 
          // Start stream
            rotation_key = getIndex($("#start_time").val());
+           console.log("rotation_key" + rotation_key);
            $(".board-ads").attr('style', 'display:block !important');
            // give 5 seconds to load all images and videos
            setTimeout(function() {
@@ -124,7 +129,22 @@
        ads = jQuery.parseJSON($("#ads_rotation").val());
        // restart from beginning if the array was completely ran
        if (rotation_key >= ads.length) rotation_key = 0;
-
+       console.log(rotation_key)
+       console.log("Ads: " + ads[rotation_key]);
+       var memoryInfo = window.performance.memory;
+       console.log(memoryInfo);
+       if (can_remove_ads == true)
+       {
+        remove_far_contents(rotation_key);
+       }
+       if(return_src[rotation_key+10]){
+        $('[data-campaign-id="'+return_src[rotation_key+10]+'"]').each(function(index) {
+          if($(this).attr("src") == ""){
+            $(this).attr("src", src_removed[return_src[rotation_key+10]].split(",")[index]);
+          }
+        });
+         setInterval(remove_far_contents(rotation_key), 300);
+       }
        chosen = ads[rotation_key];
        if (isWorkTime(work_hour_start, work_hour_end)){
          if (chosen == "-") {
@@ -132,7 +152,6 @@
          check_next_campaign_ads_present();
          } else if (chosen != ".") {
              hideBilboAd();
-
              //hide the old ad and pause it if its video
              if (typeof newAd !== 'undefined') {
                oldAd = newAd;
@@ -465,4 +484,54 @@ function isWorkTime(start, end) {
      i = "0" + i;
    }
    return i;
+ }
+
+ function remove_far_contents(rotation_key){
+  var total_ads = 1000 //number of spaces to take in ads-rotation
+  var skip_ads = 30 //number of spaces to skip in ads-rotation
+  var arr_total = jQuery.parseJSON($("#ads_rotation").val()).slice(rotation_key, rotation_key+total_ads) //total selected spaces of ad rotation
+  var arr_first = arr_total.slice(0,skip_ads)// skip the number of ads selected
+  //console.log(JSON.stringify(arr_first))
+  var arr = arr_total.slice(skip_ads,total_ads)//ads to take for delete
+  //console.log(arr)
+  for(i=0; i<arr.length; i++){
+    if(arr[i] != "-" || arr[i] != "."){
+      if($('[data-campaign-id="'+arr[i]+'"]').length > 1){
+        if(src_removed.hasOwnProperty(arr[i])){
+            if (src_removed[arr[i]].split(",").length == $('[data-campaign-id="'+arr[i]+'"]').length){
+            }else{
+              src_removed[arr[i]] = ""
+              if(arr_first.includes(arr[i]) == false){
+                return_src[rotation_key+skip_ads+i] = arr[i]
+                $('[data-campaign-id="'+arr[i]+'"]').each(function() {
+                if(src_removed.hasOwnProperty(arr[i])){
+                  src_removed[arr[i]] +=  ", " + $(this).attr("src");
+                  $(this).attr("src", "")
+                  }else{
+                    src_removed[arr[i]] = $(this).attr("src");
+                    $(this).attr("src", "")
+                  }
+                });
+              }
+            }
+        }else{
+          if(arr_first.includes(arr[i]) == false){
+            return_src[rotation_key+skip_ads+i] = arr[i]
+            $('[data-campaign-id="'+arr[i]+'"]').each(function() {
+            if(src_removed.hasOwnProperty(arr[i])){
+              src_removed[arr[i]] +=  ", " + $(this).attr("src");
+              $(this).attr("src", "")
+              }else{
+                src_removed[arr[i]] = $(this).attr("src");
+                $(this).attr("src", "")
+              }
+            });
+          }
+        }
+      }
+    }
+    can_remove_ads = false;
+  }
+  console.log(return_src)
+  console.log(src_removed)
  }
