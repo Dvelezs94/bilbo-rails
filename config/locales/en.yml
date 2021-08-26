@@ -232,8 +232,11 @@ en:
     end_date: End Date
     frequency:
       title: Impressions frequency
-      x_times_every: "1 time every"
-    reach: Est. reach
+      details: This value is only approximate, the actual frequency may be different
+      x_times_every:
+        one: "1 time every"
+        other: "%{count} times every"
+    reach: Estimated reach
     people: people
     impressions: Impressions
     daily_budget: Daily Budget
@@ -476,18 +479,18 @@ en:
     image: Image
     both_image_video: Image, video
     ads_rotation_error:
-      max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo <strong>%{name}</strong>
+      max_budget_impressions: The campaign exceeds the maximum impressions in the bilbo %{name}
       max_minutes_impressions: No more than %{number} prints can be made in the given time
       max_hour_impressions: No more than %{number} impressions can be made within your selected hours
-      before_power_on: Campaign start time cannot be scheduled before bilbo <strong>%{name}</strong> turns on
-      after_power_off: The cutoff time exceeds the time at which the bilbo <strong>%{name}</strong> turns off
-      hour_campaign_time: The hour of the campaign is not within the active time of the bilbo <strong>%{name}</strong>
-      hour_campaign_space: There is no space for the hourly campaign <strong>%{campaign_name}</strong> in the bilbo <strong>%{bilbo_name}</strong>
-      minute_campaign_space: There is no space for the minute campaign <strong>%{campaign_name}</strong> in the bilbo <strong>%{bilbo_name}</strong>
-      budget_campaign_space: There is no space for the budget campaign <strong>%{campaign_name}</strong> in the bilbo <strong>%{bilbo_name}</strong>
-      duration_is_not_ten: The bilbo <strong>%{name}</strong> doesn't allow campaings per minute because the ad duration is different from ten seconds
+      before_power_on: Campaign start time cannot be scheduled before bilbo %{name} turns on
+      after_power_off: The cutoff time exceeds the time at which the bilbo %{name} turns off
+      hour_campaign_time: The hour of the campaign is not within the active time of the bilbo %{name}
+      hour_campaign_space: There is no space for the hourly campaign %{campaign_name} in the bilbo %{bilbo_name}
+      minute_campaign_space: There is no space for the minute campaign %{campaign_name} in the bilbo %{bilbo_name}
+      budget_campaign_space: There is no space for the budget campaign %{campaign_name} in the bilbo %{bilbo_name}
+      duration_is_not_ten: The bilbo %{name} doesn't allow campaings per minute because the ad duration is different from ten seconds
       duration_exceeds_60: The ad duration can't exceed 60 seconds
-      ad_duration_less_than_required: The ad duration is invalid for bilbo <strong>%{name}</strong>
+      ad_duration_less_than_required: The ad duration is invalid for bilbo %{name}
       overlapping_schedules: Schedules %{n1} and %{n2} of this campaign overlap. Make the necesssary changes and try again
     search:
       return: Return to results
