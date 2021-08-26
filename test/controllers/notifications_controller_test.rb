@@ -31,13 +31,13 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'notification campaign created url' do
-    sign_in @user
-    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 0)
-    @notification = create(:notification, recipient_id: @user.projects.first.id, actor_id: @campaign.project.id, action: "created", notifiable: @campaign, reference: @board)
-    get provider_index_campaigns_url(q: "review")
-    assert_response :success
-  end
+  # test 'notification campaign created url' do
+  #   sign_in @user
+  #   @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 0)
+  #   @notification = create(:notification, recipient_id: @user.projects.first.id, actor_id: @campaign.project.id, action: "created", notifiable: @campaign, reference: @board)
+  #   get provider_index_campaigns_url(q: "review")
+  #   assert_response :success
+  # end
 
   test 'notification campaign denied url' do
     sign_in @user

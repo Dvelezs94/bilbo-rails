@@ -203,9 +203,10 @@ class User < ApplicationRecord
     end
   end
 
-  # month: Report of the month you want to send to the provider
-  # method: :print/:email print results or email results
   def send_provider_report(date: Time.zone.now, method: :print)
+    # month: Report of the month you want to send to the provider
+    # method: :print/:email print results or email results
+    
     return "This method is only for providers" if !self.is_provider?
     # current month
     get_month_cycle(date: date)
