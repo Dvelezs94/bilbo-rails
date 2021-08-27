@@ -25,7 +25,8 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
 
   test 'notification campaign approved url' do
     sign_in @user
-    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1)
+    @campaign = Campaign.create(name: "notif", project: @user.projects.first, project_id: @user.projects.first.id, state: false, provider_campaign: @user.is_provider?, starts_at: Time.zone.now, ends_at: Time.zone.now + 24.hours)
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 1, budget: @board.minimum_budget)
     @notification = create(:notification, recipient_id: @user.projects.first.id, actor_id: @campaign.project.id, action: "approved", notifiable: @campaign, reference: @board)
     get analytics_campaign_url(@notification.notifiable.slug)
     assert_response :success
@@ -41,7 +42,8 @@ class NotificationsControllerTest < ActionDispatch::IntegrationTest
 
   test 'notification campaign denied url' do
     sign_in @user
-    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 2)
+    @campaign = Campaign.create(name: "notif", project: @user.projects.first, project_id: @user.projects.first.id, state: false, provider_campaign: @user.is_provider?, starts_at: Time.zone.now, ends_at: Time.zone.now + 24.hours)
+    @boards_campaigns = create(:boards_campaigns, campaign_id: @campaign.id , board_id: @board.id, status: 2, budget: @board.minimum_budget)
     @notification = create(:notification, recipient_id: @project.id, actor_id: @campaign.project.id, action: "denied", notifiable: @campaign, reference: @board)
     get analytics_campaign_url(@notification.notifiable.slug)
     assert_response :success

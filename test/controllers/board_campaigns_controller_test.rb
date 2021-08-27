@@ -57,7 +57,7 @@ class BoardCampaignsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "cant delete content for board campaign" do
-    @campaign_2 = create(:campaign, name: "rar", project_id: @project.id, boards: [@board], provider_campaign: @user.is_provider?, state: true, budget_distribution: {"#{@board.id}": "50.0"}.to_json)
+    @campaign_2 = Campaign.create( name: "name", project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?, state: true, budget_distribution: {"#{@board.id}": "#{@board.minimum_budget}"}.to_json, starts_at: Time.zone.now, ends_at: Time.zone.now + 24.hours)
     @board_campaign_delete = create(:boards_campaigns, campaign_id: @campaign_2.id , board_id: @board.id, status: 1, budget: 50.0)
     @image_attachment = fixture_file_upload('test_image.png','image/png')
     post create_multimedia_contents_url, params: {  multimedia: @image_attachment }, xhr: true

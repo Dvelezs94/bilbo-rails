@@ -10,6 +10,6 @@
     .card-body.pos-relative.pd-0
       .pos-absolute.t-20.l-20.wd-xl-100p.z-index-10
         .row
-        / row
+        //row
       .chart-one
     = area_chart daily_impressions_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), colors: ["#0000FF"], library: {scales: {xAxes: [{ticks: {autoSkipPadding: 15, maxRotation: 0}}]}}, discrete: true
