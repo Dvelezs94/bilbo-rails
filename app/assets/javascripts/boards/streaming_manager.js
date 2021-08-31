@@ -31,8 +31,6 @@ $(document).on('turbolinks:load', function() {
 
          // reload Bilbo after running 24 hours straight
          setTimeout(function(){ window.location.reload() }, 86400000);
-         //remove some ads for
-         setInterval(function(){ can_remove_ads= true; }, 60000);
          //reload all iframes every hour
          setInterval(function(){
            var d = new Date();
@@ -133,17 +131,14 @@ $(document).on('turbolinks:load', function() {
        console.log("Ads: " + ads[rotation_key]);
        var memoryInfo = window.performance.memory;
        console.log(memoryInfo);
-       if (can_remove_ads == true)
-       {
-        remove_far_contents(rotation_key);
-       }
+       //remove_far_contents(rotation_key);
        if(return_src[rotation_key+10]){
         $('[data-campaign-id="'+return_src[rotation_key+10]+'"]').each(function(index) {
           if($(this).attr("src") == ""){
             $(this).attr("src", src_removed[return_src[rotation_key+10]].split(",")[index]);
           }
         });
-         setInterval(remove_far_contents(rotation_key), 300);
+         //setInterval(remove_far_contents(rotation_key), 300);
        }
        chosen = ads[rotation_key];
        if (isWorkTime(work_hour_start, work_hour_end)){
@@ -486,6 +481,10 @@ function isWorkTime(start, end) {
    return i;
  }
 
+ function optimize_memory(){
+   
+ }
+
  function remove_far_contents(rotation_key){
   var total_ads = 1000 //number of spaces to take in ads-rotation
   var skip_ads = 30 //number of spaces to skip in ads-rotation
@@ -530,7 +529,6 @@ function isWorkTime(start, end) {
         }
       }
     }
-    can_remove_ads = false;
   }
   console.log(return_src)
   console.log(src_removed)
