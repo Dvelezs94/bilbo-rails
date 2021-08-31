@@ -124,6 +124,7 @@ Rails.application.routes.draw do
     end
     member do
       post :requestAdsRotation
+      get :loading
       post :update
       delete :delete_image
       delete :delete_default_image

@@ -1,0 +1,19 @@
+%p#retry_info
+
+:javascript
+  const params = new URLSearchParams(window.location.search)
+  if(params.get('attempt') <= 3){
+    var retry_interval = 10
+    setInterval(function(){
+    retry_interval--;
+    $("#retry_info")[0].innerHTML = "El bilbo #{@board.name} está actualmente transmitiendo en otra ventana o dispositivo, reintentando en "+retry_interval+" segundos";
+    },1000);
+
+    var url ="#{board_url(@board, access_token: @board.access_token, mac_address: @board.mac_address)}"
+    console.log(url)
+    setTimeout(function(){
+      window.location = url+"&attempt="+params.get('attempt')
+    }, 10000);
+  } else {
+    $("#retry_info")[0].innerHTML = "No se pudo cargar el bilbo porque está transmitiendo desde otra ventana o dispositivo, apaga el bilbo en tus otros dispositivos e intenta nuevamente"
+  }
