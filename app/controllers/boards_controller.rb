@@ -1,8 +1,8 @@
 class BoardsController < ApplicationController
   include AwsFunctionsHelper
-  access [:provider, :admin, :user, :all] => [:index], [:user, :provider] => [:owned, :statistics], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation, :index], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image, :reload_board]
+  access [:provider, :admin, :user, :all] => [:index], [:user, :provider] => [:owned, :statistics], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation, :index, :loading], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image, :reload_board]
   # before_action :get_all_boards, only: :show
-  before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image, :reload_board, :validate_default_contents_size]
+  before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image, :reload_board, :validate_default_contents_size, :loading]
   before_action :update_boardscampaigns, only: [:requestAdsRotation, :show]
   before_action :restrict_access, only: [:show]
   before_action :validate_identity, only: [:regenerate_access_token, :regenerate_api_token]
@@ -134,13 +134,17 @@ class BoardsController < ApplicationController
   end
 
   def show
-    errors = @board.update_ads_rotation if @board.should_update_ads_rotation?
-    @active_campaigns = @board.active_campaigns
-    # Set api key cookie
-    cookies.signed[:api_key] = {
-      value: @board.api_token,
-      path: request.env['PATH_INFO']
-    }
+    if @board.connected?
+      redirect_to loading_board_path(@board.slug, attempt: (params[:attempt].to_i || 0)+1)
+    else
+      errors = @board.update_ads_rotation if @board.should_update_ads_rotation?
+      @active_campaigns = @board.active_campaigns
+      # Set api key cookie
+      cookies.signed[:api_key] = {
+        value: @board.api_token,
+        path: request.env['PATH_INFO']
+      }
+    end
   end
 
   def create
