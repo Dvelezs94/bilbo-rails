@@ -274,7 +274,7 @@ class Board < ApplicationRecord
 
   # Check if there are Action cable connections in place
   def connected?
-    Redis.new(url: ENV.fetch("REDIS_URL_ACTIONCABLE")).pubsub("channels", slug)[0].present?
+    Redis.new(url: ENV.fetch("REDIS_URL_ACTIONCABLE")).pubsub("channels", slug)[0].present? || self.impressions.where(created_at: 2.minutes.ago .. Time.now).present?
   end
 
   def dont_edit_online
