@@ -151,6 +151,9 @@ en:
     4_months: 4 months
     5_months: 5 months
     6_months: 6 months
+    desc_impressions_per_day: Impressions per day
+    desc_impressions_per_minute: Impressions per minute
+    desc_impressions_per_hour: Impressions per defined hour
     add_schedule: Add Schedule
     schedules: Schedules
     must_add_schedule: You must add a schedule
