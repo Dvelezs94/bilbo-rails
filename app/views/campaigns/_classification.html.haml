@@ -5,14 +5,18 @@
       .card{:id => "budget_card"}
         .card-body.pd-15-f
           .marker.marker-ribbon.marker-primary.pos-absolute.t-10.l-0= t('campaign.wizard.most_popular')
-          %h5.card-title.mg-t-30= t('campaign.wizard.budget')
+          %div.d-flex.mg-t-30
+            %h5.card-title= t('campaign.wizard.budget')
+            %span.mg-l-10.tx-primary= "(#{t('campaign.desc_impressions_per_day')})"
           %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.daily_budget_description')
 -if "per_minute".in? @project.available_campaign_types
   %a.link-02.col-sm-6.col-md-6.col-lg-4.col-xl-3.mg-b-20.pd-0.card-ad-link{:href => "#", :id => "per_minute"}
     .actions.col-sm-15.col-md-15.pd-t-10
       .card
         .card-body.pd-15-f
-          %h5.card-title= t('campaign.wizard.campaign_minute')
+          %div.d-flex
+            %h5.card-title= t('campaign.wizard.campaign_minute')
+            %span.mg-l-10.tx-primary= "(#{t('campaign.desc_impressions_per_minute')})"
           %h6.card-subtitle.mb-2.text-muted=t('campaign.wizard.campaign_minute_description')
 -if "per_hour".in? @project.available_campaign_types
   %a.link-02.col-sm-6.col-md-6.col-lg-4.col-xl-3.mg-b-20.pd-0.card-ad-link{:href => "#", :id => "per_hour"}
@@ -25,6 +29,8 @@
                 = t('campaign.wizard.campaign_hour')
                 %i.fe.fe-question{"data-toggle" => "tooltip",:title => t("campaign.extra_cost_info", ammount: 20)}
           -else
-            %h5.card-title= t('campaign.wizard.campaign_hour')
+            %div.d-flex
+              %h5.card-title= t('campaign.wizard.campaign_hour')
+              %span.mg-l-10.tx-primary= "(#{t('campaign.desc_impressions_per_hour')})"
           %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.campaign_hour_description')
           = f.hidden_field :classification, {:value => "budget", :id => "typeCampaign"}

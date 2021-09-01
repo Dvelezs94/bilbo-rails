@@ -152,6 +152,9 @@ es:
     4_months: 4 meses
     5_months: 5 meses
     6_months: 6 meses
+    desc_impressions_per_day: Impresiones por día
+    desc_impressions_per_minute: Impresiones por minuto
+    desc_impressions_per_hour: Impresiones por horas definidas
     add_schedule: Agregar Horario
     schedules: Horarios
     must_add_schedule: Debe agregar un horario
