@@ -1,12 +1,17 @@
 es:
+  yes: Sí
+  no: No
   time_day:
     seconds: segundos
     minutes: minutos
     hours: horas
     days: "días"
     months: meses
-  error:
-    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
+    formatted:
+      seconds_ago: hace %{input_time} seg.
+      minutes_ago: hace %{input_time} min.
+      hours_ago:  hace %{input_time} horas
+      days_ago:  "hace %{input_time} días"
   input:
     search: Buscar
     submit: Enviar
@@ -148,11 +153,13 @@ es:
     5_months: 5 meses
     6_months: 6 meses
     add_schedule: Agregar Horario
+    schedules: Horarios
     must_add_schedule: Debe agregar un horario
     active_campaigns: Campañas Activas
     review_campaigns: Campañas en Revisión
     dates: Fechas
     details: Detalles de la campaña
+    error_date: La campaña debe tener una fecha de inicio mayor y diferente que la fecha de fin
     missing_date: La campaña debe tener fecha de inicio y de fin
     total_investment: Esta es la inversión total de acuerdo a tu selección
     select_budget: Seleccione un monto de inversión para cada bilbo seleccionado
@@ -227,12 +234,15 @@ es:
     end_date: Fin
     frequency:
       title: Frecuencia de impresiones
-      x_times_every: "1 vez cada"
-    reach: Alcance est.
+      details: Este valor solo es aproximado, la frecuencia real puede ser distinta
+      x_times_every:
+        one: "1 vez cada"
+        other: "%{count} veces cada"
+    reach: Alcance estimado
     people: personas
     impressions: Impresiones
-    daily_budget: Presupuesto Diario
-    daily_spots: Reproducciones Diarias
+    daily_budget: Presupuesto diario
+    daily_spots: Spots diarios
     total_budget: Presupuesto Total
     total_invested: Total Invertido
     impressions_every_x_minutes: "%{times} impresiones cada %{minutes} minutos"
@@ -286,7 +296,7 @@ es:
       next: Siguiente
       previous: Anterior
       finish: Finalizar
-      choose_bilbos: Escoge tus Bilbos
+      choose_bilbos: Selección de pantallas
       selected_bilbos: Bilbos seleccionados
       pick_ad: Elige tu contenido para cada Bilbo
       need_help: ¿Necesitas Ayuda?
@@ -295,6 +305,8 @@ es:
       per_minute: Por minuto
       impressions: impresiones cada
       minutes: minutos
+      ad_preview: Previsualización del anuncio
+      ad_size_warning: Tu anuncio no tiene las medidas exactas
       impressions_hour: impresiones por bilbo de
       impressions_hour_budget: Gasto total pronosticado por día de la semana
       impressions_hour_explanation: Selecciona el día, presupuesto y horario en el que quieres aparecer.<br>
@@ -328,6 +340,12 @@ es:
       impressions_forecast: Impresiones diarias esperadas con el presupuesto elegido
       title_impressions_per_minute: Selecciona cuantas impresiones por minuto deseas que se muestren
       title_impressions_per_hour: Selecciona en que horas deseas que se muestre tu campaña
+      summary_description: Revisa tu selección de bilbos, anuncios y presupuesto para lanzar tu campaña
+      total_investment_title: Inversión total
+      ads_schedule: Programación de anuncios
+      ads_schedule_description: Así se mostrarán tus anuncios, el presupuesto destinado por día de la semana y la cantidad de impresiones
+      frequency: Frecuencia
+      not_enough_credits: No cuentas con los créditos suficientes
       offcanvas:
         pick_ad_desc: Los contenidos son los archivos o videos que se corren en tus Bilbos elegidos. Cada Bilbo que elijas puede tener uno o más contenidos asociados.
         pick_ad_try_to: Intenta elegir imagenes y videos que capten la atención del público para que así tu campaña tenga más impacto.
@@ -359,6 +377,7 @@ es:
       verification_required: Verifica tu perfil para activar tu campaña
       processing_creatives: Procesando videos e imágenes
       not_enough_permissions: No tienes suficientes permisos
+      no_boards: Debes escoger al menos un bilbo
     action:
       deleted: La campaña se ha borrado exitosamente
       updated: La campaña se ha actualizado exitosamente
@@ -418,8 +437,8 @@ es:
     sec: Seg
     image_size: Tamaño de imagen
     image_recommended_size: "Tamaño de imagen en pixeles: %{pixels}px"
-    price_per_print: Precio / spot
-    credits_per_print: Créditos/Impresión
+    price_per_print: Precio/Impresión
+    credits_per_print: Precio por spot
     dimensions: Dimensiones
     expected_profit: Ganancia Esperada
     north: Norte
@@ -428,14 +447,18 @@ es:
     west: Oeste
     face: Cara
     images_only: Este bilbo solo acepta imágenes
+    accepts_video: Acepta video
     address: Dirección
-    add_bilbo: Agregar Bilbo
+    add_bilbo: Seleccionar Bilbo
     remove_bilbo: Eliminar Bilbo
     credits: Créditos
     type: Tipo
     television: Televisión
-    wallboard: Cartelon
+    televisions: Televisiones
+    wallboard: Mupi
+    wallboards: Mupis
     billboard: Espectacular
+    billboards: Espectaculares
     provider: Correo del proveedor
     earnings_description: Ultimos 3 meses de ganancias
     impressions_count_description: Ultimos 3 meses de impresiones
@@ -460,26 +483,46 @@ es:
     image: Imagen
     both_image_video: Imagen, video
     ads_rotation_error:
-      max_budget_impressions: La campaña sobrepasa el maximo de impresiones en el bilbo <strong>%{name}</strong>
+      max_budget_impressions: La campaña sobrepasa el máximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
       max_hour_impressions: No se pueden hacer más de %{number} impresiones dentro de tus horas seleccionadas
-      before_power_on: La hora de inicio de la campaña no puede estar programada antes de que el bilbo <strong>%{name}</strong> encienda
-      after_power_off: La hora límite sobrepasa la hora a la que el bilbo <strong>%{name}</strong> se apaga
-      hour_campaign_time: La hora de la campaña no está dentro del tiempo activo del bilbo <strong>%{name}</strong>
-      hour_campaign_space: No hay espacio para la campaña por hora <strong>%{campaign_name}</strong> en el bilbo <strong>%{bilbo_name}</strong>
-      minute_campaign_space: No hay espacio para la campaña por minutos <strong>%{campaign_name}</strong> en el bilbo <strong>%{bilbo_name}</strong>
-      budget_campaign_space: No hay espacio para la campaña por presupuesto <strong>%{campaign_name}</strong> en el bilbo <strong>%{bilbo_name}</strong>
-      duration_is_not_ten: El bilbo <strong>%{name}</strong> no admite campañas por minuto porque la duración de los anuncios es diferente de diez segundos
+      before_power_on: La hora de inicio de la campaña no puede estar programada antes de que el bilbo %{name} encienda
+      after_power_off: La hora límite sobrepasa la hora a la que el bilbo %{name} se apaga
+      hour_campaign_time: La hora de la campaña no está dentro del tiempo activo del bilbo %{name}
+      hour_campaign_space: No hay espacio para la campaña por hora %{campaign_name} en el bilbo %{bilbo_name}
+      minute_campaign_space: No hay espacio para la campaña por minutos %{campaign_name} en el bilbo %{bilbo_name}
+      budget_campaign_space: No hay espacio para la campaña por presupuesto %{campaign_name} en el bilbo %{bilbo_name}
+      duration_is_not_ten: El bilbo %{name} no admite campañas por minuto porque la duración de los anuncios es diferente de diez segundos
       duration_exceeds_60: La duración del anuncio no puede ser mayor a 60 segundos
-      ad_duration_less_than_required: La duración del anuncio es inválida en el bilbo <strong>%{name}</strong>
+      ad_duration_less_than_required: La duración del anuncio es inválida en el bilbo %{name}
       overlapping_schedules: Los horarios %{n1} y %{n2} de esta campaña se traslapan. Realiza los cambios necesarios e intenta nuevamente
     search:
+      return: Volver a los resultados
       location: Ubicación
+      map_view: Ver en mapa
+      list_view: Ver en lista
       classification: Clasificación
       media_type: Tipo de Medio
-      max_per_impression: $max. / impresión
+      price: Precio
+      dimensions: Dimensiones
+      all: Todos
+      billboard: Espectacular
+      television: Televisión
+      wallboard: Mupi
+      min_per_impression: Desde
+      max_per_impression: Hasta
+      price_per_imp: Precio por impresión
+      min_dim: Dimensión mínima
       min_width: Ancho min. (mts)
       min_height: Alto min. (mts)
+      by_social_class: Por clase social
+      by_social_class_faq: Clases sociales ordenadas de menor a mayor
+      smart: "Tiene métricas avanzadas"
+      target: "Clase social que transita"
+      resolution: Resolución
+      resolution_of: "Resolución de %{diagonal_inches} pulgadas"
+      results: "Resultados"
+      ends_in: Termina en
   ads:
     ads: Anuncios
     name: Nombre
@@ -524,6 +567,7 @@ es:
     if_it_doesnt_redirect: Si no lo redirige en 5 segundos, haga click
     processing_order: Procesando la orden...
     buy_credits: Comprar creditos
+    no_owner_buying_credits: Sólo el dueño del proyecto puede comprar créditos. Puedes mandarle esta liga para que lo haga.
     verify_account: Verificar mi Cuenta
     credits_text: Los créditos son la forma en la cual tu pagas tus campañas de publicidad. Estos créditos son acumulables y puedes comprar cuantos necesites. Los créditos no cuentan con una fecha de expiración. 1 crédito equivale a $1 MXN.
     credit_limit: Límite de compra de créditos superada
@@ -788,6 +832,8 @@ es:
       500_main: Error interno del servidor
       message: Oops. Ocurrió un error, vuelve a intentarlo
       500_description: El servidor encontró un error interno del servidor y no pudo completar su solicitud.
+    error_ocurred: Parece que hemos tenido un error, favor de intentar mas tarde
+    default_content_present: Este contenido es default de un bilbo
   alert:
     project_out_of_credits: Tu proyecto se quedó sin créditos para correr tus campañas!
     verify_profile: Verifica tu perfil para
@@ -815,7 +861,7 @@ es:
     only_numbers_for_phone: "Sólo se aceptan números para el campo teléfono. ej. 5577883344"
   week_days:
     mon: Lunes
-    monday: Luenes
+    monday: Lunes
     tue: Martes
     tuesday: Martes
     wed: Miércoles
@@ -876,10 +922,10 @@ es:
     next: Siguiente
   evidence:
     witnesses: Testigos
-    upload_file: Subir archivo
+    upload_file: Subir testigos
     upload_evidence_description: Aquí podras subir las evidencias de las campañas que solicitan testigos
     upload_evidence_description_2: Si requieres evidencia de tu campaña activa en los bilbos seleccionados, solicítala aquí
-    campaign_ended: No podrás solicitar testigos ya que tu campaña ha finalizado.
+    campaign_not_running: Solo podrás solicitar testigos cuando tu campaña esté corriendo.
     bilbo_selected: Bilbo seleccionado
     files: Archivos
     pending: Pendiente
@@ -896,6 +942,8 @@ es:
     campaign_active: La campaña no se encuentra activa
     validate_weekly_generation: Sólo esta permitido solicitar testigos una vez cada siete dias
     request_witnesses: Solicitar testigos
+    requested: "Solicitado"
+    completed: Completado
   provider_index:
     accept: Aceptar
     denied: Rechazar
@@ -913,7 +961,7 @@ es:
     outdoor_ad: Publicidad exterior en México
     low_prices: Invierte en publicidad exterior digital para tu negocio con precios accesibles.
     new_way_of_advertising: Bilbo es la nueva forma de anunciarte en exteriores.
-  dashboard_player: 
+  dashboard_player:
     add_bilbo: Bilbo agregado exitosamente
     remove_bilbo: Bilbo eliminado exitosamente
     error_player: Error al crear el reproductor

@@ -63,7 +63,7 @@
             .dropdown-divider
             = link_to raw("<i class='fe fe-plus mg-r-5 tx-10'></i> " + t("projects.new_project").downcase), projects_path, class: "dropdown-item"
       - if current_user.is_user?
-        = link_to "#{number_to_currency_usd(current_user.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap", id: "introBalance", data: { toggle: "modal", intro: t("introjs.budget"), step: 5}
+        = link_to "#{number_to_currency_usd(@project.owner.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap", id: "introBalance", data: { toggle: "modal", intro: t("introjs.budget"), step: 5}
       / notifications
       = form_with url: clear_notifications_path, method: :get, id: "clear-notif", class: "d-none", remote: true do |f|
         %p Remote submit for clearing notifications, do not remove this line

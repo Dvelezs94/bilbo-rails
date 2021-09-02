@@ -28,6 +28,7 @@ class Board < ApplicationRecord
   has_many_attached :default_images
   before_save :generate_access_token, :if => :new_record?
   before_save :generate_api_token, :if => :new_record?
+  before_validation :parameterize_address_components
   after_validation :build_cycle_price
   before_update :save_new_cycle_price, if: :admin_edit
   enum status: { enabled: 0, disabled: 1 }
@@ -48,6 +49,10 @@ class Board < ApplicationRecord
   # (latitude, longitude, radius[km])
   scope :within_radius, lambda {|latitude, longitude, metres| where("earth_box(ll_to_earth(?, ?), ?) @> ll_to_earth(lat, lng)", latitude, longitude, metres) }
 
+  #returns distance in euclidean space, but it doesnt use sqrt to do it faster, this is just needed to sort
+  def distance_from_lat_lng(center_lat,center_lng) #
+    return (center_lat.to_f-lat)**2+(center_lng.to_f-lng)**2
+  end
   ################ DEMO FIX ##########################
   def start_time
     super.nil?? Time.parse("8:00")  : super
@@ -321,14 +326,22 @@ class Board < ApplicationRecord
   def size_change
     if self.aspect_ratio.split(':')[0].to_f > self.aspect_ratio.split(':')[1].to_f
       m=self.aspect_ratio.split(':')[0].to_f
-      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*250
-      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*250
+      @new_width = (self.aspect_ratio.split(':')[0].to_f/m)*315
+      @new_height = (self.aspect_ratio.split(':')[1].to_f/m)*315
+      if @new_height > 180
+        @new_width = @new_width*180/@new_height
+        @new_height = 180
+      end
     else
       m = self.aspect_ratio.split(':')[1].to_f
-      @new_height = (self.aspect_ratio.split(':')[0].to_f/m)*250
-      @new_width = (self.aspect_ratio.split(':')[1].to_f/m)*250
+      @new_width = (self.aspect_ratio.split(':')[0].to_f/m)*180
+      @new_height = (self.aspect_ratio.split(':')[1].to_f/m)*180
+      if @new_width > 315
+        @new_height = @new_height*315/@new_width
+        @new_width = 315
+      end
     end
-    return @new_width, @new_height
+    return @new_height, @new_width
   end
 
   def working_minutes(st = self.start_time, et = self.end_time, zero_if_equal = false) #returns minutes of difference
@@ -616,4 +629,11 @@ end
     name
   end
 
+  def parameterize_address_components
+    self.country = country.parameterize if country.present?
+    self.country_state = country_state.parameterize if country_state.present?
+    self.city = city.parameterize if city.present?
+    self.postal_code = postal_code.parameterize if postal_code.present?
+    self.parameterized_name = name.parameterize if name.present?
+  end
 end

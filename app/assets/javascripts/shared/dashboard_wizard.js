@@ -12,22 +12,32 @@ $(document).on('turbolinks:load', function () {
         previous: $('#steps_previous').text(),
       },
       titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+      onInit: function(event, currentIndex) {
+        $("#dashboardWizard .content.clearfix").addClass("pd-0-f"); //removes padding so the map is full screen
+      },
       onFinished: function(event, currentIndex) {
         $('.edit_campaign input[type=submit]').click();
       },
       onStepChanging: function (event, currentIndex, newIndex) {
+        if(newIndex==0) {
+          $("#dashboardWizard .content.clearfix").addClass("pd-0-f");
+        }
+
         if (currentIndex < newIndex) {
           // Step 1 form validation
           if (currentIndex === 0) {
+            var campaignboards = $('#campaign_boards').parsley();
             updateHiddenFieldContent();
             change_duration();
-            var campaignboards = $('#campaign_boards').parsley();
             if (campaignboards.isValid()) {
+              $("#dashboardWizard .content.clearfix").removeClass("pd-0-f");
               var x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
               if($("#board_count").length) $("#board_count")[0].innerHTML= x.length
+              $("#board_count_summary")[0].innerHTML= x.length
               return true;
             } else {
-              campaignboards.validate();
+              //campaignboards.validate(); //this shows messages but is not needed because inputs are hidden
+              show_error($('#campaign_boards').attr("data-required-msg"));
             }
           }
 
@@ -208,30 +218,38 @@ $(document).on('turbolinks:load', function () {
           $('#bilbosAddress').empty();
           $('#selected_boards option:not(:eq(0))').each(function () {
             $('#bilbosAddress').append('<li>' + $(this).text() + '</li>');
-            // change size of preview in summary
-            $('#parent-carousel').width(
-              $('#aspect_ratio_select option:selected').attr('new-width')
-            );
-            $('#parent-carousel').height(
-              $('#aspect_ratio_select option:selected').attr('new-height')
-            );
           });
           $('#bilbosNum').text($('#bilbosAddress li').length);
           if ($('#impressions').length == 1)
             $('#impressions')[0].style.width =
               ($('#campaign_budget')[0].value.length + 5) * 8 + 'px';
         } else if (priorIndex === 2) {
-          showHideCarouselContent();
-          $('#perMinute').text($('#imp_minute').val());
-          $('#perMinuteEnd').text($('#campaign_minutes').val());
-          make_summary_selected_hours();
-          make_spend_summary_selected_hours();
-          // $('#impPerHour').text($('#impressionsPerHour').val());
-          // $('#timeStart').text($('#timePickerStart').val());
-          // $('#timeEnd').text($('#timePickerEnd').val());
-          if($("#total_budget").length) $('#dailyBudget').text($("#total_budget")[0].innerHTML);
-          $('#campaignStarts').text($('#campaign_starts_at').val());
-          $('#campaignEnds').text($('#campaign_ends_at').val());
+          $('#selected_boards option:not(:eq(0))').each(function () {
+            // change size of preview in summary
+            $('#carousel-'+$(this).data('slug')).width(
+              $(this).attr('new-width')
+            );
+            $('#carousel-'+$(this).data('slug')).children()[0].style="height: " + $(this).attr('new-height') + 'px'
+            $('#carousel-'+$(this).data('slug')).height(
+              $(this).attr('new-height')
+            );
+          });
+          x = $("#campaign_boards").val().split(',').filter((el) => {return el != ""});
+          $.each(x, function(index, board_id){
+            if($("#budget-summary-"+board_id).length) $("#budget-summary-"+board_id)[0].innerHTML = currencyFormat($("#budget-"+board_id).val() || "0")+ " MXN"
+            if($("#impressions-summary-"+board_id).length) $("#impressions-summary-"+board_id)[0].innerHTML = $("#impressions-"+board_id).val()
+          });
+          getSummaryInfo();
+          if($("#frequency").length) computePerMinuteTotalBudget();
+          if($("#total_budget").length) $('#total_budget_summary').text($("#total_budget")[0].innerHTML);
+          //show alert if user has not enough credits to run the campaign
+          setTimeout(function(){
+            var campaign_budget = parseFloat($("#total_budget_summary")[0].innerHTML.replace(/[^\d.-]/g, ''))
+            var user_balance = parseFloat($("#user_balance").val())
+            if(user_balance < campaign_budget && $("#project_classification").val() == "user"){
+              $("#out_of_credits")[0].classList.remove('invisible')
+            }
+          },500);
         }
       },
     });
@@ -346,11 +364,6 @@ $(document).on('turbolinks:load', function () {
         total_budget += parseFloat($("#budget-"+board_id).val() || 0)
       })
       $("#total_budget")[0].innerHTML=currencyFormat(total_budget*parseInt($("#active_days").val()) || "0")
-    }
-
-    function currencyFormat(num) {
-      // console.log(num)
-      return '$' + (parseFloat(num) || 0.00).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
 
     function updateOnChanges(e, obj) {
@@ -479,65 +492,120 @@ $(document).on('turbolinks:load', function () {
 
   }
 });
+function currencyFormat(num) {
+  // console.log(num)
+  return '$' + (parseFloat(num) || 0.00).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
+function computePerMinuteTotalBudget(){
+  var total_budget = 0
+  $('#selected_boards option:not(:eq(0))').each(function() {
+    var working_minutes = parseFloat($(this).data('max-impressions'))/6
+    cycles = parseInt($("#campaign_bilbo_duration").val() || parseInt($(this).data('cycle-duration')));
+    price = $(this).data('price') * cycles;
+    total_budget += price * parseFloat($("#imp_minute").val()) / $("#campaign_minutes").val() * working_minutes
+  });
+  $("#frequency")[0].innerHTML = $("#imp_minute").val() + " " + $("#translation_impressions_each").val() + " " + $("#campaign_minutes").val() + " " + $("#translation_minutes").val()
+
+  $("#total_budget_summary")[0].innerHTML = currencyFormat(total_budget*parseInt($("#summary_active_days").val())) + " MXN"
+}
+
+function showOrHideSizeAlert(){
+  $(".carousel").each(function(){
+    // Show or hide message for the first image on each carousel
+    first_image = this.getElementsByClassName('active')
+    slug = String(this.id).slice(9)
+    board = $("#selected_boards [data-slug=" + slug + "]")[0]
+    board_width = $(board).attr('new-width')
+    board_height = $(board).attr('new-height')
+    if(first_image.offsetWidth / first_image.offsetHeight != board_width / board_height){
+      $("#wrong_size_alert_"+slug)[0].classList.remove('invisible')
+    } else {
+      $("#wrong_size_alert_"+slug)[0].classList.add('invisible')
+    }
+    // show or hide message for the rest of the images on the carousel
+    $(this).on('slid.bs.carousel', function(e){
+      slug = String(this.id).slice(9)
+      board = $("#selected_boards [data-slug=" + slug + "]")[0]
+      board_width = $(board).attr('new-width')
+      board_height = $(board).attr('new-height')
+      new_img = e.relatedTarget.children[0]
+      if(new_img.offsetWidth / new_img.offsetHeight != board_width / board_height){
+        $("#wrong_size_alert_"+slug)[0].classList.remove('invisible')
+      } else {
+        $("#wrong_size_alert_"+slug)[0].classList.add('invisible')
+      }
+    });
+  });
+}
+
+
+function count_rows_per_day_of_week(){
+  //count how many rows we need to use for the summary table for campaigns per hour
+  rows_count = {}
+  daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  var hour_rows = $('[hour_row]');
+  $.each(hour_rows, function (index, elem) {
+    week_day = elem.querySelectorAll('select')[0].value
+    if(week_day == 'everyday'){
+      $.each(daysOfWeek, function(index, day){
+        if(rows_count[day]){ rows_count[day] += 1 }
+        else{ rows_count[day] = 1 }
+      });
+    } else {
+      if(rows_count[week_day]){ rows_count[week_day] += 1 }
+      else{ rows_count[week_day] = 1 }
+    }
+  });
+  return rows_count
+}
 
 
 function make_summary_selected_hours() {
-  hour_rows = $('[hour_row]');
-  partial = $('#hours_summary');
-  $('.current_row_hours').remove();
+  var hour_rows = $('[hour_row]');
+  daysOfWeek= ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  day_row = {}
+  $.each(daysOfWeek, function(index,elem){
+    day_row[elem] = 0;
+  });
   $.each(hour_rows, function (index, elem) {
-    new_partial = partial.clone();
-    new_partial.removeClass('d-none');
-    new_partial.addClass('current_row_hours');
-    new_partial.removeAttr('id');
-    dayOfWeek = new_partial.find('.dayOfWeek');
-    impPerHour = new_partial.find('.impPerHour');
-    timeStart = new_partial.find('.timeStart');
-    timeEnd = new_partial.find('.timeEnd');
-    dayOfWeek.text(
-      $(elem).find('.days_of_week:not(.noValid) :selected').html() + ' - '
-    );
-    impPerHour.text($(elem).find('.impressionsPerHour:not(.noValid)').val());
-    timeStart.text($(elem).find('.timePickerStart:not(.noValid)').val());
-    timeEnd.text($(elem).find('.timePickerEnd:not(.noValid)').val());
-    if (
-      $(elem).find('.days_of_week:not(.noValid) :selected').val() !=
-        undefined &&
-      $(elem).find('.impressionsPerHour:not(.noValid)').val() != undefined &&
-      $(elem).find('.timePickerStart:not(.noValid)').val() != undefined &&
-      $(elem).find('.days_of_week:not(.noValid) :selected').val() != undefined
-    ) {
-      $('#current_row_hours').append(new_partial);
+    week_day = elem.querySelectorAll('select')[0].value
+    row_budget = parseFloat(elem.querySelectorAll('input.budget')[0].value)
+    row_impressions = parseInt(elem.querySelectorAll('input.impressionsPerHour')[0].value)
+    row_start_time = elem.querySelectorAll('.timePickerStart')[0].value
+    row_end_time = elem.querySelectorAll('.timePickerEnd')[0].value
+    if(week_day == "everyday"){
+      $.each(daysOfWeek, function(index, day){
+        $("#budget_"+day)[0].innerHTML = (parseFloat($("#budget_"+day)[0].innerHTML) || 0) + row_budget
+        $("#impressions_"+day+"_"+day_row[day])[0].innerHTML = row_impressions
+        $("#ranges_"+day+"_"+day_row[day])[0].innerHTML += (row_start_time.slice(0,5) + ' - ' + row_end_time.slice(0,5))
+        day_row[day] += 1
+      });
+    } else {
+      $("#budget_"+week_day)[0].innerHTML = (parseFloat($("#budget_"+week_day)[0].innerHTML) || 0) + row_budget
+      $("#impressions_"+week_day+"_"+day_row[week_day])[0].innerHTML = row_impressions
+      $("#ranges_"+week_day+"_"+day_row[week_day])[0].innerHTML += (row_start_time.slice(0,5) + ' - ' + row_end_time.slice(0,5))
+      day_row[week_day] += 1
     }
   });
-}
-function make_spend_summary_selected_hours(){
-  hour_rows = $("[hour_row]");
-  partial = $("#spend_summary");
-  $(".current_spend").remove();
-  daysOfWeek= ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-  $.each(daysOfWeek, function(index, day) {
-    new_partial = partial.clone();
-    new_partial.removeClass("d-none");
-    new_partial.addClass("current_spend");
-    new_partial.removeAttr("id");
-    dayOfWeek = new_partial.find(".dayOfWeek");
-    money = new_partial.find(".money");
-    total = 0;
-    $.each(hour_rows, function(index2, hr) {
-      if ($(hr).find('.days_of_week:not(.noValid) :selected').val() != undefined &&
-        $(hr).find('.impressionsPerHour:not(.noValid)').val() != undefined && $(hr).find('.timePickerStart:not(.noValid)').val() != undefined &&
-        $(hr).find('.days_of_week:not(.noValid) :selected').val() != undefined &&
-        $(hr).find("select.days_of_week option:selected").val() == day || $(hr).find("select.days_of_week option:selected").val() == "everyday") {
-        hr_budget = parseFloat($(hr).find(".budget").val());
-        total += hr_budget;
-      }
-    });
-    day_name = hour_rows.find("select.days_of_week option[value="+ day +"]").html();
-    dayOfWeek.append(day_name+ " - $");
-    money.append(total );
-    $("#current_spend").append(new_partial);
+
+  //Compute the total budget according to each week_day investment and the start and end date of the campaign
+  var start = new Date($("#start_date").val())
+  var end = new Date($("#end_date").val())
+  total_budget = 0
+  number_of_days = (end-start)/86400000
+  for(var i = 0; i<= number_of_days; i++){
+    week_day_number = new Date(start.getTime() + 86400000*i).getDay()
+    week_day = week_day_number == 0? "sunday" : daysOfWeek[week_day_number - 1]
+    total_budget += parseFloat($("#budget_"+week_day)[0].innerHTML)
+  }
+
+  $("#total_budget_summary")[0].innerHTML = currencyFormat(total_budget) + " MXN"
+
+  $.each(daysOfWeek, function(index, day){
+    $("#budget_"+day)[0].innerHTML = currencyFormat($("#budget_"+day)[0].innerHTML) + " MXN"
   });
+
 }
 
 function buttonCount() {
@@ -655,7 +723,18 @@ function append_content(){
   showContent(content_board, board_slug);
 }
 
-
+function getSummaryInfo(){
+  $.ajax({
+    url:  "/contents_board_campaign/get_summary_info",
+    dataType: "script",
+    data: {selected_contents: $("#content_ids").val(), table_rows: JSON.stringify(count_rows_per_day_of_week()), campaign_id: $("#campaign_id").val()},
+    success: function(data) {
+    },
+    error: function(data) {
+      alert("Oops.. Ocurrio un error..");
+    }
+  });
+}
 
 function showContent(content_board, board_slug){
   $.ajax({

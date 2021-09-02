@@ -1,6 +1,6 @@
 class BoardsController < ApplicationController
   include AwsFunctionsHelper
-  access [:provider, :admin, :user, :all] => [:index], [:user, :provider] => [:owned, :statistics], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation, :index, :landing], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image, :reload_board]
+  access [:provider, :admin, :user, :all] => [:index], [:user, :provider] => [:owned, :statistics], provider: [ :regenerate_access_token, :regenerate_api_token], all: [:show, :map_frame, :get_info, :requestAdsRotation, :index], admin: [:toggle_status, :admin_index, :create, :edit, :update, :delete_image, :delete_default_image, :reload_board]
   # before_action :get_all_boards, only: :show
   before_action :get_board, only: [:statistics, :requestAdsRotation, :show, :regenerate_access_token, :regenerate_api_token, :toggle_status, :update, :delete_image, :delete_default_image, :reload_board, :validate_default_contents_size]
   before_action :update_boardscampaigns, only: [:requestAdsRotation, :show]
@@ -15,10 +15,10 @@ class BoardsController < ApplicationController
     format.js { #means filter is used
       # get all boards within that range and start filtering after
       get_boards(lat: params[:lat], lng: params[:lng], radius: params[:radius])
-      if params[:cycle_price].present?
-        @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f }
-        @boards = Board.where(id: @boards)
-      end
+      #filter boards
+      @boards = @boards.select{ |board| board.cycle_price <= params[:cycle_price].to_f } if params[:cycle_price].present?
+      @boards = @boards.select{ |board| board.cycle_price >= params[:cycle_price_min].to_f } if params[:cycle_price_min].present?
+      @boards = Board.where(id: @boards)
       @boards = @boards.where("height > ?", params[:min_height]) if params[:min_height].present?
       @boards = @boards.where("width > ?", params[:min_width]) if params[:min_width].present?
       @boards = @boards.where(category: params[:category]) if params[:category].present?
@@ -26,7 +26,7 @@ class BoardsController < ApplicationController
       @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
      }
     format.html {
-      get_boards
+      #get_boards
      }
    end
   end
@@ -142,12 +142,6 @@ class BoardsController < ApplicationController
       path: request.env['PATH_INFO']
     }
   end
-
-  def landing
-    @board = Board.friendly.find(params[:id])
-    @suggested_boards = Board.by_distance(origin: [@board.lat, @board.lng]).enabled.where.not(id: @board.id).where(smart: true).first(10).shuffle.first(4)
-  end
-
 
   def create
     if board_params[:upload_from_csv].present?
@@ -274,6 +268,10 @@ class BoardsController < ApplicationController
                                   :lng,
                                   :radius,
                                   :address,
+                                  :country,
+                                  :country_state,
+                                  :city,
+                                  :postal_code,
                                   :category,
                                   :start_time,
                                   :end_time,
@@ -316,9 +314,9 @@ class BoardsController < ApplicationController
   # search radius is defaulted to 10km
   def get_boards(lat: 19.4324451, lng: -99.1333817, radius: 10000)
     if user_signed_in? && @project.provider?
-      @boards = @project.boards.enabled.within_radius(lat, lng, radius.to_i)
+      @boards = @project.boards.enabled.within_radius(lat, lng, radius.to_i).sort_by{|b| b.distance_from_lat_lng(lat,lng) }.first(50).to_a
     else
-      @boards = Board.enabled.within_radius(lat, lng, radius.to_i)
+      @boards = Board.enabled.within_radius(lat, lng, radius.to_i).sort_by{|b| b.distance_from_lat_lng(lat,lng) }.first(50).to_a
     end
   end
 

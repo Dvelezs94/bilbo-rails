@@ -21,6 +21,7 @@ class Campaign < ApplicationRecord
   validate :duration_multiple_of_10, if: :duration_changed?
   validate :duration_multiple_of_10, on: :create
   validate :valid_active_time, on: :create
+  validate :date_is_possible?, on: :create
   amoeba do
     enable
     include_association :impression_hours, if: :is_per_hour?
@@ -88,11 +89,21 @@ class Campaign < ApplicationRecord
 
   # Get the medium frecuency of the campaign per minute (1 impression every x minutes)
   def frequency
-    running_days = impressions.group_by_day(:created_at).count.keys
-    number_of_days = running_days.length
-    total_minutes = boards.sum(&:working_minutes) * number_of_days
-    freq = total_minutes.to_f / (impression_count * boards.count)
-    freq.round(1)
+    if self.is_per_budget?
+      # Use formula working_minutes/max_impressions for each of the bilbos of the campaign
+      # then get the average of that values
+      board_count = 0
+      frequency = 0.0
+      self.boards.each do |board|
+        frequency += board.working_minutes.to_f / self.max_impressions(board)
+        board_count += 1
+      end
+      return [1, (frequency / board_count).round(1)] #1 time every (frequency/board_count) minutes
+    elsif self.is_per_minute?
+      return [self.imp, self.minutes]
+    else
+      return []
+    end
   end
 
   def duration_multiple_of_10
@@ -403,6 +414,14 @@ class Campaign < ApplicationRecord
         if !(bc.board.calculate_steps_prices.include? ["$  #{budget_board_campaign} #{ENV.fetch("CURRENCY")}", budget_board_campaign])
           errors.add(:base, I18n.t('campaign.errors.budget_no_valid', name: bc.board.name))
         end
+      end
+    end
+  end
+
+  def date_is_possible?
+    if starts_at.present? && ends_at.present?
+      if starts_at > ends_at || starts_at == ends_at
+        errors.add(:base, I18n.t('campaign.error_date'))
       end
     end
   end
