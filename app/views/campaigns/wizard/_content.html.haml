@@ -11,9 +11,10 @@
           .row
             .col-3
               .dropdown.dropdown-icon.flex-fill
-                %button.btn.btn-xs.btn-secondary{"aria-expanded" => "true", "data-toggle" => "dropdown"}
-                  %i.fe.fe-plus
-                  =t("content.upload_content")
+                %button.btn.btn-block.btn-xs.btn-success{"aria-expanded" => "true", "data-toggle" => "dropdown"}
+                  %span
+                    %i.fe.fe-upload
+                    =t("content.upload_content")
                 .dropdown-menu.tx-13{:style => "position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 27px, 0px);", "x-placement" => "bottom-start"}
                   = link_to new_multimedia_contents_path, remote: true, class: "dropdown-item" do
                     %i.fe.fe-large.fe-file-image.pd-r-5.tx-16
@@ -43,7 +44,7 @@
                       %i.pd-x-5.fnt-md.fe.fe-link-external
                       %span=t("content.websites")
             .col-9.ht-400#content_space{style: "overflow-y: auto;"}
-              .card-deck.wizard-card-deck.content.align-items-center#single_content
+              .card-deck.wizard-card-deck.pd-x-5.align-items-center#single_content
               .container#paginator.text-center.tx-13.pd-t-10
                 = link_to_next_page @content, "#{t("content.more_contents")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "upcoming_page"
       .modal-footer
