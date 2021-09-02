@@ -1,6 +1,6 @@
 -if media.is_video?
-  = video_tag(media.multimedia_url, class: "board-ad-inner", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }, loop: true, preload: "auto", muted: "muted")
+  = video_tag(media.multimedia_url, class: "board-ad-inner #{"rotation-#{board.rotation_degrees.to_i}" if board.rotation_degrees != 0.0}", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }, loop: true, preload: "auto", muted: "muted")
 -elsif media.is_image?
-  = image_tag media.multimedia_url(:large), class: "board-ad-inner", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }
+  = image_tag media.multimedia_url(:large), class: "board-ad-inner #{"rotation-#{board.rotation_degrees.to_i}" if board.rotation_degrees != 0.0}", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }
 -else
-  = content_tag("iframe", '', src: media.url, height: "100%", width: "100%",  class: "board-ad-inner", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }, :scrolling => "no")
+  = content_tag("iframe", '', src: media.url, height: "100%", width: "100%",  class: "board-ad-inner #{"rotation-#{board.rotation_degrees.to_i}" if board.rotation_degrees != 0.0}", data: { campaign: campaign.slug, "campaign-id": campaign.id, budget: campaign.budget }, :scrolling => "no")
