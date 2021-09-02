@@ -293,6 +293,7 @@ class BoardsController < ApplicationController
                                   :multiplier,
                                   :steps,
                                   :street_view_url,
+                                  :rotation_degrees,
                                   images: [],
                                   default_images: []
                                   )
