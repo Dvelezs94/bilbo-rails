@@ -151,6 +151,9 @@ en:
     4_months: 4 months
     5_months: 5 months
     6_months: 6 months
+    desc_impressions_per_day: Impressions per day
+    desc_impressions_per_minute: Impressions per minute
+    desc_impressions_per_hour: Impressions per defined hour
     add_schedule: Add Schedule
     schedules: Schedules
     must_add_schedule: You must add a schedule
@@ -323,11 +326,11 @@ en:
       payment_details: Payment Details
       most_popular: Most popular
       budget: Daily budget
-      daily_budget_description: Budget for your chosen Bilbos. The budget will be evenly dividided between all your selected Bilbos.
+      daily_budget_description: Define your maximum daily budget for your campaign. Ideal for campaigns that run all day
       campaign_duration: Campaign Duration
       campaign_minute: Impression per minute
-      campaign_minute_description: This option allows you to choose the impressions you want to be shown per minute.
-      campaign_hour_description: Select the days and the hours you want your campaign to run. Very powerful for highly targeted ads.
+      campaign_minute_description: Set how many times per minute your campaign will be displayed. Ideal for campaigns that require a fixed number of spots on a given timeframe.
+      campaign_hour_description: Display your campaign at your defined hours. Ideal for cmapaigns that only run at certain time of the day.
       campaign_classification: Campaign type
       ongoing_campaign: Ongoing Campaign
       pick_date: Choose Date
@@ -903,7 +906,7 @@ en:
     bilbo_select: Choose the content for
     upload_image: Upload image
     upload_video: Upload video
-    upload_content: Upload contents
+    upload_content: Upload content
     add_web_content: Add Web content
     new_content: New
     responsive: Responsive

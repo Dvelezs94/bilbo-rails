@@ -1,0 +1,15 @@
+%p#retry_info
+
+:javascript
+  var retry_interval = 30
+  setInterval(function(){
+  retry_interval--;
+  $("#retry_info")[0].innerHTML = "El bilbo #{@board.slug} está actualmente transmitiendo en otra ventana o dispositivo, reintentando en "+retry_interval+" segundos";
+  },1000);
+
+  setTimeout(function(){
+    var url ="#{board_url(@board, access_token: @board.access_token, mac_address: @board.mac_address)}"
+    url += "&attempt=#{@attempt}"
+
+    window.location = url
+  }, 30000);
