@@ -904,3 +904,25 @@ a[href="#previous"] {
 [board-info] .ps > .ps__rail-y {
   opacity: 0.6;
 }
+
+.rotation-90, .rotation--270{
+  width: 100vh !important;
+  height: 100vw !important;
+  max-width: 100vh !important;
+  max-height: 100vw !important;
+  transform: translatex(calc(50% - 50%)) translatey(calc(50vh - 50%)) rotate(90deg) !important;
+  margin: 0 auto !important;
+}
+
+.rotation-180, .rotation--180{
+  transform: rotate(180deg) !important;
+}
+
+.rotation-270, .rotation--90{
+  width: 100vh !important;
+  height: 100vw !important;
+  max-width: 100vh !important;
+  max-height: 100vw !important;
+  transform: translatex(calc(50% - 50%)) translatey(calc(50vh - 50%)) rotate(270deg) !important;
+  margin: 0 auto !important;
+}
