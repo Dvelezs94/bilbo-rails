@@ -90,6 +90,10 @@
   background: white !important;
 }
 
+.board-size-preview {
+  background-color: rgba(255,0,0,0.2);
+}
+
 .unread-notif {
   background-color: ghostwhite;
 }
@@ -237,6 +241,10 @@ details[open] summary:after {
 
 .white-background {
   background-color: #fff;
+}
+
+.white-background-f {
+  background-color: #fff !important;
 }
 
 .btn-primary-custom {
@@ -501,10 +509,19 @@ Usage
  margin: 0 auto;
 }
 
+.m-bt--20{
+  margin: -20px;
+}
+
 .carousel-circles-under {
   margin-bottom: -2rem;
 }
 
+.carousel-circles > li {
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+}
 /*placeholder skeleton */
 
 .shimmer_wrapper {
@@ -711,6 +728,18 @@ a[href="#previous"] {
 	animation: pulse_map_marker 2s infinite;
 }
 
+.bg-color-black{
+  background-color: black !important;
+}
+
+.tx-xl {
+  font-size: x-large;
+}
+
+.tx-xxl {
+  font-size: xx-large;
+}
+
 .mklabel_smart_selected {
   background-color: black;
   color: white;
@@ -752,6 +781,90 @@ a[href="#previous"] {
 
 /* End MarkerWithLabel CSS */
 
+.board-sidebar-width{
+  width: 40%;
+}
+.map-left-space {
+  left: 40%;
+}
+
+@media(min-width: 1400px){
+  .board-sidebar-width{
+    width: 25%;
+  }
+  .map-left-space {
+    left: 25%;
+  }
+}
+@media(max-width: 768px){
+  .board-sidebar-width{
+    width: 100%;
+  }
+  .map-left-space {
+    left: 100%;
+  }
+  .mapToggle {
+    display: block !important;
+  }
+  #selected_boards {
+    width: 200px;
+    top: -50px;
+  }
+}
+.t-100-f{
+  top: 100px !important;
+}
+.filter-button {
+  font-size: 0.8rem !important;
+}
+.filter-button:hover{
+  border: 1px solid #0168fa !important;
+  color: #0168fa !important;
+}
+.filter-button::-ms-expand {
+    display: none;
+}
+
+[data-form] :checked + label{
+  color: #0168fa;
+}
+.mg-auto-0 {
+  margin: auto 0;
+}
+.hover-gray:hover {
+  background-color: #F5F6FA;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+[data-single-board]:hover figcaption {
+  background-color: rgba(1, 104, 250, 0.7);
+  opacity: 100%;
+}
+.translateX-100p{
+  transform: translateX(100%);
+}
+.translateX-m100p{
+  transform: translateX(-100%);
+}
+.transition-delay{
+  transition: all 0.5s;
+}
+.overflow-visible {
+  overflow: visible;
+}
+.flex-2 {
+  flex: 2;
+}
+.flex-10 {
+  flex: 10;
+}
+#selected_boards {
+  border-bottom-left-radius: 0.25rem !important;
+}
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
 /* Borderless class for tables. Use it like .borderless */
 .borderless td, .borderless th {
   border: none;
@@ -761,4 +874,33 @@ a[href="#previous"] {
   background-image: linear-gradient(60deg, #1C68F0, #A3D6FE);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
+}
+
+.badge-orange-light {
+  color: #FF610C;
+  background-color: #FFDECC;
+}
+
+.badge-success-light {
+  color: #6ECF9C;
+  background-color: #D5F7E5;
+}
+#dashboardWizard-h-0 {
+  display: none;
+}
+#dashboardWizard > div.actions.clearfix,
+#dashboardWizard > div.steps.clearfix {
+  flex: 1;
+}
+#dashboardWizard > div.content.clearfix {
+  flex: 30;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+/*makes scrollbar visible by default (at first load it doesnt display it, needs to be sccrolled)*/
+[board-info] .ps > .ps__rail-x,
+[board-info] .ps > .ps__rail-y {
+  opacity: 0.6;
 }

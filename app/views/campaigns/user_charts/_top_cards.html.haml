@@ -16,14 +16,17 @@
 
 .col-sm-6.col-lg-3.mg-t-10.mg-sm-t-0
     .card.card-body
-        %h6.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-bold.mg-b-8= t("campaign.frequency.title")
+        %span.tx-uppercase.tx-11.tx-spacing-1.tx-color-02.tx-bold.mg-b-8
+            = t("campaign.frequency.title")
+            -if @campaign.is_per_budget?
+                %i.fe.fe-question{"data-toggle" => "tooltip",:title => t("campaign.frequency.details")}
         .d-flex.d-lg-block.d-xl-flex.align-items-end
         %h3.tx-normal.tx-rubik.mg-b-0.mg-r-5.lh-1{style: "white-space: nowrap;"}
 
             - @freq = @campaign.frequency
-            - if @freq != Float::INFINITY
-                %small.tx-gray-700= t("campaign.frequency.x_times_every")
-                = @freq
+            - if @freq.present?
+                %small.tx-gray-700= t("campaign.frequency.x_times_every", count: @freq[0])
+                = @freq[1]
                 %small.tx-gray-700.tx-xs= t("time_day.minutes")
             - else
                 %small.tx-gray-700.tx-xs -

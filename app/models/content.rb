@@ -4,6 +4,7 @@ class Content < ApplicationRecord
   has_many :contents_board_campaign, class_name: "ContentsBoardCampaign", dependent: :delete_all
   has_many :board_default_contents, dependent: :delete_all
   validate :multimedia_or_url
+  before_destroy :is_default_content?, prepend: true
 
   def is_image?
     begin
@@ -55,6 +56,13 @@ class Content < ApplicationRecord
       errors.add(:multimedia, "cannot assign because url is set") if url.present?
     else
       errors.add(:multimedia, "Field cannot be empty if url is not set")
+    end
+  end
+
+  def is_default_content?
+    if board_default_contents.present?
+      self.errors.add(:base, I18n.t('error.default_content_present'))
+      throw :abort
     end
   end
 end

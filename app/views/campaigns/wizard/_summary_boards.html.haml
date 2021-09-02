@@ -1,0 +1,63 @@
+-@selected_boards.each do |board|
+  .d-flex
+    = board.name
+    -if board.smart
+      .pd-l-5
+        .badge.badge-info.wizard-badge-smart
+          .pd-t-2
+            %i.fe.fe-star
+            SMART
+  %div
+    %table.table-responsive.wizard-table.border-0.bg-transparent.overflow-hidden
+      %tbody
+        %tr
+          %td.wd-15p
+            -if board.images.attachments.present?
+              - image = board.images.first
+              = image_tag url_from_media(image), class: "img wd-80 ht-80 rounded"
+
+            -else
+              = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-80 ht-80 rounded"
+          %td.wd-35p
+            %p
+              .pd-b-5.tx-gray-2="#{t('bilbos.face')}: #{board.face.capitalize}"
+              .tx-gray-2="#{t('bilbos.credits_per_print')}: $#{board.cycle_price.round(2)}"
+              .pd-t-5.tx-gray-2{id: "ads_count_#{board.slug}"}
+          %td.wd-50p.tx-center{:rowspan => 2}
+            %p.tx-bold.tx-gray-1.m-auto.pd-b-2.m-t--5=t('campaign.wizard.ad_preview')
+            -# %div{id: "carousel-#{board.slug}"}
+            .carousel.slide.m-auto.board-size-preview.rounded{"data-ride" => "carousel", id: "carousel-#{board.slug}"}
+              -# %ol.carousel-indicators.carousel-circles.carousel-circles-under
+              .carousel-inner.center_image_vertically{style: "position: static !important;"}
+
+              %a.carousel-control-prev{"data-slide" => "prev", href: "#carousel-#{board.slug}", role: "button"}
+                %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+                  %i.fe.fe-arrow-left.tx-30
+                %span.sr-only Previous
+              %a.carousel-control-next{"data-slide" => "next", href: "#carousel-#{board.slug}", role: "button"}
+                %span.carousel-control-next-icon{"aria-hidden" => "true"}
+                  %i.fe.fe-arrow-right.tx-30
+                %span.sr-only Next
+          %tr{:class => "#{'invisible' unless @campaign.is_per_budget?}"}
+            %td{:colspan => 2}
+              %table.table-responsive.wizard-table.border-0.bg-transparent.overflow-hidden
+                %tbody
+                  %tr
+                    %td.wd-50p
+                      %h4{id: "budget-summary-#{board.id}"}
+                    %td.wd-20p{rowspan: 2}
+                      %i.icon.ion-arrow-right-c.d-block.tx-center.pd-b-5.tx-xxl
+                    %td.wd-30p
+                      %h4{id: "impressions-summary-#{board.id}"}
+                  %tr
+                    %td
+                      %p.tx-gray-2=t('campaign.daily_budget')
+                    %td
+                      %p.tx-gray-2=t('campaign.daily_spots')
+          %tr
+            %td
+            %td
+            %td.tx-center.pd-t-5.invisible{id: "wrong_size_alert_#{board.slug}"}
+              %i.fa.fa-exclamation-triangle.tx-10.tx-bold.tx-gray-2
+                =t('campaign.wizard.ad_size_warning')
+          %input.d-none{id: "aspect_ratio_#{board.id}", value: "#{board.aspect_ratio}"}

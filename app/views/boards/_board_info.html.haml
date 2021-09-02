@@ -1,104 +1,113 @@
-%div{"aria-labelledby" => "#{board.slug}-tab", :class => "tab-pane fade show #{"active" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id]}", :id => "#{board.slug}", :role => "tabpanel"}
-  #carouselBoardInfo.carousel.slide{"data-ride" => "carousel"}
-    .pos-relative
-      .marker.pos-absolute.b-10.r-10{:style => "z-index: 10; box-shadow: 0px 0px 0px, 0 0 7px;"}
-        = "#{t("bilbos.displays_number")}: #{board.displays_number}"
-        %i.fe.fe-question.tx-primary.tx-11{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "#{t('bilbos.displays_number_desc')}"}
-      - if !board.sales.running.empty?
-        .marker.pos-absolute.t-10.l-0.bg-danger.tx-white{:style => "z-index: 10;"}
-          = "-#{board.current_sale.percent}% Termina en "
-          %span.countDownTime= board.current_sale.ends_at.strftime("%b %d, %Y %T")
-      .carousel-inner.ht-200.center_image_vertically
-        - if board.images.attached?
-          = render partial: 'boards/board_images', collection: board.images, as: :image
-        - else
-          .carousel-item.active
-            = image_tag image_path("board_placeholder"), class: "d-block w-100", alt: "No Image"
-    %a.carousel-control-prev{"data-slide" => "prev", :href => "#carouselBoardInfo", :role => "button"}
-      %span.carousel-control-prev-icon{"aria-hidden" => "true"}
-        %i.fe.fe-arrow-left.tx-30
-      %span.sr-only Previous
-    %a.carousel-control-next{"data-slide" => "next", :href => "#carouselBoardInfo", :role => "button"}
-      %span.carousel-control-next-icon{"aria-hidden" => "true"}
-        %i.fe.fe-arrow-right.tx-30
-      %span.sr-only Next
-  %table.table-dashboard-two
-    %tbody
-      %small.d-none#board_info_name= board.name
-      %small.d-none#board_info_diagonal_inches= board.diagonal_inches
-      - if board.images_only
-        %tr
-          .alert.pd-5-f.alert-solid.alert-warning.mg-t-5.mg-b-5.tx-center{:role => "alert"}
-            = t("bilbos.images_only")
-      %tr
-        %td.tx-medium= t("bilbos.face")
-        %td.text-right#board_info_face= board.face
-      %tr
-        %td.tx-medium= t("bilbos.credits_per_print")
-        %td.text-right
-          - if board.sales.running.empty?
-            = number_to_currency_usd(board.cycle_price)
+%div{"aria-labelledby" => "#{board.slug}-tab", :class => "flex-column flex-1 pos-relative tab-pane fade #{"d-flex show active" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id]}", :id => "#{board.slug}", :role => "tabpanel"}
+  .pos-absolute.t-0.b-80.perfectScrollbar.d-flex.flex-column
+    #carouselBoardInfo.carousel.slide.rounded-5{"data-ride" => "carousel"}
+      .pos-relative
+        -# .marker.pos-absolute.b-10.r-10{:style => "z-index: 10; box-shadow: 0px 0px 0px, 0 0 7px;"}
+        -#   = "#{t("bilbos.displays_number")}: #{board.displays_number}"
+        -#   %i.fe.fe-question.tx-primary.tx-11{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "#{t('bilbos.displays_number_desc')}"}
+        - if !board.sales.running.empty?
+          .marker.pos-absolute.t-10.l-0.bg-danger.tx-white{:style => "z-index: 10;"}
+            = "-#{board.current_sale.percent}% #{t("bilbos.search.ends_in")} "
+            %span.countDownTime= board.current_sale.ends_at.strftime("%b %d, %Y %T")
+        .carousel-inner.ht-200.center_image_vertically.rounded
+          - if board.images.attached?
+            = render partial: 'boards/board_images', collection: board.images, as: :image
           - else
-            %span.tx-danger.tx-line-through.tx-bold= number_to_currency_usd(board.cycle_price)
-            %span.tx-success.tx-bold= number_to_currency_usd(board.sale_cycle_price)
-      %tr
-        %td.tx-medium= t("bilbos.address")
-        %td.text-right= board.address
-      %tr
-        %td.tx-medium= t("bilbos.type")
-        %td.text-right= t("bilbos.#{board.category}")
-      %tr
-        %td.tx-medium= t("bilbos.avg_views")
-        %td.text-right#board_info_daily_views
-          = number_with_delimiter(board.avg_daily_views, :delimiter => ',')
-          \/#{t("bilbos.day")}
-      %tr
-        %td.tx-medium= t("bilbos.duration")
-        %td.text-right
-          = board.duration
-          = t("bilbos.seconds")
-      %tr
-        %td.tx-medium= t("bilbos.dimensions")
-        %td.text-right.tx-primary
-          %span.tx-12
+            .carousel-item.active
+              = image_tag image_path("board_placeholder"), class: "d-block w-100", alt: "No Image"
+      %a.carousel-control-prev{"data-slide" => "prev", :href => "#carouselBoardInfo", :role => "button"}
+        %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+          %i.fe.fe-arrow-left.tx-30
+        %span.sr-only Previous
+      %a.carousel-control-next{"data-slide" => "next", :href => "#carouselBoardInfo", :role => "button"}
+        %span.carousel-control-next-icon{"aria-hidden" => "true"}
+          %i.fe.fe-arrow-right.tx-30
+        %span.sr-only Next
+    .d-flex.flex-wrap.flex-2
+      .tx-20.mg-y-10
+        %i{class: "icon-#{board.category}", "data-toggle": "tooltip", title: t('bilbos.'+board.category)}
+        %span#board_info_name= board.name
+      %span= board.address
+      .d-flex.mg-y-10.wd-100p
+        .col-4.pd-x-10.border-right
+          - if board.sales.running.empty?
+            %span.tx-20= number_to_currency_usd(board.cycle_price)
+          - else
+            %span.tx-20.tx-danger.tx-line-through.tx-bold= number_to_currency_usd(board.cycle_price)
+            %span.tx-20.tx-success.tx-bold= number_to_currency_usd(board.sale_cycle_price)
+          .tx-10.text-uppercase.text-secondary= t("bilbos.credits_per_print")
+        .col-4.pd-x-10.border-right
+          %span.tx-20#board_info_daily_views= number_with_delimiter(board.avg_daily_views, :delimiter => ',')
+          .tx-10.text-uppercase.text-secondary= t("bilbos.avg_views")
+        .col-4.pd-x-10{"data-placement" => "bottom", "data-toggle" => "tooltip", :title => "#{t('bilbos.displays_number_desc')}"}
+          %span.tx-20= board.displays_number
+          .tx-10.text-uppercase.text-secondary= t("bilbos.displays_number")
+
+    %table.wd-100p.flex-10
+      %tbody
+        %tr
+          %td.tx-medium.text-secondary.text-capitalize= t("bilbos.face")
+          %td.text-left#board_info_face
+            %select.boardSelect.form-select.form-select-sm.tx-primary.border-primary.bg-white.rounded.pd-2
+        %tr
+          %td.tx-medium.text-secondary.text-capitalize= t("bilbos.type")
+          %td.text-left.text-dark= t("bilbos.#{board.category}")
+        %tr
+          %td.tx-medium.text-secondary.text-capitalize= t("bilbos.duration")
+          %td.text-left.text-dark
+            = board.duration
+            = t("bilbos.seconds")
+        %tr
+          %td.tx-medium.text-secondary.text-capitalize= t("bilbos.dimensions")
+          %td.text-left.text-dark
             = board.width
             x #{board.height} mts
-      %tr
-        %td.tx-medium= t("bilbos.image_size")
-        %td.text-right
-          = board.recommended_image_size
-          px
-      %tr
-        %td.tx-medium= t("bilbos.social_class")
-        %td.text-right#board_info_classification= board.social_class
-      %tr
-        %td.tx-medium= t("bilbos.hour_start")
-        %td.text-right= "#{board.start_time.to_s(:time)} - #{board.end_time.to_s(:time)}"
-      %tr
-        %td.tx-medium= t('campaign.occupied')
-        %td
-          - occupation = board.get_occupation
-          .progress.ht-15
-            - if occupation[:occupation] < 30
-              - percentage_bar_builder = { bg: "success"}
-            - elsif occupation[:occupation] < 75
-              - percentage_bar_builder = { bg: "warning"}
-            - else
-              - percentage_bar_builder = { bg: "danger"}
-            %div{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "25", :class => "progress-bar bg-#{percentage_bar_builder[:bg]} wd-#{up_to_nearest_5(occupation[:occupation])}p", "data-placement" => "top", "data-toggle" => "tooltip", :role => "progressbar", :title => "Inversión mínima #{number_to_currency_usd(occupation[:minimum_investment])}"}
-              = occupation[:occupation]
-              \%
-  - if not URI(request.referer).path.match? /boards|map_frame/
-    .info-board.mg-t-5
+        %tr
+          %td.tx-medium.text-secondary.text-capitalize= t('bilbos.search.resolution')
+          %td.text-left.text-dark#board_info_diagonal_inches
+            = board.diagonal_inches
+            ”
+        %tr
+          %td.tx-medium.text-secondary= t("bilbos.image_size")
+          %td.text-left.text-dark
+            = board.recommended_image_size
+            px
+        %tr
+          %td.tx-medium.text-secondary= t("bilbos.accepts_video")
+          %td.text-left.text-dark
+            = (board.images_only)? t("no") : t("yes")
+        %tr
+          %td.tx-medium.text-secondary.text-capitalize= t("bilbos.social_class")
+          %td.text-left.text-dark#board_info_classification= board.social_class
+        %tr
+          %td.tx-medium.text-secondary.text-capitalize= t("bilbos.hour_start")
+          %td.text-left.text-dark= "#{board.start_time.to_s(:time)} - #{board.end_time.to_s(:time)}"
+        -if user_signed_in? && @project.provider?
+          %tr
+            %td.tx-medium.text-secondary.text-capitalize= t('campaign.occupied')
+            %td
+              - occupation = board.get_occupation
+              .progress.ht-10.rounded-10.wd-60p.pos-relative.overflow-visible{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Inversión mínima #{number_to_currency_usd(occupation[:minimum_investment])}"}
+                - if occupation[:occupation] < 30
+                  - percentage_bar_builder = { bg: "success"}
+                - elsif occupation[:occupation] < 75
+                  - percentage_bar_builder = { bg: "warning"}
+                - else
+                  - percentage_bar_builder = { bg: "danger"}
+                %div{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "25", :class => "progress-bar rounded-10 bg-#{percentage_bar_builder[:bg]} wd-#{up_to_nearest_5(occupation[:occupation])}p", :role => "progressbar"}
+                  %span.pos-absolute.r--30.text-muted="#{occupation[:occupation]}%"
+  .info-board.wd-100p.pos-absolute.b-0
+    %hr
+    - if not URI(request.referer).path.match? /boards|map_frame/
       - is_selected = (params[:selected_boards].split(",").include?(board.id.to_s))? true : false
-      %button{:class => "btn btn-primary-custom btn-block add-bilbo #{"d-none" if is_selected}", "data-address" => "#{board.address} - #{board.face}", "data-cycle-duration" => "#{board.duration}", "data-id" => "#{board.id}", "data-slug" => "#{board.slug}", "data-max-impressions" => "#{JSON.parse(board.ads_rotation).size}", "data-price" => "#{board.sale_cycle_price/board.duration}", "new-height" => "#{board.size_change[0].round(0)}", "new-width" => "#{board.size_change[1].round(0)}", :onclick => "addBilbo(this)", :type => "button"}
+      %button{:class => "btn btn-primary-custom btn-block add-bilbo #{"d-none" if is_selected}", "data-lat" => "#{board.lat}", "data-lng" => "#{board.lng}","data-address" => "#{board.address} - #{board.face}", "data-cycle-duration" => "#{board.duration}", "data-id" => "#{board.id}", "data-slug" => "#{board.slug}", "data-max-impressions" => "#{JSON.parse(board.ads_rotation).size}", "data-price" => "#{board.sale_cycle_price/board.duration}", "new-height" => "#{board.size_change[0].round(0)}", "new-width" => "#{board.size_change[1].round(0)}", :onclick => "addBilbo(this)", :type => "button"}
         %i.material-icons.md-18.material-icon-middle add_circle
         = t("bilbos.add_bilbo")
       %button{:class => "btn btn-secondary-custom btn-block remove-bilbo mg-t-0-f #{"d-none" if !is_selected}", "data-slug" => "#{board.slug}", "data-id" => "#{board.id}", :onclick => "removeBilbo(this)", :type => "button"}
         %i.material-icons.md-18.material-icon-middle remove_circle
         = t("bilbos.remove_bilbo")
-  - else
-    .info-board.mg-t-5
-      = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-dark btn-block" do
-        %i.material-icons.md-18.material-icon-middle add_circle
-        = t("map.create_campaign")
+    - else
+      .info-board.mg-t-5
+        = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-block" do
+          %i.material-icons.md-18.material-icon-middle add_circle
+          = t("map.create_campaign")

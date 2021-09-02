@@ -1,8 +1,5 @@
 $(document).on('turbolinks:load', function() {
    if ($("#api_token").length && document.URL.includes( $("[data-board]").attr("data-board") + "?access_token=" + $("#access_token").val())) {
-     //Remove far contents json
-     src_removed = {}; //save the content src
-     return_src = {};//position to return src
      // initiate graphql
      var graph = graphql("/api")
      var rotateAds;
@@ -42,7 +39,6 @@ $(document).on('turbolinks:load', function() {
 
          // Start stream
            rotation_key = getIndex($("#start_time").val());
-           console.log("rotation_key" + rotation_key);
            $(".board-ads").attr('style', 'display:block !important');
            // give 5 seconds to load all images and videos
            setTimeout(function() {
@@ -127,19 +123,7 @@ $(document).on('turbolinks:load', function() {
        ads = jQuery.parseJSON($("#ads_rotation").val());
        // restart from beginning if the array was completely ran
        if (rotation_key >= ads.length) rotation_key = 0;
-       console.log(rotation_key)
-       console.log("Ads: " + ads[rotation_key]);
-       var memoryInfo = window.performance.memory;
-       console.log(memoryInfo);
-       //remove_far_contents(rotation_key);
-       if(return_src[rotation_key+10]){
-        $('[data-campaign-id="'+return_src[rotation_key+10]+'"]').each(function(index) {
-          if($(this).attr("src") == ""){
-            $(this).attr("src", src_removed[return_src[rotation_key+10]].split(",")[index]);
-          }
-        });
-         //setInterval(remove_far_contents(rotation_key), 300);
-       }
+       optimize_memory(rotation_key,board_slug);
        chosen = ads[rotation_key];
        if (isWorkTime(work_hour_start, work_hour_end)){
          if (chosen == "-") {
@@ -481,55 +465,44 @@ function isWorkTime(start, end) {
    return i;
  }
 
- function optimize_memory(){
-   
+ function optimize_memory(rotation_key, board_slug){
+   // you can type in console "arr = []; for(var i = 0; i < 80000000; i++) arr.push(i)" to increase memory usage. WARNING: if array size is too big, the page crashes
+   used_memory = performance.memory.usedJSHeapSize;
+   memory_limit = performance.memory.jsHeapSizeLimit;
+   if (used_memory/memory_limit <0.70 ) return 0; //IF MEMORY IS MORE THAN 70%, REMOVE UNUSED MEDIA
+   //GET ACTIVE CAMPAIGNS : slice the array from current position of ads to the end of a array and then get unique elements, obviously remove "-" and "." to get only campaigns
+   active_campaign_ids = $.parseJSON($("#ads_rotation").val()).slice(rotation_key)
+    .filter(function(itm, i, a) { return i == a.indexOf(itm); })
+    .filter(function(value, index, arr){ return value != "-" && value != ".";});
+  //GET MULTIMEDIA
+   multimedia = $("[data-campaign-id]");
+   //GET THE MULTIMEDIA THAT ISNT IN THE ADS ROTATION
+   unused_multimedia = multimedia.filter(function(index, elem, arr){ return !active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
+   //CUSTOM ACTIONS BEFORE DELETING VIDEOS
+   $.each(unused_multimedia, function( index, video ) {
+     if (video.tagName != 'VIDEO') return;
+     action_before_remove_video(video)
+    });
+    //DELETE ALL UNUSED MULTIMEDIA (IMAGES AND VIDEOS)
+    unused_multimedia.remove();
+    if (used_memory/memory_limit <0.80 ) return 0; //IF MEMORY IS MORE THAN 80%, REMOVE SOME MEDIA FROM EACH CAMPAIGN
+    //GET THE MULTIMEDIA THAT IS IN THE ADS ROTATION
+    used_multimedia = multimedia.filter(function(index, elem, arr){ return active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
+    //KEEP JUST ONE MULTIMEDIA FROM EACH ID
+    unique_multimedia_id = [];
+    $.each(used_multimedia, function( index, elem ) {
+      if (unique_multimedia_id.includes( elem.getAttribute("data-campaign-id") )){
+        if (elem.tagName == 'VIDEO') action_before_remove_video(elem);
+        elem.remove();
+        return;
+      }
+      unique_multimedia_id.push(elem.getAttribute("data-campaign-id") )
+     });
+    if (used_memory/memory_limit > 0.9 ) Bugsnag.notify("El bilbo con slug " + board_slug+ " llegó al " + (used_memory/memory_limit*100).toFixed(1) + "% de memoria en uso.");
  }
 
- function remove_far_contents(rotation_key){
-  var total_ads = 1000 //number of spaces to take in ads-rotation
-  var skip_ads = 30 //number of spaces to skip in ads-rotation
-  var arr_total = jQuery.parseJSON($("#ads_rotation").val()).slice(rotation_key, rotation_key+total_ads) //total selected spaces of ad rotation
-  var arr_first = arr_total.slice(0,skip_ads)// skip the number of ads selected
-  //console.log(JSON.stringify(arr_first))
-  var arr = arr_total.slice(skip_ads,total_ads)//ads to take for delete
-  //console.log(arr)
-  for(i=0; i<arr.length; i++){
-    if(arr[i] != "-" || arr[i] != "."){
-      if($('[data-campaign-id="'+arr[i]+'"]').length > 1){
-        if(src_removed.hasOwnProperty(arr[i])){
-            if (src_removed[arr[i]].split(",").length == $('[data-campaign-id="'+arr[i]+'"]').length){
-            }else{
-              src_removed[arr[i]] = ""
-              if(arr_first.includes(arr[i]) == false){
-                return_src[rotation_key+skip_ads+i] = arr[i]
-                $('[data-campaign-id="'+arr[i]+'"]').each(function() {
-                if(src_removed.hasOwnProperty(arr[i])){
-                  src_removed[arr[i]] +=  ", " + $(this).attr("src");
-                  $(this).attr("src", "")
-                  }else{
-                    src_removed[arr[i]] = $(this).attr("src");
-                    $(this).attr("src", "")
-                  }
-                });
-              }
-            }
-        }else{
-          if(arr_first.includes(arr[i]) == false){
-            return_src[rotation_key+skip_ads+i] = arr[i]
-            $('[data-campaign-id="'+arr[i]+'"]').each(function() {
-            if(src_removed.hasOwnProperty(arr[i])){
-              src_removed[arr[i]] +=  ", " + $(this).attr("src");
-              $(this).attr("src", "")
-              }else{
-                src_removed[arr[i]] = $(this).attr("src");
-                $(this).attr("src", "")
-              }
-            });
-          }
-        }
-      }
-    }
-  }
-  console.log(return_src)
-  console.log(src_removed)
+ function action_before_remove_video(video) {
+   video.pause();
+   video.removeAttribute('src'); // empty source
+   video.load();
  }

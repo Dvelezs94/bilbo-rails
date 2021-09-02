@@ -5,14 +5,24 @@
     .card-header.d-flex.align-items-center.justify-content-between
       %h6.mg-b-0.tx-bold=t('evidence.witnesses')
     -if Evidence.where(board_id: current_user.projects.first.board_ids).present?
-      %ul.card.activity-table.list-group.list-group-flush.tx-13{:style => "height: 340px;"}
-        -Witness.where(id: Evidence.where(board_id: current_user.projects.first.board_ids).pluck(:witness_id).uniq).order(created_at: :desc).each do |witness|
-          %li.list-group-item.d-flex.pd-sm-x-20
-            %small.tx-13.tx-color-03.mg-b-0.pd-t-10.mg-b-0 #{witness.campaign.name}
-            .mg-l-auto.text-right.pd-t-10
-              = link_to evidences_dashboard_provider_witness_path(witness, evidence: "true"), {:onclick => "setTimeout(function() {initLightbox();}, 500);", :remote => "true", :method => "get", 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: "tx-13 text-uppercase"} do
-                = t('evidence.upload_file')
-                %i{"class" => "fa fa-arrow-up", "aria-hidden" => "true"}
+      %ul.list-group.tx-13.pre-scrollable
+        - Witness.where(id: Evidence.where(board_id: @project.board_ids).pluck(:witness_id).uniq).order(created_at: :desc).each do |witness|
+          %li.list-group-item.d-flex.pd-sm-x-20.bd-x-0
+            %div
+              %p.tx-semibold.mg-b-5
+                = "#{t("campaign.campaign")}:"
+                = witness.campaign.name
+              - if witness.has_pending_evidences?(@project)
+                = link_to evidences_dashboard_provider_witness_path(witness, evidence: "true"), {:remote => "true", :method => "get", 'data-toggle' =>  "modal", 'data-target' => '#modal-window'} do
+                  %span.badge.badge-orange-light.tx-10
+                    = t('evidence.upload_file')
+                    %i.fe.fe-upload
+                  %span.tx-gray-700
+                    = "#{t('witness.requested')} #{relative_time(witness.created_at)}"
+              - else
+                %span.badge.badge-success-light.tx-10
+                  = t("witness.completed")
+                  %i.fe.fe-check
     -else
       .card-body.pd-t-80.align-items-center.justify-content-between{:style => "height: 340px;"}
         .row-flex
