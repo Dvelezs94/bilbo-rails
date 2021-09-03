@@ -25,10 +25,18 @@
 
             - @freq = @campaign.frequency
             - if @freq.present?
-                %small.tx-gray-700= t("campaign.frequency.x_times_every", count: @freq[0])
-                = @freq[1]
-                %small.tx-gray-700.tx-xs= t("time_day.minutes")
+                -if @campaign.is_per_minute?
+                    //For campaigns per minute we show the frequency stated in the campaign itself
+                    %small.tx-gray-700= t("campaign.frequency.x_times_every", count: @freq[0])
+                    = @freq[1]
+                    %small.tx-gray-700.tx-xs= t("time_day.minutes")
+                -elsif @campaign.is_per_budget?
+                    //For budget campaigns we show the minimum and maximum average frequency of its boards
+                    %small.tx-gray-700= t("campaign.frequency.x_times_every", count: 1)
+                    %small= "#{@freq[0]} #{t('campaign.wizard.to')} #{@freq[1]}"
+                    %small.tx-gray-700.tx-xs= t("time_day.minutes")
             - else
+                //We do not show this metric for campaigns per hour
                 %small.tx-gray-700.tx-xs -
         .chart-three
 
