@@ -89,20 +89,29 @@ class Campaign < ApplicationRecord
 
   # Get the medium frecuency of the campaign per minute (1 impression every x minutes)
   def frequency
+    max_freq = -1    #Initialize values out of limits to compare the first item
+    min_freq = 2000
     if self.is_per_budget?
       # Use formula working_minutes/max_impressions for each of the bilbos of the campaign
-      # then get the average of that values
-      board_count = 0
-      frequency = 0.0
       self.boards.each do |board|
-        frequency += board.working_minutes.to_f / self.max_impressions(board)
-        board_count += 1
+        freq = board.working_minutes.to_f / self.max_impressions(board)
+        if freq < min_freq
+          min_freq = freq
+        end
+        if freq > max_freq
+          max_freq = freq
+        end
       end
-      return [1, (frequency / board_count).round(1)] #1 time every (frequency/board_count) minutes
+      if min_freq == max_freq
+        min_freq -= 2
+        max_freq += 2
+      end
+      min_freq = 1.0/6 if min_freq <= 0 #Minimum interval is 10 seconds (1/6 of a minute)
+      return [min_freq.round(1), max_freq.round(1)] #min and max frequency
     elsif self.is_per_minute?
-      return [self.imp, self.minutes]
+      return [self.imp, self.minutes] #frequency saved in the campaign itself
     else
-      return []
+      return [] #We do not show this metric for campaigns per hour
     end
   end
 
