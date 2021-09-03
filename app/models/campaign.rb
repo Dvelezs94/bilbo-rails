@@ -107,7 +107,7 @@ class Campaign < ApplicationRecord
         max_freq += 2
       end
       min_freq = 1.0/6 if min_freq <= 0 #Minimum interval is 10 seconds (1/6 of a minute)
-      return [min_freq.round(1), max_freq.round(1)] #min and max frequency
+      return [min_freq.round(0), max_freq.round(0)] #min and max frequency
     elsif self.is_per_minute?
       return [self.imp, self.minutes] #frequency saved in the campaign itself
     else
