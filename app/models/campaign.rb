@@ -511,18 +511,18 @@ class Campaign < ApplicationRecord
     }
   end
 
+  # Used to display the remaining active days of the campaign on the wizard
   def active_days
-    begin
-      ((self.ends_at - self.starts_at)/1.days + 1).to_i
-    rescue
-      #Campaign do not have starts_at or ends_at
-      1
-    end
+     days = ((self.ends_at - self.starts_at)/1.days + 1).to_i rescue 1
+     if Time.now > self.starts_at
+        days -= ((Time.now - self.starts_at)/1.days).to_i
+     end
+     return [days, 0].max
   end
 
   # used for the FRONTEND only
   def duration_in_days
-    days = self.active_days
+    days = ((self.ends_at - self.starts_at)/1.days + 1).to_i rescue 1
     if active_days == 1
       return "-"
     else
