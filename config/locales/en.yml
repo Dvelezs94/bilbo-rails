@@ -317,6 +317,7 @@ en:
            Prints shown are by bilbo.
       preview: Preview
       to: to
+      remaining_days: Remaining days
       analize: Analize
       analize_description: Track all the visits through a QR code we will give you, this way you can measure your campaign results more efectively.
       analize_link_description: Enter the link people will be sent to when they read your QR code.
