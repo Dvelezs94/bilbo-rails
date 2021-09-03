@@ -16,10 +16,14 @@
               %td.border-0.tx-gray-2=@campaign.name
             %tr
               %td.border-0.tx-gray-3=t("bilbos.duration")
-              %td.border-0.tx-gray-2="#{@campaign.active_days.to_s} #{t("week_days.days")}"
+              %td.border-0.tx-gray-2="#{@campaign.duration_in_days} #{t("week_days.days")}"
             %tr
               %td.border-0.tx-gray-3=t("campaign.dates")
               %td.border-0.tx-gray-2="#{(I18n.l @campaign.starts_at, format: "%d-%b")} #{t("campaign.wizard.to")} #{I18n.l(@campaign.ends_at, format: "%d-%b")}" rescue t('campaign.wizard.ongoing_campaign')
+            -if (Time.now - @campaign.starts_at rescue 0)/1.day > 1
+              %tr
+                %td.border-0.tx-gray-3=t('campaign.wizard.remaining_days')
+                %td.border-0.tx-gray-2="#{@campaign.active_days} #{t("week_days.days")}"
             %tr
               %td.border-0.tx-gray-3=t("campaign.objective")
               %td.border-0.tx-gray-2=t("campaign.objectives.#{@campaign.objective}")
@@ -29,9 +33,6 @@
             %tr
               %td.border-0.tx-gray-3=t("campaign.wizard.selected_bilbos")
               %td.border-0.tx-gray-2{id: 'board_count_summary'}
-            -# %tr
-            -#   %td.border-0.tx-gray-3=t("bilbos.search.media_type")
-            -#   %td.border-0.tx-gray-2{id: 'board_class_summary'}
             -if @campaign.is_per_hour?
               %tr
                 %td.border-0{colspan: 2}=link_to "#{t('campaign.wizard.ads_schedule')}", "#modalSummary", data: { toggle: "modal" }
@@ -42,7 +43,7 @@
             %tr
               %td.border-0.h2="Total"
               %td.border-0.h2.tx-gray-1{id: 'total_budget_summary'}
-        %input.d-none#start_date{value: @campaign.starts_at}
+        %input.d-none#start_date{value: @campaign.starts_at + ((Time.now - @campaign.starts_at)/1.day).to_i.days}
         %input.d-none#end_date{value: @campaign.ends_at}
         %input.d-none#summary_active_days{value: "#{@campaign.active_days}"}
         %input.d-none#translation_impressions_each{value: t("campaign.wizard.impressions")}
