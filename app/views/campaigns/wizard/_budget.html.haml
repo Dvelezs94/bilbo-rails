@@ -5,7 +5,7 @@
       %h3.tx-bold= t('campaign.wizard.budget')
       %label.d-block= t('campaign.select_budget')
       %div#tablebody.ht-350.mg-t-30.pos-relative
-        %table.table-responsive.table.wizard-table.border-0#tablebody
+        %table.table-responsive.table.wizard-table.overflow-x-clip.border-0#tablebody
           %tbody#budget_distribution
     .col-sm-12.col-md-12.col-lg-4.col-xl-4
       %h3.tx-bold= t('campaign.details')
@@ -18,10 +18,14 @@
               %td.border-0.tx-gray-2=@campaign.name
             %tr
               %td.border-0.tx-gray-3=t("bilbos.duration")
-              %td.border-0.tx-gray-2="#{@campaign.active_days.to_s} #{t("week_days.days")}"
+              %td.border-0.tx-gray-2="#{@campaign.duration_in_days } #{t("week_days.days")}"
             %tr
               %td.border-0.tx-gray-3=t("campaign.dates")
               %td.border-0.tx-gray-2="#{(I18n.l @campaign.starts_at, format: "%d-%b")} #{t("campaign.wizard.to")} #{I18n.l(@campaign.ends_at, format: "%d-%b")}" rescue t('campaign.wizard.ongoing_campaign')
+            -if (Time.now - @campaign.starts_at rescue 0) > 1
+              %tr
+                %td.border-0.tx-gray-3=t('campaign.wizard.remaining_days')
+                %td.border-0.tx-gray-2="#{@campaign.active_days} #{t("week_days.days")}"
             %tr
               %td.border-0.tx-gray-3=t("campaign.objective")
               %td.border-0.tx-gray-2=t("campaign.objectives.#{@campaign.objective}")

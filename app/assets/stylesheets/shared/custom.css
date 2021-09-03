@@ -865,6 +865,9 @@ a[href="#previous"] {
 .overflow-x-hidden {
   overflow-x: hidden;
 }
+.overflow-x-clip {
+  overflow-x: clip;
+}
 /* Borderless class for tables. Use it like .borderless */
 .borderless td, .borderless th {
   border: none;
