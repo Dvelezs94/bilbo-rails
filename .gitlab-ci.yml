@@ -16,10 +16,10 @@ before_script:
   - docker info
   - apk update
   - apk upgrade
-  - apk add curl jq python3 python3-dev build-base libffi-dev libressl-dev gettext bash
+  - apk add curl jq python3 python3-dev build-base libffi-dev openssl-dev musl-dev gettext bash
   - curl -O https://bootstrap.pypa.io/get-pip.py
   - python3 get-pip.py
-  - pip install 'cryptography==2.8'
+  - pip install 'cryptography==3.1.1'
   - pip install awscli ecs-deploy docker-compose
 
 stages:
