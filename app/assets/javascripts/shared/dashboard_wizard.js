@@ -523,13 +523,12 @@ function computePerMinuteTotalBudget(){
 
 function showOrHideSizeAlert(){
   $(".carousel").each(function(){
-    // Skip the carousel that shows the board images
-    if(this.id == "carouselBoardInfo") return;
-
     // Show or hide message for the first image on each carousel
     first_image = this.getElementsByClassName('active')
     slug = String(this.id).slice(9)
     board = $("#selected_boards [data-slug=" + slug + "]")[0]
+    //verify that the carousel is from a board
+    if(board == undefined) return;
     board_width = $(board).attr('new-width')
     board_height = $(board).attr('new-height')
     if(first_image.offsetWidth / first_image.offsetHeight != board_width / board_height){
