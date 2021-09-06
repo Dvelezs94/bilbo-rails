@@ -152,6 +152,9 @@ es:
     4_months: 4 meses
     5_months: 5 meses
     6_months: 6 meses
+    desc_impressions_per_day: Impresiones por día
+    desc_impressions_per_minute: Impresiones por minuto
+    desc_impressions_per_hour: Impresiones por horas definidas
     add_schedule: Agregar Horario
     schedules: Horarios
     must_add_schedule: Debe agregar un horario
@@ -321,16 +324,17 @@ es:
       preview: Ver
       impressions_hour_range: impresiones en un rango de
       to: a
+      remaining_days: Días restantes
       minute: minutos
       payment_details: Detalles de Pago
       budget: Presupuesto diario
       most_popular: Más popular
-      daily_budget_description: Presupuesto diario para tus bilbos elegidos. El presupuesto se dividirá entre todos los bilbos equitativamente.
+      daily_budget_description: Define un presupuesto máximo diario para tu campaña. Ideal para campañas que se reproducen todo el día.
       campaign_duration: Duración de la campaña
       campaign_minute: Impresión por minuto
-      campaign_minute_description: Esta opción te permite escoger las impresiones que quieres que se muestren por minuto
+      campaign_minute_description: Elige cuantas veces por minuto se mostrará la campaña. Ideal para campañas que requieren cierto número de spots en un rango de tiempo definido.
       campaign_hour: Rango de hora
-      campaign_hour_description: Con la opción rango de hora puedes escoger la hora en la que se muestran tus campañas
+      campaign_hour_description: Elige las horas en las que se mostrará tu campaña. Ideal para campañas que se muestran solo a ciertas horas del día
       campaign_classification: Tipo de campaña
       ongoing_campaign: Campaña continua
       pick_date: Elegir Fecha
@@ -482,6 +486,7 @@ es:
     reload_fail: El bilbo no se pudo recargar
     image: Imagen
     both_image_video: Imagen, video
+    rotation_degrees: Grados de rotación
     ads_rotation_error:
       max_budget_impressions: La campaña sobrepasa el máximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
@@ -909,7 +914,7 @@ es:
     bilbo_select: Elige el contenido para
     upload_image: Subir imagen
     upload_video: Subir video
-    upload_content: Subir contenidos
+    upload_content: Subir contenido
     add_web_content: Agregar Contenido web
     new_content: Nuevo
     responsive: Responsivo
