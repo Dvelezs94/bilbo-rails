@@ -129,6 +129,9 @@
               #macAddr.form-group
                 = f.label t("bilbos.mac_address")
                 = f.text_field :mac_address, class: "form-control", placeholder: "aa:bb:cc:dd:ee:ff"
+              #integrations.form-group
+                = f.label "Taggify URL"
+                = f.text_field :taggify_url, class: "form-control"
               #images.form-group
                 = f.label "Imagenes para mostrar en el mapa"
                 = f.file_field :images, required: true, multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'

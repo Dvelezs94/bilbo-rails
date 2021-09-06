@@ -120,7 +120,6 @@
           = f.label :steps, t("bilbos.steps"), class: "custom-control-label"
           %br/
       .col-6.pd-t-10
-      .col-6.pd-t-10
         = f.label :multiplier, t("bilbos.multiplier")
         = f.number_field :multiplier, class: "form-control"
         %br/
@@ -128,6 +127,9 @@
         = f.label t("bilbos.rotation_degrees")
         %br/
         = f.number_field :rotation_degrees, class: "form-control", required: true, value: board.rotation_degrees, step: 90, max: 360, min: -360
+      .col-6.pd-t-10
+        = f.label "Taggify URL"
+        = f.text_field :taggify_url, class: "form-control"
     = f.label "Imagenes para mostrar en el mapa"
     = f.file_field :images, multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'
   - if board.images.attached?
