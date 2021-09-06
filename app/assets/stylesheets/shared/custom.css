@@ -899,6 +899,12 @@ a[href="#previous"] {
   flex: 30;
 }
 
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5
+}
+
 .overflow-y-scroll {
   overflow-y: scroll;
 }
