@@ -12,4 +12,5 @@
         .row
         //row
       .chart-one
-    = area_chart daily_impressions_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), colors: ["#0000FF", "#EF280F", "#E36B2C", "#6DC36D", "#10b759"], library: {scales: {xAxes: [{ticks: {autoSkipPadding: 15, maxRotation: 0}}]}}, discrete: true
+    = area_chart daily_impressions_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), colors: ["#0000FF", "#EF280F", "#E36B2C", "#6DC36D", "#10b759"], library: {scales: {xAxes: [{ticks: {autoSkipPadding: 15, maxRotation: 0}}]}}, discrete: true, legend: true
+  
