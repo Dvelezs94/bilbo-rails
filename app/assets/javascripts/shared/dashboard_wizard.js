@@ -253,6 +253,17 @@ $(document).on('turbolinks:load', function () {
         }
       },
     });
+
+    // Disable finish button on click to provide feedback and avoid multiple clicks
+    $("#dashboardWizard a[href='#finish']").on('click', function(){
+      finishButton = this
+      $(finishButton)[0].classList.add('disabled')
+
+      //Enable the button again after 5 seconds
+      setTimeout(function() {
+        $(finishButton)[0].classList.remove('disabled')
+      }, 5000)
+    })
     // End Jquery steps
 
     if($("#budget_distribution").length){
@@ -512,6 +523,9 @@ function computePerMinuteTotalBudget(){
 
 function showOrHideSizeAlert(){
   $(".carousel").each(function(){
+    // Skip the carousel that shows the board images
+    if(this.id == "carouselBoardInfo") return;
+
     // Show or hide message for the first image on each carousel
     first_image = this.getElementsByClassName('active')
     slug = String(this.id).slice(9)
