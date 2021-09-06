@@ -46,14 +46,14 @@
              showAd();
              rotateAds = setInterval(showAd, board_duration);
            }, 5000);
-       } else {
-         if(server_time != ""){
-           alert("La hora del sistema no coincide con la hora del servidor\nAjuste la hora e intente nuevamente\nHora del servidor: "+server_time);
-         } else {
-           alert("No se pudo obtener la hora del servidor, revisa tu conexión y vuelve a intentarlo")
-         }
-       }
-    });
+        } else {
+          if(server_time != ""){
+            alert("La hora del sistema no coincide con la hora del servidor\nAjuste la hora e intente nuevamente\nHora del servidor: "+server_time);
+          } else {
+            alert("No se pudo obtener la hora del servidor, revisa tu conexión y vuelve a intentarlo")
+          }
+        }
+      });
      ///////////////////// FUNCTIONS  /////////////////////
 
      function createImpression() {
@@ -128,6 +128,7 @@
        chosen = ads[rotation_key];
        if (isWorkTime(work_hour_start, work_hour_end)){
          if (chosen == "-") {
+        checkTaggifyAd();
          showBilboAd();
          check_next_campaign_ads_present();
          } else if (chosen != ".") {
@@ -190,279 +191,307 @@
      }
 
 
-function isWorkTime(start, end) {
-  //function that checks if the dashboard is out of the hour range and only shows provider ads by default
-  today = new Date();
-  current_hour = addZero(today.getHours()) + ":" + addZero(today.getMinutes());
-  if (start < end) {
-    if (current_hour >= start && current_hour < end) {
-      return true;
-    } else {
-      return false;
+    function isWorkTime(start, end) {
+      //function that checks if the dashboard is out of the hour range and only shows provider ads by default
+      today = new Date();
+      current_hour = addZero(today.getHours()) + ":" + addZero(today.getMinutes());
+      if (start < end) {
+        if (current_hour >= start && current_hour < end) {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (start == end) {
+        return true;
+      } else {
+        if (!(current_hour > end && current_hour <= start)) {
+          return true;
+        } else {
+          return false;
+        }
+      }
     }
-  } else if (start == end) {
-    return true;
-  } else {
-    if (!(current_hour > end && current_hour <= start)) {
-      return true;
-    } else {
-      return false;
+
+    function getIndex(start_time) {
+      start_date = new Date(start_time);
+      start_hours = start_date.getHours();
+      start_minutes = start_date.getMinutes();
+      start_seconds = start_date.getSeconds();
+
+      start_seconds = start_hours * 3600 + start_minutes * 60 + start_seconds;
+
+      current_hours = new Date().getHours();
+      current_minutes = new Date().getMinutes();
+      current_seconds = new Date().getSeconds();
+
+      current_seconds = current_hours * 3600 + current_minutes * 60 + current_seconds;
+      if (current_seconds < start_seconds) { //fixes when bilbo changes day
+        current_seconds += 86400; //plus one day (seconds)
+      }
+      index_seconds = current_seconds - start_seconds
+      b_duration = parseInt(board_duration / 1000)
+
+      current_index = parseInt(index_seconds / b_duration);
+      return current_index;
     }
-  }
-   }
+    // show bilbo ad
+    function showBilboAd() {
+      //pauseAllCampaignVideos();
+      availableAds = filterValidMedia($(".bilbo-official-ad"))
+      var chosen_default_multimedia = Math.floor(Math.random() * availableAds.length);
+      $(".board-ads").hide();
+      $("#bilbo-ad").attr('style', 'display:block !important');
+      $(".bilbo-official-ad").hide()
+      availableAds.eq(chosen_default_multimedia).show()
+      if ($(availableAds[chosen_default_multimedia]).is("video")) {
+        availableAds[chosen_default_multimedia].currentTime = 0;
+        availableAds[chosen_default_multimedia].play();
+      }
+    }
 
-   function getIndex(start_time) {
-     start_date = new Date(start_time);
-     start_hours = start_date.getHours();
-     start_minutes = start_date.getMinutes();
-     start_seconds = start_date.getSeconds();
+    function pauseDefaultVideos() {
+      $(".bilbo-official-ad").each(function() {
+        if ($(this).is("video")) {
+          if (!this.paused) {
+            this.pause();
+            this.currentTime = 0;
+          }
+        }
+      });
+    }
 
-     start_seconds = start_hours * 3600 + start_minutes * 60 + start_seconds;
+    function filterValidMedia(collection){
+      collection = collection.filter((index,element) => {
+        return mediaReady(element)
+      });
+      return collection;
+    }
 
-     current_hours = new Date().getHours();
-     current_minutes = new Date().getMinutes();
-     current_seconds = new Date().getSeconds();
+    function mediaReady(elem){
+      //for each content type, we have a way to verify if the content can be shown
+      if($(elem).is("video")){
+        return elem.readyState >= 1 && [1,2].includes(elem.networkState);
+      } else if($(elem).is("img")){
+        return elem.complete && elem.naturalHeight != 0;
+      } else {
+        //check conditions for iframes
+        return true
+      }
+    }
 
-     current_seconds = current_hours * 3600 + current_minutes * 60 + current_seconds;
-     if (current_seconds < start_seconds) { //fixes when bilbo changes day
-       current_seconds += 86400; //plus one day (seconds)
-     }
-     index_seconds = current_seconds - start_seconds
-     b_duration = parseInt(board_duration / 1000)
+    function pauseAllCampaignVideos() {
+      $(".board-ad-inner").each(function() {
+        if ($(this).is("video")) {
+          if (!this.paused) {
+            this.pause();
+            this.currentTime = 0;
+          }
+        }
+      });
+    }
 
-     current_index = parseInt(index_seconds / b_duration);
-     return current_index;
-   }
-   // show bilbo ad
-   function showBilboAd() {
-     //pauseAllCampaignVideos();
-     availableAds = filterValidMedia($(".bilbo-official-ad"))
-     var chosen_default_multimedia = Math.floor(Math.random() * availableAds.length);
-     $(".board-ads").hide();
-     $("#bilbo-ad").attr('style', 'display:block !important');
-     $(".bilbo-official-ad").hide()
-     availableAds.eq(chosen_default_multimedia).show()
-     if ($(availableAds[chosen_default_multimedia]).is("video")) {
-       availableAds[chosen_default_multimedia].currentTime = 0;
-       availableAds[chosen_default_multimedia].play();
-     }
-   }
+    function check_next_campaign_ads_present() {
+      //check if next campaign has ads to download them
+      next_chosen = (rotation_key >= ads.length) ? ads[0] : ads[rotation_key + 1];
+      if (next_chosen != "-" && next_chosen != ".") {
+        nextAds = $('[data-campaign-id="' + next_chosen + '"]');
+        nextAds = filterValidMedia(nextAds);
+        if (nextAds.length == 0) {
+          console.log("next campaign with id " + next_chosen + " has no ads or haven't been completely loaded, requesting them");
+          if($('[data-campaign-id="'+next_chosen+'"]').length == 0){
+            requestAds(next_chosen);
+          } else {
+            reloadContent(next_chosen);
+          }
+        }
+      } else if (next_chosen == "-") {
+        //verify that at least one default content is available
+        defaultContent = filterValidMedia($(".bilbo-official-ad"));
+        if(defaultContent.length == 0){
+          console.log("No default content available, trying to download it");
+          reloadContent('-');
+        }
+      }
+    }
 
-   function pauseDefaultVideos() {
-     $(".bilbo-official-ad").each(function() {
-       if ($(this).is("video")) {
-         if (!this.paused) {
-           this.pause();
-           this.currentTime = 0;
-         }
-       }
-     });
-   }
+    function requestAds(campaign_id) {
+      board_id = $("#board_id").val();
+      Rails.ajax({
+        url: "/campaigns/" + String(campaign_id) + "/get_content",
+        type: "get",
+        data: "board_id=" + String(board_id),
+        success: function(data) {
+          console.log("retrieved ads for campaign " + String(campaign_id));
+        },
+        error: function(data) {
+          console.log("error retrieving ads for campaign " + String(campaign_id));
+        }
+      })
+    }
 
-  function filterValidMedia(collection){
-    collection = collection.filter((index,element) => {
-      return mediaReady(element)
-    });
-    return collection;
-  }
+    function reloadContent(campaign_id) {
+      if(campaign_id == '-' && new Date() - last_request_time['-'] > 600000){
+        last_request_time['-'] = new Date();
+        $(".bilbo-official-ad").forEach((item, i) => {
+          //re-assign the url of the content for video and image to force a reload/download of the media
+          if(!mediaReady(item) && ($(item).is("video") || $(item).is("img"))) {
+            item.src = item.src;
+          }
+        });
+      } else if(new Date() - last_request_time[campaign_id] > 600000){
+        last_request_time[campaign_id] = new Date();
+        //Get media that is not available to reload it
+        $('[data-campaign-id="' + campaign_id + '"]').forEach((item, i) => {
+          //reload only the contents that aren't completely loaded
+          if(!mediaReady(item) && ($(item).is("video") || $(item).is("img"))) {
+            item.src = item.src;
+          }
+        });
+      }
+    }
 
-  function mediaReady(elem){
-    //for each content type, we have a way to verify if the content can be shown
-    if($(elem).is("video")){
-      return elem.readyState >= 1 && [1,2].includes(elem.networkState);
-    } else if($(elem).is("img")){
-      return elem.complete && elem.naturalHeight != 0;
-    } else {
-      //check conditions for iframes
+    function hideBilboAd() {
+      if ($("#bilbo-ad").is(":visible")) {
+        //pauseDefaultVideos();
+        $("#bilbo-ad").hide();
+        $(".board-ads").attr('style', 'display:block !important');
+      }
+    }
+
+    function secondsUntilNextDay(){
+      current_time = new Date();
+      hours = current_time.getHours();
+      minutes = current_time.getMinutes();
+      seconds = current_time.getSeconds();
+
+      total_seconds = hours*3600 + minutes*60 + seconds;
+      return 86400 - total_seconds;
+    }
+
+    function reloadAdsRotation() {
+      if(lost_impressions > 0){
+        requestAdsRotation();
+        lost_impressions = 0;
+      }
+    }
+
+    function requestAdsRotation() {
+      board_id = $("#board_id").val();
+      api_token = $("#api_token").val();
+      Rails.ajax({
+        url: "/boards/" + String(board_id) + "/requestAdsRotation.js",
+        type: "post",
+        data: "api_token=" + String(api_token),
+        success: function(data) {
+          //nothing
+        },
+        error: function(data) {
+          console.log("error retrieving new ads rotation");
+        }
+      })
+    }
+
+    async function initializePlayer(){
+      server_time = ""
+      url = window.location
+      time_api_path = url.protocol + "//" + url.host + "/api/v1/boards/board_time?slug="+board_slug
+      for(var i = 0; i < 5; i++){
+        response = await fetch(time_api_path)
+        if(response.status !== 200){ continue;}
+        response.json().then(function(data){
+          server_time = data["board_time"];
+          return;
+        })
+        if(server_time != "") break;
+      }
+
+      if(server_time == ""){
+        Bugsnag.notify("No se pudo obtener la hora del servidor en el bilbo " + board_slug)
+        return false
+      }
+
+      server_hours = parseInt(server_time.split(':')[0]);
+      server_minutes = parseInt(server_time.split(':')[1]);
+      server_minutes = server_minutes + server_hours*60;
+
+      player_time = new Date();
+      player_hours = player_time.getHours();
+      player_minutes = player_time.getMinutes();
+      player_total_minutes = player_minutes + player_hours*60;
+
+      time_difference = Math.abs(player_total_minutes - server_minutes);
+      // this calculation is for the time difference when one time is around 23:xx and the other is around 00:xx
+      [low, high] = [server_minutes, player_total_minutes].sort(function(a,b){return a-b;});
+
+      if(time_difference > 5 && (1440 - high) + low > 5){
+        Bugsnag.notify("La hora del sistema en el bilbo " + board_slug + " no coincide con la hora del servidor\nHora del servidor: "+ server_time + "\nHora del sistema: " + addZero(player_hours) + ':' + addZero(player_minutes));
+        return false;
+      }
       return true
     }
-  }
 
-   function pauseAllCampaignVideos() {
-     $(".board-ad-inner").each(function() {
-       if ($(this).is("video")) {
-         if (!this.paused) {
-           this.pause();
-           this.currentTime = 0;
-         }
-       }
-     });
-   }
+    function timeUntilNextStart(){
+      start_date = new Date($("#start_time").val());
+      start_hours = start_date.getHours();
+      start_minutes = start_date.getMinutes();
 
-   function check_next_campaign_ads_present() {
-     //check if next campaign has ads to download them
-     next_chosen = (rotation_key >= ads.length) ? ads[0] : ads[rotation_key + 1];
-     if (next_chosen != "-" && next_chosen != ".") {
-       nextAds = $('[data-campaign-id="' + next_chosen + '"]');
-       nextAds = filterValidMedia(nextAds);
-       if (nextAds.length == 0) {
-         console.log("next campaign with id " + next_chosen + " has no ads or haven't been completely loaded, requesting them");
-         if($('[data-campaign-id="'+next_chosen+'"]').length == 0){
-           requestAds(next_chosen);
-         } else {
-           reloadContent(next_chosen);
-         }
-       }
-     } else if (next_chosen == "-") {
-       //verify that at least one default content is available
-       defaultContent = filterValidMedia($(".bilbo-official-ad"));
-       if(defaultContent.length == 0){
-         console.log("No default content available, trying to download it");
-         reloadContent('-');
-       }
-     }
-   }
+      current_time = new Date();
+      current_hours = current_time.getHours();
+      current_minutes = current_time.getMinutes();
+      current_seconds = current_time.getSeconds();
 
-   function requestAds(campaign_id) {
-     board_id = $("#board_id").val();
-     Rails.ajax({
-       url: "/campaigns/" + String(campaign_id) + "/get_content",
-       type: "get",
-       data: "board_id=" + String(board_id),
-       success: function(data) {
-         console.log("retrieved ads for campaign " + String(campaign_id));
-       },
-       error: function(data) {
-         console.log("error retrieving ads for campaign " + String(campaign_id));
-       }
-     })
-   }
+      start_seconds = start_hours*3600 + start_minutes*60;
+      current_seconds = current_hours*3600 + current_minutes*60+current_seconds;
 
-   function reloadContent(campaign_id) {
-     if(campaign_id == '-' && new Date() - last_request_time['-'] > 600000){
-       last_request_time['-'] = new Date();
-       $(".bilbo-official-ad").forEach((item, i) => {
-         //re-assign the url of the content for video and image to force a reload/download of the media
-         if(!mediaReady(item) && ($(item).is("video") || $(item).is("img"))) {
-           item.src = item.src;
-         }
-       });
-     } else if(new Date() - last_request_time[campaign_id] > 600000){
-       last_request_time[campaign_id] = new Date();
-       //Get media that is not available to reload it
-       $('[data-campaign-id="' + campaign_id + '"]').forEach((item, i) => {
-         //reload only the contents that aren't completely loaded
-         if(!mediaReady(item) && ($(item).is("video") || $(item).is("img"))) {
-           item.src = item.src;
-         }
-       });
-     }
-   }
+      if (start_seconds < current_seconds) start_seconds += 86400; //+1 day in seconds
+      return start_seconds - current_seconds;
 
-   function hideBilboAd() {
-     if ($("#bilbo-ad").is(":visible")) {
-       //pauseDefaultVideos();
-       $("#bilbo-ad").hide();
-       $(".board-ads").attr('style', 'display:block !important');
-     }
-   }
-
-  function secondsUntilNextDay(){
-    current_time = new Date();
-    hours = current_time.getHours();
-    minutes = current_time.getMinutes();
-    seconds = current_time.getSeconds();
-
-    total_seconds = hours*3600 + minutes*60 + seconds;
-    return 86400 - total_seconds;
-  }
-
-  function reloadAdsRotation() {
-    if(lost_impressions > 0){
-      requestAdsRotation();
-      lost_impressions = 0;
     }
-  }
 
-  function requestAdsRotation() {
-    board_id = $("#board_id").val();
-    api_token = $("#api_token").val();
-    Rails.ajax({
-      url: "/boards/" + String(board_id) + "/requestAdsRotation.js",
-      type: "post",
-      data: "api_token=" + String(api_token),
-      success: function(data) {
-        //nothing
-      },
-      error: function(data) {
-        console.log("error retrieving new ads rotation");
+    function checkTaggifyAd() {
+      console.log("hi")
+      if ($("#taggify_url").length) {
+        
+        taggify_url = $("#taggify_url").val();
+        // load taggify ad through AJAX
+        $.ajax({
+          url:  taggify_url,
+          // if it errors out, then do nothing
+          error: function() {
+            show_error("Error cargando taggify en el board: " + board_slug);
+          },
+          // Check if tgf-noad exists, if it doesn't, then show ad
+          complete: function(data) {
+            console.log(data);
+          }
+        });
       }
-    })
-  }
-
-  async function initializePlayer(){
-    server_time = ""
-    url = window.location
-    time_api_path = url.protocol + "//" + url.host + "/api/v1/boards/board_time?slug="+board_slug
-    for(var i = 0; i < 5; i++){
-      response = await fetch(time_api_path)
-      if(response.status !== 200){ continue;}
-      response.json().then(function(data){
-        server_time = data["board_time"];
-        return;
-      })
-      if(server_time != "") break;
     }
 
-    if(server_time == ""){
-      Bugsnag.notify("No se pudo obtener la hora del servidor en el bilbo " + board_slug)
-      return false
+    // taggify integration 
+    function showTaggifyAd() {
+      // need to do validation if 
+      taggify_url = $("#taggify_url").val();
     }
 
-    server_hours = parseInt(server_time.split(':')[0]);
-    server_minutes = parseInt(server_time.split(':')[1]);
-    server_minutes = server_minutes + server_hours*60;
-
-    player_time = new Date();
-    player_hours = player_time.getHours();
-    player_minutes = player_time.getMinutes();
-    player_total_minutes = player_minutes + player_hours*60;
-
-    time_difference = Math.abs(player_total_minutes - server_minutes);
-    // this calculation is for the time difference when one time is around 23:xx and the other is around 00:xx
-    [low, high] = [server_minutes, player_total_minutes].sort(function(a,b){return a-b;});
-
-    if(time_difference > 5 && (1440 - high) + low > 5){
-      Bugsnag.notify("La hora del sistema en el bilbo " + board_slug + " no coincide con la hora del servidor\nHora del servidor: "+ server_time + "\nHora del sistema: " + addZero(player_hours) + ':' + addZero(player_minutes));
-      return false;
-    }
-    return true
   }
+});
 
-  function timeUntilNextStart(){
-    start_date = new Date($("#start_time").val());
-    start_hours = start_date.getHours();
-    start_minutes = start_date.getMinutes();
-
-    current_time = new Date();
-    current_hours = current_time.getHours();
-    current_minutes = current_time.getMinutes();
-    current_seconds = current_time.getSeconds();
-
-    start_seconds = start_hours*3600 + start_minutes*60;
-    current_seconds = current_hours*3600 + current_minutes*60+current_seconds;
-
-    if (start_seconds < current_seconds) start_seconds += 86400; //+1 day in seconds
-    return start_seconds - current_seconds;
-
+function updateQueryStringParameter(uri, key, value) {
+  var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+  var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+  if (uri.match(re)) {
+    return uri.replace(re, '$1' + key + "=" + value + '$2');
+  } else {
+    return uri + separator + key + "=" + value;
   }
-
 }
- });
 
- function updateQueryStringParameter(uri, key, value) {
-   var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-   var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-   if (uri.match(re)) {
-     return uri.replace(re, '$1' + key + "=" + value + '$2');
-   } else {
-     return uri + separator + key + "=" + value;
-   }
- }
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
 
- function addZero(i) {
-   if (i < 10) {
-     i = "0" + i;
-   }
-   return i;
- }
+
