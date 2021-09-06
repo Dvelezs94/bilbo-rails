@@ -523,6 +523,9 @@ function computePerMinuteTotalBudget(){
 
 function showOrHideSizeAlert(){
   $(".carousel").each(function(){
+    // Skip the carousel that shows the board images
+    if(this.id == "carouselBoardInfo") return;
+
     // Show or hide message for the first image on each carousel
     first_image = this.getElementsByClassName('active')
     slug = String(this.id).slice(9)
