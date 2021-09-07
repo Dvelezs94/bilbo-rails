@@ -728,10 +728,6 @@ a[href="#previous"] {
 	animation: pulse_map_marker 2s infinite;
 }
 
-.bg-color-black{
-  background-color: black !important;
-}
-
 .tx-xl {
   font-size: x-large;
 }
