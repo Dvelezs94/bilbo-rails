@@ -7,4 +7,4 @@
     / card-header
     .card-body.pd-0
     .pd-y-25.pd-x-20
-      = column_chart peak_hours_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end)
+      = column_chart peak_hours_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), legend: false, id: "peak-hours-chart", colors: ["rgb(2, 7, 125)", "rgb(4, 33, 186)", "rgb(1, 98, 253)", "rgb(144, 124, 255)", "rgb(168, 153, 255)", "rgb(133, 182, 255)", "rgb(180, 219, 255)", "rgb(221, 240, 255)"], stacked: true, dataset: {borderWidth: 0}

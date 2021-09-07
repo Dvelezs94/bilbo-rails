@@ -8,9 +8,9 @@ class ChartsController < ApplicationController
   end
 
   def daily_impressions
-    impressions = hash_initialize(params[:start_date], params[:end_date]).merge(@campaign.daily_impressions(start_date: params[:start_date], end_date: params[:end_date]))
-    impressions = Hash[impressions.map{|key,value| [key.capitalize, value]}]
-    render json: impressions
+    #impressions = hash_initialize(params[:start_date], params[:end_date]).merge(@campaign.daily_impressions(start_date: params[:start_date], end_date: params[:end_date]))
+    #impressions = Hash[impressions.map{|key,value| [key.capitalize, value]}]  
+    render json: @campaign.boards.map{|board| {name: board.name, data: board.impressions.where(campaign_id: @campaign.id, created_at: params[:start_date]..params[:end_date]).group_by_day(:created_at, format: "%b %d").count}}
   end
 
   def daily_impressions_month
@@ -24,11 +24,13 @@ class ChartsController < ApplicationController
   end
 
   def daily_invested
-    render json: @campaign.daily_invested(start_date: params[:start_date], end_date: params[:end_date])
+    #render json: @campaign.daily_invested(start_date: params[:start_date], end_date: params[:end_date])
+    render json: @campaign.boards.map{|board| {name: board.name, data: board.impressions.where(campaign_id: @campaign, created_at: params[:start_date]..params[:end_date]).group_by_day(:created_at, format: "%a").sum(:total_price)}}
   end
 
   def peak_hours
-    render json: @campaign.peak_hours(start_date: params[:start_date], end_date: params[:end_date])
+    #render json: @campaign.peak_hours(start_date: params[:start_date], end_date: params[:end_date])
+    render json: @campaign.boards.map{|board| {name: board.name, data: board.impressions.where(campaign_id: @campaign, created_at: params[:start_date]..params[:end_date]).group_by_hour_of_day(:created_at, format: "%l %P").count}}
   end
 
   def daily_earnings
