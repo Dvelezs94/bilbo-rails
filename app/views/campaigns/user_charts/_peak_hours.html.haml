@@ -7,4 +7,4 @@
     / card-header
     .card-body.pd-0
     .pd-y-25.pd-x-20
-      = column_chart peak_hours_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), legend: false
+      = column_chart peak_hours_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), legend: false, colors: ["#0000FF", "#FF0000", "#00FF00", "#F44611", "#FFFF00", "#FF00FF", "#00FFFF", "#8F00FF", "#FB008F", "#C29B61"]
