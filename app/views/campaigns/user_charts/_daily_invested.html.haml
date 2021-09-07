@@ -7,4 +7,4 @@
             = @campaign.name
         .card-body.pd-20
             .chart-two.-b-20
-                = column_chart daily_invested_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), id: "daily-invested-chart", colors: ["rgb(2, 7, 125)", "rgb(4, 33, 186)", "rgb(1, 98, 253)", "rgb(144, 124, 255)", "rgb(168, 153, 255)", "rgb(133, 182, 255)", "rgb(180, 219, 255)", "rgb(221, 240, 255)", "rgb(43, 214, 123)", "rgb(255, 107, 107)"], legend: false, stacked: true, dataset: {borderWidth: 0}
+                = column_chart daily_invested_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), id: "daily-invested-chart", colors: ["rgb(2, 7, 125)", "rgb(4, 33, 186)", "rgb(1, 98, 253)", "rgb(144, 124, 255)", "rgb(168, 153, 255)", "rgb(133, 182, 255)", "rgb(180, 219, 255)", "rgb(221, 240, 255)"], legend: false, stacked: true, dataset: {borderWidth: 0}
