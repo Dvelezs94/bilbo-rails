@@ -865,6 +865,9 @@ a[href="#previous"] {
 .overflow-x-hidden {
   overflow-x: hidden;
 }
+.overflow-x-clip {
+  overflow-x: clip;
+}
 /* Borderless class for tables. Use it like .borderless */
 .borderless td, .borderless th {
   border: none;
@@ -894,6 +897,12 @@ a[href="#previous"] {
 }
 #dashboardWizard > div.content.clearfix {
   flex: 30;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5
 }
 
 .overflow-y-scroll {
