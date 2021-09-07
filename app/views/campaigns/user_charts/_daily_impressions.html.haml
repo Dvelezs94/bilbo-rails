@@ -5,11 +5,8 @@
       = t('campaign.impressions')
       %ul.list-inline.d-flex.mg-t-20.mg-sm-t-10.mg-md-t-0.mg-b-0
         %li.list-inline-item.d-flex.align-items-center
-          //%span.d-block.wd-10.ht-10.bg-df-1.rounded.mg-r-5
-          //%span.tx-sans.tx-uppercase.tx-10.tx-medium.tx-color-03= t('campaign.impressions')
     .card-body.pos-relative.pd-0
       .pos-absolute.t-20.l-20.wd-xl-100p.z-index-10
         .row
-        //row
       .ht-400.ht-lg-200-f.pd-t-10
-        = area_chart daily_impressions_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), colors: ["#0000FF", "#FF0000", "#00FF00", "#F44611", "#FFFF00", "#FF00FF", "#00FFFF", "#8F00FF", "#FB008F", "#C29B61"], library: {"align-items": "left", scales: {xAxes: [{ticks: {autoSkipPadding: 15, maxRotation: 0}}]}}, discrete: true, legend: "bottom" 
+        = area_chart daily_impressions_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), colors: ["#0000FF", "#FF0000", "#00FF00", "#F44611", "#FFFF00", "#FF00FF", "#00FFFF", "#8F00FF", "#FB008F", "#C29B61"], library: { scales: {xAxes: [{ticks: {autoSkipPadding: 15, maxRotation: 0}}]}}, discrete: true, legend: "bottom"
