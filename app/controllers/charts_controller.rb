@@ -9,8 +9,8 @@ class ChartsController < ApplicationController
 
   def daily_impressions
     #impressions = hash_initialize(params[:start_date], params[:end_date]).merge(@campaign.daily_impressions(start_date: params[:start_date], end_date: params[:end_date]))
-    #impressions = Hash[impressions.map{|key,value| [key.capitalize, value]}]  
-    render json: @campaign.boards.map{|board| {name: board.name, data: board.impressions.where(campaign_id: @campaign.id, created_at: params[:start_date]..params[:end_date]).group_by_day(:created_at, format: "%b %d").count}}
+    #impressions = Hash[impressions.map{|key,value| [key.capitalize, value]}]
+    render json: @campaign.boards.map{|board| {name: board.name, data: hash_initialize(params[:start_date], params[:end_date]).merge(board.impressions.where(campaign_id: @campaign.id, created_at: params[:start_date]..params[:end_date]).group_by_day(:created_at, format: "%b %d").count)}}
   end
 
   def daily_impressions_month
