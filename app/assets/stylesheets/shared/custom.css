@@ -90,10 +90,6 @@
   background: white !important;
 }
 
-.tx-white {
-  color: white !important
-}
-
 .board-size-preview {
   background-color: rgba(255,0,0,0.2);
 }
@@ -730,10 +726,6 @@ a[href="#previous"] {
   border: 1px solid #1C68F0;
   transform: scale(1);
 	animation: pulse_map_marker 2s infinite;
-}
-
-.bg-color-black{
-  background-color: black !important;
 }
 
 .tx-xl {
