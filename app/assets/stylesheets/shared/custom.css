@@ -90,6 +90,10 @@
   background: white !important;
 }
 
+.tx-white {
+  color: white !important
+}
+
 .board-size-preview {
   background-color: rgba(255,0,0,0.2);
 }
