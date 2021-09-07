@@ -524,17 +524,15 @@ function computePerMinuteTotalBudget(){
 function showOrHideSizeAlert(){
   $(".carousel").each(function(){
     // Show or hide message for the first image on each carousel
-    first_image = this.getElementsByClassName('active')
     slug = String(this.id).slice(9)
     board = $("#selected_boards [data-slug=" + slug + "]")[0]
     //verify that the carousel is from a board
     if(board == undefined) return;
+    first_image = this.getElementsByClassName('active')[0].children[0]
     board_width = $(board).attr('new-width')
     board_height = $(board).attr('new-height')
-    if(first_image.offsetWidth / first_image.offsetHeight != board_width / board_height){
+    if(first_image.naturalWidth / first_image.naturalHeight != board_width / board_height){
       $("#wrong_size_alert_"+slug)[0].classList.remove('invisible')
-    } else {
-      $("#wrong_size_alert_"+slug)[0].classList.add('invisible')
     }
     // show or hide message for the rest of the images on the carousel
     $(this).on('slid.bs.carousel', function(e){
@@ -543,7 +541,7 @@ function showOrHideSizeAlert(){
       board_width = $(board).attr('new-width')
       board_height = $(board).attr('new-height')
       new_img = e.relatedTarget.children[0]
-      if(new_img.offsetWidth / new_img.offsetHeight != board_width / board_height){
+      if(new_img.naturalWidth / new_img.naturalHeight != board_width / board_height){
         $("#wrong_size_alert_"+slug)[0].classList.remove('invisible')
       } else {
         $("#wrong_size_alert_"+slug)[0].classList.add('invisible')
