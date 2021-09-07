@@ -11,6 +11,5 @@
       .pos-absolute.t-20.l-20.wd-xl-100p.z-index-10
         .row
         //row
-      .chart-one
-    = area_chart daily_impressions_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), colors: ["#0000FF", "#EF280F", "#E36B2C", "#6DC36D", "#10b759"], library: {scales: {xAxes: [{ticks: {autoSkipPadding: 15, maxRotation: 0}}]}}, discrete: true, legend: true
-  
+      .ht-400.ht-lg-200-f.pd-t-10
+        = area_chart daily_impressions_chart_path(@campaign.slug, start_date: @date_start, end_date: @date_end), colors: ["#0000FF", "#FF0000", "#00FF00", "#F44611", "#FFFF00", "#FF00FF", "#00FFFF", "#8F00FF", "#FB008F", "#C29B61"], library: {"align-items": "left", scales: {xAxes: [{ticks: {autoSkipPadding: 15, maxRotation: 0}}]}}, discrete: true, legend: "bottom" 
