@@ -253,6 +253,17 @@ $(document).on('turbolinks:load', function () {
         }
       },
     });
+
+    // Disable finish button on click to provide feedback and avoid multiple clicks
+    $("#dashboardWizard a[href='#finish']").on('click', function(){
+      finishButton = this
+      $(finishButton)[0].classList.add('disabled')
+
+      //Enable the button again after 5 seconds
+      setTimeout(function() {
+        $(finishButton)[0].classList.remove('disabled')
+      }, 5000)
+    })
     // End Jquery steps
 
     if($("#budget_distribution").length){
@@ -516,6 +527,8 @@ function showOrHideSizeAlert(){
     first_image = this.getElementsByClassName('active')
     slug = String(this.id).slice(9)
     board = $("#selected_boards [data-slug=" + slug + "]")[0]
+    //verify that the carousel is from a board
+    if(board == undefined) return;
     board_width = $(board).attr('new-width')
     board_height = $(board).attr('new-height')
     if(first_image.offsetWidth / first_image.offsetHeight != board_width / board_height){
@@ -597,13 +610,13 @@ function make_summary_selected_hours() {
   for(var i = 0; i<= number_of_days; i++){
     week_day_number = new Date(start.getTime() + 86400000*i).getDay()
     week_day = week_day_number == 0? "sunday" : daysOfWeek[week_day_number - 1]
-    total_budget += parseFloat($("#budget_"+week_day)[0].innerHTML)
+    if($("#budget_"+week_day).length) total_budget += parseFloat($("#budget_"+week_day)[0].innerHTML || 0)
   }
 
   $("#total_budget_summary")[0].innerHTML = currencyFormat(total_budget) + " MXN"
 
   $.each(daysOfWeek, function(index, day){
-    $("#budget_"+day)[0].innerHTML = currencyFormat($("#budget_"+day)[0].innerHTML) + " MXN"
+    if($("#budget_"+day).length) $("#budget_"+day)[0].innerHTML = currencyFormat($("#budget_"+day)[0].innerHTML) + " MXN"
   });
 
 }
