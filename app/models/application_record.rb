@@ -18,9 +18,15 @@ class ApplicationRecord < ActiveRecord::Base
     Dir.mkdir(tmp_dir) unless Dir.exist?(tmp_dir)
     CSV.open("#{tmp_dir}/#{name}", "w") do |csv|
       csv << attributes
-
+      attributes.pop()
+      time_zone_board={}
       all.each do |item|
-        csv << attributes.map{ |attr| item.send(attr) }
+        if !time_zone_board["#{item.board.id}"]
+          time_zone_board["#{item.board.id}"] = Timezone.lookup(item.board.lat, item.board.lng).to_s
+        end
+         array = attributes.map{ |attr| item.send(attr) }
+        array.push(item.created_at.in_time_zone(time_zone_board["#{item.board.id}"]))
+        csv << array
       end
     end
     return "#{tmp_dir}/#{name}"
