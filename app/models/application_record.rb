@@ -24,7 +24,7 @@ class ApplicationRecord < ActiveRecord::Base
         if !time_zone_board["#{item.board.id}"]
           time_zone_board["#{item.board.id}"] = Timezone.lookup(item.board.lat, item.board.lng).to_s
         end
-         array = attributes.map{ |attr| item.send(attr) }
+        array = attributes.map{ |attr| item.send(attr)}
         array.push(item.created_at.in_time_zone(time_zone_board["#{item.board.id}"]))
         csv << array
       end
