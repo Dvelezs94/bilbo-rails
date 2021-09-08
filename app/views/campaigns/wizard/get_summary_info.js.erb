@@ -33,4 +33,4 @@ $('.accordion').accordion({
 <% if @campaign.classification == "per_hour" %>
   make_summary_selected_hours(); // Fill ads schedule table
 <% end %>
-setTimeout(showOrHideSizeAlert, 500);
+checkContents = setInterval(summaryContentsLoaded, 500);
