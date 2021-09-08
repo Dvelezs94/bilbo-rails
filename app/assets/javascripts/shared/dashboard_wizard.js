@@ -555,7 +555,9 @@ function showOrHideSizeAlert(){
     first_image = this.getElementsByClassName('active')[0].children[0]
     board_width = $(board).attr('new-width')
     board_height = $(board).attr('new-height')
-    if(first_image.naturalWidth / first_image.naturalHeight != board_width / board_height){
+    // ratio_difference = Math.abs( 1 - (first_image.naturalWidth / first_image.naturalHeight) / (board_width / board_height))
+    ratio_difference = Math.abs(1 - first_image.naturalWidth * board_height / (first_image.naturalHeight * board_width)) //Same as commented line above, but reducing rounding errors
+    if(ratio_difference >= 0.03){
       $("#wrong_size_alert_"+slug)[0].classList.remove('d-none')
     }
     // show or hide message for the rest of the images on the carousel
@@ -565,7 +567,8 @@ function showOrHideSizeAlert(){
       board_width = $(board).attr('new-width')
       board_height = $(board).attr('new-height')
       new_img = e.relatedTarget.children[0]
-      if(new_img.naturalWidth / new_img.naturalHeight != board_width / board_height){
+      ratio_difference = Math.abs(1 - new_img.naturalWidth * board_height / (new_img.naturalHeight * board_width))
+      if(ratio_difference >= 0.03){
         $("#wrong_size_alert_"+slug)[0].classList.remove('d-none')
       } else {
         $("#wrong_size_alert_"+slug)[0].classList.add('d-none')
