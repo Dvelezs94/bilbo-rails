@@ -30,9 +30,9 @@ class ProviderImpressionsCsvWorker
           @report = @project.reports.create!(name: name, category: "project")
         end
       if @project.provider?
-        @report_fields = ["campaign", "board", "created_at", "provider_price"]
+        @report_fields = ["campaign", "board", "provider_price", "created_at"]
       else
-        @report_fields = ["campaign", "board", "created_at", "total_price"]
+        @report_fields = ["campaign", "board", "total_price", "created_at"]
       end
       result = @impressions.to_csv(name, @report_fields)
       file_csv = File.open(result)
