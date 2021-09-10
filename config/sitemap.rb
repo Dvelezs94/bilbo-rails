@@ -16,11 +16,10 @@ SitemapGenerator::Sitemap.create do
   #
   # The root path '/' and sitemap index file are added automatically for you.
   # Links are added to the Sitemap in the order they are specified.
-  add root_path
 
-  Board.enabled.find_each do |board|
+  Board.enabled.where(smart: true).find_each do |board|
     begin
-        add bilbo_landing_url(board.country_state, board.city, board.parameterized_name), :lastmod => board.updated_at
+        add bilbo_landing_path(board.country_state, board.city, board.parameterized_name), :lastmod => board.updated_at
     rescue
         true
     end

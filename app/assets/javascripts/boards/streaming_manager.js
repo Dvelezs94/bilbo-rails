@@ -12,6 +12,7 @@
      var rotation_key = 0;
      var last_request_time = {} //prevent for multiple request for a single content download
      var lost_impressions = 0;
+     var showTaggifyAd = false;
      // create the impressions every 60 seconds
      initializePlayer().then((readyToStart) => {
        if(readyToStart){
@@ -128,12 +129,17 @@
        chosen = ads[rotation_key];
        if (isWorkTime(work_hour_start, work_hour_end)){
          if (chosen == "-") {
-        checkTaggifyAd();
-         showBilboAd();
-         check_next_campaign_ads_present();
+          if (showTaggifyAd) {
+            showTaggifyIframe();
+          } else {
+            isTaggifyAdPresent();
+            showBilboAd();
+          }
+          check_next_campaign_ads_present();
          } else if (chosen != ".") {
              hideBilboAd();
-
+             hideIntegrations();
+             showBoardAdsDiv();
              //hide the old ad and pause it if its video
              if (typeof newAd !== 'undefined') {
                oldAd = newAd;
@@ -240,8 +246,9 @@
       availableAds = filterValidMedia($(".bilbo-official-ad"))
       var chosen_default_multimedia = Math.floor(Math.random() * availableAds.length);
       $(".board-ads").hide();
+      $("#bilbo-integrations").hide();
       $("#bilbo-ad").attr('style', 'display:block !important');
-      $(".bilbo-official-ad").hide()
+      $(".bilbo-official-ad").hide();
       availableAds.eq(chosen_default_multimedia).show()
       if ($(availableAds[chosen_default_multimedia]).is("video")) {
         availableAds[chosen_default_multimedia].currentTime = 0;
@@ -307,7 +314,7 @@
       } else if (next_chosen == "-") {
         //verify that at least one default content is available
         defaultContent = filterValidMedia($(".bilbo-official-ad"));
-        if(defaultContent.length == 0){
+        if (defaultContent.length == 0) {
           console.log("No default content available, trying to download it");
           reloadContent('-');
         }
@@ -351,11 +358,11 @@
     }
 
     function hideBilboAd() {
-      if ($("#bilbo-ad").is(":visible")) {
-        //pauseDefaultVideos();
-        $("#bilbo-ad").hide();
-        $(".board-ads").attr('style', 'display:block !important');
-      }
+      $("#bilbo-ad").hide();
+    }
+
+    function showBoardAdsDiv() {
+      $(".board-ads").attr('style', 'display:block !important');
     }
 
     function secondsUntilNextDay(){
@@ -448,32 +455,57 @@
 
     }
 
-    function checkTaggifyAd() {
-      console.log("hi")
+    function isTaggifyAdPresent() {
+      // Sets showTaggifyAd variable to true if taggify ad is present
       if ($("#taggify_url").length) {
-        
         taggify_url = $("#taggify_url").val();
         // load taggify ad through AJAX
         $.ajax({
           url:  taggify_url,
           // if it errors out, then do nothing
           error: function() {
-            show_error("Error cargando taggify en el board: " + board_slug);
+            console.log("Error cargando taggify en el board: " + board_slug);
+            showTaggifyAd = false;
           },
-          // Check if tgf-noad exists, if it doesn't, then show ad
+          // Check if tgf-noad exists, if it doesn't, then show flip variable
           complete: function(data) {
-            console.log(data);
+            // check if it isn't an empty string, this means that the URL is not working or expired
+            if (data.responseText.includes("tgf-noad")) {
+              // console.log("No hay anuncio de taggify");
+              showTaggifyAd = false;
+            } else {
+              // console.log("Hay anuncio de taggify");
+              showTaggifyAd = true;
+            }
           }
         });
       }
     }
 
-    // taggify integration 
-    function showTaggifyAd() {
-      // need to do validation if 
-      taggify_url = $("#taggify_url").val();
+    function rebuildTaggifyIframe() {
+      $('*[data-integration="taggify"]').remove()
+      $('<iframe>', {
+        src: $("#taggify_url").val(),
+        class: "",
+        scrolling: 'no',
+        width: "100%",
+        height: "100%",
+        "data-integration": "taggify",
+      }).appendTo('#bilbo-integrations')
     }
 
+    function showTaggifyIframe() {
+      // set taggify to false so it doesn't repeat if it previous run
+      showTaggifyAd = false
+      rebuildTaggifyIframe();
+      $("#bilbo-ad").hide();
+      $(".board-ads").hide();
+      $("#bilbo-integrations").attr('style', 'display:block !important');
+    }
+
+    function hideIntegrations() {
+      $("#bilbo-integrations").hide();
+    }
   }
 });
 
