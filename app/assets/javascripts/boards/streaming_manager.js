@@ -501,7 +501,6 @@ function isWorkTime(start, end) {
    //GET THE MULTIMEDIA THAT IS IN THE ADS ROTATION
    used_multimedia = multimedia.filter(function(index, elem, arr){ return active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
    used_videos = used_multimedia.filter(function(index, elem, arr){ return elem.tagName == 'VIDEO' });
-   console.log(used_multimedia)
    if( used_multimedia.length <= 100 && used_videos.length <= 30 ) return 0; //if some of this is false, keep optimizing
    keep_unique_multimedia_for_each_id(used_multimedia);
  }
