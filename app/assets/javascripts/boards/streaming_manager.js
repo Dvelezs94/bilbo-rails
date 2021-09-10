@@ -466,7 +466,6 @@ function isWorkTime(start, end) {
  }
 
  function optimize_memory(rotation_key, board_slug){
-   performance_not_available(rotation_key, board_slug);
    // you can type in console "arr = []; for(var i = 0; i < 80000000; i++) arr.push(i)" to increase memory usage. WARNING: if array size is too big, the page crashes
    try { //chheck if performance methods are integrated
      used_memory = performance.memory.usedJSHeapSize;
