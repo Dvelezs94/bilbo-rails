@@ -466,39 +466,74 @@ function isWorkTime(start, end) {
  }
 
  function optimize_memory(rotation_key, board_slug){
+   performance_not_available(rotation_key, board_slug);
    // you can type in console "arr = []; for(var i = 0; i < 80000000; i++) arr.push(i)" to increase memory usage. WARNING: if array size is too big, the page crashes
-   used_memory = performance.memory.usedJSHeapSize;
-   memory_limit = performance.memory.jsHeapSizeLimit;
-   if (used_memory/memory_limit <0.70 ) return 0; //IF MEMORY IS MORE THAN 70%, REMOVE UNUSED MEDIA
-   //GET ACTIVE CAMPAIGNS : slice the array from current position of ads to the end of a array and then get unique elements, obviously remove "-" and "." to get only campaigns
-   active_campaign_ids = $.parseJSON($("#ads_rotation").val()).slice(rotation_key)
-    .filter(function(itm, i, a) { return i == a.indexOf(itm); })
-    .filter(function(value, index, arr){ return value != "-" && value != ".";});
+   try { //chheck if performance methods are integrated
+     used_memory = performance.memory.usedJSHeapSize;
+     memory_limit = performance.memory.jsHeapSizeLimit;
+   } catch {
+     performance_not_available(rotation_key, board_slug);
+     return 0; //end here, the code that uses performance.memory wont be executed
+   }
+   if (used_memory/memory_limit < 0.70 ) return 0; //IF MEMORY IS MORE THAN 70%, REMOVE UNUSED MEDIA
+   //GET ACTIVE CAMPAIGNS
+   active_campaign_ids = get_active_campaign_ids(rotation_key);
   //GET MULTIMEDIA
    multimedia = $("[data-campaign-id]");
    //GET THE MULTIMEDIA THAT ISNT IN THE ADS ROTATION
    unused_multimedia = multimedia.filter(function(index, elem, arr){ return !active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
+   delete_multimedia(unused_multimedia);
+   if (used_memory/memory_limit <0.80 ) return 0; //IF MEMORY IS MORE THAN 80%, REMOVE SOME MEDIA FROM EACH CAMPAIGN
+   //GET THE MULTIMEDIA THAT IS IN THE ADS ROTATION AND MAKE CUSTOM ACTIONS
+   used_multimedia = multimedia.filter(function(index, elem, arr){ return active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
+   keep_unique_multimedia_for_each_id(used_multimedia);
+   if (used_memory/memory_limit > 0.9 ) Bugsnag.notify("El bilbo con slug " + board_slug+ " llegó al " + (used_memory/memory_limit*100).toFixed(1) + "% de memoria en uso.");
+ }
+
+ function performance_not_available(rotation_key, board_slug) {
+   //GET ACTIVE CAMPAIGNS
+   active_campaign_ids = get_active_campaign_ids(rotation_key);
+   //GET MULTIMEDIA
+   multimedia = $("[data-campaign-id]");
+   //GET THE MULTIMEDIA THAT ISNT IN THE ADS ROTATION
+   unused_multimedia = multimedia.filter(function(index, elem, arr){ return !active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
+   delete_multimedia(unused_multimedia);
+   //GET THE MULTIMEDIA THAT IS IN THE ADS ROTATION
+   used_multimedia = multimedia.filter(function(index, elem, arr){ return active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
+   used_videos = used_multimedia.filter(function(index, elem, arr){ return elem.tagName == 'VIDEO' });
+   console.log(used_multimedia)
+   if( used_multimedia.length <= 100 && used_videos.length <= 30 ) return 0; //if some of this is false, keep optimizing
+   keep_unique_multimedia_for_each_id(used_multimedia);
+ }
+
+ function get_active_campaign_ids(rotation_key) {
+   //slice the array from current position of ads to the end of a array and then get unique elements, obviously remove "-" and "." to get only campaigns
+   return $.parseJSON($("#ads_rotation").val()).slice(rotation_key)
+            .filter(function(itm, i, a) { return i == a.indexOf(itm); })
+            .filter(function(value, index, arr){ return value != "-" && value != ".";});
+ }
+ function delete_multimedia(multimedia) {
    //CUSTOM ACTIONS BEFORE DELETING VIDEOS
-   $.each(unused_multimedia, function( index, video ) {
+   $.each(multimedia, function( index, video ) {
      if (video.tagName != 'VIDEO') return;
      action_before_remove_video(video)
     });
     //DELETE ALL UNUSED MULTIMEDIA (IMAGES AND VIDEOS)
-    unused_multimedia.remove();
-    if (used_memory/memory_limit <0.80 ) return 0; //IF MEMORY IS MORE THAN 80%, REMOVE SOME MEDIA FROM EACH CAMPAIGN
-    //GET THE MULTIMEDIA THAT IS IN THE ADS ROTATION
-    used_multimedia = multimedia.filter(function(index, elem, arr){ return active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
-    //KEEP JUST ONE MULTIMEDIA FROM EACH ID
-    unique_multimedia_id = [];
-    $.each(used_multimedia, function( index, elem ) {
-      if (unique_multimedia_id.includes( elem.getAttribute("data-campaign-id") )){
-        if (elem.tagName == 'VIDEO') action_before_remove_video(elem);
-        elem.remove();
-        return;
-      }
-      unique_multimedia_id.push(elem.getAttribute("data-campaign-id") )
-     });
-    if (used_memory/memory_limit > 0.9 ) Bugsnag.notify("El bilbo con slug " + board_slug+ " llegó al " + (used_memory/memory_limit*100).toFixed(1) + "% de memoria en uso.");
+    multimedia.remove();
+ }
+
+ function keep_unique_multimedia_for_each_id(multimedia){
+   //KEEP JUST ONE MULTIMEDIA FROM EACH ID
+   multimedia = multimedia.sort(function(a,b){ return (a.tagName == 'VIDEO')? 1: -1 }); //place images first
+   unique_multimedia_id = [];
+   $.each(multimedia, function( index, elem ) {
+     if (unique_multimedia_id.includes( elem.getAttribute("data-campaign-id") )){
+       if (elem.tagName == 'VIDEO') action_before_remove_video(elem);
+       elem.remove();
+       return;
+     }
+     unique_multimedia_id.push(elem.getAttribute("data-campaign-id") )
+    });
  }
 
  function action_before_remove_video(video) {
