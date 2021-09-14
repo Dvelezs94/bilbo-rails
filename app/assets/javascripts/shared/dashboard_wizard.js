@@ -253,6 +253,17 @@ $(document).on('turbolinks:load', function () {
         }
       },
     });
+
+    // Disable finish button on click to provide feedback and avoid multiple clicks
+    $("#dashboardWizard a[href='#finish']").on('click', function(){
+      finishButton = this
+      $(finishButton)[0].classList.add('disabled')
+
+      //Enable the button again after 5 seconds
+      setTimeout(function() {
+        $(finishButton)[0].classList.remove('disabled')
+      }, 5000)
+    })
     // End Jquery steps
 
     if($("#budget_distribution").length){
@@ -510,18 +521,44 @@ function computePerMinuteTotalBudget(){
   $("#total_budget_summary")[0].innerHTML = currencyFormat(total_budget*parseInt($("#summary_active_days").val())) + " MXN"
 }
 
+function summaryContentsLoaded(){
+  loaded = [] //Array of booleans to check if the first content of each carousel is loaded
+  slug_array = []
+  $(".carousel").each(function(){
+    // Show or hide message for the first image on each carousel
+    slug = String(this.id).slice(9)
+    board = $("#selected_boards [data-slug=" + slug + "]")[0]
+    //verify that the carousel is from a board
+    if(board == undefined) return;
+    slug_array.push(slug)
+    first_image = this.getElementsByClassName('active')[0].children[0]
+    loaded.push(first_image.naturalWidth != 0 && first_image.naturalHeight != 0)
+  });
+  //if the array contains only true values, then the contents are ready
+  if( !loaded.includes(false) ){
+    showOrHideSizeAlert();
+    clearInterval(checkContents)
+    //Hide all loading effects
+    slug_array.forEach((item, i) => {
+      $("#loading_"+item)[0].classList.add('d-none')
+    });
+  }
+}
+
 function showOrHideSizeAlert(){
   $(".carousel").each(function(){
     // Show or hide message for the first image on each carousel
-    first_image = this.getElementsByClassName('active')
     slug = String(this.id).slice(9)
     board = $("#selected_boards [data-slug=" + slug + "]")[0]
+    //verify that the carousel is from a board
+    if(board == undefined) return;
+    first_image = this.getElementsByClassName('active')[0].children[0]
     board_width = $(board).attr('new-width')
     board_height = $(board).attr('new-height')
-    if(first_image.offsetWidth / first_image.offsetHeight != board_width / board_height){
-      $("#wrong_size_alert_"+slug)[0].classList.remove('invisible')
-    } else {
-      $("#wrong_size_alert_"+slug)[0].classList.add('invisible')
+    // ratio_difference = Math.abs( 1 - (first_image.naturalWidth / first_image.naturalHeight) / (board_width / board_height))
+    ratio_difference = Math.abs(1 - first_image.naturalWidth * board_height / (first_image.naturalHeight * board_width)) //Same as commented line above, but reducing rounding errors
+    if(ratio_difference >= 0.03){
+      $("#wrong_size_alert_"+slug)[0].classList.remove('d-none')
     }
     // show or hide message for the rest of the images on the carousel
     $(this).on('slid.bs.carousel', function(e){
@@ -530,10 +567,11 @@ function showOrHideSizeAlert(){
       board_width = $(board).attr('new-width')
       board_height = $(board).attr('new-height')
       new_img = e.relatedTarget.children[0]
-      if(new_img.offsetWidth / new_img.offsetHeight != board_width / board_height){
-        $("#wrong_size_alert_"+slug)[0].classList.remove('invisible')
+      ratio_difference = Math.abs(1 - new_img.naturalWidth * board_height / (new_img.naturalHeight * board_width))
+      if(ratio_difference >= 0.03){
+        $("#wrong_size_alert_"+slug)[0].classList.remove('d-none')
       } else {
-        $("#wrong_size_alert_"+slug)[0].classList.add('invisible')
+        $("#wrong_size_alert_"+slug)[0].classList.add('d-none')
       }
     });
   });

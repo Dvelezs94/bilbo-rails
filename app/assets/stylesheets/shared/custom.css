@@ -728,10 +728,6 @@ a[href="#previous"] {
 	animation: pulse_map_marker 2s infinite;
 }
 
-.bg-color-black{
-  background-color: black !important;
-}
-
 .tx-xl {
   font-size: x-large;
 }
@@ -897,6 +893,12 @@ a[href="#previous"] {
 }
 #dashboardWizard > div.content.clearfix {
   flex: 30;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5
 }
 
 .overflow-y-scroll {
