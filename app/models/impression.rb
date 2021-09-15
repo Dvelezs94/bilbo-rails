@@ -35,6 +35,7 @@ class Impression < ApplicationRecord
     self.campaign.increment!(:people_reached, by = increase_count)
     self.campaign.increment!(:impression_count)
     self.campaign.increment!(:total_invested, by = self.total_price)
+    self.campaign.board_campaigns.find_by(board: board).increment!(:impressions_since_last_check)
   end
 
   def validate_api_token
