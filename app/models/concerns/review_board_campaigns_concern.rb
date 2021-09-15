@@ -13,6 +13,11 @@ module ReviewBoardCampaignsConcern
       attr.merge!({cycle_price: price, sale: bc.board.current_sale, update_remaining_impressions: true}) if owner_updated_campaign
       bc.update(attr) if attr.any?
     end
+    #Set a sidekiq worker to check if the campaign was approved in a day
+    if !campaign.approval_monitoring.present?
+      worker_id = MonitorCampaignsWorker.perform_at(1.day.from_now, mode = "check approval", campaign_id = campaign.id)
+      campaign.update_column(:approval_monitoring, worker_id)
+    end
   end
 
 end
