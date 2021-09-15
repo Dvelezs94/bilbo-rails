@@ -42,6 +42,25 @@ class CampaignTest < ActiveSupport::TestCase
       create(:boards_campaigns, board: @board, campaign: @campaign, budget: @board.minimum_budget)
       assert true, @campaign.should_run?(@board.id)
   end
+  test "less credits than required" do
+      create(:boards_campaigns, board: @board, campaign: @campaign, budget: @board.minimum_budget - 10)
+      assert_not @campaign.should_run?(@board.id)
+  end
+  test "campaign schedule in range" do
+    @campaign = create(:campaign, boards: [@board], name: @campaign_name, project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?, budget_distribution: {"#{@board.id}": "#{@board.minimum_budget}"}.to_json, starts_at: 3.days.ago.beginning_of_day, ends_at: 2.days.from_now.beginning_of_day)
+    create(:boards_campaigns, board: @board, campaign: @campaign, budget: @board.minimum_budget)
+    assert @campaign.time_to_start_in_board(@board) < 0 && @campaign.time_to_end_in_board(@board) + 86400 > 0
+  end
+  test "campaign schedule has not started" do
+    @campaign = create(:campaign, boards: [@board], name: @campaign_name, project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?, budget_distribution: {"#{@board.id}": "#{@board.minimum_budget}"}.to_json, starts_at: 2.days.from_now.beginning_of_day, ends_at: 4.days.from_now.beginning_of_day)
+    create(:boards_campaigns, board: @board, campaign: @campaign, budget: @board.minimum_budget)
+    assert @campaign.time_to_start_in_board(@board) > 0
+  end
+  test "campaign schedule has ended" do
+    @campaign = create(:campaign, boards: [@board], name: @campaign_name, project: @user.projects.first, project_id: @project.id, provider_campaign: @user.is_provider?, budget_distribution: {"#{@board.id}": "#{@board.minimum_budget}"}.to_json, starts_at: 4.days.ago.beginning_of_day, ends_at: 1.days.ago.beginning_of_day)
+    create(:boards_campaigns, board: @board, campaign: @campaign, budget: @board.minimum_budget)
+    assert @campaign.time_to_end_in_board(@board) + 86400 < 0
+  end
   test "project status" do
     @campaign.project_status
     assert "Tu creativo no cuenta con imágenes para correr en los bilbos que no admiten video"
