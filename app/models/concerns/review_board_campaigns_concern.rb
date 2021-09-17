@@ -14,7 +14,7 @@ module ReviewBoardCampaignsConcern
       bc.update(attr) if attr.any?
     end
     #Set a sidekiq worker to check if the campaign was approved in a day
-    if !campaign.approval_monitoring.present?
+    if !campaign.approval_monitoring.present? && have_to_set_in_review_on_boards
       worker_id = MonitorCampaignsWorker.perform_at(1.day.from_now, mode = "check approval", campaign_id = campaign.id)
       campaign.update_column(:approval_monitoring, worker_id)
     end
