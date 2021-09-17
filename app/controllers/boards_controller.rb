@@ -24,6 +24,7 @@ class BoardsController < ApplicationController
       @boards = @boards.where(category: params[:category]) if params[:category].present?
       @boards = @boards.where(smart: true) if params[:smart] == "1"
       @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
+      @boards = @boards.tagged_with([params[:tags][:establishments]], :any => true) if params[:tags].present?
      }
     format.html {
       #get_boards
@@ -305,6 +306,7 @@ class BoardsController < ApplicationController
                                   :steps,
                                   :street_view_url,
                                   :rotation_degrees,
+                                  establishment_list: [],
                                   images: [],
                                   default_images: []
                                   )

@@ -21,6 +21,7 @@ class Board < ApplicationRecord
   has_many :sales, through: :board_sales
   has_many :evidences, dependent: :delete_all
   has_many :board_default_contents, dependent: :delete_all
+  acts_as_taggable_on :establishments
 
 
   # validate :dont_edit_online, if: :connected?
