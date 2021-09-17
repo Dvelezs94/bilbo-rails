@@ -20,6 +20,5 @@ $(document).on('turbolinks:load', function() {
 
 function set_change_in(form_id) {
   form = $("#"+form_id); //get form
-  form
   form.trigger("change");
 }
