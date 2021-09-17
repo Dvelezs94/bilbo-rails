@@ -128,6 +128,9 @@
         = f.label t("bilbos.rotation_degrees")
         %br/
         = f.number_field :rotation_degrees, class: "form-control", required: true, value: board.rotation_degrees, step: 90, max: 360, min: -360
+      .col-12.pd-t-10
+        = f.label t("bilbos.search.establishment")
+        = f.autocomplete_field :establishment_list, autocomplete_establishment_list_searches_path, :append_to => "#new", class: "form-control", placeholder: t("bilbos.search.establishment"), "data-role": "tagsinput", 'data-noMatchesLabel' => 'no tags found', type: 'text', :required => true, remote: true, :multiple => true, 'data-delimiter' => ',', value: "#{board.establishment_list}"
     = f.label "Imagenes para mostrar en el mapa"
     = f.file_field :images, multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'
   - if board.images.attached?

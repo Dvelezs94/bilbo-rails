@@ -9,11 +9,17 @@ class SearchesController < ApplicationController
   def autocomplete_board_name
     term = params[:term]
     if @project.dashboard_player.present?
-     boards = @project.boards.where.not(id: [@project.dashboard_player.board_dashboard_players.map{|player| player.board_id}]).where("name LIKE '%#{term}%'")  
+     boards = @project.boards.where.not(id: [@project.dashboard_player.board_dashboard_players.map{|player| player.board_id}]).where("name LIKE '%#{term}%'")
     else
      boards = @project.boards.where("name LIKE '%#{term}%'")
     end
     render :json => boards.map { |board| {:id => board.slug, :label => board.name, :value => board.name} }
+  end
+
+  def autocomplete_establishment_list
+    term = params[:term]
+    tags = ActsAsTaggableOn::Tag.where("name LIKE '%#{term}%'")
+    render :json => tags.map{|x| {:id => x.name, :label => x.name, :value => x.name}}
   end
 
   # autocompletes user when checking users on admin
