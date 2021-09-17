@@ -13,10 +13,12 @@ update_board_offset:
 monitor_impressions:
   cron: "0 12 * * *"
   class: "MonitorImpressionsWorker"
+monitor_campaigns:
+  cron: "0 0,4,8,12,16,20 * * *"
+  class: "MonitorCampaignsWorker"
 witness_days_verification_worker:
   cron: "0 12 * * *"
   class: "WitnessDaysVerificationWorker"
 generate_sitemap_job:
   cron: "0 1 * * *"
   class: "RegenerateSitemapWorker"
-
