@@ -491,6 +491,7 @@ function isWorkTime(start, end) {
      return 0; //end here, the code that uses performance.memory wont be executed
    }
    if (used_memory/memory_limit < 0.5 ) return 0; //IF MEMORY IS MORE THAN 70%, REMOVE UNUSED MEDIA
+   console.log("Atención: Memoria en uso al " + (used_memory/memory_limit*100).toFixed(1) + "%");
    //GET ACTIVE CAMPAIGNS
    active_campaign_ids = get_active_campaign_ids(rotation_key);
   //GET MULTIMEDIA
@@ -517,6 +518,7 @@ function isWorkTime(start, end) {
    used_multimedia = multimedia.filter(function(index, elem, arr){ return active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
    used_videos = used_multimedia.filter(function(index, elem, arr){ return elem.tagName == 'VIDEO' });
    if( used_multimedia.length <= 100 && used_videos.length <= 30 ) return 0; //if some of this is false, keep optimizing
+   console.log("Atención: Se tienen muchos multimedia, ejecutando optimización de precaución");
    keep_unique_multimedia_for_each_id(used_multimedia);
  }
 
@@ -527,6 +529,7 @@ function isWorkTime(start, end) {
             .filter(function(value, index, arr){ return value != "-" && value != ".";});
  }
  function delete_multimedia(multimedia) {
+   multimedia_length = multimedia.length;
    //CUSTOM ACTIONS BEFORE DELETING VIDEOS
    $.each(multimedia, function( index, video ) {
      if (video.tagName != 'VIDEO') return;
@@ -534,10 +537,12 @@ function isWorkTime(start, end) {
     });
     //DELETE ALL UNUSED MULTIMEDIA (IMAGES AND VIDEOS)
     multimedia.remove();
+    if (multimedia_length > 0) console.log("Se han borrado "+ multimedia_length.toString() + " multimedia en desuso");
  }
 
  function keep_unique_multimedia_for_each_id(multimedia){
    //KEEP JUST ONE MULTIMEDIA FROM EACH ID
+   multimedia_length = multimedia.length;
    multimedia = multimedia.sort(function(a,b){ return (a.tagName == 'VIDEO')? 1: -1 }); //place images first
    unique_multimedia_id = [];
    $.each(multimedia, function( index, elem ) {
@@ -548,6 +553,7 @@ function isWorkTime(start, end) {
      }
      unique_multimedia_id.push(elem.getAttribute("data-campaign-id") )
     });
+    if (multimedia_length-unique_multimedia_id.length > 0) console.log("Se han borrado "+ (multimedia_length-unique_multimedia_id.length).toString() + " multimedia, ahora cada campaña sólo tiene 1 multimedia disponible");
  }
 
  function action_before_remove_video(video) {
