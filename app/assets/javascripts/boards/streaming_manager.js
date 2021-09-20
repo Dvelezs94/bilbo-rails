@@ -486,7 +486,7 @@ function isWorkTime(start, end) {
    try { //chheck if performance methods are integrated
      used_memory = performance.memory.usedJSHeapSize;
      memory_limit = performance.memory.jsHeapSizeLimit;
-   } catch {
+   } catch(error) {
      performance_not_available(rotation_key, board_slug);
      return 0; //end here, the code that uses performance.memory wont be executed
    }
