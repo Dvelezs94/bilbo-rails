@@ -270,7 +270,7 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    params.require(:board).permit(:project_id,
+    @board_params = params.require(:board).permit(:project_id,
                                   :name,
                                   :upload_from_csv,
                                   :avg_daily_views,
@@ -310,6 +310,11 @@ class BoardsController < ApplicationController
                                   images: [],
                                   default_images: []
                                   )
+
+    if @board_params[:establishment_list].present?
+      @board_params[:establishment_list] = @board_params[:establishment_list].map{|establishment| establishment.titleize}
+    end
+    @board_params
   end
 
   def get_all_boards
