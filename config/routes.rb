@@ -204,6 +204,7 @@ Rails.application.routes.draw do
     collection do
       get :autocomplete_user_email
       get :autocomplete_board_name
+      get :autocomplete_establishment_list
     end
   end
   resources :csv, controller: "csv", only: [] do
