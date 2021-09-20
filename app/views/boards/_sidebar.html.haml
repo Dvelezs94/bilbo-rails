@@ -13,7 +13,7 @@
                 form: "filter-bilbos"                                                                                                          |
               = hidden_field_tag :radius, params[:radius], {form: "filter-bilbos"}
             %div.d-flex#sidebar{style: "overflow-x: auto;"}
-              .flex-1.mx-wd-50p.pd-r-10                
+              .flex-1.mx-wd-50p.pd-r-5                
                 %button.btn.filter-button.text-capitalize.tx-gray-500.text-truncate.mx-wd-100p.border-light.pd-y-3.pd-x-2{type: "button", id: "drop1", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                   = t('bilbos.search.media_type')
                 .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop1"}}
@@ -33,7 +33,7 @@
                       = radio_button_tag :categoryR, 'wallboard', false, :class => "custom-control-input", :id =>"categoryRadio3"
                       %label.custom-control-label{for: "categoryRadio3", onclick: "$('#category').val('wallboard')"}= t('bilbos.search.wallboard')
                     = select_tag(:category, options_for_select([["Espectacular", "billboard"], ["Televisión", "television"], ["Mupi", "wallboard"]], selected: params[:category]),{include_blank: t('bilbos.search.media_type'), class: 'custom-select d-none', form: "filter-bilbos"})
-              .flex-1.text-center.pd-r-10
+              .flex-1.text-center.pd-r-5
                 %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop2", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                   = t('bilbos.search.classification')
                 .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop2"}}
@@ -58,7 +58,7 @@
                       = radio_button_tag :social_classR, 'AAA+',false, :class => "custom-control-input", :id =>"social_classRadio4"
                       %label.custom-control-label{for: "social_classRadio4", onclick: "$('#social_class').val('AAA+')"} AAA+
                     = select_tag(:social_class, options_for_select([["A", "A"], ["AA", "AA"], ["AAA", "AAA"], ["AAA+", "AAA+"]], selected: params[:social_class]),{include_blank: t('bilbos.search.classification'), class: 'custom-select d-none', form: "filter-bilbos"})
-              .flex-1.text-right.pd-r-10
+              .flex-1.text-right.pd-r-5
                 %button.btn.filter-button.text-capitalize.tx-gray-500.text-truncate.mx-wd-100p.border-light.pd-y-3.pd-x-2{type: "button", id: "drop4", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                   = t('bilbos.search.establishment')
                 .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop5"}}
@@ -69,7 +69,7 @@
                       .custom-control.custom-checkbox.mg-b-5
                         = check_box_tag 'tags[establishments][]', establishment.name, false, id: establishment.id , class: "custom-control-input", form: "filter-bilbos"
                         %label.custom-control-label{:for => "#{establishment.id}"}= establishment.name
-              .flex-1.text-center.pd-r-10
+              .flex-1.text-center.pd-r-5
                 %button.btn.filter-button.text-capitalize.tx-gray-500.border-light.pd-y-3.pd-x-2{type: "button", id: "drop3", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                   = t('bilbos.search.price')
                 .dropdown-menu.dont-close-dropdown.mn-wd-200{aria: {labelledby: "drop3"}}
@@ -88,7 +88,7 @@
                       = number_field_tag :cycle_price, nil, class: "form-control", value: params[:cycle_price], step: "1", autocomplete: "off", form: "filter-bilbos"
                     - max_price = Board.maximum("cycle_price").ceil
                     = text_field_tag :ionslider, nil, class: 'form-control', id: "price_slider", data: { to: max_price, max: max_price  }
-              .flex-1.text-right.pd-r-10
+              .flex-1.text-right.pd-r-5
                 %button.btn.filter-button.text-capitalize.tx-gray-500.text-truncate.mx-wd-100p.border-light.pd-y-3.pd-x-2{type: "button", id: "drop4", data: { toggle: "dropdown" }, aria: {haspopup: "true", expanded: "false"} }
                   = t('bilbos.search.dimensions')
                 .dropdown-menu.dont-close-dropdown{aria: {labelledby: "drop4"}}
