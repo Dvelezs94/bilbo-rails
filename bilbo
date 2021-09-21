@@ -28,7 +28,7 @@ function build() {
   if [ "$DBCREATE" == "y" ]
   then
     sleep 10
-    create-db
+    create_db
   fi
   if [  "$DBSEED" == "y" ]; then
     seed
