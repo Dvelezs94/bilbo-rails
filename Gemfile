@@ -140,7 +140,7 @@ gem 'web-console', '>= 3.3.0'
 # image thumbnails
 gem 'image_processing', '~> 1.2'
 # APM
-gem 'skylight', '~> 4.3', '>= 4.3.2'
+gem 'skylight', '~> 5.1', '>= 5.1.1'
 gem 'punching_bag', '~> 0.7.0'
 gem 'rubyzip', '~> 2.3'
 #amoeba for copy_campaign
@@ -155,3 +155,5 @@ gem 'grape', '~> 1.5', '>= 1.5.3'
 gem 'aws-sdk-s3', '~> 1'
 gem 'mailerlite', '~> 1.13'
 gem 'sitemap_generator', '~> 6.1', '>= 6.1.2'
+# mime type detector
+gem 'marcel', '~> 1.0', '>= 1.0.1'

@@ -28,12 +28,15 @@ function build() {
   if [ "$DBCREATE" == "y" ]
   then
     sleep 10
-    bash $BASE_NAME create-db
+    create-db
   fi
   if [  "$DBSEED" == "y" ]; then
-    bash $BASE_NAME seed
-    bash $BASE_NAME clear-tmp
+    seed
+    clear-tmp
   fi
+  # restart app after built, this is because sidekiq always fails to start on fresh builds
+  stop 
+  start
 }
 
 function start() {
