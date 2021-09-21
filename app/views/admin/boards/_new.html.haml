@@ -106,6 +106,9 @@
                     = f.text_field :width, class: "form-control", placeholder: "width", required: true
                   .col-6
                     = f.text_field :height, class: "form-control", placeholder: "height", required: true
+                  .col-12
+                    = f.label t("bilbos.search.establishment")
+                    = f.autocomplete_field :establishment_list, autocomplete_establishment_list_searches_path, :append_to => "#new", class: "form-control", placeholder: t("bilbos.search.establishment"), "data-role" => "tagsinput", 'data-noMatchesLabel' => 'no tags found', type: 'text', remote: true, :multiple => true, 'data-delimiter' => ','
               #activeTime.form-group
                 .row
                   .col-6

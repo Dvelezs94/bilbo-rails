@@ -80,6 +80,10 @@ class BoardUploadWorker
 
       item[:duration] = row["Duracion de anuncio (s)"].to_i
 
+      if row["Establecimiento"].present? 
+        item[:establishment_list] = row["Establecimiento"].titleize
+      end
+      
       item[:restrictions] = split_restrictions(row["Restricciones"] || "").to_json
 
       item[:images_only] = !(["mp4","video"].map{|format| row["Formato"].downcase.include? format}.any?) #Set images only to true if video or mp4 is not present in format column
