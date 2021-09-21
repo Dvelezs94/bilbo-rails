@@ -155,7 +155,6 @@ gem 'grape', '~> 1.5', '>= 1.5.3'
 gem 'aws-sdk-s3', '~> 1'
 gem 'mailerlite', '~> 1.13'
 gem 'sitemap_generator', '~> 6.1', '>= 6.1.2'
-<<<<<<< Gemfile
 # mime type detector
 gem 'marcel', '~> 1.0', '>= 1.0.1'
 gem 'acts-as-taggable-on', '~> 8.1'
