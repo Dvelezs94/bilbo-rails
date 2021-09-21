@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_01_203105) do
+ActiveRecord::Schema.define(version: 2021_09_06_005757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "cube"
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_203105) do
     t.string "postal_code"
     t.string "parameterized_name"
     t.float "rotation_degrees", default: 0.0
+    t.string "taggify_url"
     t.index ["project_id"], name: "index_boards_on_project_id"
     t.index ["slug"], name: "index_boards_on_slug", unique: true
   end
@@ -444,7 +445,7 @@ ActiveRecord::Schema.define(version: 2021_09_01_203105) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-09-01 16:21:18"
+    t.datetime "expires_at", default: "2031-09-06 00:44:44"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
