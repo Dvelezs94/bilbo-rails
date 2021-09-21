@@ -17,6 +17,7 @@
       = render partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign, board: @board}
   #bilbo-ad.overflow-hidden
     = render partial: "ads/bilbo_ad"
+  #bilbo-integrations.overflow-hidden{style: "display: none;"}
   %input#ads_rotation.d-none{:readonly => "readonly", :value => "#{@board.add_bilbo_campaigns}"}/
   %input#board_id.d-none{:readonly => "readonly", :value => "#{@board.id}"}/
   %input#start_time.d-none{:readonly => "readonly", :value => "#{l(@board.start_time, format: "%m/%d/%Y, %-I:%M %p")}"}/
@@ -24,3 +25,5 @@
   %input#duration.d-none{:readonly => "readonly", :type => "number", :value => "10"}/
   %input#api_token.d-none{:readonly => "readonly", :type => "text", :value => "#{@board.api_token}"}/
   %input#access_token.d-none{:readonly => "readonly", :type => "text", :value => "#{@board.access_token}"}/
+  - if @board.taggify_url.present?
+    %input#taggify_url.d-none{:readonly => "readonly", :type => "text", :value => "#{@board.taggify_url}"}/
