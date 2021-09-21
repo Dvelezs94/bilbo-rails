@@ -528,6 +528,7 @@ es:
       resolution_of: "Resolución de %{diagonal_inches} pulgadas"
       results: "Resultados"
       ends_in: Termina en
+      establishment: Establecimiento
   ads:
     ads: Anuncios
     name: Nombre
