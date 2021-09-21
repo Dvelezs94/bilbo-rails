@@ -30,13 +30,10 @@ function init_uppy() {
     // uppy.use(Uppy.Webcam, { target: Uppy.Dashboard, companionUrl: 'https://companion.uppy.io' })
     uppy.on('upload-success', (file, res) => {
       eval(res.body.responseBody);
-    })
-
-    uppy.on('complete', (result) => {
       $("#modalNewMultimedia").modal('hide');
     })
 
     uppy.on('upload-error', (file, error, response) => {
-      show_error(error);
+      show_error(response.body.responseBody);
     })
 }
