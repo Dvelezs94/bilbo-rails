@@ -292,6 +292,7 @@ class BoardsController < ApplicationController
                                   :social_class,
                                   :utc_offset,
                                   :duration,
+                                  :taggify_url,
                                   :minimum_budget,
                                   :images_only,
                                   :extra_percentage_earnings,

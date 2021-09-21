@@ -41,7 +41,7 @@ function initGoogleAutocomplete(input_id, lat_name, lng_name, address_name, mode
     var search_input = document.getElementById(input_id);
     var Gkey = "<%= ENV.fetch('GOOGLE_MAP_API') %>";
     var options = {
-      // componentRestrictions: {country: "mx"}
+      componentRestrictions: {country: "mx"}
     };
     //generate ids
     var lat_id = lat_name + id_sufix;

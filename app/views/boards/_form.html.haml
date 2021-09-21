@@ -120,7 +120,6 @@
           = f.label :steps, t("bilbos.steps"), class: "custom-control-label"
           %br/
       .col-6.pd-t-10
-      .col-6.pd-t-10
         = f.label :multiplier, t("bilbos.multiplier")
         = f.number_field :multiplier, class: "form-control"
         %br/
@@ -128,6 +127,9 @@
         = f.label t("bilbos.rotation_degrees")
         %br/
         = f.number_field :rotation_degrees, class: "form-control", required: true, value: board.rotation_degrees, step: 90, max: 360, min: -360
+      .col-6.pd-t-10
+        = f.label "Taggify URL"
+        = f.text_field :taggify_url, class: "form-control"
       .col-12.pd-b-10
         = f.label t("bilbos.search.establishment")
         = f.autocomplete_field :establishment_list, autocomplete_establishment_list_searches_path, :append_to => "#new", class: "form-control", placeholder: t("bilbos.search.establishment"), "data-role": "tagsinput", 'data-noMatchesLabel' => 'no tags found', type: 'text', :required => true, remote: true, :multiple => true, 'data-delimiter' => ',', value: "#{board.establishment_list}"
