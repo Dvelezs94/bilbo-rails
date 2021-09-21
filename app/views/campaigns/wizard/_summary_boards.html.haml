@@ -57,7 +57,8 @@
           %tr
             %td
             %td
-            %td.tx-center.pd-t-5.invisible{id: "wrong_size_alert_#{board.slug}"}
-              %i.fa.fa-exclamation-triangle.tx-10.tx-bold.tx-gray-2
+            %td.tx-center.pd-t-5
+              %small.spinner-border.spinner-border-sm{id: "loading_#{board.slug}"}
+              %i.fa.fa-exclamation-triangle.tx-10.tx-bold.tx-gray-2.d-none{id: "wrong_size_alert_#{board.slug}"}
                 =t('campaign.wizard.ad_size_warning')
           %input.d-none{id: "aspect_ratio_#{board.id}", value: "#{board.aspect_ratio}"}

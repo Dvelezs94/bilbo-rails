@@ -24,6 +24,7 @@ class BoardsController < ApplicationController
       @boards = @boards.where(category: params[:category]) if params[:category].present?
       @boards = @boards.where(smart: true) if params[:smart] == "1"
       @boards = @boards.where(social_class: params[:social_class]) if params[:social_class].present?
+      @boards = @boards.tagged_with([params[:tags][:establishments]], :any => true) if params[:tags].present?
      }
     format.html {
       #get_boards
@@ -269,7 +270,7 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    params.require(:board).permit(:project_id,
+    @board_params = params.require(:board).permit(:project_id,
                                   :name,
                                   :upload_from_csv,
                                   :avg_daily_views,
@@ -306,9 +307,15 @@ class BoardsController < ApplicationController
                                   :steps,
                                   :street_view_url,
                                   :rotation_degrees,
+                                  establishment_list: [],
                                   images: [],
                                   default_images: []
                                   )
+
+    if @board_params[:establishment_list].present?
+      @board_params[:establishment_list] = @board_params[:establishment_list].map{|establishment| establishment.titleize}
+    end
+    @board_params
   end
 
   def get_all_boards

@@ -27,22 +27,21 @@ class ContentsController < ApplicationController
 
   def create_multimedia
     @content = @project.contents.create(multimedia: params[:multimedia])
-    if !@content.save
-        flash[:error] = "Error"
-        redirect_to contents_path
-    else
-      respond_to do |format|
-        @success_message = t("content.success")
-        @content_array = [@content]
-        @content_format = @content.get_format
-        ref = Rails.application.routes.recognize_path(request.referrer)
-        if (ref[:controller] == "campaigns" && ref[:action] == "edit") || (ref[:controller] == "boards" && ref[:action] == "owned")
-          format.js { render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message, format: @content_format  }, :status => :created }
-        else # else it was uploaded to content page
-          format.js { render :template => "contents/create_multimedia.js.erb", :status => :created }
+    respond_to do |format|
+      if !@content.save
+          format.js { render js: @content.errors.full_messages.first, status: 500 }
+      else
+          @success_message = t("content.success")
+          @content_array = [@content]
+          @content_format = @content.get_format
+          ref = Rails.application.routes.recognize_path(request.referrer)
+          if (ref[:controller] == "campaigns" && ref[:action] == "edit") || (ref[:controller] == "boards" && ref[:action] == "owned")
+            format.js { render 'campaigns/wizard/create_content_on_campaign', :locals => {:single_content => @content_array, :message => @success_message, format: @content_format  }, :status => :created }
+          else # else it was uploaded to content page
+            format.js { render :template => "contents/create_multimedia.js.erb", :status => :created }
+          end
         end
       end
-    end
   end
 
   def create_url

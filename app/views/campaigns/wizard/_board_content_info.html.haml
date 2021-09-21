@@ -15,4 +15,4 @@
   %td<
     %div.d-flex
       = render partial: 'campaigns/wizard/add_content_button', locals: {board: board, campaign: @campaign}
-      %div.d-flex{:id => "images-#{board.slug}", style: "overflow-x: scroll;"}
+      %div.d-flex{:id => "images-#{board.slug}", style: "overflow-x: auto;"}

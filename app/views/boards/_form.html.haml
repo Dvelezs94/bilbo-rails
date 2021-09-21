@@ -130,6 +130,9 @@
       .col-6.pd-t-10
         = f.label "Taggify URL"
         = f.text_field :taggify_url, class: "form-control"
+      .col-12.pd-b-10
+        = f.label t("bilbos.search.establishment")
+        = f.autocomplete_field :establishment_list, autocomplete_establishment_list_searches_path, :append_to => "#new", class: "form-control", placeholder: t("bilbos.search.establishment"), "data-role": "tagsinput", 'data-noMatchesLabel' => 'no tags found', type: 'text', :required => true, remote: true, :multiple => true, 'data-delimiter' => ',', value: "#{board.establishment_list}"
     = f.label "Imagenes para mostrar en el mapa"
     = f.file_field :images, multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'
   - if board.images.attached?

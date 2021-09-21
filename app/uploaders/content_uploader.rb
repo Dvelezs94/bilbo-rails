@@ -3,12 +3,18 @@ require "streamio-ffmpeg"
 require "tempfile"
 
 class ContentUploader < Shrine
+  plugin :determine_mime_type, analyzer: :marcel
+  plugin :validation_helpers
+  plugin :remove_invalid
   metadata_method :width, :height
+
   IMAGE_TYPES = %w[image/jpeg image/png image/jpg]
   VIDEO_TYPES = %w[video/mp4]
 
   Attacher.validate do
+    validate_extension %w[jpg jpeg png mp4]
     validate_mime_type IMAGE_TYPES + VIDEO_TYPES
+    validate_max_size 20 * 1024 * 1024 # 20 MB
   end
 
   Attacher.derivatives do |original|
