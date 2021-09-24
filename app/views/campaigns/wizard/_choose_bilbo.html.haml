@@ -2,6 +2,14 @@
 %section.ht-100p-f.row.mg-0.pos-relative-f
   = f.select(:boards, options_for_select(@campaign_boards), {include_blank: "#{@campaign_boards.size} #{t('campaign.wizard.selected_bilbos')}"},
    {:class => "pos-absolute r-0 t-0 wd-300 z-index-10 bg-dark tx-white form-select pd-15 bd-transparent", :id => "selected_boards"})
+  .pos-absolute.r-0.b-0.wd-300.z-index-10.bg-dark.tx-white
+    %a.btn.tx-white{ "data-toggle": "collapse", href: "#collapseExample", role: "button", aria: { expanded: "false", controls: "collapseExample" } } X Pantallas seleccionadas
+    .collapse.pd-15.border.border-secondary#collapseExample
+      .media
+        .media-body
+          Dirección del Bilbo
+          .small as datod
+        %i.fe.fe-trash.wd-10
   = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true, data:{required_msg: t("campaign.errors.no_boards")}
   .wd-100p.position-relative
     = render "boards/sidebar"
