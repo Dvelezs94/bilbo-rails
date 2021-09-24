@@ -931,3 +931,7 @@ a.disabled {
   transform: translatex(calc(50% - 50%)) translatey(calc(50vh - 50%)) rotate(270deg) !important;
   margin: 0 auto !important;
 }
+
+.navbar-header a {
+  color: black;
+}
