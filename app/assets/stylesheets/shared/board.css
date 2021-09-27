@@ -24,10 +24,21 @@
   margin: 0 auto;
 }
 
+.bilbo-unique-ad {
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+}
+
 .board-ad-inner {
   display: none;
   max-width: 100vw;
   max-height: 100vh;
+  margin: 0 auto;
+}
+
+.unique-ad-inner {
+  height: 100vh;
   margin: 0 auto;
 }
 
