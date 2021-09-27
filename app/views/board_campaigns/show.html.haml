@@ -1,0 +1,11 @@
+%script{:src => "//d2wy8f7a9ursnm.cloudfront.net/v7/bugsnag.min.js"}
+:javascript
+  Bugsnag.start({ apiKey: '#{ENV.fetch("BUGSNAG_BOARD_FRONTEND_API_KEY") {""}}' })
+.content.content-fixed.content-auth-alt.board-display.m-0.p-0.minh-100-vh.maxh-100-vh.w-100
+  .bilbo-unique-ad.overflow-hidden.tx-center
+    -if @media.is_video?
+      = video_tag(@media.multimedia_url, class: "unique-ad-inner #{"rotation-#{@board.rotation_degrees.to_i}" if @board.rotation_degrees != 0.0}", data: { campaign: @campaign.slug, "campaign-id": @campaign.id, budget: @campaign.budget }, loop: true, preload: "auto", muted: "muted")
+    -elsif @media.is_image?
+      = image_tag @media.multimedia_url(:large), class: "unique-ad-inner #{"rotation-#{@board.rotation_degrees.to_i}" if @board.rotation_degrees != 0.0}", data: { campaign: @campaign.slug, "campaign-id": @campaign.id, budget: @campaign.budget }
+    -else
+      = content_tag("iframe", '', src: @media.url, height: "100%", width: "100%",  class: "unique-ad-inner #{"rotation-#{@board.rotation_degrees.to_i}" if @board.rotation_degrees != 0.0}", data: { campaign: @campaign.slug, "campaign-id": @campaign.id, budget: @campaign.budget }, :scrolling => "no")

@@ -245,6 +245,7 @@ es:
     people: personas
     impressions: Impresiones
     daily_budget: Presupuesto diario
+    direct_display_url: Link directo
     daily_spots: Spots diarios
     total_budget: Presupuesto Total
     total_invested: Total Invertido
