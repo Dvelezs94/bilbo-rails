@@ -61,11 +61,11 @@ $(document).on('turbolinks:load', function() {
         } else {
           valor = false;
         }
-        Chartkick.charts["daily-invested-chart"].chart.data.datasets[i].hidden = valor;
-        Chartkick.charts["peak-hours-chart"].chart.data.datasets[i].hidden = valor;
+        chart2.chart.data.datasets[i].hidden = valor;
+        chart3.chart.data.datasets[i].hidden = valor;
       }
-      Chartkick.charts["daily-invested-chart"].chart.update();
-      Chartkick.charts["peak-hours-chart"].chart.update();
+      chart2.chart.update();
+      chart3.chart.update();
     });
   }
 });
