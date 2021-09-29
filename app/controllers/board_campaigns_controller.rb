@@ -1,8 +1,35 @@
 class BoardCampaignsController < ApplicationController
-  access [:provider, :user] => :all
+  access [:provider, :user] => :all, [:all] => [:show]
   before_action :validate_admin_project_board, only: [:multiple_update]
-  before_action :get_board_campaign
-  before_action :validate_provider_admin
+  before_action :get_board_campaign, except: [:show]
+  before_action :get_board_campaign_by_slug, only: [:show]
+  before_action :validate_provider_admin, except: [:show]
+
+  def show
+    # Method used for displaying a campaign on certain board
+    # this is used by other players so they can display the campaign via URL
+
+    # If access token is not valid, then raise error. This ensures only people with the shared secret have access
+    if !is_token_valid?
+      raise_not_found
+    end
+
+    @campaign = @board_campaign.campaign
+    @board = @board_campaign.board
+    # Set a single content per request
+    # if you want a speciif content, you need to set the order in the array of where it is located
+    # http://app.bilbo.mx/campaigns/xxxxx/boards/yyyy/show?access_token=supersecret&content=1 - this will use the second content in the array
+    all_content = @board_campaign.board.get_content(@board_campaign.campaign)
+    if params[:content].present?
+      @media = all_content[params[:content].to_i] || all_content.first
+    else
+      # if no content is chosen then we use the first in the array
+      @media = all_content.first
+    end
+    if @campaign.should_run?(@board.id)
+      ProcessGraphqlImpressionsWorker.perform_async(SecureRandom.hex(7), @board.api_token, @board.slug, @campaign.id, 1, Time.zone.now)
+    end
+  end
 
   def approve_campaign
     if @board_campaign.update(status: "approved", make_broadcast: true, user_locale: current_user.locale)
@@ -16,8 +43,8 @@ class BoardCampaignsController < ApplicationController
       #flash[:error] = I18n.t('campaign.errors.no_save')
       flash[:error] = I18n.t('campaign.errors.not_accepted')
     end
-  redirect_to provider_index_campaigns_path(q:"review")
- end
+    redirect_to provider_index_campaigns_path(q:"review")
+  end
 
   def deny_campaign
     if @board_campaign.update(status: "denied", make_broadcast: true, user_locale: current_user.locale)
@@ -25,7 +52,7 @@ class BoardCampaignsController < ApplicationController
     else
       flash[:error] = I18n.t('campaign.errors.no_save')
     end
-  redirect_to provider_index_campaigns_path(q:"review")
+    redirect_to provider_index_campaigns_path(q:"review")
  end
 
   def in_review_campaign
@@ -34,7 +61,7 @@ class BoardCampaignsController < ApplicationController
     else
      flash[:error] = I18n.t('campaign.errors.no_save', locale: current_user.locale)
     end
-   redirect_to provider_index_campaigns_path
+    redirect_to provider_index_campaigns_path
   end
 
   def multiple_update
@@ -63,10 +90,24 @@ class BoardCampaignsController < ApplicationController
     @board_campaign = BoardsCampaigns.find_by(board_id: params[:board_id], campaign_id: params[:campaign_id])
   end
 
+  def get_board_campaign_by_slug
+    campaign_id = Campaign.friendly.find(params[:campaign_id])
+    board_id = Board.friendly.find(params[:board_id])
+    @board_campaign = BoardsCampaigns.find_by(board_id: board_id, campaign_id: campaign_id)
+  end  
+
   def validate_provider_admin
     if not @project.admins.include? current_user.id
       flash[:error] = I18n.t('campaign.errors.not_enough_permissions')
       redirect_to request.referer
+    end
+  end
+
+  def is_token_valid?
+    if @board_campaign.access_token == params[:access_token]
+        return true
+    else
+        return false
     end
   end
 

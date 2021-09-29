@@ -9,6 +9,7 @@ class BoardsCampaigns < ApplicationRecord
     enum status: { in_review: 0, approved: 1, denied: 2 }
     before_create :set_price
     before_save :notify_users, if: :will_save_change_to_status?
+    before_save :generate_access_token, :if => :new_record?
     before_update :calculate_remaining_impressions
     after_commit :add_or_stop_campaign, if: :make_broadcast
 
@@ -83,5 +84,9 @@ class BoardsCampaigns < ApplicationRecord
     def set_price
       self.cycle_price = self.board.cycle_price
       self.sale_id = (self.board.current_sale.present?)? self.board.current_sale.id : nil
+    end
+
+    def generate_access_token
+      self.access_token = SecureRandom.hex
     end
 end

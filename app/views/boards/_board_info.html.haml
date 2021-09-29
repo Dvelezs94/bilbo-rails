@@ -82,20 +82,19 @@
         %tr
           %td.tx-medium.text-secondary.text-capitalize= t("bilbos.hour_start")
           %td.text-left.text-dark= "#{board.start_time.to_s(:time)} - #{board.end_time.to_s(:time)}"
-        -if user_signed_in? && @project.provider?
-          %tr
-            %td.tx-medium.text-secondary.text-capitalize= t('campaign.occupied')
-            %td
-              - occupation = board.get_occupation
-              .progress.ht-10.rounded-10.wd-60p.pos-relative.overflow-visible{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Inversión mínima #{number_to_currency_usd(occupation[:minimum_investment])}"}
-                - if occupation[:occupation] < 30
-                  - percentage_bar_builder = { bg: "success"}
-                - elsif occupation[:occupation] < 75
-                  - percentage_bar_builder = { bg: "warning"}
-                - else
-                  - percentage_bar_builder = { bg: "danger"}
-                %div{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "25", :class => "progress-bar rounded-10 bg-#{percentage_bar_builder[:bg]} wd-#{up_to_nearest_5(occupation[:occupation])}p", :role => "progressbar"}
-                  %span.pos-absolute.r--30.text-muted="#{occupation[:occupation]}%"
+        %tr
+          %td.tx-medium.text-secondary.text-capitalize= t('campaign.occupied')
+          %td
+            - occupation = board.get_occupation
+            .progress.ht-10.rounded-10.wd-60p.pos-relative.overflow-visible{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Inversión mínima #{number_to_currency_usd(occupation[:minimum_investment])}"}
+              - if occupation[:occupation] < 30
+                - percentage_bar_builder = { bg: "success"}
+              - elsif occupation[:occupation] < 75
+                - percentage_bar_builder = { bg: "warning"}
+              - else
+                - percentage_bar_builder = { bg: "danger"}
+              %div{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "25", :class => "progress-bar rounded-10 bg-#{percentage_bar_builder[:bg]} wd-#{up_to_nearest_5(occupation[:occupation])}p", :role => "progressbar"}
+                %span.pos-absolute.r--30.text-muted="#{occupation[:occupation]}%"
   .info-board.wd-100p.pos-absolute.b-0
     %hr
     - if not URI(request.referer).path.match? /boards|map_frame/
