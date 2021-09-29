@@ -108,6 +108,7 @@ Rails.application.routes.draw do
       put :approve_campaign
       put :deny_campaign
       put :in_review_campaign
+      get :show
     end
 
     resource :provider_invoices, only: :create
