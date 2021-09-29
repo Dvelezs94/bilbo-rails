@@ -19,11 +19,12 @@ class BoardCampaignsController < ApplicationController
     # Set a single content per request
     # if you want a speciif content, you need to set the order in the array of where it is located
     # http://app.bilbo.mx/campaigns/xxxxx/boards/yyyy/show?access_token=supersecret&content=1 - this will use the second content in the array
+    all_content = @board_campaign.board.get_content(@board_campaign.campaign)
     if params[:content].present?
-      @media = @board_campaign.board.get_content(@board_campaign.campaign)[params[:content].to_i]
+      @media = all_content[params[:content].to_i] || all_content.first
     else
       # if no content is chosen then we use the first in the array
-      @media = @board_campaign.board.get_content(@board_campaign.campaign).first
+      @media = all_content.first
     end
     if @campaign.should_run?(@board.id)
       ProcessGraphqlImpressionsWorker.perform_async(SecureRandom.hex(7), @board.api_token, @board.slug, @campaign.id, 1, Time.zone.now)
