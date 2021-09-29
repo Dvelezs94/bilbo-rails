@@ -79,9 +79,12 @@ class Project < ApplicationRecord
     Impression.where(board_id: boards.pluck(:id), created_at: @start_date..@end_date).pluck(:campaign_id).uniq.count
   end
 
-  # return a COUNT impressions for campaigns
-  # call it like -
-  # current_user.daily_provider_board_impressions(6.months.ago).group_by_day(:created_at).count
+  # return a COUNT impressions for campaigns on top 10 bilbos
+  def top_provider_board_impressions(time_range = 30.days.ago..Time.now)
+    zeros = (time_range.first.to_date .. time_range.last.to_date-1.day).map{|d| [(I18n.l d, format: "%b %d"), 0]}.to_h
+    self.boards.sort_by{|board| -board.impressions.where(created_at: time_range).sum(:provider_price)}.first(10).map{|board| {name: board.name, data: zeros.merge(board.impressions.where(created_at: time_range).group_by_day(:created_at, format: "%b %d").count)}}
+  end
+
   def daily_provider_board_impressions(time_range = 30.days.ago..Time.now)
     Impression.joins(:board).where(boards: {project_id: id}, created_at: time_range)
   end
