@@ -574,9 +574,9 @@ class Board < ApplicationRecord
   end
 
   def self.daily_provider_earnings_graph(project, time_range = 30.days.ago..Time.now)
-  h = Impression.joins(:board).where(boards: {project: project}, created_at: time_range).group_by_day(:created_at).sum(:provider_price)
-      h.each { |key,value| h[key] = value.round(2) }
-end
+    zeros = (time_range.first.to_date .. time_range.last.to_date-1.day).map{|d| [(I18n.l d, format: "%b %d"), 0.0]}.to_h
+    project.boards.sort_by{|board| -board.impressions.where(created_at: time_range).sum(:provider_price)}.first(10).map{|board| {name: board.name, data: zeros.merge(board.impressions.where(created_at: time_range).group_by_day(:created_at, format: "%b %d").sum(:provider_price).map{|k,v| [k,v.round(2)]}.to_h)}}
+  end
 
 
   # this function returns an array of the top campaigns. This works on a monthly basis
