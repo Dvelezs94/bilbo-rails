@@ -20,7 +20,8 @@
               %button.btn.btn-primary.btn-block{:type => "submit"}
                 %i.mg-l-5.fe.fe-search
 
-
+    -# Color pallete for charts
+    - @colors = ['rgb(21, 39, 67)', 'rgb(17, 52, 109)', 'rgb(12, 65, 150)','rgb(8, 78, 191)', 'rgb(3, 91, 232)', 'rgb(15, 93, 249)', 'rgb(44, 83, 242)', 'rgb(73, 73, 235)', 'rgb(102, 63, 228)', 'rgb(130, 53, 221)']
 
     .row.row-xs
       = render 'dashboards/provider_charts/info_cards'
