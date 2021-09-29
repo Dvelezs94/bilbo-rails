@@ -27,7 +27,7 @@ class DashboardsController < ApplicationController
     @chosen_month = Time.zone.parse(Date::MONTHNAMES[params[:select][:month].to_i] + " " + params[:select][:year]) rescue Time.zone.now.beginning_of_month
     get_month_cycle(date: @chosen_month)
     @project_impressions = Impression.joins(:board).where(boards: {project: @project}, created_at: @start_date..@end_date)
-    @daily_impressions = @project.daily_provider_board_impressions(@start_date..@end_date).group_by_day(:created_at).count
+    @daily_impressions = @project.top_provider_board_impressions(@start_date..@end_date)
     @graph_earnings = Board.daily_provider_earnings_graph(@project, @start_date..@end_date)
     @earnings = Board.daily_provider_earnings_by_boards(@project, @start_date..@end_date)
     @monthly_earnings = Board.provider_monthly_earnings_by_board(@project, @start_date..@end_date)

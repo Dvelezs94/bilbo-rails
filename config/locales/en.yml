@@ -674,12 +674,12 @@ en:
     print: Print
     settings: Settings
     impressions_count: Impressions Count
-    impressions_count_description: last 30 days of impressions. The impressions are a sum of all your board impressions combined
+    impressions_count_description: Last 30 days of impressions on your most profitable bilbos
     campaign_day: Campaign of day
     campaign_day_description: Campaign impression by day
     top_campaigns: Top Campaigns
     earnings: Earnings
-    earnings_description: Last 30 days of earnings.
+    earnings_description: Last 30 days of earnings on your most profitable bilbos
     pending_campaigns: Pending Campaigns
     pending_campaigns_description: Marketing campaigns that need to be reviewed.
     review_now: Review now
