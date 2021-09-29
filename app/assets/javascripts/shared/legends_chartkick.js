@@ -76,8 +76,6 @@ function isNeighborColor(color1, color2, tolerance) {
   if (tolerance == undefined) {
     tolerance = 32;
   }
-
-
   return Math.abs(color1[0] - color2[0]) <= tolerance &&
     Math.abs(color1[1] - color2[1]) <= tolerance &&
     Math.abs(color1[2] - color2[2]) <= tolerance;
