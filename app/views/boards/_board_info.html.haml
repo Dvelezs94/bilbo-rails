@@ -53,6 +53,10 @@
           %td.tx-medium.text-secondary.text-capitalize= t("bilbos.type")
           %td.text-left.text-dark= t("bilbos.#{board.category}")
         %tr
+          %td.tx-medium.text-secondary.text-capitalize= t("bilbos.minimim_daily_purchase")
+          %td.text-left.text-dark
+            =  number_to_currency_usd(board.minimum_budget)
+        %tr
           %td.tx-medium.text-secondary.text-capitalize= t("bilbos.duration")
           %td.text-left.text-dark
             = board.duration

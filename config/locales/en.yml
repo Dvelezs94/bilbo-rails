@@ -1,6 +1,6 @@
 en:
-  yes: Yes
-  no: No
+  "yes": Yes
+  "no": No
   time_day:
     seconds: seconds
     minutes: minutes
@@ -437,6 +437,7 @@ en:
     duration: Duration
     seconds: seconds
     sec: Sec
+    minimim_daily_purchase: Min. daily purchase
     image_size: Image size
     image_recommended_size: "Image size on pixels: %{pixels}"
     price_per_print: Price/Impression
