@@ -1,6 +1,6 @@
 es:
-  yes: Sí
-  no: No
+  "yes": "Si"
+  "no": No
   time_day:
     seconds: segundos
     minutes: minutos
@@ -440,6 +440,7 @@ es:
     duration: Duración
     seconds: segundos
     sec: Seg
+    minimim_daily_purchase: "Compra mínima diaria"
     image_size: Tamaño de imagen
     image_recommended_size: "Tamaño de imagen en pixeles: %{pixels}px"
     price_per_print: Precio/Impresión
