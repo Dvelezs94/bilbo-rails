@@ -118,6 +118,14 @@ ActiveRecord::Schema.define(version: 2021_10_29_170103) do
     t.index ["content_id"], name: "index_board_default_contents_on_content_id"
   end
 
+  create_table "board_photos", force: :cascade do |t|
+    t.bigint "board_id"
+    t.text "image_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["board_id"], name: "index_board_photos_on_board_id"
+  end
+
   create_table "board_sales", force: :cascade do |t|
     t.bigint "board_id", null: false
     t.bigint "sale_id", null: false
@@ -574,6 +582,7 @@ ActiveRecord::Schema.define(version: 2021_10_29_170103) do
   add_foreign_key "board_dashboard_players", "dashboard_players"
   add_foreign_key "board_default_contents", "boards"
   add_foreign_key "board_default_contents", "contents"
+  add_foreign_key "board_photos", "boards"
   add_foreign_key "board_sales", "boards"
   add_foreign_key "board_sales", "sales"
   add_foreign_key "boards", "projects"

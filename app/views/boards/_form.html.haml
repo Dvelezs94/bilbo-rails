@@ -134,16 +134,20 @@
         = f.label t("bilbos.search.establishment")
         = f.autocomplete_field :establishment_list, autocomplete_establishment_list_searches_path, :append_to => "#new", class: "form-control", placeholder: t("bilbos.search.establishment"), "data-role": "tagsinput", 'data-noMatchesLabel' => 'no tags found', type: 'text', :required => true, remote: true, :multiple => true, 'data-delimiter' => ',', value: "#{board.establishment_list}"
     = f.label "Imagenes para mostrar en el mapa"
-    = f.file_field :images, multiple: true, class: "form-control", accept: 'image/png, image/jpeg, video/mp4'
-  - if board.images.attached?
-    .d-flex
-      - board.images.each do |img|
-        %figure.img-caption.pos-relative.mg-b-0.fit-content{:signed_id => img.signed_id}
-          = image_tag url_from_media(img), class: "img-thumbnail", width: "200px"
-          %figcaption.pos-absolute.a-0.wd-100p.pd-20.d-flex.flex-column.justify-content-center.bg-white-9.transition-base.op-0
-            = link_to delete_image_board_path(board.slug, signed_id: img.signed_id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do
-              %i.fe.fe-trash
-        = f.hidden_field :images, multiple: true, value: img.signed_id, signed_id: img.signed_id
+    %br/
+    .form-group
+      = file_field_tag "board_photos[]", multiple: true, class: "form-control", :accept => 'image/png, image/jpeg'
+    - if board.board_photos.present?
+      .d-flex
+        - board.board_photos.each do |b|
+          %figure.img-caption.pos-relative.mg-b-0.fit-content{image_id: b.id}
+            - begin
+              = image_tag b.image_url(:large), class: "img-thumbnail", width: "200px"
+            - rescue
+              = image_tag "construction_video.gif", class: "img-thumbnail", width: "200px"
+            %figcaption.pos-absolute.a-0.wd-100p.pd-20.d-flex.flex-column.justify-content-center.bg-white-9.transition-base.op-0
+              = link_to delete_image_board_path(board.slug, image_id: b.id), method: :delete, remote: true, class: "btn btn-dark btn-icon", data: { confirm: t("general_inputs.confirm_deletion") } do
+                %i.fe.fe-trash
   .form-group
     = f.label "Multimedia default"
     %iframe.no-pointer{:src => "https://via.placeholder.com/458x250?text=Type+link+to+preview", class: "ht-250 wd-100p", :scrolling => "no", id: "iframe-modal"}
