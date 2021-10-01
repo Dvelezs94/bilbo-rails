@@ -37,13 +37,6 @@ class BoardsController < ApplicationController
     @content = @board.board_default_contents.map{|bdc| bdc.content}
   end
 
-  def delete_image
-    @board.with_lock do
-      image = @board.images.select { |im| im.signed_id == params[:signed_id] }[0]
-      image.purge
-    end
-  end
-
   def delete_default_image
     if @board.board_default_contents.size > 1
       if @board.board_default_contents.find(params[:default_id]).delete
@@ -53,6 +46,18 @@ class BoardsController < ApplicationController
       end
       if  @board.connected?
         UpdateBoardDefaultContentWorker.perform_async(@board.id, "delete_default_content", params[:content_id])
+      end
+    else
+      @error_message = I18n.t("board_default_content.minimum_one")
+    end
+  end
+
+  def delete_image
+    if @board.board_photos.size > 1
+      if @board.board_photos.find(params[:image_id]).delete
+        @success_message = I18n.t("board_default_content.update_success")
+      else
+        @error_message = I18n.t("error.error_ocurred")
       end
     else
       @error_message = I18n.t("board_default_content.minimum_one")
@@ -81,7 +86,14 @@ class BoardsController < ApplicationController
   end
 
   def update
-    @success = @board.update(board_params.merge(admin_edit: true))
+    if params[:board_photos].present?
+      new_photos_attributes = params[:board_photos].inject({}) do |hash, file|
+        hash.merge!(SecureRandom.hex => { image: file })
+      end
+      photos_attributes = board_params[:board_photos_attributes].to_h.merge(new_photos_attributes)
+    end
+
+    @success = @board.update(board_params.merge(admin_edit: true, board_photos_attributes: photos_attributes || {}))
     if params[:content].present?
       params[:content].map { |file|
         cont = @board.project.contents.new(multimedia: file )
@@ -173,7 +185,14 @@ class BoardsController < ApplicationController
       end
       redirect_to root_path
     else
-      @board = Board.new(board_params)
+      if params[:board_photos].present?
+        new_photos_attributes = params[:board_photos].inject({}) do |hash, file|
+          hash.merge!(SecureRandom.hex => { image: file })
+        end
+        photos_attributes = board_params[:board_photos_attributes].to_h.merge(new_photos_attributes)
+      end
+
+      @board = Board.new(board_params.merge(board_photos_attributes: photos_attributes || {}))
       if @board.save
         if params[:content].present?
           params[:content].map { |file|
@@ -309,6 +328,7 @@ class BoardsController < ApplicationController
                                   :rotation_degrees,
                                   establishment_list: [],
                                   images: [],
+                                  board_photos: [],
                                   default_images: []
                                   )
 

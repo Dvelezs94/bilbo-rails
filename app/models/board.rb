@@ -18,6 +18,7 @@ class Board < ApplicationRecord
   has_many :dashboard_players, through: :board_dashboard_players
   has_many :impressions
   has_many :board_sales
+  has_many :board_photos, dependent: :destroy
   has_many :sales, through: :board_sales
   has_many :evidences, dependent: :delete_all
   has_many :board_default_contents, dependent: :delete_all
@@ -25,6 +26,7 @@ class Board < ApplicationRecord
 
 
   # validate :dont_edit_online, if: :connected?
+  accepts_nested_attributes_for :board_photos, allow_destroy: true
   has_many_attached :images
   has_many_attached :default_images
   before_save :generate_access_token, :if => :new_record?

@@ -1,6 +1,6 @@
 .media.hover-gray.pd-20.border-top.flex-wrap.cursor-pointer{data: {single_board: "",id: search_board.id}, onclick: "OpenInMap(this)", lat: search_board.lat, lng: search_board.lng}
   %figure.pos-relative.mg-b-0.col-3.pd-0.mg-auto-0
-    = image_tag (search_board.images.attached? ? url_from_media(search_board.images.first) : image_path("board_placeholder")), class: "wd-100p rounded", alt: "No Image"
+    = image_tag (search_board.board_photos.present? ? search_board.board_photos.first.image_url : image_path("board_placeholder")), class: "wd-100p rounded", alt: "No Image"
     %figcaption.pos-absolute.a-0.d-flex.flex-column.text-center.justify-content-center.rounded.text-white.tx-24.op-0
       %i.fe.fe-arrow-right
   .media-body.d-flex.flex-column.col-9.pd-r-0.mg-auto-0
