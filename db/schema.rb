@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_27_194429) do
+ActiveRecord::Schema.define(version: 2021_09_30_173955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "cube"
@@ -130,6 +130,14 @@ ActiveRecord::Schema.define(version: 2021_09_27_194429) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["board_id"], name: "index_board_default_contents_on_board_id"
     t.index ["content_id"], name: "index_board_default_contents_on_content_id"
+  end
+
+  create_table "board_photos", force: :cascade do |t|
+    t.bigint "board_id"
+    t.text "image_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["board_id"], name: "index_board_photos_on_board_id"
   end
 
   create_table "board_sales", force: :cascade do |t|
@@ -581,6 +589,7 @@ ActiveRecord::Schema.define(version: 2021_09_27_194429) do
   add_foreign_key "board_dashboard_players", "dashboard_players"
   add_foreign_key "board_default_contents", "boards"
   add_foreign_key "board_default_contents", "contents"
+  add_foreign_key "board_photos", "boards"
   add_foreign_key "board_sales", "boards"
   add_foreign_key "board_sales", "sales"
   add_foreign_key "boards", "projects"
