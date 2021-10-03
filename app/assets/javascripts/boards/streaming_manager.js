@@ -124,7 +124,7 @@ $(document).on('turbolinks:load', function() {
        ads = jQuery.parseJSON($("#ads_rotation").val());
        // restart from beginning if the array was completely ran
        if (rotation_key >= ads.length) rotation_key = 0;
-       optimize_memory(rotation_key,board_slug);
+       //optimize_memory(rotation_key,board_slug);
        chosen = ads[rotation_key];
        if (isWorkTime(work_hour_start, work_hour_end)){
          if (chosen == "-") {
@@ -549,7 +549,8 @@ function optimize_memory(rotation_key, board_slug){
     performance_not_available(rotation_key, board_slug);
     return 0; //end here, the code that uses performance.memory wont be executed
   }
-  if (used_memory/memory_limit < 0.4 ) return 0; //IF MEMORY IS MORE THAN 70%, REMOVE UNUSED MEDIA
+  device_has_low_memory_limit = memory_limit <= 239000000*3; //pedro tested on a device with 239000000 memory limit, and it crahes near used_memory/memory_limit=0.09, and a device with 10 times that memory that reaches used_memory/memory_limit=0.5
+  if ( ( device_has_low_memory_limit && used_memory/memory_limit < 0.07 ) || (!device_has_low_memory_limit && used_memory/memory_limit < 0.4) ) return 0; //IF MEMORY IS MORE THAN 70%, REMOVE UNUSED MEDIA
   console.log("Atención: Memoria en uso al " + (used_memory/memory_limit*100).toFixed(1) + "%");
   //GET ACTIVE CAMPAIGNS
   active_campaign_ids = get_active_campaign_ids(rotation_key);
@@ -558,11 +559,11 @@ function optimize_memory(rotation_key, board_slug){
   //GET THE MULTIMEDIA THAT ISNT IN THE ADS ROTATION
   unused_multimedia = multimedia.filter(function(index, elem, arr){ return !active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
   delete_multimedia(unused_multimedia);
-  if (used_memory/memory_limit <0.5 ) return 0; //IF MEMORY IS MORE THAN 80%, REMOVE SOME MEDIA FROM EACH CAMPAIGN
+  if (( device_has_low_memory_limit && used_memory/memory_limit < 0.08 ) || (!device_has_low_memory_limit && used_memory/memory_limit <0.5) ) return 0; //IF MEMORY IS MORE THAN 80%, REMOVE SOME MEDIA FROM EACH CAMPAIGN
   //GET THE MULTIMEDIA THAT IS IN THE ADS ROTATION AND MAKE CUSTOM ACTIONS
   used_multimedia = multimedia.filter(function(index, elem, arr){ return active_campaign_ids.includes(parseInt(elem.getAttribute("data-campaign-id")));});
   keep_unique_multimedia_for_each_id(used_multimedia);
-  if (used_memory/memory_limit > 0.6 ) Bugsnag.notify("El bilbo con slug " + board_slug+ " llegó al " + (used_memory/memory_limit*100).toFixed(1) + "% de memoria en uso.");
+  if (( device_has_low_memory_limit && used_memory/memory_limit > 0.09 ) || (!device_has_low_memory_limit && used_memory/memory_limit >0.6) ) Bugsnag.notify("El bilbo con slug " + board_slug+ " llegó al " + (used_memory/memory_limit*100).toFixed(1) + "% de memoria en uso. Memoria total: " + memory_limit);
 }
 
 function performance_not_available(rotation_key, board_slug) {
