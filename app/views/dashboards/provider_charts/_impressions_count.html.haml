@@ -10,4 +10,4 @@
       .row.align-items-sm-end
         .col-12.pd-0-f
           .chart-six
-            = area_chart (@daily_impressions)
+            = column_chart (@daily_impressions), colors: @colors, library: {scales: {xAxes: [{ticks: {autoSkipPadding: 15, maxRotation: 0}}]}}, discrete: true, id: "boards-impressions-chart", stacked: true, dataset: {borderWidth: 0, minBarLength: 1}, legend: 'bottom'
