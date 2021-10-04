@@ -80,10 +80,10 @@ class BoardUploadWorker
 
       item[:duration] = row["Duracion de anuncio (s)"].to_i
 
-      if row["Establecimiento"].present? 
+      if row["Establecimiento"].present?
         item[:establishment_list] = row["Establecimiento"].titleize
       end
-      
+
       item[:restrictions] = split_restrictions(row["Restricciones"] || "").to_json
 
       item[:images_only] = !(["mp4","video"].map{|format| row["Formato"].downcase.include? format}.any?) #Set images only to true if video or mp4 is not present in format column
@@ -148,7 +148,8 @@ class BoardUploadWorker
               next
             end
           end
-          @board.images.attach(io: image, filename: File.basename(url), content_type: image.content_type)
+          photo = image_data(image, image.content_type, File.basename(url))
+          photo_created = @board.board_photos.create(image_data: photo)
         end
       end
       if row["Imagenes default"].present? #Load default images from urls if they are provided, else set the default bilbo image
@@ -197,7 +198,7 @@ class BoardUploadWorker
 
       #Notify if the board doesn't have images even if it was saved
       brd_errors += @board.errors.full_messages
-      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes del bilbo") if @board.images.count == 0
+      brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes del bilbo") if @board.board_photos.count == 0
       brd_errors.append("Aviso: No se encontraron o no se pudieron guardar las imagenes default del bilbo") if @board.board_default_contents.count == 0
       if !success
         brd_errors.prepend("No se pudo guardar el board")
