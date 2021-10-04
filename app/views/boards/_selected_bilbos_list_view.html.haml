@@ -1,19 +1,20 @@
-- if current_user
+- if current_user && controller.controller_name == 'campaigns'
   = f.select(:boards, options_for_select(@campaign_boards), {include_blank: "#{t('campaign.wizard.selected_bilbos')} (#{@campaign_boards.size})"},
  {:class => "d-none pos-absolute r-0 t-0 wd-300 z-index-10 bg-dark tx-white form-select pd-15 bd-transparent", :id => "selected_boards"})
   = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true, data:{required_msg: t("campaign.errors.no_boards")}
-- else
+- elsif !current_user
   = select_tag("",options_for_select(""), {include_blank: "#{t('campaign.wizard.selected_bilbos')} (0)",
  :class => "d-none pos-absolute r-0 t-0 wd-300 z-index-10 bg-dark tx-white form-select pd-15 bd-transparent", :id => "selected_boards"})
   = text_field_tag "", nil, :class => "d-none", :id => "campaign_boards", value: nil, required: true, data:{required_msg: t("campaign.errors.no_boards")}
-.pos-absolute.r-0.b-0.wd-300.z-index-10.bg-dark.tx-white.rounded-tl{selected_bilbos_list_view: ""}
-  %a.btn.tx-white.wd-100p.text-left.hover-white.pd-15#list_view_title{ "data-toggle": "collapse", href: "#collapseExample", role: "button", aria: { expanded: "false", controls: "collapseExample" } }
-  -# content filled with js
-  %i.fe.fe-arrow-up.position-absolute.tx-20.t-15.r-10.tab-arrow.transition-delay
-  .collapse.border.border-secondary.rounded-bl#collapseExample
-    .perfectScrollbar.position-relative.mx-ht-200{selected_bilbos_list: ""}
-      = render partial: 'boards/list_view_element', collection: @campaign_boards, as: :board, locals: {board_info: false}
-    - if !current_user
-      %button{:class => "btn btn-primary-custom wd-90p mg-15 d-none", :onclick => "addBilbo(this)", :type => "button", download_quote: ""}
-        = t("bilbos.wizard.download_quote")
-        %i.fe.fe-download
+- if controller.controller_name == 'campaigns'|| (!current_user && current_page?(boards_path))
+  .pos-absolute.r-0.b-0.wd-300.z-index-10.bg-dark.tx-white.rounded-tl{selected_bilbos_list_view: ""}
+    %a.btn.tx-white.wd-100p.text-left.hover-white.pd-15#list_view_title{ "data-toggle": "collapse", href: "#collapseExample", role: "button", aria: { expanded: "false", controls: "collapseExample" } }
+    -# content filled with js
+    %i.fe.fe-arrow-up.position-absolute.tx-20.t-15.r-10.tab-arrow.transition-delay
+    .collapse.border.border-secondary.rounded-bl#collapseExample
+      .perfectScrollbar.position-relative.mx-ht-200{selected_bilbos_list: ""}
+        = render partial: 'boards/list_view_element', collection: @campaign_boards, as: :board, locals: {board_info: false}
+      - if !current_user
+        %button{:class => "btn btn-primary-custom wd-90p mg-15 d-none", :onclick => "addBilbo(this)", :type => "button", download_quote: ""}
+          = t("bilbos.wizard.download_quote")
+          %i.fe.fe-download
