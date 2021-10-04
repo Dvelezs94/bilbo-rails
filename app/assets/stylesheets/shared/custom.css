@@ -802,9 +802,11 @@ a[href="#previous"] {
   .mapToggle {
     display: block !important;
   }
-  #selected_boards {
-    width: 200px;
+  #selected_boards,
+  [selected_bilbos_list_view] {
+    width: 250px;
     top: -50px;
+    bottom: auto !important;
   }
 }
 .t-100-f{
