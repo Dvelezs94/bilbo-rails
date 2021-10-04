@@ -28,14 +28,14 @@
 
         #carouselBilboLanding.carousel.slide{"data-ride" => "carousel", "align" => "center"}
           .carousel-inner.ht-400.d-flex.align-items-center.bg-gray-700.rounded
-            - @board.images.each.with_index do |media,i|
+            - @board.board_photos.each.with_index do |media,i|
               %div{class: "carousel-item #{'active' if i == 0}"}
-                = image_tag url_from_media(media), class: "d-block img-fluid"
+                = image_tag media.image_url(:large), class: "d-block img-fluid"
         .row.row-xs.ht-80.mg-t-10{style: "overflow-x: scroll; overflow-y: hidden; opacity: 0.7;"}
-          - @board.images.each.with_index do |media,i|
+          - @board.board_photos.each.with_index do |media,i|
             .col.pd-x-5.mx-wd-25p.cursor-pointer
               %a.selected{"id" => "carousel-selector-#{i}", "data-slide-to" => i, "data-target" => "#carouselBilboLanding"}
-                = image_tag url_from_media(media), class: "ht-100p wd-100p o-fit-cover rounded"
+                = image_tag media.image_url(:small), class: "ht-100p wd-100p o-fit-cover rounded"
         %input#bilboLat{type: "hidden", value: @board.lat}
         %input#bilboLng{type: "hidden", value: @board.lng}
         #landing-map-frame.ht-350.mg-t-20.rounded.mg-b-10
@@ -43,7 +43,6 @@
           %a.tx-gray-500{href: "#{@board.street_view_url}", target: "_blank"}
             Street View
             .fe.fe-link-external.mg-l-5
-          
 
       .col-12.col-lg-6.pd-lg-x-80.mg-t-20.mg-lg-t-0
         %div.sticky-top.t-150.z-index-50
@@ -57,7 +56,7 @@
             .col-4
               %h3.d-block.tx-bold= @board.displays_number
               %strong.tx-gray-500.tx-uppercase= t("bilbos.displays_number")
-          .b-block 
+          .b-block
             %table.table.borderless{style: "background-color: initial;"}
               %thead
                 %tr
@@ -88,7 +87,7 @@
             - if @board.street_view_url.present?
               = link_to @board.street_view_url, class: "tx-gray-700 tx-semibold", target: "_blank" do
                 .span.d-inline.tx-underline Ver en Street View
-                
+
           .d-block.mg-t-10
             = link_to campaigns_path(fetchModal: "modalNewCampaign"), class: "btn btn-primary btn-lg d-block" do
               = t("main_wizard.create_campaign")
@@ -102,7 +101,7 @@
       .col-12.d-block#suggestedBilbos
         .row.row-xs
           = render partial: "landing_pages/single_board_suggestion", collection: @suggested_boards, as: :board
-      
+
       .col-12.mg-t-20.mg-lg-y-80
         .row
           .col-12.col-lg-6.mg-t-20
@@ -123,7 +122,7 @@
               %div
                 Bilbo Funciona como una plataforma donde puedes rentar un espacio publicitario sin necesidad de plazos. Simplemente sube tu anuncio; video o imagen y selecciona el espectacular en el que quieres mostrarlo.
 
-             
+
 = render "footers/white"
 
 %script{:type => "application/ld+json"}

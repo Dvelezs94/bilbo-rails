@@ -27,8 +27,8 @@
                       %tr
                         %td<
                           %div.d-flex
-                            -if evidence.board.images.attachments.present?
-                              = image_tag url_from_media(evidence.board.images.first), class: "img wd-80 ht-80 rounded"
+                            -if evidence.board.board_photos.present?
+                              = image_tag evidence.board.board_photos.first.image_url(:small), class: "img wd-80 ht-80 rounded"
                             -else
                               = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-80 ht-80 rounded"
                             .header.pd-t-30.mg-l-10
