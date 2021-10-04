@@ -1,0 +1,16 @@
+- if board_info #loads the partial to attach to list when adds a bilbo (see board_info partial)
+  .media.cursor-pointer.hover-background-3B4A6D.pd-y-10.pd-x-15{board_list_item: board.id}
+    .media-body
+      %i{class: "icon-#{board.category}", "data-toggle": "tooltip", title: t('bilbos.'+board.category)}
+      = board.name
+      .small.tx-gray-300= "$" + board.cycle_price.truncate(1).to_s + " - " + board.address.split(",").last(3).join(", ")
+
+    %i.fe.fe-trash.tx-22.mg-auto-0.hover-red{:onclick => "removeBilbo(this)","data-slug" => "#{board.slug}", "data-id" => "#{board.id}", list_view_remove: "true"}
+- else #loads the list of current selected boards (see choose_bilbo partial )
+  .media.cursor-pointer.hover-background-3B4A6D.pd-y-10.pd-x-15{board_list_item: board[1]}
+    .media-body
+      %i{class: "icon-#{board[2]["category".to_sym]}", "data-toggle": "tooltip", title: t('bilbos.'+board[2]["category".to_sym])}
+      = board[2][:name]
+      .small.tx-gray-300= "$" + board[2]["cycle-price".to_sym].truncate(1).to_s + " - " + board[2]["address".to_sym].split(",").last(3).join(", ")
+
+    %i.fe.fe-trash.tx-22.mg-auto-0.hover-red{:onclick => "removeBilbo(this)","data-slug" => "#{board[2]['data-slug'.to_sym]}", "data-id" => "#{board[1]}", list_view_remove: "true"}

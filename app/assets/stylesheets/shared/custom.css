@@ -906,7 +906,9 @@ a.disabled {
 }
 /*makes scrollbar visible by default (at first load it doesnt display it, needs to be sccrolled)*/
 [board-info] .ps > .ps__rail-x,
-[board-info] .ps > .ps__rail-y {
+[board-info] .ps > .ps__rail-y,
+[selected_bilbos_list_view] .ps > .ps__rail-x,
+[selected_bilbos_list_view] .ps > .ps__rail-y {
   opacity: 0.6;
 }
 
@@ -934,4 +936,20 @@ a.disabled {
 
 .navbar-header a {
   color: black;
+}
+
+[aria-expanded='true'] + .tab-arrow {
+  transform: rotate(180deg) !important;
+}
+.hover-white:hover {
+  color: white;
+}
+.hover-background-3B4A6D:hover {
+  background: #3B4A6D;
+}
+.hover-red:hover{
+  color: red;
+}
+.mx-ht-200 {
+  max-height: 200px;
 }
