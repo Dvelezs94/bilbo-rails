@@ -22,8 +22,8 @@
                     %span.badge.badge-pill.badge-danger= t('bilbos.' + board_campaign.status)
                 .media.bd.bg-gray-50.pd-y-10.pd-x-10
                   .wd-80.ht-80.bg-ui-04.rounded.d-flex.align-items-center.justify-content-center
-                    - if board_campaign.board.images.attached?
-                      = image_tag url_from_media(board_campaign.board.images.first), class: "h-100 w-100"
+                    - if board_campaign.board.board_photos.present?
+                      = image_tag board_campaign.board.board_photos.first.image_url(:large), class: "h-100 w-100"
                     - else
                       = image_tag image_path("board_placeholder"), class: "h-100 w-100"
                   .media-body.pd-l-25

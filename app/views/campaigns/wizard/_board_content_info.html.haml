@@ -1,8 +1,8 @@
 %tr
   %th
-    -if board.images.attachments.present?
-      - board.images.each do |image|
-        = image_tag url_from_media(image), class: "img wd-50 ht-50 rounded"
+    -if board.board_photos.present?
+      - board.board_photos.each do |image|
+        = image_tag image.image_url(:small), class: "img wd-50 ht-50 rounded"
     -else
       = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-50 ht-50 rounded"
   %td.valign-middle-f.tx-bold= board.name
