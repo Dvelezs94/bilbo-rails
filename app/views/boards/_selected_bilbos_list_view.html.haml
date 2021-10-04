@@ -6,7 +6,6 @@
   = select_tag("",options_for_select(""), {include_blank: "0 #{t('campaign.wizard.selected_bilbos')}",
  :class => "d-none pos-absolute r-0 t-0 wd-300 z-index-10 bg-dark tx-white form-select pd-15 bd-transparent", :id => "selected_boards"})
   = text_field_tag "", nil, :class => "d-none", :id => "campaign_boards", value: nil, required: true, data:{required_msg: t("campaign.errors.no_boards")}
-
 .pos-absolute.r-0.t-0.wd-300.z-index-10.bg-dark.tx-white.rounded-bl{selected_bilbos_list_view: ""}
   %a.btn.tx-white.wd-100p.text-left.hover-white.pd-15#list_view_title{ "data-toggle": "collapse", href: "#collapseExample", role: "button", aria: { expanded: "false", controls: "collapseExample" } }
   -# content filled with js
