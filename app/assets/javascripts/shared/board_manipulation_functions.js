@@ -98,8 +98,8 @@ function removeBilbo(el) {
 
 function update_select_count(number){
   placeholder = $("#selected_boards").find("option").eq(0);
-  new_number = parseInt(placeholder.html(), 10)+number;
-  new_text = placeholder.html().replace(/^[0-9]/g, new_number);
+  new_number = parseInt(placeholder.html().replace ( /[^\d.]/g, '' ), 10)+number;
+  new_text = placeholder.html().replace(/\d+/g, new_number);
   placeholder.html(new_text);
   list_view_title = $("#list_view_title");
   list_view_title.html(new_text);
