@@ -1,4 +1,4 @@
-%div{"aria-labelledby" => "#{board.slug}-tab", :class => "flex-column flex-1 pos-relative tab-pane fade #{"d-flex show active" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id]}", :id => "#{board.slug}", :role => "tabpanel"}
+%div{"aria-labelledby" => "#{board.slug}-tab", :class => "flex-column flex-1 pos-relative tab-pane fade #{"d-flex show active" if board_iteration.first? && params[:selected_id].blank? || board.id.to_s == params[:selected_id]}", :id => "#{board.slug}", :role => "tabpanel", :board_id => board.id}
   .pos-absolute.t-0.b-80.perfectScrollbar.d-flex.flex-column
     #carouselBoardInfo.carousel.slide.rounded-5{"data-ride" => "carousel"}
       .pos-relative
@@ -101,6 +101,8 @@
                 %span.pos-absolute.r--30.text-muted="#{occupation[:occupation]}%"
   .info-board.wd-100p.pos-absolute.b-0
     %hr
+    .d-none
+      = render partial: 'boards/list_view_element', collection: [board], as: :board, locals: {board_info: true}
     - if not URI(request.referer).path.match? /boards|map_frame/
       - is_selected = (params[:selected_boards].split(",").include?(board.id.to_s))? true : false
       %button{:class => "btn btn-primary-custom btn-block add-bilbo #{"d-none" if is_selected}", "data-lat" => "#{board.lat}", "data-lng" => "#{board.lng}","data-address" => "#{board.address} - #{board.face}", "data-cycle-duration" => "#{board.duration}", "data-id" => "#{board.id}", "data-slug" => "#{board.slug}", "data-max-impressions" => "#{JSON.parse(board.ads_rotation).size}", "data-price" => "#{board.sale_cycle_price/board.duration}", "new-height" => "#{board.size_change[0].round(0)}", "new-width" => "#{board.size_change[1].round(0)}", :onclick => "addBilbo(this)", :type => "button"}
