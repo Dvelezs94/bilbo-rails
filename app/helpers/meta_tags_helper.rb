@@ -9,7 +9,7 @@ module MetaTagsHelper
             <meta property='og:title' content='#{@board.name} en #{@board.short_address}'/>
             <meta property='og:description' content='Encuentra los mejores #{t("bilbos.#{@board.category}s")} cerca de #{@board.short_address} en Bilbo. Contrata #{@board.name} en #{@board.short_address} desde #{number_to_currency_usd(@board.minimum_budget)} #{ENV.fetch("CURRENCY")}'/>
             <meta property='og:url' content='#{request.original_url}'/>
-            <meta property='og:image' content='#{url_from_media(@board.images.first)}'/>
+            <meta property='og:image' content='#{@board.board_photos.first.image_url)}'/>
             <meta property='twitter:card' content='summary_large_image'/>
             ".html_safe
         end

@@ -1,8 +1,8 @@
 %tr.ht-85
   %td.border-0
-    -if board.images.attachments.present?
-      - image = board.images.first
-      = image_tag url_from_media(image), class: "img wd-80 ht-80 rounded"
+    -if board.board_photos.present?
+      - image = board.board_photos.first
+      = image_tag image.image_url(:small), class: "img wd-80 ht-80 rounded"
     -else
       = image_tag "#{image_path("placeholder_sm")}", class: "mg-r-5 mg-b-5 img wd-80 ht-80 rounded"
   %td.border-0
