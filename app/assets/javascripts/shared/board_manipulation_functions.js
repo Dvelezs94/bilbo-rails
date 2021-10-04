@@ -1,6 +1,6 @@
 // wizard pick board
 $(document).on('turbolinks:load', function() {
-  update_select_count(0); //so the list view gets text on load
+  if($("[selected_bilbos_list_view]").length > 0) update_select_count(0); //so the list view gets text on load
   $("[selected_bilbos_list_view] .collapse").scrollTop(1).scrollTop(0); //fixes bug of scrollbar displayed when loading page of selected bilbos list view
   $(document).on('change', '.boardSelect', function (e) {
     $(".boardSelect").val(this.value); //put same value on all selects
@@ -65,8 +65,10 @@ function addBilbo(el) {
     update_hidden_input(selected_boards);
     update_buttons("added", buttons_container);
     update_select_count(1);
-    listElement.appendTo("[selected_bilbos_list_view] .collapse");
-    $("[selected_bilbos_list_view] .collapse").scrollTop(1).scrollTop(0); //fixes bug of scrollbar update when adding bilbo
+    listElement.appendTo("[selected_bilbos_list]");
+    $("[selected_bilbos_list]").scrollTop(1).scrollTop(0); //fixes bug of scrollbar update when adding bilbo
+    $("[download_quote]").removeClass("d-none");
+    if($("[selected_bilbos_list] [board_list_item]").length == 1) $("#collapseExample").collapse("show");
   }
 }
 
@@ -87,11 +89,11 @@ function removeBilbo(el) {
     listElement = $(el).closest("[board_list_item]");
   } else {
     listElementId = $(el).closest(".info-board").find("[board_list_item]").attr("board_list_item");
-    listElement = $("[selected_bilbos_list_view] .collapse [board_list_item='" + listElementId + "']");
+    listElement = $("[selected_bilbos_list] [board_list_item='" + listElementId + "']");
   }
   listElement.remove();
-  $("[selected_bilbos_list_view] .collapse").scrollTop(1).scrollTop(0); //fixes bug of scrollbar update when deleting bilbo
-
+  $("[selected_bilbos_list]").scrollTop(1).scrollTop(0); //fixes bug of scrollbar update when deleting bilbo
+  if($("[selected_bilbos_list] [board_list_item]").length == 0) $("[download_quote]").addClass("d-none");
 }
 
 function update_select_count(number){

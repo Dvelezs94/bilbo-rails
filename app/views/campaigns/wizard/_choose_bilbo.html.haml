@@ -1,13 +1,6 @@
 %h3= t('campaign.wizard.choose_bilbos')
 %section.ht-100p-f.row.mg-0.pos-relative-f
-  = f.select(:boards, options_for_select(@campaign_boards), {include_blank: "#{@campaign_boards.size} #{t('campaign.wizard.selected_bilbos')}"},
-   {:class => "d-none pos-absolute r-0 t-0 wd-300 z-index-10 bg-dark tx-white form-select pd-15 bd-transparent", :id => "selected_boards"})
-  .pos-absolute.r-0.t-0.wd-300.z-index-10.bg-dark.tx-white{selected_bilbos_list_view: ""}
-    %a.btn.tx-white.wd-100p.text-left.hover-white.pd-15#list_view_title{ "data-toggle": "collapse", href: "#collapseExample", role: "button", aria: { expanded: "false", controls: "collapseExample" } }
-    -# content filled with js
-    %i.fe.fe-arrow-up.position-absolute.tx-20.t-15.r-10.tab-arrow.transition-delay
-    .collapse.border.border-secondary.mx-ht-200.perfectScrollbar.position-relative#collapseExample
-      = render partial: 'boards/list_view_element', collection: @campaign_boards, as: :board, locals: {board_info: false}
+  = render partial: "boards/selected_bilbos_list_view", locals:{f:f}
   = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true, data:{required_msg: t("campaign.errors.no_boards")}
   .wd-100p.position-relative
     = render "boards/sidebar"
