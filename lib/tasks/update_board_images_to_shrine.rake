@@ -21,13 +21,14 @@ namespace :update_board_images_to_shrine do
             file_extension = 'jpeg'
             mime_type = 'image/jpeg'
             filename = attachment.blob.filename.to_s
-            download_for_board(index, board, attachment, original_ad, mime_type, filename)
+            attach_board_photo(index, board, attachment, original_ad, mime_type, filename)
           elsif attachment.blob.filename.to_s.ends_with?('.png')
             original_ad = Tempfile.new([attachment.blob.key.to_s, '.png'], "tmp/images/#{board.slug}")
             file_extension = 'png'
             mime_type = 'image/png'
             filename = attachment.blob.filename.to_s
-            download_for_board(index, board, attachment, original_ad, mime_type, filename)
+            attach_board_photo(index, board, attachment, original_ad, mime_type, filename)
+          end
         end
       rescue StandardError => e
         SlackNotifyWorker.perform_async(e)
@@ -38,12 +39,12 @@ namespace :update_board_images_to_shrine do
   end
 end
 
-def download_for_board(index, board, attachment, original_ad, mime_type, filename)
+def attach_board_photo(index, board, attachment, original_ad, mime_type, filename)
   File.open(original_ad, 'wb') do |f|
     f.write(attachment.download)
   end
   p 'Transformando'
   photo = image_data(original_ad, mime_type, filename)
-  photo_created = board.board_photos.create(image_data: content)
+  photo_created = board.board_photos.create(image_data: photo)
   p 'Finalizado'
 end
