@@ -36,7 +36,10 @@
                           = t("content.display_content")
                           %i.fe.fe-arrow-down
                       .mg-l-auto.d-flex.align-self-center{id: "content#{board_campaign.board.slug}"}
-                    -if board_campaign.denied? && denied_campaigns_explanation.present?
+                    -if board_campaign.denied? && board_campaign.denied_campaigns_explanation.present?
+                      .pd-t-10
+                        .alert.alert-outline.alert-danger{role:"alert"}
+                          %i.fe.fe-warning= t("denied.#{board_campaign.denied_campaigns_explanation.last.message}")
                       
 
       .modal-footer

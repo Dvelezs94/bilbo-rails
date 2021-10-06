@@ -123,7 +123,7 @@ class BoardCampaignsController < ApplicationController
         create_notification(recipient_id: notification_campaigns_boards[x][:id].project.id, 
                             actor_id: notification_campaigns_boards[x][:boards][0].project.id, 
                             action: "denied", notifiable: notification_campaigns_boards[x][:id], 
-                            custom_message: notification_campaigns_boards[x][:boards].pluck(:name).join(", ") + " " + I18n.t("campaigns.#{notification_campaigns_boards[x][:message][0]}"))  
+                            custom_message: notification_campaigns_boards[x][:boards].pluck(:name).join(", ") + " " + I18n.t("denied.#{notification_campaigns_boards[x][:message][0]}"))  
       end
       redirect_to request.referer
     end
