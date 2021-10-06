@@ -67,34 +67,23 @@ class BoardCampaignsController < ApplicationController
   def multiple_update
     if params[:board_campaign_ids].present?
       @boards = params[:board_campaign_ids].split(",")
-      @denied_campaigns = []
       @boards.each do |board_campaign_id|
       @board_campaign = BoardsCampaigns.find(board_campaign_id)
-      @denied_campaigns.push(@board_campaign)
-        if !(params[:status] == "denied") && @board_campaign.update(status: params[:status], make_broadcast: true, user_locale: current_user.locale)
+        if @board_campaign.update(status: params[:status], make_broadcast: true, user_locale: current_user.locale)
           if @board_campaign.board_errors.nil?
             flash[:success] = I18n.t('campaign.approved', locale: current_user.locale) if params[:status] == "approved"
             flash[:success] = I18n.t('campaign.in_review', locale: current_user.locale) if params[:status] == "in_review"
-            if params[:status] == "denied"
-              flash[:success] = I18n.t('campaign.denied', locale: current_user.locale)
-              @denied_campaigns.push(@board_campaign)
-            end 
+            flash[:success] = I18n.t('campaign.denied', locale: current_user.locale) if params[:status] == "denied"
           else
             flash[:error] = ActionView::Base.full_sanitizer.sanitize("#{I18n.t('campaign.ads_rotation_error.accepted_but_error', error: @board_campaign.board_errors.first, locale: current_user.locale)}")
           end
         end
       end
-      if params[:status] == "denied"
-        
-        respond_to do |format|
-          format.js { render "/dashboards/denied_campaign.js.erb", :locals => {:campaigns => @denied_campaigns }}
-      end
-      else
-        redirect_to request.referer
-      end
+      redirect_to request.referer
     end
 
   end
+
 
   def get_denied_board_campaigns
     if params[:board_campaign_ids].present?
@@ -108,7 +97,11 @@ class BoardCampaignsController < ApplicationController
       @boards = params[:boards_campaigns][:denied_campaigns].split(" ")
       @boards.each do |board_campaign_id|
       @board_campaign = BoardsCampaigns.find(board_campaign_id)
-      @board_campaign.update(status: "denied", make_broadcast: true, user_locale: current_user.locale)
+      if @board_campaign.update(status: "denied", make_broadcast: true, user_locale: current_user.locale)
+        flash[:success] = I18n.t('campaign.denied', locale: current_user.locale)
+      else
+        flash[:error] = ActionView::Base.full_sanitizer.sanitize("#{I18n.t('campaign.ads_rotation_error.accepted_but_error', error: @board_campaign.board_errors.first, locale: current_user.locale)}")
+      end
       DeniedCampaignsExplanation.where(boards_campaigns_id: board_campaign_id).first_or_create(message: params[:boards_campaigns][:message].to_i)
       if !campaigns.include? @board_campaign.campaign
         campaigns.push(@board_campaign)
