@@ -132,12 +132,13 @@ ActiveRecord::Schema.define(version: 2021_09_30_173955) do
     t.index ["content_id"], name: "index_board_default_contents_on_content_id"
   end
 
-  create_table "board_photos", force: :cascade do |t|
-    t.bigint "board_id"
-    t.text "image_data"
+  create_table "board_map_photos", force: :cascade do |t|
+    t.bigint "board_id", null: false
+    t.bigint "map_photo_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["board_id"], name: "index_board_photos_on_board_id"
+    t.index ["board_id"], name: "index_board_map_photos_on_board_id"
+    t.index ["map_photo_id"], name: "index_board_map_photos_on_map_photo_id"
   end
 
   create_table "board_sales", force: :cascade do |t|
@@ -351,6 +352,13 @@ ActiveRecord::Schema.define(version: 2021_09_30_173955) do
     t.datetime "updated_at", null: false
     t.index ["payment_id"], name: "index_invoices_on_payment_id"
     t.index ["user_id"], name: "index_invoices_on_user_id"
+  end
+
+  create_table "map_photos", force: :cascade do |t|
+    t.string "slug"
+    t.text "image_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -589,7 +597,8 @@ ActiveRecord::Schema.define(version: 2021_09_30_173955) do
   add_foreign_key "board_dashboard_players", "dashboard_players"
   add_foreign_key "board_default_contents", "boards"
   add_foreign_key "board_default_contents", "contents"
-  add_foreign_key "board_photos", "boards"
+  add_foreign_key "board_map_photos", "boards"
+  add_foreign_key "board_map_photos", "map_photos"
   add_foreign_key "board_sales", "boards"
   add_foreign_key "board_sales", "sales"
   add_foreign_key "boards", "projects"
