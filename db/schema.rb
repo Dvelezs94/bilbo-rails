@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_27_194429) do
+ActiveRecord::Schema.define(version: 2021_09_30_184901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "cube"
@@ -287,6 +287,14 @@ ActiveRecord::Schema.define(version: 2021_09_27_194429) do
     t.index ["project_id"], name: "index_dashboard_players_on_project_id"
   end
 
+  create_table "denied_campaigns_explanations", force: :cascade do |t|
+    t.integer "message"
+    t.bigint "boards_campaigns_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["boards_campaigns_id"], name: "index_denied_campaigns_explanations_on_boards_campaigns_id"
+  end
+
   create_table "evidences", force: :cascade do |t|
     t.string "multimedia_data"
     t.bigint "board_id", null: false
@@ -448,7 +456,7 @@ ActiveRecord::Schema.define(version: 2021_09_27_194429) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-09-21 23:22:15"
+    t.datetime "expires_at", default: "2031-09-22 22:32:57"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
@@ -593,6 +601,7 @@ ActiveRecord::Schema.define(version: 2021_09_27_194429) do
   add_foreign_key "contents_board_campaigns", "boards_campaigns", column: "boards_campaigns_id"
   add_foreign_key "contents_board_campaigns", "contents"
   add_foreign_key "dashboard_players", "projects"
+  add_foreign_key "denied_campaigns_explanations", "boards_campaigns", column: "boards_campaigns_id"
   add_foreign_key "evidences", "boards"
   add_foreign_key "evidences", "witnesses"
   add_foreign_key "impression_hours", "campaigns"

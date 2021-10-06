@@ -18,7 +18,7 @@ $(document).on('turbolinks:load', function() {
              },
              {  text :'<i class="fe fe-close"></i>'+ "  "+$("#denied_text").text(),
                 attr: { id: 'denied'},
-                action: function () {multiple_update("denied")},
+                action: function () {get_denied_board_campaigns("denied")},
                 className: "btn btn-xs-mobile btn-secondary "
              }
           ],
@@ -231,6 +231,24 @@ function multiple_update(status){
   $.ajax({
     type:"POST",
     url:  "/board_campaigns/multiple_update",
+    dataType: "script",
+    data: {board_campaign_ids: $("#board_campaign_ids").val(), status: status},
+    success: function(data) {
+
+    },
+    error: function(data) {
+      alert("Ocurrio un error...");
+    }
+  });
+}
+
+function get_denied_board_campaigns(status){
+  board_campaigns_selected();
+  //$("#content_body").hide();
+  //$("#placeholderTable").removeClass("d-none");
+  $.ajax({
+    type:"POST",
+    url:  "/board_campaigns/get_denied_board_campaigns",
     dataType: "script",
     data: {board_campaign_ids: $("#board_campaign_ids").val(), status: status},
     success: function(data) {
