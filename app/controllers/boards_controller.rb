@@ -53,8 +53,8 @@ class BoardsController < ApplicationController
   end
 
   def delete_image
-    if @board.board_photos.size > 1
-      if @board.board_photos.find(params[:image_id]).delete
+    if @board.board_map_photos.size > 1
+      if @board.board_map_photos.find(params[:image_id]).delete
         @success_message = I18n.t("board_default_content.update_success")
       else
         @error_message = I18n.t("error.error_ocurred")
@@ -86,14 +86,15 @@ class BoardsController < ApplicationController
   end
 
   def update
+    @success = @board.update(board_params.merge(admin_edit: true))
     if params[:board_photos].present?
-      new_photos_attributes = params[:board_photos].inject({}) do |hash, file|
-        hash.merge!(SecureRandom.hex => { image: file })
-      end
-      photos_attributes = board_params[:board_photos_attributes].to_h.merge(new_photos_attributes)
+      params[:board_photos].map { |file|
+        photo = MapPhoto.new(image: file)
+        if photo.save
+          @board.board_map_photos.where(map_photo_id: photo.id).first_or_create
+        end
+      }
     end
-
-    @success = @board.update(board_params.merge(admin_edit: true, board_photos_attributes: photos_attributes || {}))
     if params[:content].present?
       params[:content].map { |file|
         cont = @board.project.contents.new(multimedia: file )
@@ -189,15 +190,16 @@ class BoardsController < ApplicationController
       end
       redirect_to root_path
     else
-      if params[:board_photos].present?
-        new_photos_attributes = params[:board_photos].inject({}) do |hash, file|
-          hash.merge!(SecureRandom.hex => { image: file })
-        end
-        photos_attributes = board_params[:board_photos_attributes].to_h.merge(new_photos_attributes)
-      end
-
-      @board = Board.new(board_params.merge(board_photos_attributes: photos_attributes || {}))
+      @board = Board.new(board_params)
       if @board.save
+        if params[:board_photos].present?
+          params[:board_photos].map { |file|
+            photo = MapPhoto.new(image: file)
+            if photo.save
+              @board.board_map_photos.where(map_photo_id: photo.id).first_or_create
+            end
+          }
+        end
         if params[:content].present?
           params[:content].map { |file|
             cont = @board.project.contents.new(multimedia: file )
@@ -332,7 +334,6 @@ class BoardsController < ApplicationController
                                   :rotation_degrees,
                                   establishment_list: [],
                                   images: [],
-                                  board_photos: [],
                                   default_images: []
                                   )
 
