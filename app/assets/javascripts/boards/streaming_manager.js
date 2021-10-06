@@ -124,7 +124,8 @@ $(document).on('turbolinks:load', function() {
        ads = jQuery.parseJSON($("#ads_rotation").val());
        // restart from beginning if the array was completely ran
        if (rotation_key >= ads.length) rotation_key = 0;
-       //optimize_memory(rotation_key,board_slug);
+       console.log(rotation_key);
+       optimize_memory(rotation_key,board_slug);
        chosen = ads[rotation_key];
        if (isWorkTime(work_hour_start, work_hour_end)){
          if (chosen == "-") {
