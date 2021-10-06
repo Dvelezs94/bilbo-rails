@@ -67,21 +67,66 @@ class BoardCampaignsController < ApplicationController
   def multiple_update
     if params[:board_campaign_ids].present?
       @boards = params[:board_campaign_ids].split(",")
+      @denied_campaigns = []
       @boards.each do |board_campaign_id|
       @board_campaign = BoardsCampaigns.find(board_campaign_id)
-        if @board_campaign.update(status: params[:status], make_broadcast: true, user_locale: current_user.locale)
+      @denied_campaigns.push(@board_campaign)
+        if !(params[:status] == "denied") && @board_campaign.update(status: params[:status], make_broadcast: true, user_locale: current_user.locale)
           if @board_campaign.board_errors.nil?
             flash[:success] = I18n.t('campaign.approved', locale: current_user.locale) if params[:status] == "approved"
             flash[:success] = I18n.t('campaign.in_review', locale: current_user.locale) if params[:status] == "in_review"
-            flash[:success] = I18n.t('campaign.denied', locale: current_user.locale) if params[:status] == "denied"
+            if params[:status] == "denied"
+              flash[:success] = I18n.t('campaign.denied', locale: current_user.locale)
+              @denied_campaigns.push(@board_campaign)
+            end 
           else
             flash[:error] = ActionView::Base.full_sanitizer.sanitize("#{I18n.t('campaign.ads_rotation_error.accepted_but_error', error: @board_campaign.board_errors.first, locale: current_user.locale)}")
           end
         end
       end
-      redirect_to request.referer
+      if params[:status] == "denied"
+        
+        respond_to do |format|
+          format.js { render "/dashboards/denied_campaign.js.erb", :locals => {:campaigns => @denied_campaigns }}
+      end
+      else
+        redirect_to request.referer
+      end
     end
 
+  end
+
+  def get_denied_board_campaigns
+    if params[:board_campaign_ids].present?
+      @denied_campaigns = params[:board_campaign_ids].split(",")
+      respond_to do |format|
+        format.js { render "/dashboards/denied_campaign.js.erb", :locals => {:campaigns => @denied_campaigns }}
+      end
+    end
+    if params[:boards_campaigns].present? 
+      campaigns = []
+      @boards = params[:boards_campaigns][:denied_campaigns].split(" ")
+      @boards.each do |board_campaign_id|
+      @board_campaign = BoardsCampaigns.find(board_campaign_id)
+      @board_campaign.update(status: "denied", make_broadcast: true, user_locale: current_user.locale)
+      DeniedCampaignsExplanation.where(boards_campaigns_id: board_campaign_id).first_or_create(message: params[:boards_campaigns][:message].to_i)
+      if !campaigns.include? @board_campaign.campaign
+        campaigns.push(@board_campaign)
+      end
+    end
+      
+      notification_campaigns_boards =  campaigns.map{|x|
+        denied_campaigns= DeniedCampaignsExplanation.where(boards_campaigns_id: x.campaign.board_campaigns) 
+        {id: x.campaign, boards: denied_campaigns.map{|s| s.boards_campaigns.board if s.boards_campaigns.status == "denied"}, message: denied_campaigns.map{|s| s.message}.uniq }}.uniq
+      i = notification_campaigns_boards.length
+      i.times do |x|
+        create_notification(recipient_id: notification_campaigns_boards[x][:id].project.id, 
+                            actor_id: notification_campaigns_boards[x][:boards][0].project.id, 
+                            action: "denied", notifiable: notification_campaigns_boards[x][:id], 
+                            custom_message: notification_campaigns_boards[x][:boards].pluck(:name).join(", ") + " " + I18n.t("campaigns.#{notification_campaigns_boards[x][:message][0]}"))  
+      end
+      redirect_to request.referer
+    end
   end
 
   private

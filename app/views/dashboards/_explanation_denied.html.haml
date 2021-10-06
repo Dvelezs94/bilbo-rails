@@ -1,0 +1,18 @@
+#modalExplanationCampaignDenied.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h5.tx-18.tx-sm-20 Explicacion de denegacion de campanas
+        %p.tx-14 Seleccione el porque se deniega la campana
+        = form_for :boards_campaigns do |f|
+        
+          = f.fields_for :denied_campaigns_explanation do |builder|
+            //= builder.hidden_field :board_campaign_id, value: @denied_campaigns, multiple: true
+          = f.select("message",  DeniedCampaignsExplanation.messages.map{|x| [I18n.t("campaigns.#{x[0]}"), x[1]]} , { include_blank: true}, {class: "form-control", required: true })
+          = f.hidden_field :denied_campaigns, value: @denied_campaigns
+          
+          .modal-footer
+            = f.submit "Denegar", class: "btn btn-danger btn-block"
+            

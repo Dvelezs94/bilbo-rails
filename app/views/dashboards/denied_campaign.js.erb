@@ -1,0 +1,8 @@
+$("body").append("<%= j (render 'dashboards/explanation_denied', locals: {campaigns: @denied_campaigns}) %>");
+$('#modalExplanationCampaignDenied').modal();
+
+$('.accordion').accordion({
+  heightStyle: 'content',
+  icons: { "header": "ui-icon-arrowthick-1-se", "activeHeader": "ui-icon-minus" },
+  collapsible: true
+});
