@@ -16,18 +16,28 @@ namespace :update_board_images_to_shrine do
         Dir.mkdir('tmp/images') unless Dir.exist?('tmp/images')
         Dir.mkdir(tmp_dir) unless Dir.exist?(tmp_dir)
         images.attachments.each.with_index do |attachment, index|
-          if attachment.blob.filename.to_s.ends_with?('.jpg') || attachment.blob.filename.to_s.ends_with?('.jpeg')
-            original_ad = Tempfile.new([attachment.blob.key.to_s, '.jpeg'], "tmp/images/#{board.slug}")
-            file_extension = 'jpeg'
-            mime_type = 'image/jpeg'
-            filename = attachment.blob.filename.to_s
-            attach_board_photo(index, board, attachment, original_ad, mime_type, filename)
-          elsif attachment.blob.filename.to_s.ends_with?('.png')
-            original_ad = Tempfile.new([attachment.blob.key.to_s, '.png'], "tmp/images/#{board.slug}")
-            file_extension = 'png'
-            mime_type = 'image/png'
-            filename = attachment.blob.filename.to_s
-            attach_board_photo(index, board, attachment, original_ad, mime_type, filename)
+          existing_photo = MapPhoto.find_by_slug(attachment.filename.to_s + board.project.slug)
+          if existing_photo.present?
+            if !BoardMapPhoto.find_by(board_id: board.id, map_photo_id: existing_photo.id).present?
+              photo = BoardMapPhoto.new
+              photo.board_id = board.id
+              photo.map_photo_id = existing_photo.id
+              photo.save
+            end
+          else
+            if attachment.blob.filename.to_s.ends_with?('.jpg') || attachment.blob.filename.to_s.ends_with?('.jpeg')
+              original_ad = Tempfile.new([attachment.blob.key.to_s, '.jpeg'], "tmp/images/#{board.slug}")
+              file_extension = 'jpeg'
+              mime_type = 'image/jpeg'
+              filename = attachment.blob.filename.to_s
+              attach_board_photo(index, board, attachment, original_ad, mime_type, filename)
+            elsif attachment.blob.filename.to_s.ends_with?('.png')
+              original_ad = Tempfile.new([attachment.blob.key.to_s, '.png'], "tmp/images/#{board.slug}")
+              file_extension = 'png'
+              mime_type = 'image/png'
+              filename = attachment.blob.filename.to_s
+              attach_board_photo(index, board, attachment, original_ad, mime_type, filename)
+            end
           end
         end
       rescue StandardError => e
@@ -45,6 +55,10 @@ def attach_board_photo(index, board, attachment, original_ad, mime_type, filenam
   end
   p 'Transformando'
   photo = image_data(original_ad, mime_type, filename)
-  photo_created = board.board_photos.create(image_data: photo)
+  photo_created = board.board_photos.create(image_data: photo, slug: filename+board.project.slug)
+  board_photo = BoardMapPhoto.new
+  board_photo.board_id = board.id
+  board_photo.map_photo_id = photo_created.id
+  board_photo.save
   p 'Finalizado'
 end
