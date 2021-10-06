@@ -137,12 +137,12 @@
     %br/
     .form-group
       = file_field_tag "board_photos[]", multiple: true, class: "form-control", :accept => 'image/png, image/jpeg'
-    - if board.board_photos.present?
+    - if board.board_map_photos.present?
       .d-flex
-        - board.board_photos.each do |b|
+        - board.board_map_photos.each do |b|
           %figure.img-caption.pos-relative.mg-b-0.fit-content{image_id: b.id}
             - begin
-              = image_tag b.image_url(:large), class: "img-thumbnail", width: "200px"
+              = image_tag b.map_photo.image_url(:large), class: "img-thumbnail", width: "200px"
             - rescue
               = image_tag "construction_video.gif", class: "img-thumbnail", width: "200px"
             %figcaption.pos-absolute.a-0.wd-100p.pd-20.d-flex.flex-column.justify-content-center.bg-white-9.transition-base.op-0
