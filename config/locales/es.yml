@@ -974,3 +974,10 @@ es:
     error_player: Error al crear el reproductor
     error_remove: Error al eliminar el Bilbo
     add: Agregar Bilbo
+  denied: 
+    inappropriate_content: Contenido inapropiado
+    too_long_short: La duración del contenido es muy larga o corta
+    budget_very_low: El presupuesto es muy bajo
+    message_not_appropiate: El mensaje del anuncio no es apropiado para este Bilbo
+    resolution_very_low: La resolución del contenido es muy baja
+    choosen_dates_not_aviable: Este Bilbo no está disponible en las fechas elegidas

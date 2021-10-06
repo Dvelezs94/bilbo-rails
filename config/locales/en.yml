@@ -967,3 +967,10 @@ en:
       error_player: Error creating player
       error_remove: Error removing bilbo
       add: Add Bilbo
+  denied: 
+    inappropriate_content: 
+    too_long_short: 
+    budget_very_low: 
+    message_not_appropiate: 
+    resolution_very_low: 
+    choosen_dates_not_aviable:  
