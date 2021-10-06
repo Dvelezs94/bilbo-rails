@@ -244,8 +244,8 @@ function multiple_update(status){
 
 function get_denied_board_campaigns(status){
   board_campaigns_selected();
-  //$("#content_body").hide();
-  //$("#placeholderTable").removeClass("d-none");
+  $("#content_body").hide();
+  $("#placeholderTable").removeClass("d-none");
   $.ajax({
     type:"POST",
     url:  "/board_campaigns/get_denied_board_campaigns",

@@ -780,8 +780,8 @@ es:
         message: Tu campaña <strong>%{campaign_name}</strong> ha sido aceptada en el Bilbo <strong>%{bilbo_name}</strong>
         url_string: Ir a la Campaña
       denied:
-        subject: Tu campaña <strong>%{campaign_name}</strong> ha sido denegada el Bilbo <strong>%{bilbo_name}</strong>
-        message: Tu campaña <strong>%{campaign_name}</strong> ha sido denegada el Bilbo <strong>%{bilbo_name}</strong>
+        subject: Tu campaña <strong>%{campaign_name}</strong> ha sido denegada del Bilbo <strong>%{bilbo_name}</strong>
+        message: Tu campaña <strong>%{campaign_name}</strong> ha sido denegada del Bilbo <strong>%{bilbo_name}</strong>
         url_string: Ir a la Campaña
       state_on_successfully:
         subject: Tu campaña <strong>%{campaign_name}</strong> fue activada exitosamente
