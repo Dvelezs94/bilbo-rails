@@ -1,0 +1,18 @@
+:javascript
+  init_uppy('map_photos');
+#modalNewMultimedia.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        / row
+        #drag-drop-area
+        .tx-center
+          = link_to t("ads.convert_video_external"), "https://www.freeconvert.com/video-converter", target: "_blank"
+      .modal-footer
+        %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
+      / modal-footer
+    / modal-content
+  / modal-dialog
+/ modal
