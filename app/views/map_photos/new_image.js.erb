@@ -1,0 +1,3 @@
+$("#modalNewMultimedia").remove();
+$('body').append('<%= j (render "map_photos/modals/new_multimedia", :locals => {:photos_modal => @photos_modal}) %>');
+$("#modalNewMultimedia").modal('show');

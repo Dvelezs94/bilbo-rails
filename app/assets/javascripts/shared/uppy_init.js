@@ -1,5 +1,5 @@
-function init_uppy() {
-  var create_attachment_url = document.location.protocol +"//"+ document.location.hostname + "/contents/create_multimedia";
+function init_uppy(model = 'contents') {
+  var create_attachment_url = document.location.protocol +"//"+ document.location.hostname + "/"+model+"/create_multimedia";
   const ProgressBar = Uppy.ProgressBar
   const FileInput = Uppy.FileInput
   var uppy = Uppy.Core({

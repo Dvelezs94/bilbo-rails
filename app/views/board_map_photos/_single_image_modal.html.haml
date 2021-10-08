@@ -1,0 +1,19 @@
+.card.mmcard.mg-md-x-5-f.mg-b-10-f{"data-content": photo.id, "data-multimedia-type": "image", "data-processed": "#{photo.processed?}"}
+  - begin
+    = image_tag photo.image_url(:small), class: "card-img-top ht-100 o-fit-cover"
+  - rescue
+    = image_tag "construction_video.gif", class: "card-img-top ht-100 o-fit-cover"
+  .card-body.pd-5-f
+    %p.card-text{style: "margin-bottom: 0.5rem;"}= photo.image.metadata["filename"].truncate(15)
+    .d-flex.justify-content-between
+      %small.text-muted
+        - begin
+          = "#{photo.image(:large).width.round(0)} x #{photo.image(:large).height.round(0)}"
+        - rescue
+          = t("ads.processing_continuous")
+      - if photo.processed?
+        .custom-control.custom-checkbox
+          %input.custom-control-input{:type => "checkbox", id: "pickContent#{photo.id}"}/
+          %label.custom-control-label{:for => "pickContent#{photo.id}"}
+      - else
+        %i.fe.fe-sync.cursor-pointer{id: "reload_single_content_#{photo.id}", onclick: "get_single_content(#{photo.id})" }

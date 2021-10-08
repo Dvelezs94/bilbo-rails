@@ -1,0 +1,26 @@
+.col-sm-12.col-md-4.col-lg-3.pd-b-5.pd-md-l-0.mmcard.mg-t-10{"data-multimedia-type": "image"}
+  .card.card-file
+    .card-file-thumb.bg-white
+      - begin
+        -if photo.image(:large).height <= 1080
+          = link_to photo.image_url(:large), class: "glightbox img-inherit", :data => {caption: photo.image.metadata["filename"], group: "", type: "image"} do
+            = image_tag photo.image_url(:small), class: "img-inherit"
+      - rescue
+        = image_tag "construction_video.gif", class: "img-inherit"
+    .card-body
+      %h6.mmtitle= photo.image.metadata["filename"].truncate(30)
+
+      - begin
+        - if photo.image(:large).width.nil?
+          %span= t("ads.measures")
+        -else
+          %span= "#{photo.image(:large).width.round(0)} x #{photo.image(:large).height.round(0)}"
+      - rescue
+        %span= t("ads.processing_continuous")
+
+      .card-footer.pd-t-0
+        -if photo.processed?
+          %span.d-sm-inline
+            = t("general_inputs.size")
+            \:
+          = number_to_human_size(photo.image(:large).size, precision: 2) rescue ""
