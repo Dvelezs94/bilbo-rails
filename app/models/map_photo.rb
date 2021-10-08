@@ -10,4 +10,8 @@ class MapPhoto < ApplicationRecord
       self.delete
     end
   end
+
+  def processed?
+    image_url(:large).present?
+  end
 end
