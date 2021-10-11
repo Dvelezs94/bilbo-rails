@@ -300,7 +300,9 @@ en:
       previous: Previous
       finish: Finish
       choose_bilbos: Screen selection
-      selected_bilbos: Selected Bilbos
+      selected_bilbos: Selected screens
+      download_quote: Download Quote
+      quote: Quote
       pick_ad: Pick an ad for each Bilbo
       need_help: Need help?
       date_and_budget: Date and Budget
