@@ -1,6 +1,7 @@
 // wizard pick board
 $(document).on('turbolinks:load', function() {
-
+  if($("[selected_bilbos_list_view]").length > 0) update_select_count(0); //so the list view gets text on load
+  $("[selected_bilbos_list_view] .collapse").scrollTop(1).scrollTop(0); //fixes bug of scrollbar displayed when loading page of selected bilbos list view
   $(document).on('change', '.boardSelect', function (e) {
     $(".boardSelect").val(this.value); //put same value on all selects
     tab = $('#boardTab li').eq($(this).val()).find("a");
@@ -34,6 +35,12 @@ $(document).on('turbolinks:load', function() {
       $(this).val(""); //put placeholder again
     }
   });
+  $(document).on("click", "[board_list_item]", function(){
+    board_id = $(this).attr("board_list_item");
+    selected_boards = $("#selected_boards");
+    selected_boards.val(board_id);
+    selected_boards.change();
+  });
 });
 
 function addBilbo(el) {
@@ -50,6 +57,7 @@ function addBilbo(el) {
   max_impressions = $(el).attr("data-max-impressions");
   selected_boards = $("#selected_boards");
   aspect_ratio_select = $("#aspect_ratio_select");
+  listElement = $(el).closest(".info-board").find("[board_list_item]").clone();
   if (selected_boards.find("option[value=" + id + "]").length == 0) {
     build_option = "<option value='" + id + "' data-max-impressions='" + max_impressions + "' data-price='" + cycle_price + "' new-height='" + new_height + "' data-cycle-duration='" + cycle_duration + "' data-slug='" + slug +"' new-width='" + new_width + "' lat='"+lat+"' lng='"+lng +"' >"+ address + "</option>"
     selected_boards.append(build_option);
@@ -57,29 +65,44 @@ function addBilbo(el) {
     update_hidden_input(selected_boards);
     update_buttons("added", buttons_container);
     update_select_count(1);
+    listElement.appendTo("[selected_bilbos_list]");
+    $("[selected_bilbos_list]").scrollTop(1).scrollTop(0); //fixes bug of scrollbar update when adding bilbo
+    $("[download_quote]").removeClass("d-none");
+    if($("[selected_bilbos_list] [board_list_item]").length == 1) $("#collapseExample").collapse("show");
   }
 }
 
 function removeBilbo(el) {
   id = $(el).attr("data-id");
   slug = $(el).attr("data-slug");
-  buttons_container = $(el).closest(".info-board");
   selected_boards = $("#selected_boards");
   aspect_ratio_select = $("#aspect_ratio_select");
   selected_boards.find("option[value=" + id + "]").remove();
+  buttons_container = $("[board-info] [board_id='"+id+"']").find(".info-board");
+  if(buttons_container) update_buttons("deleted", buttons_container);
   update_hidden_input(selected_boards);
   aspect_ratio_select.find("option[value=" + id + "]").remove();
-  update_buttons("deleted", buttons_container);
   update_select_count(-1);
   $("#slug-"+slug).remove();
   updateHiddenFieldContent();
+  if($(el).attr("list_view_remove")=="true") { // means it is removed in list item
+    listElement = $(el).closest("[board_list_item]");
+  } else {
+    listElementId = $(el).closest(".info-board").find("[board_list_item]").attr("board_list_item");
+    listElement = $("[selected_bilbos_list] [board_list_item='" + listElementId + "']");
+  }
+  listElement.remove();
+  $("[selected_bilbos_list]").scrollTop(1).scrollTop(0); //fixes bug of scrollbar update when deleting bilbo
+  if($("[selected_bilbos_list] [board_list_item]").length == 0) $("[download_quote]").addClass("d-none");
 }
 
 function update_select_count(number){
   placeholder = $("#selected_boards").find("option").eq(0);
-  new_number = parseInt(placeholder.html(), 10)+number;
-  new_text = placeholder.html().replace(/^[0-9]/g, new_number);
+  new_number = parseInt(placeholder.html().replace ( /[^\d.]/g, '' ), 10)+number;
+  new_text = placeholder.html().replace(/\d+/g, new_number);
   placeholder.html(new_text);
+  list_view_title = $("#list_view_title");
+  list_view_title.html(new_text);
 }
 
 function update_hidden_input(selected_boards) {

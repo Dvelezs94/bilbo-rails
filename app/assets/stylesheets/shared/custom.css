@@ -802,9 +802,11 @@ a[href="#previous"] {
   .mapToggle {
     display: block !important;
   }
-  #selected_boards {
-    width: 200px;
+  #selected_boards,
+  [selected_bilbos_list_view] {
+    width: 250px;
     top: -50px;
+    bottom: auto !important;
   }
 }
 .t-100-f{
@@ -906,7 +908,9 @@ a.disabled {
 }
 /*makes scrollbar visible by default (at first load it doesnt display it, needs to be sccrolled)*/
 [board-info] .ps > .ps__rail-x,
-[board-info] .ps > .ps__rail-y {
+[board-info] .ps > .ps__rail-y,
+[selected_bilbos_list_view] .ps > .ps__rail-x,
+[selected_bilbos_list_view] .ps > .ps__rail-y {
   opacity: 0.6;
 }
 
@@ -930,4 +934,27 @@ a.disabled {
   max-height: 100vw !important;
   transform: translatex(calc(50% - 50%)) translatey(calc(50vh - 50%)) rotate(270deg) !important;
   margin: 0 auto !important;
+}
+
+.navbar-header a {
+  color: black;
+}
+
+[aria-expanded='true'] + .tab-arrow {
+  transform: rotate(180deg) !important;
+}
+.hover-white:hover {
+  color: white;
+}
+.hover-background-3B4A6D:hover {
+  background: #3B4A6D;
+}
+.hover-red:hover{
+  color: red;
+}
+.mx-ht-200 {
+  max-height: 200px;
+}
+.rounded-tl {
+  border-top-left-radius: 0.5rem !important;
 }

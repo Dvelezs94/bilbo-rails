@@ -80,6 +80,9 @@ function initializeMap() {
 
     window.bilbomap = new google.maps.Map(document.getElementById('bilbomap'), {
       zoom: zoom,
+      zoomControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_TOP,
+      },
       center: center,
       minZoom: 7,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
