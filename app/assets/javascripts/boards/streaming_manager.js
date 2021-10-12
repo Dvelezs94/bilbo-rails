@@ -13,6 +13,10 @@ $(document).on('turbolinks:load', function() {
      var last_request_time = {} //prevent for multiple request for a single content download
      var lost_impressions = 0;
      var showTaggifyAd = false;
+     var last_content_played = "";
+     var last_default_content_played = "";
+     //hide default contents
+     $("#bilbo-ad").attr('style', 'display:none !important');
      // create the impressions every 60 seconds
      initializePlayer().then((readyToStart) => {
        if(readyToStart){
@@ -41,6 +45,7 @@ $(document).on('turbolinks:load', function() {
          // Start stream
            rotation_key = getIndex($("#start_time").val());
            $(".board-ads").attr('style', 'display:block !important');
+
            // give 5 seconds to load all images and videos
            setTimeout(function() {
              showAd();
@@ -162,6 +167,7 @@ $(document).on('turbolinks:load', function() {
                adPausePlay = validAds[newAdChosen];
                if ($(adPausePlay).is("video")) {
                  playPromise = adPausePlay.play();
+                 last_content_played = adPausePlay;
                  if (playPromise !== undefined) {
                     playPromise.then(_ => {
                       // This means video was loaded and it will display correctly
@@ -268,6 +274,7 @@ function add_displayed_ad(chosen){
       if ($(availableAds[chosen_default_multimedia]).is("video")) {
         availableAds[chosen_default_multimedia].currentTime = 0;
         availableAds[chosen_default_multimedia].play();
+        last_default_content_played = availableAds[chosen_default_multimedia];
       }
     }
 
@@ -292,7 +299,7 @@ function add_displayed_ad(chosen){
     function mediaReady(elem){
       //for each content type, we have a way to verify if the content can be shown
       if($(elem).is("video")){
-        return elem.readyState == 4 && [1,2].includes(elem.networkState);
+        return elem.readyState == 4 || elem == last_content_played || elem == last_default_content_played;
       } else if($(elem).is("img")){
         return elem.complete && elem.naturalHeight != 0;
       } else {
@@ -352,21 +359,25 @@ function add_displayed_ad(chosen){
     }
 
     function reloadContent(campaign_id) {
-      if(campaign_id == '-' && new Date() - last_request_time['-'] > 600000){
+      if(campaign_id == '-' && new Date() - last_request_time['-'] > 600000 || last_request_time['-'] == undefined){
         last_request_time['-'] = new Date();
-        $(".bilbo-official-ad").forEach((item, i) => {
+        $(".bilbo-official-ad").each(function() {
           //re-assign the url of the content for video and image to force a reload/download of the media
-          if(!mediaReady(item) && ($(item).is("video") || $(item).is("img"))) {
-            item.src = item.src;
+          if(!mediaReady(this) && ($(this).is("video") || $(this).is("img"))) {
+           src = this.src
+           this.src = ""
+           this.src = src
           }
         });
-      } else if(new Date() - last_request_time[campaign_id] > 600000){
+      } else if(new Date() - last_request_time[campaign_id] > 600000 || last_request_time[campaign_id] == undefined){
         last_request_time[campaign_id] = new Date();
         //Get media that is not available to reload it
-        $('[data-campaign-id="' + campaign_id + '"]').forEach((item, i) => {
+        $('[data-campaign-id="' + campaign_id + '"]').each(function() {
           //reload only the contents that aren't completely loaded
-          if(!mediaReady(item) && ($(item).is("video") || $(item).is("img"))) {
-            item.src = item.src;
+          if(!mediaReady(this) && ($(this).is("video") || $(this).is("img"))) {
+           src = this.src
+           this.src = ""
+           this.src = src
           }
         });
       }
