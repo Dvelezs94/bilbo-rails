@@ -35,12 +35,12 @@ $(document).on('turbolinks:load', function() {
       $(this).val(""); //put placeholder again
     }
   });
-  $(document).on("click", "[board_list_item]", function(){
-    board_id = $(this).attr("board_list_item");
-    selected_boards = $("#selected_boards");
-    selected_boards.val(board_id);
-    selected_boards.change();
-  });
+});
+$(document).on("click", "[board_list_item]", function(){
+  board_id = $(this).attr("board_list_item");
+  selected_boards = $("#selected_boards");
+  selected_boards.val(board_id);
+  selected_boards.change();
 });
 
 function addBilbo(el) {
