@@ -1,7 +1,6 @@
 %h3= t('campaign.wizard.choose_bilbos')
 %section.ht-100p-f.row.mg-0.pos-relative-f
   = render partial: "boards/selected_bilbos_list_view", locals:{f:f}
-  = f.text_field :boards, :class => "d-none", value: @campaign.boards.pluck(:id).join(","), required: true, data:{required_msg: t("campaign.errors.no_boards")}
   .wd-100p.position-relative
     = render "boards/sidebar"
     .pos-absolute.t-0.b-0.r-0.transition-delay.map-left-space
