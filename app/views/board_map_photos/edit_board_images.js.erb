@@ -1,6 +1,6 @@
 $("body").append("<%= j render partial: 'board_map_photos/board_map_photos_info', locals: {board: @board}%>");
 $('#board_slug_default').val("<%= @board.slug%>")
 $("#modalBoardImages").modal();
-if($('#board_map_images').length){
-  showMapPhotos($('#board_map_images'), $('#board_slug_default').val() )
+if($('#usedPhotos').length){
+  showMapPhotos($('#usedPhotos'), $('#board_slug_default').val() )
 }

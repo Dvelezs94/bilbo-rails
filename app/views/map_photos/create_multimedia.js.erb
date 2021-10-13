@@ -1,2 +1,1 @@
-elem = $("#multimediaElements")
-elem.prepend('<%= j (render partial: "map_photos/single_image", locals: {photo: @photo}) %>');
+$("#single_content").prepend('<%= j (render partial: "board_map_photos/single_image_modal", locals: {photo: @photo}) %>');

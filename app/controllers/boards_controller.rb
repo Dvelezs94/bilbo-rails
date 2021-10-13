@@ -212,11 +212,12 @@ class BoardsController < ApplicationController
             end
           end
         end
-        flash[:success] = "Board saved"
+        flash[:success] = "Board created. Don't forget to add the map iamges!"
+        redirect_to edit_board_path(@board)
       else
         flash[:error] = "Could not save board"
+        redirect_to root_path
       end
-      redirect_to root_path
     end
   end
 
