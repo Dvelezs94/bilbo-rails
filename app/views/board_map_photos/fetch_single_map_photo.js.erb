@@ -1,0 +1,10 @@
+elem = $("div[data-content=<%= @photo.id %>]");
+<% if @photo.processed? %>
+  elem.replaceWith('<%= j (render partial: "board_map_photos/single_image_modal", locals: {photo: @photo}) %>');
+  // select_content();
+  // initialize_content_filter();
+  elem = $("div[data-content=<%= @photo.id %>]");
+  elem.click();
+<% else %>
+  show_notice("<%= I18n.t('ads.processing', filename: @photo.image.metadata['filename']) %>")
+<% end %>

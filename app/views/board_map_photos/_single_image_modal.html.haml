@@ -16,4 +16,4 @@
           %input.custom-control-input{:type => "checkbox", id: "pickContent#{photo.id}"}/
           %label.custom-control-label{:for => "pickContent#{photo.id}"}
       - else
-        %i.fe.fe-sync.cursor-pointer{id: "reload_single_content_#{photo.id}", onclick: "get_single_content(#{photo.id})" }
+        %i.fe.fe-sync.cursor-pointer{id: "reload_single_photo_#{photo.id}", onclick: "get_single_photo(#{photo.id})" }

@@ -40,8 +40,9 @@
                     %div.d-flex
                       = render partial: 'board_map_photos/add_map_images_button', locals: {board: board}
                       %div.d-flex{:id => "images-#{board.slug}", style: "overflow-x: scroll;"}
-                      = hidden_field_tag 'board_map_images', board.board_map_photos.map{|photo| photo.map_photo_id}, onchange: "alert('Input collected!')"
+                      = hidden_field_tag 'board_map_images', value: board.board_map_photos.map{|photo| photo.map_photo_id}, onchange: "alert('Input collected!')"
 
+              %input.d-none#usedPhotos{value: board.board_map_photos.map{|photo| photo.map_photo_id}}
               #selected_content_campaign
       .modal-footer
-        = button_tag t("campaign.wizard.finish"), type: 'button', onclick: "createUpdateContentDefault();", class: "btn btn-primary", remote: true
+        = button_tag t("campaign.wizard.finish"), type: 'button', onclick: "createUpdateBoardMapPhotos();", class: "btn btn-primary", remote: true

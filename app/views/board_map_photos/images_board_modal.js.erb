@@ -1,13 +1,13 @@
-if(!$("#modalBoardImages").length){
+if(!$("#modalBoardPhotos").length){
   $("body").append("<%= j (render 'board_map_photos/photos', locals: {content: @photos, board: @board}) %>");
 }
-$("#modalBoardImages").modal();
+$("#modalBoardPhotos").modal();
 $("#paginator a").hide();
 $("#single_content").append('<%= j render(partial: "shared/loading_ads")%>');
 scroll_wizard();
 setTimeout(function() {
   $('#spinner').remove();
-  $("#single_content").append("<%= j render partial: 'board_map_photos/photos_modal'%>");
+  $("#single_content").append("<%= j render 'board_map_photos/photos_modal', locals: {photos: @photos, currently_used_photos: @currently_used_photos}%>");
   setImageLoader();
   $('#paginator').html('<%= j (link_to_next_page @photos, "#{t("content.more_contents")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "upcoming_page")%>');
   $("#paginator a").show();
