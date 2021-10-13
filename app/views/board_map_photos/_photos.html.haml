@@ -1,4 +1,4 @@
-#modalBoardImages.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", "data-images-only": "#{@board.images_only?}"}
+#modalBoardPhotos.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", "data-images-only": "#{@board.images_only?}"}
   .modal-dialog.modal-dialog-centered.modal-lg{:role => "document"}
     .modal-content
       .modal-header
@@ -25,5 +25,5 @@
               .container#paginator.text-center.tx-13.pd-t-10
                 = link_to_next_page @photos, "#{t("content.more_contents")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "upcoming_page"
       .modal-footer
-        = button_tag t("content.next"), type: 'button', onclick: "appendContentDefault();", class: "btn btn-primary"
+        = button_tag t("content.next"), type: 'button', onclick: "appendPhotos();", class: "btn btn-primary"
       %input#slug-board.d-none{:readonly => "readonly", :value => "slug-#{@board.slug.to_s}"}/
