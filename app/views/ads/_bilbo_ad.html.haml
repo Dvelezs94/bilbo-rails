@@ -1,6 +1,6 @@
 - @board.board_default_contents.each do |media|
   -if media.content.is_video?
-    = video_tag(media.content.multimedia_url(:large, expires_in: 86400), class: "bilbo-official-ad #{"rotation-#{@board.rotation_degrees.to_i}" if @board.rotation_degrees != 0.0}", loop: true, preload: "auto", muted: "muted", id: "default-content-#{media.content.id}")
+    = video_tag(media.content.multimedia_url(expires_in: 86400), class: "bilbo-official-ad #{"rotation-#{@board.rotation_degrees.to_i}" if @board.rotation_degrees != 0.0}", loop: true, preload: "auto", muted: "muted", id: "default-content-#{media.content.id}")
   -elsif media.content.is_image?
     = image_tag media.content.multimedia_url(:large, expires_in: 86400), class: "bilbo-official-ad #{"rotation-#{@board.rotation_degrees.to_i}" if @board.rotation_degrees != 0.0}", id: "default-content-#{media.content.id}"
   -else
