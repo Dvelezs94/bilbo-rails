@@ -138,8 +138,8 @@
     .form-group
       = link_to edit_board_images_board_map_photos_path(board_slug: board.slug), {remote: true, onclick: "$('#modalBoardImages').remove()"} do
         %span
-
-          %i.mg-r-5.fe.fe-edit Editar imagenes del mapa
+          .badge.badge-info.wizard-badge-smart
+            %i.mg-r-5.fe.fe-edit.tx-14=" Editar imagenes del mapa"
       -# = file_field_tag "board_photos[]", multiple: true, class: "form-control", :accept => 'image/png, image/jpeg'
     - if board.board_map_photos.present?
       .d-flex
