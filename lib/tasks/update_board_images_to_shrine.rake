@@ -55,7 +55,7 @@ def attach_board_photo(index, board, attachment, original_ad, mime_type, filenam
   end
   p 'Transformando'
   photo = image_data(original_ad, mime_type, filename)
-  photo_created = board.board_photos.create(image_data: photo, slug: filename+board.project.slug)
+  photo_created = MapPhoto.create(image_data: photo, slug: filename+board.project.slug)
   board_photo = BoardMapPhoto.new
   board_photo.board_id = board.id
   board_photo.map_photo_id = photo_created.id
