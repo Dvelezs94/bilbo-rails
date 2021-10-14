@@ -3,7 +3,7 @@
     .modal-content
       .modal-header
         %input#board_slug_default.d-none{:readonly => "readonly", :value => "#{@board.slug}"}/
-        %h5.modal-title.tx-bold #{t("board_default_content.bilbo_select")} #{@board.name}
+        %h5.modal-title.tx-bold="Elige las imagenes del mapa para el bilbo #{@board.name}"
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
       .modal-body
@@ -11,7 +11,7 @@
         %section.mg-t-15
           .row.row-xs
             .col-12.col-md-12
-              %label= t("board_default_content.content_selected")
+              %label= "Selecciona las iamgenes a mostrar en el bilbo"
           .col-12
             %table.table.table-responsive
               %thead.bg-ui-01
@@ -32,10 +32,7 @@
                   %td.valign-middle-f.tx-bold= board.name
                   %td.valign-middle-f.tx-gray-700#bilbo_duration #{board.duration} #{t("bilbos.sec")}
                   %td.valign-middle-f.tx-gray-700= board.recommended_image_size
-                  -if board.images_only
-                    %td.valign-middle-f.tx-gray-700= t("bilbos.image")
-                  -else
-                    %td.valign-middle-f.tx-gray-700= t("bilbos.both_image_video")
+                  %td.valign-middle-f.tx-gray-700= t("bilbos.image")
                   %td<
                     %div.d-flex
                       = render partial: 'board_map_photos/add_map_images_button', locals: {board: board}
