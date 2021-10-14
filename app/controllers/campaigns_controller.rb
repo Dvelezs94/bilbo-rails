@@ -318,7 +318,7 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaign
-    @campaign = Campaign.includes(:boards, :impressions).where(project: @project).friendly.find(params[:id])
+    @campaign = Campaign.includes(:boards).where(project: @project).friendly.find(params[:id])
   end
 
   def verify_identity
