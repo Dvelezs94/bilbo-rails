@@ -343,7 +343,7 @@ function add_displayed_ad(chosen){
         //verify that at least one default content is available
         defaultContent = filterValidMedia($(".bilbo-official-ad"));
         console.log("default content length: " + defaultContent.length)
-        console.log(filterValidMedia($(".bilbo-official-ad"));
+        console.log(filterValidMedia($(".bilbo-official-ad")));
         if (defaultContent.length == 0) {
           console.log("No default content available, trying to download it");
           reloadContent('-');
