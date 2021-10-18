@@ -14,6 +14,7 @@ $(document).on('turbolinks:load', function() {
      var showTaggifyAd = false;
      var last_content_played = "";
      var last_default_content_played = "";
+     var request = 0;
      //hide default contents
      $("#bilbo-ad").attr('style', 'display:none !important');
      // create the impressions every 60 seconds
@@ -379,6 +380,8 @@ function add_displayed_ad(chosen){
            console.log("reloadContentDefault Success")
           }
         });
+        request = request + 1;
+        console.log("request: " + request);
       } else{
         //Get media that is not available to reload it
         $('[data-campaign-id="' + campaign_id + '"]').each(function() {
@@ -393,6 +396,8 @@ function add_displayed_ad(chosen){
             console.log("reloadContent Success")
           }
         });
+        request = request + 1;
+        console.log("request: " + request);
       }
     }
 
