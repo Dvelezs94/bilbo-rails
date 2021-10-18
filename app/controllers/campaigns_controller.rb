@@ -1,6 +1,6 @@
 class CampaignsController < ApplicationController
   include UserActivityHelper
-  access [:user, :provider] => :all, all: [:analytics, :shortened_analytics, :redirect_to_external_link, :get_boards_content_info]
+  access [:user, :provider] => :all, all: [:analytics, :shortened_analytics, :redirect_to_external_link, :get_boards_content_info, :get_content]
   before_action :get_campaigns, only: [:index]
   before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :fetch_campaign_details, :download_qr_instructions, :copy_campaign, :create_copy, :get_used_contents, :get_boards_content_info]
   before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :fetch_campaign_details, :get_used_contents, :get_boards_content_info]
@@ -37,8 +37,9 @@ class CampaignsController < ApplicationController
   def get_content
     campaign = Campaign.find(params[:id])
     if campaign.should_run?(params[:board_id].to_i)
-      content = Board.find(params[:board_id]).get_content(campaign)
-      @append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign})
+      board = Board.find(params[:board_id])
+      content = board.get_content(campaign)
+      @append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign, board: board})
     else
       @append_msg = ""
     end

@@ -187,9 +187,12 @@ $(document).on('turbolinks:load', function() {
                Bugsnag.notify("El contenido de la campaña " + chosen + " no se ha podido mostrar en el bilbo " + board_slug + ", se recargarán los recursos y se mostrará el contenido default esta vez" )
                showBilboAd();
                //If the HTML has the media object then it's not necessary to request the ads with ajax, we just reload their src to download the resources
+              console.log("If the HTML has the media object, contents present: "+ $('[data-campaign-id="'+chosen+'"]').length == 0)
                if($('[data-campaign-id="'+chosen+'"]').length == 0){
+                 console.log("requestAds")
                  requestAds(chosen);
                } else {
+                 console.log("reloadContent")
                  reloadContent(chosen)
                }
                lost_impressions += 1;
@@ -325,17 +328,22 @@ function add_displayed_ad(chosen){
       if (next_chosen != "-" && next_chosen != ".") {
         nextAds = $('[data-campaign-id="' + next_chosen + '"]');
         nextAds = filterValidMedia(nextAds);
+        console.log("check if next campaign has ads to download them: "+ filterValidMedia(nextAds).length)
         if (nextAds.length == 0) {
           console.log("next campaign with id " + next_chosen + " has no ads or haven't been completely loaded, requesting them");
           if($('[data-campaign-id="'+next_chosen+'"]').length == 0){
+            console.log("requestAds");
             requestAds(next_chosen);
           } else {
+            console.log("reloadContent");
             reloadContent(next_chosen);
           }
         }
       } else if (next_chosen == "-") {
         //verify that at least one default content is available
         defaultContent = filterValidMedia($(".bilbo-official-ad"));
+        console.log("default content length: " + defaultContent.length)
+        console.log(filterValidMedia($(".bilbo-official-ad"));
         if (defaultContent.length == 0) {
           console.log("No default content available, trying to download it");
           reloadContent('-');
@@ -365,8 +373,8 @@ function add_displayed_ad(chosen){
           //re-assign the url of the content for video and image to force a reload/download of the media
           if(!mediaReady(this) && ($(this).is("video") || $(this).is("img"))) {
            src = this.src
-           this.src = ""
-           this.src = src
+           $(this).removeAttr("src");
+           $(this).attr("src", src);
           }
         });
       } else if(new Date() - last_request_time[campaign_id] > 600000 || last_request_time[campaign_id] == undefined){
@@ -375,9 +383,9 @@ function add_displayed_ad(chosen){
         $('[data-campaign-id="' + campaign_id + '"]').each(function() {
           //reload only the contents that aren't completely loaded
           if(!mediaReady(this) && ($(this).is("video") || $(this).is("img"))) {
-           src = this.src
-           this.src = ""
-           this.src = src
+            src = this.src
+            $(this).removeAttr("src");
+            $(this).attr("src", src);
           }
         });
       }
