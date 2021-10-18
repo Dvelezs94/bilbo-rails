@@ -10,7 +10,6 @@ $(document).on('turbolinks:load', function() {
      var work_hour_end = $("#work_hours").val().split("-")[1];
      // starts depending on the hour
      var rotation_key = 0;
-     var last_request_time = {} //prevent for multiple request for a single content download
      var lost_impressions = 0;
      var showTaggifyAd = false;
      var last_content_played = "";
@@ -367,25 +366,31 @@ function add_displayed_ad(chosen){
     }
 
     function reloadContent(campaign_id) {
-      if(campaign_id == '-' && new Date() - last_request_time['-'] > 600000 || last_request_time['-'] == undefined){
-        last_request_time['-'] = new Date();
+      if(campaign_id == '-'){
         $(".bilbo-official-ad").each(function() {
           //re-assign the url of the content for video and image to force a reload/download of the media
+          console.log("beforereadystate: " + this.readyState )
+          console.log("re-assign the url of the content for video and image to force a reload/download of the media: " + !mediaReady(this) && ($(this).is("video") || $(this).is("img")));
+          console.log("afterreadystate: " + this.readyState )
           if(!mediaReady(this) && ($(this).is("video") || $(this).is("img"))) {
            src = this.src
            $(this).removeAttr("src");
            $(this).attr("src", src);
+           console.log("reloadContentDefault Success")
           }
         });
-      } else if(new Date() - last_request_time[campaign_id] > 600000 || last_request_time[campaign_id] == undefined){
-        last_request_time[campaign_id] = new Date();
+      } else{
         //Get media that is not available to reload it
         $('[data-campaign-id="' + campaign_id + '"]').each(function() {
           //reload only the contents that aren't completely loaded
+          console.log("beforereadystatecontent: " + this.readyState )
+          console.log("reload only the contents that aren't completely loaded: " + !mediaReady(this) && ($(this).is("video") || $(this).is("img")));
+          console.log("afterreadystatecontent: " + this.readyState )
           if(!mediaReady(this) && ($(this).is("video") || $(this).is("img"))) {
             src = this.src
             $(this).removeAttr("src");
             $(this).attr("src", src);
+            console.log("reloadContent Success")
           }
         });
       }
