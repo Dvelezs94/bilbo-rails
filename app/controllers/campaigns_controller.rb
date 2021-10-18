@@ -306,6 +306,7 @@ class CampaignsController < ApplicationController
     @campaign_params[:state] = false
     @campaign_params[:impression_count] = 0
     @campaign_params[:total_invested] = 0
+    @campaign_params[:approval_monitoring] = nil
     @campaign_params
   end
 
@@ -318,7 +319,11 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaign
-    @campaign = Campaign.includes(:boards).where(project: @project).friendly.find(params[:id])
+    if action_name == "edit" || action_name == "update"
+      @campaign = Campaign.includes(:boards).where(project: @project).friendly.find(params[:id])
+    else
+      @campaign = Campaign.where(project: @project).friendly.find(params[:id])
+    end
   end
 
   def verify_identity
