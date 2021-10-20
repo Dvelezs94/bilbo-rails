@@ -11,10 +11,10 @@ $(document).on('turbolinks:load', function() {
      // starts depending on the hour
      var rotation_key = 0;
      var lost_impressions = 0;
+     var last_request_time = {} //prevent for multiple request for a single content download
      var showTaggifyAd = false;
      var last_content_played = "";
      var last_default_content_played = "";
-     var request = 0;
      //hide default contents
      $("#bilbo-ad").attr('style', 'display:none !important');
      // create the impressions every 60 seconds
@@ -189,10 +189,8 @@ $(document).on('turbolinks:load', function() {
                //If the HTML has the media object then it's not necessary to request the ads with ajax, we just reload their src to download the resources
               console.log("If the HTML has the media object, contents present: "+ $('[data-campaign-id="'+chosen+'"]').length == 0)
                if($('[data-campaign-id="'+chosen+'"]').length == 0){
-                 console.log("requestAds")
                  requestAds(chosen);
                } else {
-                 console.log("reloadContent")
                  reloadContent(chosen)
                }
                lost_impressions += 1;
@@ -335,8 +333,12 @@ function add_displayed_ad(chosen){
             console.log("requestAds");
             requestAds(next_chosen);
           } else {
-            console.log("reloadContent");
-            reloadContent(next_chosen);
+            if($('.bilbo-official-ad').length == 0){
+              requestDefaultAds();
+            } else {
+              reloadContent(next_chosen);
+            }
+
           }
         }
       } else if (next_chosen == "-") {
@@ -346,7 +348,11 @@ function add_displayed_ad(chosen){
         console.log(filterValidMedia($(".bilbo-official-ad")));
         if (defaultContent.length == 0) {
           console.log("No default content available, trying to download it");
-          reloadContent('-');
+          if($('.bilbo-official-ad').length == 0){
+            requestDefaultAds();
+          } else {
+            reloadContent('-');
+          }
         }
       }
     }
@@ -366,38 +372,49 @@ function add_displayed_ad(chosen){
       })
     }
 
+    function requestDefaultAds() {
+      board_id = $("#board_id").val();
+      Rails.ajax({
+        url: "/board_default_contents/get_default_contents",
+        type: "get",
+        data: "board_id=" + String(board_id),
+        success: function(data) {
+          console.log("retrieved default contents for board ");
+        },
+        error: function(data) {
+          console.log("error retrieving default contents for board");
+        }
+      })
+    }
+
     function reloadContent(campaign_id) {
-      if(campaign_id == '-'){
+      if(campaign_id == '-' && new Date() - last_request_time['-'] > 300000 || last_request_time['-'] == undefined){
+        last_request_time['-'] = new Date();
         $(".bilbo-official-ad").each(function() {
           //re-assign the url of the content for video and image to force a reload/download of the media
-          console.log("beforereadystate: " + this.readyState )
-          console.log("re-assign the url of the content for video and image to force a reload/download of the media: " + !mediaReady(this) && ($(this).is("video") || $(this).is("img")));
-          console.log("afterreadystate: " + this.readyState )
           if(!mediaReady(this) && ($(this).is("video") || $(this).is("img"))) {
            src = this.src
+           this.pause();
            $(this).removeAttr("src");
+           this.load();
            $(this).attr("src", src);
-           console.log("reloadContentDefault Success")
+           this.load();
           }
         });
-        request = request + 1;
-        console.log("request: " + request);
-      } else{
+      } else if(new Date() - last_request_time[campaign_id] > 300000 || last_request_time[campaign_id] == undefined){
+        last_request_time[campaign_id] = new Date();
         //Get media that is not available to reload it
         $('[data-campaign-id="' + campaign_id + '"]').each(function() {
           //reload only the contents that aren't completely loaded
-          console.log("beforereadystatecontent: " + this.readyState )
-          console.log("reload only the contents that aren't completely loaded: " + !mediaReady(this) && ($(this).is("video") || $(this).is("img")));
-          console.log("afterreadystatecontent: " + this.readyState )
           if(!mediaReady(this) && ($(this).is("video") || $(this).is("img"))) {
             src = this.src
+            this.pause();
             $(this).removeAttr("src");
+            this.load();
             $(this).attr("src", src);
-            console.log("reloadContent Success")
+            this.load();
           }
         });
-        request = request + 1;
-        console.log("request: " + request);
       }
     }
 
