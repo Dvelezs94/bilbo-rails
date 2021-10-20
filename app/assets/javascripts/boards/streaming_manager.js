@@ -330,15 +330,9 @@ function add_displayed_ad(chosen){
         if (nextAds.length == 0) {
           console.log("next campaign with id " + next_chosen + " has no ads or haven't been completely loaded, requesting them");
           if($('[data-campaign-id="'+next_chosen+'"]').length == 0){
-            console.log("requestAds");
             requestAds(next_chosen);
           } else {
-            if($('.bilbo-official-ad').length == 0){
-              requestDefaultAds();
-            } else {
-              reloadContent(next_chosen);
-            }
-
+            reloadContent(next_chosen);
           }
         }
       } else if (next_chosen == "-") {
