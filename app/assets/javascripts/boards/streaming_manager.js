@@ -129,7 +129,6 @@ $(document).on('turbolinks:load', function() {
        ads = jQuery.parseJSON($("#ads_rotation").val());
        // restart from beginning if the array was completely ran
        if (rotation_key >= ads.length) rotation_key = 0;
-       console.log(rotation_key);
        optimize_memory(rotation_key,board_slug);
        chosen = ads[rotation_key];
        if (isWorkTime(work_hour_start, work_hour_end)){
@@ -338,8 +337,6 @@ function add_displayed_ad(chosen){
       } else if (next_chosen == "-") {
         //verify that at least one default content is available
         defaultContent = filterValidMedia($(".bilbo-official-ad"));
-        console.log("default content length: " + defaultContent.length)
-        console.log(filterValidMedia($(".bilbo-official-ad")));
         if (defaultContent.length == 0) {
           console.log("No default content available, trying to download it");
           if($('.bilbo-official-ad').length == 0){
