@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       get :contents_board_modal
       get :get_selected_default_contents
       get :create_or_update_default_content
+      get :get_default_contents
     end
   end
 

@@ -58,6 +58,12 @@ class BoardDefaultContentsController < ApplicationController
     @selected_contents = Content.where(id: params[:selected_contents].split(" "))
   end
 
+  def get_default_contents
+    board = Board.friendly.find(params[:board_id])
+    content = board.board_default_contents.map{|contents| contents.content}
+    @append_msg= ApplicationController.renderer.render(partial: "board_default_contents/board_default_content", collection: content, as: :media, locals: {board: board})
+  end
+
   private
   def verify_identity
     raise_not_found if not @project.users.pluck(:id).include? current_user.id
