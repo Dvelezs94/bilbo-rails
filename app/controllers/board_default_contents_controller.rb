@@ -1,6 +1,6 @@
 class BoardDefaultContentsController < ApplicationController
-  access [:user, :provider] => :all
-  before_action :verify_identity
+  access [:user, :provider] => :all, all: [:get_default_contents]
+  before_action :verify_identity, only: [:create_or_update_default_content, :edit_default_content, :contents_board_modal, :get_selected_default_contents]
 
   def create_or_update_default_content
     begin

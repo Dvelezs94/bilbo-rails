@@ -186,7 +186,6 @@ $(document).on('turbolinks:load', function() {
                Bugsnag.notify("El contenido de la campaña " + chosen + " no se ha podido mostrar en el bilbo " + board_slug + ", se recargarán los recursos y se mostrará el contenido default esta vez" )
                showBilboAd();
                //If the HTML has the media object then it's not necessary to request the ads with ajax, we just reload their src to download the resources
-              console.log("If the HTML has the media object, contents present: "+ $('[data-campaign-id="'+chosen+'"]').length == 0)
                if($('[data-campaign-id="'+chosen+'"]').length == 0){
                  requestAds(chosen);
                } else {
