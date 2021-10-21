@@ -4,11 +4,11 @@
   .container.pd-x-0.pd-lg-x-10.pd-xl-x-0
     = form_with(model: DashboardPlayer, :html => { :id => "new_dashboard_player", data: { parsley_validate: true, parsley_errors_messages_disabled: true, remote: true } }) do |f|
       .form-inline.col-12.form-group
-        = f.autocomplete_field :board_name, autocomplete_board_name_searches_path(slug: @project.slug), :append_to => "#new", class: "form-control col-10", :id_element => '#some_element', placeholder: "Nombre del Bilbo", 'data-showNoMatches' => false, type: 'name', :required => true, remote: true
+        = f.autocomplete_field :board_name, autocomplete_board_name_searches_path(slug: current_project.slug), :append_to => "#new", class: "form-control col-10", :id_element => '#some_element', placeholder: "Nombre del Bilbo", 'data-showNoMatches' => false, type: 'name', :required => true, remote: true
         = button_tag( :class => "btn btn-primary col-2") do
           %i.fe.fe-plus.tx-white
           =t("dashboard_player.add")
         = f.hidden_field :board_slug, id:"some_element"
-        = f.hidden_field :project_id, value: "#{@project.id}"
+        = f.hidden_field :project_id, value: "#{current_project.id}"
   .row.row-xs#index_dashboard_player
     = render partial: "dashboard_players/iframe_dashboard_player", collection: @dashboard_players, as: :dashboard_player

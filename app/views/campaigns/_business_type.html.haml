@@ -30,7 +30,7 @@
               %h6#myTitle.modal-title.pd-b-10.text-primary= t("set_up_account.organization_data")
               %form
                 %label.d-block.pd-t-5= t("set_up_account.organization_name")
-                = f.text_field :company_name, placeholder: t("set_up_account.write_name"), class: "form-control pd-b-5 ", required: true, value: @project.name
+                = f.text_field :company_name, placeholder: t("set_up_account.write_name"), class: "form-control pd-b-5 ", required: true, value: current_project.name
                 %label.d-block.pd-t-5= t("set_up_account.position")
                 = f.text_field :work_position, placeholder: t("set_up_account.write_position"), class: "form-control pd-b-5", required: true
                 %label.d-block.pd-t-5= t("general_inputs.phone_number")

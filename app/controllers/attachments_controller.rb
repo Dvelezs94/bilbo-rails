@@ -41,7 +41,7 @@ class AttachmentsController < ApplicationController
   private
 
   def get_ad
-    @ad = Ad.with_attached_multimedia.where(project: @project).friendly.find(params[:ad_id])
+    @ad = Ad.with_attached_multimedia.where(project: current_project).friendly.find(params[:ad_id])
     #This is for assign multimedia updates to the ad
     @ad.multimedia_update = true
     @ad

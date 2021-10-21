@@ -8,10 +8,10 @@ class SearchesController < ApplicationController
 
   def autocomplete_board_name
     term = params[:term]
-    if @project.dashboard_player.present?
-     boards = @project.boards.where.not(id: [@project.dashboard_player.board_dashboard_players.map{|player| player.board_id}]).where("name LIKE '%#{term}%'")
+    if current_project.dashboard_player.present?
+     boards = current_project.boards.where.not(id: [current_project.dashboard_player.board_dashboard_players.map{|player| player.board_id}]).where("name LIKE '%#{term}%'")
     else
-     boards = @project.boards.where("name LIKE '%#{term}%'")
+     boards = current_project.boards.where("name LIKE '%#{term}%'")
     end
     render :json => boards.map { |board| {:id => board.slug, :label => board.name, :value => board.name} }
   end

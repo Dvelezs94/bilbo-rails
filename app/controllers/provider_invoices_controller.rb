@@ -29,7 +29,7 @@ class ProviderInvoicesController < ApplicationController
     @invoice_params = params.require(:provider_invoice).permit(:comments, :uuid, documents: [])
     @invoice_params[:campaign] = Campaign.find(params[:campaign_id])
     @invoice_params[:user_id] = @invoice_params[:campaign].project.owner.id
-    @invoice_params[:issuing_id] = @project.id
+    @invoice_params[:issuing_id] = current_project.id
     @invoice_params
   end
 

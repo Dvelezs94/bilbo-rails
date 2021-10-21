@@ -42,7 +42,7 @@ class ContentsBoardCampaignController < ApplicationController
     @selected_contents = {}
     default_rows_per_day = {"monday" => 0, "tuesday" => 0, "wednesday" => 0, "thursday" => 0, "friday" => 0, "saturday" => 0, "sunday" => 0}
     @rows_per_day = default_rows_per_day.merge(JSON.parse(params[:table_rows]))
-    @campaign = @project.campaigns.friendly.find(params[:campaign_id])
+    @campaign = current_project.campaigns.friendly.find(params[:campaign_id])
     JSON.parse(params[:selected_contents]).each do |slug, content_ids|
       @selected_contents[slug.to_sym] = Content.where(id: content_ids.split(' '))
     end
@@ -55,6 +55,6 @@ class ContentsBoardCampaignController < ApplicationController
 
   private
   def verify_identity
-    raise_not_found if not @project.users.pluck(:id).include? current_user.id
+    raise_not_found if not current_project.users.pluck(:id).include? current_user.id
   end
 end

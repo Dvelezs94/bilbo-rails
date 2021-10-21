@@ -15,7 +15,7 @@
     = form_for(:impression, url: fetch_impressions_path, method: :get, :html => { data: { parsley_validate: true } }, remote: true) do |f|
       .form-row
         .form-group.col-md-5
-          = f.select(:board_id, @project.boards.all.collect {|b| [ "#{b.name} - #{b.face} ", b.slug ] }, { include_blank: "Selecciona un Bilbo" }, class: "custom-select", required: true)
+          = f.select(:board_id, current_project.boards.all.collect {|b| [ "#{b.name} - #{b.face} ", b.slug ] }, { include_blank: "Selecciona un Bilbo" }, class: "custom-select", required: true)
         .form-group.col-md-3.d-flex.align-items-end
           = f.text_field :start_date, class: "form-control", placeholder: "Fecha inicio", required: true, value: (Date.today - 1.month).strftime("%m-%d-%Y")
           .invalid-feedback This is required

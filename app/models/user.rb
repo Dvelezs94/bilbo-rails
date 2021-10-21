@@ -206,17 +206,17 @@ class User < ApplicationRecord
   def send_provider_report(date: Time.zone.now, method: :print)
     # month: Report of the month you want to send to the provider
     # method: :print/:email print results or email results
-    
+
     return "This method is only for providers" if !self.is_provider?
     # current month
     get_month_cycle(date: date)
-    @project = self.projects.first
-    @gross_earnings = Board.provider_monthly_earnings_by_board(@project, @start_date..@end_date)
+    project = self.projects.first
+    @gross_earnings = Board.provider_monthly_earnings_by_board(project, @start_date..@end_date)
     @net_earnings = (@gross_earnings).round(2)
 
     # previous month
     get_month_cycle(date: date - 1.month)
-    @gross_earnings_previous = Board.provider_monthly_earnings_by_board(@project, @start_date..@end_date)
+    @gross_earnings_previous = Board.provider_monthly_earnings_by_board(project, @start_date..@end_date)
     @earnings_percentage = get_percentage(@gross_earnings_previous, @gross_earnings)
     if @earnings_percentage.positive?
       @earnings_percentage = I18n.t('campaign.percentage_plus', percentage: @earnings_percentage)
@@ -227,7 +227,7 @@ class User < ApplicationRecord
     report[:month] = I18n.t('date.month_names')[date.month]
     report[:earnings_percentage_comparison] = @earnings_percentage
     report[:net_earnings] = @net_earnings
-    report[:campaigns_count] = @project.campaigns_count
+    report[:campaigns_count] = project.campaigns_count
     report[:link] = provider_statistics_dashboards_url("select[month]": date.month, "select[year]": date.year)
     if method == :print
       return report
@@ -266,10 +266,10 @@ class User < ApplicationRecord
   private
 
   def set_project
-    @project = Project.new(name: project_name, classification: self.role.to_s)
-    @project.project_users.new(user: self, role: "owner")
-    @project.available_campaign_types = ["budget","per_minute","per_hour"].to_s if self.is_provider?
-    @project.save
+    project = Project.new(name: project_name, classification: self.role.to_s)
+    project.project_users.new(user: self, role: "owner")
+    project.available_campaign_types = ["budget","per_minute","per_hour"].to_s if self.is_provider?
+    project.save
   end
 
   def sync_contact_mail
