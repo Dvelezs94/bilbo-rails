@@ -10,7 +10,7 @@
     #navbarMenu.navbar-menu-wrapper
       %ul.nav.navbar-menu
         %li.nav-label.pd-l-20.pd-lg-l-25.d-lg-none= t("header.navigation")
-        - if @project.classification == 'user'
+        - if current_project.classification == 'user'
           %li{:class => "nav-item #{"active" if menu == "dashboard"}"}
             %a.nav-link{:href => campaigns_path, id: "campaignLink", "data-intro": t("introjs.campaigns"), "data-step": 1}
               %i.fe.fe-box
@@ -23,7 +23,7 @@
             %a.nav-link{:href => boards_path, id: "boardLink", "data-intro": t("introjs.map"), "data-step": 3}
               %i.fe.fe-box>
               = t('header.map')
-        - elsif @project.classification == 'provider'
+        - elsif current_project.classification == 'provider'
           %li{:class => "nav-item #{"active" if menu == "statistics"}"}
             %a.nav-link{:href => provider_statistics_dashboards_path}
               %i.fe.fe-box
@@ -44,7 +44,7 @@
           %a.nav-link{:href => "https://bilbo.freshdesk.com/support/home", :target => "_blank", id: "helpLink", "data-intro": t("introjs.help")}
             %i.fe.fe-box
             = t('header.help_center')
-        - if @project.classification == 'user' && current_page?(campaigns_path)
+        - if current_project.classification == 'user' && current_page?(campaigns_path)
           %li{:class => "nav-item d-none d-md-block"}
             %span.nav-link.cursor-pointer{id: "launch_wizard", class: "#{'opacityPulse-css tx-danger-f' if current_user.created_at > 5.minutes.ago}", "data-intro": t("introjs.intro", name: current_user.name)}
               %i.fe.fe-box
@@ -55,7 +55,7 @@
       / teams
       .dropdown
         %span#teamMenuButton.tx-14.dropdown-toggle.cursor-pointer{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", "data-intro": t("introjs.projects"), "data-step": 4}
-          = truncate(@project.name, length: 15)
+          = truncate(current_project.name, length: 15)
         .dropdown-menu{"aria-labelledby" => "teamMenuButton"}
           - current_user.projects.enabled.each do |pr|
             = link_to pr.name, change_project_project_path(pr.slug), class: "dropdown-item"
@@ -63,7 +63,7 @@
             .dropdown-divider
             = link_to raw("<i class='fe fe-plus mg-r-5 tx-10'></i> " + t("projects.new_project").downcase), projects_path, class: "dropdown-item"
       - if current_user.is_user?
-        = link_to "#{number_to_currency_usd(@project.owner.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap", id: "introBalance", data: { toggle: "modal", intro: t("introjs.budget"), step: 5}
+        = link_to "#{number_to_currency_usd(current_project.owner.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap", id: "introBalance", data: { toggle: "modal", intro: t("introjs.budget"), step: 5}
       / notifications
       = form_with url: clear_notifications_path, method: :get, id: "clear-notif", class: "d-none", remote: true do |f|
         %p Remote submit for clearing notifications, do not remove this line
@@ -78,7 +78,7 @@
               %path{:d => "M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"}
         .dropdown-menu.dropdown-menu-right
           .dropdown-header= t('notifications.notifications')
-          = render partial: 'notifications/notification_header_card', collection: @project.notifications.first(5), as: :notification
+          = render partial: 'notifications/notification_header_card', collection: current_project.notifications.first(5), as: :notification
           .dropdown-footer.d-flex.justify-content-around
             = link_to(t('notifications.actions.view_all'), notifications_path)
         / dropdown-menu
@@ -90,8 +90,8 @@
         .dropdown-menu.dropdown-menu-right
           .avatar.avatar-lg.mg-b-15= image_tag user_avatar(current_user, 500), class: "rounded-circle"
           %h6.tx-semibold.mg-b-5= current_user.name
-          %p.tx-12.tx-color-03= @project.name
-          - if @project.classification == 'user'
+          %p.tx-12.tx-color-03= current_project.name
+          - if current_project.classification == 'user'
             - if not current_user.verified
               .alert.alert-solid.alert-danger.pd-y-5.tx-center.cursor-pointer{"data-toggle" => "modal", :href => "#modalVerify"}
                 = t('payments.verify_account')
@@ -102,7 +102,7 @@
               %i.fe.fe-plus.mg-r-10
               = t('header.purchase_credits')
             .dropdown-divider
-            - if @project.admins.include? current_user.id
+            - if current_project.admins.include? current_user.id
               %a.dropdown-item{"data-toggle" => "modal", :href => "#modalManageTeam"}
                 %i.fe.fe-users.mg-r-10
                 = t('header.manage_team')
@@ -121,12 +121,12 @@
             %a.dropdown-item{:href => edit_user_registration_path}
               %i.fe.fe-gear.mg-r-10
               = t('header.account_settings')
-          - elsif @project.classification == 'provider'
+          - elsif current_project.classification == 'provider'
             .dropdown-divider
             %a.dropdown-item{:href => edit_user_registration_path}
               %i.fe.fe-gear.mg-r-10
               = t('header.account_settings')
-            - if @project.admins.include? current_user.id
+            - if current_project.admins.include? current_user.id
               %a.dropdown-item{"data-toggle" => "modal", :href => "#modalManageTeam"}
                 %i.fe.fe-users.mg-r-10
                 = t('header.manage_team')
@@ -143,8 +143,8 @@
       / dropdown
     / navbar-right
   / navbar
-  = render "payments/new"  if @project.classification == 'user'
+  = render "payments/new"  if current_project.classification == 'user'
   - if not current_user.verified?
-    = render "users/verify"  if @project.classification == 'user'
-  - if @project.admins.include? current_user.id
+    = render "users/verify"  if current_project.classification == 'user'
+  - if current_project.admins.include? current_user.id
     = render "project_users/manage_modal"

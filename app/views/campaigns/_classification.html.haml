@@ -1,5 +1,5 @@
 .divider-text= t('campaign.wizard.campaign_classification')
--if "budget".in? @project.available_campaign_types
+-if "budget".in? current_project.available_campaign_types
   %a.link-02.col-sm-12.col-md-6.col-lg-4.col-xl-3.mg-b-20.pd-0.card-ad-link{:href => "#", :id => "budget"}
     .actions.col-sm-15.col-md-15.pd-t-10
       .card{:id => "budget_card"}
@@ -9,7 +9,7 @@
             %h5.card-title= t('campaign.wizard.budget')
             %span.mg-l-10.tx-primary= "(#{t('campaign.desc_impressions_per_day')})"
           %h6.card-subtitle.mb-2.text-muted= t('campaign.wizard.daily_budget_description')
--if "per_minute".in? @project.available_campaign_types
+-if "per_minute".in? current_project.available_campaign_types
   %a.link-02.col-sm-6.col-md-6.col-lg-4.col-xl-3.mg-b-20.pd-0.card-ad-link{:href => "#", :id => "per_minute"}
     .actions.col-sm-15.col-md-15.pd-t-10
       .card
@@ -18,12 +18,12 @@
             %h5.card-title= t('campaign.wizard.campaign_minute')
             %span.mg-l-10.tx-primary= "(#{t('campaign.desc_impressions_per_minute')})"
           %h6.card-subtitle.mb-2.text-muted=t('campaign.wizard.campaign_minute_description')
--if "per_hour".in? @project.available_campaign_types
+-if "per_hour".in? current_project.available_campaign_types
   %a.link-02.col-sm-6.col-md-6.col-lg-4.col-xl-3.mg-b-20.pd-0.card-ad-link{:href => "#", :id => "per_hour"}
     .actions.col-sm-15.col-md-15.pd-t-10
       .card
         .card-body.pd-15-f
-          -if @project.classification == "user"
+          -if current_project.classification == "user"
             .nav
               %h5.card-title
                 = t('campaign.wizard.campaign_hour')

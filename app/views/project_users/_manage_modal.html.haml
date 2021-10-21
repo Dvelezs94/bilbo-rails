@@ -7,7 +7,7 @@
         %h5.tx-18.tx-sm-20.mg-b-30= t("projects.manage_team")
         .row
           .col-12.m-auto
-            - @project.project_users.each do |u|
+            - current_project.project_users.each do |u|
               .media.align-items-center.mg-b-20
                 .avatar
                   = image_tag user_avatar(u.user, 500), class: "rounded-circle"
@@ -19,19 +19,19 @@
                     %span.d-block.tx-13.tx-color-03= t('projects.administrator')
                   -else
                     %span.d-block.tx-13.tx-color-03= t('projects.user')
-                - if @project.admins.include? current_user.id
+                - if current_project.admins.include? current_user.id
                   %span.d-none.d-sm-block.tx-12.tx-color-03.align-self-start
                   - if u.role != "owner"
-                    = link_to raw("<i class='fe fe-trash'></i> "),  project_project_user_path(@project, u.user), method: :delete, class: "tx-danger tx-15 confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
+                    = link_to raw("<i class='fe fe-trash'></i> "),  project_project_user_path(current_project, u.user), method: :delete, class: "tx-danger tx-15 confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
             %hr
-            = form_for [@project, ProjectUser.new] do |f|
+            = form_for [current_project, ProjectUser.new] do |f|
               .form-group
                 %label= t('projects.invite')
                 .input-group
                   = f.email_field :email, required: true, class: "form-control", placeholder: "john-doe@mail.com"
                   .input-group-append{title: t('projects.role')}
                     = f.select(:role, options_for_select([["#{t('projects.user')}", "user"],["#{t('projects.administrator')}", "administrator"]]), {:include_blank => false}, {:class => "custom-select", style: "border-radius: 0px 0.25rem 0.25rem 0px;"})
-                - if @project.classification == 'provider'
+                - if current_project.classification == 'provider'
                   - roles_link='https://bilbo.freshdesk.com/support/solutions/articles/64000256182-roles-y-permisos-proveedor-'
                 - else
                   - roles_link='https://bilbo.freshdesk.com/support/solutions/articles/64000256184-roles-y-permisos-usuarios-'

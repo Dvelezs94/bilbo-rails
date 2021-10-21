@@ -7,8 +7,8 @@ class CampaignsController < ApplicationController
   before_action :campaign_not_active, only: [:edit]
 
   def index
-    @created_ads = @project.contents.present?
-    @created_campaigns = @project.campaigns.present?
+    @created_ads = current_project.contents.present?
+    @created_campaigns = current_project.campaigns.present?
     @purchased_credits = current_user.payments.present?
     @verified_profile = current_user.verified
     @show_hint = !(@created_ads && @created_campaigns && @purchased_credits && @verified_profile)
@@ -19,18 +19,18 @@ class CampaignsController < ApplicationController
 
   def provider_index
     if params[:q] == "review"
-      Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(@project.boards).uniq.pluck(:id).each do |c|
+      Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(current_project.boards).uniq.pluck(:id).each do |c|
         @campaign_loop = Campaign.find(c)
         # to be optimized
         if @campaign_loop.owner.has_had_credits? || @campaign_loop.provider_campaign?
           @camp = Array(@camp).push(c)
         end
       end
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: @camp).in_review
+      @board_campaigns = BoardsCampaigns.where(board_id: current_project.boards.enabled.pluck(:id), campaign_id: @camp).in_review
     elsif params[:bilbo].present?
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.friendly.find(params[:bilbo]), campaign_id: Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved rescue nil
+      @board_campaigns = BoardsCampaigns.where(board_id: current_project.boards.enabled.friendly.find(params[:bilbo]), campaign_id: Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(current_project.boards).uniq.pluck(:id)).approved rescue nil
     else
-      @board_campaigns = BoardsCampaigns.where(board_id: @project.boards.enabled.pluck(:id), campaign_id: Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(@project.boards).uniq.pluck(:id)).approved
+      @board_campaigns = BoardsCampaigns.where(board_id: current_project.boards.enabled.pluck(:id), campaign_id: Campaign.active.where("ends_at >= ?", Date.today).joins(:boards).merge(current_project.boards).uniq.pluck(:id)).approved
     end
   end
 
@@ -78,18 +78,18 @@ class CampaignsController < ApplicationController
 
   def edit
     if @campaign.ad.present?
-      @ads = @project.ads.active.where.not(id: @campaign.ad).order(updated_at: :desc).with_attached_multimedia.select{ |ad| ad.multimedia.any? }
+      @ads = current_project.ads.active.where.not(id: @campaign.ad).order(updated_at: :desc).with_attached_multimedia.select{ |ad| ad.multimedia.any? }
       @ads.prepend(@campaign.ad)
     else
-      @ads = @project.ads.active.order(updated_at: :desc).with_attached_multimedia.select{ |ad| ad.multimedia.any? }
+      @ads = current_project.ads.active.order(updated_at: :desc).with_attached_multimedia.select{ |ad| ad.multimedia.any? }
     end
     @ad_upcoming = Kaminari.paginate_array(@ads).page(params[:ad_upcoming_page]).per(11)
     factor = (@campaign.classification == "per_hour" && !@campaign.provider_campaign?)? 1.2 : 1
     @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'name': board.name, 'address': board.address, 'category': board.category,'cycle-price': board.cycle_price,'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor, 'data-slug': board.slug, 'lat': board.lat, 'lng': board.lng } ] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
-    if @project.provider?
-      @boards = @project.boards
+    if current_project.provider?
+      @boards = current_project.boards
     else
       @boards = Board.enabled
     end
@@ -280,7 +280,7 @@ class CampaignsController < ApplicationController
   private
 
   def campaign_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :budget, :link, :imp, :minutes, :duration, :content_ids, :budget_distribution, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => @project.id)
+    @campaign_params = params.require(:campaign).permit(:name, :description, :boards, :budget, :link, :imp, :minutes, :duration, :content_ids, :budget_distribution, impression_hours_attributes: [:id, :day, :imp, :start, :end, :_destroy] ).merge(:project_id => current_project.id)
     if @campaign_params[:boards].present?
       @campaign_params[:boards] = Board.where(id: @campaign_params[:boards].split(",").reject(&:empty?))
     end
@@ -295,8 +295,8 @@ class CampaignsController < ApplicationController
   end
 
   def create_params
-    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :classification, :link, :objective, :starts_at, :ends_at).merge(:project_id => @project.id)
-    @campaign_params[:provider_campaign] = @project.classification == 'provider'
+    @campaign_params = params.require(:campaign).permit(:name, :description, :provider_campaign, :classification, :link, :objective, :starts_at, :ends_at).merge(:project_id => current_project.id)
+    @campaign_params[:provider_campaign] = current_project.classification == 'provider'
     @campaign_params[:starts_at] = nil if @campaign_params[:starts_at].nil?
     @campaign_params[:ends_at] = nil if @campaign_params[:ends_at].nil?
     @campaign_params
@@ -313,17 +313,17 @@ class CampaignsController < ApplicationController
 
   def get_campaigns
     if current_user.show_recent_campaigns
-      @campaigns = @project.campaigns.includes(:boards).where(updated_at: 30.days.ago.beginning_of_day .. Time.now.end_of_day).active.sort_by { |campaign| campaign.state ? 0 : 1 }
+      @campaigns = current_project.campaigns.includes(:boards).where(updated_at: 30.days.ago.beginning_of_day .. Time.now.end_of_day).active.sort_by { |campaign| campaign.state ? 0 : 1 }
     else
-      @campaigns = @project.campaigns.includes(:boards).active.sort_by { |campaign| campaign.state ? 0 : 1 }
+      @campaigns = current_project.campaigns.includes(:boards).active.sort_by { |campaign| campaign.state ? 0 : 1 }
     end
   end
 
   def get_campaign
     if action_name == "edit" || action_name == "update"
-      @campaign = Campaign.includes(:boards).where(project: @project).friendly.find(params[:id])
+      @campaign = Campaign.includes(:boards).where(project: current_project).friendly.find(params[:id])
     else
-      @campaign = Campaign.where(project: @project).friendly.find(params[:id])
+      @campaign = Campaign.where(project: current_project).friendly.find(params[:id])
     end
   end
 

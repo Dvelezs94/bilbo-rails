@@ -18,8 +18,8 @@ class Admin::ProjectsController < ApplicationController
       available.append("per_hour")
     end
 
-    if available.to_s != @project.available_campaign_types
-      if @project.update(available_campaign_types: available.to_s)
+    if available.to_s != @selected_project.available_campaign_types
+      if @selected_project.update(available_campaign_types: available.to_s)
         flash[:success] = I18n.t('projects.permissions_changed')
       end
     else
@@ -30,7 +30,7 @@ class Admin::ProjectsController < ApplicationController
   end
 
   def get_project_by_slug
-    @project = Project.find_by(slug: params[:id])
+    @selected_project = Project.find_by(slug: params[:id])
   end
 
 end

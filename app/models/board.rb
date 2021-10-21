@@ -541,7 +541,7 @@ class Board < ApplicationRecord
   # Provider functions
 
   # this function returns an array of the daily earnings by each board. This works on a monthly basis
-  # Board.daily_provider_earnings_by_boards(@project, Time.now)
+  # Board.daily_provider_earnings_by_boards(current_project, Time.now)
   def self.daily_provider_earnings_by_boards(project, time_range = 30.days.ago..Time.now)
     @daily_earnings = {}
     @impressions = Impression.joins(:board).where(boards: {project: project}, created_at: time_range)
@@ -572,7 +572,7 @@ class Board < ApplicationRecord
 
 
   # this function returns an array of the top campaigns. This works on a monthly basis
-  # Board.top_campaigns(@project, Time.now)
+  # Board.top_campaigns(current_project, Time.now)
   # Board.top_campaigns(@board, Time.now)
   def self.top_campaigns(id, time_range = 30.days.ago..Time.now, type = 1)
     model = Impression.arel_table
