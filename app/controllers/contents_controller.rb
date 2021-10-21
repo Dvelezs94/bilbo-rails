@@ -26,7 +26,7 @@ class ContentsController < ApplicationController
   end
 
   def create_multimedia
-    @content = @project.contents.create(multimedia: params[:multimedia])
+    @content = current_project.contents.create(multimedia: params[:multimedia])
     respond_to do |format|
       if !@content.save
           format.js { render js: @content.errors.full_messages.first, status: 500 }
@@ -45,7 +45,7 @@ class ContentsController < ApplicationController
   end
 
   def create_url
-    @content = @project.contents.create(content_params)
+    @content = current_project.contents.create(content_params)
     if !@content.save
         flash[:error] = "Error"
         redirect_to contents_path
@@ -110,14 +110,14 @@ class ContentsController < ApplicationController
   end
 
   def get_content
-    @content = @project.contents.find(params[:id])
+    @content = current_project.contents.find(params[:id])
   end
 
   def get_all_content
-    @contents = @project.contents.order(created_at: :desc)
+    @contents = current_project.contents.order(created_at: :desc)
   end
 
   def content_params
-    params.require(:content).permit(:url, :multimedia).merge(:project_id => @project.id)
+    params.require(:content).permit(:url, :multimedia).merge(:project_id => current_project.id)
   end
 end

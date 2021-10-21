@@ -131,7 +131,7 @@ class BoardsController < ApplicationController
 
   # provider boards
   def owned
-    @boards = @project.boards.search(params[:search_board]).order(created_at: :desc).page(params[:page])
+    @boards = current_project.boards.search(params[:search_board]).order(created_at: :desc).page(params[:page])
   end
 
   def loading
@@ -333,8 +333,8 @@ class BoardsController < ApplicationController
   # default location to center of mexico
   # search radius is defaulted to 10km
   def get_boards(lat: 19.4324451, lng: -99.1333817, radius: 10000)
-    if user_signed_in? && @project.provider?
-      @boards = @project.boards.enabled.within_radius(lat, lng, radius.to_i).sort_by{|b| b.distance_from_lat_lng(lat,lng) }.first(50).to_a
+    if user_signed_in? && current_project.provider?
+      @boards = current_project.boards.enabled.within_radius(lat, lng, radius.to_i).sort_by{|b| b.distance_from_lat_lng(lat,lng) }.first(50).to_a
     else
       @boards = Board.enabled.within_radius(lat, lng, radius.to_i).sort_by{|b| b.distance_from_lat_lng(lat,lng) }.first(50).to_a
     end
@@ -367,7 +367,7 @@ class BoardsController < ApplicationController
     if !(user_signed_in?) || current_user.is_admin?
       @board = Board.friendly.find(params[:id])
     else
-      @board = @project.boards.friendly.find(params[:id])
+      @board = current_project.boards.friendly.find(params[:id])
     end
   end
 

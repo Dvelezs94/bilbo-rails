@@ -48,8 +48,8 @@
         %input.d-none#summary_active_days{value: "#{@campaign.active_days}"}
         %input.d-none#translation_impressions_each{value: t("campaign.wizard.impressions")}
         %input.d-none#translation_minutes{value: t("campaign.wizard.minutes")}
-        %input.d-none#user_balance{value: "#{@project.owner.balance}"}
-        %input.d-none#project_classification{value: "#{@project.classification}"}
+        %input.d-none#user_balance{value: "#{current_project.owner.balance}"}
+        %input.d-none#project_classification{value: "#{current_project.classification}"}
       .row.pd-l-10#out_of_credits{class: "invisible"}
         .badge.billboard-badge
           .pd-l-20.pd-r-20.pd-t-5.pd-b-5
