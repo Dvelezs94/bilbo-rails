@@ -92,7 +92,7 @@ class BoardCampaignsController < ApplicationController
         format.js { render "/dashboards/denied_campaign.js.erb", :locals => {:campaigns => @denied_campaigns }}
       end
     end
-    if params[:boards_campaigns].present? 
+    if params[:boards_campaigns].present?
       campaigns = []
       @boards = params[:boards_campaigns][:denied_campaigns].split(" ")
       @boards.each do |board_campaign_id|
@@ -107,16 +107,16 @@ class BoardCampaignsController < ApplicationController
         campaigns.push(@board_campaign)
       end
     end
-      
-      notification_campaigns_boards =  campaigns.map{|x|
-        denied_campaigns= DeniedCampaignsExplanation.where(boards_campaigns_id: x.campaign.board_campaigns) 
-        {id: x.campaign, boards: denied_campaigns.map{|s| s.boards_campaigns.board if s.boards_campaigns.status == "denied"}, message: denied_campaigns.map{|s| s.message}.uniq }}.uniq
+
+      notification_campaigns_boards =  campaigns.map{|camp|
+        denied_campaigns= DeniedCampaignsExplanation.where(boards_campaigns_id: camp.campaign.board_campaigns)
+        {id: camp.campaign, boards: denied_campaigns.map{|denied| denied.boards_campaigns.board if denied.boards_campaigns.status == "denied"}, message: denied_campaigns.map{|denied| denied.message}.uniq }}.uniq
       i = notification_campaigns_boards.length
-      i.times do |x|
-        create_notification(recipient_id: notification_campaigns_boards[x][:id].project.id, 
-                            actor_id: notification_campaigns_boards[x][:boards][0].project.id, 
-                            action: "denied", notifiable: notification_campaigns_boards[x][:id], 
-                            custom_message: notification_campaigns_boards[x][:boards].pluck(:name).join(", ") + " " + I18n.t("denied.#{notification_campaigns_boards[x][:message][0]}"))  
+      i.times do |index|
+        create_notification(recipient_id: notification_campaigns_boards[index][:id].project.id,
+                            actor_id: notification_campaigns_boards[index][:boards][0].project.id,
+                            action: "denied", notifiable: notification_campaigns_boards[index][:id],
+                            custom_message: notification_campaigns_boards[index][:boards].pluck(:name).join(", ") + " " + I18n.t("denied.#{notification_campaigns_boards[index][:message][0]}"))
       end
       redirect_to request.referer
     end
@@ -132,7 +132,7 @@ class BoardCampaignsController < ApplicationController
     campaign_id = Campaign.friendly.find(params[:campaign_id])
     board_id = Board.friendly.find(params[:board_id])
     @board_campaign = BoardsCampaigns.find_by(board_id: board_id, campaign_id: campaign_id)
-  end  
+  end
 
   def validate_provider_admin
     if not current_project.admins.include? current_user.id
