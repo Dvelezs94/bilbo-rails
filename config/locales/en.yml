@@ -977,3 +977,5 @@ en:
       message_not_appropiate: The ad message is not appropriate for this Bilbo
       resolution_very_low: The resolution of the content is too low
       choosen_dates_not_aviable: This Bilbo is not available on the chosen dates
+      explanation: Explanation of denial of campaigns
+      selection: Select an option to send the explanation and deny the campaign
