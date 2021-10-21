@@ -15,7 +15,7 @@
                 .media-body
                   %h6mg-b-3= s.name
                   %span.d-block.tx-13.tx-color-03= phone_formatter(s.phone_number)
-                - if @project.admins.include? current_user.id
+                - if current_project.admins.include? current_user.id
                   %span.d-none.d-sm-block.tx-12.tx-color-03.align-self-start
                     = link_to raw("<i class='fe fe-trash'></i> "),  campaign_subscriber_path(@campaign.id, s.id), method: :delete, remote: true, class: "tx-danger tx-15 confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
 

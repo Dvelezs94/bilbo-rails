@@ -62,8 +62,8 @@ class AdsController < ApplicationController
   end
 
   def wizard_fetch
-    if @project.ads.find(params[:ad_id]).present?
-      @ads_selected = @project.ads.find(params[:ad_id]).multimedia.attachments
+    if current_project.ads.find(params[:ad_id]).present?
+      @ads_selected = current_project.ads.find(params[:ad_id]).multimedia.attachments
       render  'wizard_fetch', :locals => {:obj => @ads_selected}
     end
   end
@@ -71,19 +71,19 @@ class AdsController < ApplicationController
 
   private
   def ad_params
-    params.require(:ad).permit(:name, :description, :duration).merge(:project_id => @project.id)
+    params.require(:ad).permit(:name, :description, :duration).merge(:project_id => current_project.id)
   end
 
   def get_ads
-    @ads = @project.ads.order(updated_at: :desc).with_attached_multimedia
+    @ads = current_project.ads.order(updated_at: :desc).with_attached_multimedia
   end
 
   def get_active_ads
-    @ads = @project.ads.active.order(updated_at: :desc).with_attached_multimedia
+    @ads = current_project.ads.active.order(updated_at: :desc).with_attached_multimedia
   end
 
   def get_ad
-    @ad = Ad.with_attached_multimedia.where(project: @project).friendly.find(params[:id])
+    @ad = Ad.with_attached_multimedia.where(project: current_project).friendly.find(params[:id])
   end
 
   def verify_identity

@@ -1,6 +1,6 @@
 -if @evidence.is_video?
-  = link_to @evidence.multimedia_url, class: "glightbox", :data => {caption: @evidence.multimedia.metadata["filename"], group: @project.slug} do
+  = link_to @evidence.multimedia_url, class: "glightbox", :data => {caption: @evidence.multimedia.metadata["filename"], group: current_project.slug} do
     = video_tag @evidence.multimedia_url, {class: "mg-r-5 img wd-80 ht-80 rounded o-fit-cover", loop: true, preload: "auto", muted: 'muted', autoplay: false}
 -else
-  = link_to @evidence.multimedia_url, class: "glightbox", :data => {caption: @evidence.multimedia.metadata["filename"], group: @project.slug, type: "image"} do
+  = link_to @evidence.multimedia_url, class: "glightbox", :data => {caption: @evidence.multimedia.metadata["filename"], group: current_project.slug, type: "image"} do
     = image_tag @evidence.multimedia_url, {class: "mg-r-5 img wd-80 ht-80 rounded o-fit-cover"}

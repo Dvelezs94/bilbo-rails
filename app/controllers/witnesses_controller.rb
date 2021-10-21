@@ -49,7 +49,7 @@ class WitnessesController < ApplicationController
   end
 
   def get_campaign
-    @campaign = @project.campaigns.friendly.find(witness_params[:campaign_id])
+    @campaign = current_project.campaigns.friendly.find(witness_params[:campaign_id])
   end
 
   def get_all_witnesses

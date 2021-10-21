@@ -1,6 +1,6 @@
 #modalNewPayment.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document"}
-    - if @project.owner == current_user
+    - if current_project.owner == current_user
       .modal-content.pos-relative
         .modal-body.pd-20.pd-sm-30
           %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
@@ -66,7 +66,7 @@
           %h5.tx-18.tx-sm-20.mg-b-10= t("payments.buy_credits")
           =t("payments.no_owner_buying_credits")
           .input-group.mg-t-15
-            %input.form-control#creditBuyUrl{readonly: true, value: change_project_project_url(@project.slug)}
+            %input.form-control#creditBuyUrl{readonly: true, value: change_project_project_url(current_project.slug)}
             .input-group-append
               %button.clipboard-btn.btn-primary.rounded.tx-10{"data-clipboard-action" => "copy", "data-clipboard-target" => "#creditBuyUrl"}
                 %i.material-icons &#xe14d;
