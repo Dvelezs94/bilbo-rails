@@ -4,8 +4,8 @@ class DashboardsController < ApplicationController
 
   def index
     if user_signed_in?
-      if @project.present?
-        case @project.classification
+      if current_project.present?
+        case current_project.classification
           when 'user'
             if current_user.sign_in_count == 0
               redirect_to campaigns_path(account:"set")
@@ -26,18 +26,18 @@ class DashboardsController < ApplicationController
   def provider_statistics
     @chosen_month = Time.zone.parse(Date::MONTHNAMES[params[:select][:month].to_i] + " " + params[:select][:year]) rescue Time.zone.now.beginning_of_month
     get_month_cycle(date: @chosen_month)
-    @project_impressions = Impression.joins(:board).where(boards: {project: @project}, created_at: @start_date..@end_date)
-    @daily_impressions = @project.top_provider_board_impressions(@start_date..@end_date)
-    @graph_earnings = Board.daily_provider_earnings_graph(@project, @start_date..@end_date)
-    @earnings = Board.daily_provider_earnings_by_boards(@project, @start_date..@end_date)
-    @monthly_earnings = Board.provider_monthly_earnings_by_board(@project, @start_date..@end_date)
-    @monthly_impressions = Board.monthly_impressions(@project, @start_date..@end_date)
-    @tops = Board.provider_top_campaigns(@project, @start_date..@end_date).first(3)
+    @project_impressions = Impression.joins(:board).where(boards: {project: current_project}, created_at: @start_date..@end_date)
+    @daily_impressions = current_project.top_provider_board_impressions(@start_date..@end_date)
+    @graph_earnings = Board.daily_provider_earnings_graph(current_project, @start_date..@end_date)
+    @earnings = Board.daily_provider_earnings_by_boards(current_project, @start_date..@end_date)
+    @monthly_earnings = Board.provider_monthly_earnings_by_board(current_project, @start_date..@end_date)
+    @monthly_impressions = Board.monthly_impressions(current_project, @start_date..@end_date)
+    @tops = Board.provider_top_campaigns(current_project, @start_date..@end_date).first(3)
     @campaigns_executed = @project_impressions.pluck(:campaign_id).uniq.count
     @substraction_tops = @project_impressions.sum(:provider_price)
-    @tops_four = Board.top_campaigns(@project, @start_date..@end_date).first(4)
-    @percentage = Board.top_campaigns(@project, @start_date..@end_date).each.map{|p| p[1]}.sum
-    @substraction = Board.top_campaigns(@project, @start_date..@end_date).each.map{|p| p[1]}.sum-@tops.each.map{|p| p[1]}.sum
+    @tops_four = Board.top_campaigns(current_project, @start_date..@end_date).first(4)
+    @percentage = Board.top_campaigns(current_project, @start_date..@end_date).each.map{|p| p[1]}.sum
+    @substraction = Board.top_campaigns(current_project, @start_date..@end_date).each.map{|p| p[1]}.sum-@tops.each.map{|p| p[1]}.sum
     if @tops.length >= 1
       @percentage_top_1 = '%.2f' %(@tops[0][1].to_f * 100 / @percentage)
     end

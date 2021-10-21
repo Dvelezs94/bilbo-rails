@@ -38,7 +38,7 @@ class CampaignSubscribersController < ApplicationController
 
   private
   def get_campaign
-    @campaign = @project.campaigns.friendly.find(params[:campaign_id])
+    @campaign = current_project.campaigns.friendly.find(params[:campaign_id])
   end
 
   def get_subscriber
@@ -51,7 +51,7 @@ class CampaignSubscribersController < ApplicationController
 
   # only admins can add subscribers
   def verify_admins
-    if not @project.admins.include? current_user.id
+    if not current_project.admins.include? current_user.id
       raise_not_found
     end
   end

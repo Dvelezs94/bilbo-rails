@@ -28,7 +28,7 @@ class EvidencesController < ApplicationController
   end
 
   def check_owner
-    raise_not_found if @project.id != @evidence.board.project_id
+    raise_not_found if current_project.id != @evidence.board.project_id
   end
 
   def evidence_params

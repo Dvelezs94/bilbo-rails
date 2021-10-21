@@ -33,7 +33,7 @@
         %a.dropdown-item{:href => analytics_campaign_path(campaign)}
           %i.fe.fe-activity.mg-r-5
           = t("campaign.metrics")
-        - if @project.admins.include? current_user.id
+        - if current_project.admins.include? current_user.id
           = link_to edit_campaign_subscribers_path(campaign.slug), remote: true, method: :get, class: "dropdown-item" do
             %i.fe.fe-users.mg-r-5
             = t("campaign.subscribers.edit")

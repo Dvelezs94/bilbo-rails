@@ -17,7 +17,7 @@ class ImpressionsController < ApplicationController
   end
 
   def get_boards
-    @boards = @project.boards
+    @boards = current_project.boards
   end
 
   # here we get all the impressions

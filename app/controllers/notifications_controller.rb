@@ -4,12 +4,12 @@ class NotificationsController < ApplicationController
 
   # GET /notifications
   def index
-    @notifications = @project.notifications.page(params[:page])
+    @notifications = current_project.notifications.page(params[:page])
   end
 
   # clears all notifications
   def clear
-    @project.notifications.unread.each { |notif|  notif.read! }
+    current_project.notifications.unread.each { |notif|  notif.read! }
     respond_to do |format|
       format.html{head :no_content}
     end

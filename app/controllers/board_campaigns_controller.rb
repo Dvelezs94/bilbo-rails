@@ -135,7 +135,7 @@ class BoardCampaignsController < ApplicationController
   end  
 
   def validate_provider_admin
-    if not @project.admins.include? current_user.id
+    if not current_project.admins.include? current_user.id
       flash[:error] = I18n.t('campaign.errors.not_enough_permissions')
       redirect_to request.referer
     end
