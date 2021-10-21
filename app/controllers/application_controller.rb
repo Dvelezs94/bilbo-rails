@@ -42,6 +42,24 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_project
+    begin
+      if @project.present?
+        return @project
+      elsif cookies[:project].present? && user_signed_in? && !current_user.is_admin?
+        return current_user.projects.enabled.friendly.find(cookies[:project])
+      elsif user_signed_in? && !current_user.is_admin?
+        return current_user.projects.enabled.first
+      else
+        return nil
+      end
+    rescue
+      return current_user.projects.enabled.first
+    end
+  end
+  # Define as helper_method to use this method on haml and erb files
+  helper_method :current_project
+
   def after_sign_out_path_for(resource)
     root_url()
   end
@@ -55,6 +73,7 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
   # find the company for the multi tenancy
   def set_project
     if cookies[:project].present? && user_signed_in? && !current_user.is_admin?
@@ -68,7 +87,7 @@ class ApplicationController < ActionController::Base
         }
         @project = current_user.projects.enabled.friendly.find(cookies[:project])
       end
-      @unread_notifications_count = @project.notifications.unread.size
+      @unread_notifications_count = current_project.notifications.unread.size
     # redirect if project is not set on url or the condition above is not met
     elsif user_signed_in? && !current_user.is_admin?
       redirect_to(after_sign_in_path_for(current_user))
@@ -112,9 +131,9 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       case current_user.role
         when :user
-          @project.classification
+          current_project.classification
         when :provider
-          @project.classification
+          current_project.classification
         when :admin
           'admin'
       end

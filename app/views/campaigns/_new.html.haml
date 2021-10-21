@@ -1,4 +1,4 @@
-- large_modal = JSON.parse(@project.available_campaign_types).length > 1
+- large_modal = JSON.parse(current_project.available_campaign_types).length > 1
 #modalNewCampaign.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-dialog-centered{:role => "document", class: "#{'modal-xl' if large_modal}"}
     .modal-content
