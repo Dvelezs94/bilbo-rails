@@ -17,6 +17,7 @@ function countDown(timeElemId='.countDownTime', countDownDate){
 
 try {clearInterval(countTimer);} catch {true}
 //removing old content of board info and displaying loading effect its in initmap.js
+$('[board-info] [role="tabpanel"]').remove(); //definetly removes old content of board info, this fixes bug of multiple loads if multiple requests are sent (this first is removed with js to make loading effect)
 $("[board-info]").append("<%= j render partial: 'boards/board_info', collection: @boards, as: :board %>");
 $("#boardTab").html("<%= j render partial: 'boards/board_tab', collection: @boards, as: :board %>");
 $(".boardSelect").html("<%= j render partial: 'boards/board_select_tab', collection: @boards, as: :board %>");

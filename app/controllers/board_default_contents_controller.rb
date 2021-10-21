@@ -1,6 +1,6 @@
 class BoardDefaultContentsController < ApplicationController
-  access [:user, :provider] => :all
-  before_action :verify_identity
+  access [:user, :provider] => :all, all: [:get_default_contents]
+  before_action :verify_identity, only: [:create_or_update_default_content, :edit_default_content, :contents_board_modal, :get_selected_default_contents]
 
   def create_or_update_default_content
     begin
@@ -56,6 +56,12 @@ class BoardDefaultContentsController < ApplicationController
   def get_selected_default_contents
     @board = Board.friendly.find(params[:board_slug])
     @selected_contents = Content.where(id: params[:selected_contents].split(" "))
+  end
+
+  def get_default_contents
+    board = Board.friendly.find(params[:board_id])
+    content = board.board_default_contents.map{|contents| contents.content}
+    @append_msg= ApplicationController.renderer.render(partial: "board_default_contents/board_default_content", collection: content, as: :media, locals: {board: board})
   end
 
   private

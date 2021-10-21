@@ -135,22 +135,14 @@ class Board < ApplicationRecord
   # Get percentage occupied by active campaigns and minimum investment required to appear in the board
   def get_occupation
     begin
-      if self.occupation >= 95
-        # campaign with lowest budget that is currently running
-        rotation = JSON.parse(self.ads_rotation)
-        lowest_running_campaign = rotation.group_by(&:itself).transform_values(&:count).except("-").sort_by { |key, value| value }.first[0]
-        minimum_investment = Campaign.find(lowest_running_campaign).budget + 84 # 84 is a random number :)
-      else
-        minimum_investment = 50
-      end
       {
         occupation: self.occupation.round(2),
-        minimum_investment: minimum_investment
+        minimum_investment: self.minimum_budget
       }
     rescue
       {
         occupation: 0,
-        minimum_investment: 50
+        minimum_investment: self.minimum_budget
       }
     end
   end

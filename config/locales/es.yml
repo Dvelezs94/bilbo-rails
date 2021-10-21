@@ -1,6 +1,6 @@
 es:
-  yes: Sí
-  no: No
+  "yes": "Si"
+  "no": No
   time_day:
     seconds: segundos
     minutes: minutos
@@ -301,7 +301,9 @@ es:
       previous: Anterior
       finish: Finalizar
       choose_bilbos: Selección de pantallas
-      selected_bilbos: Bilbos seleccionados
+      selected_bilbos: Pantallas seleccionadas
+      download_quote: Descargar Cotización
+      quote: Cotizar
       pick_ad: Elige tu contenido para cada Bilbo
       need_help: ¿Necesitas Ayuda?
       date_and_budget: Fecha y Presupuesto
@@ -440,6 +442,7 @@ es:
     duration: Duración
     seconds: segundos
     sec: Seg
+    minimim_daily_purchase: "Compra mínima diaria"
     image_size: Tamaño de imagen
     image_recommended_size: "Tamaño de imagen en pixeles: %{pixels}px"
     price_per_print: Precio/Impresión
