@@ -14,7 +14,6 @@ class BoardsCampaigns < ApplicationRecord
     after_commit :add_or_stop_campaign, if: :make_broadcast
     has_many :denied_campaigns_explanation, :dependent => :destroy
     accepts_nested_attributes_for :denied_campaigns_explanation
-    #before_update :explanation_campaigns
 
 
     amoeba do
@@ -77,10 +76,6 @@ class BoardsCampaigns < ApplicationRecord
         create_notification(recipient_id: campaign.project.id, actor_id: board.project.id,
                             action: "approved", notifiable: campaign,
                             reference: board)
-      elsif denied?
-        create_notification(recipient_id: campaign.project.id, actor_id: board.project.id,
-          action: "denied", notifiable: campaign,
-          reference: board)
       end
     end
 

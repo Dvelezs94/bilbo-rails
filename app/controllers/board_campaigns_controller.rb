@@ -73,7 +73,6 @@ class BoardCampaignsController < ApplicationController
           if @board_campaign.board_errors.nil?
             flash[:success] = I18n.t('campaign.approved', locale: current_user.locale) if params[:status] == "approved"
             flash[:success] = I18n.t('campaign.in_review', locale: current_user.locale) if params[:status] == "in_review"
-            flash[:success] = I18n.t('campaign.denied', locale: current_user.locale) if params[:status] == "denied"
           else
             flash[:error] = ActionView::Base.full_sanitizer.sanitize("#{I18n.t('campaign.ads_rotation_error.accepted_but_error', error: @board_campaign.board_errors.first, locale: current_user.locale)}")
           end
