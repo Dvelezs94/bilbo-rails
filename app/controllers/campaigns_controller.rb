@@ -1,6 +1,6 @@
 class CampaignsController < ApplicationController
   include UserActivityHelper
-  access [:user, :provider] => :all, all: [:analytics, :shortened_analytics, :redirect_to_external_link, :get_boards_content_info]
+  access [:user, :provider] => :all, all: [:analytics, :shortened_analytics, :redirect_to_external_link, :get_boards_content_info, :get_content]
   before_action :get_campaigns, only: [:index]
   before_action :get_campaign, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :fetch_campaign_details, :download_qr_instructions, :copy_campaign, :create_copy, :get_used_contents, :get_boards_content_info]
   before_action :verify_identity, only: [:edit, :destroy, :update, :toggle_state, :get_used_boards, :fetch_campaign_details, :get_used_contents, :get_boards_content_info]
@@ -37,8 +37,9 @@ class CampaignsController < ApplicationController
   def get_content
     campaign = Campaign.find(params[:id])
     if campaign.should_run?(params[:board_id].to_i)
-      content = Board.find(params[:board_id]).get_content(campaign)
-      @append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign})
+      board = Board.find(params[:board_id])
+      content = board.get_content(campaign)
+      @append_msg = ApplicationController.renderer.render(partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign, board: board})
     else
       @append_msg = ""
     end
@@ -84,7 +85,7 @@ class CampaignsController < ApplicationController
     end
     @ad_upcoming = Kaminari.paginate_array(@ads).page(params[:ad_upcoming_page]).per(11)
     factor = (@campaign.classification == "per_hour" && !@campaign.provider_campaign?)? 1.2 : 1
-    @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor, 'data-slug': board.slug, 'lat': board.lat, 'lng': board.lng } ] }
+    @campaign_boards =  @campaign.boards.enabled.collect { |board| ["#{board.address} - #{board.face}", board.id, { 'name': board.name, 'address': board.address, 'category': board.category,'cycle-price': board.cycle_price,'data-max-impressions': JSON.parse(board.ads_rotation).size, 'data-price': factor*board.sale_cycle_price/board.duration, 'new-height': board.size_change[0].round(0), 'new-width': board.size_change[1].round(0), 'data-cycle-duration': board.duration, 'data-factor': factor, 'data-slug': board.slug, 'lat': board.lat, 'lng': board.lng } ] }
     @campaign.starts_at = @campaign.starts_at.to_date rescue ""
     @campaign.ends_at = @campaign.ends_at.to_date rescue ""
     if @project.provider?
@@ -306,6 +307,7 @@ class CampaignsController < ApplicationController
     @campaign_params[:state] = false
     @campaign_params[:impression_count] = 0
     @campaign_params[:total_invested] = 0
+    @campaign_params[:approval_monitoring] = nil
     @campaign_params
   end
 
@@ -318,7 +320,11 @@ class CampaignsController < ApplicationController
   end
 
   def get_campaign
-    @campaign = Campaign.includes(:boards, :impressions).where(project: @project).friendly.find(params[:id])
+    if action_name == "edit" || action_name == "update"
+      @campaign = Campaign.includes(:boards).where(project: @project).friendly.find(params[:id])
+    else
+      @campaign = Campaign.where(project: @project).friendly.find(params[:id])
+    end
   end
 
   def verify_identity

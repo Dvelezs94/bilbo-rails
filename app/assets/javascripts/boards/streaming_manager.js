@@ -10,9 +10,13 @@ $(document).on('turbolinks:load', function() {
      var work_hour_end = $("#work_hours").val().split("-")[1];
      // starts depending on the hour
      var rotation_key = 0;
-     var last_request_time = {} //prevent for multiple request for a single content download
      var lost_impressions = 0;
+     var last_request_time = {} //prevent for multiple request for a single content download
      var showTaggifyAd = false;
+     var last_content_played = "";
+     var last_default_content_played = "";
+     //hide default contents
+     $("#bilbo-ad").attr('style', 'display:none !important');
      // create the impressions every 60 seconds
      initializePlayer().then((readyToStart) => {
        if(readyToStart){
@@ -41,6 +45,7 @@ $(document).on('turbolinks:load', function() {
          // Start stream
            rotation_key = getIndex($("#start_time").val());
            $(".board-ads").attr('style', 'display:block !important');
+
            // give 5 seconds to load all images and videos
            setTimeout(function() {
              showAd();
@@ -124,7 +129,7 @@ $(document).on('turbolinks:load', function() {
        ads = jQuery.parseJSON($("#ads_rotation").val());
        // restart from beginning if the array was completely ran
        if (rotation_key >= ads.length) rotation_key = 0;
-       //optimize_memory(rotation_key,board_slug);
+       optimize_memory(rotation_key,board_slug);
        chosen = ads[rotation_key];
        if (isWorkTime(work_hour_start, work_hour_end)){
          if (chosen == "-") {
@@ -161,6 +166,7 @@ $(document).on('turbolinks:load', function() {
                adPausePlay = validAds[newAdChosen];
                if ($(adPausePlay).is("video")) {
                  playPromise = adPausePlay.play();
+                 last_content_played = adPausePlay;
                  if (playPromise !== undefined) {
                     playPromise.then(_ => {
                       // This means video was loaded and it will display correctly
@@ -267,6 +273,7 @@ function add_displayed_ad(chosen){
       if ($(availableAds[chosen_default_multimedia]).is("video")) {
         availableAds[chosen_default_multimedia].currentTime = 0;
         availableAds[chosen_default_multimedia].play();
+        last_default_content_played = availableAds[chosen_default_multimedia];
       }
     }
 
@@ -291,7 +298,7 @@ function add_displayed_ad(chosen){
     function mediaReady(elem){
       //for each content type, we have a way to verify if the content can be shown
       if($(elem).is("video")){
-        return elem.readyState >= 1 && [1,2].includes(elem.networkState);
+        return elem.readyState == 4 || elem == last_content_played || elem == last_default_content_played;
       } else if($(elem).is("img")){
         return elem.complete && elem.naturalHeight != 0;
       } else {
@@ -317,6 +324,7 @@ function add_displayed_ad(chosen){
       if (next_chosen != "-" && next_chosen != ".") {
         nextAds = $('[data-campaign-id="' + next_chosen + '"]');
         nextAds = filterValidMedia(nextAds);
+        console.log("check if next campaign has ads to download them: "+ filterValidMedia(nextAds).length)
         if (nextAds.length == 0) {
           console.log("next campaign with id " + next_chosen + " has no ads or haven't been completely loaded, requesting them");
           if($('[data-campaign-id="'+next_chosen+'"]').length == 0){
@@ -330,7 +338,11 @@ function add_displayed_ad(chosen){
         defaultContent = filterValidMedia($(".bilbo-official-ad"));
         if (defaultContent.length == 0) {
           console.log("No default content available, trying to download it");
-          reloadContent('-');
+          if($('.bilbo-official-ad').length == 0){
+            requestDefaultAds();
+          } else {
+            reloadContent('-');
+          }
         }
       }
     }
@@ -350,22 +362,47 @@ function add_displayed_ad(chosen){
       })
     }
 
+    function requestDefaultAds() {
+      board_id = $("#board_id").val();
+      Rails.ajax({
+        url: "/board_default_contents/get_default_contents",
+        type: "get",
+        data: "board_id=" + String(board_id),
+        success: function(data) {
+          console.log("retrieved default contents for board ");
+        },
+        error: function(data) {
+          console.log("error retrieving default contents for board");
+        }
+      })
+    }
+
     function reloadContent(campaign_id) {
-      if(campaign_id == '-' && new Date() - last_request_time['-'] > 600000){
+      if(campaign_id == '-' && new Date() - last_request_time['-'] > 300000 || last_request_time['-'] == undefined){
         last_request_time['-'] = new Date();
-        $(".bilbo-official-ad").forEach((item, i) => {
+        $(".bilbo-official-ad").each(function() {
           //re-assign the url of the content for video and image to force a reload/download of the media
-          if(!mediaReady(item) && ($(item).is("video") || $(item).is("img"))) {
-            item.src = item.src;
+          if(!mediaReady(this) && ($(this).is("video") || $(this).is("img"))) {
+           src = this.src
+           this.pause();
+           $(this).removeAttr("src");
+           this.load();
+           $(this).attr("src", src);
+           this.load();
           }
         });
-      } else if(new Date() - last_request_time[campaign_id] > 600000){
+      } else if(new Date() - last_request_time[campaign_id] > 300000 || last_request_time[campaign_id] == undefined){
         last_request_time[campaign_id] = new Date();
         //Get media that is not available to reload it
-        $('[data-campaign-id="' + campaign_id + '"]').forEach((item, i) => {
+        $('[data-campaign-id="' + campaign_id + '"]').each(function() {
           //reload only the contents that aren't completely loaded
-          if(!mediaReady(item) && ($(item).is("video") || $(item).is("img"))) {
-            item.src = item.src;
+          if(!mediaReady(this) && ($(this).is("video") || $(this).is("img"))) {
+            src = this.src
+            this.pause();
+            $(this).removeAttr("src");
+            this.load();
+            $(this).attr("src", src);
+            this.load();
           }
         });
       }
