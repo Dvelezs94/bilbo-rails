@@ -116,6 +116,7 @@ Rails.application.routes.draw do
   end
 
   post '/board_campaigns/multiple_update', to: 'board_campaigns#multiple_update'
+  post '/board_campaigns/get_denied_board_campaigns', to: 'board_campaigns#get_denied_board_campaigns'
 
   resources :boards, only: [:index, :show, :create, :edit, :update] do
     collection do

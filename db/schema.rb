@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_30_173955) do
+ActiveRecord::Schema.define(version: 2021_09_30_184901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "cube"
@@ -130,15 +130,6 @@ ActiveRecord::Schema.define(version: 2021_09_30_173955) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["board_id"], name: "index_board_default_contents_on_board_id"
     t.index ["content_id"], name: "index_board_default_contents_on_content_id"
-  end
-
-  create_table "board_map_photos", force: :cascade do |t|
-    t.bigint "board_id", null: false
-    t.bigint "map_photo_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["board_id"], name: "index_board_map_photos_on_board_id"
-    t.index ["map_photo_id"], name: "index_board_map_photos_on_map_photo_id"
   end
 
   create_table "board_sales", force: :cascade do |t|
@@ -296,6 +287,14 @@ ActiveRecord::Schema.define(version: 2021_09_30_173955) do
     t.index ["project_id"], name: "index_dashboard_players_on_project_id"
   end
 
+  create_table "denied_campaigns_explanations", force: :cascade do |t|
+    t.string "message"
+    t.bigint "boards_campaigns_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["boards_campaigns_id"], name: "index_denied_campaigns_explanations_on_boards_campaigns_id"
+  end
+
   create_table "evidences", force: :cascade do |t|
     t.string "multimedia_data"
     t.bigint "board_id", null: false
@@ -352,13 +351,6 @@ ActiveRecord::Schema.define(version: 2021_09_30_173955) do
     t.datetime "updated_at", null: false
     t.index ["payment_id"], name: "index_invoices_on_payment_id"
     t.index ["user_id"], name: "index_invoices_on_user_id"
-  end
-
-  create_table "map_photos", force: :cascade do |t|
-    t.string "slug"
-    t.text "image_data"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -464,7 +456,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_173955) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-09-22 03:42:34"
+    t.datetime "expires_at", default: "2031-09-22 22:32:57"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
@@ -597,7 +589,6 @@ ActiveRecord::Schema.define(version: 2021_09_30_173955) do
   add_foreign_key "board_dashboard_players", "dashboard_players"
   add_foreign_key "board_default_contents", "boards"
   add_foreign_key "board_default_contents", "contents"
-  add_foreign_key "board_map_photos", "map_photos"
   add_foreign_key "board_sales", "boards"
   add_foreign_key "board_sales", "sales"
   add_foreign_key "boards", "projects"
@@ -610,6 +601,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_173955) do
   add_foreign_key "contents_board_campaigns", "boards_campaigns", column: "boards_campaigns_id"
   add_foreign_key "contents_board_campaigns", "contents"
   add_foreign_key "dashboard_players", "projects"
+  add_foreign_key "denied_campaigns_explanations", "boards_campaigns", column: "boards_campaigns_id"
   add_foreign_key "evidences", "boards"
   add_foreign_key "evidences", "witnesses"
   add_foreign_key "impression_hours", "campaigns"
