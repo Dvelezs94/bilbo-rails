@@ -1,4 +1,4 @@
 class DeniedCampaignsExplanation < ApplicationRecord
   belongs_to :boards_campaigns
-  enum message: { inappropriate_content: 0, too_long_short: 1, budget_very_low: 2, message_not_appropiate: 3, resolution_very_low: 4, choosen_dates_not_aviable: 5 }
+  MESSAGES=[ I18n.t("denied.inappropriate_content"), I18n.t("denied.too_long_short"), I18n.t("denied.budget_very_low"), I18n.t("denied.message_not_appropiate"), I18n.t("denied.resolution_very_low"), I18n.t("denied.choosen_dates_not_aviable") ]
 end

@@ -288,7 +288,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_184901) do
   end
 
   create_table "denied_campaigns_explanations", force: :cascade do |t|
-    t.integer "message"
+    t.string "message"
     t.bigint "boards_campaigns_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
