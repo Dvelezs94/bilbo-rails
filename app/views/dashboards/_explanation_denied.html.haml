@@ -1,0 +1,13 @@
+#modalExplanationCampaignDenied.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", :data-backdrop=>"static"}
+  .modal-dialog.modal-dialog-centered{:role => "document"}
+    .modal-content
+      .modal-body.pd-20
+        %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button", onclick: "$('#content_body').show(); $('#placeholderTable').addClass('d-none');"}
+          %span{"aria-hidden" => "true"} ×
+        %h5.tx-18.tx-sm-20= t("denied.explanation")
+        %p.tx-14= t("denied.selection")
+        = form_for :boards_campaigns do |f|
+          = f.select("message",  DeniedCampaignsExplanation::MESSAGES , { include_blank: true}, {class: "form-control", required: true })
+          = f.hidden_field :denied_campaigns, value: @denied_campaigns
+          .modal-footer
+            = f.submit t("campaign.deny"), class: "btn btn-danger btn-block"

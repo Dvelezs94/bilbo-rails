@@ -970,3 +970,12 @@ en:
       error_player: Error creating player
       error_remove: Error removing bilbo
       add: Add Bilbo
+  denied:
+      inappropriate_content: Inappropriate content
+      too_long_short: The duration of the content is too long or short
+      budget_very_low: The budget is too low
+      message_not_appropiate: The ad message is not appropriate for this Bilbo
+      resolution_very_low: The resolution of the content is too low
+      choosen_dates_not_aviable: This Bilbo is not available on the chosen dates
+      explanation: Explanation of denial of campaigns
+      selection: Select an option to send the explanation and deny the campaign

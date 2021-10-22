@@ -12,6 +12,8 @@ class BoardsCampaigns < ApplicationRecord
     before_save :generate_access_token, :if => :new_record?
     before_update :calculate_remaining_impressions
     after_commit :add_or_stop_campaign, if: :make_broadcast
+    has_many :denied_campaigns_explanation, :dependent => :destroy
+    accepts_nested_attributes_for :denied_campaigns_explanation
 
 
     amoeba do
@@ -73,10 +75,6 @@ class BoardsCampaigns < ApplicationRecord
       elsif approved?
         create_notification(recipient_id: campaign.project.id, actor_id: board.project.id,
                             action: "approved", notifiable: campaign,
-                            reference: board)
-      elsif denied?
-        create_notification(recipient_id: campaign.project.id, actor_id: board.project.id,
-                            action: "denied", notifiable: campaign,
                             reference: board)
       end
     end
