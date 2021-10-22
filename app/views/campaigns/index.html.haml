@@ -1,12 +1,3 @@
-:javascript
-  $(document).on('turbolinks:before-cache', function(){
-    if($("#modalCampaignBoardsUsed").length){
-      $("#modalCampaignBoardsUsed").remove()
-      $("body").removeClass('modal-open')
-      $(".modal-backdrop").remove()
-    }
-  });
-
 = render 'shared/header', menu: "dashboard"
 .content.content-fixed
   .d-flex.align-items-center.justify-content-between.mg-b-20.mg-lg-b-30
