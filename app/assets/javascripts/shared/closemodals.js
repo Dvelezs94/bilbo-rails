@@ -1,7 +1,6 @@
 $(document).on('turbolinks:before-cache', function(){
   $("[id^=modal]").each(function(){
     if(!$(this).hasClass('show')) return; //skip already closed modals
-    console.log(this)
     this.remove() //close the modal
   })
   $('body').removeClass('modal-open')
