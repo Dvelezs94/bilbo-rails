@@ -101,7 +101,7 @@ class BoardCampaignsController < ApplicationController
       else
         flash[:error] = ActionView::Base.full_sanitizer.sanitize("#{I18n.t('campaign.ads_rotation_error.accepted_but_error', error: @board_campaign.board_errors.first, locale: current_user.locale)}")
       end
-      DeniedCampaignsExplanation.where(boards_campaigns_id: board_campaign_id).first_or_create(message: params[:boards_campaigns][:message].to_i)
+      DeniedCampaignsExplanation.where(boards_campaigns_id: board_campaign_id).first_or_create(message: params[:boards_campaigns][:message])
       if !campaigns.include? @board_campaign.campaign
         campaigns.push(@board_campaign)
       end
@@ -115,7 +115,7 @@ class BoardCampaignsController < ApplicationController
         create_notification(recipient_id: notification_campaigns_boards[index][:id].project.id,
                             actor_id: notification_campaigns_boards[index][:boards][0].project.id,
                             action: "denied", notifiable: notification_campaigns_boards[index][:id],
-                            custom_message: notification_campaigns_boards[index][:boards].pluck(:name).join(", ") + " " + I18n.t("denied.#{notification_campaigns_boards[index][:message][0]}"))
+                            custom_message: notification_campaigns_boards[index][:boards].pluck(:name).join(", ") + " " + params[:boards_campaigns][:message])
       end
       redirect_to request.referer
     end

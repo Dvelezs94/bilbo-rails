@@ -48,8 +48,8 @@ class Notification < ApplicationRecord
         if custom_message.present?
           { url: analytics_campaign_url(notifiable.slug),
             url_string: I18n.t("#{translation}.url_string"),
-            message: I18n.t("#{translation}.message", campaign_name: notifiable.name, bilbo_name: custom_message),
-            subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name, bilbo_name: custom_message)  }
+            message: I18n.t("#{translation}.message", campaign_name: notifiable.name, bilbo_name: custom_message.downcase),
+            subject: I18n.t("#{translation}.subject", campaign_name: notifiable.name, bilbo_name: custom_message.downcase)  }
         else
           { url: analytics_campaign_url(notifiable.slug),
             url_string: I18n.t("#{translation}.url_string"),
