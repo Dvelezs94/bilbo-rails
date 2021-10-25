@@ -32,7 +32,7 @@
           = t('alert.more_credits')
           %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
   - if current_project.campaigns.active.size > 0
-    .table-responsive
+    .table-responsive.mn-ht-250
       .custom-control.custom-switch.pos-xs-relative.pos-xl-absolute.pos-lg-absolute.pos-md-absolute.pos-sm-absolute.pd-xl-t-5.pd-lg-t-5.pd-md-t-5.pd-sm-t-5
         = check_box_tag "campaignsSwitch", nil, current_user.show_recent_campaigns, class: "custom-control-input", data: {url: toggle_show_recent_campaigns_admin_user_path(current_user.id), :remote => :true, :method => :post}
         %label.custom-control-label{:for => "campaignsSwitch"}=t('account_settings.show_recent_campaigns')
