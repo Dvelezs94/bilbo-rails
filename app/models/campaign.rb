@@ -521,17 +521,21 @@ class Campaign < ApplicationRecord
 
   # Used to display the remaining active days of the campaign on the wizard
   def active_days
-     days = ((self.ends_at - self.starts_at)/1.days + 1).to_i rescue 1
-     if Time.now > self.starts_at
+    days = ((self.ends_at - self.starts_at)/1.days + 1).to_i rescue 1
+    begin
+      if Time.now > self.starts_at
         days -= ((Time.now - self.starts_at)/1.days).to_i
-     end
-     return [days, 0].max
+      end
+    rescue
+      return 1
+    end
+    return [days, 0].max
   end
 
   # used for the FRONTEND only
   def duration_in_days
     days = ((self.ends_at - self.starts_at)/1.days + 1).to_i rescue 1
-    if active_days == 1
+    if active_days == 1 && !(self.starts_at.present? && self.ends_at.present?)
       return "-"
     else
       return days
@@ -574,17 +578,5 @@ class Campaign < ApplicationRecord
   def max_impressions(board)
     bc = board_campaigns.find_by(board: board)
     return (bc.budget/(board.get_cycle_price(self, bc)*self.duration/board.duration)).to_i
-  end
-
-  def expected_investment
-    begin
-      if starts_at.present? && ends_at.present? && classification == "budget"
-        budget * duration_in_days
-      else
-        "undefined"
-      end
-    rescue
-      0
-    end
   end
 end
