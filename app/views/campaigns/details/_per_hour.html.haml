@@ -5,10 +5,10 @@
             %th.tx-gray-2= t("campaign.classification.#{@campaign.classification}")
         %tr.bd-hidden
             %th.wd-50p.tx-14.tx-gray-3= t("campaign.wizard.campaign_duration")
-            %th.tx-gray-2= "#{@campaign.duration_in_days} #{t('week_days.days')}"
+            %th.tx-gray-2= "#{@campaign.duration_in_days} #{t('week_days.days') if @campaign.duration_in_days != "-"}"
         %tr.bd-hidden
             %th.wd-50p.tx-14.tx-gray-3= t("campaign.dates")
-            %th.tx-gray-2= "#{I18n.l(@campaign.starts_at.to_date, format: :short) rescue '-'} - #{I18n.l(@campaign.ends_at.to_date, format: :short) rescue '-'}"
+            %th.tx-gray-2= "#{I18n.l(@campaign.starts_at.to_date, format: :short) + ' - ' + I18n.l(@campaign.ends_at.to_date, format: :short) rescue t('campaign.wizard.ongoing_campaign')}"
         %tr.bd-hidden
             %th.wd-50p.tx-14.tx-gray-3= t("campaign.objective")
             %th.tx-gray-2= t("campaign.objectives.#{@campaign.objective}")
@@ -20,4 +20,3 @@
     %ul.list-group
     - @campaign.impression_hours.each do |hr|
         %li.list-group-item= "#{t("week_days.#{hr.day}")} #{t("general_inputs.from")} #{hr.start.strftime('%I:%M %p')} #{t("campaign.wizard.to")} #{hr.end.strftime('%I:%M %p')}"
-            
