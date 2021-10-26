@@ -20,8 +20,8 @@
           %th.col-4= t("bilbos.ads")
       %tbody#content_inf
       #selected_content_campaign
-.container.d-none#spinner_table{style: "display: flex; align-items: center; justify-content: center;"}
-  .spinner-border{role:"status"}
-    %span.sr-only Loading...
+    .container.d-none#spinner_table{style: "display: flex; align-items: center; justify-content: center;"}
+      .spinner-border{role:"status"}
+        %span.sr-only Loading...
 %input#campaign_id.d-none{:readonly => "readonly", :value => "#{@campaign.slug}"}/
 %span#error_adding.d-none= t('content.adding_content')
