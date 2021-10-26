@@ -958,3 +958,7 @@ a.disabled {
 .rounded-tl {
   border-top-left-radius: 0.5rem !important;
 }
+
+.mx-ht-600 {
+  max-height: 600px;
+}

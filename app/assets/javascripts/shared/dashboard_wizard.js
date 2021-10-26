@@ -737,7 +737,13 @@ function content_info(){
     url:  "/campaigns/"+$("#campaign_id").val()+"/get_boards_content_info",
     dataType: "script",
     data: {selected_boards: selected_boards},
+    beforeSend: function() {
+      $("#spinner_table").removeClass("d-none");
+      $("#content_inf").addClass("d-none");
+   },
     success: function(data) {
+      $("#spinner_table").addClass("d-none")
+      $("#content_inf").removeClass("d-none");
     },
     error: function(data) {
       alert("Oops.. Ocurrio un error..");
