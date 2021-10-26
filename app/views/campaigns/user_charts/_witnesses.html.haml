@@ -8,7 +8,7 @@
         = form_with(model: @witness, local: true) do |form|
           = form.hidden_field :campaign_id, value: "#{@campaign.id}"
           = form.submit "#{t('witness.request_witnesses')}", class: 'btn btn-sm  btn-outline-secondary btn-uppercase btn-xs'
-    -if @campaign.witnesses.present? && current_user.present?
+    -if @campaign.witnesses.present?
       %ul.card.activity-table.list-group.list-group-flush.tx-13{:style => "height: 340px;"}
         -@witnesses.each do |witness|
           %li.list-group-item.d-flex.pd-sm-x-20
@@ -19,7 +19,7 @@
               -if witness.pending?
                 %button.btn.btn-warning.btn-uppercase.btn-xs{:type => "button"}= t('evidence.pending')
               -else
-                = link_to evidences_witness_modal_witness_path(witness), {:onclick => "setTimeout(function() {initLightbox();}, 500);", :method => "get", :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: "btn btn-primary btn-uppercase btn-xs pd-l-30 pd-r-30"} do
+                = link_to evidences_witness_modal_witness_path(witness, {:project_slug => @campaign.project.slug}), {:onclick => "setTimeout(function() {initLightbox();}, 500);", :method => "get", :remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', class: "btn btn-primary btn-uppercase btn-xs pd-l-30 pd-r-30"} do
                   = t('evidence.view')
                   %i{"class" => "fa fa-arrow-right", "aria-hidden" => "true"}
     -else
