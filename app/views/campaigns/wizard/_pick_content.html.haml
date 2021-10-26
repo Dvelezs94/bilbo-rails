@@ -9,7 +9,7 @@
         .input-group-prepend
           = f.select(:duration, [["10 #{t("bilbos.sec")}", 10],["20 #{t("bilbos.sec")}", 20],["30 #{t("bilbos.sec")}", 30],["40 #{t("bilbos.sec")}", 40],["50 #{t("bilbos.sec")}", 50],["60 #{t("bilbos.sec")}", 60]], {selected: ["#{@campaign.duration} #{t("bilbos.sec")}", @campaign.duration]}, { :class => 'custom-select mg-l-30', id:"campaign_bilbo_duration" })
   .col-12
-    %table.table.table-responsive
+    %table.table.table-responsive.mx-ht-600
       %thead.bg-ui-01
         %tr.ht-45
           %th.col-2
@@ -20,5 +20,8 @@
           %th.col-4= t("bilbos.ads")
       %tbody#content_inf
       #selected_content_campaign
+.container.d-none#spinner_table{style: "display: flex; align-items: center; justify-content: center;"}
+  .spinner-border{role:"status"}
+    %span.sr-only Loading...
 %input#campaign_id.d-none{:readonly => "readonly", :value => "#{@campaign.slug}"}/
 %span#error_adding.d-none= t('content.adding_content')
