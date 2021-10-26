@@ -1,5 +1,5 @@
 class WitnessesController < ApplicationController
-  access [:user, :provider] => :all
+  access all: [:evidences_witness_modal], [:user, :provider] => :all
   before_action :validate_user_present, only: [:get_campaign, :create, :validate_weekly_generation]
   before_action :get_campaign, only: [:create, :validate_weekly_generation]
   before_action :validate_weekly_generation, only: [:create]
