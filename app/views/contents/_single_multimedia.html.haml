@@ -1,4 +1,4 @@
-.col-sm-12.col-md-4.col-lg-3.pd-b-5.pd-md-l-0.mmcard.mg-t-10{"data-multimedia-type": content.get_format}
+.col-sm-12.col-md-4.col-lg-3.pd-b-5.pd-md-l-0.mmcard.mg-t-10{"data-content": content.id, "data-multimedia-type": content.get_format, "data-processed": "#{content.processed?}"}
   .card.card-file
     .card-file-thumb.bg-white
       -if content.is_video?
@@ -50,5 +50,7 @@
           = number_to_human_size(content.multimedia(:transcoded).size, precision: 2) rescue ""
         - else
           = number_to_human_size(content.multimedia(:large).size, precision: 2) rescue ""
+      -else
+        %i.fe.fe-sync.cursor-pointer{id: "reload_single_content_#{content.id}", onclick: "get_single_content(#{content.id})" }
       = link_to raw("<i class='fe fe-trash fnt-md tx-danger a-right'></i>"), content_path(content), class: "float-right", method: :delete, data: { confirm: t("general_inputs.delete_confirmation") }
 / col
