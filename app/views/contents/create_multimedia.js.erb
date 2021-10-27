@@ -1,3 +1,4 @@
 elem = $("#multimediaElements")
 elem.prepend('<%= j (render partial: "contents/single_multimedia", locals: {content: @content}) %>');
 initialize_content_filter();
+auto_fetch_content("<%= @content.id %>");
