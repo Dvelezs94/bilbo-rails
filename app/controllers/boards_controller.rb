@@ -131,7 +131,11 @@ class BoardsController < ApplicationController
 
   # provider boards
   def owned
-    @boards = current_project.boards.search(params[:search_board]).order(created_at: :desc).page(params[:page])
+    @boards = Kaminari.paginate_array(current_project.boards.search(params[:search_board]).order(created_at: :desc)).page(params[:upcoming_page]).per(15)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def loading
