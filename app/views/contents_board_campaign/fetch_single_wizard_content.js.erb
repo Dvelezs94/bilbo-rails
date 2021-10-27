@@ -1,10 +1,17 @@
 elem = $("div[data-content=<%= @content.id %>]");
 <% if @content.processed? %>
+if(window.location.href.indexOf("contents") > -1) {
+  elem.replaceWith('<%= j (render partial: "contents/single_multimedia", locals: {content: @content}) %>');
+  initialize_content_filter();
+  elem = $("div[data-content=<%= @content.id %>]");
+}else{
   elem.replaceWith('<%= j (render partial: "campaigns/wizard/single_content_modal", locals: {content: @content}) %>');
   select_content();
   initialize_content_filter();
   elem = $("div[data-content=<%= @content.id %>]");
   elem.click();
+}
+
 <% else %>
   show_notice("<%= I18n.t('ads.processing', filename: @content.multimedia.metadata['filename']) %>")
 <% end %>
