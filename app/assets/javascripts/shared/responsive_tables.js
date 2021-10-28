@@ -19,7 +19,7 @@ $(document).on('turbolinks:load', function() {
       minimumResultsForSearch: Infinity
     });
 
-    if ($('#userCampaignTable').DataTable().data().any() == 1) {
+    if ($('#userCampaignTable').DataTable().data().length 1) {
       $('#userCampaignTable').addClass("mn-ht-100")
     } else if ($("#userCampaignTable").hasClass("mn-ht-100")) {
       $('#userCampaignTable').removeClass("mn-ht-100")
