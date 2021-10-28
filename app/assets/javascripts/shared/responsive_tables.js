@@ -5,8 +5,8 @@ $(document).on('turbolinks:load', function() {
 
       responsive: true,
       pageLength: 100,
-      columnDefs: [ {
-        "targets"  : 'no-sort',
+      columnDefs: [{
+        "targets": 'no-sort',
         "orderable": false
       }],
       language: {
@@ -15,7 +15,13 @@ $(document).on('turbolinks:load', function() {
         lengthMenu: '_MENU_ items/page'
       }
     });
-    $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+    $('.dataTables_length select').select2({
+      minimumResultsForSearch: Infinity
+    });
+
+    if ($('#userCampaignTable').DataTable().data().length == 1) {
+      $('#userCampaignTable').addClass("mn-ht-100")
+    }
   }
 
   if ($("#invoicesTable").length) {
@@ -29,15 +35,17 @@ $(document).on('turbolinks:load', function() {
         lengthMenu: '_MENU_ items/page'
       }
     });
-    $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+    $('.dataTables_length select').select2({
+      minimumResultsForSearch: Infinity
+    });
   }
 
   if ($("#boardsTable").length) {
     $('#boardsTable').DataTable({
       responsive: true,
       pageLength: 25,
-      columnDefs: [ {
-        "targets"  : 'no-sort',
+      columnDefs: [{
+        "targets": 'no-sort',
         "orderable": false,
       }],
       language: {

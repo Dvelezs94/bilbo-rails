@@ -20,7 +20,8 @@
           %button.btn{:type => "submit"}
             %i.fe.fe-search
 
-    .row.row-xs
+    .row.row-xs#boardElements
       = render partial: "boards/provider/board_row", collection: @boards, as: :board
-      .col-12
-        = paginate @boards, theme: 'twitter-bootstrap-4', pagination_class: "justify-content-center"
+  .col-12
+    .container#paginator.text-center.tx-13
+      = link_to_next_page @boards, "#{t("bilbos.more_bilbos")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "upcoming_page"

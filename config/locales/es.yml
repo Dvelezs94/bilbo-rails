@@ -491,6 +491,7 @@ es:
     image: Imagen
     both_image_video: Imagen, video
     rotation_degrees: Grados de rotación
+    more_bilbos: Ver más bilbos
     ads_rotation_error:
       max_budget_impressions: La campaña sobrepasa el máximo de impresiones en el bilbo %{name}
       max_minutes_impressions: No se pueden hacer más de %{number} impresiones en el tiempo dado
