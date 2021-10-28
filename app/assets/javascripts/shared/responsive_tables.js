@@ -16,6 +16,12 @@ $(document).on('turbolinks:load', function() {
       }
     });
     $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+
+    if($('#userCampaignTable').DataTable().data().any() == 1 ){
+      $('#userCampaignTable').addClass("mn-ht-100")
+    } else if ($( "#userCampaignTable" ).hasClass( "mn-ht-100" )) {
+      $('#userCampaignTable').removeClass("mn-ht-100")
+    }
   }
 
   if ($("#invoicesTable").length) {
