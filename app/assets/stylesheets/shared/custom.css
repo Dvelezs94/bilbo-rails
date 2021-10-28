@@ -962,3 +962,6 @@ a.disabled {
 .mx-ht-600 {
   max-height: 600px;
 }
+
+.mn-ht-100 {
+  min-height: 100px; }
