@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
   before_action :validate_project_count, only: :destroy
 
   def index
-    @projects = current_user.projects.includes(:project_users, :campaigns, :ads).enabled
+    @projects = current_user.projects.includes(:project_users, :campaigns).enabled
   end
 
   def create

@@ -12,7 +12,6 @@ class Project < ApplicationRecord
   has_many :project_users
   has_many :users, through: :project_users
   has_many :campaigns
-  has_many :ads
   has_many :boards
   has_many :reports
   has_many :contents

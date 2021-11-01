@@ -27,7 +27,6 @@
       = render partial: "campaigns/wizard/summary", locals: {f: f}
       = f.hidden_field :content_ids, value: "", id: "content_ids"
 
-= render partial: "ads/new"
 = render 'campaign_offcanvas_wizard'
 = form_with url: boards_path, method: :get, id: "filter-bilbos",class: "send-on-change d-none", remote: true do |f| # content in [data-form='filter-bilbos'] div, because this form cant be inside edit campaigns form
   = f.submit "Enviar", class: "d-none"
