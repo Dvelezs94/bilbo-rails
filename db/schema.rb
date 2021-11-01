@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_30_184901) do
+ActiveRecord::Schema.define(version: 2021_10_29_170103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "cube"
@@ -38,20 +38,6 @@ ActiveRecord::Schema.define(version: 2021_09_30_184901) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
-  end
-
-  create_table "ads", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.bigint "project_id"
-    t.string "multimedia"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "slug"
-    t.integer "status", default: 0
-    t.integer "duration", default: 10
-    t.index ["project_id"], name: "index_ads_on_project_id"
-    t.index ["slug"], name: "index_ads_on_slug", unique: true
   end
 
   create_table "ads_campaigns", id: false, force: :cascade do |t|
@@ -456,7 +442,7 @@ ActiveRecord::Schema.define(version: 2021_09_30_184901) do
   create_table "shorteners", force: :cascade do |t|
     t.string "target_url"
     t.string "token"
-    t.datetime "expires_at", default: "2031-09-22 22:32:57"
+    t.datetime "expires_at", default: "2031-10-29 17:03:24"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "qr"
@@ -584,7 +570,6 @@ ActiveRecord::Schema.define(version: 2021_09_30_184901) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "ads", "projects"
   add_foreign_key "board_dashboard_players", "boards"
   add_foreign_key "board_dashboard_players", "dashboard_players"
   add_foreign_key "board_default_contents", "boards"
@@ -595,7 +580,6 @@ ActiveRecord::Schema.define(version: 2021_09_30_184901) do
   add_foreign_key "boards_campaigns", "sales"
   add_foreign_key "campaign_denials", "campaigns"
   add_foreign_key "campaign_subscribers", "campaigns"
-  add_foreign_key "campaigns", "ads"
   add_foreign_key "campaigns", "projects"
   add_foreign_key "contents", "projects"
   add_foreign_key "contents_board_campaigns", "boards_campaigns", column: "boards_campaigns_id"

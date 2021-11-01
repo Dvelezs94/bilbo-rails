@@ -30,9 +30,8 @@ class VerificationsControllerTest < ActionDispatch::IntegrationTest
     @verification
     @user.verifications.last.accepted!
     @user.update(verified: true)
-    @ad = create(:ad, name: "Coca-Cola", project_id: @user.projects.last.id)
     @board = create(:board, project_id: @user.projects.last.id, name: "LUFFY", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "5000", face: "north")
-    @camp1 = create(:campaign, name: "on", project_id: @user.projects.last.id, description: nil, state: false, ad_id: @ad.id, budget: 100, classification: "budget", boards: [@board], budget: 350, state_updated_at: nil, status: "active", provider_campaign: @user.is_provider?)
+    @camp1 = create(:campaign, name: "on", project_id: @user.projects.last.id, description: nil, state: false, budget: 100, classification: "budget", boards: [@board], budget: 350, state_updated_at: nil, status: "active", provider_campaign: @user.is_provider?)
     assert true, @camp1.on
   end
 

@@ -16,7 +16,7 @@
         -#content = content.select{|c| c.multimedia.content_type.include? "image"}
       = render partial: "campaigns/board_campaign", collection: content, as: :media, locals: {campaign: campaign, board: @board}
   #bilbo-ad.overflow-hidden
-    = render partial: "ads/bilbo_ad"
+    = render partial: "contents/bilbo_ad"
   #bilbo-integrations.overflow-hidden{style: "display: none;"}
   %input#ads_rotation.d-none{:readonly => "readonly", :value => "#{@board.add_bilbo_campaigns}"}/
   %input#board_id.d-none{:readonly => "readonly", :value => "#{@board.id}"}/

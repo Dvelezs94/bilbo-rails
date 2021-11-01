@@ -75,12 +75,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :ads do
-    resources :attachments, only:  [:create, :destroy, :update]
-      collection do
-        get :wizard_fetch
-      end
-  end
   resources :campaigns do
     member do
       get :get_boards_content_info

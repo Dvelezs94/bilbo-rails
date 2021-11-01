@@ -3,7 +3,7 @@ namespace :set_impression_duration do
   task :run => :environment do
     Campaign.all.each do |camp|
       begin
-        duration = camp.ad.duration
+        duration = camp.duration
       rescue
         duration = 10
       end

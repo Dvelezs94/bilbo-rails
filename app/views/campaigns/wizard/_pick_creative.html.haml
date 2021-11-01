@@ -1,7 +1,0 @@
-%h3= t("campaign.wizard.pick_ad")
-%section.mg-t-15
-  = f.text_field :ad_id, :class => "d-none", required: true, readonly: true
-  .row#ads_body.wizard-height{:onscroll => "scroll_ads();"}
-    = render partial: "ads/new_ad_card"
-    = render :partial => 'ads/overview_card', collection: @ad_upcoming, as: :ad
-    = render :partial => 'paginator'

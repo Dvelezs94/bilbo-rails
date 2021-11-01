@@ -13,7 +13,6 @@ class Campaign < ApplicationRecord
   has_many :campaign_denials
   has_many :impression_hours
   accepts_nested_attributes_for :impression_hours, reject_if: :all_blank, allow_destroy: true
-  belongs_to :ad, optional: true
   has_many :board_campaigns, class_name: "BoardsCampaigns", before_add: :set_budget
   has_many :boards, through: :board_campaigns
   has_many :provider_invoices
@@ -52,14 +51,11 @@ class Campaign < ApplicationRecord
   validate :validate_price_steps, if: :is_per_budget?
   validates :name, presence: true
   validates :provider_campaign, inclusion: [true, false]
-  #validates :ad, presence: true, on: :update
   validate :validate_content, on: :update, if: :contents_present?
   validate :project_enabled?
   # validate :state_change_time, on: :update,  if: :state_changed?
   validate :check_user_verified, on: :update,  if: :state_changed?
   validate :cant_update_when_active, on: :update
-  #validate :validate_ad_stuff, on: :update
-  #validate :ad_processed, on: :update
   validate :test_for_valid_settings
   validate :check_build_ad_rotation, if: :provider_campaign
   validates :link, format: URI::regexp(%w[http https]), allow_blank: true
@@ -146,16 +142,6 @@ class Campaign < ApplicationRecord
     !(self.starts_at? && self.ends_at?)
   end
 
-  # Function to know if the campaign has multimedia files in the ad
-  def has_multimedia?
-   ad.present? && ad.multimedia.first.present?
-  end
-
-  def ad_processed
-    if self.state_is_true? && has_multimedia? &&  !Ad.find(self.ad_id).processed?
-      errors.add(:base, I18n.t('campaign.errors.processing_creatives'))
-    end
-  end
 
   # def have_to_set_in_review_on_boards
   #   return ad_id_changed? || budget_changed? || minutes_changed? || imp_changed? || hour_start_changed? || hour_finish_changed? || starts_at_changed? || ends_at_changed?
@@ -339,21 +325,6 @@ class Campaign < ApplicationRecord
     #if state_updated_at is nil, is the first time they update
     time_elapsed = (state_updated_at.present?)? ((Time.now - state_updated_at)/1.minutes).minutes : minutes_needed
     return (time_elapsed >= minutes_needed)
-  end
-
-  def validate_ad_stuff
-    if self.ad.nil?
-      errors.add(:base, I18n.t('campaign.errors.no_ad'))
-      return
-    end
-    if boards.images_only.count > 0
-      if !ad.has_images?
-        errors.add(:base, I18n.t('campaign.errors.no_images'))
-        return
-      end
-    end
-    errors.add(:base, I18n.t('campaign.errors.no_multimedia')) if self.ad.multimedia.empty?
-    errors.add(:base, I18n.t('campaign.errors.ad_deleted')) if self.ad.deleted?
   end
 
   def state_is_true?

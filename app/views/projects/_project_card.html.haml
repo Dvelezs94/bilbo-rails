@@ -11,7 +11,7 @@
               = link_to raw("<i class='fe fe-trash'></i> " + t("projects.delete_project")), project_path(project.slug), method: :delete, class: "dropdown-item tx-danger confirm", data: { confirm: t("general_inputs.confirm_deletion"), title: t("general_inputs.confirm_submit"), commit: t("general_inputs.confirm"), cancel: t("general_inputs.cancel") }
       %p.card-text.tx-14.tx-color-03
         = "#{project.campaigns.running.size} #{t('campaign.active_campaigns')}"
-        ● #{"#{project.ads.size} #{t('ads.ads')}"}
+        ● #{"#{project.contents.size} #{t('ads.ads')}"}
       .d-flex.align-items-center.justify-content-between.pd-b-10
         .img-group.img-group-sm
           - project.project_users.first(5).each do |u|
