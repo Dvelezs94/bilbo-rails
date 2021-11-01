@@ -1,9 +1,0 @@
-$("#paginator a").hide();
-$("#ads_body").append('#{escape_javascript render(partial: "shared/loading_ads")}');
-setTimeout(function() {
-$('#spinner').remove();
-$('#ads_body').append('#{escape_javascript render(partial: "overview_card", collection: @ad_upcoming, as: :ad)}');
-setImageLoader();
-$('#paginator').html('#{escape_javascript(link_to_next_page @ad_upcoming, "#{t("ads.more_ads")}"'<i class="ion-arrow-down-c" style="padding-left:5px;"></i>'.html_safe, :remote => true, :param_name => "ad_upcoming_page")}');
-$("#paginator a").show();
-}, 1000);

@@ -5,9 +5,6 @@ class AdsRotationTest < ActionDispatch::IntegrationTest
     @user = create(:user,name: "Provider" , email: "#{name}@bilbo.mx".downcase, roles: "provider")
     @project = @user.projects.first
     @board = create(:board, project: @project, name: "Board", lat: "180558", lng: "18093", avg_daily_views: "800000", width: "1280", height: "720", address: "mineria 908", category: "A", base_earnings: "75000", provider_earnings: "60000", face: "north", start_time: Time.zone.parse("8:00"), end_time: Time.zone.parse("02:00"), steps: false)
-    # @ad_10 = create(:ad, name: "10 secs", project: @project, duration: 10)
-    # @ad_20 = create(:ad, name: "20 secs", project: @project, duration: 20)
-    # @ad_30 = create(:ad, name: "30 secs", project: @project, duration: 30)
   end
 
   ########################################### Start Cases that must pass ###################################

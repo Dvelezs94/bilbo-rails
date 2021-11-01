@@ -414,17 +414,6 @@ $(document).on('turbolinks:load', function () {
       $('#max_impressions').val(max_impr);
     }
 
-    // calculate board prints
-    function getadwizard() {
-      $.ajax({
-        url: '/ads/wizard_fetch',
-        dataType: 'script',
-        data: {
-          ad_id: $('#campaign_ad_id').val(),
-        },
-      });
-    }
-
     $('#date_campaign').click(function () {
       $('#campaign_starts_at').prop('required', true);
       $('#campaign_ends_at').prop('required', true);

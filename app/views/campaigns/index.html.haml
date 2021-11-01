@@ -66,7 +66,6 @@
 / content
 - if current_project.owned?(current_user.id) && current_user.is_user? && @show_hint
   = render partial: "notifications/missing_steps"
-  = render partial: "ads/new"
 -if current_user.is_user? && current_user.sign_in_count == 0
   = render partial: "campaigns/business_type"
 -if current_user.is_provider? && @witness.present?
