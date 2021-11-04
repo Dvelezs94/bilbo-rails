@@ -525,7 +525,7 @@ function summaryContentsLoaded(){
   });
   //if the array contains only true values, then the contents are ready
   if( !loaded.includes(false) ){
-    showOrHideSizeAlert();
+    showOrHideSizeAlert($(board).attr('new-width'), $(board).attr('new-height') );
     clearInterval(checkContents)
     //Hide all loading effects
     slug_array.forEach((item, i) => {
@@ -534,29 +534,48 @@ function summaryContentsLoaded(){
   }
 }
 
-function showOrHideSizeAlert(){
+function showOrHideSizeAlert(board_width, board_height){
   $(".carousel").each(function(){
     // Show or hide message for the first image on each carousel
     slug = String(this.id).slice(9)
-    board = $("#selected_boards [data-slug=" + slug + "]")[0]
-    //verify that the carousel is from a board
-    if(board == undefined) return;
-    first_image = this.getElementsByClassName('active')[0].children[0]
-    board_width = $(board).attr('new-width')
-    board_height = $(board).attr('new-height')
-    // ratio_difference = Math.abs( 1 - (first_image.naturalWidth / first_image.naturalHeight) / (board_width / board_height))
-    ratio_difference = Math.abs(1 - first_image.naturalWidth * board_height / (first_image.naturalHeight * board_width)) //Same as commented line above, but reducing rounding errors
+    if($("#selected_boards").length){
+      board = $("#selected_boards [data-slug=" + slug + "]")[0]
+      board_width = $(board).attr('new-width')
+      board_height = $(board).attr('new-height')
+      //verify that the carousel is from a board
+      if(board == undefined) return;
+      first_image = this.getElementsByClassName('active')[0].children[0]
+    } else {
+      //if have lightbox needs get the children of div
+      first_image = this.getElementsByClassName('active')[0].children[0].children[0]
+    }
+    if($(first_image).is("img")){
+      // ratio_difference = Math.abs( 1 - (first_image.naturalWidth / first_image.naturalHeight) / (board_width / board_height))
+      ratio_difference = Math.abs(1 - first_image.naturalWidth * board_height / (first_image.naturalHeight * board_width)) //Same as commented line above, but reducing rounding errors
+    } else {
+      ratio_difference = Math.abs(1 - first_image.videoWidth * board_height / (first_image.videoHeight * board_width))
+    }
+
     if(ratio_difference >= 0.03){
       $("#wrong_size_alert_"+slug)[0].classList.remove('d-none')
     }
     // show or hide message for the rest of the images on the carousel
     $(this).on('slid.bs.carousel', function(e){
       slug = String(this.id).slice(9)
-      board = $("#selected_boards [data-slug=" + slug + "]")[0]
-      board_width = $(board).attr('new-width')
-      board_height = $(board).attr('new-height')
-      new_img = e.relatedTarget.children[0]
-      ratio_difference = Math.abs(1 - new_img.naturalWidth * board_height / (new_img.naturalHeight * board_width))
+      if($("#selected_boards").length){
+        board = $("#selected_boards [data-slug=" + slug + "]")[0]
+        board_width = $(board).attr('new-width')
+        board_height = $(board).attr('new-height')
+        new_img = e.relatedTarget.children[0]
+      } else {
+        //if have lightbox needs get the children of div
+        new_img = e.relatedTarget.children[0].children[0]
+      }
+      if($(new_img).is("img")){
+        ratio_difference = Math.abs(1 - new_img.naturalWidth * board_height / (new_img.naturalHeight * board_width))
+      } else {
+        ratio_difference = Math.abs(1 - new_img.videoWidth * board_height / (new_img.videoHeight * board_width))
+      }
       if(ratio_difference >= 0.03){
         $("#wrong_size_alert_"+slug)[0].classList.remove('d-none')
       } else {
