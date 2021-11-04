@@ -11,6 +11,7 @@ class BoardUploadWorker
 
   def perform(file, project_id)
     files = {} #Store all the files in this hash to avoid downloading a single file multiple times
+    map_photos = {}
     successful = 0 #Count the successful uploads
     @errors = []
     CSV.new((Rails.env.development?? File.open(file) : open(file)), :headers => true).each_with_index do |row, index|
@@ -131,14 +132,23 @@ class BoardUploadWorker
       brd_errors = []
       if row["Imagenes"].present?  #Load images from urls if they are provided
         row["Imagenes"].split().each_with_index do |url, index|
-          if files.keys.include? url
-            image = files[url]
-            image.rewind
+          if map_photos.keys.include? url
+            image_id = map_photos[url]
+            board_map_photo = BoardMapPhoto.new
+              board_map_photo.board_id = @board.id
+              board_map_photo.map_photo_id = image_id
+              board_map_photo.save
           else
             begin #Make sure that the content can be retrieved
               image = open(url)
-              if image.content_type.in? ["image/jpg","image/jpeg","image/png","video/mp4"]
-                files[url] = image
+              if image.content_type.in? ["image/jpg","image/jpeg","image/png"]
+                photo = image_data(image, image.content_type, File.basename(url))
+                map_photo = MapPhoto.create(image_data: photo)
+                map_photos[url] = map_photo.id
+                board_map_photo = BoardMapPhoto.new
+                  board_map_photo.board_id = @board.id
+                  board_map_photo.map_photo_id = map_photo.id
+                  board_map_photo.save
               else
                 brd_errors.append("El enlace #{url} no contiene un archivo multimedia valido (se encontro #{image.content_type})")
                 next
@@ -148,8 +158,6 @@ class BoardUploadWorker
               next
             end
           end
-          photo = image_data(image, image.content_type, File.basename(url))
-          photo_created = @board.board_photos.create(image_data: photo)
         end
       end
       if row["Imagenes default"].present? #Load default images from urls if they are provided, else set the default bilbo image

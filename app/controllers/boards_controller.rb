@@ -216,7 +216,7 @@ class BoardsController < ApplicationController
             end
           end
         end
-        flash[:success] = "Board created. Don't forget to add the map iamges!"
+        flash[:success] = "Board created. Don't forget to add the map images!"
         redirect_to edit_board_path(@board)
       else
         flash[:error] = "Could not save board"
