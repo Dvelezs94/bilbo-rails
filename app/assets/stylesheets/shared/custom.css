@@ -965,3 +965,32 @@ a.disabled {
 
 .mn-ht-100 {
   min-height: 100px; }
+
+.con {
+  position: relative; }
+
+.con img {
+  display: block;
+}
+
+#play-div {
+    position: absolute;
+    top: 0;
+    text-align: end;
+}
+
+#play{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100px;
+    text-align: right;
+}
+.size-preview{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+}

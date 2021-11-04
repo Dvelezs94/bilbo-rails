@@ -3,10 +3,15 @@
     .card-file-thumb.bg-white
       -if content.is_video?
         - begin
-          = link_to content.multimedia_url(:transcoded), class: "glightbox img-inherit", :data => {caption: content.multimedia.metadata["filename"], group: ""} do
-            = image_tag content.multimedia_url(:large), class: "img-inherit", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted'
+          = link_to content.multimedia_url(:transcoded), class: "glightbox img-inherit op-9", :style=> "background: lightgray;",:data => {caption: content.multimedia.metadata["filename"], group: ""} do
+            .con.img-inherit
+              = image_tag content.multimedia_url(:large), class: "img-inherit op-5", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted'
+              #play-div.img-inherit
+                %span.material-icons.tx-40-f#play{style: "color: white;"}
+                  play_circle_outline
+              //%i.fe.fe-play
         - rescue
-          = image_tag "construction_video.gif", class: "img-inherit"
+          = image_tag "construction_video.gif", class: "img-inherit op-5"
       -elsif content.is_url?
         = link_to content.url, class: "glightbox img-inherit", :data => {caption: content.url, group: ""} do
           %iframe.no-pointer{:src => "#{content.url}", class: "img-inherit", :scrolling => "no"}

@@ -81,19 +81,21 @@ class ContentsController < ApplicationController
   end
 
   def contents_modal_review
-    if BoardsCampaigns.find(params[:id]).contents_board_campaign.present?
+    board_campaign = BoardsCampaigns.find(params[:id])
+    @board = board_campaign.board
+    if board_campaign.contents_board_campaign.present?
       if params[:images_only] == "true"
         @objects = []
-        BoardsCampaigns.find(params[:id]).contents_board_campaign.each do |cbc|
+        board_campaign.contents_board_campaign.each do |cbc|
           if cbc.content.is_image? || cbc.content.is_url?
             @objects.push(cbc.content)
           end
         end
       else
         @objects = []
-        BoardsCampaigns.find(params[:id]).contents_board_campaign.map{|cbc| @objects.push(cbc.content)}
+        board_campaign.contents_board_campaign.map{|cbc| @objects.push(cbc.content)}
       end
-      render  'contents_modal_review', :locals => {:obj => @objects}
+      render  'contents_modal_review', :locals => {:obj => @objects, :board => @board}
     end
   end
 

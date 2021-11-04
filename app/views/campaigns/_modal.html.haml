@@ -1,36 +1,42 @@
 .modal-header
-  %h6#adViewModal.modal-title Multimedia
-  %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
-    %span{"aria-hidden" => "true"}
-      x
+  %h5.modal-title=t('campaign.wizard.ad_preview')
+  %button.close.pos-absolute.t-15.r-20{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+    %span{"aria-hidden" => "true"} &#215;
 .modal-body
-  .df-example
-    #carouselExample5.carousel.slide.carousel-fade{"data-ride" => "carousel"}
-      %ol.carousel-indicators
-      .carousel-inner.bg-dark
+  .container.h-100
+  .row.align-items-center.h-100
+
+    .carousel.slide.m-auto.board-size-preview.rounded{id: "carousel-#{@board.slug}", "data-ride" => "carousel", style: "width: #{@board.size_change[1].to_i}px; height: #{@board.size_change[0].to_i}px"}
+      .carousel-inner.center_image_vertically{style: "position: static !important;"}
         - if @objects.present?
           - @objects.each.with_index do |media,i|
-            %div{class: "carousel-item #{'active' if i == 0}"}
+            %div{class: "carousel-item #{'active' if i == 0}", style: "height: #{@board.size_change[0].to_i}px"}
               -if media.is_video?
-                = link_to media.multimedia_url(:transcoded), class: "glightbox", :data => {caption: media.multimedia.metadata["filename"], group: current_project.slug} do
-                  = image_tag media.multimedia_url(:large), size:"600x300", class: "d-block w-100 obj-fit-scale-down", autoplay: true, loop: true, muted: 'muted'
+                = link_to media.multimedia_url, class: "glightbox", :data => {caption: media.multimedia.metadata["filename"], group: current_project.slug} do
+                  = video_tag media.multimedia_url(expires_in: 86400), controls:"false", controlslist:"nodownload", autoplay:"true", loop:"true", muted:"muted", class: "center-block d-block rounded pos-absolute size-preview"
               -elsif media.is_url?
                 = link_to media.url, class: "glightbox", :data => {caption: media.url, group: ""} do
-                  %iframe.no-pointer{:src => "#{media.url}", class: "d-block w-100", :height => "300", :width => "600"}
+                  %iframe.no-pointer{:src => "#{media.url}", :scrolling => "no", :style => "max-width: 100%; max-height: 100%; top: 0; bottom: 0; object-fit: contain;"}
               -else
-                = link_to media.multimedia_url(:large), class: "glightbox", :data => {caption: media.multimedia.metadata["filename"], group: current_project.slug, type: "image"} do
-                  = image_tag media.multimedia_url(:small), size:"600x300", class: "d-block w-100"
+                = link_to media.multimedia_url, class: "glightbox", :data => {caption: media.multimedia.metadata["filename"], group: current_project.slug, type: "image"} do
+                  = image_tag media.multimedia_url(:large), class: "center-block d-block rounded pos-absolute size-preview"
+
         - else
           .carousel-item.active
-            = image_tag image_path("board_placeholder"), size:"600x300", class: "d-block w-100", alt: "No Image"
-        %a.carousel-control-prev{"data-slide" => "prev", href: "#carouselExample5", role: "button"}
-          %span.carousel-control-prev-icon{"aria-hidden" => "true"}
-            %i.fe.fe-arrow-left.tx-30
-          %span.sr-only Previous
-        %a.carousel-control-next{"data-slide" => "next", href: "#carouselExample5", role: "button"}
-          %span.carousel-control-next-icon{"aria-hidden" => "true"}
-            %i.fe.fe-arrow-right.tx-30
-          %span.sr-only Next
+            = image_tag image_path("board_placeholder"), size:"#{@board.size_change[0]}x#{@board.size_change[1]}", alt: "No Image"
+        -if @objects.size > 1
+          %a.carousel-control-prev{"data-slide" => "prev", href: "#carousel-#{@board.slug}", role: "button"}
+            %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+              %i.fe.fe-arrow-left.tx-30
+            %span.sr-only Previous
+          %a.carousel-control-next{"data-slide" => "next", href: "#carousel-#{@board.slug}", role: "button"}
+            %span.carousel-control-next-icon{"aria-hidden" => "true"}
+              %i.fe.fe-arrow-right.tx-30
+            %span.sr-only Next
+  .tx-center
+    %i.fa.fa-exclamation-triangle.tx-15.tx-gray-2.d-none{id: "wrong_size_alert_#{@board.slug}"}
+      =t('campaign.wizard.ad_size_warning')
+
 .modal-footer
   %button.btn.btn-secondary.mg-sm-l-5{"data-dismiss" => "modal", :type => "button"}= t("general_inputs.close")
 / modal-footer
