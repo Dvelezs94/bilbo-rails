@@ -521,7 +521,7 @@ function computePerMinuteTotalBudget(){
   $("#total_budget_summary")[0].innerHTML = currencyFormat(total_budget*parseInt($("#summary_active_days").val())) + " MXN"
 }
 
-function summaryContentsLoaded(height, width){
+function summaryContentsLoaded(width, height){
   loaded = [] //Array of booleans to check if the first content of each carousel is loaded
   slug_array = []
   $(".carousel").each(function(){
