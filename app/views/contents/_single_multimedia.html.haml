@@ -5,7 +5,7 @@
         - begin
           = link_to content.multimedia_url(:transcoded), class: "glightbox img-inherit", :style=> "background: lightgray;",:data => {caption: content.multimedia.metadata["filename"], group: ""} do
             .con.img-inherit
-              = image_tag content.multimedia_url(:large), class: "img-inherit op-5", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted'
+              = image_tag content.multimedia_url(:large), class: "img-inherit", :controls => false, :controlslist => "nodownload" , autoplay: false, loop: true, muted: 'muted'
               #play-div.img-inherit
                 %span.material-icons.tx-40-f#play{style: "color: white;"}
                   play_circle_outline
