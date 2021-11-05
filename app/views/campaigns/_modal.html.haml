@@ -34,6 +34,7 @@
               %i.fe.fe-arrow-right.tx-30
             %span.sr-only Next
   .tx-center
+    %small.spinner-border.spinner-border-sm{id: "loading_#{@board.slug}"}
     %i.fa.fa-exclamation-triangle.tx-15.tx-gray-2.d-none{id: "wrong_size_alert_#{@board.slug}"}
       =t('campaign.wizard.ad_size_warning')
 
