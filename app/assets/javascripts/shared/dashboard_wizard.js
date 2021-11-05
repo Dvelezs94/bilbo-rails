@@ -521,22 +521,26 @@ function computePerMinuteTotalBudget(){
   $("#total_budget_summary")[0].innerHTML = currencyFormat(total_budget*parseInt($("#summary_active_days").val())) + " MXN"
 }
 
-function summaryContentsLoaded(){
+function summaryContentsLoaded(height, width){
   loaded = [] //Array of booleans to check if the first content of each carousel is loaded
   slug_array = []
   $(".carousel").each(function(){
     // Show or hide message for the first image on each carousel
     slug = String(this.id).slice(9)
-    board = $("#selected_boards [data-slug=" + slug + "]")[0]
-    //verify that the carousel is from a board
-    if(board == undefined) return;
+    if($("#selected_boards").length){
+      board = $("#selected_boards [data-slug=" + slug + "]")[0]
+      //verify that the carousel is from a board
+      if(board == undefined) return;
+      width = $(board).attr('new-width');
+      height = $(board).attr('new-height');
+    }
     slug_array.push(slug)
     first_image = this.getElementsByClassName('active')[0].children[0]
     loaded.push(first_image.naturalWidth != 0 && first_image.naturalHeight != 0)
   });
   //if the array contains only true values, then the contents are ready
   if( !loaded.includes(false) ){
-    showOrHideSizeAlert($(board).attr('new-width'), $(board).attr('new-height') );
+    showOrHideSizeAlert(width, height);
     clearInterval(checkContents)
     //Hide all loading effects
     slug_array.forEach((item, i) => {

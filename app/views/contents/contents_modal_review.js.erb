@@ -1,4 +1,4 @@
 $("#modal-window").find(".modal-content").html("<%= j (render 'campaigns/modal.html.haml', collection: @objects, as: :ads) %>");
 $("#modal-window").modal();
-setTimeout(function () {showOrHideSizeAlert("<%= @board.size_change[1].to_i %>", "<%=@board.size_change[0].to_i%>");}, 100);
 initLightbox();
+checkContents= setInterval(function () {summaryContentsLoaded(<%= @board.size_change[1].to_i%>, <%=@board.size_change[0].to_i%>)}, 500);
