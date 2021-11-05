@@ -5,7 +5,6 @@
 .modal-body
   .container.h-100
   .row.align-items-center.h-100
-
     .carousel.slide.m-auto.board-size-preview.rounded{id: "carousel-#{@board.slug}", "data-ride" => "carousel", style: "width: #{@board.size_change[1].to_i}px; height: #{@board.size_change[0].to_i}px"}
       .carousel-inner.center_image_vertically{style: "position: static !important;"}
         - if @objects.present?
