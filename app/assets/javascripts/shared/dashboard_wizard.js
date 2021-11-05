@@ -533,10 +533,16 @@ function summaryContentsLoaded(width, height){
       if(board == undefined) return;
       width = $(board).attr('new-width');
       height = $(board).attr('new-height');
+      first_image = this.getElementsByClassName('active')[0].children[0]
+    } else {
+      first_image = this.getElementsByClassName('active')[0].children[0].children[0]
     }
     slug_array.push(slug)
-    first_image = this.getElementsByClassName('active')[0].children[0]
-    loaded.push(first_image.naturalWidth != 0 && first_image.naturalHeight != 0)
+    if($(first_image).is("img")){
+      loaded.push(first_image.naturalWidth != 0 && first_image.naturalHeight != 0)
+    } else {
+      loaded.push(first_image.videoWidth != 0 && first_image.videoHeight != 0)
+    }
   });
   //if the array contains only true values, then the contents are ready
   if( !loaded.includes(false) ){
