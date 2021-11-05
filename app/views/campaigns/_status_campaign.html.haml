@@ -10,7 +10,7 @@
       %i.fa.fa-picture-o
       = t("ads.view")
   #modal-window.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "adViewModal", role: "dialog", tabindex: "-1"}
-    .modal-dialog.modal-dialog-centered{role: "document"}
+    .modal-dialog.modal-dialog-centered.modal-lg{role: "document"}
       .modal-content.tx-14
   %td.text-between= l(board_campaign.campaign.starts_at, format: "%d %b %Y") rescue l(board_campaign.campaign.created_at, format: "%d %b %Y")
   %td.text-between= l(board_campaign.campaign.ends_at, format: "%d %b %Y") rescue t("campaign.wizard.ongoing_campaign")
