@@ -313,6 +313,7 @@ es:
       minutes: minutos
       ad_preview: Previsualización del anuncio
       ad_size_warning: Tu anuncio no tiene las medidas exactas
+      ad_size_warning_provider: El anuncio no tiene las medidas exactas
       impressions_hour: impresiones por bilbo de
       impressions_hour_budget: Gasto total pronosticado por día de la semana
       impressions_hour_explanation: Selecciona el día, presupuesto y horario en el que quieres aparecer.<br>
