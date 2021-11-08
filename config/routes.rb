@@ -73,6 +73,7 @@ Rails.application.routes.draw do
     collection do
       get :edit_board_images
       get :images_board_modal
+      get :images_new_board_modal
       get :get_selected_map_photos
       get :create_or_update_board_map_photos
     end

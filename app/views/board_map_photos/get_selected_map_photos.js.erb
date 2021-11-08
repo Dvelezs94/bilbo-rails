@@ -1,1 +1,1 @@
-$('#images-<%=@board.slug%>').html("<%= j render partial: 'board_map_photos/show_selected_map_photos', collection: @selected_photos, as: :img, locals: {board: @board} %>");
+$('#images<%="-"+@board.slug if @board.present?%>').html("<%= j render partial: 'board_map_photos/show_selected_map_photos', collection: @selected_photos, as: :img %>");

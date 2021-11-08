@@ -216,7 +216,10 @@ class BoardsController < ApplicationController
             end
           end
         end
-        flash[:success] = "Board created. Don't forget to add the map images!"
+        flash[:success] = "Board created. Don't forget to check the map images!"
+        JSON.parse(board_params[:photo_ids]).each do |photo_id|
+          BoardMapPhoto.create(board_id: @board.id, map_photo_id: photo_id)
+        end
         redirect_to edit_board_path(@board)
       else
         flash[:error] = "Could not save board"
@@ -335,6 +338,7 @@ class BoardsController < ApplicationController
                                   :steps,
                                   :street_view_url,
                                   :rotation_degrees,
+                                  :photo_ids,
                                   establishment_list: [],
                                   images: [],
                                   default_images: []

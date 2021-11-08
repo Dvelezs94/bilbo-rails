@@ -28,6 +28,7 @@ function showMapPhotos(selected_ids, board_slug){
       alert("Oops.. Ocurrio un error..");
     }
   });
+  if($("#board_photo_ids").length){ $("#board_photo_ids").val(selected_ids.val()) }
 }
 
 function selectMapPhotos() {
