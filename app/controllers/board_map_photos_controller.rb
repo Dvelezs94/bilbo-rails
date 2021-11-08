@@ -5,6 +5,13 @@ class BoardMapPhotosController < ApplicationController
     @board = Board.friendly.find(params[:board_slug])
   end
 
+  def images_new_board_modal
+    photos = []
+    project = User.find_by_email(params[:user_email]).projects.first
+    MapPhoto.joins(:board_map_photos).where(board_map_photos: {board_id: project.board_ids}).map{|photo| photos.push(photo)}
+    @photos = Kaminari.paginate_array(photos.uniq).page(params[:upcoming_page]).per(15)
+  end
+
   def images_board_modal
     @board = Board.friendly.find(params[:board_slug])
     @slug = params[:board_slug]
@@ -15,7 +22,7 @@ class BoardMapPhotosController < ApplicationController
   end
 
   def get_selected_map_photos
-    @board = Board.friendly.find(params[:board_slug])
+    @board = Board.friendly.find(params[:board_slug]) if params[:board_slug].present?
     parsed_ids = JSON.parse(params[:selected_photos]).map{|x| x.to_i}
     @selected_photos = MapPhoto.where(id: parsed_ids)
   end
