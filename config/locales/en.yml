@@ -313,6 +313,7 @@ en:
       minutes: minutes
       ad_preview: Ad preview
       ad_size_warning: Your ad doesn't have the exact size from the display
+      ad_size_warning_provider: The ad doesn't have the exact size from the display
       impressions_hour: impressions per bilbo from
       impressions_hour_budget: Total forecast spending by day of the week
       impressions_hour_explanation: Select the day, budget and time you want to appear. <br>
