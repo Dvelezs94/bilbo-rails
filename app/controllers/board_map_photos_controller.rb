@@ -8,7 +8,9 @@ class BoardMapPhotosController < ApplicationController
   def images_new_board_modal
     photos = []
     project = User.find_by_email(params[:user_email]).projects.first
+    newly_created = JSON.parse(params[:uploaded_photos])
     MapPhoto.joins(:board_map_photos).where(board_map_photos: {board_id: project.board_ids}).map{|photo| photos.push(photo)}
+    MapPhoto.where(id: newly_created).map{|photo| photos.push(photo)} if newly_created.present?
     @photos = Kaminari.paginate_array(photos.uniq).page(params[:upcoming_page]).per(15)
   end
 

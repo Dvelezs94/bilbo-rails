@@ -13,7 +13,7 @@ function appendPhotos(){
   });
   cont_ids = JSON.stringify(content_ids.filter((x) => {return typeof(x) == 'string';}))
   content_board.val(cont_ids);
-  console.log(content_board)
+  if($("#board_photo_ids").length){ $("#board_photo_ids").val(content_board.val()) }
   showMapPhotos(content_board, board_slug);
 }
 
@@ -28,7 +28,6 @@ function showMapPhotos(selected_ids, board_slug){
       alert("Oops.. Ocurrio un error..");
     }
   });
-  if($("#board_photo_ids").length){ $("#board_photo_ids").val(selected_ids.val()) }
 }
 
 function selectMapPhotos() {
@@ -51,6 +50,19 @@ function selectMapPhotos() {
         selected_ad = selected_contents_ids[i]
         if(!$("#pickContent" + selected_ad).prop("checked")){
           $("#pickContent" + selected_ad).prop("checked",true);
+        }
+      }
+    }
+    if($("#board_photo_ids").length){
+      if ($('#board_photo_ids').val().split(',').length) {
+        selected_contents_ids = $('#board_photo_ids').val().slice(1,-1).split(',');
+        console.log(selected_contents_ids)
+        var i;
+        for (i = 0; i < selected_contents_ids.length; i++) {
+          selected_ad = selected_contents_ids[i].slice(1,-1)
+          if(!$("#pickContent" + selected_ad).prop("checked")){
+            $("#pickContent" + selected_ad).prop("checked",true);
+          }
         }
       }
     }

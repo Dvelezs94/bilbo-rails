@@ -1,1 +1,4 @@
 $("#single_content").prepend('<%= j (render partial: "board_map_photos/single_image_modal", locals: {photo: @photo}) %>');
+var x = JSON.parse($("#uploadedphotos").val())
+x.push(parseInt("<%= @photo.id %>"))
+$("#uploadedphotos").val(JSON.stringify(x))
