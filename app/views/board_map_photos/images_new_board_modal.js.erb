@@ -1,5 +1,6 @@
 if(!$("#modalBoardPhotos").length){
   $("body").append("<%= j (render 'board_map_photos/photos_board_create', locals: {content: @photos}) %>");
+  // $("#uploadedphotos").val("<%= @photos.map{|p| p.id}%>")
 }
 $("#modalBoardPhotos").modal();
 $("#paginator a").hide();

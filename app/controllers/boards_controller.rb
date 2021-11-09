@@ -220,9 +220,11 @@ class BoardsController < ApplicationController
         JSON.parse(board_params[:photo_ids]).each do |photo_id|
           BoardMapPhoto.create(board_id: @board.id, map_photo_id: photo_id)
         end
+        DeleteUnusedPhotosWorker.perform_async()
         redirect_to edit_board_path(@board)
       else
         flash[:error] = "Could not save board"
+        DeleteUnusedPhotosWorker.perform_async()
         redirect_to root_path
       end
     end

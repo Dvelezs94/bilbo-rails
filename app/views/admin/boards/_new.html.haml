@@ -138,9 +138,13 @@
               #images_section.form-group
                 = f.label "Imagenes para mostrar en el mapa"
                 = f.hidden_field :photo_ids
-                .form-group
-                  %i.fe.fe-plus{style: "vertical-align: bottom;display: -webkit-inline-box;", onclick: "fetch_project_map_photos('#board_user_email')"}
-                  #images
+                %br
+                %span{onclick: "fetch_project_map_photos('#board_user_email'); $('#modalBoardPhotos').remove();"}
+                  .badge.badge-info.wizard-badge-smart
+                    %i.mg-r-5.fe.fe-edit.tx-14=" Editar imagenes del mapa"
+                #images.pd-t-10
+                // Save in this input the ids of all the photos that were selected during this form edition, to prevent newly uploaded images to disappear when trying to change the selection
+                %input.d-none#uploadedphotos{value: '[]'}
               #defaultImages.form-group
                 = f.label "Multimedia default"
                 .form-group
