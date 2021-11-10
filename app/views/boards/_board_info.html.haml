@@ -10,8 +10,8 @@
             = "-#{board.current_sale.percent}% #{t("bilbos.search.ends_in")} "
             %span.countDownTime= board.current_sale.ends_at.strftime("%b %d, %Y %T")
         .carousel-inner.ht-200.center_image_vertically.rounded
-          - if board.images.attached?
-            = render partial: 'boards/board_images', collection: board.images, as: :image
+          - if board.board_photos.present?
+            = render partial: 'boards/board_images', collection: board.board_photos, as: :image
           - else
             .carousel-item.active
               = image_tag image_path("board_placeholder"), class: "d-block w-100", alt: "No Image"

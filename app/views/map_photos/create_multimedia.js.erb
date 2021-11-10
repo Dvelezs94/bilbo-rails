@@ -1,0 +1,7 @@
+$("#single_content").prepend('<%= j (render partial: "board_map_photos/single_image_modal", locals: {photo: @photo}) %>');
+if($("#uploadedphotos").length){
+  // used for uploading new photos from the create form
+  var x = JSON.parse($("#uploadedphotos").val())
+  x.push(parseInt("<%= @photo.id %>"))
+  $("#uploadedphotos").val(JSON.stringify(x))
+}
