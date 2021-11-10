@@ -1,9 +1,9 @@
-#modalBoardDefaultContent.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", "data-images-only": "#{@board.images_only?}"}
+#modalBoardImages.modal.fade.effect-slide-in-top{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1", "data-images-only": "true"}
   .modal-dialog.modal-dialog-centered.modal-lg{:role => "document"}
     .modal-content
       .modal-header
         %input#board_slug_default.d-none{:readonly => "readonly", :value => "#{@board.slug}"}/
-        %h5.modal-title.tx-bold #{t("board_default_content.bilbo_select")} #{@board.name}
+        %h5.modal-title.tx-bold="Elige las imagenes del mapa para el bilbo #{@board.name}"
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
       .modal-body
@@ -11,7 +11,7 @@
         %section.mg-t-15
           .row.row-xs
             .col-12.col-md-12
-              %label= t("board_default_content.content_selected")
+              %label= "Selecciona las iamgenes a mostrar en el bilbo"
           .col-12
             %table.table.table-responsive
               %thead.bg-ui-01
@@ -32,16 +32,14 @@
                   %td.valign-middle-f.tx-bold= board.name
                   %td.valign-middle-f.tx-gray-700#bilbo_duration #{board.duration} #{t("bilbos.sec")}
                   %td.valign-middle-f.tx-gray-700= board.recommended_image_size
-                  -if board.images_only
-                    %td.valign-middle-f.tx-gray-700= t("bilbos.image")
-                  -else
-                    %td.valign-middle-f.tx-gray-700= t("bilbos.both_image_video")
+                  %td.valign-middle-f.tx-gray-700= t("bilbos.image")
                   %td<
                     %div.d-flex
-                      = render partial: 'board_default_contents/add_default_content_button', locals: {board: board}
-                      %div.d-flex{:id => "images-default-#{board.slug}", style: "overflow-x: scroll;"}
-                      = hidden_field_tag 'board_default_contents', board.board_default_contents.map{|contents_default| contents_default.content_id}, onchange: "alert('Input collected!')"
+                      = render partial: 'board_map_photos/add_map_images_button', locals: {board: board}
+                      %div.d-flex{:id => "images-#{board.slug}", style: "overflow-x: scroll;"}
+                      = hidden_field_tag 'board_map_images', value: board.board_map_photos.map{|photo| photo.map_photo_id}, onchange: "alert('Input collected!')"
 
+              %input.d-none#usedPhotos{value: board.board_map_photos.map{|photo| photo.map_photo_id}}
               #selected_content_campaign
       .modal-footer
-        = button_tag t("campaign.wizard.finish"), type: 'button', onclick: "createUpdateContentDefault();", class: "btn btn-primary", remote: true
+        = button_tag t("campaign.wizard.finish"), type: 'button', onclick: "createUpdateBoardMapPhotos();", class: "btn btn-primary", remote: true

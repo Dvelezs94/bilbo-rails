@@ -37,13 +37,6 @@ class BoardsController < ApplicationController
     @content = @board.board_default_contents.map{|bdc| bdc.content}
   end
 
-  def delete_image
-    @board.with_lock do
-      image = @board.images.select { |im| im.signed_id == params[:signed_id] }[0]
-      image.purge
-    end
-  end
-
   def delete_default_image
     if @board.board_default_contents.size > 1
       if @board.board_default_contents.find(params[:default_id]).delete
@@ -53,6 +46,18 @@ class BoardsController < ApplicationController
       end
       if  @board.connected?
         UpdateBoardDefaultContentWorker.perform_async(@board.id, "delete_default_content", params[:content_id])
+      end
+    else
+      @error_message = I18n.t("board_default_content.minimum_one")
+    end
+  end
+
+  def delete_image
+    if @board.board_map_photos.size > 1
+      if @board.board_map_photos.find(params[:image_id]).destroy
+        @success_message = I18n.t("board_default_content.update_success")
+      else
+        @error_message = I18n.t("error.error_ocurred")
       end
     else
       @error_message = I18n.t("board_default_content.minimum_one")
@@ -82,6 +87,14 @@ class BoardsController < ApplicationController
 
   def update
     @success = @board.update(board_params.merge(admin_edit: true))
+    if params[:board_photos].present?
+      params[:board_photos].map { |file|
+        photo = MapPhoto.new(image: file)
+        if photo.save
+          @board.board_map_photos.where(map_photo_id: photo.id).first_or_create
+        end
+      }
+    end
     if params[:content].present?
       params[:content].map { |file|
         cont = @board.project.contents.new(multimedia: file )
@@ -179,6 +192,14 @@ class BoardsController < ApplicationController
     else
       @board = Board.new(board_params)
       if @board.save
+        if params[:board_photos].present?
+          params[:board_photos].map { |file|
+            photo = MapPhoto.new(image: file)
+            if photo.save
+              @board.board_map_photos.where(map_photo_id: photo.id).first_or_create
+            end
+          }
+        end
         if params[:content].present?
           params[:content].map { |file|
             cont = @board.project.contents.new(multimedia: file )
@@ -193,11 +214,17 @@ class BoardsController < ApplicationController
             end
           end
         end
-        flash[:success] = "Board saved"
+        flash[:success] = "Board created. Don't forget to check the map images!"
+        JSON.parse(board_params[:photo_ids]).each do |photo_id|
+          BoardMapPhoto.create(board_id: @board.id, map_photo_id: photo_id)
+        end
+        DeleteUnusedPhotosWorker.perform_async()
+        redirect_to edit_board_path(@board)
       else
         flash[:error] = "Could not save board"
+        DeleteUnusedPhotosWorker.perform_async()
+        redirect_to root_path
       end
-      redirect_to root_path
     end
   end
 
@@ -311,6 +338,7 @@ class BoardsController < ApplicationController
                                   :steps,
                                   :street_view_url,
                                   :rotation_degrees,
+                                  :photo_ids,
                                   establishment_list: [],
                                   images: [],
                                   default_images: []

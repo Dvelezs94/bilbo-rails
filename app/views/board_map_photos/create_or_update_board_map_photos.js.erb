@@ -1,6 +1,8 @@
+console.log("<%= @success_message %>")
 <% if @success_message.present? %>
+$("#modalBoardImages").modal('hide');
   show_success("<%= escape_javascript(@success_message)%>");
-  $("[image_id=<%= params[:image_id] %>]").remove();
+  location.reload()
 <% else %>
   show_error("<%= escape_javascript(@error_message)%>");
 <% end %>

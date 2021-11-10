@@ -9,7 +9,7 @@ class Board < ApplicationRecord
   include BroadcastConcern
   include Rails.application.routes.url_helpers
   extend FriendlyId
-  attr_accessor :new_ads_rotation, :admin_edit, :keep_old_cycle_price_on_active_campaigns, :url
+  attr_accessor :new_ads_rotation, :admin_edit, :keep_old_cycle_price_on_active_campaigns, :url, :photo_ids
   friendly_id :slug_candidates, use: :slugged
   belongs_to :project
   has_many :board_campaigns, class_name: "BoardsCampaigns"
@@ -18,6 +18,7 @@ class Board < ApplicationRecord
   has_many :dashboard_players, through: :board_dashboard_players
   has_many :impressions
   has_many :board_sales
+  has_many :board_map_photos, dependent: :delete_all
   has_many :sales, through: :board_sales
   has_many :evidences, dependent: :delete_all
   has_many :board_default_contents, dependent: :delete_all
@@ -94,6 +95,10 @@ class Board < ApplicationRecord
     else
       all
     end
+  end
+
+  def board_photos
+    self.board_map_photos.map{|p| p.map_photo}
   end
 
   # function to get only 1 marker per position, otherwise markercluster displays a cluster marker in the position

@@ -62,6 +62,45 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :map_photos do
+    collection do
+      get :new_image
+      post :create_multimedia
+    end
+  end
+
+  resources :board_map_photos do
+    collection do
+      get :edit_board_images
+      get :images_board_modal
+      get :images_new_board_modal
+      get :get_selected_map_photos
+      get :create_or_update_board_map_photos
+    end
+    member do
+      get :fetch_single_map_photo
+    end
+  end
+
+  resources :map_photos do
+    collection do
+      get :new_image
+      post :create_multimedia
+    end
+  end
+
+  resources :board_map_photos do
+    collection do
+      get :edit_board_images
+      get :images_board_modal
+      get :get_selected_map_photos
+      get :create_or_update_board_map_photos
+    end
+    member do
+      get :fetch_single_map_photo
+    end
+  end
+
   resources :witnesses, only: [:show, :create, :edit, :update] do
     member do
       get  :evidences_witness_modal
