@@ -54,9 +54,7 @@ class BoardsController < ApplicationController
 
   def delete_image
     if @board.board_map_photos.size > 1
-      photo = @board.board_map_photos.find(params[:image_id]).map_photo
-      if @board.board_map_photos.find(params[:image_id]).delete
-        photo.delete_if_not_in_use
+      if @board.board_map_photos.find(params[:image_id]).destroy
         @success_message = I18n.t("board_default_content.update_success")
       else
         @error_message = I18n.t("error.error_ocurred")
