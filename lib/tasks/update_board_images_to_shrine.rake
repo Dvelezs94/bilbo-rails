@@ -25,13 +25,13 @@ namespace :update_board_images_to_shrine do
               photo.save
             end
           else
-            if attachment.blob.filename.to_s.ends_with?('.jpg') || attachment.blob.filename.to_s.ends_with?('.jpeg')
+            if attachment.content_type.in? ["image/jpeg", "image/jpg"]
               original_ad = Tempfile.new([attachment.blob.key.to_s, '.jpeg'], "tmp/images/#{board.slug}")
               file_extension = 'jpeg'
               mime_type = 'image/jpeg'
               filename = attachment.blob.filename.to_s
               attach_board_photo(index, board, attachment, original_ad, mime_type, filename)
-            elsif attachment.blob.filename.to_s.ends_with?('.png')
+            elsif attachment.content_type == "image/png"
               original_ad = Tempfile.new([attachment.blob.key.to_s, '.png'], "tmp/images/#{board.slug}")
               file_extension = 'png'
               mime_type = 'image/png'
