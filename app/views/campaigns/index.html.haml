@@ -12,25 +12,14 @@
       = link_to new_campaign_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modalNewCampaign', class: "btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"} do
         %i.wd-10.mg-r-5.fe.fe-plus
         = t("campaign.new_campaign")
-  - if current_project.user? # check if this is a normal user project
-    - if current_user.is_user?
-      - if !current_project.owner.verified
-        .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
-          %i.mg-r-10{class: "fe fe-warning"}
-          = t('alert.verify_profile')
-          %a{class: "pd-l-5", "data-toggle" => "modal", :href => "#modalVerify", :style => "color:white; font-weight: bold;"}= t('campaign.enable_campaigns').downcase
-          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
-      - elsif current_user == current_project.owner && current_user.balance < 20 && current_project.campaigns.any?
-        .alert.alert-warning.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
-          %i.mg-r-10{class: "fe fe-warning"}
-          %a{class: "pd-l-5", "data-toggle" => "modal", :href => "#modalNewPayment", :style => "color: #856404;font-weight: bold; text-decoration:underline"}= " #{t('alert.purchase_credits')}."
-          %span.mg-l-5= "#{t('alert.project_out_of_credits')}"
-          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
-      - elsif current_project.owner.balance < 20 && current_project.campaigns.any?
-        .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
-          %i.mg-r-10{class: "fe fe-warning"}
-          = t('alert.more_credits')
-          %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+  - if current_user.is_user?
+    .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
+      %i.mg-r-10{class: "fe fe-warning"}
+      Las operaciones en Bilbo están cerrando, por lo que ya no se podrán comprar creditos en la plataforma. Agradecemos tu compresión.
+  - if current_user.is_provider?
+    .alert.alert-solid.alert-danger.d-flex.align-items-center.alert-dismissible.fade.show{:role => "alert"}
+      %i.mg-r-10{class: "fe fe-warning"}
+      Bilbo está cerrando. Las campañas así como el player de Bilbo funcionaran hasta el 31 de diciembre del 2022. Si requieres más información, favor de enviar un email a diego@bilbo.mx
   - if current_project.campaigns.active.size > 0
     .table-responsive
       .custom-control.custom-switch.pos-xs-relative.pos-xl-absolute.pos-lg-absolute.pos-md-absolute.pos-sm-absolute.pd-xl-t-5.pd-lg-t-5.pd-md-t-5.pd-sm-t-5
@@ -64,9 +53,9 @@
         = t("campaign.new_campaign")
   / container
 / content
-- if current_project.owned?(current_user.id) && current_user.is_user? && @show_hint
-  = render partial: "notifications/missing_steps"
--if current_user.is_user? && current_user.sign_in_count == 0
-  = render partial: "campaigns/business_type"
+// - if current_project.owned?(current_user.id) && current_user.is_user? && @show_hint
+//  = render partial: "notifications/missing_steps"
+//-if current_user.is_user? && current_user.sign_in_count == 0
+//  = render partial: "campaigns/business_type"
 -if current_user.is_provider? && @witness.present?
   = render "witnesses/upload_evidences"

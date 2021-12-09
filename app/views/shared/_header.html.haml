@@ -63,7 +63,7 @@
             .dropdown-divider
             = link_to raw("<i class='fe fe-plus mg-r-5 tx-10'></i> " + t("projects.new_project").downcase), projects_path, class: "dropdown-item"
       - if current_user.is_user?
-        = link_to "#{number_to_currency_usd(current_project.owner.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap", id: "introBalance", data: { toggle: "modal", intro: t("introjs.budget"), step: 5}
+        = link_to "#{number_to_currency_usd(current_project.owner.balance)}", "#modalNewPayment", class: "btn btn-buy tx-nowrap disabled", id: "introBalance", data: { toggle: "modal", intro: t("introjs.budget"), step: 5}
       / notifications
       = form_with url: clear_notifications_path, method: :get, id: "clear-notif", class: "d-none", remote: true do |f|
         %p Remote submit for clearing notifications, do not remove this line
@@ -95,10 +95,10 @@
             - if not current_user.verified
               .alert.alert-solid.alert-danger.pd-y-5.tx-center.cursor-pointer{"data-toggle" => "modal", :href => "#modalVerify"}
                 = t('payments.verify_account')
-            %a.dropdown-item{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
+            %a.dropdown-item.disabled{"data-placement" => "bottom", "data-toggle" => "modal", :href => "#modalNewPayment", :title => "#{t('header.purchase_credits')}"}
               %i.material-icons.tx-16.mg-r-10 attach_money
               = number_to_currency_credit(current_user.balance)
-            %a.dropdown-item.tx-center{"data-toggle" => "modal", :href => "#modalNewPayment"}
+            %a.dropdown-item.tx-center.disabled{"data-toggle" => "modal", :href => "#modalNewPayment"}
               %i.fe.fe-plus.mg-r-10
               = t('header.purchase_credits')
             .dropdown-divider
